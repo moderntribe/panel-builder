@@ -1,0 +1,112 @@
+.panel-row {
+	padding: 10px;
+	overflow: hidden;
+	clear: both;
+	border: 1px solid #DDD;
+	background-color: #EEE;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+.panel-row.ui-sortable-helper {
+	border: 1px dashed #AAA;
+	opacity: .5;
+}
+.panel-row.ui-sortable-placeholder {
+	border: 1px dashed #DDD;
+	visibility: visible;
+}
+.panel-row .panel-title {
+}
+.panel-row .panel-actions .delete_panel {
+	display: inline-block;
+	margin-left: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;
+	float: right;
+}
+.panel-row .panel-actions .delete_panel:hover {
+	color: red;
+}
+.panel-row .panel-actions .move-panel {
+	display: inline-block;
+	width: 16px;
+	margin-right: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	cursor: move;
+	color: #999;
+}
+
+#new-panel {
+	display: none;
+}
+
+#TB_ajaxContent {
+	width:640px !important;
+	min-height:90% !important;
+}
+
+.panel-selection-list {
+	overflow:auto;
+	width:630px;
+}
+
+.new-panel-option {
+	display: block;
+	float: left;
+	width: 290px;
+	height: 100px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+
+	margin-right: 16px;
+	margin-bottom: 16px;
+}
+
+.new-panel-option .thumbnail {
+	display: block;
+	text-decoration: none;
+	overflow: hidden;
+}
+.new-panel-option .thumbnail:hover {
+	box-shadow: #21759B 0 0 6px;
+}
+.new-panel-option .panel-icon {
+	float: left;
+	height: 100px;
+	width: 133px;
+	border-right: 1px solid #ccc;
+	text-align: center;
+	line-height: 100px;
+	background-color: #F9F9F9;
+	margin-right: 15px;
+}
+.new-panel-option .panel-icon img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+	vertical-align:middle;
+}
+
+.new-panel-option .panel-title {
+	display: block;
+	color: #21759B;
+	font-weight: bold;
+	font-size: 110%;
+	margin-right: 15px;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+.new-panel-option .panel-description {
+	display: block;
+	margin-right: 15px;
+}
+
+.new-panel-option .fields {
+	display: none;
+}
