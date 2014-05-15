@@ -8,9 +8,8 @@ namespace ModularContent;
  * Class Panel
  *
  * @package ModularContent
- * @implements JsonSerializable implicitly
  */
-class Panel {
+class Panel implements \JsonSerializable {
 	/** @var PanelType */
 	private $type = NULL;
 	private $data = array();

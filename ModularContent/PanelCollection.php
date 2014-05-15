@@ -7,9 +7,8 @@ namespace ModularContent;
  * Class PanelCollection
  *
  * @package ModularContent
- * @implements JsonSerializable implicitly
  */
-class PanelCollection {
+class PanelCollection implements \JsonSerializable {
 	/** @var Panel[] */
 	private $panels = array();
 
@@ -22,12 +21,8 @@ class PanelCollection {
 	}
 
 	public function jsonSerialize() {
-		$panels = array();
-		foreach ( $this->panels as $p ) {
-			$panels[] = $p->to_json();
-		}
 		return array(
-			'panels' => $panels,
+			'panels' => $this->panels,
 		);
 	}
 

@@ -10,7 +10,7 @@ class Title extends Text {
 		parent::__construct($args);
 	}
 
-	public function get_value( $post_id ) {
+	public function get_value() {
 		return parent::get_value(); // TODO
 	}
 }
