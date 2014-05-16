@@ -36,6 +36,12 @@ abstract class Field {
 		foreach ( array_keys($this->defaults) as $key ) {
 			$this->$key = $args[$key];
 		}
+
+		$this->sanitize_name();
+	}
+
+	protected function sanitize_name() {
+		$this->name = preg_replace('/[^\w]/', '_', $this->name);
 	}
 
 	public function render() {
@@ -73,28 +79,69 @@ abstract class Field {
 		return FALSE; // TODO
 	}
 
-	public function render_before() {
-		printf('<div class="panel-input input-name-%s">', esc_attr($this->name));
-		printf('<# if ( !data.fields.hasOwnProperty("%s") ) { data.fields.%s = ""; } #>', $this->name, $this->name);
+	protected function render_before() {
+		$this->render_opening_tag();
+		$this->print_hasOwnProperty_statements();
 	}
 
-	public function render_label() {
+	protected function render_opening_tag() {
+		printf('<div class="panel-input input-name-%s">', $this->esc_class($this->name));
+	}
+
+	protected function print_hasOwnProperty_statements() {
+		$base = 'data.fields';
+		$default = '{}';
+		$parts = explode('.', $this->name);
+		$number_of_parts = count($parts);
+		$current = 0;
+		foreach ( $parts as $p ) {
+			$current++;
+			if ( $current == $number_of_parts ) {
+				$default = '""';
+			}
+			printf('<# if ( !%s.hasOwnProperty("%s") ) { %s.%s = %s; } #>', $base, $p, $base, $p, $default);
+			$base .= '.'.$p;
+		}
+	}
+
+	protected function render_label() {
 		if ( !empty($this->label) ) {
 			printf('<label class="panel-input-label">%s</label>', $this->label);
 		}
 	}
 
-	public function render_field() {
-		printf('<span class="panel-input-field"><input name="{{data.panel_id}}[%s]" value="{{data.fields.%s}}" /></span>', $this->name, $this->name);
+	protected function render_field() {
+		printf('<span class="panel-input-field"><input name="%s" value="%s" /></span>', $this->get_input_name(), $this->get_input_value());
 	}
 
-	public function render_description() {
+	protected function render_description() {
 		if ( $this->description ) {
 			printf('<p class="description panel-input-description">%s</p>', $this->description);
 		}
 	}
 
-	public function render_after() {
+	protected function render_after() {
+		$this->render_closing_tag();
+	}
+
+	protected function render_closing_tag() {
 		echo '</div>'."\n";
+	}
+
+	protected function get_input_name() {
+		$parts = explode('.', $this->name);
+		$name = '{{data.panel_id}}';
+		foreach ( $parts as $p ) {
+			$name .= '['.$p.']';
+		}
+		return $name;
+	}
+
+	protected function get_input_value() {
+		return sprintf("{{data.fields.%s}}", $this->name);
+	}
+
+	protected function esc_class( $class ) {
+		return esc_attr(preg_replace('/[^\w]/', '_', $class));
 	}
 } 
