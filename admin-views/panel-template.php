@@ -16,12 +16,13 @@
 		<span class="panel-description"><?php esc_html_e($this->get_description()); ?></span>
 	</div>
 	<script type="text/html" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>">
-		<div class="panel-row panel-type-<?php esc_attr_e($this->id); ?>" id="panel-row-{{data.panel_id}}">
+		<div class="panel-row panel-type-<?php esc_attr_e($this->id); ?>" id="panel-row-{{data.panel_id}}" <?php if ( $this->max_children != self::NO_LIMIT ): ?>data-max-children="<?php echo $this->max_children; ?>"<?php endif; ?> <?php if ( $this->max_depth != self::NO_LIMIT ): ?>data-max-depth="<?php echo $this->max_depth; ?>"<?php endif; ?>>
 			<div class="panel-row-header">
 				<span class="panel-actions"><a class="delete_panel icon-remove" title="<?php _e('Delete this panel', 'modular-content'); ?>" href="#"></a> <span class="move-panel icon-reorder" title="<?php _e('Drag to change panel order', 'modular-content'); ?>"></span></span>
 				<a href="#" class="panel-label edit_panel" title="<?php _e('Edit Panel', 'modular-content'); ?>"><span class="panel-type"><?php esc_html_e($this->get_label()); ?></span><span class="divider"> | </span><span class="panel-title">{{data.panel_title}}</span></a>
 				<input type="hidden" name="panel_id[]" value="{{data.panel_id}}" />
 				<input type="hidden" name="{{data.panel_id}}[type]" value="<?php esc_attr_e($this->id); ?>" />
+				<input type="hidden" name="{{data.panel_id}}[depth]" value="{{data.depth}}" />
 			</div>
 			<div class="panel-row-editor">
 				<?php foreach ( $this->fields as $field ) {

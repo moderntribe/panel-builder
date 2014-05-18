@@ -10,7 +10,7 @@
 		var ModularContent = window.ModularContent || {};
 		ModularContent.panels = [];
 		<?php foreach ( $collection->panels() as $panel ): ?>
-		ModularContent.panels.push(<?php echo $panel->to_json(); ?>);
+		ModularContent.panels.push(<?php echo json_encode($panel); ?>);
 		<?php endforeach; ?>
 	</script>
 </div>

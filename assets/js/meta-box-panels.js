@@ -36,7 +36,8 @@ jQuery(document).ready( function($) {
 		var new_row = template({
 			panel_id: create_uuid(),
 			panel_title: 'Untitled', // TODO: localize
-			fields: { title: '' }
+			fields: { title: '' },
+			depth: 0
 		});
 		panels_div.append(new_row);
 		win.tb_remove();
@@ -63,7 +64,8 @@ jQuery(document).ready( function($) {
 		var new_row = $(template({
 			panel_id: create_uuid(),
 			panel_title: panel.data.title,
-			fields: panel.data
+			fields: panel.data,
+			depth: panel.depth
 		}));
 		new_row.find('.panel-row-editor').hide();
 		panels_div.append(new_row);

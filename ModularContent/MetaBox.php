@@ -82,9 +82,11 @@ class MetaBox {
 		foreach ( $panel_ids as $id ) {
 			if ( isset($submission[$id]) ) {
 				$type = $submission[$id]['type'];
+				$depth = $submission[$id]['depth'];
 				$data = $submission[$id];
 				unset($data['type']);
-				$panels[] = array('type' => $type, 'data' => $data);
+				unset($data['depth']);
+				$panels[] = array('type' => $type, 'data' => $data, 'depth' => $depth);
 			}
 		}
 		$collection = PanelCollection::create_from_array( array('panels' => $panels) );

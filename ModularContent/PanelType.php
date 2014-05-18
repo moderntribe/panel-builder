@@ -13,6 +13,8 @@ use \ModularContent\Fields\Field;
  * @property-read string id
  */
 class PanelType {
+	const NO_LIMIT = -1;
+
 	/** @var string */
 	private $id = '';
 
@@ -31,11 +33,19 @@ class PanelType {
 	/** @var Field[] */
 	protected $fields = array();
 
+	/** @var int */
+	protected $max_depth = 1;
+
+	/** @var int */
+	protected $max_children = 0;
+
 	public function __construct( $id ) {
 		$this->id = $id;
 		if ( apply_filters( 'modular_content_always_has_title_field', TRUE ) ) {
 			$this->add_field( new Fields\Title() );
 		}
+		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
+		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
 	}
 
 	public function __get( $name ) {
@@ -124,6 +134,22 @@ class PanelType {
 
 	public function get_description() {
 		return $this->description;
+	}
+
+	public function set_max_depth( $depth ) {
+		$this->max_depth = absint($depth);
+	}
+
+	public function get_max_depth() {
+		return $this->max_depth;
+	}
+
+	public function set_max_children( $max ) {
+		$this->max_children = absint($max);
+	}
+
+	public function get_max_children() {
+		return $this->max_children;
 	}
 
 	/**

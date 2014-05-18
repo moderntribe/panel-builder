@@ -40,7 +40,7 @@ class PanelCollection implements \JsonSerializable {
 				}
 				try {
 					$type = $registry->get($p['type']);
-					$panel = new Panel( $type, isset($p['data']) ? $p['data'] : array() );
+					$panel = new Panel( $type, isset($p['data']) ? $p['data'] : array(), isset($p['depth']) ? $p['depth'] : 0 );
 					$collection->add_panel($panel);
 				} catch ( \Exception $e ) {
 					// skip

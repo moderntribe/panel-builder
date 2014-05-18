@@ -12,11 +12,13 @@ namespace ModularContent;
 class Panel implements \JsonSerializable {
 	/** @var PanelType */
 	private $type = NULL;
+	private $depth = 0;
 	private $data = array();
 
-	public function __construct( PanelType $type, $data = array() ) {
+	public function __construct( PanelType $type, $data = array(), $depth = 0 ) {
 		$this->type = $type;
 		$this->data = $data;
+		$this->set_depth($depth);
 	}
 
 	public function set( $key, $value ) {
@@ -30,10 +32,19 @@ class Panel implements \JsonSerializable {
 		return NULL;
 	}
 
+	public function set_depth( $depth ) {
+		$this->depth = absint($depth);
+	}
+
+	public function get_depth() {
+		return $this->depth;
+	}
+
 	public function jsonSerialize() {
 		return array(
 			'type' => (string)$this->type,
-			'data' => $this->data,
+			'depth' => $this->depth,
+			'data' => $this->data
 		);
 	}
 
