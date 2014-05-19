@@ -10,14 +10,16 @@ class TextArea extends Field {
 		parent::__construct($args);
 	}
 
-	//TODO - fix the wysiwyg
+
 	public function render_field() {
 		if ( $this->richtext ) {
 			wp_editor(
 				$this->get_input_value(),
-				$this->get_input_name(),
+				$this->label,
 				array(
 					'textarea_rows' => 12,
+					'textarea_name' => $this->get_input_name(),
+					'quicktags'     => false
 				)
 			);
 		} else {
