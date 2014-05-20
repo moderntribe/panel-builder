@@ -27,8 +27,6 @@ class Image extends Field {
 		//TODO
 		$value = 127;
 		
-		global $post;
-		
 		if( !empty( $value ) ){
 			$img = wp_get_attachment_image( $value, $this->size );
 		} else {
@@ -39,6 +37,10 @@ class Image extends Field {
 		#TODO // cleaned the css a little to mimize the space taken by the dropzone
 		#TODO // Make this update the appropriate form fields when the ajax completes
 		#TODO // Add Caption Support		
+		#TODO // Make this use the actual $this->get_value() vs 127
+		#TODO // Make the remove image work
+		#TODO // Cleanup the original js from attachment-helper
+		#TODO // Update Evernote with final version
 		?>
 		
 			<div id="uploadContainer" style="margin-top: 10px;">
@@ -75,8 +77,8 @@ class Image extends Field {
 
 			</div>
 		<?php
-		
-		$field = new \AttachmentHelper\Field( $args );
+
+		$field = new \ModularContentAttachmentHelper\Field( $args );
 		
 		echo $field->render();
 	}

@@ -40,6 +40,4 @@ if ( !function_exists('modular_content_load') ) { // play nice
 	add_action( 'plugins_loaded', 'modular_content_load' );
 }
 
-if( file_exists( dirname(__DIR__).'/insights/lib/attachment-helper/attachment-helper.php' ) ){
-	require_once( dirname(__DIR__).'/insights/lib/attachment-helper/attachment-helper.php' );
-}
+require_once( 'lib/attachment-helper/attachment-helper.php' );
