@@ -23,17 +23,10 @@ class Image extends Field {
 			'type'  => 'image'
 		);
 		
-		
-		# START HERE - Move this into the attachment-helper plugins output
-		#TODO // cleaned the css a little to mimize the space taken by the dropzone
-		#TODO // Make this update the appropriate form fields when the ajax completes
 		#TODO // Add Caption Support		
 		#TODO // Make this use the actual $this->get_value() vs 127
-		#TODO // Make the remove image work
-		#TODO // Cleanup the original js from attachment-helper
 		#TODO // Update Evernote with final version
-		?>
-		
+		?>	
 			
 		<?php
 
