@@ -23,11 +23,6 @@ class Image extends Field {
 			'type'  => 'image'
 		);
 			
-		#TODO // Make this use the actual $this->get_value() vs 127
-		?>	
-			
-		<?php
-
 		$field = new \ModularContentAttachmentHelper\Field( $args );
 		
 		echo $field->render();
