@@ -48,8 +48,15 @@ class Ajax_Handler {
 		$attach_data = wp_generate_attachment_metadata( $attach_id, $status[ 'file' ] );
 		wp_update_attachment_metadata( $attach_id, $attach_data );
 
-		// Get image sizes and correct thumb:
-		$croppedImage = wp_get_attachment_image_src( $attach_id, 'full' );
+		
+		if( strpos( $status['type'], 'image' ) === false ){
+			$croppedImage[0] = wp_mime_type_icon( $status['type'] );
+		} else {
+			// Get image sizes and correct thumb:
+			$croppedImage = wp_get_attachment_image_src( $attach_id, 'full' );
+			
+		}
+
 		$imageDetails = getimagesize( $croppedImage[ 0 ] );
 
 		// Create response array:

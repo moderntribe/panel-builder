@@ -28,9 +28,52 @@ class Field {
 	public function render() {
 		global $content_width;
 		UI::instance()->enqueue_scripts();
+		//TODO
+		$value = 127;
+		?>
+		
+		<div id="uploadContainer" style="margin-top: 10px;">
+
+				<!-- Current image -->
+				<div id="current-uploaded-image" class="<?php !empty( $value ) ? 'open' : 'closed'; ?>">
+					<img class="attachment-<?php echo $this->size; ?>" src="" />
+					
+					<p class="hide-if-no-js">
+						<a class="button-secondary" href="#" id="remove-image">
+							<?php printf(__('Remove %s', 'attachment-helper'), $this->label ); ?>
+						</a>
+					</p>
+				</div>
+
+				<!-- Uploader section -->
+				<div id="uploaderSection">
+					<div class="loading">
+						<img src="/assets/images/loading.gif" alt="Loading..." />
+					</div>
+					<div id="plupload-upload-ui" class="hide-if-no-js">
+						<div id="drag-drop-area">
+							<div class="drag-drop-inside">
+								<p class="drag-drop-info"><?php _e('Drop files here'); ?></p>
+								<p><?php _e('or', 'modular-content'); ?></p>
+								<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" /></p>
+								<p><?php _e('from', 'modular-content' ); ?></p>
+								<p class="drag-drop-buttons">
+									<a href="#" id="dgd_library_button" class="button" title="Add Media">
+										<span class="wp-media-buttons-icon"></span><?php _e( 'Media Library', 'modular-content' ); ?>
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		
+		<?php
+		
 
 		$label_set = sprintf(__('Set %s', 'attachment-helper'),$this->label);
-		$label_remove = sprintf(__('Remove %s', 'attachment-helper'),$this->label);
+		$label_remove = 
 
 		$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( $label_set ) . '" href="#" class="attachment-helper-set">%s</a></p>';
 		$content = sprintf($set_thumbnail_link, esc_html($label_set) );

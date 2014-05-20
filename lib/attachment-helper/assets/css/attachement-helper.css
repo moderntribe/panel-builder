@@ -30,7 +30,6 @@ div#current-uploaded-image p.hide-if-no-js a {
 }
 
 div#current-uploaded-image img {
-	width: 100%;
 	height: auto !important;
 	display: block;
 	
