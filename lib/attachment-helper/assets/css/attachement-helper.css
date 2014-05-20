@@ -1,19 +1,19 @@
-div#uploaderSection {
+div#uploaderSection-1 {
 	position: relative;
 }
 
-div#current-uploaded-image {
+div#current-uploaded-image-1 {
 	width: 100%;
 	overflow: hidden;
 	margin-bottom: 10px;
 	position: relative;
 }
 
-div#current-uploaded-image.closed {
+div#current-uploaded-image-1.closed {
 	display: none;
 }
 
-div#current-uploaded-image p.hide-if-no-js {
+div#current-uploaded-image-1 p.hide-if-no-js {
 	width: 100%;
 	margin: -8px 0px 0px 0px;
 	position: absolute;
@@ -22,14 +22,14 @@ div#current-uploaded-image p.hide-if-no-js {
 	display: none;
 }
 
-div#current-uploaded-image:hover p.hide-if-no-js { display: block; }
+div#current-uploaded-image-1:hover p.hide-if-no-js { display: block; }
 
-div#current-uploaded-image p.hide-if-no-js a {
+div#current-uploaded-image-1 p.hide-if-no-js a {
 	border: none;
 	box-shadow: none;
 }
 
-div#current-uploaded-image img {
+div#current-uploaded-image-1 img {
 	height: auto !important;
 	display: block;
 	
@@ -38,7 +38,7 @@ div#current-uploaded-image img {
 	border-radius: 2px;
 }
 
-div#uploaderSection div.loading {
+div#uploaderSection-1 div.loading {
 	width: 32px;
 	height: 32px;
 	position: absolute;
@@ -47,17 +47,17 @@ div#uploaderSection div.loading {
 	display: none;
 }
 
-div#drag-drop-area {
+div#drag-drop-area-1 {
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
 
-div#uploaderSection div.drag-drop-inside {
+div#uploaderSection-1 div.drag-drop-inside {
 	margin-top: 48px !important;
 }
 
-body.mp6 div#uploaderSection div.drag-drop-inside,
-body.wp38 div#uploaderSection div.drag-drop-inside {
+body.mp6 div#uploaderSection-1 div.drag-drop-inside,
+body.wp38 div#uploaderSection-1 div.drag-drop-inside {
 	margin-top: 25px !important;
 }
