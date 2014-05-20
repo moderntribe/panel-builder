@@ -14,7 +14,7 @@ class Image extends Field {
 
 
 	public function render_field() {
-
+		
 		$args = array(
 			'label' => $this->label,
 			'value' => $this->get_value(),
@@ -22,8 +22,60 @@ class Image extends Field {
 			'name'  => $this->get_input_name(),
 			'type'  => 'image'
 		);
+		
+		
+		//TODO
+		$value = 127;
+		
+		global $post;
+		
+		if( !empty( $value ) ){
+			$img = wp_get_attachment_image( $value, $this->size );
+		} else {
+			$img = '<img class="attachment-medium" src="" />';
+		}
+		
+		# START HERE - Move this into the attachment-helper plugins output
+		#TODO // cleaned the css a little to mimize the space taken by the dropzone
+		#TODO // Make this update the appropriate form fields when the ajax completes
+		#TODO // Add Caption Support		
+		?>
+		
+			<div id="uploadContainer" style="margin-top: 10px;">
 
-	    require_once( dirname( dirname( dirname(__DIR__) )).'/insights/lib/attachment-helper/attachment-helper.php' );
+				<!-- Current image -->
+				<div id="current-uploaded-image" class="<?php !empty( $value ) ? 'open' : 'closed'; ?>">
+					<?php echo $img; ?>
+					<p class="hide-if-no-js">
+						<a class="button-secondary" href="#" id="remove-image"><?php echo __('Remove', 'modular-content' ) . ' ' . $this->label; ?></a>
+					</p>
+				</div>
+
+				<!-- Uploader section -->
+				<div id="uploaderSection">
+					<div class="loading">
+						<img src="/assets/images/loading.gif" alt="Loading..." />
+					</div>
+					<div id="plupload-upload-ui" class="hide-if-no-js">
+						<div id="drag-drop-area">
+							<div class="drag-drop-inside">
+								<p class="drag-drop-info"><?php _e('Drop files here'); ?></p>
+								<p><?php _e('or', 'modular-content'); ?></p>
+								<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" /></p>
+								<p><?php _e('from', 'modular-content' ); ?></p>
+								<p class="drag-drop-buttons">
+									<a href="#" id="dgd_library_button" class="button" title="Add Media">
+										<span class="wp-media-buttons-icon"></span><?php _e( 'Media Library', 'modular-content' ); ?>
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		<?php
+		
 		$field = new \AttachmentHelper\Field( $args );
 		
 		echo $field->render();

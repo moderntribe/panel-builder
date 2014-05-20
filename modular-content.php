@@ -39,3 +39,7 @@ if ( !function_exists('modular_content_load') ) { // play nice
 	spl_autoload_register( 'modular_content_autoload' );
 	add_action( 'plugins_loaded', 'modular_content_load' );
 }
+
+if( file_exists( dirname(__DIR__).'/insights/lib/attachment-helper/attachment-helper.php' ) ){
+	require_once( dirname(__DIR__).'/insights/lib/attachment-helper/attachment-helper.php' );
+}
