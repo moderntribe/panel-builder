@@ -5,8 +5,10 @@ namespace ModularContentAttachmentHelper;
 class UI {
 	/** @var UI */
 	private static $instance = NULL;
+	
+	private $plupload_init = array();
 
-	public function register_scripts() {
+	public function register_scripts( $args ) {
 		static $registered_scripts = FALSE;
 		if( !$registered_scripts ) {
 			wp_register_script( 'attachment-helper', $this->url( 'assets/js/attachment-helper.js' ), array(
@@ -15,14 +17,8 @@ class UI {
 				'media-views'
 			) );
 			$registered_scripts = TRUE;
-		}
-	}
-
-
-	public function enqueue_scripts( $args ) {
-		$this->register_scripts();
-
-		$plupload_init = array(
+			
+			$this->plupload_init  = array(
 			'runtimes'            => 'html5,silverlight,flash,html4',
 			'browse_button'       => 'plupload-browse-button',
 			'container'           => 'plupload-upload-ui',
@@ -44,11 +40,16 @@ class UI {
 				'postID'        => get_the_ID(),
 				'size'          => $args['size']
 			),
-		);
-		
+			);
+		}
+	}
+
+
+	public function enqueue_scripts( $args ) {
+		$this->register_scripts( $args );
 		
 		$ModularContentAttachmentHelper = array(
-			'plupload_init' => $plupload_init,
+			'plupload_init' => $this->plupload_init,
 			'size'          => $args['size'],
 			'type'          => $args['type']
 		);

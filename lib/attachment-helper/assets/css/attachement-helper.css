@@ -53,6 +53,11 @@ div#drag-drop-area-1 {
 	border-radius: 2px;
 }
 
+.drag-drop-area{
+	border: 4px dashed #bbb;
+}
+
+
 div#uploaderSection-1 div.drag-drop-inside {
 	margin-top: 48px !important;
 }
