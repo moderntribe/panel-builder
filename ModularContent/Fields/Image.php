@@ -22,10 +22,8 @@ class Image extends Field {
 			'name'  => $this->get_input_name(),
 			'type'  => 'image'
 		);
-		
-		#TODO // Add Caption Support		
+			
 		#TODO // Make this use the actual $this->get_value() vs 127
-		#TODO // Update Evernote with final version
 		?>	
 			
 		<?php

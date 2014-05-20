@@ -11,7 +11,32 @@ class Ajax_Handler {
 			$this,
 			'ajax_upload_image_file'
 		) );
+		
+		add_action( 'wp_ajax_attachment_helper_get_image', array(
+			$this,
+			'ajax_get_image'
+		) );
+		
 
+	}
+	
+	
+	public function ajax_get_image(){
+
+		$url  = wp_get_attachment_image_src( $_POST[ 'post_id'], $_POST['size'] );
+		
+		$img = get_post( $_POST['post_id'] );
+		
+		// Create response array:
+		$uploadResponse = array(
+			'url'   => $url[0],
+			'caption' =>  $img->post_excerpt
+		);
+
+		// Return response and exit:
+		header('Content-Type: application/json');
+		die( json_encode( $uploadResponse ) );
+		
 	}
 
 
@@ -60,6 +85,7 @@ class Ajax_Handler {
 
 		// Create response array:
 		$uploadResponse = array(
+			'id'      => $attach_id,
 			'image'   => $croppedImage[ 0 ],
 			'width'   => $imageDetails[ 0 ],
 			'height'   => $imageDetails[ 1 ],
