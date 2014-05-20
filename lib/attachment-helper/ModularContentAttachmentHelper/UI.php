@@ -19,7 +19,7 @@ class UI {
 	}
 
 
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $args ) {
 		$this->register_scripts();
 
 		$plupload_init = array(
@@ -41,12 +41,22 @@ class UI {
 			'multipart_params'   => array(
 				'_ajax_nonce'   => wp_create_nonce( 'photo-upload' ),
 				'action'        => 'attachment_helper_upload_image',
-				'postID'        => get_the_ID()
+				'postID'        => get_the_ID(),
+				'size'          => $args['size']
 			),
 		);
+		
+		
+		$ModularContentAttachmentHelper = array(
+			'plupload_init' => $plupload_init,
+			'size'          => $args['size'],
+			'type'          => $args['type']
+		);
+		
+		
 
 		wp_enqueue_script( 'attachment-helper' );
-		wp_localize_script( 'attachment-helper', 'AttachmentHelper_plupload_init', $plupload_init );
+		wp_localize_script( 'attachment-helper', 'ModularContentAttachmentHelper', $ModularContentAttachmentHelper );
 		
 		wp_enqueue_style('attachment-helper', $this->url( 'assets/css/attachement-helper.css' ) );
 

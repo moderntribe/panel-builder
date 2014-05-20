@@ -53,7 +53,7 @@ class Ajax_Handler {
 			$croppedImage[0] = wp_mime_type_icon( $status['type'] );
 		} else {
 			// Get image sizes and correct thumb:
-			$croppedImage = wp_get_attachment_image_src( $attach_id, 'full' );
+			$croppedImage = wp_get_attachment_image_src( $attach_id, $_POST['size'] );
 			
 		}
 

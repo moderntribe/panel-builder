@@ -15,9 +15,9 @@ class Field {
 		$defaults = array(
 			'label' => __('thumbnail image', 'attachment-helper'),
 			'value' => $this->value,
-			'size' => $this->size,
-			'name' => $this->name,
-			'type' => $this->type,
+			'size'  => $this->size,
+			'name'  => $this->name,
+			'type'  => $this->type,
 		);
 		$this->args = wp_parse_args($args, $defaults);
 		foreach ( array_keys($defaults) as $key ) {
@@ -27,7 +27,7 @@ class Field {
 
 	public function render() {
 		global $content_width;
-		UI::instance()->enqueue_scripts();
+		UI::instance()->enqueue_scripts( $this->args );
 		//TODO
 		$value = 127;
 		?>
@@ -58,7 +58,7 @@ class Field {
 								<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" /></p>
 								<p><?php _e('from', 'modular-content' ); ?></p>
 								<p class="drag-drop-buttons">
-									<a href="#" id="dgd_library_button" class="button" title="Add Media">
+									<a href="#" id="attachment_helper_library_button" class="button" title="Add Media">
 										<span class="wp-media-buttons-icon"></span><?php _e( 'Media Library', 'modular-content' ); ?>
 									</a>
 								</p>
