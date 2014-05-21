@@ -86,6 +86,7 @@ class MetaBox {
 				$data = $submission[$id];
 				unset($data['type']);
 				unset($data['depth']);
+				$data = wp_unslash($data);
 				$panels[] = array('type' => $type, 'data' => $data, 'depth' => $depth);
 			}
 		}
