@@ -13,7 +13,6 @@ class TextArea extends Field {
 
 	public function render_field() {
 		if ( $this->richtext ) {
-			add_action( 'tiny_mce_before_init', array( $this, 'grab_tinymce_settings' ), 100, 2 );
 			wp_editor(
 				$this->get_input_value(),
 				$this->get_id(),
@@ -23,20 +22,11 @@ class TextArea extends Field {
 					'quicktags'     => false
 				)
 			);
-			remove_action( 'tiny_mce_before_init', array( $this, 'grab_tinymce_settings' ), 100, 2 );
 
 			add_action( 'wp_tiny_mce_init', array( $this, 'render_tinymce_initilizaton_script' ) );
 		} else {
 			printf('<span class="panel-input-field"><textarea name="%s" rows="6" cols="40">%s</textarea></span>', $this->get_input_name(), $this->get_input_value() );
 		}
-	}
-
-	public function grab_tinymce_settings( $settings, $editor_id ) {
-		return $settings;
-		?><script type="text/javascript">
-			var <?php echo $this->get_id(); ?>_tinymce_settings = <?php echo json_encode($settings); ?>;
-		</script><?php
-		return array();
 	}
 
 	public function render_tinymce_initilizaton_script( $settings ) {
