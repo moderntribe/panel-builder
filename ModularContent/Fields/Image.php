@@ -20,11 +20,17 @@ class Image extends Field {
 			'value' => $this->get_input_value(),
 			'size'  => $this->size,
 			'name'  => $this->get_input_name(),
-			'type'  => 'image'
+			'type'  => 'image',
+			'id' => preg_replace('/[^\w\{\}\.]/', '_', $this->get_input_name()),
 		);
 			
-		$field = new \ModularContentAttachmentHelper\Field( $args );
+		$field = new \AttachmentHelper\Field( $args );
 		
 		echo $field->render();
+
+		wp_enqueue_script( 'modular-content-image-field', \ModularContent\Plugin::plugin_url('assets/js/image-field.js'), array('jquery'), FALSE, TRUE );
+
+		add_action( 'admin_print_scripts', array( __CLASS__, 'print_scripts' ) );
+
 	}
 }
