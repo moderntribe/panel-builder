@@ -110,3 +110,246 @@
 .new-panel-option .fields {
 	display: none;
 }
+
+.panel-row-editor {
+	margin: 2em 0.5em;
+}
+
+.panel-row-editor .panel-input {
+	margin-bottom: 2em;
+}
+
+.panel-row-editor .panel-input-label {
+	font-weight: bold;
+	font-size: 125%;
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.panel-row-editor .panel-input-field {
+	display: block;
+}
+
+.panel-row-editor .panel-input-field input,
+.panel-row-editor .panel-input-field textarea {
+	width: 90%;
+}
+
+.panel-row-editor .panel-checkbox-label {
+	font-weight: normal;
+	font-size: 100%;
+}
+.panel-row-editor .panel-input-checkbox {
+	display: inline;
+}
+.panel-row-editor .panel-input-checkbox input {
+	width: auto;
+	margin-right: 0.5em;
+}
+
+.panel-row-editor .updated {
+	padding: 1em 1.5em;
+	font-weight: bold;
+}
+
+.panel-row-editor fieldset {
+	border: 1px solid #bbb;
+	padding: 0.5em 1.5em;
+}
+
+
+/* Query Fields */
+
+.panel-input-query.ui-tabs {
+	font-size: 12px;
+}
+.panel-input-query.ui-tabs .ui-tabs-panel {
+	padding: 0.75em;
+}
+.panel-input-query.ui-tabs .ui-widget-header {
+	background: none;
+	border-width: 0 0 1px;
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+}
+.panel-input-query fieldset {
+	height: 200px;
+	overflow: hidden;
+}
+
+.panel-input-query .select-posts,
+.panel-input-query .select-filters {
+	padding-right: 1em;
+	width: 35%;
+	height: 100%;
+	border-right: 1px dashed #333;
+	float: left;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow: auto;
+}
+.panel-input-query .selection,
+.panel-input-query .preview {
+	padding-left: 1em;
+	height: 100%;
+	width: 64%;
+	float: right;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow: auto;
+}
+
+.panel-input-query .select-filters {
+	width: 70%;
+}
+.panel-input-query .preview {
+	width: 29%;
+}
+.panel-input-query .panel-filter-row {
+	border-top: 1px solid #DDD;
+	padding: 10px 0;
+}
+.panel-input-query .query-filters {
+	margin-top: 10px;
+}
+.panel-input-query .query-filters label {
+	display: inline-block;
+	width: 7em;
+}
+.panel-input-query .query-options {
+	display: inline-block;
+	width: 20em;
+}
+.panel-input-query .query-filters select,
+.panel-input-query .query-filters select2-container {
+	width: 20em;
+}
+
+.panel-input-query .panel-filter-row .filter-lock {
+	display: inline;
+	width: auto;
+	margin-left: 5px;
+	font-size: 20px;
+	position: relative;
+	top: 7px;
+}
+
+.panel-input-query .remove-filter {
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 10px;
+	color: #999;
+	text-decoration: none;
+	vertical-align: middle;
+	float: right;
+}
+
+.panel-input-query .remove-filter:hover {
+	color: red;
+}
+.panel-input-query .select-posts input.search-posts {
+	width: 100%;
+}
+.panel-input-query .select-posts .search-results {
+	overflow: auto;
+	height: 175px;
+}
+.panel-input-query .select-posts .search-results .spinner {
+	display: block;
+	margin: 20px 0 0 40%;
+}
+.panel-input-query .select-posts .search-results .select-post {
+	display: inline-block;
+	width: 16px;
+	margin-right: 0;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;;
+}
+.panel-input-query .select-posts .search-results .select-post:hover {
+	color: green;
+}
+.panel-input-query .select-posts.full .select-post {
+	visibility: hidden;
+}
+.panel-input-query .post-selection {
+	padding: 10px;
+	overflow: hidden;
+	clear: both;
+	border: 1px solid #DDD;
+	background-color: #EEE;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+.panel-input-query .post-selection .move {
+	display: inline-block;
+	width: 16px;
+	margin-right: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	cursor: move;
+	color: #999;
+}
+.panel-input-query .post-selection .remove {
+	display: inline-block;
+	margin-left: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;
+	float: right;
+}
+.panel-input-query .post-selection .remove:hover {
+	color: red;
+}
+
+.panel-input-linklist .panel-input-linklist-row {
+	margin: 5px 0;
+	padding: 0 5px 5px;
+	border-bottom: 1px solid #ddd;
+}
+.panel-input-linklist .panel-input-linklist-row-controls .move {
+	display: inline-block;
+	width: 16px;
+	margin-right: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	cursor: move;
+	color: #999;
+	line-height: 25px;
+}
+.panel-input-linklist .panel-input-linklist-row-controls .delete {
+	display: inline-block;
+	margin-left: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;
+	float: right;
+	line-height: 25px;
+}
+.panel-input-linklist .panel-input-linklist-row-controls .delete:hover {
+	color: red;
+}
+.panel-input-linklist .panel-input-field {
+	display: inline-block;
+	width: 28%;
+	margin: 0 .9%;
+}
+.panel-input-linklist .panel-input-field input,
+.panel-input-linklist .panel-input-field select {
+	max-width: 100%;
+}
+
+.panel-input-linklist .panel-linklist-new-row {
+	text-decoration: none;
+}
+.panel-input-linklist .panel-linklist-new-row:before {
+	color: green;
+	font-size: 125%;
+	vertical-align: middle;
+}
