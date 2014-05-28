@@ -41,8 +41,13 @@ class PanelType {
 
 	public function __construct( $id ) {
 		$this->id = $id;
+		$default_fields = array();
 		if ( apply_filters( 'modular_content_always_has_title_field', TRUE ) ) {
-			$this->add_field( new Fields\Title() );
+			$default_fields[] = new Fields\Title();
+		}
+		$default_fields = apply_filters('modular_content_default_fields', $default_fields, $this->id);
+		foreach ( $default_fields as $field ) {
+			$this->add_field( $field );
 		}
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );

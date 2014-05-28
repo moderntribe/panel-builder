@@ -132,7 +132,7 @@
 
 .panel-row-editor .panel-input-field input,
 .panel-row-editor .panel-input-field textarea {
-	width: 90%;
+	width: 100%;
 }
 
 .panel-row-editor .panel-checkbox-label {
