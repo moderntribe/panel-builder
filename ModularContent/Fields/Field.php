@@ -15,10 +15,13 @@ abstract class Field {
 	/** @var string $description A helpful description for the field */
 	protected $description = '';
 
+	protected $default = '';
+
 	protected $defaults = array(
 		'name' => '',
 		'label' => '',
 		'description' => '',
+		'default' => '',
 	);
 
 	public function __construct( $args = array() ) {
@@ -97,7 +100,7 @@ abstract class Field {
 		foreach ( $parts as $p ) {
 			$current++;
 			if ( $current == $number_of_parts ) {
-				$default = '""';
+				$default = sprintf("'%s'", esc_js($this->default));
 			}
 			printf('<# if ( !%s.hasOwnProperty("%s") ) { %s.%s = %s; } #>', $base, $p, $base, $p, $default);
 			$base .= '.'.$p;
