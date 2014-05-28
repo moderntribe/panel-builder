@@ -147,6 +147,14 @@
 	margin-right: 0.5em;
 }
 
+.panel-row-editor .radio-option {
+	margin-right: 20px;
+}
+.panel-row-editor .image-option img {
+	max-width: 100px;
+	max-height: 100px;
+}
+
 .panel-row-editor .updated {
 	padding: 1em 1.5em;
 	font-weight: bold;

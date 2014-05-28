@@ -88,7 +88,7 @@ abstract class Field {
 	}
 
 	protected function render_opening_tag() {
-		printf('<div class="panel-input input-name-%s">', $this->esc_class($this->name));
+		printf('<div class="panel-input input-name-%s input-type-%s">', $this->esc_class($this->name), $this->esc_class(get_class($this)));
 	}
 
 	protected function print_hasOwnProperty_statements() {
