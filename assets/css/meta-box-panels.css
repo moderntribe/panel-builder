@@ -165,6 +165,19 @@
 	padding: 0.5em 1.5em;
 }
 
+.panel-row-editor .input-type-video .panel-input-field {
+	width: 50%;
+	float: left;
+}
+.panel-row-editor .input-type-video .panel-input-preview {
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+.panel-row-editor .input-type-video .panel-input-preview img {
+	max-width: 200px;
+	max-height: 200px;
+}
 
 /* Query Fields */
 

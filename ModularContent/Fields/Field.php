@@ -88,7 +88,7 @@ abstract class Field {
 	}
 
 	protected function render_opening_tag() {
-		printf('<div class="panel-input input-name-%s input-type-%s">', $this->esc_class($this->name), $this->esc_class(get_class($this)));
+		printf('<div class="panel-input input-name-%s input-type-%s">', $this->esc_class($this->name), $this->get_short_type_name());
 	}
 
 	protected function print_hasOwnProperty_statements() {
@@ -146,5 +146,12 @@ abstract class Field {
 
 	protected function esc_class( $class ) {
 		return esc_attr(preg_replace('/[^\w]/', '_', $class));
+	}
+
+	protected function get_short_type_name() {
+		$class = get_class($this);
+		$class = str_replace(__NAMESPACE__, '', $class);
+		$class = trim($class, '\\');
+		return strtolower($class);
 	}
 } 

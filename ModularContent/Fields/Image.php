@@ -26,11 +26,8 @@ class Image extends Field {
 			
 		$field = new \AttachmentHelper\Field( $args );
 		
-		echo $field->render();
+		$field->render();
 
 		wp_enqueue_script( 'modular-content-image-field', \ModularContent\Plugin::plugin_url('assets/js/image-field.js'), array('jquery'), FALSE, TRUE );
-
-		add_action( 'admin_print_scripts', array( __CLASS__, 'print_scripts' ) );
-
 	}
 }

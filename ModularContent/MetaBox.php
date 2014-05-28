@@ -12,6 +12,7 @@ class MetaBox {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'maybe_filter_post_data' ), 10, 2 );
 		add_filter( '_wp_post_revision_fields', array( $this, 'filter_post_revision_fields' ) );
+		add_filter( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 1 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -29,7 +30,7 @@ class MetaBox {
 	}
 
 	protected function enqueue_scripts() {
-		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/js/meta-box-panels.js'), array( 'jquery-ui-sortable' ), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/css/meta-box-panels.css'), array( 'font-awesome' ) );
 	}
 
@@ -122,5 +123,26 @@ class MetaBox {
 
 		// looks like the answer is Yes
 		return TRUE;
+	}
+
+	public function build_video_preview( $url = '' ) {
+		if ( empty($url) && isset($_POST['url']) ) {
+			$url = $_POST['url'];
+		}
+		if ( empty($url) ) {
+			wp_send_json_error(array('message' => 'invalid_url')); // exits
+		}
+
+		$thumbnailer = new OEmbedThumbnailer( $url, array('width' => 100, 'height' => 100) );
+		$image = $thumbnailer->get_thumbnail();
+
+		$preview = '';
+		if ( $image ) {
+			$preview = sprintf('<img src="%s" />', $image);
+		}
+		if ( $preview ) {
+			wp_send_json_success(array('url' => $url, 'preview' => $preview));
+		}
+		wp_send_json_error(array('message' => 'not_found'));
 	}
 } 
