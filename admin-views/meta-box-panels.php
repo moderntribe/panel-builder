@@ -5,6 +5,7 @@
  * @var \ModularContent\PanelCollection $collection
  */
 ?>
+<?php do_action( 'before_panel_meta_box' ); ?>
 <div class="panels">
 	<script>
 		var ModularContent = window.ModularContent || {};
@@ -25,3 +26,4 @@
 		<?php endforeach; ?>
 	</ul>
 </div>
+<?php do_action( 'after_panel_meta_box' ); ?>

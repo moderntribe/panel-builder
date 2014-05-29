@@ -167,9 +167,11 @@ class PanelType {
 		return array(); // TODO
 	}
 
-	public function get_admin_template( $data = array() ) {
+	public function get_admin_template() {
 		ob_start();
+		do_action('before_panel_admin_template', $this );
 		include( Plugin::plugin_path('admin-views/panel-template.php') );
+		do_action('after_panel_admin_template', $this );
 		return ob_get_clean();
 	}
 } 

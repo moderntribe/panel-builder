@@ -40,8 +40,8 @@ class Plugin {
 	}
 
 	public function register_admin_scripts() {
-		wp_register_script( 'select2', self::plugin_url('lib/select2/select2.min.js'), array('jquery'), '3.2', TRUE );
-		wp_register_style( 'select2', self::plugin_url('lib/select2/select2.css'), array(), '3.2' );
+		wp_register_script( 'select2', self::plugin_url('lib/select2/select2.min.js'), array('jquery'), '3.4.8', TRUE );
+		wp_register_style( 'select2', self::plugin_url('lib/select2/select2.css'), array(), '3.4.8' );
 		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array());
 	}
 

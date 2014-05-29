@@ -117,6 +117,7 @@
 
 .panel-row-editor .panel-input {
 	margin-bottom: 2em;
+	clear: both;
 }
 
 .panel-row-editor .panel-input-label {
@@ -181,26 +182,26 @@
 
 /* Query Fields */
 
-.panel-input-query.ui-tabs {
+.panel-input-posts.ui-tabs {
 	font-size: 12px;
 }
-.panel-input-query.ui-tabs .ui-tabs-panel {
+.panel-input-posts.ui-tabs .ui-tabs-panel {
 	padding: 0.75em;
 }
-.panel-input-query.ui-tabs .ui-widget-header {
+.panel-input-posts.ui-tabs .ui-widget-header {
 	background: none;
 	border-width: 0 0 1px;
 	border-radius: 0;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 }
-.panel-input-query fieldset {
+.panel-input-posts fieldset {
 	height: 200px;
 	overflow: hidden;
 }
 
-.panel-input-query .select-posts,
-.panel-input-query .select-filters {
+.panel-input-posts .select-posts,
+.panel-input-posts .select-filters {
 	padding-right: 1em;
 	width: 35%;
 	height: 100%;
@@ -211,8 +212,8 @@
 	-webkit-box-sizing: border-box;
 	overflow: auto;
 }
-.panel-input-query .selection,
-.panel-input-query .preview {
+.panel-input-posts .selection,
+.panel-input-posts .preview {
 	padding-left: 1em;
 	height: 100%;
 	width: 64%;
@@ -223,33 +224,33 @@
 	overflow: auto;
 }
 
-.panel-input-query .select-filters {
+.panel-input-posts .select-filters {
 	width: 70%;
 }
-.panel-input-query .preview {
+.panel-input-posts .preview {
 	width: 29%;
 }
-.panel-input-query .panel-filter-row {
+.panel-input-posts .panel-filter-row {
 	border-top: 1px solid #DDD;
 	padding: 10px 0;
 }
-.panel-input-query .query-filters {
+.panel-input-posts .query-filters {
 	margin-top: 10px;
 }
-.panel-input-query .query-filters label {
+.panel-input-posts .query-filters label {
 	display: inline-block;
 	width: 7em;
 }
-.panel-input-query .query-options {
+.panel-input-posts .query-options {
 	display: inline-block;
 	width: 20em;
 }
-.panel-input-query .query-filters select,
-.panel-input-query .query-filters select2-container {
+.panel-input-posts .query-filters select,
+.panel-input-posts .query-filters select2-container {
 	width: 20em;
 }
 
-.panel-input-query .panel-filter-row .filter-lock {
+.panel-input-posts .panel-filter-row .filter-lock {
 	display: inline;
 	width: auto;
 	margin-left: 5px;
@@ -258,7 +259,7 @@
 	top: 7px;
 }
 
-.panel-input-query .remove-filter {
+.panel-input-posts .remove-filter {
 	display: inline-block;
 	overflow: hidden;
 	margin-left: 10px;
@@ -268,21 +269,21 @@
 	float: right;
 }
 
-.panel-input-query .remove-filter:hover {
+.panel-input-posts .remove-filter:hover {
 	color: red;
 }
-.panel-input-query .select-posts input.search-posts {
+.panel-input-posts .select-posts input.search-posts {
 	width: 100%;
 }
-.panel-input-query .select-posts .search-results {
+.panel-input-posts .select-posts .search-results {
 	overflow: auto;
 	height: 175px;
 }
-.panel-input-query .select-posts .search-results .spinner {
+.panel-input-posts .select-posts .search-results .spinner {
 	display: block;
 	margin: 20px 0 0 40%;
 }
-.panel-input-query .select-posts .search-results .select-post {
+.panel-input-posts .select-posts .search-results .select-post {
 	display: inline-block;
 	width: 16px;
 	margin-right: 0;
@@ -291,13 +292,13 @@
 	color: #999;
 	text-decoration: none;;
 }
-.panel-input-query .select-posts .search-results .select-post:hover {
+.panel-input-posts .select-posts .search-results .select-post:hover {
 	color: green;
 }
-.panel-input-query .select-posts.full .select-post {
+.panel-input-posts .select-posts.full .select-post {
 	visibility: hidden;
 }
-.panel-input-query .post-selection {
+.panel-input-posts .post-selection {
 	padding: 10px;
 	overflow: hidden;
 	clear: both;
@@ -306,7 +307,7 @@
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
-.panel-input-query .post-selection .move {
+.panel-input-posts .post-selection .move {
 	display: inline-block;
 	width: 16px;
 	margin-right: 10px;
@@ -315,7 +316,7 @@
 	cursor: move;
 	color: #999;
 }
-.panel-input-query .post-selection .remove {
+.panel-input-posts .post-selection .remove {
 	display: inline-block;
 	margin-left: 10px;
 	overflow: hidden;
@@ -324,7 +325,7 @@
 	text-decoration: none;
 	float: right;
 }
-.panel-input-query .post-selection .remove:hover {
+.panel-input-posts .post-selection .remove:hover {
 	color: red;
 }
 

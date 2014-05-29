@@ -24,4 +24,4 @@ function jqueryui_register_theme( $theme ) {
 	}
 }
 
-add_action( 'init', 'jqueryui_register_default_theme', 15, 0 );
+add_action( 'admin_enqueue_scripts', 'jqueryui_register_default_theme', 0, 0 );

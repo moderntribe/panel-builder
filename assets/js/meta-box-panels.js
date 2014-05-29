@@ -43,7 +43,7 @@ jQuery(document).ready( function($) {
 		}));
 		panels_div.append(new_row);
 		win.tb_remove();
-		new_row.trigger('new-panel-row', [uuid]);
+		new_row.trigger('new-panel-row', [uuid, {}]);
 	});
 
 	panels_div.on('keyup', '.input-name-title input:text', function() {
@@ -72,6 +72,6 @@ jQuery(document).ready( function($) {
 		}));
 		new_row.find('.panel-row-editor').hide();
 		panels_div.append(new_row);
-		new_row.trigger('load-panel-row', [uuid]);
+		new_row.trigger('load-panel-row', [uuid, panel.data]);
 	});
 });

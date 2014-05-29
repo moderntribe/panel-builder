@@ -4,7 +4,6 @@
  * Template for a single panel
  *
  * @var \ModularContent\PanelType $this
- * @var array $data
  */
 
 ?>
@@ -20,9 +19,9 @@
 			<div class="panel-row-header">
 				<span class="panel-actions"><a class="delete_panel icon-remove" title="<?php _e('Delete this panel', 'modular-content'); ?>" href="#"></a> <span class="move-panel icon-reorder" title="<?php _e('Drag to change panel order', 'modular-content'); ?>"></span></span>
 				<a href="#" class="panel-label edit_panel" title="<?php _e('Edit Panel', 'modular-content'); ?>"><span class="panel-type"><?php esc_html_e($this->get_label()); ?></span><span class="divider"> | </span><span class="panel-title">{{data.panel_title}}</span></a>
-				<input type="hidden" name="panel_id[]" value="{{data.panel_id}}" />
-				<input type="hidden" name="{{data.panel_id}}[type]" value="<?php esc_attr_e($this->id); ?>" />
-				<input type="hidden" name="{{data.panel_id}}[depth]" value="{{data.depth}}" />
+				<input type="hidden" name="panel_id[]" class="panel-id" value="{{data.panel_id}}" />
+				<input type="hidden" name="{{data.panel_id}}[type]" class="panel-type" value="<?php esc_attr_e($this->id); ?>" />
+				<input type="hidden" name="{{data.panel_id}}[depth]" class="panel-depth" value="{{data.depth}}" />
 			</div>
 			<div class="panel-row-editor">
 				<?php foreach ( $this->fields as $field ) {

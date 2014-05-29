@@ -12,7 +12,9 @@ class MetaBox {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'maybe_filter_post_data' ), 10, 2 );
 		add_filter( '_wp_post_revision_fields', array( $this, 'filter_post_revision_fields' ) );
-		add_filter( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 1 );
+		add_action( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 0 );
+		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
+		add_action( 'wp_ajax_posts-field-fetch-titles', array( $this, 'ajax_fetch_titles' ), 10, 0 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -144,5 +146,41 @@ class MetaBox {
 			wp_send_json_success(array('url' => $url, 'preview' => $preview));
 		}
 		wp_send_json_error(array('message' => 'not_found'));
+	}
+
+	public function get_post_field_search_results() {
+		$response = array(
+			'posts' => array(),
+		);
+
+		if ( !empty($_POST['s']) ) {
+			$args = array(
+				'post_type'      => apply_filters( 'panel_input_query_post_types', 'any', $_POST['type'] ),
+				'post_status'    => 'publish',
+				's'              => $_POST['s'],
+				'posts_per_page' => 50,
+			);
+
+			$args  = apply_filters( 'panel_input_manual_query', $args, $_POST['type'] );
+			$posts = get_posts( $args );
+
+			foreach ( $posts as $post ) {
+				$response['posts'][] = array(
+					'post_id' => $post->ID,
+					'post_title' => esc_html(get_the_title($post)),
+				);
+			}
+		}
+
+		wp_send_json_success($response); // exits
+	}
+
+	public function ajax_fetch_titles() {
+		$post_ids = $_POST['post_ids'];
+		$response = array('post_ids' => array());
+		foreach ( $post_ids as $id ) {
+			$response['post_ids'][$id] = get_the_title($id);
+		}
+		wp_send_json_success($response);
 	}
 } 

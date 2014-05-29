@@ -34,6 +34,7 @@ if( !function_exists('modular_content_autoload') ){
 if ( !function_exists('modular_content_load') ) { // play nice
 	function modular_content_load() {
 		\ModularContent\Plugin::init(__FILE__);
+		require_once('lib/jqueryui-themes.php');
 	}
 
 	spl_autoload_register( 'modular_content_autoload' );

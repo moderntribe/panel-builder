@@ -100,11 +100,15 @@ abstract class Field {
 		foreach ( $parts as $p ) {
 			$current++;
 			if ( $current == $number_of_parts ) {
-				$default = sprintf("'%s'", esc_js($this->default));
+				$default = $this->get_default_value_js();
 			}
 			printf('<# if ( !%s.hasOwnProperty("%s") ) { %s.%s = %s; } #>', $base, $p, $base, $p, $default);
 			$base .= '.'.$p;
 		}
+	}
+
+	protected function get_default_value_js() {
+		return sprintf("'%s'", esc_js($this->default));
 	}
 
 	protected function render_label() {
