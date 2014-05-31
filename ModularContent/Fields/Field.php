@@ -63,23 +63,16 @@ abstract class Field {
 	}
 
 	/**
-	 * Get a list of variables that should be passed on to views from this input
+	 * Get a list of variables that should be passed on to views from this field
 	 *
 	 * The default implementation is pretty simple. Specific inputs may return
 	 * more complicated data.
 	 *
-	 * @param int $post_id
+	 * @param mixed $data
 	 * @return array
 	 */
-	public function get_vars( $post_id ) {
-		$vars = array(
-			$this->name => $this->get_value($post_id),
-		);
-		return $vars;
-	}
-
-	public function get_value() {
-		return FALSE; // TODO
+	public function get_vars( $data ) {
+		return array( $this->name => $data );
 	}
 
 	protected function render_before() {

@@ -9,8 +9,4 @@ class Title extends Text {
 	public function __construct( $args = array() ){
 		parent::__construct($args);
 	}
-
-	public function get_value() {
-		return parent::get_value(); // TODO
-	}
 }

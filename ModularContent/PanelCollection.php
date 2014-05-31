@@ -20,6 +20,16 @@ class PanelCollection implements \JsonSerializable {
 		return $this->panels;
 	}
 
+	/**
+	 * Render all panels in the collection to a string
+	 *
+	 * @return string
+	 */
+	public function render() {
+		$renderer = new CollectionRenderer($this);
+		return $renderer->render();
+	}
+
 	public function jsonSerialize() {
 		return array(
 			'panels' => $this->panels,

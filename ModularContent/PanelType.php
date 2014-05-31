@@ -27,8 +27,8 @@ class PanelType {
 	/** @var string */
 	protected $description = '';
 
-	/** @var Template */
-	protected $template = NULL;
+	/** @var PanelViewFinder */
+	protected $view_finder = NULL;
 
 	/** @var Field[] */
 	protected $fields = array();
@@ -99,22 +99,22 @@ class PanelType {
 	}
 
 	/**
-	 * Set the view template for this panel
+	 * Set the directory to look in for front-end templates
 	 *
-	 * @param Template|string $template
+	 * @param Template|string $directory
 	 * @return Template
 	 */
-	public function set_template( $template = '' ) {
-		if ( is_object($template) && $template instanceof Template ) {
-			$this->template = $template;
+	public function set_template_dir( $directory = '' ) {
+		if ( is_object($directory) && $directory instanceof PanelViewFinder ) {
+			$this->view_finder = $directory;
 		} else {
-			$this->template = new Template($template);
+			$this->view_finder = new PanelViewFinder($directory);
 		}
-		return $this->template;
+		return $this->view_finder;
 	}
 
-	public function get_template() {
-		return $this->template;
+	public function get_template_path() {
+		return $this->view_finder->get_template_file_path($this->get_id());
 	}
 
 	public function set_label( $label ) {
@@ -164,7 +164,13 @@ class PanelType {
 	 * @return array
 	 */
 	public function get_template_vars( $data ) {
-		return array(); // TODO
+		$vars = array();
+		foreach ( $this->all_fields() as $field ) {
+			if ( isset($data[$field->get_name()]) ) {
+				$vars = array_merge($vars, $field->get_vars($data[$field->get_name()]));
+			}
+		}
+		return $vars;
 	}
 
 	public function get_admin_template() {

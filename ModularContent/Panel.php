@@ -26,10 +26,18 @@ class Panel implements \JsonSerializable {
 	}
 
 	public function get( $key ) {
+		if ( $key == $this->type ) {
+			return $this->type->get_id();
+		}
+
 		if ( isset($this->data[$key]) ) {
 			return $this->data[$key];
 		}
 		return NULL;
+	}
+
+	public function get_type_object() {
+		return $this->type;
 	}
 
 	public function set_depth( $depth ) {
@@ -53,13 +61,8 @@ class Panel implements \JsonSerializable {
 	}
 
 	public function render() {
-		$template = $this->type->get_template();
-		if ( empty($template) ) {
-			return; // cannot render without a template
-		}
-		$vars = $this->setup_template_vars();
-		do_action( 'render_panel', $this->type, $vars, $this );
-		$template->render($vars, $this->data);
+		$renderer = new PanelRenderer($this);
+		return $renderer->render();
 	}
 
 	/**
@@ -67,8 +70,12 @@ class Panel implements \JsonSerializable {
 	 *
 	 * @return array
 	 */
-	protected function setup_template_vars() {
-		$this->type->get_template_vars($this->data);
+	public function get_template_vars() {
+		return $this->type->get_template_vars($this->data);
+	}
+
+	public function get_settings() {
+		return $this->data;
 	}
 
 	public function get_admin_html() {
