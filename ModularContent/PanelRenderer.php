@@ -14,7 +14,11 @@ class PanelRenderer {
 
 	public function render() {
 		$loop = Plugin::instance()->loop();
-		$loop->set_the_panel($this->panel);
+		$current = $loop->get_the_panel();
+		if ( $this->panel !== $current ) {
+			// if we're overriding the current loop panel, let the loop know
+			$loop->set_the_panel($this->panel);
+		}
 		$template = $this->panel->get_type_object()->get_template_path();
 		if ( empty($template) ) {
 			return '';
@@ -22,7 +26,10 @@ class PanelRenderer {
 		ob_start();
 		include($template);
 		$output = ob_get_clean();
-		$loop->set_the_panel();
+		if ( $this->panel !== $current ) {
+			// put the loop back where we found it
+			$loop->set_the_panel();
+		}
 		return $output;
 	}
 

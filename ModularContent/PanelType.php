@@ -157,22 +157,6 @@ class PanelType {
 		return $this->max_children;
 	}
 
-	/**
-	 * Translate the given data into variables for a template
-	 *
-	 * @param array $data
-	 * @return array
-	 */
-	public function get_template_vars( $data ) {
-		$vars = array();
-		foreach ( $this->all_fields() as $field ) {
-			if ( isset($data[$field->get_name()]) ) {
-				$vars = array_merge($vars, $field->get_vars($data[$field->get_name()]));
-			}
-		}
-		return $vars;
-	}
-
 	public function get_admin_template() {
 		ob_start();
 		do_action('before_panel_admin_template', $this );

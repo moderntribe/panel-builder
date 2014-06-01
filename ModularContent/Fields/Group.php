@@ -55,4 +55,21 @@ class Group extends Field {
 	protected function render_closing_tag() {
 		echo '</fieldset>';
 	}
+
+	/**
+	 * Child fields should have the opportunity to set their own vars
+	 *
+	 * @param mixed $data
+	 * @return array
+	 */
+	public function get_vars( $data ) {
+		$vars = array();
+		foreach ( $this->fields as $field ) {
+			$name = str_replace($this->get_name().'.', '', $field->get_name());
+			if ( isset($data[$name]) ) {
+				$vars[$name] = $field->get_vars($data[$name]);
+			}
+		}
+		return $vars;
+	}
 } 

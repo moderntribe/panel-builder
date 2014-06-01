@@ -1,10 +1,10 @@
 <?php
 
-
 namespace ModularContent\Fields;
 
-
 class Posts extends Field {
+	const CACHE_TIMEOUT = 300; // how long to store queries in cache
+
 	protected $limit = 5;
 	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
 	public function __construct( $args = array() ){
@@ -27,6 +27,108 @@ class Posts extends Field {
 
 	protected function get_default_value_js() {
 		return $this->default;
+	}
+
+	public function get_vars( $data ) {
+		if ( $data['type'] == 'manual' ) {
+			$post_ids = $data['post_ids'];
+		} else {
+			$post_ids = $this->filter_posts($data['filters']);
+		}
+		return $post_ids;
+	}
+
+
+
+	/**
+	 * Query for posts matching the selected filters
+	 *
+	 * @param array $filters
+	 * @param string $fields
+	 *
+	 * @return array Matching post IDs
+	 */
+	protected function filter_posts( $filters, $fields = 'ids' ) {
+		$query = array(
+			'post_type' => 'any',
+			'post_status' => 'publish',
+			'posts_per_page' => $this->limit,
+			'tax_query' => array(
+				'relation' => 'AND',
+			),
+			'fields' => $fields,
+			'suppress_filters' => FALSE,
+		);
+		foreach ( $filters as $type => $filter ) {
+			if ( $type == 'post_type' ) {
+				if ( !empty($filter['lock']) || !is_post_type_archive() ) {
+					$query['post_type'] = $filter['selection'];
+				} else {
+					$post_type_object = get_queried_object();
+					$query['post_type'] = $post_type_object->name;
+				}
+			} else {
+				$locked = FALSE;
+				if ( !empty($filter['lock']) ) {
+					$locked = TRUE;
+				} elseif ( $type == 'post_tag' ) {
+					if ( !is_tag() ) { $locked = TRUE; }
+				} elseif ( $type == 'category' ) {
+					if ( !is_category() ) { $locked = TRUE; }
+				} elseif ( !is_tax($type) ) {
+					$locked = TRUE;
+				}
+				if ( !$locked ) {
+					$term = get_queried_object();
+				}
+				if ( $locked || !$term ) {
+					$query['tax_query'][] = array(
+						'taxonomy' => $type,
+						'field' => 'id',
+						'terms' => array_map('intval', $filter['selection']),
+						'operator' => 'IN',
+					);
+				} else {
+					$query['tax_query'][] = array(
+						'taxonomy' => $type,
+						'field' => 'id',
+						'terms' => (int)$term->term_id,
+						'operator' => 'IN',
+					);
+				}
+			}
+		}
+
+		$query = apply_filters( 'panels_input_query_filter', $query, $filters, $fields );
+
+		$cache = $this->get_cache($query);
+		if ( !empty($cache) ) {
+			return $cache;
+		}
+
+		$result = get_posts($query);
+		$this->set_cache($query, $result);
+
+		return $result;
+	}
+
+	protected function get_cache( $query ) {
+		$cache = get_transient($this->cache_key($query));
+		if ( !is_array($cache) ) {
+			return array();
+		}
+		return $cache;
+	}
+
+	protected function set_cache( $query, $value ) {
+		set_transient($this->cache_key($query), $value, self::CACHE_TIMEOUT);
+	}
+
+	protected function cache_key( $query ) {
+		$prefix = 'panel_query_';
+		$key = $prefix.maybe_serialize($query);
+		$hash = md5($key);
+		return $hash;
 	}
 
 	protected static function taxonomy_options() {
@@ -60,7 +162,7 @@ class Posts extends Field {
 				<a href="#" class="remove-filter icon-remove" title="<?php _e('Delete this filter', 'modular-content'); ?>"></a>
 				<label>{{data.label}}</label>
 				<span class="filter-options"></span>
-				<?php /* <label class="filter-lock" title="<?php _e('Unlock to override with current context', 'modular-content'); ?>"><span class="wrapper"><input type="checkbox" name="{{data.name}}[filters][{{data.type}}][lock]" value="1" /> <?php _e('Lock Selection', 'modular-content'); ?></span></label> */ ?>
+				<!--<label class="filter-lock" title="<?php _e('Unlock to override with current context', 'modular-content'); ?>"><span class="wrapper">--><input type="hidden" name="{{data.name}}[filters][{{data.type}}][lock]" value="1" /><!-- <?php _e('Lock Selection', 'modular-content'); ?></span></label>-->
 			</div>
 		</script>
 		<script type="text/html" class="template" id="tmpl-field-posts-posttype-options">

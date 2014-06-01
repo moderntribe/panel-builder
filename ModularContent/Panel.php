@@ -14,6 +14,7 @@ class Panel implements \JsonSerializable {
 	private $type = NULL;
 	private $depth = 0;
 	private $data = array();
+	private $template_vars = NULL;
 
 	public function __construct( PanelType $type, $data = array(), $depth = 0 ) {
 		$this->type = $type;
@@ -66,12 +67,23 @@ class Panel implements \JsonSerializable {
 	}
 
 	/**
-	 * Translate our admin settings into variable to export to the template
+	 * Translate our admin settings into variables to export to the template
 	 *
 	 * @return array
 	 */
 	public function get_template_vars() {
-		return $this->type->get_template_vars($this->data);
+		if ( isset($this->template_vars) ) {
+			return $this->template_vars;
+		}
+		$vars = array();
+		foreach ( $this->type->all_fields() as $field ) {
+			$name = $field->get_name();
+			if ( isset($this->data[$name]) ) {
+				$vars[$name] = $field->get_vars($this->data[$name]);
+			}
+		}
+		$this->template_vars = $vars;
+		return $this->template_vars;
 	}
 
 	public function get_settings() {

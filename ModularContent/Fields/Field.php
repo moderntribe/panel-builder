@@ -69,10 +69,10 @@ abstract class Field {
 	 * more complicated data.
 	 *
 	 * @param mixed $data
-	 * @return array
+	 * @return mixed
 	 */
 	public function get_vars( $data ) {
-		return array( $this->name => $data );
+		return $data;
 	}
 
 	protected function render_before() {
