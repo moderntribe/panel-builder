@@ -26,8 +26,9 @@ class PanelCollection implements \JsonSerializable {
 	 * @return string
 	 */
 	public function render() {
-		$renderer = new CollectionRenderer($this);
-		return $renderer->render();
+		$loop = Plugin::instance()->loop();
+		$loop->reset( $this );
+		return $loop->render();
 	}
 
 	public function jsonSerialize() {

@@ -15,6 +15,22 @@ class Loop {
 	/** @var ArrayIterator */
 	protected $iterator = NULL;
 
+	public function __construct( $collection = NULL ) {
+		if ( !empty($collection) ) {
+			$this->reset($collection);
+		}
+	}
+
+	public function render() {
+		$rendered = '';
+		while ( $this->have_panels() ) {
+			$this->the_panel();
+			$panel = $this->get_the_panel();
+			$rendered .= $panel->render();
+		}
+		return $this->wrap($rendered);
+	}
+
 	public function reset( PanelCollection $collection ) {
 		$this->panel = NULL;
 		$this->collection = $collection;
@@ -31,6 +47,9 @@ class Loop {
 	 * @return bool
 	 */
 	public function have_panels() {
+		if ( empty($this->collection) ) {
+			return FALSE;
+		}
 		if ( !isset($this->iterator) ) {
 			return !empty($this->panels); // we haven't started yet
 		}
@@ -136,6 +155,29 @@ class Loop {
 	 */
 	public function vars() {
 		return $this->vars;
+	}
+
+
+
+	/**
+	 * @param string $content
+	 * @return string
+	 */
+	protected function wrap( $content ) {
+		$template = $this->get_wrapper_template();
+		$content = str_replace('[panels]', $content, $template);
+		return $content;
+	}
+
+	protected function get_wrapper_template() {
+		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
+		$template_file = $viewfinder->locate_theme_file('collection-wrapper.php');
+		if ( empty($template_file) ) {
+			return '';
+		}
+		ob_start();
+		include($template_file);
+		return ob_get_clean();
 	}
 
 

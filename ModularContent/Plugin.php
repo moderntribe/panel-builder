@@ -27,7 +27,12 @@ class Plugin {
 
 	public function loop() {
 		if ( !isset($this->loop) ) {
-			$this->loop = new Loop();
+			$panels = NULL;
+			$current_post = get_queried_object();
+			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
+				$panels = PanelCollection::find_by_post_id( $current_post->ID );
+			}
+			$this->loop = new Loop($panels);
 		}
 		return $this->loop;
 	}
@@ -40,15 +45,15 @@ class Plugin {
 	public function init_panels() {
 		require_once(self::plugin_path('template-tags.php'));
 		add_post_type_support( 'post', 'modular-content' );
+		add_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
+		add_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
 		do_action( 'panels_init', $this->registry );
-		$post_types = $this->supported_post_types();
 		if ( is_admin() ) {
 			$this->metabox->add_hooks();
+			$post_types = $this->supported_post_types();
 			foreach ( $post_types as $post_type ) {
 				add_action('add_meta_boxes_'.$post_type, array($this->metabox, 'register_meta_box'), 10, 0);
 			}
-		} else {
-			add_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
 		}
 	}
 
@@ -69,15 +74,27 @@ class Plugin {
 		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array());
 	}
 
-	public function filter_the_content( $content ) {
-		$current_post = get_post();
-		if ( post_type_supports( $current_post->post_type, 'modular-content' ) && $current_post->ID == get_queried_object_id() ) {
-			$panels = PanelCollection::find_by_post_id( $current_post->ID );
-			$content .= $panels->render();
-		}
+	public function do_the_panels() {
+		$this->do_not_filter_the_content();
+		echo $this->get_the_panels();
+
+		remove_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
+		add_action( 'the_panels', array( $this, '__return_null' ), 10, 0 );
+	}
+
+	public function get_the_panels() {
+		$loop = $this->loop();
+		return $loop->render();
+	}
+
+	public function filter_the_content( $content = '' ) {
+		$this->do_not_filter_the_content();
+		return $content.$this->get_the_panels();
+	}
+
+	public function do_not_filter_the_content() {
 		add_filter( 'the_content', array( $this, 'passthrough' ), 100, 1 );
 		remove_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
-		return $content;
 	}
 
 	public function passthrough( $var ) {
