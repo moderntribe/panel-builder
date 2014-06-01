@@ -105,6 +105,18 @@ class Loop {
 		if ( isset($this->vars[$name]) ) {
 			return $this->vars[$name];
 		}
+
+		$parts = explode('.', $name);
+		if ( isset($this->vars[$parts[0]]) ) {
+			$component = $this->vars[$parts[0]];
+			for ( $i = 1 ; $i < count($parts) ; $i++ ) {
+				if ( !is_array($component) || !isset($component[$parts[$i]]) ) {
+					return '';
+				}
+				$component = $component[$parts[$i]];
+			}
+			return $component;
+		}
 		return '';
 	}
 
