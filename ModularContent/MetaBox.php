@@ -54,6 +54,10 @@ class MetaBox {
 	 * @return array
 	 */
 	public function maybe_filter_post_data( $post_data, $post ) {
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+			return $this->filter_autosave_data( $post_data, $post, $_POST );
+		}
+
 		if ( !$this->should_post_be_filtered($post_data, $post, $_POST) ) {
 			return $post_data;
 		}
@@ -77,6 +81,11 @@ class MetaBox {
 	 * @return mixed
 	 */
 	protected function filter_post_data( $post_data, $post, $submission ) {
+		$post_data['post_content_filtered'] = wp_slash($this->submission_to_json($submission));
+		return $post_data;
+	}
+
+	protected function submission_to_json( $submission ) {
 		$panel_ids = $submission['panel_id'];
 		if ( !is_array( $panel_ids ) ) {
 			$panel_ids = array();
@@ -94,9 +103,7 @@ class MetaBox {
 			}
 		}
 		$collection = PanelCollection::create_from_array( array('panels' => $panels) );
-		$json = $collection->to_json();
-		$post_data['post_content_filtered'] = wp_slash($json);
-		return $post_data;
+		return json_encode($collection);
 	}
 
 	/**
@@ -125,6 +132,22 @@ class MetaBox {
 
 		// looks like the answer is Yes
 		return TRUE;
+	}
+
+	public function filter_autosave_data( $post_data, $post, $submission ) {
+		if ( empty($post_data['post_content_filtered']) ) {
+			$post_data['post_content_filtered'] = $post->post_content_filtered;
+			return $post_data;
+		}
+		$deserialized = $this->deserialize_to_json($post_data['post_content_filtered']);
+		$post_data['post_content_filtered'] = wp_slash($this->submission_to_json($deserialized));
+		return $post_data;
+	}
+
+	public function deserialize_to_json( $data ) {
+		$array = array();
+		parse_str( $data, $array );
+		return $array;
 	}
 
 	public function build_video_preview( $url = '' ) {

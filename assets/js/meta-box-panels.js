@@ -74,4 +74,9 @@ jQuery(document).ready( function($) {
 		panels_div.append(new_row);
 		new_row.trigger('load-panel-row', [uuid, panel.data]);
 	});
+
+	// autosave
+	$(document).on('before-autosave.panel-autosave', function( e, postdata ) {
+		postdata.post_content_filtered = $('#modular-content').find('input, select, textarea').serialize();
+	});
 });
