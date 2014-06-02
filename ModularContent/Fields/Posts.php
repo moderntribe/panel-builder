@@ -31,9 +31,9 @@ class Posts extends Field {
 
 	public function get_vars( $data ) {
 		if ( $data['type'] == 'manual' ) {
-			$post_ids = $data['post_ids'];
+			$post_ids = isset($data['post_ids'])?$data['post_ids']:array();
 		} else {
-			$post_ids = $this->filter_posts($data['filters']);
+			$post_ids = isset($data['filters'])?$this->filter_posts($data['filters']):array();
 		}
 		return $post_ids;
 	}
