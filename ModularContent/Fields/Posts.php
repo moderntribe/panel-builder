@@ -155,8 +155,8 @@ class Posts extends Field {
 		<script type="text/html" class="template" id="tmpl-field-posts-selectedPost">
 			<div class="post-selection post-id-{{data.post_id}}">
 				<input type="hidden" name="{{data.name}}[post_ids][]" value="{{data.post_id}}" />
-				<a href="#" class="remove icon-remove" title="<?php _e('Remove', 'panels'); ?>"></a>
-				<span class="move icon-reorder" title="<?php _e('Move', 'panels'); ?>"></span>
+				<a href="#" class="remove icon-remove" title="<?php _e('Remove', 'modular-content'); ?>"></a>
+				<span class="move icon-reorder" title="<?php _e('Move', 'modular-content'); ?>"></span>
 				<span class="post-title">{{{data.title}}}</span>
 			</div>
 		</script>

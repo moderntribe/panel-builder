@@ -20,7 +20,7 @@ class TypeRegistry {
 	 */
 	public function register( PanelType $type, $post_type = array() ) {
 		if ( isset($this->types[$type->id]) ) {
-			throw new \InvalidArgumentException(sprintf(__('Panel Type "%s" already registered', 'panels'), $type->id));
+			throw new \InvalidArgumentException(sprintf(__('PanelType "%s" already registered', 'modular-content'), $type->id));
 		}
 		$this->types[$type->id] = $type;
 		$post_type = $this->normalize_post_type($post_type);

@@ -15,9 +15,9 @@
 		<?php endforeach; ?>
 	</script>
 </div>
-<a class="create-new-panel hide-if-no-js thickbox" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php _e('Create Panel', 'panels'); ?></a>
+<a class="create-new-panel hide-if-no-js thickbox" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php printf(__('Create %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></a>
 <div id="new-panel">
-	<h2><?php _e('Select a Panel Type', 'panels'); ?></h2>
+	<h2><?php printf(__('Select a %s Type', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></h2>
 	<ul class="panel-selection-list">
 		<?php foreach( \ModularContent\Plugin::instance()->registry()->registered_panels(get_post_type()) as $panel_type ): ?>
 			<li class="new-panel-option">

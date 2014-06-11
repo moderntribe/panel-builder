@@ -10,7 +10,7 @@ class P2P extends Field {
 
 	public function __construct( $args = array() ){
 		if ( !class_exists('P2P_WP_Query') ) {
-			trigger_error(__('The Posts 2 Posts plugin is required for proper operation of the P2P panel input', 'panels'), E_USER_WARNING);
+			trigger_error(__('The Posts 2 Posts plugin is required for proper operation of the P2P panel input', 'modular-content'), E_USER_WARNING);
 		}
 		$this->defaults['limit'] = $this->limit;
 		$this->defaults['connection_type'] = $this->connection_type;

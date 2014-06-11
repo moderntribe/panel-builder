@@ -11,8 +11,16 @@ class Plugin {
 	private $registry = NULL;
 	private $metabox = NULL;
 	private $loop = NULL;
+	private $name = array(
+		'singular' => '',
+		'plural' => '',
+	);
 
 	protected function __construct() {
+		$this->name = array(
+			'singular' => apply_filters('modular_content_singular_label', __('Module', 'modular_content')),
+			'plural' => apply_filters('modular_content_plural_label', __('Modules', 'modular_content')),
+		);
 		$this->registry = new TypeRegistry();
 		$this->metabox = new MetaBox();
 	}
@@ -99,6 +107,10 @@ class Plugin {
 
 	public function passthrough( $var ) {
 		return $var;
+	}
+
+	public function get_label( $quantity = 'singular' ) {
+		return ( $quantity == 'plural' ) ? $this->name['plural'] : $this->name['singular'];
 	}
 
 
