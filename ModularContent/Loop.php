@@ -160,24 +160,23 @@ class Loop {
 
 
 	/**
-	 * @param string $content
+	 * @param string $panels
 	 * @return string
 	 */
-	protected function wrap( $content ) {
-		$template = $this->get_wrapper_template();
-		$content = str_replace('[panels]', $content, $template);
-		return $content;
-	}
-
-	protected function get_wrapper_template() {
-		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
-		$template_file = $viewfinder->locate_theme_file('collection-wrapper.php');
-		if ( empty($template_file) ) {
-			return '';
+	protected function wrap( $panels ) {
+		$template = $this->get_wrapper_template_path();
+		if ( !$template ) {
+			return $panels;
 		}
 		ob_start();
-		include($template_file);
+		include($template);
 		return ob_get_clean();
+	}
+
+	protected function get_wrapper_template_path() {
+		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
+		$template_file = $viewfinder->locate_theme_file('collection-wrapper.php');
+		return $template_file;
 	}
 
 

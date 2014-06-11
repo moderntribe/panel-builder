@@ -38,21 +38,24 @@ class PanelRenderer {
 	 * @return string
 	 */
 	protected function wrap( $content ) {
-		$template = $this->get_wrapper_template();
-		$content = str_replace('[content]', $content, $template);
-		return $content;
+		$template = $this->get_wrapper_template_path();
+		if ( $template ) {
+			return $content;
+		}
+		return $this->include_wrapper_template( $template, $content );
 	}
 
-	protected function get_wrapper_template() {
+	protected function get_wrapper_template_path() {
 		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
 		$template_file = $viewfinder->locate_theme_file('panel-wrapper.php');
+		return $template_file;
 		if ( empty($template_file) ) {
 			return '';
 		}
 		return $this->include_wrapper_template($template_file);
 	}
 
-	protected function include_wrapper_template( $template_path ) {
+	protected function include_wrapper_template( $template_path, $html ) {
 		static $index = 0;
 		$panel = $this->panel;
 		ob_start();

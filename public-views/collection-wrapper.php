@@ -7,8 +7,10 @@
  *
  * The template MUST contain the string "[panels]", which will be replaced
  * with the contents of all panels in the collection.
+ *
+ * @var string $panels The rendered HTML of the panels
  */
 ?>
 <div class="panel-collection">
-	[panels]
+	<?php echo $panels; ?>
 </div>

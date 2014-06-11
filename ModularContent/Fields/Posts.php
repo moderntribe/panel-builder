@@ -60,6 +60,9 @@ class Posts extends Field {
 			'suppress_filters' => FALSE,
 		);
 		foreach ( $filters as $type => $filter ) {
+			if ( empty($filter['selection']) ) {
+				continue;
+			}
 			if ( $type == 'post_type' ) {
 				if ( !empty($filter['lock']) || !is_post_type_archive() ) {
 					$query['post_type'] = $filter['selection'];
