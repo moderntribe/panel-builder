@@ -263,9 +263,6 @@
 		}
 
 		var name = container.data('name');
-		if ( !data.hasOwnProperty(name) ) {
-			return;
-		}
 		data = data[name];
 
 		postsField.initialize_tabs(container);
