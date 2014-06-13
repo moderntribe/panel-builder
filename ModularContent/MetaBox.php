@@ -43,7 +43,9 @@ class MetaBox {
 	 * @return void
 	 */
 	public static function display_nonce() {
-		wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME);
+		if ( post_type_supports(get_post_type(), 'modular-content') ) {
+			wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME);
+		}
 	}
 
 	/**
