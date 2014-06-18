@@ -37,6 +37,7 @@ jQuery(document).ready( function($) {
 		var uuid = create_uuid();
 		var new_row = $(template({
 			panel_id: uuid,
+			field_name: uuid,
 			panel_title: 'Untitled', // TODO: localize
 			fields: { title: '' },
 			depth: 0
@@ -66,6 +67,7 @@ jQuery(document).ready( function($) {
 		var uuid = create_uuid();
 		var new_row = $(template({
 			panel_id: uuid,
+			field_name: uuid,
 			panel_title: panel.data.title,
 			fields: panel.data,
 			depth: panel.depth

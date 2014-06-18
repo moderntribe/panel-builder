@@ -13,11 +13,14 @@
 			var name = container.data('name');
 			var template = wp.template('repeater-'+name);
 			var data = {
-				panel_id: uuid+'['+name+']['+repeaterField.counter+']',
+				panel_id: uuid,
+				field_name: uuid+'['+name+']['+repeaterField.counter+']',
 				fields: fields
 			};
-			container.find('.repeater-field-container').append($(template(data)));
+			var new_row = $(template(data));
+			container.find('.repeater-field-container').append(new_row);
 			repeaterField.counter++;
+			new_row.trigger('new-panel-repeater-row', [uuid, data.fields]);
 		},
 
 		initialize_events: function( container ) {

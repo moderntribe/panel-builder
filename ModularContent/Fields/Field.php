@@ -130,7 +130,7 @@ abstract class Field {
 
 	protected function get_input_name() {
 		$parts = explode('.', $this->name);
-		$name = '{{data.panel_id}}';
+		$name = '{{data.field_name}}';
 		foreach ( $parts as $p ) {
 			$name .= '['.$p.']';
 		}

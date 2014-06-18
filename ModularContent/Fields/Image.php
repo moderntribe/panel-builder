@@ -22,6 +22,7 @@ class Image extends Field {
 			'name'  => $this->get_input_name(),
 			'type'  => 'image',
 			'id' => preg_replace('/[^\w\{\}\.]/', '_', $this->get_input_name()),
+			'settings' => preg_replace('/[^\w\{\}\.]/', '_', str_replace('{{data.field_name}}', '{{data.panel_id}}', $this->get_input_name())),
 		);
 			
 		$field = new \AttachmentHelper\Field( $args );
