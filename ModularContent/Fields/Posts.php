@@ -18,7 +18,7 @@ class Posts extends Field {
 		$input_value = sprintf("data.fields.%s", $this->name);
 		$limit = (int)$this->limit;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
-		add_action( 'after_panel_admin_template', array( __CLASS__, 'print_supporting_templates' ), 10, 2 );
+		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/js/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'select2' );
@@ -145,12 +145,7 @@ class Posts extends Field {
 		return apply_filters('panels_query_post_type_options', $post_types);
 	}
 
-	/**
-	 * @param \ModularContent\PanelType $panelType
-	 *
-	 * @return void
-	 */
-	public static function print_supporting_templates( $panelType ) {
+	public static function print_supporting_templates() {
 		?>
 		<script type="text/html" class="template" id="tmpl-field-posts-selectedPost">
 			<div class="post-selection post-id-{{data.post_id}}">
@@ -193,6 +188,13 @@ class Posts extends Field {
 			</script>
 
 		<?php endforeach;
+		add_action( 'after_panel_admin_template', array( __CLASS__, 'dequeue_supporting_templates' ), 10 );
+
+	}
+
+
+	public static function dequeue_supporting_templates() {
+		remove_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 	}
 
 	protected static function build_hierarchical_term_name( $term, $sep = ' > ' ) {

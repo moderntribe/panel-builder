@@ -329,22 +329,18 @@
 	color: red;
 }
 
-.panel-input-linklist .panel-input-linklist-row {
+.panel-repeater-row {
 	margin: 5px 0;
 	padding: 0 5px 5px;
 	border-bottom: 1px solid #ddd;
+	clear: both;
 }
-.panel-input-linklist .panel-input-linklist-row-controls .move {
-	display: inline-block;
-	width: 16px;
-	margin-right: 10px;
-	overflow: hidden;
-	vertical-align: middle;
-	cursor: move;
-	color: #999;
-	line-height: 25px;
+
+.panel-repeater-row > .panel-input {
+	clear: none;
 }
-.panel-input-linklist .panel-input-linklist-row-controls .delete {
+
+.panel-input-repeater-row-controls .delete {
 	display: inline-block;
 	margin-left: 10px;
 	overflow: hidden;
@@ -354,23 +350,14 @@
 	float: right;
 	line-height: 25px;
 }
-.panel-input-linklist .panel-input-linklist-row-controls .delete:hover {
+.panel-input-repeater-row-controls .delete:hover {
 	color: red;
 }
-.panel-input-linklist .panel-input-field {
-	display: inline-block;
-	width: 28%;
-	margin: 0 .9%;
-}
-.panel-input-linklist .panel-input-field input,
-.panel-input-linklist .panel-input-field select {
-	max-width: 100%;
-}
 
-.panel-input-linklist .panel-linklist-new-row {
+.panel-repeater-new-row {
 	text-decoration: none;
 }
-.panel-input-linklist .panel-linklist-new-row:before {
+.panel-repeater-new-row:before {
 	color: green;
 	font-size: 125%;
 	vertical-align: middle;

@@ -32,4 +32,5 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 			</div>
 		</div>
 	</script>
+	<?php do_action( 'after_panel_admin_template_inside' ); ?>
 </div>
