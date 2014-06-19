@@ -9,7 +9,6 @@
 			var container = $(this);
 			var settings_name = container.data('settings');
 			settings_name = settings_name.replace( uuid, '{{data.panel_id}}' );
-			console.log(settings_name);
 
 			if ( AttachmentHelper.settings.hasOwnProperty(settings_name) ) {
 				AttachmentHelper.init( container, AttachmentHelper.settings[settings_name]);

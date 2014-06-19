@@ -4,10 +4,13 @@ namespace ModularContent\Fields;
 
 class TextArea extends Field {
 	protected $richtext = FALSE;
+	protected static $global_index = 0;
+	protected $index = 0;
 
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
 		parent::__construct($args);
+		$this->index = self::$global_index++;
 	}
 
 
@@ -19,7 +22,8 @@ class TextArea extends Field {
 				array(
 					'textarea_rows' => 20,
 					'textarea_name' => $this->get_input_name(),
-					'quicktags'     => false
+					'quicktags'     => false,
+					'editor_class'    => 'wysiwyg-{{data.panel_id}}-'.$this->index,
 				)
 			);
 
@@ -37,19 +41,22 @@ class TextArea extends Field {
 		$settings = $settings[$id];
 		?><script type="text/javascript">
 			(function($, tinymce) {
+				var counter = 0;
 				var generic_id = '<?php echo $this->get_id(); ?>';
 				if ( tinyMCEPreInit.mceInit.hasOwnProperty(generic_id) ) {
 					delete tinyMCEPreInit.mceInit[generic_id];
 				}
 
-				var panels_div = $('div.panels');
-				panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
-					var row = $(this);
-					var wysiwyg_id = uuid+'_<?php echo $this->esc_class($this->name); ?>';
-					var wysiwyg = row.find('#'+wysiwyg_id);
-					if ( wysiwyg.length < 1 ) {
+				var init_editor = function( row, uuid ) {
+					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
+					if ( wysiwyg.hasClass('wp-editor-initialized') ) {
 						return;
 					}
+					var wysiwyg_id = 'panels-wysiwyg-'+uuid+'-<?php echo $this->index; ?>-'+counter;
+					counter++;
+					wysiwyg.attr('id', wysiwyg_id);
+					wysiwyg.parents('.wp-editor-container').attr('id', 'wp-'+wysiwyg_id+'-editor-container');
+					wysiwyg.parents('.wp-editor-wrap').attr('id', 'wp-'+wysiwyg_id+'-wrap');
 
 					var settings = {
 						"selector":"#"+wysiwyg_id,
@@ -67,6 +74,7 @@ class TextArea extends Field {
 
 					try {
 						tinymce.init( settings );
+						wysiwyg.addClass('wp-editor-initialized');
 
 						if ( ! window.wpActiveEditor ) {
 							window.wpActiveEditor = wysiwyg_id;
@@ -76,6 +84,24 @@ class TextArea extends Field {
 							window.wpActiveEditor = this.id.slice( 3, -5 );
 						}
 					} catch(e){}
+				}
+
+				var panels_div = $('div.panels');
+				panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
+					var row = $(this);
+					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
+					if ( wysiwyg.length < 1 ) {
+						return;
+					}
+					init_editor(row, uuid);
+				});
+				panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid) {
+					var row = $(this);
+					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
+					if ( wysiwyg.length < 1 ) {
+						return;
+					}
+					init_editor(row, uuid);
 				});
 			})(jQuery, tinymce);
 		</script>
