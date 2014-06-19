@@ -62,4 +62,29 @@ class Repeater extends Group {
 	public function dequeue_supporting_templates() {
 		remove_action( 'after_panel_admin_template_inside', array( $this, 'print_supporting_templates' ), 10, 0 );
 	}
+
+
+	/**
+	 * Child fields should have the opportunity to set their own vars
+	 *
+	 * @param mixed $data
+	 * @return array
+	 */
+	public function get_vars( $data ) {
+		$vars = array();
+		$data = (array)$data; // probably stored as an object with numeric properties
+		foreach ( $data as $instance ) {
+			$instance_vars = array();
+			foreach ( $this->fields as $field ) {
+				$name = $field->get_name();
+				if ( isset($instance[$name]) ) {
+					$instance_vars[$name] = $field->get_vars($data[$name]);
+				}
+			}
+			if ( !empty($instance_vars) ) {
+				$vars[] = $instance_vars;
+			}
+		}
+		return $vars;
+	}
 } 
