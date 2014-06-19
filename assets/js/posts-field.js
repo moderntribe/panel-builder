@@ -11,7 +11,7 @@
 		update_active_tab: function( event, ui ) {
 			var fieldset = $(ui.newPanel).find('fieldset');
 			var type = fieldset.hasClass('manual')?'manual':'query';
-			var input = fieldset.parents('.panel-input').find('input.query-type');
+			var input = fieldset.closest('.panel-input').find('input.query-type');
 			input.val(type);
 		},
 
@@ -83,7 +83,7 @@
 		},
 
 		fetch_search_results: function( input ) {
-			var results_container = input.parents('.select-posts').find('.search-results');
+			var results_container = input.closest('.select-posts').find('.search-results');
 			var query = input.val();
 			if ( query == '' ) {
 				results_container.empty();
@@ -98,7 +98,7 @@
 				data: {
 					action: 'posts-field-posts-search',
 					s: query,
-					type: input.parents('.panel-row').find('.panel-type').val()
+					type: input.closest('.panel-row').find('.panel-type').val()
 				}
 			});
 		},
@@ -124,7 +124,7 @@
 
 		add_filter_row_event: function( e ) {
 			var select = $(this);
-			var container = select.parents('.panel-input');
+			var container = select.closest('.panel-input');
 			var type = select.val();
 			if ( !type ) {
 				return;
@@ -171,9 +171,6 @@
 			options.select2({width: 'element'});
 
 			options.val(data.selection).trigger('change');
-			/*if ( data.lock > 0 ) {
-				new_filter.find(':checkbox').each(function() { this.checked = true; });
-			}*/
 		},
 
 		select_post: function( e ) {
@@ -183,7 +180,7 @@
 			var post_id = li.find('input').val();
 			var title = li.find('.post-title').text();
 
-			var selected_container = li.parents('fieldset').find('.selection');
+			var selected_container = li.closest('fieldset').find('.selection');
 
 			var limit = selected_container.data('limit');
 			if ( selected_container.find('.post-selection').length >= limit ) {
@@ -248,26 +245,35 @@
 
 		deselect_post: function(e) {
 			e.preventDefault();
-			$(this).parents('.post-selection').fadeOut(250, function() { $(this).remove(); });
-			$(this).parents('.selection').siblings('.select-posts').removeClass('full');
+			$(this).closest('.post-selection').fadeOut(250, function() { $(this).remove(); });
+			$(this).closest('.selection').siblings('.select-posts').removeClass('full');
+		},
+
+		initialize_row: function( row, uuid, data ) {
+			var container = row.find('.panel-input-posts');
+			if ( container.length < 1 ) {
+				return;
+			}
+
+			container.each( function() {
+				var container = $(this);
+				var name = container.data('name');
+				data = data[name];
+
+				postsField.initialize_tabs(container);
+				postsField.intialize_data(container, data);
+				postsField.initialize_events(container);
+			});
 		}
 	};
 
 
 	var panels_div = $('div.panels');
 	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
-		var row = $(this);
-		var container = row.find('.panel-input-posts');
-		if ( container.length < 1 ) {
-			return;
-		}
-
-		var name = container.data('name');
-		data = data[name];
-
-		postsField.initialize_tabs(container);
-		postsField.intialize_data(container, data);
-		postsField.initialize_events(container);
+		postsField.initialize_row( $(this), uuid, data );
+	});
+	panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
+		postsField.initialize_row( $(this), uuid, data );
 	});
 
 	// TODO: previews for queries
