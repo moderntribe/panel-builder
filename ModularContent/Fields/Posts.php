@@ -147,14 +147,6 @@ class Posts extends Field {
 
 	public static function print_supporting_templates() {
 		?>
-		<script type="text/html" class="template" id="tmpl-field-posts-selectedPost">
-			<div class="post-selection post-id-{{data.post_id}}">
-				<input type="hidden" name="{{data.name}}[post_ids][]" value="{{data.post_id}}" />
-				<a href="#" class="remove icon-remove" title="<?php _e('Remove', 'modular-content'); ?>"></a>
-				<span class="move icon-reorder" title="<?php _e('Move', 'modular-content'); ?>"></span>
-				<span class="post-title">{{{data.title}}}</span>
-			</div>
-		</script>
 		<script type="text/html" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">
 				<a href="#" class="remove-filter icon-remove" title="<?php _e('Delete this filter', 'modular-content'); ?>"></a>

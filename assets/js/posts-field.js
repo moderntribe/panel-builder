@@ -1,6 +1,5 @@
 (function($) {
 	var postsField = {
-		selected_post_template: wp.template('field-posts-selectedPost'),
 		filter_row_template: wp.template('field-posts-filter'),
 		posttype_options_template: wp.template('field-posts-posttype-options'),
 
@@ -67,7 +66,6 @@
 
 		manualSearchQueryParams: function( term, page ) {
 			var row = this.closest('.panel-row');
-			console.log(row);
 			return {
 				action: 'posts-field-posts-search',
 				s: term,
@@ -78,14 +76,6 @@
 
 		manualSearchResults: function( data, page, query ) {
 			return { results: data.posts, more: data.more };
-		},
-
-		selectSearch: function( options ) {
-			// http://ivaynberg.github.io/select2/#doc-query
-			// options.term
-			// options.page
-			// options.callback
-			options.callback([]);
 		},
 
 		initTitle: function( element, callback ) {
@@ -109,64 +99,10 @@
 		initialize_events: function( container ) {
 			container
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
-				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
-				.on( 'keyup', '.search-posts', postsField.enqueue_search_results )
-				.on( 'click', 'a.select-post', postsField.select_post );
-
-			container.find( '.selection' )
-				.sortable({
-					axis: 'y',
-					items: 'div.post-selection',
-					handle: '.move'
-				})
-				.on( 'click', 'a.remove', postsField.deselect_post );
+				.on( 'click', 'a.remove-filter', postsField.remove_filter_row );
 		},
 
 		search_timeout: null,
-		enqueue_search_results: function() {
-			var input = $(this);
-			if ( postsField.search_timeout != null ) {
-				clearTimeout(postsField.search_timeout);
-			}
-			postsField.search_timeout = setTimeout(function() {
-				postsField.fetch_search_results( input );
-			}, 300);
-		},
-
-		fetch_search_results: function( input ) {
-			var results_container = input.closest('.select-posts').find('.search-results');
-			var query = input.val();
-			if ( query == '' ) {
-				results_container.empty();
-				return;
-			}
-
-			var spinner = $('<img class="spinner" src="'+results_container.data('spinner')+'" />');
-			results_container.html(spinner);
-			wp.ajax.send({
-				success: function(data) { postsField.display_search_results(results_container, data) },
-				context: results_container,
-				data: {
-					action: 'posts-field-posts-search',
-					s: query,
-					type: input.closest('.panel-row').find('.panel-type').val()
-				}
-			});
-		},
-
-		display_search_results: function( container, data ) {
-
-			container.empty();
-			if ( data.posts.length < 1 ) {
-				container.html('No posts found'); // TODO: translate
-				return;
-			}
-			var output = $('<ul></ul>');
-			$.each(data.posts, function( index, value ) {
-				output.append($('<li><a href="#" class="select-post icon-plus" title="Add"></a> <input type="hidden" value="'+value.post_id+'" /><span class="post-title">'+value.post_title+'</span></li>'));
-			});
-			container.append(output);
-		},
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
@@ -222,82 +158,6 @@
 			options.select2({width: 'element'});
 
 			options.val(data.selection).trigger('change');
-		},
-
-		select_post: function( e ) {
-			e.preventDefault();
-
-			var li = $(this).parent();
-			var post_id = li.find('input').val();
-			var title = li.find('.post-title').text();
-
-			var selected_container = li.closest('fieldset').find('.selection');
-
-			var limit = selected_container.data('limit');
-			if ( selected_container.find('.post-selection').length >= limit ) {
-				return; // can't add any more
-			}
-
-			var preselected = false;
-			selected_container.find('input').each( function() {
-				if ( $(this).val() == post_id ) {
-					preselected = true;
-					return false; // break out of the loop
-				}
-			});
-			if ( preselected ) {
-				return;
-			}
-
-			var field_name = selected_container.data('field_name');
-			var template = postsField.selected_post_template;
-			var new_item = $(template({
-				name: field_name,
-				post_id: post_id,
-				title: title
-			}));
-			selected_container.append(new_item);
-			postsField.mark_if_full(selected_container);
-		},
-
-		mark_if_full: function( container ) {
-			var limit = container.data('limit');
-			if ( container.find('.post-selection').length >= limit ) {
-				container.siblings('.select-posts').addClass('full');
-			} else {
-				container.siblings('.select-posts').removeClass('full');
-			}
-		},
-
-		fetch_titles: function( container ) {
-			var missing_titles = container.find('option.missing-title');
-			if ( missing_titles.length < 1 ) {
-				return;
-			}
-			var post_ids = [];
-			missing_titles.each(function() {
-				post_ids.push($(this).attr('value'));
-			});
-			wp.ajax.send({
-				data: {
-					action: 'posts-field-fetch-titles',
-					post_ids: post_ids
-				},
-				success: function(data) {
-					missing_titles.each( function() {
-						var post_id = $(this).attr('value');
-						if ( data.post_ids[post_id] ) {
-							$(this).text(data.post_ids[post_id]);
-						}
-					});
-				}
-			});
-		},
-
-		deselect_post: function(e) {
-			e.preventDefault();
-			$(this).closest('.post-selection').fadeOut(250, function() { $(this).remove(); });
-			$(this).closest('.selection').siblings('.select-posts').removeClass('full');
 		},
 
 		initialize_row: function( row, uuid, data ) {
