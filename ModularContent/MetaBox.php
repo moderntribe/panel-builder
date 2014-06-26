@@ -236,7 +236,8 @@ class MetaBox {
 			$post_ids = $_POST['post_ids'];
 		} elseif ( !empty($_POST['filters']) ) {
 			$limit = !empty($_POST['limit']) ? $_POST['limit'] : 5;
-			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $limit);
+			$context = empty($_POST['context']) ? 0 : $_POST['context'];
+			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $limit, $context);
 		}
 		if ( !empty($post_ids) ) {
 			$response['posts'] = Fields\Posts::get_post_data($post_ids);

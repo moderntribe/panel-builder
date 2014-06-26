@@ -267,7 +267,7 @@
 				if ( val && val.length > 0 ) {
 					filters[select.data('filter_type')] = {
 						selection: select.val(),
-						lock: true
+						lock: true,
 					};
 				}
 			});
@@ -281,7 +281,8 @@
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					limit: container.find('.selection').data('limit')
+					limit: container.find('.selection').data('limit'),
+					context: $('input#post_ID').val()
 				},
 				success: function(data) {
 					var preview_div = container.find('.query-preview');

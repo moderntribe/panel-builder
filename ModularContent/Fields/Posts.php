@@ -49,6 +49,7 @@ class Posts extends Field {
 	 * @return array Matching post IDs
 	 */
 	protected function filter_posts( $filters, $fields = 'ids' ) {
+		$context = get_queried_object_id();
 		$ids = self::get_posts_for_filters( $filters, $this->limit );
 		if ( $fields == 'ids' || empty($ids) ) {
 			return $ids;
@@ -166,7 +167,7 @@ class Posts extends Field {
 		return $posts;
 	}
 
-	public static function get_posts_for_filters( $filters, $limit = 10 ) {
+	public static function get_posts_for_filters( $filters, $limit = 10, $context = 0 ) {
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'publish',
@@ -220,7 +221,7 @@ class Posts extends Field {
 			}
 		}
 
-		$query = apply_filters( 'panels_input_query_filter', $query, $filters );
+		$query = apply_filters( 'panels_input_query_filter', $query, $filters, $context );
 
 		$cache = self::get_cache($query);
 		if ( !empty($cache) ) {
