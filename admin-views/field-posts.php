@@ -19,7 +19,10 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 		<legend><?php _e('Select Posts', 'modular-content'); ?></legend>
 		<div class="selection" data-field_name="<?php echo $input_name; ?>" data-limit="<?php echo $limit; ?>">
 			<?php for ( $i = 0 ; $i < $limit ; $i++ ): ?>
-				<div class="selected-post"><input type="hidden" name="<?php echo $input_name; ?>[post_ids][]" data-placeholder="<?php esc_attr_e('Select a Post', 'modular-content'); ?>" /></div>
+				<div class="selected-post">
+					<div class="selected-post-input"><input type="hidden" name="<?php echo $input_name; ?>[post_ids][]" data-placeholder="<?php esc_attr_e('Select a Post', 'modular-content'); ?>" /></div>
+					<div class="selected-post-preview"></div>
+				</div>
 			<?php endfor; ?>
 		</div>
 	</fieldset>

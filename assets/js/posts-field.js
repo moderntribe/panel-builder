@@ -41,7 +41,7 @@
 				container.find('.manual .selection input').each( function( index ) {
 					var input = $(this);
 					if ( data.post_ids[index] !== undefined ) {
-						input.val(data.post_ids[index]).addClass('missing-title');
+						input.val(data.post_ids[index]);
 					}
 				});
 			} else {
@@ -61,6 +61,12 @@
 					results: postsField.manualSearchResults
 				},
 				initSelection: postsField.initTitle
+			});
+			// repeat this loop to allow previews to load after titles
+			container.find('.manual .selection input').each( function( index ) {
+				if ( data.post_ids[index] !== undefined ) {
+					postsField.load_manual_post_preview.call(this);
+				}
 			});
 		},
 
@@ -127,12 +133,67 @@
 			}
 		},
 
+		previews_to_fetch: {},
+
+		preview_queue_timeout: null,
+
+		set_preview_queue_timeout: function() {
+			if ( typeof postsField.preview_queue_timeout == 'number' ) {
+				clearTimeout(postsField.preview_queue_timeout);
+			}
+			postsField.preview_queue_timeout = setTimeout(postsField.fetch_queued_previews, 1000);
+		},
+
+		fetch_queued_previews: function() {
+			var post_ids = [];
+			for ( var post_id in postsField.previews_to_fetch ) {
+				if ( postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
+					post_ids.push(post_id);
+				}
+			}
+			if ( post_ids.length > 0 ) {
+				wp.ajax.send({
+					data: {
+						action: 'posts-field-fetch-preview',
+						post_ids: post_ids
+					},
+					success: function(data) {
+						$.each( data.posts, function ( returned_id, post_data ) {
+							if ( postsField.previews_to_fetch.hasOwnProperty(returned_id) ) {
+								var wrapper = postsField.previews_to_fetch[returned_id];
+								var content = $('<div class="post-excerpt">'+post_data.post_excerpt+'</div>');
+								var thumbnail = $('<div class="post-thumbnail">'+post_data.thumbnail_html+'</div>');
+								wrapper.find('.selected-post-preview').append(thumbnail).append(content);
+								delete postsField.previews_to_fetch[returned_id];
+							}
+						});
+						postsField.set_preview_queue_timeout();
+					}
+				});
+			} else {
+				postsField.set_preview_queue_timeout();
+			}
+		},
+
+		load_manual_post_preview: function() {
+			var field = $(this);
+			var wrapper = field.closest('.selected-post');
+			if ( !field.val() ) {
+				wrapper.find('.selected-post-preview').empty();
+				return;
+			}
+
+			postsField.previews_to_fetch[field.val()] = wrapper;
+		},
+
 		initialize_events: function( container ) {
 			container
+				.on( 'change', '.selected-post input', postsField.load_manual_post_preview )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row );
 
 			postsField.set_title_queue_timeout();
+			postsField.set_preview_queue_timeout();
 		},
 
 		search_timeout: null,

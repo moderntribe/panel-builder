@@ -15,6 +15,7 @@ class MetaBox {
 		add_action( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-titles', array( $this, 'ajax_fetch_titles' ), 10, 0 );
+		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -225,6 +226,25 @@ class MetaBox {
 		$response = array('post_ids' => array());
 		foreach ( $post_ids as $id ) {
 			$response['post_ids'][$id] = get_the_title($id);
+		}
+		wp_send_json_success($response);
+	}
+
+	public function ajax_fetch_preview() {
+		$post_ids = $_POST['post_ids'];
+		$response = array('posts' => array());
+		foreach ( $post_ids as $id ) {
+			$post = get_post($id);
+			$excerpt = $post->post_excerpt;
+			if ( empty($excerpt) ) {
+				$excerpt = $post->post_content;
+			}
+			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
+			$response['posts'][$id] = array(
+				'post_title' => get_the_title($post),
+				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
+				'thumbnail_html' => get_the_post_thumbnail($post->ID, 'thumbnail'),
+			);
 		}
 		wp_send_json_success($response);
 	}
