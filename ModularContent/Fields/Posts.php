@@ -49,85 +49,35 @@ class Posts extends Field {
 	 * @return array Matching post IDs
 	 */
 	protected function filter_posts( $filters, $fields = 'ids' ) {
+		$ids = self::get_posts_for_filters( $filters, $this->limit );
+		if ( $fields == 'ids' || empty($ids) ) {
+			return $ids;
+		}
 		$query = array(
 			'post_type' => 'any',
-			'post_status' => 'publish',
+			'post_status' => 'any',
 			'posts_per_page' => $this->limit,
-			'tax_query' => array(
-				'relation' => 'AND',
-			),
+			'post__in' => $ids,
 			'fields' => $fields,
 			'suppress_filters' => FALSE,
 		);
-		foreach ( $filters as $type => $filter ) {
-			if ( empty($filter['selection']) ) {
-				continue;
-			}
-			if ( $type == 'post_type' ) {
-				if ( !empty($filter['lock']) || !is_post_type_archive() ) {
-					$query['post_type'] = $filter['selection'];
-				} else {
-					$post_type_object = get_queried_object();
-					$query['post_type'] = $post_type_object->name;
-				}
-			} else {
-				$locked = FALSE;
-				if ( !empty($filter['lock']) ) {
-					$locked = TRUE;
-				} elseif ( $type == 'post_tag' ) {
-					if ( !is_tag() ) { $locked = TRUE; }
-				} elseif ( $type == 'category' ) {
-					if ( !is_category() ) { $locked = TRUE; }
-				} elseif ( !is_tax($type) ) {
-					$locked = TRUE;
-				}
-				if ( !$locked ) {
-					$term = get_queried_object();
-				}
-				if ( $locked || !$term ) {
-					$query['tax_query'][] = array(
-						'taxonomy' => $type,
-						'field' => 'id',
-						'terms' => array_map('intval', $filter['selection']),
-						'operator' => 'IN',
-					);
-				} else {
-					$query['tax_query'][] = array(
-						'taxonomy' => $type,
-						'field' => 'id',
-						'terms' => (int)$term->term_id,
-						'operator' => 'IN',
-					);
-				}
-			}
-		}
 
-		$query = apply_filters( 'panels_input_query_filter', $query, $filters, $fields );
-
-		$cache = $this->get_cache($query);
-		if ( !empty($cache) ) {
-			return $cache;
-		}
-
-		$result = get_posts($query);
-		$this->set_cache($query, $result);
-
-		return $result;
+		return get_posts($query);
 	}
 
-	protected function get_cache( $query ) {
-		$cache = get_transient($this->cache_key($query));
+	protected static function get_cache( $query ) {
+		$cache = get_transient(self::cache_key($query));
 		if ( !is_array($cache) ) {
 			return array();
 		}
 		return $cache;
 	}
 
-	protected function set_cache( $query, $value ) {
-		set_transient($this->cache_key($query), $value, self::CACHE_TIMEOUT);
+	protected static function set_cache( $query, $value ) {
+		set_transient(self::cache_key($query), $value, self::CACHE_TIMEOUT);
 	}
 
-	protected function cache_key( $query ) {
+	protected static function cache_key( $query ) {
 		$prefix = 'panel_query_';
 		$key = $prefix.maybe_serialize($query);
 		$hash = md5($key);
@@ -196,5 +146,90 @@ class Posts extends Field {
 			$name = $term->name.$sep.$name;
 		}
 		return $name;
+	}
+
+	public static function get_post_data( $post_ids ) {
+		$posts = array();
+		foreach ( $post_ids as $id ) {
+			$post = get_post($id);
+			$excerpt = $post->post_excerpt;
+			if ( empty($excerpt) ) {
+				$excerpt = $post->post_content;
+			}
+			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
+			$posts[$id] = array(
+				'post_title' => get_the_title($post),
+				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
+				'thumbnail_html' => get_the_post_thumbnail($post->ID, 'thumbnail'),
+			);
+		}
+		return $posts;
+	}
+
+	public static function get_posts_for_filters( $filters, $limit = 10 ) {
+		$query = array(
+			'post_type' => 'any',
+			'post_status' => 'publish',
+			'posts_per_page' => $limit,
+			'tax_query' => array(
+				'relation' => 'AND',
+			),
+			'fields' => 'ids',
+			'suppress_filters' => FALSE,
+		);
+		foreach ( $filters as $type => $filter ) {
+			if ( empty($filter['selection']) ) {
+				continue;
+			}
+			if ( $type == 'post_type' ) {
+				if ( !empty($filter['lock']) || !is_post_type_archive() ) {
+					$query['post_type'] = $filter['selection'];
+				} else {
+					$post_type_object = get_queried_object();
+					$query['post_type'] = $post_type_object->name;
+				}
+			} else {
+				$locked = FALSE;
+				if ( !empty($filter['lock']) ) {
+					$locked = TRUE;
+				} elseif ( $type == 'post_tag' ) {
+					if ( !is_tag() ) { $locked = TRUE; }
+				} elseif ( $type == 'category' ) {
+					if ( !is_category() ) { $locked = TRUE; }
+				} elseif ( !is_tax($type) ) {
+					$locked = TRUE;
+				}
+				if ( !$locked ) {
+					$term = get_queried_object();
+				}
+				if ( $locked || !$term ) {
+					$query['tax_query'][] = array(
+						'taxonomy' => $type,
+						'field' => 'id',
+						'terms' => array_map('intval', $filter['selection']),
+						'operator' => 'IN',
+					);
+				} else {
+					$query['tax_query'][] = array(
+						'taxonomy' => $type,
+						'field' => 'id',
+						'terms' => (int)$term->term_id,
+						'operator' => 'IN',
+					);
+				}
+			}
+		}
+
+		$query = apply_filters( 'panels_input_query_filter', $query, $filters );
+
+		$cache = self::get_cache($query);
+		if ( !empty($cache) ) {
+			return $cache;
+		}
+
+		$result = get_posts($query);
+		self::set_cache($query, $result);
+
+		return $result;
 	}
 } 

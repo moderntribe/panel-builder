@@ -231,20 +231,15 @@ class MetaBox {
 	}
 
 	public function ajax_fetch_preview() {
-		$post_ids = $_POST['post_ids'];
 		$response = array('posts' => array());
-		foreach ( $post_ids as $id ) {
-			$post = get_post($id);
-			$excerpt = $post->post_excerpt;
-			if ( empty($excerpt) ) {
-				$excerpt = $post->post_content;
-			}
-			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
-			$response['posts'][$id] = array(
-				'post_title' => get_the_title($post),
-				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
-				'thumbnail_html' => get_the_post_thumbnail($post->ID, 'thumbnail'),
-			);
+		if ( !empty($_POST['post_ids']) ) {
+			$post_ids = $_POST['post_ids'];
+		} elseif ( !empty($_POST['filters']) ) {
+			$limit = !empty($_POST['limit']) ? $_POST['limit'] : 5;
+			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $limit);
+		}
+		if ( !empty($post_ids) ) {
+			$response['posts'] = Fields\Posts::get_post_data($post_ids);
 		}
 		wp_send_json_success($response);
 	}

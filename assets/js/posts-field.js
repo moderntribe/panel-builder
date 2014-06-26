@@ -48,6 +48,7 @@
 				$.each(data.filters, function( index, filter ) {
 					postsField.add_filter_row( container, index, filter );
 				});
+				postsField.preview_query.call(container);
 			}
 
 			container.find('.manual .selection input').select2({
@@ -190,7 +191,8 @@
 			container
 				.on( 'change', '.selected-post input', postsField.load_manual_post_preview )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
-				.on( 'click', 'a.remove-filter', postsField.remove_filter_row );
+				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
+				.on( 'change', '.filter-options select', postsField.preview_query );
 
 			postsField.set_title_queue_timeout();
 			postsField.set_preview_queue_timeout();
@@ -200,7 +202,9 @@
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
+			var container = $(this).closest('.panel-row');
 			$(this).parent().fadeOut( 500, function() { $(this).remove(); } );
+			postsField.preview_query.call(container);
 		},
 
 		add_filter_row_event: function( e ) {
@@ -252,6 +256,46 @@
 			options.select2({width: 'element'});
 
 			options.val(data.selection).trigger('change');
+		},
+
+		preview_query: function() {
+			var container = $(this).closest('.panel-row');
+			var filters = {};
+			container.find('.panel-filter-row').each( function() {
+				var select = $(this).find('select');
+				var val = select.val();
+				if ( val && val.length > 0 ) {
+					filters[select.data('filter_type')] = {
+						selection: select.val(),
+						lock: true
+					};
+				}
+			});
+			if ( filters.length < 1 ) {
+				container.find('.query-preview').empty();
+				return;
+			}
+
+
+			wp.ajax.send({
+				data: {
+					action: 'posts-field-fetch-preview',
+					filters: filters,
+					limit: container.find('.selection').data('limit')
+				},
+				success: function(data) {
+					var preview_div = container.find('.query-preview');
+					preview_div.empty();
+					$.each( data.posts, function ( returned_id, post_data ) {
+						var title = $('<div class="post-title">'+post_data.post_title+'</div>');
+						var content = $('<div class="post-excerpt">'+post_data.post_excerpt+'</div>');
+						var thumbnail = $('<div class="post-thumbnail">'+post_data.thumbnail_html+'</div>');
+						var preview = $('<div class="post-preview"></div>');
+						preview.append(title).append(thumbnail).append(content);
+						preview_div.append(preview);
+					});
+				}
+			});
 		},
 
 		initialize_row: function( row, uuid, data ) {

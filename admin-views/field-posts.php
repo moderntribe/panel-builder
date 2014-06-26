@@ -43,7 +43,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 			<div class="query-filters">
 			</div>
 		</div>
-		<div class="preview">
+		<div class="query-preview">
 
 		</div>
 	</fieldset>
