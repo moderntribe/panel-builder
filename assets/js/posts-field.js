@@ -325,6 +325,4 @@
 		postsField.initialize_row( $(this), uuid, data );
 	});
 
-	// TODO: previews for queries
-
 })(jQuery);
