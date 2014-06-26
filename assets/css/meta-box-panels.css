@@ -212,7 +212,20 @@
 	-webkit-box-sizing: border-box;
 	overflow: auto;
 }
-.panel-input-posts .selection,
+.panel-input-posts .selection {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 100%;
+}
+
+.panel-input-posts .selection .selected-post {
+	width: 100%;
+	padding: 0.5em 0 1em;
+}
+.panel-input-posts .selection .selected-post .select2-container {
+	width: 100%;
+}
 .panel-input-posts .preview {
 	padding-left: 1em;
 	height: 100%;

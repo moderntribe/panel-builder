@@ -39,20 +39,71 @@
 		intialize_data: function ( container, data ) {
 			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
 			if ( data.type == 'manual' ) {
-				$.each(data.post_ids, function( index, post_id ) {
-					var template = postsField.selected_post_template;
-					container.find('.manual .selection').append($(template({
-						post_id: post_id,
-						name: container.find('.posts-group-name').val(),
-						title: '<span class="missing-post-title" data-post_id="'+post_id+'"></span>'
-					})));
+				container.find('.manual .selection input').each( function( index ) {
+					var input = $(this);
+					if ( data.post_ids[index] !== undefined ) {
+						input.val(data.post_ids[index]).addClass('missing-title');
+					}
 				});
-				postsField.fetch_titles( container );
 			} else {
 				$.each(data.filters, function( index, filter ) {
 					postsField.add_filter_row( container, index, filter );
 				});
 			}
+
+			container.find('.manual .selection input').select2({
+				minimumInputLength: 2,
+				allowClear: true,
+				ajax: {
+					url: ajaxurl,
+					dataType: 'json',
+					quiteMillis: 200,
+					data: postsField.manualSearchQueryParams,
+					results: postsField.manualSearchResults
+				},
+				initSelection: postsField.initTitle
+			});
+		},
+
+		manualSearchQueryParams: function( term, page ) {
+			var row = this.closest('.panel-row');
+			console.log(row);
+			return {
+				action: 'posts-field-posts-search',
+				s: term,
+				type: row.find('.panel-type:input').val(),
+				paged: page
+			};
+		},
+
+		manualSearchResults: function( data, page, query ) {
+			return { results: data.posts, more: data.more };
+		},
+
+		selectSearch: function( options ) {
+			// http://ivaynberg.github.io/select2/#doc-query
+			// options.term
+			// options.page
+			// options.callback
+			options.callback([]);
+		},
+
+		initTitle: function( element, callback ) {
+			var post_id = element.val();
+			if ( !post_id ) {
+				callback({id: '', text: ''});
+				return;
+			}
+			wp.ajax.send({
+				data: {
+					action: 'posts-field-fetch-titles',
+					post_ids: [post_id]
+				},
+				success: function(data) {
+					var title = data.post_ids[post_id];
+					callback( { id: post_id, text: title } );
+				}
+			});
 		},
 
 		initialize_events: function( container ) {
@@ -219,13 +270,13 @@
 		},
 
 		fetch_titles: function( container ) {
-			var missing_titles = container.find('.post-selection .missing-post-title');
+			var missing_titles = container.find('option.missing-title');
 			if ( missing_titles.length < 1 ) {
 				return;
 			}
 			var post_ids = [];
 			missing_titles.each(function() {
-				post_ids.push($(this).data('post_id'));
+				post_ids.push($(this).attr('value'));
 			});
 			wp.ajax.send({
 				data: {
@@ -234,9 +285,9 @@
 				},
 				success: function(data) {
 					missing_titles.each( function() {
-						var post_id = $(this).data('post_id');
+						var post_id = $(this).attr('value');
 						if ( data.post_ids[post_id] ) {
-							$(this).replaceWith(data.post_ids[post_id]);
+							$(this).text(data.post_ids[post_id]);
 						}
 					});
 				}

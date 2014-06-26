@@ -176,28 +176,48 @@ class MetaBox {
 	public function get_post_field_search_results() {
 		$response = array(
 			'posts' => array(),
+			'more' => false,
 		);
 
-		if ( !empty($_POST['s']) ) {
-			$args = array(
-				'post_type'      => apply_filters( 'panel_input_query_post_types', 'any', $_POST['type'] ),
-				'post_status'    => 'publish',
-				's'              => $_POST['s'],
-				'posts_per_page' => 50,
-			);
+		$request = wp_parse_args( $_REQUEST, array(
+			's' => '',
+			'type' => '',
+			'paged' => 1,
+		));
 
-			$args  = apply_filters( 'panel_input_manual_query', $args, $_POST['type'] );
-			$posts = get_posts( $args );
+		if ( !empty($request['s']) ) {
+			$args = array(
+				'post_type' => apply_filters( 'panel_input_query_post_types', 'any', $request['type'] ),
+				'post_status' => 'publish',
+				's' => $request['s'],
+				'posts_per_page' => 50,
+				'suppress_filters' => true
+			);
+			if ( !empty($request['paged']) ) {
+				$offset = $request['paged'] - 1;
+				$offset = $offset * 50;
+				if ( $offset > 0 ) {
+					$args['offset'] = $offset;
+				}
+			}
+
+			$args  = apply_filters( 'panel_input_manual_query', $args, $request['type'] );
+			$query = new \WP_Query();
+			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
 				$response['posts'][] = array(
-					'post_id' => $post->ID,
-					'post_title' => esc_html(get_the_title($post)),
+					'id' => $post->ID,
+					'text' => esc_html(get_the_title($post)),
 				);
+			}
+
+			if ( $query->max_num_pages > $request['paged'] ) {
+				$response['more'] = TRUE;
 			}
 		}
 
-		wp_send_json_success($response); // exits
+		wp_send_json($response); // exits
 	}
 
 	public function ajax_fetch_titles() {

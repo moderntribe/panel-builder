@@ -16,15 +16,11 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 	<input type="hidden" class="posts-group-name" value="<?php echo $input_name ?>" />
 	<input type="hidden" name="<?php echo $input_name ?>[type]" class="query-type" value="{{<?php echo $input_value; ?>.type}}" />
 	<fieldset class="manual" id="<?php echo $id_string;?>-manual">
-		<legend><?php _e('Manual', 'modular-content'); ?></legend>
-		<div class="select-posts">
-			<input class="search-posts" type="text" placeholder="<?php _e('Search posts', 'modular-content'); ?>" size="20" />
-			<div class="search-results" data-spinner="<?php echo esc_url(admin_url('images/wpspin_light.gif')); ?>">
-
-			</div>
-		</div>
+		<legend><?php _e('Select Posts', 'modular-content'); ?></legend>
 		<div class="selection" data-field_name="<?php echo $input_name; ?>" data-limit="<?php echo $limit; ?>">
-
+			<?php for ( $i = 0 ; $i < $limit ; $i++ ): ?>
+				<div class="selected-post"><input type="hidden" name="<?php echo $input_name; ?>[post_ids][]" data-placeholder="<?php esc_attr_e('Select a Post', 'modular-content'); ?>" /></div>
+			<?php endfor; ?>
 		</div>
 	</fieldset>
 	<fieldset class="query" id="<?php echo $id_string;?>-query">
