@@ -50,7 +50,7 @@ class Posts extends Field {
 	 */
 	protected function filter_posts( $filters, $fields = 'ids' ) {
 		$context = get_queried_object_id();
-		$ids = self::get_posts_for_filters( $filters, $this->limit );
+		$ids = self::get_posts_for_filters( $filters, $this->limit, $context );
 		if ( $fields == 'ids' || empty($ids) ) {
 			return $ids;
 		}
