@@ -287,7 +287,8 @@
 				success: function(data) {
 					var preview_div = container.find('.query-preview');
 					preview_div.empty();
-					$.each( data.posts, function ( returned_id, post_data ) {
+					$.each( data.post_ids, function ( index, post_id ) {
+						var post_data = data.posts[post_id];
 						var title = $('<div class="post-title">'+post_data.post_title+'</div>');
 						var content = $('<div class="post-excerpt">'+post_data.post_excerpt+'</div>');
 						var thumbnail = $('<div class="post-thumbnail">'+post_data.thumbnail_html+'</div>');

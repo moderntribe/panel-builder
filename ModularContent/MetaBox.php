@@ -240,6 +240,7 @@ class MetaBox {
 			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $limit, $context);
 		}
 		if ( !empty($post_ids) ) {
+			$response['post_ids'] = $post_ids;
 			$response['posts'] = Fields\Posts::get_post_data($post_ids);
 		}
 		wp_send_json_success($response);

@@ -224,7 +224,7 @@ class Posts extends Field {
 		$query = apply_filters( 'panels_input_query_filter', $query, $filters, $context );
 
 		$cache = self::get_cache($query);
-		if ( !empty($cache) ) {
+		if ( FALSE && !empty($cache) ) {
 			return $cache;
 		}
 
