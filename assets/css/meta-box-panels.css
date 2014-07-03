@@ -172,6 +172,27 @@
 	padding: 0.5em 1.5em;
 }
 
+.panel-row-editor fieldset.input-type-link {
+	border: none;
+	padding: 0;
+	overflow: hidden;
+}
+.panel-row-editor fieldset.input-type-link .panel-input-field {
+	float: left;
+	width: 33%;
+	padding-right: 2em;
+	min-width: 200px;
+	margin-bottom: 1em;
+}
+.panel-row-editor fieldset.input-type-link .link-field-target {
+	padding-right: 0;
+	width: auto;
+	min-width: 0;
+}
+
+.panel-row-editor .input-type-video {
+	overflow: hidden;
+}
 .panel-row-editor .input-type-video .panel-input-field {
 	width: 50%;
 	float: left;

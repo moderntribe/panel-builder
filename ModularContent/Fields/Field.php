@@ -137,8 +137,12 @@ abstract class Field {
 		return $name;
 	}
 
-	protected function get_input_value() {
-		return sprintf("{{data.fields.%s}}", $this->name);
+	protected function get_input_value( $component = '' ) {
+		$name = $this->name;
+		if ( !empty($component) ) {
+			$name .= '.'.$component;
+		}
+		return sprintf("{{data.fields.%s}}", $name);
 	}
 
 	protected function esc_class( $class ) {
