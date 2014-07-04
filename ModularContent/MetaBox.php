@@ -184,11 +184,12 @@ class MetaBox {
 			's' => '',
 			'type' => '',
 			'paged' => 1,
+			'post_type' => 'any',
 		));
 
-		if ( !empty($request['s']) ) {
+		if ( !empty($request['s']) || !empty($request['post_type']) ) {
 			$args = array(
-				'post_type' => apply_filters( 'panel_input_query_post_types', 'any', $request['type'] ),
+				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
 				'post_status' => 'publish',
 				's' => $request['s'],
 				'posts_per_page' => 50,
@@ -231,13 +232,13 @@ class MetaBox {
 	}
 
 	public function ajax_fetch_preview() {
-		$response = array('posts' => array());
+		$response = array('posts' => array(), 'post_ids' => array());
 		if ( !empty($_POST['post_ids']) ) {
 			$post_ids = $_POST['post_ids'];
 		} elseif ( !empty($_POST['filters']) ) {
-			$limit = !empty($_POST['limit']) ? $_POST['limit'] : 5;
+			$max = !empty($_POST['max']) ? $_POST['max'] : 12;
 			$context = empty($_POST['context']) ? 0 : $_POST['context'];
-			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $limit, $context);
+			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $max, $context);
 		}
 		if ( !empty($post_ids) ) {
 			$response['post_ids'] = $post_ids;

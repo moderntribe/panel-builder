@@ -5,18 +5,44 @@ namespace ModularContent\Fields;
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
 
-	protected $limit = 5;
+	protected $max = 12;
+	protected $min = 0;
+	protected $suggested = 0;
 	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
-	public function __construct( $args = array() ){
-		$this->defaults['limit'] = $this->limit;
+
+	public function __construct( $args = array() ) {
+		$this->defaults['max'] = $this->max;
+		$this->defaults['min'] = $this->min;
+		$this->defaults['suggested'] = $this->suggested;
 		parent::__construct($args);
+		if ( empty($this->max) ) {
+			$this->max = max(12, $this->min);
+		}
+		if ( $this->min > $this->max ) {
+			$this->min = $this->max;
+		}
+		if ( $this->suggested > $this->max ) {
+			$this->suggested = $this->max;
+		}
+
+	}
+
+	protected function render_label() {
+		// Posts fields don't get to have labels
+	}
+
+	protected function render_description() {
+		// Description is rendered inside the field
 	}
 
 	public function render_field() {
 		$taxonomies = $this->taxonomy_options();
 		$input_name = $this->get_input_name();
 		$input_value = sprintf("data.fields.%s", $this->name);
-		$limit = (int)$this->limit;
+		$max = (int)$this->max;
+		$min = (int)$this->min;
+		$suggested = (int)$this->suggested;
+		$description = $this->description;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/js/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
@@ -50,14 +76,14 @@ class Posts extends Field {
 	 */
 	protected function filter_posts( $filters, $fields = 'ids' ) {
 		$context = get_queried_object_id();
-		$ids = self::get_posts_for_filters( $filters, $this->limit, $context );
+		$ids = self::get_posts_for_filters( $filters, $this->max, $context );
 		if ( $fields == 'ids' || empty($ids) ) {
 			return $ids;
 		}
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'any',
-			'posts_per_page' => $this->limit,
+			'posts_per_page' => $this->max,
 			'post__in' => $ids,
 			'fields' => $fields,
 			'suppress_filters' => FALSE,
@@ -85,15 +111,15 @@ class Posts extends Field {
 		return $hash;
 	}
 
-	protected static function taxonomy_options() {
+	public static function taxonomy_options() {
 		return apply_filters('modular_content_posts_field_taxonomy_options', array('post_tag'));
 	}
 
-	protected static function post_type_options() {
+	public function post_type_options() {
 		$post_types = get_post_types(array('has_archive' => TRUE, 'public' => TRUE), 'objects', 'and');
 		$post_types['post'] = get_post_type_object('post'); // posts are special
 		unset($post_types['landing_page']); // because, really, why would you?
-		return apply_filters('panels_query_post_type_options', $post_types);
+		return apply_filters('panels_query_post_type_options', $post_types, $this );
 	}
 
 	public static function print_supporting_templates() {
@@ -105,13 +131,6 @@ class Posts extends Field {
 				<span class="filter-options"></span>
 				<!--<label class="filter-lock" title="<?php _e('Unlock to override with current context', 'modular-content'); ?>"><span class="wrapper">--><input type="hidden" name="{{data.name}}[filters][{{data.type}}][lock]" value="1" /><!-- <?php _e('Lock Selection', 'modular-content'); ?></span></label>-->
 			</div>
-		</script>
-		<script type="text/html" class="template" id="tmpl-field-posts-posttype-options">
-			<select name="{{data.name}}[filters][post_type][selection][]" class="post-type-select" multiple="multiple" data-placeholder="<?php _e('Select Post Types', 'modular-content'); ?>" data-filter_type="post_type">
-				<?php foreach ( self::post_type_options() as $post_type ): ?>
-					<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>'
-				<?php endforeach; ?>
-			</select>
 		</script>
 		<?php
 
@@ -167,11 +186,11 @@ class Posts extends Field {
 		return $posts;
 	}
 
-	public static function get_posts_for_filters( $filters, $limit = 10, $context = 0 ) {
+	public static function get_posts_for_filters( $filters, $max = 10, $context = 0 ) {
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'publish',
-			'posts_per_page' => $limit,
+			'posts_per_page' => $max,
 			'tax_query' => array(
 				'relation' => 'AND',
 			),
