@@ -34,7 +34,7 @@ class MetaBox {
 
 	protected function enqueue_scripts() {
 		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util' ), FALSE, TRUE );
-		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/css/meta-box-panels.css'), array( 'font-awesome' ) );
+		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/css/meta-box-panels.css'), array( 'font-awesome', 'jquery-ui' ) );
 	}
 
 	/**

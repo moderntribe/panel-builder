@@ -435,3 +435,18 @@
 	font-size: 125%;
 	vertical-align: middle;
 }
+
+.ui-widget {
+	font-family: inherit;
+	font-size: 100%;
+}
+.ui-widget .ui-widget {
+	font-size: 1em;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-family: inherit;
+	font-size: 1em;
+}

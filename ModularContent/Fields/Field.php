@@ -44,7 +44,7 @@ abstract class Field {
 	}
 
 	protected function sanitize_name() {
-		$this->name = preg_replace('/[^\w]/', '_', $this->name);
+		$this->name = preg_replace('/[^\w\.]/', '_', $this->name);
 	}
 
 	public function render() {

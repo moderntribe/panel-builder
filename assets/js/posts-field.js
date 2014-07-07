@@ -9,7 +9,7 @@
 		update_active_tab: function( event, ui ) {
 			var fieldset = $(ui.newPanel).find('fieldset');
 			var container = fieldset.closest('.panel-input-posts');
-			var type = fieldset.hasClass('manual')?'manual':'query';
+			var type = fieldset.data('type');
 			var input = container.find('input.query-type');
 			input.val(type);
 			postsField.update_post_type_select( container );
@@ -32,13 +32,13 @@
 		},
 
 		initialize_tabs: function ( container ) {
-			var fieldsets = container.find('fieldset');
+			var fieldsets = container.children('fieldset');
 			var navigation = $('<ul></ul>');
 			var type = container.find('input.query-type').val();
 			var active_tab_index = 0;
 			fieldsets.each( function(index) {
 				var id = $(this).attr('id')+'-wrapper';
-				var legend = $(this).find('legend');
+				var legend = $(this).children('legend');
 				if ( $(this).hasClass(type) ) {
 					active_tab_index = index;
 				}

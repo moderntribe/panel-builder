@@ -19,7 +19,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 <div class="panel-input-group panel-input-posts" id="<?php echo $id_string; ?>" data-name="<?php esc_attr_e($this->name); ?>" data-max="<?php echo $max; ?>" data-min="<?php echo $min; ?>" data-suggested="<?php echo $suggested; ?>">
 	<input type="hidden" class="posts-group-name" value="<?php echo $input_name ?>" />
 	<input type="hidden" name="<?php echo $input_name ?>[type]" class="query-type" value="{{<?php echo $input_value; ?>.type}}" />
-	<fieldset class="manual" id="<?php echo $id_string;?>-manual">
+	<fieldset class="manual" id="<?php echo $id_string;?>-manual" data-type="manual">
 		<legend><?php _e('Manual', 'modular-content'); ?></legend>
 		<div class="search-controls">
 			<div class="filter-post_type-container"></div>
@@ -43,7 +43,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 			<?php endfor; ?>
 		</div>
 	</fieldset>
-	<fieldset class="query" id="<?php echo $id_string;?>-query">
+	<fieldset class="query" id="<?php echo $id_string;?>-query" data-type="query">
 		<legend><?php _e('Dynamic', 'modular-content'); ?></legend>
 		<div class="filter-post_type-container">
 			<div class="panel-filter-row filter-post_type">

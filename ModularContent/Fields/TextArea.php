@@ -11,6 +11,11 @@ class TextArea extends Field {
 		$this->defaults['richtext'] = $this->richtext;
 		parent::__construct($args);
 		$this->index = self::$global_index++;
+
+		// slight chance that this ends up with a harmless enqueued style, but no
+		// better place to put it to ensure that WP doesn't print the styles in
+		// the middle of a JS template
+		add_action( 'before_panel_meta_box', array( __CLASS__, 'enqueue_styles' ) );
 	}
 
 
@@ -31,6 +36,10 @@ class TextArea extends Field {
 		} else {
 			printf('<span class="panel-input-field"><textarea name="%s" rows="6" cols="40">%s</textarea></span>', $this->get_input_name(), $this->get_input_value() );
 		}
+	}
+
+	public static function enqueue_styles() {
+		wp_print_styles('editor-buttons');
 	}
 
 	public function render_tinymce_initilizaton_script( $settings ) {
