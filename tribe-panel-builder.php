@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Modular Content
+Plugin Name: Tribe Panel Builder
 Plugin URI: http://tri.be
 Description: A framework for building modular content components
 Author: Modern Tribe, Inc.
 Author URI: http://tri.be
 Contributors: jbrinley
-Version: 1.0
+Version: 2.0
 */
 
 
