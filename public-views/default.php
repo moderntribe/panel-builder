@@ -8,6 +8,7 @@
 
 $title = get_panel_var('title');
 $panel = get_the_panel();
+$children = $panel->get_children();
 ?>
 <div class="panel panel-<?php echo $panel->get_type_object(); ?>" data-depth="<?php echo $panel->get_depth(); ?>">
 	<?php if ( $title ): ?>
@@ -21,4 +22,12 @@ $panel = get_the_panel();
 			<dd><pre><?php esc_html_e(print_r($value, TRUE)); ?></pre></dd>
 		<?php endforeach; ?>
 	</dl>
+
+	<?php if ( $children ): ?>
+		<div class="panel-children">
+			<?php foreach ( $children as $child ): ?>
+				<?php echo $child->render(); ?>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 </div>

@@ -15,6 +15,8 @@ class Panel implements \JsonSerializable {
 	private $depth = 0;
 	private $data = array();
 	private $template_vars = NULL;
+	/** @var Panel[] */
+	private $children = array();
 
 	public function __construct( PanelType $type, $data = array(), $depth = 0 ) {
 		$this->type = $type;
@@ -47,6 +49,18 @@ class Panel implements \JsonSerializable {
 
 	public function get_depth() {
 		return $this->depth;
+	}
+
+	public function add_child( Panel $child ) {
+		if ( $this->type->get_max_children() > count($this->children) ) {
+			$this->children[] = $child;
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	public function get_children() {
+		return $this->children;
 	}
 
 	public function jsonSerialize() {
