@@ -392,10 +392,10 @@
 			container.each( function() {
 				var container = $(this);
 				var name = container.data('name');
-				data = data[name];
+				var local_data = data[name];
 
 				postsField.initialize_tabs(container);
-				postsField.intialize_data(container, data);
+				postsField.intialize_data(container, local_data);
 				postsField.initialize_events(container);
 			});
 		}
