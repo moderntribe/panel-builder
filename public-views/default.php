@@ -7,8 +7,9 @@
  */
 
 $title = get_panel_var('title');
+$panel = get_the_panel();
 ?>
-<div class="panel">
+<div class="panel panel-<?php echo $panel->get_type_object(); ?>" data-depth="<?php echo $panel->get_depth(); ?>">
 	<?php if ( $title ): ?>
 		<h3><?php echo $title; ?></h3>
 	<?php endif; ?>
