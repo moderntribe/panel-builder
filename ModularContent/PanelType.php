@@ -39,6 +39,12 @@ class PanelType {
 	/** @var int */
 	protected $max_children = 0;
 
+	/** @var string */
+	protected $child_label_singular = '';
+
+	/** @var string */
+	protected $child_label_plural = '';
+
 	public function __construct( $id ) {
 		$this->id = $id;
 		$default_fields = array();
@@ -51,6 +57,7 @@ class PanelType {
 		}
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
+		call_user_func_array( array($this, 'set_child_labels'), apply_filters( 'modular_content_default_child_labels', array( 'singular' => Plugin::instance()->get_label(), 'plural' => Plugin::instance()->get_label('plural') ) ) );
 	}
 
 	public function __get( $name ) {
@@ -155,6 +162,15 @@ class PanelType {
 
 	public function get_max_children() {
 		return $this->max_children;
+	}
+
+	public function set_child_labels( $singular, $plural ) {
+		$this->child_label_singular = $singular;
+		$this->child_label_plural = $plural;
+	}
+
+	public function get_child_label( $quantity = 'singular' ) {
+		return ( $quantity == 'plural' ) ? $this->child_label_plural : $this->child_label_singular;
 	}
 
 	public function get_admin_template() {
