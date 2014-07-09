@@ -1,13 +1,13 @@
-h1. Panel Builder
+# Panel Builder
 
 A Panel is a completely self-contained piece of content defined by the theme.
 It has its own template and its own data. The theme defines what fields it
 will have in the admin, and the theme controls how those fields will display
 on the front end.
 
-h2. Usage
+## Usage
 
-h3. Defining Panels
+### Defining Panels
 
 Before any panels can be used, you need to define them. First, hook into `panels_init`:
 
@@ -43,7 +43,7 @@ match the ID you gave to your `PanelType` (`type-one.php` for the above `PanelTy
 If you want additional fields included on all `PanelType`s, use the `modular_content_default_fields`
 filter.
 
-h3. Nested Panels
+### Nested Panels
 
 Panels can be nested. For example, you may want to build a slider or an accordion, with a different
 `Panel` for each slide. When you define your `PanelType`s, you can specify how they can be nested.
@@ -64,7 +64,7 @@ $panel->set_max_children(6);
 $panel->set_child_labels( 'Tab', 'Tabs' );
 ```
 
-h3. Adding panels to post types
+### Adding panels to post types
 
 By default, panels will be available on the `post` post type. You can change this during `panel_init`.
 
@@ -74,7 +74,7 @@ add_post_type_support('page', 'modular-content');
 add_post_type_support('product', 'modular-content');
 ```
 
-h3. Fields
+### Fields
 
 The plugin comes with a number of pre-defined `Field` types, which can be added to panels in any combination.
 You can find the complete collection of fields in the plugin's `ModularContent\Fields` directory.
@@ -87,7 +87,7 @@ template to reference the `Panel`'s data.
 * `description`: Descriptive text to accompany the field in the admin
 * `default`: The default value of the field when a `Panel` is first created
 
-h4. `Text`
+#### `Text`
 
 This is a standard text field.
 
@@ -95,7 +95,7 @@ This is a standard text field.
 $panel->add_field( new \ModularContent\Fields\Text( array( 'name' => 'my_text_field', 'label' => 'A Text Field' ) ) );
 ```
 
-h4. `TextArea`
+#### `TextArea`
 
 This is a standard textarea, with an optional `richtext` flag to enable WordPress's visual editor.
 
@@ -103,7 +103,7 @@ This is a standard textarea, with an optional `richtext` flag to enable WordPres
 $panel->add_field( new \ModularContent\Fields\TextArea( array( 'name' => 'my_textarea', 'label' => 'A Textarea Field', 'richtext' => true ) ) );
 ```
 
-h4. `Group`
+#### `Group`
 
 Fields can be grouped together visually using a `Group`.
 
@@ -114,7 +114,7 @@ $group->add_field( new \ModularContent\Fields\TextArea( array('label' => 'Conten
 $panel->add_field( $group );
 ```
 
-h4. `Repeater`
+#### `Repeater`
 
 A `Repeater` is a special kind of `Group`. It provides controls to add or remove instances of the group.
 It can have one or more fields.
@@ -126,7 +126,7 @@ $group->add_field( new \ModularContent\Fields\TextArea( array('label' => 'Conten
 $panel->add_field( $group );
 ```
 
-h4. `Posts`
+#### `Posts`
 
 The user can pick an arbitrary number of posts, or define a query that will dynamically update
 the list of posts from your site's content.
@@ -135,7 +135,7 @@ the list of posts from your site's content.
 $module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'description' => 'Select 3-12 posts' ) ) );
 ```
 
-h4. `PostQuacker`
+#### `PostQuacker`
 
 It looks like a post. It has a title and content like a post. It must be a post.
 
@@ -145,9 +145,9 @@ This allows the user to either pick a post or enter post-like content (title, co
 $panel->add_field( new \ModularContent\Fields\PostQuacker( array( 'name' => 'like-a-post', 'label' => 'A Post' ) ) );
 ```
 
-h2. Theming
+## Theming
 
-h3. Adding panels into your post templates
+### Adding panels into your post templates
 
 Any panels assigned to a post will automatically render after the content. Chance are, you'll want
 to override this, so we make that easy:
@@ -172,7 +172,7 @@ while ( have_panels() ) {
 }
 ```
 
-h3. `PanelType` templates
+### `PanelType` templates
 
 Each `PanelType` is registered with a unique ID, and its template should match that ID. For example,
 if your panel ID is `my-awesome-panel`, then the template file should be `my-awesome-panel.php`.
