@@ -161,12 +161,16 @@ class MetaBox {
 			wp_send_json_error(array('message' => 'invalid_url')); // exits
 		}
 
-		$thumbnailer = new OEmbedThumbnailer( $url, array('width' => 100, 'height' => 100) );
-		$image = $thumbnailer->get_thumbnail();
+		$oembed = new OEmbedder( $url, array('width' => 100, 'height' => 100) );
+		$title = $oembed->get_title();
+		$image = $oembed->get_thumbnail();
 
 		$preview = '';
+		if ( $title ) {
+			$preview .= sprintf( '<h5 class="oembed-title">%s</h5>', $title );
+		}
 		if ( $image ) {
-			$preview = sprintf('<img src="%s" />', $image);
+			$preview .= sprintf('<img src="%s" class="oembed-thumbnail" />', $image);
 		}
 		if ( $preview ) {
 			wp_send_json_success(array('url' => $url, 'preview' => $preview));

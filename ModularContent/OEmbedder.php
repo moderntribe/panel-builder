@@ -4,10 +4,11 @@
 namespace ModularContent;
 
 
-class OEmbedThumbnailer {
+class OEmbedder {
 	private $url = '';
 	private $args = array();
 	private $providers = array();
+	private $data = NULL;
 
 	public function __construct( $url, $args ) {
 		$this->url = $url;
@@ -18,28 +19,73 @@ class OEmbedThumbnailer {
 	}
 
 	public function get_thumbnail() {
+		return $this->get_field('thumbnail_url');
+	}
+
+	public function get_thumbnail_width() {
+		return $this->get_field('thumbnail_width');
+	}
+
+	public function get_thumbnail_height() {
+		return $this->get_field('thumbnail_height');
+	}
+
+	public function get_html() {
+		return $this->get_field('html');
+	}
+
+	public function get_height() {
+		return $this->get_field('height');
+	}
+
+	public function get_width() {
+		return $this->get_field('width');
+	}
+
+	public function get_title() {
+		return $this->get_field('title');
+	}
+
+	public function get_url() {
+		return $this->url;
+	}
+
+	public function get_field( $field_name ) {
+		$data = $this->get_oembed_data();
+		if ( isset($data->$field_name) ) {
+			return $data->$field_name;
+		}
+		return '';
+	}
+
+	public function get_oembed_data() {
 		$cached = $this->get_cache();
 		if ( $cached ) {
 			return $cached;
 		}
 		$provider = $this->get_provider();
 		if ( !$provider ) {
-			return '';
+			return new \stdClass();
 		}
 		$oembed = _wp_oembed_get_object();
 		$data = $oembed->fetch( $provider, $this->url, $this->args );
-
-		$thumbnail = $data->thumbnail_url;
-		$this->set_cache($thumbnail);
-		return $thumbnail;
+		if ( !$data ) {
+			$data = new \stdClass();
+		}
+		$this->set_cache( $data );
+		return $data;
 	}
 
 	protected function get_cache() {
+		if ( isset($this->data) ) {
+			return $this->data;
+		}
 		return wp_cache_get( $this->cache_key(), 'oembed_thumb' );
 	}
 
 	protected function set_cache( $value ) {
 		wp_cache_set( $this->cache_key(), $value, 'oembed_thumb', WEEK_IN_SECONDS );
+		$this->data = $value;
 	}
 
 	protected function cache_key() {
