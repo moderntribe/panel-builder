@@ -30,7 +30,7 @@ class PanelRenderer {
 			// put the loop back where we found it
 			$loop->set_the_panel();
 		}
-		return $output;
+		return $this->wrap($output);
 	}
 
 	/**
