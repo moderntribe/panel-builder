@@ -29,7 +29,7 @@ class Repeater extends Group {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s" data-name="%s">', $this->esc_class($this->name), esc_attr($this->name));
+		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s">', $this->esc_class($this->name), esc_attr($this->name));
 	}
 
 	protected function get_default_value_js() {
