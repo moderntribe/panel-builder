@@ -39,7 +39,7 @@ class PanelRenderer {
 	 */
 	protected function wrap( $content ) {
 		$template = $this->get_wrapper_template_path();
-		if ( $template ) {
+		if ( !$template ) {
 			return $content;
 		}
 		return $this->include_wrapper_template( $template, $content );

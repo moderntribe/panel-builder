@@ -29,7 +29,7 @@ class Panel implements \JsonSerializable {
 	}
 
 	public function get( $key ) {
-		if ( $key == $this->type ) {
+		if ( $key == 'type' ) {
 			return $this->type->get_id();
 		}
 
