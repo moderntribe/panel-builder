@@ -78,7 +78,7 @@ class Repeater extends Group {
 			foreach ( $this->fields as $field ) {
 				$name = $field->get_name();
 				if ( isset($instance[$name]) ) {
-					$instance_vars[$name] = $field->get_vars($data[$name]);
+					$instance_vars[$name] = $field->get_vars($instance[$name]);
 				}
 			}
 			if ( !empty($instance_vars) ) {
