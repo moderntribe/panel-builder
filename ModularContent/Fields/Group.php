@@ -13,6 +13,8 @@ class Group extends Field {
 	/** @var Field[] */
 	protected $fields = array();
 
+	protected $default = '{}';
+
 	/**
 	 * @param Field $field
 	 *
@@ -54,6 +56,10 @@ class Group extends Field {
 
 	protected function render_closing_tag() {
 		echo '</fieldset>';
+	}
+
+	protected function get_default_value_js() {
+		return $this->default;
 	}
 
 	/**
