@@ -507,7 +507,7 @@
 })(jQuery);
 (function($) {
 	function handle_preview_response( data ) {
-		if ( data.preview != '' ) {
+		if ( data.preview !== '' ) {
 			var preview = $('<span class="panel-input-preview video-preview">'+data.preview+'</span>');
 			preview.hide();
 			this.append(preview);
@@ -520,7 +520,7 @@
 		var container = field.closest('.panel-input');
 		container.find('.panel-input-preview').remove();
 
-		if ( url == '' ) {
+		if ( url === '' ) {
 			return;
 		}
 
@@ -546,7 +546,7 @@
 			preview_video($(this));
 		});
 	});
-	panels_div.on('change', 'input.video-url', function(e) {
+	panels_div.on('change', 'input.video-url', function() {
 		preview_video($(this));
 	});
 })(jQuery);
