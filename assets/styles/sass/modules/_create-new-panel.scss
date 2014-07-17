@@ -1,0 +1,12 @@
+.create-new-panel {
+	display: block;
+	color: #999;
+	text-decoration: none;
+	margin-top: 1em;
+
+	&:before {
+		font-size: 175%;
+		vertical-align: middle;
+		margin-right: 5px;
+	}
+}

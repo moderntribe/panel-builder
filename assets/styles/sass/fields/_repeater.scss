@@ -1,0 +1,46 @@
+.panel-repeater-row {
+	margin: 5px 0;
+	padding: 0 5px 5px;
+	border-bottom: 1px solid #ddd;
+	clear: both;
+}
+
+.panel-repeater-row > .panel-input {
+	clear: none;
+}
+
+.panel-input-repeater-row-controls .delete {
+	display: inline-block;
+	margin-left: 10px;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;
+	float: right;
+	line-height: 25px;
+}
+.panel-input-repeater-row-controls .delete:hover {
+	color: #c43d3a;
+}
+
+.panel-repeater-new-row {
+	text-decoration: none;
+}
+.panel-repeater-new-row:before {
+	color: green;
+	font-size: 125%;
+	vertical-align: middle;
+}
+
+.panel-children-container {
+	padding: 1em 0 2em 0;
+	border-top: 1px solid #DDD;
+	clear: both;
+}
+
+.panel-children-container h4 {
+	font-weight: bold;
+	font-size: 125%;
+	display: block;
+	margin: 0 0 0.5em;
+}

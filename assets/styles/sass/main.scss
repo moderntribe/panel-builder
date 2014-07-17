@@ -1,7 +1,13 @@
+// Modules
 @import "modules/ui-widget";
+@import "modules/create-new-panel";
 
+// Panels
 @import "panels/panel";
 @import "panels/new-panel";
 @import "panels/panel-editor";
 
+// Panel fields
+@import "fields/posts";
+@import "fields/repeater";
 @import "fields/tabs";
