@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,gBAAiB;EAChB,QAAQ,EAAE,MAAM",
+"sources": ["../sass/fields/_tabs.scss"],
+"names": [],
+"file": "main.css"
+}

@@ -423,8 +423,11 @@
 
 			container.each( function() {
 				var container = $(this);
-				var name = container.data('name');
-				var local_data = data[name];
+				var name = container.data('name').split('.');
+				var local_data = data;
+				$.each( name, function( index, namepart ) {
+					local_data = local_data[namepart];
+				});
 
 				postsField.initialize_tabs(container);
 				postsField.intialize_data(container, local_data);
@@ -489,9 +492,9 @@
 
 
 	var panels_div = $('div.panels');
-	panels_div.on('new-panel-row load-panel-row', '.panel-type-repeater', function(e, uuid, data) {
+	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
 		var row = $(this);
-		var container = row.find('fieldset.panel-input');
+		var container = row.find('fieldset.panel-input-repeater');
 		if ( container.length < 1 ) {
 			return;
 		}
