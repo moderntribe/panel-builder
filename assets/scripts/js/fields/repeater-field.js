@@ -44,9 +44,9 @@
 
 
 	var panels_div = $('div.panels');
-	panels_div.on('new-panel-row load-panel-row', '.panel-type-repeater', function(e, uuid, data) {
+	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
 		var row = $(this);
-		var container = row.find('fieldset.panel-input');
+		var container = row.find('fieldset.panel-input-repeater');
 		if ( container.length < 1 ) {
 			return;
 		}

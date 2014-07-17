@@ -391,8 +391,11 @@
 
 			container.each( function() {
 				var container = $(this);
-				var name = container.data('name');
-				var local_data = data[name];
+				var name = container.data('name').split('.');
+				var local_data = data;
+				$.each( name, function( index, namepart ) {
+					local_data = local_data[namepart];
+				});
 
 				postsField.initialize_tabs(container);
 				postsField.intialize_data(container, local_data);

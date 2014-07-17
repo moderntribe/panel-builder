@@ -30,7 +30,7 @@ class PanelRenderer {
 			// put the loop back where we found it
 			$loop->set_the_panel();
 		}
-		return $output;
+		return $this->wrap($output);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class PanelRenderer {
 	 */
 	protected function wrap( $content ) {
 		$template = $this->get_wrapper_template_path();
-		if ( $template ) {
+		if ( !$template ) {
 			return $content;
 		}
 		return $this->include_wrapper_template( $template, $content );
