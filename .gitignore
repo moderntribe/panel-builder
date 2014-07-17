@@ -12,5 +12,8 @@ Thumbs.db
 assets/bower_components
 node_modules
 
+# source maps
+*.css.map
+
 *.sublime-project
 *.sublime-workspace
