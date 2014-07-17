@@ -88,7 +88,7 @@ module.exports = function(grunt) {
 					banner: '/**\n * Auto-concatenaed on <%= grunt.template.today("yyyy-mm-dd") %> based on files in <%= paths.scripts %>/js/fields\n */\n\n'
 				},
 				src: '<%= paths.scripts %>/js/fields/**.js',
-				dest: '<%= paths.scripts %>/fields/fields-combined.js'
+				dest: '<%= paths.scripts %>/js/fields-combined.js'
 			}
 		},
 		jshint: {
