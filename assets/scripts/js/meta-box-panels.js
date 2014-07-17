@@ -32,7 +32,7 @@ jQuery(document).ready( function($) {
 
 	$('body').on('click', '.new-panel-option .thumbnail', function(e) {
 		e.preventDefault();
-		if ( new_panel_container == null ) {
+		if ( new_panel_container === null ) {
 			return;
 		}
 		var wrapper = $(this).closest('.panel-template');
@@ -62,7 +62,7 @@ jQuery(document).ready( function($) {
 
 	panels_div.on('keyup', '.input-name-title input:text', function() {
 		var title = $(this).val();
-		if ( title == '' ) {
+		if ( title === '' ) {
 			title = 'Untitled'; // TODO: localize
 		}
 		$(this).closest('.panel-row').children('.panel-row-header .panel-title').text(title);
