@@ -45,7 +45,7 @@ class Repeater extends Group {
 
 	public function print_supporting_templates() {
 		?>
-		<script type="text/html" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
+		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
 			<div class="panel-repeater-row">
 				<span class="panel-input-repeater-row-controls"><a class="delete icon-remove"></a></span>
 				<?php

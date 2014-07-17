@@ -124,7 +124,7 @@ class Posts extends Field {
 
 	public static function print_supporting_templates() {
 		?>
-		<script type="text/html" class="template" id="tmpl-field-posts-filter">
+		<script type="text/template" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">
 				<a href="#" class="remove-filter icon-remove" title="<?php _e('Delete this filter', 'modular-content'); ?>"></a>
 				<label>{{data.label}}</label>
@@ -143,7 +143,7 @@ class Posts extends Field {
 			}
 			ksort($options);
 			?>
-			<script type="text/html" class="template" id="tmpl-field-posts-taxonomy-<?php echo $taxonomy_name; ?>-options">
+			<script type="text/template" class="template" id="tmpl-field-posts-taxonomy-<?php echo $taxonomy_name; ?>-options">
 				<select name="{{data.name}}[filters][{{data.type}}][selection][]" class="term-select" multiple="multiple" data-placeholder="<?php _e('Select Terms', 'modular-content'); ?>" data-filter_type="{{data.type}}">
 					<?php echo implode("\n", $options); ?>
 				</select>

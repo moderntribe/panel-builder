@@ -16,8 +16,8 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 		<span class="panel-title"><?php esc_html_e($this->get_label()); ?></span>
 		<span class="panel-description"><?php esc_html_e($this->get_description()); ?></span>
 	</div>
-	<script type="text/html" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>">
-		<div class="panel-row panel-type-<?php esc_attr_e($this->id); ?>" id="panel-row-{{data.panel_id}}">
+	<script type="text/template" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>"><?php
+        ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?>" id="panel-row-{{data.panel_id}}">
 			<div class="panel-row-header">
 				<span class="panel-actions"><a class="delete_panel icon-remove" title="<?php printf(__('Delete this %s', 'modular-content'), strtolower($singular)); ?>" href="#"></a> <span class="move-panel icon-reorder" title="<?php printf(__('Drag to change %s order', 'modular-content'), strtolower($singular)); ?>"></span></span>
 				<a href="#" class="panel-label edit_panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>"><span class="panel-type"><?php esc_html_e($this->get_label()); ?></span><span class="divider"> | </span><span class="panel-title">{{data.panel_title}}</span></a>
