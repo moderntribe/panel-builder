@@ -1,0 +1,86 @@
+.panel-row-editor {
+	margin: 2em 0.5em;
+
+	.panel-input {
+		margin-bottom: 2em;
+		clear: both;
+	}
+
+	.panel-input-label {
+		font-weight: bold;
+		font-size: 125%;
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
+	.panel-input-field {
+		display: block;
+		input, textarea { width: 100%; }
+	}
+
+	.panel-checkbox-label {
+		font-weight: normal;
+		font-size: 100%;
+	}
+
+	.panel-input-checkbox {
+		display: inline;
+
+		input {
+			width: auto;
+			margin-right: 0.5em;
+		}
+	}
+
+	.radio-option {
+		margin-right: 20px;
+		img { max-width: 100px; max-height: 100px; }
+	}
+
+	.updated {
+		padding: 1em 1.5em;
+		font-weight: bold;
+	}
+
+	.input-type-video {
+		overflow: hidden;
+
+		.panel-input-field {
+			width: 50%;
+			float: left;
+		}
+
+		.panel-input-preview {
+			width: 50%;
+			float: right;
+			text-align: right;
+
+			img { max-width: 200px; max-height: 200px; }
+		}
+	}
+}
+
+.panel-row-editor fieldset {
+	border: 1px solid #bbb;
+	padding: 0.5em 1.5em;
+
+	&.input-type-link {
+		border: none;
+		padding: 0;
+		overflow: hidden;
+
+		.panel-input-field {
+			float: left;
+			width: 33%;
+			padding-right: 2em;
+			min-width: 200px;
+			margin-bottom: 1em;
+		}
+
+		.link-field-target {
+			padding-right: 0;
+			width: auto;
+			min-width: 0;
+		}
+	}
+}

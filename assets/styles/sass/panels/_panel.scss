@@ -1,0 +1,50 @@
+.panel-row, .panel-row * {
+	box-sizing: border-box;
+}
+
+.panel-row {
+	padding: 10px;
+	overflow: hidden;
+	clear: both;
+	border: 1px solid #DDD;
+	background-color: #fafafa;
+	margin-bottom: 5px;
+	margin-top: 5px;
+
+	&.ui-sortable-helper {
+		border: 1px dashed #AAA;
+		opacity: .5;
+	}
+
+	&.ui-sortable-placeholder {
+		border: 1px dashed #DDD;
+		visibility: visible;
+	}
+}
+
+.panel-title { }
+
+.panel-row .panel-actions {
+	.delete_panel {
+		display: inline-block;
+		margin-left: 10px;
+		overflow: hidden;
+		vertical-align: middle;
+		color: #999;
+		text-decoration: none;
+		float: right;
+
+		&:hover { color: #c43d3a; }
+	}
+
+
+	.move-panel {
+		display: inline-block;
+		width: 16px;
+		margin-right: 10px;
+		overflow: hidden;
+		vertical-align: middle;
+		cursor: move;
+		color: #999;
+	}
+}
