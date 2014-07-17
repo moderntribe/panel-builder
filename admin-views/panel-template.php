@@ -18,13 +18,26 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 	</div>
 	<script type="text/template" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>"><?php
         ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?>" id="panel-row-{{data.panel_id}}">
+
 			<div class="panel-row-header">
-				<span class="panel-actions"><a class="delete_panel icon-remove" title="<?php printf(__('Delete this %s', 'modular-content'), strtolower($singular)); ?>" href="#"></a> <span class="move-panel icon-reorder" title="<?php printf(__('Drag to change %s order', 'modular-content'), strtolower($singular)); ?>"></span></span>
-				<a href="#" class="panel-label edit_panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>"><span class="panel-type"><?php esc_html_e($this->get_label()); ?></span><span class="divider"> | </span><span class="panel-title">{{data.panel_title}}</span></a>
+
+				<span class="panel-actions">
+					<a class="delete_panel icon-remove" title="<?php printf(__('Delete this %s', 'modular-content'), strtolower($singular)); ?>" href="#"></a>
+					<span class="move-panel icon-reorder" title="<?php printf(__('Drag to change %s order', 'modular-content'), strtolower($singular)); ?>"></span>
+				</span>
+
+				<a href="#" class="panel-label edit_panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">
+					<span class="panel-type"><?php esc_html_e($this->get_label()); ?></span>
+					<span class="divider"> | </span>
+					<span class="panel-title">{{data.panel_title}}</span>
+				</a>
+
 				<input type="hidden" name="panel_id[]" class="panel-id" value="{{data.panel_id}}" />
 				<input type="hidden" name="{{data.panel_id}}[type]" class="panel-type" value="<?php esc_attr_e($this->id); ?>" />
 				<input type="hidden" name="{{data.panel_id}}[depth]" class="panel-depth" value="{{data.depth}}" />
+
 			</div>
+
 			<div class="panel-row-editor">
 				<?php foreach ( $this->fields as $field ) {
 					$field->render();
@@ -39,7 +52,9 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 				<?php endif; ?>
 			</div>
+
 		</div>
+
 	</script>
 	<?php do_action( 'after_panel_admin_template_inside' ); ?>
 </div>
