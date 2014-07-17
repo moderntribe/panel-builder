@@ -40,7 +40,7 @@ class Repeater extends Group {
 		echo '<div class="repeater-field-container"></div>';
 		echo '<a href="#" class="panel-repeater-new-row icon-plus-sign"> '.__('New', 'panels').'</a>';
 		add_action( 'after_panel_admin_template_inside', array( $this, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-repeater-field', \ModularContent\Plugin::plugin_url('assets/js/repeater-field.js'), array('jquery'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-repeater-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/repeater-field.js'), array('jquery'), FALSE, TRUE );
 	}
 
 	public function print_supporting_templates() {
@@ -87,4 +87,4 @@ class Repeater extends Group {
 		}
 		return $vars;
 	}
-} 
+}

@@ -35,7 +35,7 @@ class PostQuacker extends Field {
 		$input_value = sprintf("data.fields.%s", $this->name);
 		$manual_fields = $this->get_manual_fields();
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-postquacker.php'));
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/js/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'select2' );
 	}
@@ -102,4 +102,4 @@ class PostQuacker extends Field {
 		unset($post_types['landing_page']); // because, really, why would you?
 		return apply_filters('panels_query_post_type_options', $post_types, $this );
 	}
-} 
+}

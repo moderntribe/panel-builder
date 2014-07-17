@@ -1,0 +1,16 @@
+# system/hidden files
+.DS_Store
+.svn
+.cvs
+*.bak
+*.swp
+Thumbs.db
+.idea
+
+# other
+.sass-cache/
+assets/bower_components
+node_modules
+
+*.sublime-project
+*.sublime-workspace

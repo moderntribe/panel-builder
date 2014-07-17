@@ -45,7 +45,7 @@ class Posts extends Field {
 		$description = $this->description;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/js/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'select2' );
 
@@ -252,4 +252,4 @@ class Posts extends Field {
 
 		return $result;
 	}
-} 
+}
