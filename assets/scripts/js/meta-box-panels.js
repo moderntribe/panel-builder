@@ -3,6 +3,7 @@ jQuery(document).ready( function($) {
 	var panels_div = $('div.panels');
 	var new_panel_container = null;
 
+	/* jshint ignore:start */
 	// http://stackoverflow.com/a/2117523/500277
 	var create_uuid = function() {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -10,6 +11,7 @@ jQuery(document).ready( function($) {
 			return v.toString(16);
 		});
 	};
+	/* jshint ignore:end */
 
 	panels_div.sortable({
 		axis: 'y',
