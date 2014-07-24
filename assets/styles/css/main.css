@@ -53,31 +53,6 @@
   visibility: visible;
 }
 
-/* line 28, ../sass/panels/_panel.scss */
-.panel-row .panel-actions .delete_panel {
-  display: inline-block;
-  margin-left: 10px;
-  overflow: hidden;
-  vertical-align: middle;
-  color: #999;
-  text-decoration: none;
-  float: right;
-}
-/* line 37, ../sass/panels/_panel.scss */
-.panel-row .panel-actions .delete_panel:hover {
-  color: #c43d3a;
-}
-/* line 41, ../sass/panels/_panel.scss */
-.panel-row .panel-actions .move-panel {
-  display: inline-block;
-  width: 16px;
-  margin-right: 10px;
-  overflow: hidden;
-  vertical-align: middle;
-  cursor: move;
-  color: #999;
-}
-
 /* line 1, ../sass/panels/_new-panel.scss */
 #new-panel {
   display: none;

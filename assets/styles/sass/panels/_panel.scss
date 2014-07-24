@@ -21,30 +21,3 @@
 		visibility: visible;
 	}
 }
-
-.panel-title { }
-
-.panel-row .panel-actions {
-	.delete_panel {
-		display: inline-block;
-		margin-left: 10px;
-		overflow: hidden;
-		vertical-align: middle;
-		color: #999;
-		text-decoration: none;
-		float: right;
-
-		&:hover { color: #c43d3a; }
-	}
-
-
-	.move-panel {
-		display: inline-block;
-		width: 16px;
-		margin-right: 10px;
-		overflow: hidden;
-		vertical-align: middle;
-		cursor: move;
-		color: #999;
-	}
-}

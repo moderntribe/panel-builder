@@ -21,11 +21,6 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 			<div class="panel-row-header">
 
-				<span class="panel-actions">
-					<a class="delete_panel icon-remove" title="<?php printf(__('Delete this %s', 'modular-content'), strtolower($singular)); ?>" href="#"></a>
-					<span class="move-panel icon-reorder" title="<?php printf(__('Drag to change %s order', 'modular-content'), strtolower($singular)); ?>"></span>
-				</span>
-
 				<a href="#" class="panel-label edit_panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">
 					<span class="panel-type"><?php esc_html_e($this->get_label()); ?></span>
 					<span class="divider"> | </span>
@@ -51,6 +46,9 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 					</div>
 
 				<?php endif; ?>
+
+				<a class="delete-panel" href="JavaScript:void(0);"><?php _e('Delete Panel', 'modular-content'); ?></a>
+
 			</div>
 
 		</div>
