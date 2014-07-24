@@ -1,13 +1,4 @@
 (function($) {
-	/* jshint ignore:start */
-	// http://stackoverflow.com/a/2117523/500277
-	var create_uuid = function() {
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
-		});
-	};
-	/* jshint ignore:end */
 
 	var win = window.dialogArguments || opener || parent || top;
 
@@ -38,7 +29,7 @@
 
 		Panel.prototype.unbindEvents = function() {
 			this.$el.off(".panel");
-		}
+		};
 
 		// Event handlers
 		Panel.prototype.remove = function(e) {
@@ -65,7 +56,7 @@
 		Panel.prototype.toggle = function(e) {
 			e.preventDefault();
 			this.$el.find( '.panel-row-editor' ).toggle();
-		}
+		};
 
 		return Panel;
 
@@ -156,7 +147,7 @@
 			var wrapper = $( e.currentTarget ).closest( '.panel-template' );
 			var panelType = wrapper.data( 'panel-type' );
 			var template = wp.template( 'panel-' + panelType );
-			var uuid = create_uuid();
+			var uuid = _.uniqueId('panel_');
 
 			var newRow = $(template({
 				panel_id: uuid,
@@ -197,7 +188,7 @@
 		window.tribe = window.tribe || {};
 
 		$(".panels").each(function() {
-			window.tribe.panelContainer = new PanelContainer(this);
+			window.tribe.panelContainer = new PanelContainer();
 		});
 
 	});
@@ -225,7 +216,7 @@
 
 		function createPanel( index, panel ) {
 			var template = wp.template('panel-'+panel.type);
-			var uuid = create_uuid();
+			var uuid = _.uniqueId("panel_");
 
 			var new_row = $(template({
 				panel_id: uuid,
