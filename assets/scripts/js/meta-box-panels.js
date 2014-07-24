@@ -1,8 +1,4 @@
-jQuery(document).ready( function($) {
-	var win = window.dialogArguments || opener || parent || top;
-	var panels_div = $('div.panels');
-	var new_panel_container = null;
-
+(function($) {
 	/* jshint ignore:start */
 	// http://stackoverflow.com/a/2117523/500277
 	var create_uuid = function() {
@@ -13,54 +9,158 @@ jQuery(document).ready( function($) {
 	};
 	/* jshint ignore:end */
 
-	panels_div.sortable({
-		axis: 'y',
-		items: '> div.panel-row',
-		handle: '.panel-row-header'
-	});
-
-	panels_div.on( 'click', 'a.delete_panel', function(e) {
-		e.preventDefault();
-		var row = $(this).closest('.panel-row');
-		row.css({backgroundColor: 'lightYellow'});
-		if ( confirm('Delete this panel?') ) { // TODO: localize
-			row.fadeOut(750, function() {
-				row.remove();
-			});
-		} else {
-			row.css({backgroundColor: 'transparent'});
+	/**
+	  * Panel View-Controller
+	  *
+	  * Handles interaction within any given panel and
+	  * holds Field instances as children.
+	  */
+	var Panel = (function() {
+		function Panel(el) {
+			this.el = el;
+			this.$el = $(this.el);
+			this.init();
 		}
-	});
 
-	$('body').on('click', '.new-panel-option .thumbnail', function(e) {
-		e.preventDefault();
-		if ( new_panel_container === null ) {
-			return;
+		Panel.prototype.init = function() {
+			console.log("New panel created! ", this.el);
+			this.bindEvents();
+		};
+
+		Panel.prototype.bindEvents = function() {
+			_.bindAll( this, 'remove', 'createPanelOption' );
+
+			this.$el.on( 'click', '.delete-panel', this.remove );
+			$("body").on( 'click', '.new-panel-option .thumbnail', this.createPanelOption );
+		};
+
+		// Event handlers
+		PanelContainer.prototype.remove = function(e) {
+			e.preventDefault();
+			var row = $( e.currentTarget ).closest( '.panel-row' );
+			row.css( {backgroundColor: 'lightYellow'} );
+			if ( confirm( 'Delete this panel?' ) ) { // TODO: localize
+				row.fadeOut( 150, row.remove );
+			} else {
+				row.css({backgroundColor: 'transparent'});
+			}
+		};
+
+		PanelContainer.prototype.createPanelOption = function(e) {
+			e.preventDefault();
+			if ( this.new_panel_container === null ) {
+				return;
+			}
+
+			var wrapper = $( e.currentTarget ).closest( '.panel-template' );
+			var panelType = wrapper.data( 'panel-type' );
+			var template = wp.template( 'panel-' + panelType );
+			var uuid = create_uuid();
+
+			var newRow = $(template({
+				panel_id: uuid,
+				field_name: uuid,
+				panel_title: 'Untitled', // TODO: localize
+				fields: { title: '' },
+				depth: new_panel_container.data( 'depth' )
+			}));
+
+			var childContainer = newRow.find('.panel-children');
+
+			if ( childContainer.length == 1 ) {
+				childContainer.sortable({
+					axis: 'y',
+					items: '> div.panel-row',
+					handle: '.panel-row-header'
+				});
+			}
+
+			new_panel_container.append( newRow );
+			win.tb_remove();
+			newRow.trigger( 'new-panel-row', [uuid, {}] );
+			new_panel_container = null;
+		};
+
+		return Panel;
+
+	})();
+
+	/**
+	 * PanelContainer View-Controller
+	 *
+	 * Handles interaction for the whole panel container element and
+	 * holds Panel instances as children
+	 */
+	var PanelContainer = (function() {
+		function PanelContainer(el) {
+			if (el === null) {
+				return console.warn("No element supplied for PanelContainer");
+			}
+
+			this.el = el;
+			this.$el = $(this.el);
+			this.new_panel_container = null;
+			this.panels = [];
+
+			this.init();
 		}
-		var wrapper = $(this).closest('.panel-template');
-		var panel_type = wrapper.data('panel-type');
-		var template = wp.template('panel-'+panel_type);
-		var uuid = create_uuid();
-		var new_row = $(template({
-			panel_id: uuid,
-			field_name: uuid,
-			panel_title: 'Untitled', // TODO: localize
-			fields: { title: '' },
-			depth: new_panel_container.data('depth')
-		}));
-		var child_container = new_row.find('.panel-children');
-		if ( child_container.length == 1 ) {
-			child_container.sortable({
+
+		PanelContainer.prototype.init = function() {
+			this.bindEvents();
+			this.enableDragDrop();
+			this.createPanels();
+		};
+
+		PanelContainer.prototype.bindEvents = function() {
+
+
+		};
+
+		PanelContainer.prototype.enableDragDrop = function() {
+			this.$el.sortable({
 				axis: 'y',
-				items: '> div.panel-row',
+				items: '> .panel-row',
 				handle: '.panel-row-header'
 			});
-		}
-		new_panel_container.append(new_row);
-		win.tb_remove();
-		new_row.trigger('new-panel-row', [uuid, {}]);
-		new_panel_container = null;
+		};
+
+		PanelContainer.prototype.createPanels = function() {
+			_.each(this.$el.find( ".panel-row" ), function(el) {
+				this.panels.push( new  )
+			}, this);
+		};
+
+		return PanelContainer;
+
+	})();
+
+	/**
+	 * DOM Ready handler
+	 * Basically kicks everything into motion
+	 */
+	$(function() {
+		window.tribe = window.tribe || {};
+
+		$(".panels").each(function() {
+			window.tribe.panels = new PanelContainer(this);
+		});
+
 	});
+
+
+
+	/**
+	 *
+	 * L E G A C Y
+	 * B E I N G
+	 * R E F A C T O R E D
+	 *
+	 */
+
+
+	var win = window.dialogArguments || opener || parent || top;
+	var panels_div = $('.panels');
+	var new_panel_container = null;
 
 	panels_div.on('keyup', '.input-name-title input:text', function() {
 		var title = $(this).val();
@@ -148,9 +248,16 @@ jQuery(document).ready( function($) {
 			new_row.trigger('load-panel-row', [uuid, panel.data]);
 		});
 	})();
+})(jQuery);
 
-	// autosave
+
+
+
+/**
+ * Autosave for panels
+ */
+(function($) {
 	$(document).on('before-autosave.panel-autosave', function( e, postdata ) {
 		postdata.post_content_filtered = $('#modular-content').find('input, select, textarea').serialize();
 	});
-});
+})(jQuery);
