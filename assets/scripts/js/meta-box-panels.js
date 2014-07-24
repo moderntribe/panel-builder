@@ -9,6 +9,8 @@
 	};
 	/* jshint ignore:end */
 
+	var win = window.dialogArguments || opener || parent || top;
+
 	/**
 	  * Panel View-Controller
 	  *
@@ -23,19 +25,23 @@
 		}
 
 		Panel.prototype.init = function() {
-			console.log("New panel created! ", this.el);
 			this.bindEvents();
 		};
 
 		Panel.prototype.bindEvents = function() {
-			_.bindAll( this, 'remove', 'createPanelOption' );
+			_.bindAll( this, 'remove', 'updateTitle', 'toggle' );
 
-			this.$el.on( 'click', '.delete-panel', this.remove );
-			$("body").on( 'click', '.new-panel-option .thumbnail', this.createPanelOption );
+			this.$el.on( 'click.panel', '.delete-panel', this.remove );
+			this.$el.on( 'keyup.panel', '.input-name-title input:text', this.updateTitle );
+			this.$el.on( 'click.panel', '.edit_panel', this.toggle );
 		};
 
+		Panel.prototype.unbindEvents = function() {
+			this.$el.off(".panel");
+		}
+
 		// Event handlers
-		PanelContainer.prototype.remove = function(e) {
+		Panel.prototype.remove = function(e) {
 			e.preventDefault();
 			var row = $( e.currentTarget ).closest( '.panel-row' );
 			row.css( {backgroundColor: 'lightYellow'} );
@@ -44,42 +50,22 @@
 			} else {
 				row.css({backgroundColor: 'transparent'});
 			}
+
+			this.unbindEvents();
 		};
 
-		PanelContainer.prototype.createPanelOption = function(e) {
+		Panel.prototype.updateTitle = function(e) {
+			var title = $( e.currentTarget ).val();
+			if ( title === '' ) {
+				title = 'Untitled'; // TODO: localize
+			}
+			this.$el.children('.panel-row-header .panel-title').text(title);
+		};
+
+		Panel.prototype.toggle = function(e) {
 			e.preventDefault();
-			if ( this.new_panel_container === null ) {
-				return;
-			}
-
-			var wrapper = $( e.currentTarget ).closest( '.panel-template' );
-			var panelType = wrapper.data( 'panel-type' );
-			var template = wp.template( 'panel-' + panelType );
-			var uuid = create_uuid();
-
-			var newRow = $(template({
-				panel_id: uuid,
-				field_name: uuid,
-				panel_title: 'Untitled', // TODO: localize
-				fields: { title: '' },
-				depth: new_panel_container.data( 'depth' )
-			}));
-
-			var childContainer = newRow.find('.panel-children');
-
-			if ( childContainer.length == 1 ) {
-				childContainer.sortable({
-					axis: 'y',
-					items: '> div.panel-row',
-					handle: '.panel-row-header'
-				});
-			}
-
-			new_panel_container.append( newRow );
-			win.tb_remove();
-			newRow.trigger( 'new-panel-row', [uuid, {}] );
-			new_panel_container = null;
-		};
+			this.$el.find( '.panel-row-editor' ).toggle();
+		}
 
 		return Panel;
 
@@ -99,7 +85,7 @@
 
 			this.el = el;
 			this.$el = $(this.el);
-			this.new_panel_container = null;
+			this.newPanelContainer = null;
 			this.panels = [];
 
 			this.init();
@@ -108,12 +94,14 @@
 		PanelContainer.prototype.init = function() {
 			this.bindEvents();
 			this.enableDragDrop();
-			this.createPanels();
+			this.initExistingPanels();
 		};
 
 		PanelContainer.prototype.bindEvents = function() {
+			_.bindAll( this, "createNewPanel", "pickPanelType" );
 
-
+			$('#modular-content').on( 'click', '.create-new-panel', this.createNewPanel );
+			$("body").on( 'click', '.new-panel-option .thumbnail', this.pickPanelType );
 		};
 
 		PanelContainer.prototype.enableDragDrop = function() {
@@ -124,10 +112,77 @@
 			});
 		};
 
-		PanelContainer.prototype.createPanels = function() {
+		PanelContainer.prototype.initExistingPanels = function() {
 			_.each(this.$el.find( ".panel-row" ), function(el) {
-				this.panels.push( new  )
+				this.panels.push( new Panel( el ) );
 			}, this);
+		};
+
+		// Event handlers
+		PanelContainer.prototype.createNewPanel = function(e) {
+			e.preventDefault();
+
+			var target = $(e.currentTarget);
+			var container = target.siblings( target.hasClass('create-new-child') ? 'div.panel-children' : 'div.panels' );
+			var max = container.data('max_children');
+			if ( typeof max == 'number' ) {
+				if ( container.children('.panel-row').length >= max ) {
+					return false; // the panel selector should not work
+				}
+			}
+
+			var depth = container.data('depth');
+
+			var newPanelList = $( '#new-panel' ).find( '.panel-template' );
+			newPanelList.each( function() {
+				var template = target;
+				var template_max_depth = template.data( 'max_depth' );
+				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
+					template.parent().hide();
+				} else {
+					template.parent().show();
+				}
+			});
+
+			this.newPanelContainer = container;
+		};
+
+		PanelContainer.prototype.pickPanelType = function(e) {
+			e.preventDefault();
+			if ( this.newPanelContainer === null ) {
+				return;
+			}
+
+			var wrapper = $( e.currentTarget ).closest( '.panel-template' );
+			var panelType = wrapper.data( 'panel-type' );
+			var template = wp.template( 'panel-' + panelType );
+			var uuid = create_uuid();
+
+			var newRow = $(template({
+				panel_id: uuid,
+				field_name: uuid,
+				panel_title: 'Untitled', // TODO: localize
+				fields: { title: '' },
+				depth: this.newPanelContainer.data( 'depth' )
+			}));
+
+			var childContainer = newRow.find('.panel-children');
+
+			if ( childContainer.length == 1 ) {
+				childContainer.sortable({
+					axis: 'y',
+					items: '> div.panel-row',
+					handle: '.panel-row-header'
+				});
+			}
+
+			this.newPanelContainer.append( newRow );
+			win.tb_remove();
+			newRow.trigger( 'new-panel-row', [uuid, {}] );
+
+			this.panels.push( newRow.get(0) );
+
+			this.newPanelContainer = null;
 		};
 
 		return PanelContainer;
@@ -142,7 +197,7 @@
 		window.tribe = window.tribe || {};
 
 		$(".panels").each(function() {
-			window.tribe.panels = new PanelContainer(this);
+			window.tribe.panelContainer = new PanelContainer(this);
 		});
 
 	});
@@ -158,65 +213,20 @@
 	 */
 
 
-	var win = window.dialogArguments || opener || parent || top;
 	var panels_div = $('.panels');
-	var new_panel_container = null;
-
-	panels_div.on('keyup', '.input-name-title input:text', function() {
-		var title = $(this).val();
-		if ( title === '' ) {
-			title = 'Untitled'; // TODO: localize
-		}
-		$(this).closest('.panel-row').children('.panel-row-header .panel-title').text(title);
-	});
-
-	panels_div.on('click', '.panel-row-header a.edit_panel', function(e) {
-		e.preventDefault();
-		$(this).closest('.panel-row').children('.panel-row-editor').slideToggle();
-	});
-
-	$('#modular-content').on('click', '.create-new-panel', function(e) {
-		e.preventDefault();
-		var container;
-		if ( $(this).hasClass('create-new-child') ) {
-			container = $(this).siblings('div.panel-children');
-		} else {
-			container = $(this).siblings('div.panels');
-		}
-		var max = container.data('max_children');
-		if ( typeof max == 'number' ) {
-			if ( container.children('.panel-row').length >= max ) {
-				return false; // the panel selector should not work
-			}
-		}
-
-		var depth = container.data('depth');
-
-		var new_panel_list = $('#new-panel').find('.panel-template');
-		new_panel_list.each( function() {
-			var template = $(this);
-			var template_max_depth = template.data('max_depth');
-			if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
-				template.parent().hide();
-			} else {
-				template.parent().show();
-			}
-		});
-
-		new_panel_container = container;
-	});
 
 	var ModularContent = window.ModularContent || {};
 	ModularContent.panels = ModularContent.panels || [];
 
 	(function() {
-		var parents = {
-			0: panels_div
-		};
+
+		var parents = { 0: panels_div };
 		var deepest_parent = 0;
-		$.each(ModularContent.panels, function( index, panel ) {
+
+		function createPanel( index, panel ) {
 			var template = wp.template('panel-'+panel.type);
 			var uuid = create_uuid();
+
 			var new_row = $(template({
 				panel_id: uuid,
 				field_name: uuid,
@@ -224,6 +234,7 @@
 				fields: panel.data,
 				depth: panel.depth
 			}));
+
 			new_row.children('.panel-row-editor').hide();
 
 			while ( panel.depth < deepest_parent && deepest_parent > 0 ) {
@@ -233,7 +244,7 @@
 
 			var current_container = parents[deepest_parent];
 
-			var child_container = new_row.find('.panel-children');
+			var child_container = new_row.find( '.panel-children' );
 			if ( child_container.length == 1 ) {
 				deepest_parent++;
 				parents[deepest_parent] = child_container;
@@ -246,8 +257,12 @@
 
 			current_container.append(new_row);
 			new_row.trigger('load-panel-row', [uuid, panel.data]);
-		});
+		}
+
+		$.each( ModularContent.panels, createPanel );
+
 	})();
+
 })(jQuery);
 
 
