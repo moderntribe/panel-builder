@@ -29,7 +29,7 @@
 		visibility: visible;
 	}
 
-	.close {
+	> .close {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -44,7 +44,7 @@
 		.caret { @include triangle(up); }
 	}
 
-	button.close:focus {
+	> button.close:focus {
 		outline: none;
 	}
 }
