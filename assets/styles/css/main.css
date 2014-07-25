@@ -543,29 +543,30 @@ button.close:focus {
   border-bottom: 1px solid #DDD;
   margin-bottom: 1em;
 }
-/* line 13, ../sass/fields/_posts.scss */
+/* line 14, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls .panel-filter-row {
   border-top: none;
 }
-/* line 15, ../sass/fields/_posts.scss */
+/* line 16, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls .filter-options {
   width: 100%;
 }
-/* line 17, ../sass/fields/_posts.scss */
+/* line 18, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls select, .panel-input-posts .search-controls .select2-container {
   width: 100%;
 }
-/* line 19, ../sass/fields/_posts.scss */
+/* line 20, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls .button {
   margin-top: 1em;
 }
-/* line 21, ../sass/fields/_posts.scss */
+/* line 22, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls label {
   display: block;
-  font-style: italic;
-  color: #666;
+  margin-bottom: 0.4em;
+  color: #aaa;
+  font-weight: lighter;
 }
-/* line 27, ../sass/fields/_posts.scss */
+/* line 29, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls .description {
   margin-top: 1em;
   margin-left: 1em;
@@ -574,7 +575,7 @@ button.close:focus {
   color: #666;
 }
 
-/* line 37, ../sass/fields/_posts.scss */
+/* line 39, ../sass/fields/_posts.scss */
 .panel-input-posts .selection-notices {
   margin: 1em 0;
   background-color: #efd5d6;
@@ -583,16 +584,16 @@ button.close:focus {
   font-weight: bold;
   display: none;
 }
-/* line 46, ../sass/fields/_posts.scss */
+/* line 48, ../sass/fields/_posts.scss */
 .panel-input-posts .selection {
   width: 100%;
   overflow: hidden;
 }
-/* line 51, ../sass/fields/_posts.scss */
+/* line 53, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post {
   position: relative;
 }
-/* line 55, ../sass/fields/_posts.scss */
+/* line 57, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post {
   position: absolute;
   top: 0;
@@ -602,24 +603,24 @@ button.close:focus {
   text-decoration: none;
   display: none;
 }
-/* line 65, ../sass/fields/_posts.scss */
+/* line 67, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post:hover {
   color: #c43d3a;
 }
-/* line 69, ../sass/fields/_posts.scss */
+/* line 71, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post:hover {
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-/* line 74, ../sass/fields/_posts.scss */
+/* line 76, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post:hover .remove-selected-post {
   display: block;
 }
-/* line 78, ../sass/fields/_posts.scss */
+/* line 80, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .remove-selected-post {
   display: none;
 }
-/* line 82, ../sass/fields/_posts.scss */
+/* line 84, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview, .panel-input-posts .selected-post {
   width: 100%;
   padding: 0.5em;
@@ -628,12 +629,12 @@ button.close:focus {
   border: 1px solid #ddd;
   float: left;
 }
-/* line 91, ../sass/fields/_posts.scss */
+/* line 93, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post .select2-container {
   width: 100%;
   max-width: 300px;
 }
-/* line 96, ../sass/fields/_posts.scss */
+/* line 98, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-title, .panel-input-posts .selected-post .post-title {
   width: 75%;
   max-width: 300px;
@@ -641,7 +642,7 @@ button.close:focus {
   font-size: 150%;
   margin-bottom: 0.5em;
 }
-/* line 104, ../sass/fields/_posts.scss */
+/* line 106, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-excerpt, .panel-input-posts .selected-post .post-excerpt {
   float: left;
   margin-top: 1em;
@@ -650,65 +651,65 @@ button.close:focus {
   max-width: 300px;
   clear: left;
 }
-/* line 113, ../sass/fields/_posts.scss */
+/* line 115, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-thumbnail, .panel-input-posts .selected-post .post-thumbnail {
   float: right;
   width: 20%;
   text-align: right;
 }
-/* line 119, ../sass/fields/_posts.scss */
+/* line 121, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-thumbnail img, .panel-input-posts .selected-post .post-thumbnail img {
   max-width: 100%;
   height: auto;
 }
-/* line 124, ../sass/fields/_posts.scss */
+/* line 126, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty {
   background-color: #fff;
 }
-/* line 128, ../sass/fields/_posts.scss */
+/* line 130, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title {
   background-color: #f1f1f1;
   height: 1.5em;
 }
-/* line 133, ../sass/fields/_posts.scss */
+/* line 135, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-excerpt {
   height: 4em;
   background-color: #f1f1f1;
 }
-/* line 138, ../sass/fields/_posts.scss */
+/* line 140, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-thumbnail {
   background-color: #f1f1f1;
   width: 8em;
   height: 8em;
 }
-/* line 144, ../sass/fields/_posts.scss */
+/* line 146, ../sass/fields/_posts.scss */
 .panel-input-posts .select-filters {
   width: 100%;
 }
-/* line 148, ../sass/fields/_posts.scss */
+/* line 150, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row {
   border-top: 1px solid #DDD;
   padding: 10px 0;
 }
-/* line 153, ../sass/fields/_posts.scss */
+/* line 155, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters {
   margin-top: 10px;
 }
-/* line 156, ../sass/fields/_posts.scss */
+/* line 158, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters label {
   display: inline-block;
   width: 20%;
 }
-/* line 162, ../sass/fields/_posts.scss */
+/* line 164, ../sass/fields/_posts.scss */
 .panel-input-posts .filter-options {
   display: inline-block;
   width: 70%;
 }
-/* line 167, ../sass/fields/_posts.scss */
+/* line 169, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row select, .panel-input-posts .panel-filter-row .select2-container {
   width: 100% !important;
 }
-/* line 171, ../sass/fields/_posts.scss */
+/* line 173, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter {
   display: inline-block;
   overflow: hidden;
@@ -718,7 +719,7 @@ button.close:focus {
   vertical-align: middle;
   float: right;
 }
-/* line 180, ../sass/fields/_posts.scss */
+/* line 182, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter:hover {
   color: #c43d3a;
 }
