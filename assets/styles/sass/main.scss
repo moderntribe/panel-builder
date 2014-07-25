@@ -1,3 +1,12 @@
+// Mixins
+@import "mixins/clearfix";
+@import "mixins/center-block";
+@import "mixins/hide-text";
+@import "mixins/buttons";
+
+// Utility classes
+@import "utility/utilities";
+
 // Modules
 @import "modules/ui-widget";
 @import "modules/create-new-panel";

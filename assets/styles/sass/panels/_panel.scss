@@ -6,10 +6,12 @@
 	padding: 10px;
 	overflow: hidden;
 	clear: both;
-	border: 1px solid #DDD;
-	background-color: #fafafa;
+
 	margin-bottom: 5px;
 	margin-top: 5px;
+
+	border: 1px solid #DDD;
+	background-color: #fafafa;
 
 	&.ui-sortable-helper {
 		border: 1px dashed #AAA;
