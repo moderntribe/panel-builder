@@ -44,7 +44,10 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 					<div class="selected-post-preview">
 						<div class="post-title"></div>
 						<div class="post-thumbnail"></div>
-						<div class="post-excerpt"></div>
+						<div class="post-excerpt">
+							<div class="text-line"></div>
+							<div class="text-line"></div>
+						</div>
 					</div>
 					<a href="#" class="remove-selected-post icon-remove" title="<?php _e('Remove This Post', 'modular-content'); ?>"></a>
 				</div>

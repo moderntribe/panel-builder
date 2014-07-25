@@ -27,11 +27,11 @@
 	}
 
 	.description {
-		margin-top: 1em;
 		margin-left: 1em;
-		line-height: 28px;
-		display: inline-block;
-		color: #666;
+		color: #aaa;
+		font-weight: lighter;
+		font-size: 85%;
+		vertical-align: bottom;
 	}
 }
 
@@ -96,18 +96,17 @@
 	}
 
 	.post-preview .post-title, .selected-post .post-title {
-		width: 75%;
+		width: 85%;
 		max-width: 300px;
 		float: left;
 		font-size: 150%;
-		margin-bottom: 0.5em;
+		margin-bottom: 0;
 	}
 
 	.post-preview .post-excerpt, .selected-post .post-excerpt {
 		float: left;
-		margin-top: 1em;
-		padding-right: 2em;
-		width: 75%;
+		margin-top: 7px;
+		width: 85%;
 		max-width: 300px;
 		clear: left;
 	}
@@ -121,26 +120,6 @@
 	.post-preview .post-thumbnail img, .selected-post .post-thumbnail img {
 		max-width: 100%;
 		height: auto;
-	}
-
-	.selected-post.empty {
-		background-color: #fff;
-	}
-
-	.selected-post.empty .post-title {
-		background-color: #f1f1f1;
-		height: 1.5em;
-	}
-
-	.selected-post.empty .post-excerpt {
-		height: 4em;
-		background-color: #f1f1f1;
-	}
-
-	.selected-post.empty .post-thumbnail {
-		background-color: #f1f1f1;
-		width: 8em;
-		height: 8em;
 	}
 
 	.select-filters {
@@ -180,6 +159,46 @@
 		float: right;
 
 		&:hover { color: #c43d3a; }
+	}
+
+}
+
+/**
+ * Placeholder post
+ */
+
+.panel-input-posts {
+	.selected-post.empty {
+		background-color: #fff;
+
+		&:hover {
+			box-shadow: none;
+		}
+
+		.post-title, .text-line, .post-thumbnail {
+			background-color: #f1f1f1;
+		}
+
+		.post-title {
+			width: 45%;
+			height: 18px;
+		}
+
+		.text-line {
+			height: 7px;
+			margin-top: 7px;
+
+			&:first-child { margin-top: 0; }
+
+			&:nth-child(1) { width: 100%; }
+			&:nth-child(2) { width: 88%; }
+			&:nth-child(3) { width: 97%; }
+		}
+
+		.post-thumbnail {
+			width: 77px;
+			height: 54px;
+		}
 	}
 
 }
