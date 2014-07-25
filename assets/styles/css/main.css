@@ -185,6 +185,11 @@ button.close:focus {
   border-top: 6.5px solid #777777;
 }
 
+/* line 1, ../sass/panels/_panel-container.scss */
+.panels {
+  padding: 0.15em 0;
+}
+
 /* line 1, ../sass/panels/_panel.scss */
 .panel-row, .panel-row * {
   box-sizing: border-box;
@@ -194,8 +199,8 @@ button.close:focus {
 .panel-row {
   position: relative;
   padding: 6px 6px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   border: thin solid #dddddd;
   background-color: #fafafa;
 }
