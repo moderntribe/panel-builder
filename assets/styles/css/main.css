@@ -160,6 +160,16 @@ button.close:focus {
   opacity: 0.7;
 }
 
+/* line 1, ../sass/modules/_delete-panel.scss */
+.delete-panel {
+  color: #d15e61;
+  text-decoration: none;
+}
+/* line 5, ../sass/modules/_delete-panel.scss */
+.delete-panel:hover {
+  color: #b03236;
+}
+
 /* line 2, ../sass/modules/_caret.scss */
 .caret {
   display: inline-block;
@@ -225,6 +235,13 @@ button.close:focus {
 /* line 47, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
   outline: none;
+}
+
+/* line 53, ../sass/panels/_panel.scss */
+.panel-row.panel-warning {
+  color: #e7deab;
+  background-color: #fcf8e3;
+  border-color: #e7deab;
 }
 
 /* line 2, ../sass/panels/_panel-header.scss */

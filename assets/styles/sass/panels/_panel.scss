@@ -48,3 +48,11 @@
 		outline: none;
 	}
 }
+
+// Panel states
+.panel-row.panel-warning {
+	$warning-accent: darken( desaturate($color-warning, 25%), 15% );
+	color: $warning-accent;
+	background-color: $color-warning;
+	border-color: $warning-accent;
+}

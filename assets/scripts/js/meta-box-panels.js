@@ -222,7 +222,7 @@
 		};
 
 		Panel.prototype.remove = function() {
-			this.$el.css( {backgroundColor: 'lightYellow'} );
+			this.$el.addClass( "panel-warning" );
 
 			var _this = this;
 			if ( confirm( 'Delete this panel?' ) ) { // TODO: localize
@@ -231,7 +231,7 @@
 				});
 				_this.unbindEvents();
 			} else {
-				this.$el.css( {backgroundColor: 'transparent'} );
+				this.$el.removeClass( "panel-warning" );
 			}
 
 		};
