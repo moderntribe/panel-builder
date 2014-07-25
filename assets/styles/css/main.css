@@ -363,7 +363,7 @@ button.close:focus {
  */
 /* line 17, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input {
-  margin-bottom: 2em;
+  margin-bottom: 1.3em;
   clear: both;
 }
 /* line 22, ../sass/panels/_panel-editor.scss */
