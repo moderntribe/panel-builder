@@ -211,12 +211,12 @@ button.close:focus {
   width: 34px;
 }
 /* line 41, ../sass/panels/_panel.scss */
-.panel-row.editing .close {
+.panel-row.editing > .close {
   height: 32px;
   z-index: 99;
 }
 /* line 44, ../sass/panels/_panel.scss */
-.panel-row.editing .close .caret {
+.panel-row.editing > .close .caret {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
@@ -228,7 +228,7 @@ button.close:focus {
 }
 
 /* line 2, ../sass/panels/_panel-header.scss */
-.editing .panel-row-header {
+.editing > .panel-row-header {
   display: none;
 }
 /* line 6, ../sass/panels/_panel-header.scss */
@@ -337,7 +337,7 @@ button.close:focus {
   padding: 6px 6px;
 }
 /* line 8, ../sass/panels/_panel-editor.scss */
-.editing .panel-row-editor {
+.editing > .panel-row-editor {
   display: block;
 }
 

@@ -5,7 +5,7 @@
 	display: none;
 	padding: $panel-editor-padding-vertical $panel-editor-padding-horizontal;
 
-	.editing & {
+	.editing > & {
 		display: block;
 	}
 }
