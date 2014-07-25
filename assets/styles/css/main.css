@@ -381,7 +381,7 @@ button.close:focus {
 }
 /* line 49, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option {
-  margin-right: 20px;
+  margin-right: 5px;
 }
 /* line 51, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option img {
@@ -441,6 +441,29 @@ button.close:focus {
   padding-right: 0;
   width: auto;
   min-width: 0;
+}
+
+/* line 3, ../sass/input/_layout.scss */
+.input-name-layout input[type="radio"] {
+  display: none;
+}
+/* line 7, ../sass/input/_layout.scss */
+.input-name-layout img {
+  background: #ccc;
+  opacity: 0.4;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+/* line 13, ../sass/input/_layout.scss */
+.input-name-layout input[type="radio"]:checked + img, .input-name-layout img:hover {
+  opacity: 0.6;
+  background: transparent;
+  border: thin solid #d7d7d7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+/* line 20, ../sass/input/_layout.scss */
+.input-name-layout input[type="radio"]:checked + img {
+  opacity: 1;
 }
 
 /* line 2, ../sass/fields/_posts.scss */

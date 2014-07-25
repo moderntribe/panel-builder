@@ -15,7 +15,7 @@ class ImageSelect extends Radio {
 
 	public function render_field() {
 		$options = array();
-		$option = '<label class="radio-option image-option"><input type="radio" name="%s" value="%s" %s /> <img src="%s" alt="%s" /></label>';
+		$option = '<label class="radio-option image-option"><input type="radio" name="%s" value="%s" %s /> <img src="%s" alt="%s" width="80" height="52"></label>';
 		foreach ( $this->get_options() as $key => $src ) {
 			$checked = sprintf('<# if ( data.fields.%s == "%s" ) { #> checked="checked" <# } #> ', $this->name, esc_js($key));
 			$options[] = sprintf($option, $this->get_input_name(), esc_attr($key), $checked, esc_url($src), esc_attr($key));
@@ -38,4 +38,4 @@ class ImageSelect extends Radio {
 		}
 		return $this->options_cache;
 	}
-} 
+}
