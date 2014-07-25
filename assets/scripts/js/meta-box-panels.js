@@ -72,9 +72,10 @@
 
 		PanelContainer.prototype.enableDragDrop = function() {
 			this.$el.sortable({
-				axis: 'y',
 				items: '> .panel-row',
-				handle: '.panel-row-header'
+				handle: '.panel-row-header',
+				placeholder: 'panel-row-drop-placeholder',
+				forcePlaceholderSize: true
 			});
 		};
 
@@ -161,9 +162,10 @@
 
 			if ( childContainer.length == 1 ) {
 				childContainer.sortable({
-					axis: 'y',
 					items: '> div.panel-row',
-					handle: '.panel-row-header'
+					handle: '.panel-row-header',
+					placeholder: 'panel-row-drop-placeholder',
+					forcePlaceholderSize: true
 				});
 			}
 
@@ -323,9 +325,10 @@
 				deepest_parent++;
 				parents[deepest_parent] = child_container;
 				child_container.sortable({
-					axis: 'y',
 					items: '> div.panel-row',
-					handle: '.panel-row-header'
+					handle: '.panel-row-header',
+					placeholder: 'panel-row-drop-placeholder',
+					forcePlaceholderSize: true
 				});
 			}
 

@@ -203,26 +203,30 @@ button.close:focus {
   margin-bottom: 12px;
   border: thin solid #dddddd;
   background-color: #fafafa;
+  -webkit-transition: -webkit-transform 0.15s ease-in-out;
+          transition: transform 0.15s ease-in-out;
 }
-/* line 15, ../sass/panels/_panel.scss */
+/* line 17, ../sass/panels/_panel.scss */
 .panel-row:not(.editing) {
   cursor: pointer;
 }
-/* line 18, ../sass/panels/_panel.scss */
+/* line 20, ../sass/panels/_panel.scss */
 .panel-row:not(.editing):hover {
   background-color: whitesmoke;
 }
-/* line 23, ../sass/panels/_panel.scss */
+/* line 25, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-helper {
-  border: thin dashed #AAA;
-  opacity: .5;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
+  z-index: 999999;
 }
-/* line 28, ../sass/panels/_panel.scss */
+/* line 31, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-placeholder {
   border: thin dashed #DDD;
   visibility: visible;
 }
-/* line 33, ../sass/panels/_panel.scss */
+/* line 36, ../sass/panels/_panel.scss */
 .panel-row > .close {
   position: absolute;
   top: 0;
@@ -230,24 +234,29 @@ button.close:focus {
   height: 30px;
   width: 34px;
 }
-/* line 42, ../sass/panels/_panel.scss */
+/* line 45, ../sass/panels/_panel.scss */
 .panel-row.editing > .close {
   height: 32px;
   z-index: 999;
 }
-/* line 45, ../sass/panels/_panel.scss */
+/* line 48, ../sass/panels/_panel.scss */
 .panel-row.editing > .close .caret {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
   border-bottom: 6.5px solid #777777;
 }
-/* line 48, ../sass/panels/_panel.scss */
+/* line 51, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
   outline: none;
 }
 
-/* line 54, ../sass/panels/_panel.scss */
+/* line 56, ../sass/panels/_panel.scss */
+.panel-row-drop-placeholder {
+  border: thin dashed #dddddd;
+}
+
+/* line 61, ../sass/panels/_panel.scss */
 .panel-row.panel-warning {
   background-color: #fcf8e3;
   border-color: #e7deab;
