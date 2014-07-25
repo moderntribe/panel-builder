@@ -20,7 +20,7 @@
 	}
 
 	.panel-input-label {
-		font-weight: light;
+		font-weight: lighter;
 		font-style: italic;
 		display: block;
 		margin-bottom: 0.5em;
@@ -28,7 +28,7 @@
 	}
 
 	.panel-input:first-child .panel-input-label,
-	.panel-children-container h4 {
+	.panel-children-container > h4 {
 		font-weight: bold;
 		color: inherit;
 		font-style: normal;

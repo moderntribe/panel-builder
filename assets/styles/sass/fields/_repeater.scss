@@ -39,7 +39,19 @@
 	clear: both;
 }
 
-.panel-children-container h4 {
+.panel-children-container > h4 {
 	margin-top: 0;
-	margin-bottom: 1.5em;
+	margin-bottom: 2.5em;
+}
+
+.panel-children {
+	margin-bottom: 2em;
+}
+
+/**
+ * Panel Children
+ */
+.panel-children-container .panel-row {
+	margin-top: $panel-nested-margin-vertical;
+	margin-bottom: $panel-nested-margin-vertical;
 }

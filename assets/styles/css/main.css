@@ -73,15 +73,19 @@
 /* line 1, ../sass/modules/_add-new.scss */
 .create-new-panel, .add-new-child-panel {
   display: block;
+  margin-top: 1em;
+  font-size: 16px;
+  font-weight: lighter;
   color: #999;
   text-decoration: none;
-  margin-top: 1em;
 }
-/* line 7, ../sass/modules/_add-new.scss */
+/* line 10, ../sass/modules/_add-new.scss */
 .create-new-panel:before, .add-new-child-panel:before {
   font-size: 175%;
   vertical-align: middle;
   margin-right: 5px;
+  position: relative;
+  top: 1px;
 }
 
 /**
@@ -190,29 +194,30 @@ button.close:focus {
 .panel-row {
   position: relative;
   padding: 6px 6px;
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
   border: thin solid #dddddd;
   background-color: #fafafa;
 }
-/* line 14, ../sass/panels/_panel.scss */
+/* line 15, ../sass/panels/_panel.scss */
 .panel-row:not(.editing) {
   cursor: pointer;
 }
-/* line 17, ../sass/panels/_panel.scss */
+/* line 18, ../sass/panels/_panel.scss */
 .panel-row:not(.editing):hover {
   background-color: whitesmoke;
 }
-/* line 22, ../sass/panels/_panel.scss */
+/* line 23, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-helper {
   border: thin dashed #AAA;
   opacity: .5;
 }
-/* line 27, ../sass/panels/_panel.scss */
+/* line 28, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-placeholder {
   border: thin dashed #DDD;
   visibility: visible;
 }
-/* line 32, ../sass/panels/_panel.scss */
+/* line 33, ../sass/panels/_panel.scss */
 .panel-row > .close {
   position: absolute;
   top: 0;
@@ -220,24 +225,24 @@ button.close:focus {
   height: 30px;
   width: 34px;
 }
-/* line 41, ../sass/panels/_panel.scss */
+/* line 42, ../sass/panels/_panel.scss */
 .panel-row.editing > .close {
   height: 32px;
   z-index: 99;
 }
-/* line 44, ../sass/panels/_panel.scss */
+/* line 45, ../sass/panels/_panel.scss */
 .panel-row.editing > .close .caret {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
   border-bottom: 6.5px solid #777777;
 }
-/* line 47, ../sass/panels/_panel.scss */
+/* line 48, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
   outline: none;
 }
 
-/* line 53, ../sass/panels/_panel.scss */
+/* line 54, ../sass/panels/_panel.scss */
 .panel-row.panel-warning {
   background-color: #fcf8e3;
   border-color: #e7deab;
@@ -260,7 +265,7 @@ button.close:focus {
 /* line 16, ../sass/panels/_panel-header.scss */
 .panel-row-header .panel-type {
   margin-top: 0.2em;
-  font-weight: normal;
+  font-weight: lighter;
   font-style: italic;
   color: #A8A8A8;
 }
@@ -367,7 +372,7 @@ button.close:focus {
 }
 /* line 22, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-label {
-  font-weight: light;
+  font-weight: lighter;
   font-style: italic;
   display: block;
   margin-bottom: 0.5em;
@@ -375,7 +380,7 @@ button.close:focus {
 }
 /* line 30, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input:first-child .panel-input-label,
-.panel-row-editor .panel-children-container h4 {
+.panel-row-editor .panel-children-container > h4 {
   font-weight: bold;
   color: inherit;
   font-style: normal;
@@ -759,7 +764,21 @@ button.close:focus {
 }
 
 /* line 42, ../sass/fields/_repeater.scss */
-.panel-children-container h4 {
+.panel-children-container > h4 {
   margin-top: 0;
-  margin-bottom: 1.5em;
+  margin-bottom: 2.5em;
+}
+
+/* line 47, ../sass/fields/_repeater.scss */
+.panel-children {
+  margin-bottom: 2em;
+}
+
+/**
+ * Panel Children
+ */
+/* line 54, ../sass/fields/_repeater.scss */
+.panel-children-container .panel-row {
+  margin-top: 12px;
+  margin-bottom: 12px;
 }

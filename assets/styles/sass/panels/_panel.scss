@@ -6,7 +6,8 @@
 	position: relative;
 
 	padding: $panel-padding-vertical $panel-padding-horizontal;
-	margin: $panel-margin-vertical 0;
+	margin-top: $panel-margin-vertical;
+	margin-bottom: $panel-margin-vertical;
 
 	border: thin solid $panel-border-color;
 	background-color: $panel-bg-color;

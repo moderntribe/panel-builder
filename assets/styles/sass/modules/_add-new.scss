@@ -1,12 +1,17 @@
 .create-new-panel, .add-new-child-panel {
 	display: block;
+	margin-top: 1em;
+
+	font-size: 16px;
+	font-weight: lighter;
 	color: #999;
 	text-decoration: none;
-	margin-top: 1em;
 
 	&:before {
 		font-size: 175%;
 		vertical-align: middle;
 		margin-right: 5px;
+		position: relative;
+		top: 1px;
 	}
 }
