@@ -24,7 +24,7 @@
 
 			this.$el.on( 'click.panel', '.delete-panel', this.remove );
 			this.$el.on( 'keyup.panel', '.input-name-title input:text', this.updateTitle );
-			this.$el.on( 'click.panel', '.edit_panel', this.toggle );
+			this.$el.on( 'click.panel', '.edit-panel', this.toggle );
 		};
 
 		Panel.prototype.unbindEvents = function() {
@@ -50,10 +50,11 @@
 			if ( title === '' ) {
 				title = 'Untitled'; // TODO: localize
 			}
-			this.$el.children('.panel-row-header .panel-title').text(title);
+			this.$el.find( '.panel-row-header' ).find( '.panel-title' ).text( title );
 		};
 
 		Panel.prototype.toggle = function(e) {
+			console.log("toggle panel");
 			e.preventDefault();
 			this.$el.find( '.panel-row-editor' ).toggle();
 		};
@@ -70,7 +71,7 @@
 	 */
 	var PanelContainer = (function() {
 		function PanelContainer(el) {
-			if (el === null) {
+			if (! el) {
 				return console.warn("No element supplied for PanelContainer");
 			}
 
@@ -105,6 +106,7 @@
 
 		PanelContainer.prototype.initExistingPanels = function() {
 			_.each(this.$el.find( ".panel-row" ), function(el) {
+				console.log("Init existing");
 				this.panels.push( new Panel( el ) );
 			}, this);
 		};
@@ -188,7 +190,7 @@
 		window.tribe = window.tribe || {};
 
 		$(".panels").each(function() {
-			window.tribe.panelContainer = new PanelContainer();
+			window.tribe.panelContainer = new PanelContainer(this);
 		});
 
 	});

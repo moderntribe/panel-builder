@@ -21,7 +21,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 			<div class="panel-row-header">
 
-				<a href="#" class="panel-label edit_panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">
+				<a href="JavaScript:void(0);" class="panel-label edit-panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">
 					<span class="panel-type"><?php esc_html_e($this->get_label()); ?></span>
 					<span class="divider"> | </span>
 					<span class="panel-title">{{data.panel_title}}</span>
