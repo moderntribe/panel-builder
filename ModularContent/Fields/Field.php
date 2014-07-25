@@ -106,7 +106,11 @@ abstract class Field {
 
 	protected function render_label() {
 		if ( !empty($this->label) ) {
-			printf('<label class="panel-input-label">%s</label>', $this->label);
+			$css_class = "panel-input-label";
+			if ( strtolower( $this->label ) === "title" ) {
+				$css_class .= " panel-input-label-title";
+			}
+			printf('<label class="%1s">%2s</label>', $css_class, $this->label);
 		}
 	}
 
@@ -155,4 +159,4 @@ abstract class Field {
 		$class = trim($class, '\\');
 		return strtolower($class);
 	}
-} 
+}
