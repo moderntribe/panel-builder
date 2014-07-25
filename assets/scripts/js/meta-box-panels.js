@@ -33,12 +33,14 @@
 		};
 
 		// Event handlers
-		Panel.prototype.remove = function(e) {
+		Panel.prototype.remove = function() {
 			this.$el.css( {backgroundColor: 'lightYellow'} );
 
 			var _this = this;
 			if ( confirm( 'Delete this panel?' ) ) { // TODO: localize
-				_this.$el.fadeOut( 150, _this.$el.remove );
+				_this.$el.fadeOut(150, function() {
+					_this.$el.remove();
+				});
 				_this.unbindEvents();
 			} else {
 				this.$el.css( {backgroundColor: 'transparent'} );
