@@ -219,7 +219,7 @@ button.close:focus {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
-  z-index: 999999;
+  z-index: 999999 !important;
 }
 /* line 31, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-placeholder {
