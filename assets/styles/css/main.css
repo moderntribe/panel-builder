@@ -537,37 +537,15 @@ button.close:focus {
   padding: 1em 0;
 }
 
-/* line 8, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls {
-  padding-bottom: 1em;
-  border-bottom: 1px solid #DDD;
-  margin-bottom: 1em;
-}
-/* line 14, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls .panel-filter-row {
-  border-top: none;
-}
-/* line 16, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls .filter-options {
-  width: 100%;
-}
-/* line 18, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls select, .panel-input-posts .search-controls .select2-container {
-  width: 100%;
-}
-/* line 20, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls .button {
-  margin-top: 1em;
-}
-/* line 22, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls label {
+/* line 9, ../sass/fields/_posts.scss */
+.panel-input-posts label {
   display: block;
   margin-bottom: 0.4em;
   color: #aaa;
   font-weight: lighter;
 }
-/* line 29, ../sass/fields/_posts.scss */
-.panel-input-posts .search-controls .description {
+/* line 16, ../sass/fields/_posts.scss */
+.panel-input-posts .description {
   margin-left: 1em;
   color: #aaa;
   font-weight: lighter;
@@ -575,7 +553,30 @@ button.close:focus {
   vertical-align: bottom;
 }
 
-/* line 39, ../sass/fields/_posts.scss */
+/* line 25, ../sass/fields/_posts.scss */
+.panel-input-posts .search-controls {
+  padding-bottom: 1em;
+  border-bottom: 1px solid #DDD;
+  margin-bottom: 1em;
+}
+/* line 30, ../sass/fields/_posts.scss */
+.panel-input-posts .search-controls .panel-filter-row {
+  border-top: none;
+}
+/* line 32, ../sass/fields/_posts.scss */
+.panel-input-posts .search-controls .filter-options {
+  width: 100%;
+}
+/* line 34, ../sass/fields/_posts.scss */
+.panel-input-posts .search-controls select, .panel-input-posts .search-controls .select2-container {
+  width: 100%;
+}
+/* line 36, ../sass/fields/_posts.scss */
+.panel-input-posts .search-controls .button {
+  margin-top: 1em;
+}
+
+/* line 41, ../sass/fields/_posts.scss */
 .panel-input-posts .selection-notices {
   margin: 1em 0;
   background-color: #efd5d6;
@@ -584,16 +585,16 @@ button.close:focus {
   font-weight: bold;
   display: none;
 }
-/* line 48, ../sass/fields/_posts.scss */
+/* line 50, ../sass/fields/_posts.scss */
 .panel-input-posts .selection {
   width: 100%;
   overflow: hidden;
 }
-/* line 53, ../sass/fields/_posts.scss */
+/* line 55, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post {
   position: relative;
 }
-/* line 57, ../sass/fields/_posts.scss */
+/* line 59, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post {
   position: absolute;
   top: 0;
@@ -603,24 +604,24 @@ button.close:focus {
   text-decoration: none;
   display: none;
 }
-/* line 67, ../sass/fields/_posts.scss */
+/* line 69, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post:hover {
   color: #c43d3a;
 }
-/* line 71, ../sass/fields/_posts.scss */
+/* line 73, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post:hover {
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-/* line 76, ../sass/fields/_posts.scss */
+/* line 78, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post:hover .remove-selected-post {
   display: block;
 }
-/* line 80, ../sass/fields/_posts.scss */
+/* line 82, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .remove-selected-post {
   display: none;
 }
-/* line 84, ../sass/fields/_posts.scss */
+/* line 86, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview, .panel-input-posts .selected-post {
   width: 100%;
   padding: 0.5em;
@@ -629,12 +630,12 @@ button.close:focus {
   border: 1px solid #ddd;
   float: left;
 }
-/* line 93, ../sass/fields/_posts.scss */
+/* line 95, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post .select2-container {
   width: 100%;
   max-width: 300px;
 }
-/* line 98, ../sass/fields/_posts.scss */
+/* line 100, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-title, .panel-input-posts .selected-post .post-title {
   width: 85%;
   max-width: 300px;
@@ -642,7 +643,7 @@ button.close:focus {
   font-size: 150%;
   margin-bottom: 0;
 }
-/* line 106, ../sass/fields/_posts.scss */
+/* line 108, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-excerpt, .panel-input-posts .selected-post .post-excerpt {
   float: left;
   margin-top: 7px;
@@ -650,45 +651,45 @@ button.close:focus {
   max-width: 300px;
   clear: left;
 }
-/* line 114, ../sass/fields/_posts.scss */
+/* line 116, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-thumbnail, .panel-input-posts .selected-post .post-thumbnail {
   float: right;
   width: 20%;
   text-align: right;
 }
-/* line 120, ../sass/fields/_posts.scss */
+/* line 122, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview .post-thumbnail img, .panel-input-posts .selected-post .post-thumbnail img {
   max-width: 100%;
   height: auto;
 }
-/* line 125, ../sass/fields/_posts.scss */
+/* line 127, ../sass/fields/_posts.scss */
 .panel-input-posts .select-filters {
   width: 100%;
 }
-/* line 129, ../sass/fields/_posts.scss */
+/* line 131, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row {
   border-top: 1px solid #DDD;
   padding: 10px 0;
 }
-/* line 134, ../sass/fields/_posts.scss */
+/* line 136, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters {
   margin-top: 10px;
 }
-/* line 137, ../sass/fields/_posts.scss */
+/* line 139, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters label {
   display: inline-block;
   width: 20%;
 }
-/* line 143, ../sass/fields/_posts.scss */
+/* line 145, ../sass/fields/_posts.scss */
 .panel-input-posts .filter-options {
   display: inline-block;
   width: 70%;
 }
-/* line 148, ../sass/fields/_posts.scss */
+/* line 150, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row select, .panel-input-posts .panel-filter-row .select2-container {
   width: 100% !important;
 }
-/* line 152, ../sass/fields/_posts.scss */
+/* line 154, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter {
   display: inline-block;
   overflow: hidden;
@@ -698,53 +699,59 @@ button.close:focus {
   vertical-align: middle;
   float: right;
 }
-/* line 161, ../sass/fields/_posts.scss */
+/* line 163, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter:hover {
   color: #c43d3a;
+}
+
+/* line 168, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.disabled {
+  opacity: 0.5;
+  cursor: auto;
 }
 
 /**
  * Placeholder post
  */
-/* line 171, ../sass/fields/_posts.scss */
+/* line 177, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty {
   background-color: #fff;
 }
-/* line 174, ../sass/fields/_posts.scss */
+/* line 180, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty:hover {
   box-shadow: none;
 }
-/* line 178, ../sass/fields/_posts.scss */
+/* line 184, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title, .panel-input-posts .selected-post.empty .text-line, .panel-input-posts .selected-post.empty .post-thumbnail {
   background-color: #f1f1f1;
 }
-/* line 182, ../sass/fields/_posts.scss */
+/* line 188, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title {
   width: 45%;
   height: 18px;
 }
-/* line 187, ../sass/fields/_posts.scss */
+/* line 193, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line {
   height: 7px;
   margin-top: 7px;
 }
-/* line 191, ../sass/fields/_posts.scss */
+/* line 197, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:first-child {
   margin-top: 0;
 }
-/* line 193, ../sass/fields/_posts.scss */
+/* line 199, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(1) {
   width: 100%;
 }
-/* line 194, ../sass/fields/_posts.scss */
+/* line 200, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(2) {
   width: 88%;
 }
-/* line 195, ../sass/fields/_posts.scss */
+/* line 201, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(3) {
   width: 97%;
 }
-/* line 198, ../sass/fields/_posts.scss */
+/* line 204, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-thumbnail {
   width: 77px;
   height: 54px;
