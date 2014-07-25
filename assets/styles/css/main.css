@@ -70,15 +70,15 @@
   font-size: 1em;
 }
 
-/* line 1, ../sass/modules/_create-new-panel.scss */
-.create-new-panel {
+/* line 1, ../sass/modules/_add-new.scss */
+.create-new-panel, .add-new-child-panel {
   display: block;
   color: #999;
   text-decoration: none;
   margin-top: 1em;
 }
-/* line 7, ../sass/modules/_create-new-panel.scss */
-.create-new-panel:before {
+/* line 7, ../sass/modules/_add-new.scss */
+.create-new-panel:before, .add-new-child-panel:before {
   font-size: 175%;
   vertical-align: middle;
   margin-right: 5px;
@@ -239,7 +239,6 @@ button.close:focus {
 
 /* line 53, ../sass/panels/_panel.scss */
 .panel-row.panel-warning {
-  color: #e7deab;
   background-color: #fcf8e3;
   border-color: #e7deab;
 }
