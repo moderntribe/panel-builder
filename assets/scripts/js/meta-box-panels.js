@@ -247,6 +247,7 @@
 		Panel.prototype.openPanel = function(e) {
 			if ( e.currentTarget === this.el && ! this.$el.hasClass("editing") ) {
 				this.$el.addClass( "editing" );
+				this.$el.find("input:text").first().focus();
 			}
 		};
 
