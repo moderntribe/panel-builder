@@ -17,7 +17,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 		<span class="panel-description"><?php esc_html_e($this->get_description()); ?></span>
 	</div>
 	<script type="text/template" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>"><?php
-        ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?> clearfix" id="panel-row-{{data.panel_id}}" data-type="<?php esc_attr_e($this->id); ?>" data-id="{{data.panel_id}}">
+        ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?> clearfix editing" id="panel-row-{{data.panel_id}}" data-type="<?php esc_attr_e($this->id); ?>" data-id="{{data.panel_id}}">
 
 			<div class="panel-row-header">
 

@@ -233,7 +233,7 @@ button.close:focus {
 /* line 42, ../sass/panels/_panel.scss */
 .panel-row.editing > .close {
   height: 32px;
-  z-index: 99;
+  z-index: 999;
 }
 /* line 45, ../sass/panels/_panel.scss */
 .panel-row.editing > .close .caret {
@@ -521,6 +521,11 @@ button.close:focus {
   text-align: center;
 }
 
+/* line 15, ../sass/input/_wp-uploader.scss */
+.drag-drop .drag-drop-inside {
+  margin-bottom: 48px;
+}
+
 /* line 2, ../sass/fields/_base.scss */
 .panel-input-field input {
   padding: 8px 10px;
@@ -786,4 +791,75 @@ button.close:focus {
 .panel-children-container .panel-row {
   margin-top: 12px;
   margin-bottom: 12px;
+}
+
+/**
+ * Base
+ */
+/* line 5, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-widget-header {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-weight: inherit;
+}
+/* line 12, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-widget-content {
+  border: none;
+  color: inherit;
+  background: transparent;
+}
+/* line 18, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-state-default,
+.panels .ui-widget-content .ui-state-default,
+.panels .ui-widget-header .ui-state-default {
+  position: relative;
+  top: 2px;
+  background: #e9e9e9;
+  border: none;
+  color: inherit;
+  font-weight: inherit;
+}
+/* line 31, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-state-hover,
+.panels .ui-widget-content .ui-state-hover,
+.panels .ui-widget-header .ui-state-hover,
+.panels .ui-state-focus,
+.panels .ui-widget-content .ui-state-focus,
+.panels .ui-widget-header .ui-state-focus {
+  background: #e1e1e1;
+  outline: none;
+}
+/* line 41, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-state-active,
+.panels .ui-widget-content .ui-state-active,
+.panels .ui-widget-header .ui-state-active {
+  top: 0;
+  background: transparent;
+  border: thin solid #ddd;
+  border-bottom: thin solid #fafafa;
+  color: #2b2b2b;
+  font-weight: bold;
+}
+
+/**
+ * Tabs
+ */
+/* line 59, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-tabs .ui-tabs-panel {
+  padding: 0;
+}
+/* line 63, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-tabs .ui-tabs-nav li {
+  margin-right: 0.3em;
+}
+/* line 67, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-tabs .ui-tabs-nav {
+  border-bottom: thin solid #ddd;
+}
+/* line 71, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
+.panels .ui-tabs .ui-tabs-nav li.ui-tabs-focus .ui-tabs-anchor {
+  border: none;
+  outline: none;
 }
