@@ -91,8 +91,8 @@
 
 		PanelContainer.prototype.init = function() {
 			this.bindEvents();
-			this.enableDragDrop();
 			this.initExistingPanels();
+			this.enableDragDrop();
 		};
 
 		PanelContainer.prototype.bindEvents = function() {

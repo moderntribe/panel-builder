@@ -3,13 +3,21 @@
 }
 
 .panel-row {
-	padding: $panel-padding-vertical $panel-padding-horizontal;
+	position: relative;
 
-	margin-bottom: $panel-margin-vertical;
-	margin-top: $panel-margin-vertical;
+	padding: $panel-padding-vertical $panel-padding-horizontal;
+	margin: $panel-margin-vertical 0;
 
 	border: thin solid $panel-border-color;
-	background-color: $panel-background-color;
+	background-color: $panel-bg-color;
+
+	&:not(.editing) {
+		cursor: pointer;
+
+		&:hover {
+			background-color: darken($panel-bg-color, 2%);
+		}
+	}
 
 	&.ui-sortable-helper {
 		border: thin dashed #AAA;
@@ -19,5 +27,24 @@
 	&.ui-sortable-placeholder {
 		border: thin dashed #DDD;
 		visibility: visible;
+	}
+
+	.close {
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		height: 30px;
+		width: 34px;
+	}
+
+	&.editing .close {
+		height: 32px;
+		z-index: 99;
+		.caret { @include triangle(up); }
+	}
+
+	button.close:focus {
+		outline: none;
 	}
 }

@@ -21,11 +21,18 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 			<div class="panel-row-header">
 
-				<a href="JavaScript:void(0);" class="panel-label edit-panel" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">
-					<span class="panel-type"><?php esc_html_e($this->get_label()); ?></span>
-					<span class="divider"> | </span>
-					<span class="panel-title">{{data.panel_title}}</span>
-				</a>
+				<div class="media">
+
+					<div class="pull-left">
+						<img class="media-object" src="http://placehold.it/212x126" width="106" height="63">
+					</div>
+					<div class="media-body">
+						<h3 class="media-heading panel-title" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">{{data.panel_title}}</h3>
+						<h4 class="panel-type"><?php esc_html_e($this->get_label()); ?></h4>
+					</div>
+
+				</div>
+
 
 				<input type="hidden" name="panel_id[]" class="panel-id" value="{{data.panel_id}}" />
 				<input type="hidden" name="{{data.panel_id}}[type]" class="panel-type" value="<?php esc_attr_e($this->id); ?>" />

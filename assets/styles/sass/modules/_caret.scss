@@ -1,0 +1,8 @@
+// Dropdown arrow/caret
+.caret {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 2px;
+
+	@include triangle( down );
+}

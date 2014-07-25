@@ -1,11 +1,19 @@
+/**
+ * Editor
+ */
 .panel-row-editor {
-	margin: 2em 0.5em;
 	display: none;
+	padding: $panel-editor-padding-vertical $panel-editor-padding-horizontal;
 
 	.editing & {
 		display: block;
 	}
+}
 
+/**
+ * Editor inputs
+ */
+.panel-row-editor {
 	.panel-input {
 		margin-bottom: 2em;
 		clear: both;
@@ -65,6 +73,9 @@
 	}
 }
 
+/**
+ * Editor fieldset
+ */
 .panel-row-editor fieldset {
 	border: 1px solid #bbb;
 	padding: 0.5em 1.5em;
