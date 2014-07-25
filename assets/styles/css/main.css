@@ -91,13 +91,11 @@
 
 /* line 5, ../sass/panels/_panel.scss */
 .panel-row {
-  padding: 10px;
-  overflow: hidden;
-  clear: both;
-  border: 1px solid #DDD;
+  padding: 18px 15px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border: 1px solid #dddddd;
   background-color: #fafafa;
-  margin-bottom: 5px;
-  margin-top: 5px;
 }
 /* line 14, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-helper {
@@ -192,88 +190,93 @@
 /* line 1, ../sass/panels/_panel-editor.scss */
 .panel-row-editor {
   margin: 2em 0.5em;
+  display: none;
 }
-/* line 4, ../sass/panels/_panel-editor.scss */
+/* line 5, ../sass/panels/_panel-editor.scss */
+.editing .panel-row-editor {
+  display: block;
+}
+/* line 9, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input {
   margin-bottom: 2em;
   clear: both;
 }
-/* line 9, ../sass/panels/_panel-editor.scss */
+/* line 14, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-label {
   font-weight: bold;
   font-size: 125%;
   display: block;
   margin-bottom: 0.5em;
 }
-/* line 16, ../sass/panels/_panel-editor.scss */
+/* line 21, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field {
   display: block;
 }
-/* line 18, ../sass/panels/_panel-editor.scss */
+/* line 23, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field input, .panel-row-editor .panel-input-field textarea {
   width: 100%;
 }
-/* line 21, ../sass/panels/_panel-editor.scss */
+/* line 26, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-checkbox-label {
   font-weight: normal;
   font-size: 100%;
 }
-/* line 26, ../sass/panels/_panel-editor.scss */
+/* line 31, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox {
   display: inline;
 }
-/* line 29, ../sass/panels/_panel-editor.scss */
+/* line 34, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox input {
   width: auto;
   margin-right: 0.5em;
 }
-/* line 35, ../sass/panels/_panel-editor.scss */
+/* line 40, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option {
   margin-right: 20px;
 }
-/* line 37, ../sass/panels/_panel-editor.scss */
+/* line 42, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option img {
   max-width: 100px;
   max-height: 100px;
 }
-/* line 40, ../sass/panels/_panel-editor.scss */
+/* line 45, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .updated {
   padding: 1em 1.5em;
   font-weight: bold;
 }
-/* line 45, ../sass/panels/_panel-editor.scss */
+/* line 50, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video {
   overflow: hidden;
 }
-/* line 48, ../sass/panels/_panel-editor.scss */
+/* line 53, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-field {
   width: 50%;
   float: left;
 }
-/* line 53, ../sass/panels/_panel-editor.scss */
+/* line 58, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview {
   width: 50%;
   float: right;
   text-align: right;
 }
-/* line 58, ../sass/panels/_panel-editor.scss */
+/* line 63, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview img {
   max-width: 200px;
   max-height: 200px;
 }
 
-/* line 63, ../sass/panels/_panel-editor.scss */
+/* line 68, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset {
   border: 1px solid #bbb;
   padding: 0.5em 1.5em;
 }
-/* line 67, ../sass/panels/_panel-editor.scss */
+/* line 72, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link {
   border: none;
   padding: 0;
   overflow: hidden;
 }
-/* line 72, ../sass/panels/_panel-editor.scss */
+/* line 77, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
   width: 33%;
@@ -281,7 +284,7 @@
   min-width: 200px;
   margin-bottom: 1em;
 }
-/* line 80, ../sass/panels/_panel-editor.scss */
+/* line 85, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .link-field-target {
   padding-right: 0;
   width: auto;

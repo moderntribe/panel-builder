@@ -54,9 +54,7 @@
 		};
 
 		Panel.prototype.toggle = function(e) {
-			console.log("toggle panel");
-			e.preventDefault();
-			this.$el.find( '.panel-row-editor' ).toggle();
+			this.$el.toggleClass( 'editing' );
 		};
 
 		return Panel;
@@ -227,8 +225,6 @@
 				fields: panel.data,
 				depth: panel.depth
 			}));
-
-			new_row.children('.panel-row-editor').hide();
 
 			while ( panel.depth < deepest_parent && deepest_parent > 0 ) {
 				delete parents[deepest_parent];

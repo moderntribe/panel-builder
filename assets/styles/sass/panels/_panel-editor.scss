@@ -1,5 +1,10 @@
 .panel-row-editor {
 	margin: 2em 0.5em;
+	display: none;
+
+	.editing & {
+		display: block;
+	}
 
 	.panel-input {
 		margin-bottom: 2em;
