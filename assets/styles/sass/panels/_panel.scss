@@ -3,23 +3,21 @@
 }
 
 .panel-row {
-	padding: 10px;
-	overflow: hidden;
-	clear: both;
+	padding: $panel-padding-vertical $panel-padding-horizontal;
 
-	margin-bottom: 5px;
-	margin-top: 5px;
+	margin-bottom: $panel-margin-vertical;
+	margin-top: $panel-margin-vertical;
 
-	border: 1px solid #DDD;
-	background-color: #fafafa;
+	border: thin solid $panel-border-color;
+	background-color: $panel-background-color;
 
 	&.ui-sortable-helper {
-		border: 1px dashed #AAA;
+		border: thin dashed #AAA;
 		opacity: .5;
 	}
 
 	&.ui-sortable-placeholder {
-		border: 1px dashed #DDD;
+		border: thin dashed #DDD;
 		visibility: visible;
 	}
 }

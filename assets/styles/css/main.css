@@ -91,20 +91,20 @@
 
 /* line 5, ../sass/panels/_panel.scss */
 .panel-row {
-  padding: 18px 15px;
+  padding: 15px 18px;
   margin-bottom: 20px;
   margin-top: 20px;
-  border: 1px solid #dddddd;
+  border: thin solid #dddddd;
   background-color: #fafafa;
 }
 /* line 14, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-helper {
-  border: 1px dashed #AAA;
+  border: thin dashed #AAA;
   opacity: .5;
 }
 /* line 19, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-placeholder {
-  border: 1px dashed #DDD;
+  border: thin dashed #DDD;
   visibility: visible;
 }
 
