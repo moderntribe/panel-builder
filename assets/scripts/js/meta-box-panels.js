@@ -178,7 +178,7 @@
 			win.tb_remove();
 			newRow.trigger( 'new-panel-row', [uuid, {}] );
 
-			this.panels.push( newRow.get(0) );
+			this.panels.push( new Panel( newRow.get(0) ) );
 
 			this.newPanelContainer = null;
 		};
