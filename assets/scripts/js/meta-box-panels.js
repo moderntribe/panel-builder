@@ -79,7 +79,9 @@
 		};
 
 		PanelContainer.prototype.initExistingPanels = function() {
-			_.each(this.$el.find( "> .panel-row" ), this.addPanel, this);
+			_.each(this.$el.find( "> .panel-row" ), function(el) {
+				this.addPanel( el, el.getAttribute("data-id") );
+			}, this);
 		};
 
 
@@ -210,7 +212,9 @@
 
 		Panel.prototype.initExistingPanels = function() {
 			var panels = $("#" + this.el.getAttribute("data-id") + "-children").find("> .panel-row");
-			_.each( panels, this.addPanel, this );
+			_.each(panels, function(el) {
+				this.addPanel( el, el.getAttribute("data-id") );
+			}, this);
 		};
 
 		Panel.prototype.getChildContainer = function() {
