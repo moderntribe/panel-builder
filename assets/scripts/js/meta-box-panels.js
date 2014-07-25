@@ -132,6 +132,8 @@
 			var panel = new Panel( el, id );
 			this.panels.push( panel );
 
+			$(el).trigger( 'new-panel-row', [id, {}] );
+
 			if (autoExpand) {
 				panel.openPanel();
 			}
@@ -167,7 +169,6 @@
 
 			this.newPanelContainer.append( newRow );
 			win.tb_remove();
-			newRow.trigger( 'new-panel-row', [panelId, {}] );
 
 			this.addPanel( newRow.get(0), panelId, true );
 
