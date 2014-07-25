@@ -203,7 +203,7 @@ button.close:focus {
   visibility: visible;
 }
 /* line 32, ../sass/panels/_panel.scss */
-.panel-row .close {
+.panel-row > .close {
   position: absolute;
   top: 0;
   right: 0;
@@ -223,7 +223,7 @@ button.close:focus {
   border-bottom: 6.5px solid #777777;
 }
 /* line 47, ../sass/panels/_panel.scss */
-.panel-row button.close:focus {
+.panel-row > button.close:focus {
   outline: none;
 }
 
@@ -351,63 +351,64 @@ button.close:focus {
 }
 /* line 22, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-label {
-  font-weight: bold;
-  font-size: 125%;
+  font-weight: light;
+  font-style: italic;
   display: block;
   margin-bottom: 0.5em;
+  color: #999;
 }
-/* line 29, ../sass/panels/_panel-editor.scss */
+/* line 30, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field {
   display: block;
 }
-/* line 31, ../sass/panels/_panel-editor.scss */
+/* line 32, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field input, .panel-row-editor .panel-input-field textarea {
   width: 100%;
 }
-/* line 34, ../sass/panels/_panel-editor.scss */
+/* line 35, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-checkbox-label {
   font-weight: normal;
   font-size: 100%;
 }
-/* line 39, ../sass/panels/_panel-editor.scss */
+/* line 40, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox {
   display: inline;
 }
-/* line 42, ../sass/panels/_panel-editor.scss */
+/* line 43, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox input {
   width: auto;
   margin-right: 0.5em;
 }
-/* line 48, ../sass/panels/_panel-editor.scss */
+/* line 49, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option {
   margin-right: 20px;
 }
-/* line 50, ../sass/panels/_panel-editor.scss */
+/* line 51, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option img {
   max-width: 100px;
   max-height: 100px;
 }
-/* line 53, ../sass/panels/_panel-editor.scss */
+/* line 54, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .updated {
   padding: 1em 1.5em;
   font-weight: bold;
 }
-/* line 58, ../sass/panels/_panel-editor.scss */
+/* line 59, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video {
   overflow: hidden;
 }
-/* line 61, ../sass/panels/_panel-editor.scss */
+/* line 62, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-field {
   width: 50%;
   float: left;
 }
-/* line 66, ../sass/panels/_panel-editor.scss */
+/* line 67, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview {
   width: 50%;
   float: right;
   text-align: right;
 }
-/* line 71, ../sass/panels/_panel-editor.scss */
+/* line 72, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview img {
   max-width: 200px;
   max-height: 200px;
@@ -416,18 +417,18 @@ button.close:focus {
 /**
  * Editor fieldset
  */
-/* line 79, ../sass/panels/_panel-editor.scss */
+/* line 80, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset {
   border: 1px solid #bbb;
   padding: 0.5em 1.5em;
 }
-/* line 83, ../sass/panels/_panel-editor.scss */
+/* line 84, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link {
   border: none;
   padding: 0;
   overflow: hidden;
 }
-/* line 88, ../sass/panels/_panel-editor.scss */
+/* line 89, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
   width: 33%;
@@ -435,7 +436,7 @@ button.close:focus {
   min-width: 200px;
   margin-bottom: 1em;
 }
-/* line 96, ../sass/panels/_panel-editor.scss */
+/* line 97, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .link-field-target {
   padding-right: 0;
   width: auto;
