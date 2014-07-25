@@ -198,7 +198,7 @@
 			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel' );
 
 			this.$el.on( 'click.' + this.id, '> .panel-row-editor > .delete-panel', this.remove );
-			this.$el.on( 'keyup.' + this.id, '.input-name-title input:text', this.updateTitle );
+			this.$el.on( 'keyup.' + this.id, '> .panel-row-editor > .input-name-title input:text', this.updateTitle );
 			this.$el.one( 'click.' + this.id, this.openPanel );
 			this.$el.on( 'click.' + this.id, '> .close-panel', this.closePanel );
 
@@ -241,7 +241,7 @@
 			if ( title === '' ) {
 				title = 'Untitled'; // TODO: localize
 			}
-			this.$el.find( '.panel-row-header' ).find( '.panel-title' ).text( title );
+			this.$el.find( '> .panel-row-header' ).find( '.panel-title' ).text( title );
 		};
 
 		Panel.prototype.openPanel = function(e) {
