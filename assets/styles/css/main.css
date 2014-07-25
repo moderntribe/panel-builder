@@ -483,6 +483,13 @@ button.close:focus {
   opacity: 1;
 }
 
+/* line 1, ../sass/input/_description.scss */
+.description.panel-input-description {
+  font-style: normal;
+  font-size: 85%;
+  color: #a2a2a2;
+}
+
 /* line 2, ../sass/fields/_posts.scss */
 .panel-input-posts fieldset {
   border: none;
