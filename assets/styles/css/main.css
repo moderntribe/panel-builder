@@ -498,8 +498,8 @@ button.close:focus {
 }
 
 /* line 1, ../sass/input/_wp-uploader.scss */
-.uploadContainer {
-  margin-top: 0 !important;
+.uploadContainer, .current-uploaded-image {
+  margin: 0 !important;
 }
 
 /* line 6, ../sass/input/_wp-uploader.scss */
