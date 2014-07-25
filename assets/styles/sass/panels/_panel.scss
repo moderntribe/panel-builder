@@ -41,7 +41,7 @@
 
 	&.editing > .close {
 		height: 32px;
-		z-index: 99;
+		z-index: 999;
 		.caret { @include triangle(up); }
 	}
 
