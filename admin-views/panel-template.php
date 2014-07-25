@@ -17,12 +17,11 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 		<span class="panel-description"><?php esc_html_e($this->get_description()); ?></span>
 	</div>
 	<script type="text/template" class="template" id="tmpl-panel-<?php esc_attr_e($this->id); ?>"><?php
-        ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?> clearfix" id="panel-row-{{data.panel_id}}">
+        ?><div class="panel-row panel-type-<?php esc_attr_e($this->id); ?> clearfix" id="panel-row-{{data.panel_id}}" data-type="<?php esc_attr_e($this->id); ?>" data-id="{{data.panel_id}}">
 
 			<div class="panel-row-header">
 
 				<div class="media">
-
 					<div class="pull-left">
 						<img class="media-object" src="http://placehold.it/212x126" width="106" height="63">
 					</div>
@@ -30,7 +29,6 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 						<h3 class="media-heading panel-title" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">{{data.panel_title}}</h3>
 						<h4 class="panel-type"><?php esc_html_e($this->get_label()); ?></h4>
 					</div>
-
 				</div>
 
 
@@ -47,9 +45,9 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 				<?php if ( $this->max_children > 0 ): ?>
 					<div class="panel-children-container">
 						<h4><?php echo $this->get_child_label('plural'); ?></h4>
-						<div class="panel-children" data-max_children="<?php echo $this->max_children; ?>" data-depth="<# data.child_depth = data.depth + 1 #>{{data.child_depth}}">
+						<div class="panel-children" data-max_children="<?php echo $this->max_children; ?>" data-depth="<# data.child_depth = data.depth + 1 #>{{data.child_depth}}" id="{{data.panel_id}}-children">
 						</div>
-						<a class="create-new-panel create-new-child hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php printf(__('Add %s', 'modular-content'), $this->get_child_label('singular')); ?></a>
+						<a id="create-child-for-{{data.panel_id}}" class="hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php printf(__('Add %s', 'modular-content'), $this->get_child_label('singular')); ?></a>
 					</div>
 
 				<?php endif; ?>
