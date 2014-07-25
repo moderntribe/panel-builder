@@ -490,6 +490,20 @@ button.close:focus {
   color: #a2a2a2;
 }
 
+/* line 1, ../sass/input/_wp-uploader.scss */
+.uploadContainer {
+  margin-top: 0 !important;
+}
+
+/* line 6, ../sass/input/_wp-uploader.scss */
+.uploaderSection .drag-drop-inside {
+  margin-bottom: 48px;
+}
+/* line 10, ../sass/input/_wp-uploader.scss */
+.uploaderSection .drag-drop-buttons {
+  text-align: center;
+}
+
 /* line 2, ../sass/fields/_posts.scss */
 .panel-input-posts fieldset {
   border: none;
