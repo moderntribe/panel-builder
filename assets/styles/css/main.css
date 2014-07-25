@@ -375,7 +375,7 @@ button.close:focus {
   color: #999;
 }
 /* line 30, ../sass/panels/_panel-editor.scss */
-.panel-row-editor .panel-input-label-title {
+.panel-row-editor .panel-input:first-child .panel-input-label {
   font-weight: bold;
   color: inherit;
   font-style: normal;
