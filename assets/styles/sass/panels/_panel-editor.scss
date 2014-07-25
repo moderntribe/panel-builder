@@ -27,7 +27,8 @@
 		color: #999;
 	}
 
-	.panel-input:first-child .panel-input-label {
+	.panel-input:first-child .panel-input-label,
+	.panel-children-container h4 {
 		font-weight: bold;
 		color: inherit;
 		font-style: normal;
