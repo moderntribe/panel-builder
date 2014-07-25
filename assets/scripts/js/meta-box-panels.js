@@ -20,11 +20,12 @@
 		};
 
 		Panel.prototype.bindEvents = function() {
-			_.bindAll( this, 'remove', 'updateTitle', 'toggle' );
+			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel' );
 
 			this.$el.on( 'click.panel', '.delete-panel', this.remove );
 			this.$el.on( 'keyup.panel', '.input-name-title input:text', this.updateTitle );
-			this.$el.on( 'click.panel', '.edit-panel', this.toggle );
+			this.$el.one( 'click.panel', this.openPanel );
+			this.$el.on( 'click.panel', '.close-panel', this.closePanel );
 		};
 
 		Panel.prototype.unbindEvents = function() {
@@ -33,16 +34,16 @@
 
 		// Event handlers
 		Panel.prototype.remove = function(e) {
-			e.preventDefault();
-			var row = $( e.currentTarget ).closest( '.panel-row' );
-			row.css( {backgroundColor: 'lightYellow'} );
+			this.$el.css( {backgroundColor: 'lightYellow'} );
+
+			var _this = this;
 			if ( confirm( 'Delete this panel?' ) ) { // TODO: localize
-				row.fadeOut( 150, row.remove );
+				_this.$el.fadeOut( 150, _this.$el.remove );
+				_this.unbindEvents();
 			} else {
-				row.css({backgroundColor: 'transparent'});
+				this.$el.css( {backgroundColor: 'transparent'} );
 			}
 
-			this.unbindEvents();
 		};
 
 		Panel.prototype.updateTitle = function(e) {
@@ -53,8 +54,15 @@
 			this.$el.find( '.panel-row-header' ).find( '.panel-title' ).text( title );
 		};
 
-		Panel.prototype.toggle = function(e) {
-			this.$el.toggleClass( 'editing' );
+		Panel.prototype.openPanel = function(e) {
+			if ( ! this.$el.hasClass("editing") ) {
+				this.$el.addClass( "editing" );
+			}
+		};
+
+		Panel.prototype.closePanel = function(e) {
+			this.$el.removeClass( "editing" );
+			this.$el.one( 'click.panel', this.openPanel );
 		};
 
 		return Panel;
@@ -104,7 +112,6 @@
 
 		PanelContainer.prototype.initExistingPanels = function() {
 			_.each(this.$el.find( ".panel-row" ), function(el) {
-				console.log("Init existing");
 				this.panels.push( new Panel( el ) );
 			}, this);
 		};

@@ -51,6 +51,8 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 			</div>
 
+			<button type="button" class="close close-panel" title="<?php _e('Click to toggle'); ?>"><span class="caret"></span></button>
+
 		</div>
 
 	</script>
