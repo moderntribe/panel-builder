@@ -128,8 +128,13 @@
 			_this.createPanel( $( e.currentTarget ).closest( '.panel-template' ) );
 		};
 
-		PanelContainer.prototype.addPanel = function(el, id) {
-			this.panels.push( new Panel( el, id ) );
+		PanelContainer.prototype.addPanel = function(el, id, autoExpand) {
+			var panel = new Panel( el, id );
+			this.panels.push( panel );
+
+			if (autoExpand) {
+				panel.openPanel();
+			}
 		};
 
 		PanelContainer.prototype.createPanel = function(wrapper) {
@@ -164,7 +169,7 @@
 			win.tb_remove();
 			newRow.trigger( 'new-panel-row', [panelId, {}] );
 
-			this.addPanel( newRow.get(0), panelId );
+			this.addPanel( newRow.get(0), panelId, true );
 
 			this.newPanelContainer = null;
 		};
@@ -245,7 +250,7 @@
 		};
 
 		Panel.prototype.openPanel = function(e) {
-			if ( e.currentTarget === this.el && ! this.$el.hasClass("editing") ) {
+			if ( !e || ( e.currentTarget === this.el && ! this.$el.hasClass("editing") ) ) {
 				this.$el.addClass( "editing" );
 				this.$el.find("input:text").first().focus();
 			}
