@@ -184,8 +184,9 @@
 	/**
 	  * Panel View-Controller
 	  *
-	  * Handles interaction within any given panel and
-	  * holds Field instances as children.
+	  * Handles interaction within any given panel and can
+	  * hold other Panel instances as children in the case of Tabs and
+	  * other repeater-type behavior.
 	  *
 	  * Extends PanelContainer since it can contain children too
 	  */

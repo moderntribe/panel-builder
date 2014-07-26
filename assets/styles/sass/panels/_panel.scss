@@ -12,7 +12,7 @@
 	border: thin solid $panel-border-color;
 	background-color: $panel-bg-color;
 
-	transition: transform 0.15s ease-in-out;
+	transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 	&:not(.editing) {
 		cursor: pointer;
@@ -23,8 +23,8 @@
 	}
 
 	&.ui-sortable-helper {
-		transform: scale(1.05);
-		box-shadow: 0 0 35px rgba(black, 0.1);
+		transform: scale(1.02);
+		box-shadow: 0 0 15px rgba(black, 0.15);
 		z-index: 999999 !important;
 	}
 

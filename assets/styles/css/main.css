@@ -203,8 +203,8 @@ button.close:focus {
   margin-bottom: 12px;
   border: thin solid #dddddd;
   background-color: #fafafa;
-  -webkit-transition: -webkit-transform 0.15s ease-in-out;
-          transition: transform 0.15s ease-in-out;
+  -webkit-transition: -webkit-transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+          transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 /* line 17, ../sass/panels/_panel.scss */
 .panel-row:not(.editing) {
@@ -216,9 +216,9 @@ button.close:focus {
 }
 /* line 25, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-helper {
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
-  box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
   z-index: 999999 !important;
 }
 /* line 31, ../sass/panels/_panel.scss */
