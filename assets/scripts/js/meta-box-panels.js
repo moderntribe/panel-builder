@@ -348,7 +348,9 @@
 		window.tribe.panels.container = new PanelContainer( panels.get(0) );
 
 		// Instantiates panels from server-side rendered markup
-		new PanelCreator( panels );
+		$(window).load(function() {
+			new PanelCreator( panels );
+		});
 	});
 
 })(jQuery);
