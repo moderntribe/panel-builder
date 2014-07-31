@@ -230,10 +230,10 @@
 			container.find('.selected-post').each( function() {
 				var has_post = !!$(this).find('input.selected-post-id').val();
 				if ( has_post ) {
-					$(this).addClass('visible').removeClass('hidden').removeClass('empty');
+					$(this).addClass('visible').removeClass('hidden empty');
 					visible.push($(this));
 				} else {
-					$(this).removeClass('visible').addClass('hidden').addClass('empty');
+					$(this).removeClass('visible').addClass('hidden empty')	;
 					hidden.push($(this));
 				}
 			});
@@ -274,8 +274,8 @@
 				.on( 'change', '.filter-options select', postsField.preview_query );
 
 			container.find('.selection').sortable({
-				axis: 'y',
-				cursor: 'move',
+				placeholder: 'panel-row-drop-placeholder',
+				forcePlaceholderSize: true,
 				update: function ( event, ui ) {
 					var container = $(ui.item).closest('.panel-input-posts');
 					postsField.update_selected_post_previews(container);
@@ -384,12 +384,12 @@
 		},
 
 		initialize_row: function( row, uuid, data ) {
-			var container = row.find('.panel-input-posts');
-			if ( container.length < 1 ) {
+			var containers = row.find('.panel-input-posts');
+			if ( ! containers.length ) {
 				return;
 			}
 
-			container.each( function() {
+			containers.each( function() {
 				var container = $(this);
 				var name = container.data('name').split('.');
 				var local_data = data;
@@ -404,13 +404,14 @@
 		}
 	};
 
-
-	var panels_div = $('div.panels');
-	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
-		postsField.initialize_row( $(this), uuid, data );
-	});
-	panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
-		postsField.initialize_row( $(this), uuid, data );
+	$(function() {
+		var panels_div = $('div.panels');
+		panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
+			postsField.initialize_row( $(this), uuid, data );
+		});
+		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
+			postsField.initialize_row( $(this), uuid, data );
+		});
 	});
 
 })(jQuery);

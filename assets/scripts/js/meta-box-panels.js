@@ -337,7 +337,7 @@
 
 	/**
 	 * DOM Ready handler
-	 * Basically kicks everything into motion
+	 * Kicks everything into motion
 	 */
 	$(function() {
 		window.tribe = window.tribe || {};
@@ -347,7 +347,8 @@
 
 		window.tribe.panels.container = new PanelContainer( panels.get(0) );
 
-		// Instantiates panels from server-side rendered markup
+		// Instantiates panels from server-side rendered markup.
+		// Wait untill window.load so we know all deps are loaded first.
 		$(window).load(function() {
 			new PanelCreator( panels );
 		});
