@@ -1,5 +1,5 @@
 (function($) {
-	var Panel, PanelContainer;
+	var Panel, PanelContainer, PanelCreator;
 
 	var __hasProp = {}.hasOwnProperty;
 
@@ -31,7 +31,7 @@
 	 */
 	PanelContainer = (function() {
 		function PanelContainer(el, id) {
-			if (! el) {
+			if ( ! el ) {
 				return console.warn("No element supplied for PanelContainer");
 			}
 			this.el = el;
@@ -269,6 +269,72 @@
 
 	})(PanelContainer);
 
+
+	/**
+	 * PanelCreator
+	 *
+	 * The PanelCreator is a controller-type helper that instantiates new
+	 * PanelContainers for the markup rendered by the server
+	 *
+	 */
+	PanelCreator = (function() {
+		function PanelCreator(elements) {
+			this.parents = { 0: elements };
+			this.deepestParent = 0;
+
+			this.init();
+		}
+
+		PanelCreator.prototype.init = function() {
+			var panels = window.ModularContent ? window.ModularContent.panels : null;
+
+			if ( ! ( panels && panels.length ) ) {
+				return console.warn( "No panels found on window.ModularContent: ", window.ModularContent );
+			}
+
+			_.each( panels, this.createPanel, this );
+		};
+
+		PanelCreator.prototype.createPanel = function(panel) {
+			var template = wp.template( 'panel-' + panel.type );
+			var uuid = _.uniqueId( "panel_" );
+
+			var newRow = $(template({
+				panel_id: uuid,
+				field_name: uuid,
+				panel_title: panel.data.title,
+				fields: panel.data,
+				depth: panel.depth
+			}));
+
+			while ( panel.depth < this.deepestParent && this.deepestParent > 0 ) {
+				delete this.parents[this.deepestParent];
+				this.deepestParent--;
+			}
+
+			var currentContainer = this.parents[this.deepestParent];
+
+			var childContainer = newRow.find( '.panel-children' );
+			if ( childContainer.length == 1 ) {
+				this.deepestParent++;
+				this.parents[this.deepestParent] = childContainer;
+				childContainer.sortable({
+					items: '> div.panel-row',
+					handle: '.panel-row-header',
+					placeholder: 'panel-row-drop-placeholder',
+					forcePlaceholderSize: true
+				});
+			}
+
+			currentContainer.append( newRow );
+			newRow.trigger( 'load-panel-row', [uuid, panel.data] );
+			console.log( "Trigger event: load-panel-row" );
+		};
+
+		return PanelCreator;
+	})();
+
+
 	/**
 	 * DOM Ready handler
 	 * Basically kicks everything into motion
@@ -277,69 +343,13 @@
 		window.tribe = window.tribe || {};
 		window.tribe.panels = window.tribe.panels || {};
 
-		window.tribe.panels.container = new PanelContainer( $(".panels").get(0) );
+		var panels = $('.panels');
 
+		window.tribe.panels.container = new PanelContainer( panels.get(0) );
+
+		// Instantiates panels from server-side rendered markup
+		new PanelCreator( panels );
 	});
-
-
-
-	/**
-	 *
-	 * L E G A C Y
-	 * B E I N G
-	 * R E F A C T O R E D
-	 *
-	 */
-
-
-	var panels_div = $('.panels');
-
-	var ModularContent = window.ModularContent || {};
-	ModularContent.panels = ModularContent.panels || [];
-
-	(function() {
-
-		var parents = { 0: panels_div };
-		var deepest_parent = 0;
-
-		function createPanel( index, panel ) {
-			var template = wp.template('panel-'+panel.type);
-			var uuid = _.uniqueId("panel_");
-
-			var new_row = $(template({
-				panel_id: uuid,
-				field_name: uuid,
-				panel_title: panel.data.title,
-				fields: panel.data,
-				depth: panel.depth
-			}));
-
-			while ( panel.depth < deepest_parent && deepest_parent > 0 ) {
-				delete parents[deepest_parent];
-				deepest_parent--;
-			}
-
-			var current_container = parents[deepest_parent];
-
-			var child_container = new_row.find( '.panel-children' );
-			if ( child_container.length == 1 ) {
-				deepest_parent++;
-				parents[deepest_parent] = child_container;
-				child_container.sortable({
-					items: '> div.panel-row',
-					handle: '.panel-row-header',
-					placeholder: 'panel-row-drop-placeholder',
-					forcePlaceholderSize: true
-				});
-			}
-
-			current_container.append(new_row);
-			new_row.trigger('load-panel-row', [uuid, panel.data]);
-		}
-
-		$.each( ModularContent.panels, createPanel );
-
-	})();
 
 })(jQuery);
 
