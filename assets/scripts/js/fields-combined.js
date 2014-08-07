@@ -436,7 +436,11 @@
 				var name = container.data('name').split('.');
 				var local_data = data;
 				$.each( name, function( index, namepart ) {
-					local_data = local_data[namepart];
+					if ( local_data.hasOwnProperty(namepart) ) {
+						local_data = local_data[namepart];
+					} else {
+						local_data = {};
+					}
 				});
 
 				postsField.initialize_tabs(container);
