@@ -11,11 +11,14 @@
 		}
 		containers.each( function() {
 			var container = $(this);
-			var settings_name = container.data('settings');
-			settings_name = settings_name.replace( uuid, '{{data.panel_id}}' );
+			if ( container.data('initialized-uploader') != 1 ) {
+				var settings_name = container.data('settings');
+				settings_name = settings_name.replace( uuid, '{{data.panel_id}}' );
 
-			if ( AttachmentHelper.settings.hasOwnProperty(settings_name) ) {
-				AttachmentHelper.init( container, AttachmentHelper.settings[settings_name]);
+				if ( AttachmentHelper.settings.hasOwnProperty(settings_name) ) {
+					AttachmentHelper.init( container, AttachmentHelper.settings[settings_name]);
+					container.data('initialized-uploader', 1);
+				}
 			}
 		});
 	};
