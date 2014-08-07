@@ -2,7 +2,7 @@
 
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array(
-		basename(dirname(dirname(__FILE__))).'/modular-content.php',
+		basename(dirname(dirname(__FILE__))).'/tribe-panel-builder.php',
 	),
 	'template' => 'twentythirteen',
 	'stylesheet' => 'twentythirteen',
