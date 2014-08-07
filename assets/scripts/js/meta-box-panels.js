@@ -90,7 +90,6 @@
 			e.preventDefault();
 			var _this = e.data.self;
 
-			var target = $(e.currentTarget);
 			var container = _this.getChildContainer();
 			var max = container.data('max_children');
 			if ( typeof max == 'number' ) {
