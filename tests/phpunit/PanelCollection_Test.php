@@ -29,11 +29,11 @@ class PanelCollection_Test extends UnitTestCase {
 		$collection->add_panel( new Panel( $type, array( 'post_title' => 'Second' ) ) );
 		$collection->add_panel( new Panel( $type, array( 'post_title' => 'Third' ) ) );
 
-		$json = $collection->to_json();
+		$json = json_encode($collection);
 		$decoded = json_decode( $json, TRUE );
 
 		$this->assertCount( 3, $decoded['panels'] );
-		$second = json_decode( $decoded['panels'][1], TRUE );
+		$second = $decoded['panels'][1];
 		$this->assertEquals( 'Second', $second['data']['post_title'] );
 	}
 
@@ -50,7 +50,7 @@ class PanelCollection_Test extends UnitTestCase {
 		$collection->add_panel( new Panel( $type, array( 'post_title' => 'Second' ) ) );
 		$collection->add_panel( new Panel( $type, array( 'post_title' => 'Third' ) ) );
 
-		$json = $collection->to_json();
+		$json = json_encode($collection);
 
 		$new_collection = PanelCollection::create_from_json($json, $registry);
 		$panels = $new_collection->panels();
