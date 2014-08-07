@@ -170,8 +170,11 @@ class Posts extends Field {
 
 	public static function get_post_data( $post_ids ) {
 		$posts = array();
+		global $post;
+		$original_post = $post;
 		foreach ( $post_ids as $id ) {
 			$post = get_post($id);
+			setup_postdata($post);
 			$excerpt = $post->post_excerpt;
 			if ( empty($excerpt) ) {
 				$excerpt = $post->post_content;
@@ -182,6 +185,10 @@ class Posts extends Field {
 				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
 				'thumbnail_html' => get_the_post_thumbnail($post->ID, 'thumbnail'),
 			);
+		}
+		$post = $original_post;
+		if ( $original_post ) {
+			wp_reset_postdata();
 		}
 		return $posts;
 	}
