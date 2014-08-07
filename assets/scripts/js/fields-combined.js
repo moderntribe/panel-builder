@@ -88,7 +88,9 @@
 			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
 
 			var post_type_options = container.find('select.post-type-select');
-			if ( ! post_type_options.length ) return;
+			if ( ! post_type_options.length ) {
+				return;
+			}
 
 			post_type_options.select2({width: 'element'});
 
