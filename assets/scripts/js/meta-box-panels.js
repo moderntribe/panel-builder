@@ -39,11 +39,7 @@
 			this.newPanelContainer = null;
 			this.panels = [];
 
-			if (id) {
-				this.id = id;
-			} else {
-				this.id = this.getUniqueId();
-			}
+			this.id = id || this.getUniqueId();
 
 			this.init();
 		}
@@ -328,7 +324,6 @@
 
 			currentContainer.append( newRow );
 			newRow.trigger( 'load-panel-row', [uuid, panel.data] );
-			console.log( "Trigger event: load-panel-row" );
 		};
 
 		return PanelCreator;
@@ -344,8 +339,8 @@
 		window.tribe.panels = window.tribe.panels || {};
 
 		var panels = $('.panels');
-
 		window.tribe.panels.container = new PanelContainer( panels.get(0) );
+
 
 		// Instantiates panels from server-side rendered markup.
 		// Wait untill window.load so we know all deps are loaded first.
