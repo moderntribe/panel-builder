@@ -1,3 +1,6 @@
+$post-thumbnail-size: 75px;
+$post-preview-padding: 12px;
+
 .panel-input-posts {
 	fieldset {
 		border: none;
@@ -85,11 +88,17 @@
 
 	.post-preview, .selected-post {
 		width: 100%;
-		padding: 0.5em;
+		padding: $post-preview-padding;
 		background-color: #f1f1f1;
 		margin-bottom: 1em;
 		border: 1px solid #ddd;
 		float: left;
+	}
+
+	.post-title {
+		margin-top: 0;
+		margin-bottom: 0;
+		font-size: 15px;
 	}
 
 	.selection .selected-post .select2-container {
@@ -97,29 +106,25 @@
 		max-width: 300px;
 	}
 
-	.post-preview .post-title, .selected-post .post-title {
-		width: 85%;
-		max-width: 300px;
-		float: left;
-		font-size: 150%;
-		margin-bottom: 0;
+	.post-title, .post-excerpt {
+		padding-right: $post-thumbnail-size + $post-preview-padding;
 	}
 
-	.post-preview .post-excerpt, .selected-post .post-excerpt {
-		float: left;
+
+	.post-excerpt, .post-excerpt {
 		margin-top: 7px;
-		width: 85%;
-		max-width: 300px;
-		clear: left;
 	}
 
-	.post-preview .post-thumbnail, .selected-post .post-thumbnail {
-		float: right;
-		width: 20%;
-		text-align: right;
+	.post-thumbnail {
+		position: absolute;
+		top: $post-preview-padding;
+		right: $post-preview-padding;
+		width: $post-thumbnail-size;
+		height: $post-thumbnail-size;
 	}
 
-	.post-preview .post-thumbnail img, .selected-post .post-thumbnail img {
+	.post-preview img,
+	.selected-post img {
 		max-width: 100%;
 		height: auto;
 	}

@@ -34,7 +34,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				<div class="selected-post">
 					<input type="hidden" name="<?php echo $input_name; ?>[post_ids][]" class="selected-post-id" />
 					<div class="selected-post-preview">
-						<div class="post-title"></div>
+						<h5 class="post-title"></h5>
 						<div class="post-thumbnail"></div>
 						<div class="post-excerpt"></div>
 					</div>

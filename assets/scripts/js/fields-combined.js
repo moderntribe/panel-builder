@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-07-31 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2014-08-07 based on files in assets/scripts/js/fields
  */
 
 (function($) {
@@ -87,13 +87,17 @@
 		intialize_data: function ( container, data ) {
 			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
 
-			var post_type_options = container.find('.post-type-select');
+			var post_type_options = container.find('select.post-type-select');
+			if ( ! post_type_options.length ) return;
+
 			post_type_options.select2({width: 'element'});
+
 			$.each(data.filters, function( index, filter ) {
 				if ( index == 'post_type' ) {
 					post_type_options.val(filter.selection).trigger('change');
 				}
 			});
+
 			postsField.update_post_type_select( container );
 
 			if ( data.type == 'manual' ) {
@@ -206,7 +210,8 @@
 			var field = $(this);
 			var wrapper = field.closest('.selected-post');
 			if ( !field.val() ) {
-				wrapper.find('.selected-post-preview').find('.post-title, .post-thumbnail, .post-excerpt').empty();
+				wrapper.find('.selected-post-preview').find('.post-title, .post-thumbnail').empty();
+				wrapper.find('.selected-post-preview').find('.post-excerpt').html("<div class='text-line'/><div class='text-line'/>");
 				return;
 			}
 
