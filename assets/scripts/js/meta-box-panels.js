@@ -103,7 +103,7 @@
 
 			var newPanelList = $( '#new-panel' ).find( '.panel-template' );
 			newPanelList.each( function() {
-				var template = target;
+				var template = $(this);
 				var template_max_depth = template.data( 'max_depth' );
 				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
 					template.parent().hide();
