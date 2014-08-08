@@ -93,6 +93,7 @@ class TextArea extends Field {
 					try {
 						tinyMCEPreInit.mceInit[wysiwyg_id] = settings;
 						tinyMCEPreInit.qtInit[wysiwyg_id] = qt_settings;
+						settings = tinymce.extend( {}, tinyMCEPreInit.ref, settings );
 						tinymce.init( settings );
 						quicktags( tinyMCEPreInit.qtInit[wysiwyg_id] ); // sets up the quick tags toolbar
 						QTags._buttonsInit(); // adds buttons to the new quick tags toolbar
