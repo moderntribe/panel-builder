@@ -63,6 +63,7 @@ class PostQuacker extends Field {
 			$vars = array(
 				'title' => $data['title'],
 				'content' => $data['content'],
+				'excerpt' => $data['content'],
 				'image' => $data['image'],
 				'link' => $data['link'],
 			);
@@ -87,6 +88,7 @@ class PostQuacker extends Field {
 		$post = get_post( $post_id );
 		$data['title'] = get_the_title( $post_id );
 		$data['content'] = apply_filters( 'the_content', $post->post_content );
+		$data['excerpt'] = apply_filters( 'get_the_excerpt', $post->post_excerpt );
 		$data['image'] = get_post_thumbnail_id( $post_id );
 		$data['link'] = array(
 			'url' => get_permalink( $post_id ),
