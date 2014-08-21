@@ -85,16 +85,19 @@ class PostQuacker extends Field {
 		if ( empty($post_id) ) {
 			return $data;
 		}
+
+		global $post;
 		$post = get_post( $post_id );
-		$data['title'] = get_the_title( $post_id );
-		$data['content'] = apply_filters( 'the_content', $post->post_content );
-		$data['excerpt'] = apply_filters( 'get_the_excerpt', $post->post_excerpt );
-		$data['image'] = get_post_thumbnail_id( $post_id );
+		$data['title'] = get_the_title();
+		$data['content'] = get_the_content();
+		$data['excerpt'] = get_the_excerpt();
+		$data['image'] = get_post_thumbnail_id();
 		$data['link'] = array(
-			'url' => get_permalink( $post_id ),
+			'url' => get_permalink(),
 			'target' => '',
 			'label' => $data['title'],
 		);
+		wp_reset_postdata();
 		return $data;
 	}
 
