@@ -4,6 +4,10 @@ function get_panel_var( $name ) {
 	return \ModularContent\Plugin::instance()->loop()->get_var( $name );
 }
 
+function panel_var( $name ) {
+	echo get_panel_var( $name );
+}
+
 function get_panel_vars() {
  return \ModularContent\Plugin::instance()->loop()->vars();
 }
