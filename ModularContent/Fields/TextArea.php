@@ -69,6 +69,8 @@ class TextArea extends Field {
 					wysiwyg.attr('id', wysiwyg_id);
 					wysiwyg.parents('.wp-editor-container').attr('id', 'wp-'+wysiwyg_id+'-editor-container');
 					var wrap = wysiwyg.parents('.wp-editor-wrap');
+
+					wrap.addClass('tmce-active').removeClass('html-active');
 					wrap.attr('id', 'wp-'+wysiwyg_id+'-wrap');
 					wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html');
 					wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
@@ -99,6 +101,9 @@ class TextArea extends Field {
 						QTags._buttonsInit(); // adds buttons to the new quick tags toolbar
 						wysiwyg.addClass('wp-editor-initialized');
 						wrap.addClass('tmce-active');
+						if ( wrap.hasClass('html-active') ) {
+							switchEditors.switchto(wrap.find('.wp-switch-editor.switch-html')[0]);
+						}
 
 						if ( ! window.wpActiveEditor ) {
 							window.wpActiveEditor = wysiwyg_id;
