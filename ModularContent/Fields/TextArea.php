@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 class TextArea extends Field {
 	protected $richtext = FALSE;
@@ -139,5 +140,13 @@ class TextArea extends Field {
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
 		return $uuid.'_'.$this->esc_class($this->name);
+	}
+
+	public function get_vars( $data, $panel ) {
+		$text = parent::get_vars( $data, $panel );
+		if ( $this->richtext && apply_filters( 'apply_the_content_filters_to_panel_builder_wysiwygs', TRUE, $this, $panel ) ) {
+			$text = apply_filters( 'the_content', $text );
+		}
+		return $text;
 	}
 }

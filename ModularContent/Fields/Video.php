@@ -3,6 +3,7 @@
 
 namespace ModularContent\Fields;
 use ModularContent\OEmbedder;
+use ModularContent\Panel;
 
 
 class Video extends Text {

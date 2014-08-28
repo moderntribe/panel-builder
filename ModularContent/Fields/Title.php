@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 class Title extends Text {
 	protected $label = 'Title';

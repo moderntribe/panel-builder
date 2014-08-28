@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 
 class Repeater extends Group {
@@ -68,9 +69,10 @@ class Repeater extends Group {
 	 * Child fields should have the opportunity to set their own vars
 	 *
 	 * @param mixed $data
+	 * @param Panel $panel
 	 * @return array
 	 */
-	public function get_vars( $data ) {
+	public function get_vars( $data, $panel ) {
 		$vars = array();
 		$data = (array)$data; // probably stored as an object with numeric properties
 		foreach ( $data as $instance ) {
@@ -78,7 +80,7 @@ class Repeater extends Group {
 			foreach ( $this->fields as $field ) {
 				$name = $field->get_name();
 				if ( isset($instance[$name]) ) {
-					$instance_vars[$name] = $field->get_vars($instance[$name]);
+					$instance_vars[$name] = $field->get_vars($instance[$name], $panel);
 				}
 			}
 			if ( !empty($instance_vars) ) {

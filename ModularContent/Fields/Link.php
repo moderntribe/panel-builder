@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 
 class Link extends Field {

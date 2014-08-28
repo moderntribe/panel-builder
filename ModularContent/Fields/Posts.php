@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
@@ -55,7 +56,7 @@ class Posts extends Field {
 		return $this->default;
 	}
 
-	public function get_vars( $data ) {
+	public function get_vars( $data, $panel ) {
 		if ( $data['type'] == 'manual' ) {
 			$post_ids = isset($data['post_ids'])?$data['post_ids']:array();
 		} else {

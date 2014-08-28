@@ -93,7 +93,7 @@ class Panel implements \JsonSerializable {
 		foreach ( $this->type->all_fields() as $field ) {
 			$name = $field->get_name();
 			if ( isset($this->data[$name]) ) {
-				$vars[$name] = $field->get_vars($this->data[$name]);
+				$vars[$name] = $field->get_vars($this->data[$name], $this);
 			}
 		}
 		$this->template_vars = $vars;

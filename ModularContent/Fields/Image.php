@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 
 class Image extends Field {

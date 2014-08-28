@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 /**
  * Class Group
@@ -66,14 +67,15 @@ class Group extends Field {
 	 * Child fields should have the opportunity to set their own vars
 	 *
 	 * @param mixed $data
+	 * @param Panel $panel
 	 * @return array
 	 */
-	public function get_vars( $data ) {
+	public function get_vars( $data, $panel ) {
 		$vars = array();
 		foreach ( $this->fields as $field ) {
 			$name = str_replace($this->get_name().'.', '', $field->get_name());
 			if ( isset($data[$name]) ) {
-				$vars[$name] = $field->get_vars($data[$name]);
+				$vars[$name] = $field->get_vars($data[$name], $panel);
 			}
 		}
 		return $vars;

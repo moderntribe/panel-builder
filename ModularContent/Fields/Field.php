@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 
 abstract class Field {
@@ -69,9 +70,10 @@ abstract class Field {
 	 * more complicated data.
 	 *
 	 * @param mixed $data
+	 * @param Panel $panel
 	 * @return mixed
 	 */
-	public function get_vars( $data ) {
+	public function get_vars( $data, $panel ) {
 		return $data;
 	}
 

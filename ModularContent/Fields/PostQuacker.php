@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\Panel;
 
 class PostQuacker extends Field {
 
@@ -41,13 +42,7 @@ class PostQuacker extends Field {
 	}
 
 	protected function get_manual_fields() {
-		/** @var Field[] $fields */
-		$fields = array(
-			'title' => new Text( array( 'name' => $this->name.'.title', 'label' => __('Title', 'modular-content') ) ),
-			'content' => new TextArea( array( 'name' => $this->name.'.content', 'label' => __('Content', 'modular-content'), 'richtext' => TRUE ) ),
-			'image' => new Image( array( 'name' => $this->name.'.image', 'label' => __('Image', 'modular-content') ) ),
-			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => __('Link', 'modular-content') ) ),
-		);
+		$fields = $this->get_manual_field_definitions();
 		ob_start();
 		foreach ( $fields as $f ) {
 			$f->render();
@@ -55,18 +50,32 @@ class PostQuacker extends Field {
 		return ob_get_clean();
 	}
 
-	public function get_vars( $data ) {
+	protected function get_manual_field_definitions() {
+		/** @var Field[] $fields */
+		$fields = array(
+			'title' => new Text( array( 'name' => $this->name.'.title', 'label' => __('Title', 'modular-content') ) ),
+			'content' => new TextArea( array( 'name' => $this->name.'.content', 'label' => __('Content', 'modular-content'), 'richtext' => TRUE ) ),
+			'image' => new Image( array( 'name' => $this->name.'.image', 'label' => __('Image', 'modular-content') ) ),
+			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => __('Link', 'modular-content') ) ),
+		);
+		return $fields;
+	}
+
+	public function get_vars( $data, $panel ) {
 		if ( $data['type'] == 'manual' ) {
 			$post_id = !empty($data['post_ids']) ? reset($data['post_ids']) : 0;
 			$vars = $this->post_id_to_array( $post_id );
 		} else {
-			$vars = array(
-				'title' => $data['title'],
-				'content' => $data['content'],
-				'excerpt' => $data['content'],
-				'image' => $data['image'],
-				'link' => $data['link'],
-			);
+			$fields = $this->get_manual_field_definitions();
+			$vars = array();
+			foreach ( $fields as $key => $f ) {
+				if ( isset($data[$key]) ) {
+					$vars[$key] = $f->get_vars($data[$key], $panel);
+				} else {
+					$vars[$key] = $f->get_vars('', $panel);
+				}
+			}
+			$vars['excerpt'] = $vars['content'];
 		}
 		return $vars;
 	}
