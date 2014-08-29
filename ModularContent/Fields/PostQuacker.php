@@ -97,6 +97,7 @@ class PostQuacker extends Field {
 
 		global $post;
 		$post = get_post( $post_id );
+		setup_postdata($post);
 		$data['title'] = get_the_title();
 		$data['content'] = get_the_content();
 		$data['excerpt'] = get_the_excerpt();
