@@ -100,6 +100,10 @@ abstract class Field {
 			printf('<# if ( !%s.hasOwnProperty("%s") ) { %s.%s = %s; } #>', $base, $p, $base, $p, $default);
 			$base .= '.'.$p;
 		}
+		if ( strpos($default, '{') === 0 ) {
+			// make sure that the data is initialized with all necessary properties
+			printf('<# _.defaults(%s, %s); #>', $base, $default);
+		}
 	}
 
 	protected function get_default_value_js() {
