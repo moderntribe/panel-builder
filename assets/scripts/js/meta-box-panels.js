@@ -209,6 +209,7 @@
 			this.$el.on( 'keyup.' + this.id, '> .panel-row-editor > .input-name-title input:text', this.updateTitle );
 			this.$el.one( 'click.' + this.id, this.openPanel );
 			this.$el.on( 'click.' + this.id, '> .close-panel', this.closePanel );
+			this.$el.on( 'click.' + this.id, '.add-new-child-panel', this.checkChildLimit );
 
 			$('#modular-content').on( 'click.' + this.id, '#create-child-for-' + this.id, {self:this}, this.spawnPanelPicker );
 			$("body").on( 'click.' + this.id, '.new-panel-option .thumbnail', {self:this}, this.pickPanelType );
@@ -223,6 +224,15 @@
 			_.each(panels, function(el) {
 				this.addPanel( el, el.getAttribute("data-id") );
 			}, this);
+		};
+
+		Panel.prototype.checkChildLimit = function(e) {
+			var childContainer = $(this).siblings( ".panel-children" );
+			var limit = parseInt( childContainer.attr( "data-max_children" ), 10 );
+
+			if ( childContainer.children().length >= limit ) {
+				alert( "This panel holds no more than " + limit + " items." );
+			}
 		};
 
 		Panel.prototype.getChildContainer = function() {

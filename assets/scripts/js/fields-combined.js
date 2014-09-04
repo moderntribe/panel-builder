@@ -53,7 +53,7 @@
 		update_post_type_select: function( container ) {
 			var input = container.find('input.query-type');
 			var type = input.val();
-			if ( type == '' ) {
+			if ( type === '' ) {
 				type = 'manual';
 			}
 			var select = container.find('select.post-type-select');
