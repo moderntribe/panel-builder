@@ -184,9 +184,10 @@
 	  *
 	  * Handles interaction within any given panel and can
 	  * hold other Panel instances as children in the case of Tabs and
-	  * other repeater-type behavior.
+	  * other repeater-type panels.
 	  *
-	  * Extends PanelContainer since it can contain children too
+	  * Extends PanelContainer since we can re-use all the logic for handling
+	  * children in that.
 	  */
 	Panel = (function(_super) {
 		/* jshint ignore:start */
@@ -254,12 +255,16 @@
 		Panel.prototype.openPanel = function(e) {
 			if ( !e || ( e.currentTarget === this.el && ! this.$el.hasClass("editing") ) ) {
 				this.$el.addClass( "editing" );
+				this.$el.find(".panel-row-header").first().addClass("panel-builder-bg-color");
+				this.$el.addClass("panel-builder-border-color");
 				this.$el.find("input:text").first().focus();
 			}
 		};
 
 		Panel.prototype.closePanel = function(e) {
 			this.$el.removeClass( "editing" );
+			this.$el.find(".panel-row-header").first().removeClass("panel-builder-bg-color");
+			this.$el.removeClass("panel-builder-border-color");
 			this.$el.one( 'click.panel', this.openPanel );
 		};
 

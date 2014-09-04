@@ -46,10 +46,16 @@
 		width: 34px;
 	}
 
+	&.editing {
+		padding-top: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
 	&.editing > .close {
 		height: 32px;
 		z-index: 999;
-		.caret { @include triangle(up); }
+		.caret { @include triangle(up, 9px, white); }
 	}
 
 	> button.close:focus {

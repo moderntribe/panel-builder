@@ -240,28 +240,34 @@ button.close:focus {
   width: 34px;
 }
 /* line 49, ../sass/panels/_panel.scss */
+.panel-row.editing {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 55, ../sass/panels/_panel.scss */
 .panel-row.editing > .close {
   height: 32px;
   z-index: 999;
 }
-/* line 52, ../sass/panels/_panel.scss */
+/* line 58, ../sass/panels/_panel.scss */
 .panel-row.editing > .close .caret {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-bottom: 6.5px solid #777777;
+  border-bottom: 6.5px solid white;
 }
-/* line 55, ../sass/panels/_panel.scss */
+/* line 61, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
   outline: none;
 }
 
-/* line 60, ../sass/panels/_panel.scss */
+/* line 66, ../sass/panels/_panel.scss */
 .panel-row-drop-placeholder {
   border: thin dashed #dddddd;
 }
 
-/* line 65, ../sass/panels/_panel.scss */
+/* line 71, ../sass/panels/_panel.scss */
 .panel-row.panel-warning {
   background-color: #fcf8e3;
   border-color: #e7deab;
@@ -269,19 +275,46 @@ button.close:focus {
 
 /* line 2, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header {
-  display: none;
+  position: relative;
+  box-shadow: 0 1px 0 #fffcf9;
+  border-top: thin solid rgba(255, 255, 255, 0.62);
+  border-right: thin solid rgba(255, 255, 255, 0.25);
+  border-bottom: thin solid rgba(0, 0, 0, 0.2);
+  border-left: thin solid rgba(255, 255, 255, 0.25);
+  padding: 6px 6px 10px;
 }
-/* line 6, ../sass/panels/_panel-header.scss */
+/* line 14, ../sass/panels/_panel-header.scss */
+.editing > .panel-row-header .panel-title, .editing > .panel-row-header .panel-type {
+  color: #fffbfb;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+/* line 19, ../sass/panels/_panel-header.scss */
+.editing > .panel-row-header .media-object {
+  border-right-color: #777;
+}
+/* line 23, ../sass/panels/_panel-header.scss */
+.editing > .panel-row-header:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+  content: "";
+}
+/* line 35, ../sass/panels/_panel-header.scss */
 .panel-row-header .media-object {
   padding-right: 6px;
   border-right: thin solid #dddddd;
 }
-/* line 11, ../sass/panels/_panel-header.scss */
+/* line 40, ../sass/panels/_panel-header.scss */
 .panel-row-header .panel-title {
   padding: 0 !important;
   border-bottom: none;
 }
-/* line 16, ../sass/panels/_panel-header.scss */
+/* line 45, ../sass/panels/_panel-header.scss */
 .panel-row-header .panel-type {
   margin-top: 0.2em;
   font-weight: lighter;
