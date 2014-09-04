@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-08-28 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2014-09-04 based on files in assets/scripts/js/fields
  */
 
 (function($) {
@@ -53,6 +53,9 @@
 		update_post_type_select: function( container ) {
 			var input = container.find('input.query-type');
 			var type = input.val();
+			if ( type == '' ) {
+				type = 'manual';
+			}
 			var select = container.find('select.post-type-select');
 			container.find('.'+type+' .filter-post_type-container').append(container.find('.filter-post_type'));
 			select.select2('destroy');
