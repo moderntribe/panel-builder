@@ -182,7 +182,7 @@ button.close:focus {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777777;
+  border-top: 6.5px solid #777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */
@@ -558,17 +558,21 @@ button.close:focus {
 .uploadContainer, .current-uploaded-image {
   margin: 0 !important;
 }
+/* line 3, ../sass/input/_wp-uploader.scss */
+.uploadContainer img, .current-uploaded-image img {
+  max-width: 100%;
+}
 
-/* line 6, ../sass/input/_wp-uploader.scss */
+/* line 9, ../sass/input/_wp-uploader.scss */
 .uploaderSection .drag-drop-inside {
   margin-bottom: 48px;
 }
-/* line 10, ../sass/input/_wp-uploader.scss */
+/* line 13, ../sass/input/_wp-uploader.scss */
 .uploaderSection .drag-drop-buttons {
   text-align: center;
 }
 
-/* line 15, ../sass/input/_wp-uploader.scss */
+/* line 18, ../sass/input/_wp-uploader.scss */
 .drag-drop .drag-drop-inside {
   margin-bottom: 48px;
 }

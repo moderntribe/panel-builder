@@ -1,5 +1,8 @@
 .uploadContainer, .current-uploaded-image {
 	margin: 0 !important;
+	img {
+		max-width: 100%;
+	}
 }
 
 .uploaderSection {
