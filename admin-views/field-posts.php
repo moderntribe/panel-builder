@@ -63,7 +63,6 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 		<div class="select-filters">
 			<select class="select-new-filter">
 				<option value=""><?php _e('Add a Filter', 'modular-content'); ?></option>
-				<option value="post_type"><?php _e('Post Type', 'modular-content'); ?></option>
 				<optgroup label="<?php esc_attr_e('Taxonomy', 'modular-content'); ?>">
 					<?php foreach ( $taxonomies as $tax_name ): ?>
 						<?php $tax = get_taxonomy($tax_name); ?>
