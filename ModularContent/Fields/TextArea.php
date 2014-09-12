@@ -69,6 +69,8 @@ class TextArea extends Field {
 					counter++;
 					wysiwyg.attr('id', wysiwyg_id);
 					wysiwyg.parents('.wp-editor-container').attr('id', 'wp-'+wysiwyg_id+'-editor-container');
+					wysiwyg.parents( '.panel-input.input-type-textarea' ).find( '.add_media' ).data( 'editor', wysiwyg_id );
+
 					var wrap = wysiwyg.parents('.wp-editor-wrap');
 
 					wrap.addClass('tmce-active').removeClass('html-active');
