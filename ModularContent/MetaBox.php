@@ -27,7 +27,10 @@ class MetaBox {
 		add_meta_box(
 			'modular-content',
 			Plugin::instance()->get_label('plural'),
-			array($this, 'render')
+			array($this, 'render'),
+			null,
+			'normal',
+			'high'
 		);
 		$this->enqueue_scripts();
 	}
