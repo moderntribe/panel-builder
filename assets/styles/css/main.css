@@ -203,7 +203,7 @@ button.close:focus {
 /* line 9, ../sass/panels/_panel.scss */
 .panel-row {
   position: relative;
-  padding: 6px 6px;
+  padding: 15px 15px;
   margin-top: 12px;
   margin-bottom: 12px;
   border: thin solid #dddddd;
@@ -281,7 +281,7 @@ button.close:focus {
   border-right: thin solid rgba(255, 255, 255, 0.25);
   border-bottom: thin solid rgba(0, 0, 0, 0.2);
   border-left: thin solid rgba(255, 255, 255, 0.25);
-  padding: 6px 6px 10px;
+  padding: 15px 15px 10px;
 }
 /* line 14, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header .panel-title, .editing > .panel-row-header .panel-type {
@@ -407,7 +407,7 @@ button.close:focus {
 /* line 4, ../sass/panels/_panel-editor.scss */
 .panel-row-editor {
   display: none;
-  padding: 6px 6px;
+  padding: 15px 15px;
 }
 /* line 8, ../sass/panels/_panel-editor.scss */
 .editing > .panel-row-editor {
