@@ -49,8 +49,8 @@
   border: 0;
 }
 
-/* line 45, ../sass/utility/_utilities.scss */
-.hidden {
+/* line 46, ../sass/utility/_utilities.scss */
+#modular-content .hidden {
   display: none !important;
   visibility: hidden !important;
 }
@@ -182,7 +182,7 @@ button.close:focus {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777;
+  border-top: 6.5px solid #777777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */

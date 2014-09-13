@@ -42,7 +42,9 @@
 //
 // Credit: HTML5 Boilerplate
 
-.hidden {
-  display: none !important;
-  visibility: hidden !important;
+#modular-content{
+	.hidden {
+		display: none !important;
+		visibility: hidden !important;
+	}
 }
