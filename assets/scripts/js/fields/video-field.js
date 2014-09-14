@@ -31,6 +31,9 @@
 	var panels_div = $('div.panels');
 	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
 		var row = $(this);
+		if ( row.data( 'panel_id' ) != uuid ) {
+			return;
+		}
 		var video_fields = row.find('input.video-url');
 		if ( video_fields.length < 1 ) {
 			return;

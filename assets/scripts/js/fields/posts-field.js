@@ -421,7 +421,9 @@
 	$(function() {
 		var panels_div = $('div.panels');
 		panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
-			postsField.initialize_row( $(this), uuid, data );
+			if ( $(this).data('panel_id') == uuid ) {
+				postsField.initialize_row( $(this), uuid, data );
+			}
 		});
 		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
 			postsField.initialize_row( $(this), uuid, data );

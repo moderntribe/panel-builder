@@ -46,6 +46,9 @@
 	var panels_div = $('div.panels');
 	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
 		var row = $(this);
+		if ( row.data( 'panel_id' ) != uuid ) {
+			return;
+		}
 		var container = row.find('fieldset.panel-input-repeater');
 		if ( container.length < 1 ) {
 			return;

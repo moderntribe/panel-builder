@@ -22,6 +22,9 @@
 	var panels_div = $('div.panels');
 	panels_div
 		.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
+			if ( $(this).data( 'panel_id' ) != uuid ) {
+				return;
+			}
 			init_row( $(this), uuid );
 		})
 		.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid) {

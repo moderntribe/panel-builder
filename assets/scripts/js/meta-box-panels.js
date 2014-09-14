@@ -151,6 +151,8 @@
 				depth: this.newPanelContainer.data( 'depth' )
 			}));
 
+			newRow.data( 'panel_id', uuid );
+
 			var childContainer = newRow.find('.panel-children');
 
 			if ( childContainer.length == 1 ) {
@@ -319,6 +321,8 @@
 				fields: panel.data,
 				depth: panel.depth
 			}));
+
+			newRow.data( 'panel_id', uuid );
 
 			while ( panel.depth < this.deepestParent && this.deepestParent > 0 ) {
 				delete this.parents[this.deepestParent];
