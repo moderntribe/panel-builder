@@ -151,7 +151,7 @@
 				depth: this.newPanelContainer.data( 'depth' )
 			}));
 
-			newRow.data( 'panel_id', uuid );
+			newRow.data( 'panel_id', panelId );
 
 			var childContainer = newRow.find('.panel-children');
 
@@ -312,17 +312,17 @@
 
 		PanelCreator.prototype.createPanel = function(panel) {
 			var template = wp.template( 'panel-' + panel.type );
-			var uuid = _.uniqueId( "panel_" );
+			var panelId = _.uniqueId( "panel_" );
 
 			var newRow = $(template({
-				panel_id: uuid,
-				field_name: uuid,
+				panel_id: panelId,
+				field_name: panelId,
 				panel_title: panel.data.title,
 				fields: panel.data,
 				depth: panel.depth
 			}));
 
-			newRow.data( 'panel_id', uuid );
+			newRow.data( 'panel_id', panelId );
 
 			while ( panel.depth < this.deepestParent && this.deepestParent > 0 ) {
 				delete this.parents[this.deepestParent];
@@ -344,7 +344,7 @@
 			}
 
 			currentContainer.append( newRow );
-			newRow.trigger( 'load-panel-row', [uuid, panel.data] );
+			newRow.trigger( 'load-panel-row', [panelId, panel.data] );
 		};
 
 		return PanelCreator;
