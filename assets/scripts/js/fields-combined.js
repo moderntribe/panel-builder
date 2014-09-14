@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-09-12 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2014-09-14 based on files in assets/scripts/js/fields
  */
 
 (function($) {
@@ -26,6 +26,9 @@
 	var panels_div = $('div.panels');
 	panels_div
 		.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
+			if ( $(this).data( 'panel_id' ) != uuid ) {
+				return;
+			}
 			init_row( $(this), uuid );
 		})
 		.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid) {
@@ -456,7 +459,9 @@
 	$(function() {
 		var panels_div = $('div.panels');
 		panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
-			postsField.initialize_row( $(this), uuid, data );
+			if ( $(this).data('panel_id') == uuid ) {
+				postsField.initialize_row( $(this), uuid, data );
+			}
 		});
 		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
 			postsField.initialize_row( $(this), uuid, data );
@@ -512,6 +517,9 @@
 	var panels_div = $('div.panels');
 	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid, data) {
 		var row = $(this);
+		if ( row.data( 'panel_id' ) != uuid ) {
+			return;
+		}
 		var container = row.find('fieldset.panel-input-repeater');
 		if ( container.length < 1 ) {
 			return;
@@ -559,6 +567,9 @@
 	var panels_div = $('div.panels');
 	panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
 		var row = $(this);
+		if ( row.data( 'panel_id' ) != uuid ) {
+			return;
+		}
 		var video_fields = row.find('input.video-url');
 		if ( video_fields.length < 1 ) {
 			return;
