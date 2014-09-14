@@ -15,7 +15,7 @@
  */
 .panel-row-editor {
 	.panel-input {
-		margin-bottom: 1.3em;
+		margin-bottom: 1.5em;
 		clear: both;
 	}
 
@@ -28,8 +28,7 @@
 	}
 
 	legend.panel-input-label{
-		background:#999;
-		color:#fff;
+		color:#999;
 		padding:5px 10px;
 	}
 
@@ -92,7 +91,7 @@
  * Editor fieldset
  */
 .panel-row-editor fieldset {
-	border: 1px solid #bbb;
+	border: 1px solid #CCC;
 	padding: 0.5em 1.5em;
 
 	&.input-type-link {
