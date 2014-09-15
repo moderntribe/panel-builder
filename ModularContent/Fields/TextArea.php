@@ -73,7 +73,6 @@ class TextArea extends Field {
 
 					var wrap = wysiwyg.parents('.wp-editor-wrap');
 
-					wrap.addClass('tmce-active').removeClass('html-active');
 					wrap.attr('id', 'wp-'+wysiwyg_id+'-wrap');
 					wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html');
 					wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
@@ -81,6 +80,7 @@ class TextArea extends Field {
 
 					var settings = {
 						"body_class":wysiwyg_id,
+						"content_css": "<?php echo $this->get_editor_stylesheets(); ?>",
 						"indent":<?php echo $settings['indent']?'true':'false'; ?>,
 						"menubar":<?php echo $settings['menubar']?'true':'false'; ?>,
 						"resize":"<?php echo $settings['resize']; ?>",
@@ -96,16 +96,14 @@ class TextArea extends Field {
 					var qt_settings = {id:wysiwyg_id,buttons:"strong,em,link,block,del,ins,img,ul,ol,li,code,more,close"};
 
 					try {
+						settings = tinymce.extend( {}, tinyMCEPreInit.ref, settings );
 						tinyMCEPreInit.mceInit[wysiwyg_id] = settings;
 						tinyMCEPreInit.qtInit[wysiwyg_id] = qt_settings;
-						settings = tinymce.extend( {}, tinyMCEPreInit.ref, settings );
-						tinymce.init( settings );
 						quicktags( tinyMCEPreInit.qtInit[wysiwyg_id] ); // sets up the quick tags toolbar
 						QTags._buttonsInit(); // adds buttons to the new quick tags toolbar
-						wysiwyg.addClass('wp-editor-initialized');
-						wrap.addClass('tmce-active');
-						if ( wrap.hasClass('html-active') ) {
-							switchEditors.switchto(wrap.find('.wp-switch-editor.switch-html')[0]);
+
+						if ( wrap.hasClass('tmce-active') ) {
+							switchEditors.go( wysiwyg_id, 'tmce' );
 						}
 
 						if ( ! window.wpActiveEditor ) {
@@ -138,6 +136,36 @@ class TextArea extends Field {
 			})(jQuery, tinymce);
 		</script>
 		<?php
+	}
+
+	protected function get_editor_stylesheets() {
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$version = 'ver=' . $GLOBALS['wp_version'];
+		$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
+
+		// WordPress default stylesheet and dashicons
+		$mce_css = array(
+			$dashicons,
+			includes_url( 'js/tinymce' ) . '/skins/wordpress/wp-content.css?' . $version
+		);
+
+		$editor_styles = get_editor_stylesheets();
+		if ( ! empty( $editor_styles ) ) {
+			foreach ( $editor_styles as $style ) {
+				$mce_css[] = $style;
+			}
+		}
+
+		/**
+		 * Filter the comma-delimited list of stylesheets to load in TinyMCE.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array $stylesheets Comma-delimited list of stylesheets.
+		 */
+		$mce_css = trim( apply_filters( 'mce_css', implode( ',', $mce_css ) ), ' ,' );
+
+		return $mce_css;
 	}
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
