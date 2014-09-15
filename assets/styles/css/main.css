@@ -166,11 +166,12 @@ button.close:focus {
 
 /* line 1, ../sass/modules/_delete-panel.scss */
 .delete-panel {
+  display: block;
+  text-align: right;
   color: #d15e61;
   text-decoration: none;
-  float: right;
 }
-/* line 6, ../sass/modules/_delete-panel.scss */
+/* line 7, ../sass/modules/_delete-panel.scss */
 .delete-panel:hover {
   color: #b03236;
 }
@@ -183,7 +184,7 @@ button.close:focus {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777;
+  border-top: 6.5px solid #777777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */

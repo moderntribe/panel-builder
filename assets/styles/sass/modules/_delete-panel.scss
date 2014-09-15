@@ -1,7 +1,8 @@
 .delete-panel {
+	display: block;
+	text-align: right;
 	color: $color-danger;
 	text-decoration: none;
-	float: right;
 
 	&:hover {
 		color: darken($color-danger, 15%);
