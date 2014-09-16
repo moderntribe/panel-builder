@@ -119,6 +119,9 @@ class TextArea extends Field {
 				var panels_div = $('div.panels');
 				panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
 					var row = $(this);
+					if ( row.data('panel_id') != uuid ) {
+						return;
+					}
 					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
 					if ( wysiwyg.length < 1 ) {
 						return;
