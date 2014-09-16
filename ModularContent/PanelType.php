@@ -25,6 +25,12 @@ class PanelType {
 	protected $icon = '';
 
 	/** @var string */
+	protected $active_icon = '';
+
+	/** @var string */
+	protected $inactive_icon = '';
+
+	/** @var string */
 	protected $description = '';
 
 	/** @var PanelViewFinder */
@@ -132,12 +138,30 @@ class PanelType {
 		return $this->label;
 	}
 
-	public function set_icon( $icon ) {
-		$this->icon = $icon;
+	public function set_icon( $icon, $state = 'both' ) {
+		switch ( $state ) {
+			case 'active':
+				$this->active_icon = $icon;
+				break;
+			case 'inactive':
+				$this->inactive_icon = $icon;
+				break;
+			case 'both':
+			default:
+				$this->active_icon = $icon;
+				$this->inactive_icon = $icon;
+				break;
+		}
 	}
 
-	public function get_icon() {
-		return $this->icon;
+	public function get_icon( $state = 'inactive' ) {
+		switch ( $state ) {
+			case 'active':
+				return $this->active_icon ? $this->active_icon : $this->inactive_icon;
+			case 'inactive':
+			default:
+				return $this->inactive_icon ? $this->inactive_icon : $this->active_icon;
+		}
 	}
 
 	public function set_description( $text ) {
