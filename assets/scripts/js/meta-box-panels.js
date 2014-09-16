@@ -270,6 +270,7 @@
 				this.$el.find(".panel-row-header").first().addClass("panel-builder-bg-color");
 				this.$el.addClass("panel-builder-border-color");
 				this.$el.find("input:text").first().focus();
+				this.setThumbnail( "data-alt" );
 			}
 		};
 
@@ -278,7 +279,15 @@
 			this.$el.find(".panel-row-header").first().removeClass("panel-builder-bg-color");
 			this.$el.removeClass("panel-builder-border-color");
 			this.$el.one( 'click.panel', this.openPanel );
+			this.setThumbnail( "data-default" );
 		};
+
+		Panel.prototype.setThumbnail = function( imageSrc ) {
+			var image = this.$el.find("> .panel-row-header").find(".media-object");
+			image.attr( "src", image.attr( imageSrc ) );
+			console.log("Set thumbnail src: ", image.attr( imageSrc ));
+		};
+
 
 		return Panel;
 
