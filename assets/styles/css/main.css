@@ -292,7 +292,7 @@ button.close:focus {
 }
 /* line 19, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header .media-object {
-  border-right-color: #777;
+  border-right-color: #fffbfb;
 }
 /* line 23, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header:before {
