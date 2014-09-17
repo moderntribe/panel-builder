@@ -954,15 +954,19 @@ button.close:focus {
 .panels .ui-tabs .ui-tabs-panel {
   padding: 0;
 }
-/* line 63, ../sass/_jquery-ui-overwrites.scss */
+/* line 62, ../sass/_jquery-ui-overwrites.scss */
+.panels .ui-tabs fieldset.ui-tabs-panel {
+  padding-top: 1em;
+}
+/* line 66, ../sass/_jquery-ui-overwrites.scss */
 .panels .ui-tabs .ui-tabs-nav li {
   margin-right: 0.3em;
 }
-/* line 67, ../sass/_jquery-ui-overwrites.scss */
+/* line 70, ../sass/_jquery-ui-overwrites.scss */
 .panels .ui-tabs .ui-tabs-nav {
   border-bottom: thin solid #ddd;
 }
-/* line 71, ../sass/_jquery-ui-overwrites.scss */
+/* line 74, ../sass/_jquery-ui-overwrites.scss */
 .panels .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
 .panels .ui-tabs .ui-tabs-nav li.ui-tabs-focus .ui-tabs-anchor {
   border: none;

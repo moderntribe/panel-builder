@@ -59,6 +59,9 @@
 	.ui-tabs-panel {
 		padding: 0;
 	}
+	fieldset.ui-tabs-panel {
+		padding-top: 1em;
+	}
 
 	.ui-tabs-nav li {
 		margin-right: 0.3em;

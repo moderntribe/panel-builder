@@ -40,12 +40,11 @@
 			var type = container.find('input.query-type').val();
 			var active_tab_index = 0;
 			fieldsets.each( function(index) {
-				var id = $(this).attr('id')+'-wrapper';
+				var id = $(this).attr('id');
 				var legend = $(this).children('legend');
 				if ( $(this).hasClass(type) ) {
 					active_tab_index = index;
 				}
-				$(this).wrap('<div id="'+id+'" />');
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});

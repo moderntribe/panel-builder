@@ -106,6 +106,7 @@ class TextArea extends Field {
 						}
 
 						document.getElementById( 'wp-' + wysiwyg_id + '-wrap' ).onclick = function() {
+							console.log(this.id.slice( 3, -5 ));
 							window.wpActiveEditor = this.id.slice( 3, -5 );
 						}
 					} catch(e){}
