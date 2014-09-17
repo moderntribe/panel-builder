@@ -12,7 +12,7 @@ class TextArea extends Field {
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
 		parent::__construct($args);
-		$this->index = self::$global_index++;
+		$this->index = sprintf('%04d', self::$global_index++);
 
 		// slight chance that this ends up with a harmless enqueued style, but no
 		// better place to put it to ensure that WP doesn't print the styles in
@@ -25,7 +25,7 @@ class TextArea extends Field {
 		if ( $this->richtext ) {
 			wp_editor(
 				$this->get_input_value(),
-				$this->get_id(),
+				$this->get_indexed_id(),
 				array(
 					'textarea_rows' => 20,
 					'textarea_name' => $this->get_input_name(),
@@ -48,7 +48,7 @@ class TextArea extends Field {
 		if ( empty(self::$first_mce_init_settings) ) {
 			self::$first_mce_init_settings = reset($settings);
 		}
-		$id = $this->get_id();
+		$id = $this->get_indexed_id();
 		if ( !isset($settings[$id]) ) {
 			return;
 		}
@@ -58,7 +58,7 @@ class TextArea extends Field {
 		?><script type="text/javascript">
 			(function($, tinymce) {
 				var counter = 0;
-				var generic_id = '<?php echo $this->get_id(); ?>';
+				var generic_id = '<?php echo $id; ?>';
 				if ( tinyMCEPreInit.mceInit.hasOwnProperty(generic_id) ) {
 					delete tinyMCEPreInit.mceInit[generic_id];
 				}
@@ -163,6 +163,11 @@ class TextArea extends Field {
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
 		return $uuid.'_'.$this->esc_class($this->name);
+	}
+
+	protected function get_indexed_id( $uuid = '{{data.panel_id}}' ) {
+		$id = $this->get_id($uuid);
+		return $id.'-'.$this->index;
 	}
 
 	public function get_vars( $data, $panel ) {
