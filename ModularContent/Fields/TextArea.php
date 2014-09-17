@@ -161,36 +161,6 @@ class TextArea extends Field {
 		return '{' . trim( $string, ' ,' ) . '}';
 	}
 
-	protected function get_editor_stylesheets() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version = 'ver=' . $GLOBALS['wp_version'];
-		$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
-
-		// WordPress default stylesheet and dashicons
-		$mce_css = array(
-			$dashicons,
-			includes_url( 'js/tinymce' ) . '/skins/wordpress/wp-content.css?' . $version
-		);
-
-		$editor_styles = get_editor_stylesheets();
-		if ( ! empty( $editor_styles ) ) {
-			foreach ( $editor_styles as $style ) {
-				$mce_css[] = $style;
-			}
-		}
-
-		/**
-		 * Filter the comma-delimited list of stylesheets to load in TinyMCE.
-		 *
-		 * @since 2.1.0
-		 *
-		 * @param array $stylesheets Comma-delimited list of stylesheets.
-		 */
-		$mce_css = trim( apply_filters( 'mce_css', implode( ',', $mce_css ) ), ' ,' );
-
-		return $mce_css;
-	}
-
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
 		return $uuid.'_'.$this->esc_class($this->name);
 	}
