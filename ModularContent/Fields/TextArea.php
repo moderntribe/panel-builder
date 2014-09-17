@@ -7,6 +7,7 @@ class TextArea extends Field {
 	protected $richtext = FALSE;
 	protected static $global_index = 0;
 	protected $index = 0;
+	protected static $first_mce_init_settings = array();
 
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
@@ -44,11 +45,16 @@ class TextArea extends Field {
 	}
 
 	public function render_tinymce_initilizaton_script( $settings ) {
+		if ( empty(self::$first_mce_init_settings) ) {
+			self::$first_mce_init_settings = reset($settings);
+		}
 		$id = $this->get_id();
 		if ( !isset($settings[$id]) ) {
 			return;
 		}
 		$settings = $settings[$id];
+		$settings = wp_parse_args( $settings, self::$first_mce_init_settings );
+
 		?><script type="text/javascript">
 			(function($, tinymce) {
 				var counter = 0;
@@ -78,20 +84,9 @@ class TextArea extends Field {
 					wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
 
 
-					var settings = {
-						"body_class":wysiwyg_id,
-						"content_css": "<?php echo $this->get_editor_stylesheets(); ?>",
-						"indent":<?php echo $settings['indent']?'true':'false'; ?>,
-						"menubar":<?php echo $settings['menubar']?'true':'false'; ?>,
-						"resize":"<?php echo $settings['resize']; ?>",
-						"selector":"#"+wysiwyg_id,
-						"tabfocus_elements":"<?php echo $settings['tabfocus_elements']; ?>",
-						"toolbar1":"<?php echo $settings['toolbar1']; ?>",
-						"toolbar2":"<?php echo $settings['toolbar2']; ?>",
-						"toolbar3":"<?php echo $settings['toolbar3']; ?>",
-						"toolbar4":"<?php echo $settings['toolbar4']; ?>",
-						"wpautop":<?php echo $settings['wpautop']?'true':'false'; ?>
-					};
+					var settings = <?php echo $this->build_js_settings_string($settings); ?>;
+					settings.body_class = wysiwyg_id;
+					settings.selector = '#'+wysiwyg_id;
 
 					var qt_settings = {id:wysiwyg_id,buttons:"strong,em,link,block,del,ins,img,ul,ol,li,code,more,close"};
 
@@ -139,6 +134,31 @@ class TextArea extends Field {
 			})(jQuery, tinymce);
 		</script>
 		<?php
+	}
+
+	/**
+	 * @param $settings
+	 *
+	 * @see \_WP_Editors::_parse_init()
+	 *
+	 * @return string
+	 */
+	protected function build_js_settings_string( $settings ) {
+		$string = '';
+
+		foreach ( $settings as $k => $v ) {
+			if ( is_bool($v) ) {
+				$val = $v ? 'true' : 'false';
+				$string .= $k . ':' . $val . ',';
+				continue;
+			} elseif ( !empty($v) && is_string($v) && ( ('{' == $v{0} && '}' == $v{strlen($v) - 1}) || ('[' == $v{0} && ']' == $v{strlen($v) - 1}) || preg_match('/^\(?function ?\(/', $v) ) ) {
+				$string .= $k . ':' . $v . ',';
+				continue;
+			}
+			$string .= $k . ':"' . $v . '",';
+		}
+
+		return '{' . trim( $string, ' ,' ) . '}';
 	}
 
 	protected function get_editor_stylesheets() {
