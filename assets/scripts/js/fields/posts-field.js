@@ -7,7 +7,7 @@
 		},
 
 		update_active_tab: function( event, ui ) {
-			var fieldset = $(ui.newPanel).find('fieldset');
+			var fieldset = ui.newPanel;
 			var container = fieldset.closest('.panel-input-posts');
 			var type = fieldset.data('type');
 			var input = container.find('input.query-type');
