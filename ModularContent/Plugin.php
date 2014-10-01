@@ -87,7 +87,7 @@ class Plugin {
 		echo $this->get_the_panels();
 
 		remove_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
-		add_action( 'the_panels', array( $this, '__return_null' ), 10, 0 );
+		add_action( 'the_panels', '__return_null', 10, 0 );
 	}
 
 	public function get_the_panels() {
