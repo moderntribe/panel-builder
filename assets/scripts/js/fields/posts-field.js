@@ -373,7 +373,7 @@
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: container.find('.panel-input-group').data('max'),
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {
