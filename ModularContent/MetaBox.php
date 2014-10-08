@@ -260,9 +260,10 @@ class MetaBox {
 			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
+				$title = apply_filters( 'panel_manual_query_post_title', get_the_title( $post ), $post );
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'text' => esc_html( $title ),
 				);
 			}
 
