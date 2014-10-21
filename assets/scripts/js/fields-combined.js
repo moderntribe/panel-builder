@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-09-17 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2014-10-21 based on files in assets/scripts/js/fields
  */
 
 (function($) {
@@ -45,7 +45,7 @@
 		},
 
 		update_active_tab: function( event, ui ) {
-			var fieldset = $(ui.newPanel).find('fieldset');
+			var fieldset = ui.newPanel;
 			var container = fieldset.closest('.panel-input-posts');
 			var type = fieldset.data('type');
 			var input = container.find('input.query-type');
@@ -290,7 +290,7 @@
 				needed = min - visible.length;
 			}
 			if ( needed > 0 && visible.length > 0 ) {
-				container.find('.selection-notices').show().find('.count').text(needed);
+				container.find('.selection-notices').fadeIn(200).find('.count').text(needed);
 			} else {
 				container.find('.selection-notices').hide();
 			}

@@ -636,23 +636,27 @@ button.close:focus {
 
 /* line 41, ../sass/fields/_posts.scss */
 .panel-input-posts .selection-notices {
-  margin: 1em 0;
-  background-color: #efd5d6;
-  color: #c43d3a;
-  padding: 0.5em;
-  font-weight: bold;
   display: none;
+  margin: 1em 0;
+  padding: 0.8em 1em;
+  background-color: #f9e2a9;
+  border: thin solid #e8cab0;
+  color: #c4793a;
 }
-/* line 50, ../sass/fields/_posts.scss */
+/* line 52, ../sass/fields/_posts.scss */
+.panel-input-posts .selection-notices [class*="icon"] {
+  margin-right: 0.5em;
+}
+/* line 57, ../sass/fields/_posts.scss */
 .panel-input-posts .selection {
   width: 100%;
   overflow: hidden;
 }
-/* line 55, ../sass/fields/_posts.scss */
+/* line 62, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post {
   position: relative;
 }
-/* line 59, ../sass/fields/_posts.scss */
+/* line 66, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post {
   position: absolute;
   top: 0;
@@ -662,24 +666,24 @@ button.close:focus {
   text-decoration: none;
   display: none;
 }
-/* line 69, ../sass/fields/_posts.scss */
+/* line 76, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post .remove-selected-post:hover {
   color: #c43d3a;
 }
-/* line 73, ../sass/fields/_posts.scss */
+/* line 80, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post:hover {
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-/* line 78, ../sass/fields/_posts.scss */
+/* line 85, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post:hover .remove-selected-post {
   display: block;
 }
-/* line 82, ../sass/fields/_posts.scss */
+/* line 89, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .remove-selected-post {
   display: none;
 }
-/* line 86, ../sass/fields/_posts.scss */
+/* line 93, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview, .panel-input-posts .selected-post {
   position: relative;
   padding: 7px;
@@ -688,27 +692,27 @@ button.close:focus {
   border: 1px solid #ddd;
   min-height: 80px;
 }
-/* line 95, ../sass/fields/_posts.scss */
+/* line 102, ../sass/fields/_posts.scss */
 .panel-input-posts .post-title {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 15px;
   text-indent: 2px;
 }
-/* line 102, ../sass/fields/_posts.scss */
+/* line 109, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post .select2-container {
   width: 100%;
   max-width: 300px;
 }
-/* line 107, ../sass/fields/_posts.scss */
+/* line 114, ../sass/fields/_posts.scss */
 .panel-input-posts .post-title, .panel-input-posts .post-excerpt {
   padding-right: 86px;
 }
-/* line 112, ../sass/fields/_posts.scss */
+/* line 119, ../sass/fields/_posts.scss */
 .panel-input-posts .post-excerpt, .panel-input-posts .post-excerpt {
   margin-top: 7px;
 }
-/* line 116, ../sass/fields/_posts.scss */
+/* line 123, ../sass/fields/_posts.scss */
 .panel-input-posts .post-thumbnail {
   position: absolute;
   top: 7px;
@@ -716,40 +720,40 @@ button.close:focus {
   width: 64px;
   height: 64px;
 }
-/* line 124, ../sass/fields/_posts.scss */
+/* line 131, ../sass/fields/_posts.scss */
 .panel-input-posts .post-preview img,
 .panel-input-posts .selected-post img {
   max-width: 100%;
   height: auto;
 }
-/* line 130, ../sass/fields/_posts.scss */
+/* line 137, ../sass/fields/_posts.scss */
 .panel-input-posts .select-filters {
   width: 100%;
 }
-/* line 134, ../sass/fields/_posts.scss */
+/* line 141, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row {
   border-top: 1px solid #DDD;
   padding: 10px 0;
 }
-/* line 139, ../sass/fields/_posts.scss */
+/* line 146, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters {
   margin-top: 10px;
 }
-/* line 142, ../sass/fields/_posts.scss */
+/* line 149, ../sass/fields/_posts.scss */
 .panel-input-posts .query-filters label {
   display: inline-block;
   width: 20%;
 }
-/* line 148, ../sass/fields/_posts.scss */
+/* line 155, ../sass/fields/_posts.scss */
 .panel-input-posts .filter-options {
   display: inline-block;
   width: 70%;
 }
-/* line 153, ../sass/fields/_posts.scss */
+/* line 160, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row select, .panel-input-posts .panel-filter-row .select2-container {
   width: 100% !important;
 }
-/* line 157, ../sass/fields/_posts.scss */
+/* line 164, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter {
   display: inline-block;
   overflow: hidden;
@@ -759,12 +763,12 @@ button.close:focus {
   vertical-align: middle;
   float: right;
 }
-/* line 166, ../sass/fields/_posts.scss */
+/* line 173, ../sass/fields/_posts.scss */
 .panel-input-posts .remove-filter:hover {
   color: #c43d3a;
 }
 
-/* line 171, ../sass/fields/_posts.scss */
+/* line 178, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.disabled {
   opacity: 0.5;
   cursor: auto;
@@ -773,45 +777,45 @@ button.close:focus {
 /**
  * Placeholder post
  */
-/* line 180, ../sass/fields/_posts.scss */
+/* line 187, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty {
   background-color: #fff;
 }
-/* line 183, ../sass/fields/_posts.scss */
+/* line 190, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty:hover {
   box-shadow: none;
 }
-/* line 187, ../sass/fields/_posts.scss */
+/* line 194, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title, .panel-input-posts .selected-post.empty .text-line, .panel-input-posts .selected-post.empty .post-thumbnail {
   background-color: #f1f1f1;
 }
-/* line 191, ../sass/fields/_posts.scss */
+/* line 198, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title {
   width: 45%;
   height: 18px;
 }
-/* line 196, ../sass/fields/_posts.scss */
+/* line 203, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line {
   height: 7px;
   margin-top: 7px;
 }
-/* line 200, ../sass/fields/_posts.scss */
+/* line 207, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:first-child {
   margin-top: 0;
 }
-/* line 202, ../sass/fields/_posts.scss */
+/* line 209, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(1) {
   width: 100%;
 }
-/* line 203, ../sass/fields/_posts.scss */
+/* line 210, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(2) {
   width: 88%;
 }
-/* line 204, ../sass/fields/_posts.scss */
+/* line 211, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(3) {
   width: 97%;
 }
-/* line 207, ../sass/fields/_posts.scss */
+/* line 214, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-thumbnail {
   width: 64px;
   height: 64px;
