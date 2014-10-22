@@ -902,6 +902,17 @@ button.close:focus {
   margin-bottom: 12px;
 }
 
+/* line 1, ../sass/fields/_gallery.scss */
+.gallery-field-selection {
+  overflow: hidden;
+}
+
+/* line 4, ../sass/fields/_gallery.scss */
+.gallery-field-item {
+  float: left;
+  margin: 0.25em 0.5em;
+}
+
 /**
  * Base
  */
