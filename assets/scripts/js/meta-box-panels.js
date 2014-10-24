@@ -146,7 +146,7 @@
 			var newRow = $(template({
 				panel_id: panelId,
 				field_name: panelId,
-				panel_title: 'Untitled', // TODO: localize
+				panel_title: ModularContent.localization.untitled,
 				fields: { title: '' },
 				depth: this.newPanelContainer.data( 'depth' )
 			}));
@@ -245,7 +245,7 @@
 			this.$el.addClass( "panel-warning" );
 
 			var _this = this;
-			if ( confirm( 'Delete this panel?' ) ) { // TODO: localize
+			if ( confirm( ModularContent.localization.delete_this_panel ) ) {
 				_this.$el.fadeOut(150, function() {
 					_this.$el.remove();
 				});
@@ -259,7 +259,7 @@
 		Panel.prototype.updateTitle = function(e) {
 			var title = $( e.currentTarget ).val();
 			if ( title === '' ) {
-				title = 'Untitled'; // TODO: localize
+				title = ModularContent.localization.untitled;
 			}
 			this.$el.find( '> .panel-row-header' ).find( '.panel-title' ).text( title );
 		};

@@ -55,7 +55,7 @@
 			frame.toolbar.get('view').set({
 				insert: {
 					style: 'primary',
-					text: 'Save Gallery', // TODO: localize
+					text: ModularContent.localization.save_gallery,
 					click: function() {
 						var models = frame.state().get('library');
 
@@ -67,7 +67,6 @@
 							};
 						} );
 
-						this.el.innerHTML = 'Saving...'; // TODO: localize
 						show_preview( container, attachments );
 						frame.close();
 					}
@@ -104,7 +103,7 @@
 				item.append( '<input type="hidden" class="gallery-field-attachment-id" name="'+panel_id+'['+index+'][id]" value="'+attachment.id+'" />');
 				item.append( '<input type="hidden" class="gallery-field-attachment-thumbnail" name="'+panel_id+'['+index+'][thumbnail]" value="'+attachment.thumbnail+'" />');
 				item.append( '<img src="'+attachment.thumbnail+'" width="75" height="75" />' );
-				selection_row.append( item )
+				selection_row.append( item );
 			}
 		});
 	};

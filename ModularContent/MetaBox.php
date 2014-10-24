@@ -119,6 +119,11 @@ class MetaBox {
 
 	public function render( $post ) {
 		$collection = PanelCollection::find_by_post_id( $post->ID );
+		$localization = array(
+			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
+			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
+			'untitled' => __( 'Untitled', 'modular-content' ),
+		);
 		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}
 
