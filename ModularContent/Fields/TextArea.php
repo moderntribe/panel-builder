@@ -27,7 +27,7 @@ class TextArea extends Field {
 				$this->get_input_value(),
 				$this->get_indexed_id(),
 				array(
-					'textarea_rows' => 20,
+					'textarea_rows' => 30,
 					'textarea_name' => $this->get_input_name(),
 					'quicktags'     => true,
 					'editor_class'    => 'wysiwyg-{{data.panel_id}}-'.$this->index,
@@ -54,6 +54,7 @@ class TextArea extends Field {
 		}
 		$settings = $settings[$id];
 		$settings = wp_parse_args( $settings, self::$first_mce_init_settings );
+		$settings['wp_autoresize_on'] = false;
 
 		?><script type="text/javascript">
 			(function($, tinymce) {
