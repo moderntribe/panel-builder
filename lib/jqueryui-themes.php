@@ -18,7 +18,7 @@ function jqueryui_register_theme( $theme ) {
 	if ( $wp_scripts ) {
 		$ui = $wp_scripts->query('jquery-ui-core');
 		if ( $ui ) {
-			if ( isset ( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) {
+			if ( is_user_logged_in() ) {
 				$ui_base = "https://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/$theme";
 			} else {
 				$ui_base = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/$theme";
