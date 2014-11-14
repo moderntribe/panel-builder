@@ -101,7 +101,7 @@ class MetaBox {
 	 * Save the meta boxes for this post type
 	 *
 	 * @param int $post_id The ID of the post being saved
-	 * @param object $post The post being saved
+	 * @param array $post The post being saved
 	 * @return array
 	 */
 	public function maybe_filter_post_data( $post_data, $post ) {
@@ -119,6 +119,11 @@ class MetaBox {
 
 	public function render( $post ) {
 		$collection = PanelCollection::find_by_post_id( $post->ID );
+		$localization = array(
+			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
+			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
+			'untitled' => __( 'Untitled', 'modular-content' ),
+		);
 		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}
 
@@ -187,7 +192,7 @@ class MetaBox {
 
 	public function filter_autosave_data( $post_data, $post, $submission ) {
 		if ( empty($post_data['post_content_filtered']) ) {
-			$post_data['post_content_filtered'] = $post->post_content_filtered;
+			$post_data['post_content_filtered'] = $post['post_content_filtered'];
 			return $post_data;
 		}
 		$deserialized = $this->deserialize_to_json($post_data['post_content_filtered']);

@@ -252,7 +252,7 @@
 				needed = min - visible.length;
 			}
 			if ( needed > 0 && visible.length > 0 ) {
-				container.find('.selection-notices').show().find('.count').text(needed);
+				container.find('.selection-notices').fadeIn(200).find('.count').text(needed);
 			} else {
 				container.find('.selection-notices').hide();
 			}

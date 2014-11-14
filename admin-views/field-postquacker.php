@@ -36,7 +36,9 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 			<button class="button button-secondary"><?php printf( __('Add to %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label() ); ?></button>
 		</div>
 
-		<div class="selection-notices"><span class="icon-exclamation-sign"></span> <?php printf( __('This %s requires <span class="count">0</span> more items.', 'modular-content'), strtolower(\ModularContent\Plugin::instance()->get_label()) ); ?></div>
+		<div class="selection-notices">
+			<span class="icon-exclamation-sign"></span> <?php printf( __('This %s requires <span class="count">0</span> more items.', 'modular-content'), strtolower(\ModularContent\Plugin::instance()->get_label()) ); ?>
+		</div>
 		<div class="selection" data-field_name="<?php echo $input_name; ?>">
 			<?php for ( $i = 0 ; $i < 1 ; $i++ ): ?>
 				<div class="selected-post">

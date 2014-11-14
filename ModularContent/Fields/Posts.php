@@ -120,7 +120,8 @@ class Posts extends Field {
 		$post_types = get_post_types(array('has_archive' => TRUE, 'public' => TRUE), 'objects', 'and');
 		$post_types['post'] = get_post_type_object('post'); // posts are special
 		unset($post_types['landing_page']); // because, really, why would you?
-		return apply_filters('panels_query_post_type_options', $post_types, $this->name );
+		$post_types = apply_filters('panels_query_post_type_options', $post_types, $this->name );
+		return array_filter( $post_types );
 	}
 
 	public static function print_supporting_templates() {

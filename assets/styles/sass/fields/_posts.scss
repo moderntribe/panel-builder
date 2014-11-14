@@ -39,12 +39,19 @@
 
 .panel-input-posts {
 	.selection-notices {
-		margin: 1em 0;
-		background-color: #efd5d6;
-		color: #c43d3a;
-		padding: 0.5em;
-		font-weight: bold;
 		display: none;
+
+		margin: 1em 0;
+		padding: 0.8em 1em;
+
+		background-color: #f9e2a9;
+		border: thin solid #e8cab0;
+
+		color: #c4793a;
+
+		[class*="icon"] {
+			margin-right: 0.5em;
+		}
 	}
 
 	.selection {
