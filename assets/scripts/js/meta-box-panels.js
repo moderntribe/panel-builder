@@ -99,13 +99,32 @@
 			}
 
 			var depth = container.data('depth');
+			var container_type = container.closest('.panel-row').data('type');
 
 			var newPanelList = $( '#new-panel' ).find( '.panel-template' );
 			newPanelList.each( function() {
 				var template = $(this);
 				var template_max_depth = template.data( 'max_depth' );
+				var template_contexts = [];
+				var template_context_mode = template.data( 'panel-context-mode' );
 				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
 					template.parent().hide();
+				} else if ( template_context_mode == 'allow' && depth == 0 ) {
+					template.parent().hide(); // the panel requires a parent context
+				} else if ( template_context_mode == 'allow' ) {
+					template_contexts = template.data( 'panel-contexts' );
+					if ( $.inArray( container_type, template_contexts ) >= 0 ) {
+						template.parent().show();
+					} else {
+						template.parent().hide();
+					}
+				} else if ( template_context_mode == 'deny' ) {
+					template_contexts = template.data( 'panel-contexts' );
+					if ( $.inArray( container_type, template_contexts ) < 0 ) {
+						template.parent().show();
+					} else {
+						template.parent().hide();
+					}
 				} else {
 					template.parent().show();
 				}

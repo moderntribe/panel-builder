@@ -10,7 +10,19 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 ?>
 
-<div class="panel-template" data-panel-type="<?php esc_attr_e($this->id); ?>" <?php if ( $this->max_depth != self::NO_LIMIT ): ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php endif; ?>>
+<div
+	class="panel-template"
+	data-panel-type="<?php esc_attr_e($this->id); ?>"
+	<?php if ( $this->max_depth != self::NO_LIMIT ) { ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php } ?>
+	<?php
+	if ( $this->allowed_contexts() ) {
+	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->allowed_contexts())); ?>"
+		data-panel-context-mode="allow"<?php
+	} elseif ( $this->forbidden_contexts() ) {
+	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->forbidden_contexts())); ?>"
+		data-panel-context-mode="deny"<?php
+	}?>
+	>
 	<div class="thumbnail">
 		<span class="panel-icon"><img src="<?php echo esc_url($this->get_icon()); ?>" alt="<?php esc_attr_e($this->get_label()); ?>" /></span>
 		<span class="panel-title"><?php esc_html_e($this->get_label()); ?></span>
