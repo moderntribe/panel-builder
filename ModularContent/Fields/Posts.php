@@ -183,7 +183,7 @@ class Posts extends Field {
 			}
 			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
 			$posts[$id] = array(
-				'post_title' => get_the_title($post),
+				'post_title' => html_entity_decode( get_the_title($post) ),
 				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
 				'thumbnail_html' => get_the_post_thumbnail($post->ID, array(150, 150)),
 			);

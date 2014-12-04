@@ -268,7 +268,7 @@ class MetaBox {
 				$title = apply_filters( 'panel_manual_query_post_title', get_the_title( $post ), $post );
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html( $title ),
+					'text' => html_entity_decode( $title ),
 				);
 			}
 
