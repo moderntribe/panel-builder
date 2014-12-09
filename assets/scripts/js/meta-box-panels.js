@@ -408,7 +408,19 @@
  * Autosave for panels
  */
 (function($) {
+	function cleanup_wysiwygs() {
+		if ( typeof tinymce !== 'undefined' ) {
+			$('#modular-content').find('textarea.wp-editor-area').each(function () {
+				var editor = tinymce.get($(this).attr('id'));
+				if ( editor && editor.isDirty() ) {
+					editor.save();
+				}
+			});
+		}
+	}
+
 	$(document).on('before-autosave.panel-autosave', function( e, postdata ) {
+		cleanup_wysiwygs();
 		postdata.post_content_filtered = $('#modular-content').find('input, select, textarea').serialize();
 	});
 })(jQuery);
