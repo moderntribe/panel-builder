@@ -394,7 +394,7 @@
 		// Instantiates panels from server-side rendered markup.
 		// Wait untill window.load so we know all deps are loaded first.
 		$(window).load(function() {
-			new PanelCreator( panels );
+			window.tribe.panels.creator = new PanelCreator( panels );
 			window.tribe.panels.container.initExistingPanels();
 		});
 	});
