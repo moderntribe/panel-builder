@@ -141,7 +141,7 @@ class MetaBox {
 		return $post_data;
 	}
 
-	protected function submission_to_json( $submission ) {
+	public function submission_to_json( $submission ) {
 		$panel_ids = $submission['panel_id'];
 		if ( !is_array( $panel_ids ) ) {
 			$panel_ids = array();
