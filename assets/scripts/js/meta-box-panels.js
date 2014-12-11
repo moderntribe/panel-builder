@@ -383,7 +383,10 @@
 	 * DOM Ready handler
 	 * Kicks everything into motion
 	 */
+	var submitButtons = $('#submitpost').find( ':button, :submit, a.submitdelete, #post-preview' );
+	submitButtons.addClass( 'disabled' );
 	$(function() {
+
 		window.tribe = window.tribe || {};
 		window.tribe.panels = window.tribe.panels || {};
 
@@ -396,6 +399,7 @@
 		$(window).load(function() {
 			window.tribe.panels.creator = new PanelCreator( panels );
 			window.tribe.panels.container.initExistingPanels();
+			submitButtons.removeClass( 'disabled' );
 		});
 	});
 
