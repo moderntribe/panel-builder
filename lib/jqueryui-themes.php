@@ -18,7 +18,7 @@ function jqueryui_register_theme( $theme ) {
 	if ( $wp_scripts ) {
 		$ui = $wp_scripts->query('jquery-ui-core');
 		if ( $ui ) {
-			$ui_base = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/$theme";
+			$ui_base = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/$theme";
 			wp_register_style( 'jquery-ui', "$ui_base/jquery-ui.css", FALSE, $ui->ver );
 		}
 	}
