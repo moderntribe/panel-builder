@@ -69,8 +69,8 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 						<?php if ( !$tax ) { continue; } ?>
 						<option value="<?php esc_attr_e($tax_name); ?>"><?php esc_html_e($tax->label); ?></option>
 					<?php endforeach; ?>
-					<?php do_action( 'modular_content_posts_field_filter_options', $this ); ?>
 				</optgroup>
+				<?php do_action( 'modular_content_posts_field_filter_options', $this ); ?>
 			</select>
 			<div class="query-filters">
 			</div>
