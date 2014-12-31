@@ -36,6 +36,9 @@
 
 		initialize_tabs: function ( container ) {
 			var fieldsets = container.children('fieldset');
+			if ( fieldsets.length < 2 ) {
+				return; // no tabs if there's only one fieldset
+			}
 			var navigation = $('<ul></ul>');
 			var type = container.find('input.query-type').val();
 			var active_tab_index = 0;
