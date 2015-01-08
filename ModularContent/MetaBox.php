@@ -142,7 +142,7 @@ class MetaBox {
 	}
 
 	public function submission_to_json( $submission ) {
-		$panel_ids = $submission['panel_id'];
+		$panel_ids = isset( $submission['panel_id'] ) ? $submission['panel_id'] : array();
 		if ( !is_array( $panel_ids ) ) {
 			$panel_ids = array();
 		}
