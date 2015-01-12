@@ -101,6 +101,9 @@
 			var depth = container.data('depth');
 			var container_type = container.closest('.panel-row').data('type');
 
+			var title = $(e.target).data('title');
+			$( '#new-panel' ).find( 'h2.new-panel-list-title ').text( title );
+
 			var newPanelList = $( '#new-panel' ).find( '.panel-template' );
 			newPanelList.each( function() {
 				var template = $(this);

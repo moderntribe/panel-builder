@@ -17,9 +17,9 @@
 		ModularContent.localization = <?php echo json_encode($localization); ?>;
 	</script>
 </div>
-<a class="create-new-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php printf(__('Create %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></a>
+<a class="create-new-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel" data-title="<?php printf(__('Select a %s Type', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?>"><?php printf(__('Create %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></a>
 <div id="new-panel">
-	<h2><?php printf(__('Select a %s Type', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></h2>
+	<h2 class="new-panel-list-title"></h2>
 	<ul class="panel-selection-list">
 		<?php foreach( \ModularContent\Plugin::instance()->registry()->registered_panels(get_post_type()) as $panel_type ): ?>
 			<li class="new-panel-option">
