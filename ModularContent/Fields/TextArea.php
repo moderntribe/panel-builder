@@ -8,9 +8,11 @@ class TextArea extends Field {
 	protected static $global_index = 0;
 	protected $index = 0;
 	protected static $first_mce_init_settings = array();
+	protected $rows = 5;
 
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
+		$this->defaults['rows']     = $this->rows;
 		parent::__construct($args);
 		$this->index = sprintf('%04d', self::$global_index++);
 
@@ -27,7 +29,7 @@ class TextArea extends Field {
 				$this->get_input_value(),
 				$this->get_indexed_id(),
 				array(
-					'textarea_rows' => 30,
+					'textarea_rows' => $this->rows,
 					'textarea_name' => $this->get_input_name(),
 					'quicktags'     => true,
 					'editor_class'    => 'wysiwyg-{{data.panel_id}}-'.$this->index,
