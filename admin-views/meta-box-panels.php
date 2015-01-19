@@ -3,6 +3,7 @@
  * The Panels meta box
  *
  * @var \ModularContent\PanelCollection $collection
+ * @var array $cache
  * @var array $localization
  */
 ?>
@@ -11,10 +12,12 @@
 	<script>
 		var ModularContent = window.ModularContent || {};
 		ModularContent.panels = [];
-		<?php foreach ( $collection->panels() as $panel ): ?>
-		ModularContent.panels.push(<?php echo json_encode($panel); ?>);
-		<?php endforeach; ?>
+		ModularContent.cache = <?php echo json_encode($cache); ?>;
 		ModularContent.localization = <?php echo json_encode($localization); ?>;
+
+		<?php foreach ( $collection->panels() as $panel ) { ?>
+			ModularContent.panels.push(<?php echo json_encode($panel); ?>);
+		<?php } ?>
 	</script>
 </div>
 <a class="create-new-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel" data-title="<?php printf(__('Select a %s Type', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?>"><?php printf(__('Create %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></a>
