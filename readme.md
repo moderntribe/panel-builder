@@ -192,3 +192,27 @@ own templates.
 with `first_name` for the `name` argument, the you get that value with `get_panel_var('first_name')`.
 * `get_panel_vars()`: Get all the data for the current panel as an array.
 * `get_the_panel()`: Get the full panel object for the current panel.
+
+## Javascript
+
+### Custom events api
+
+The panel admin scripts emit various events as they do their work. You can hook into these if need be.
+All events fire on the `$( document )` jquery object and reside in the namespace tribe-panels.
+Most events return the applicable element along with the event object, plus the panel id.
+
+* `tribe-panels.loaded` is emitted when all existing panels - if any - have loaded in the admin. Returns the panel container.
+* `tribe-panels.picker-loaded` is emitted when the new panel picker is rendered. Returns the panel selection list.
+* `tribe-panels.added-one` is emitted when a panel is added. Returns the panel el and the panel id.
+* `tribe-panels.removed-one` is emitted when a panel is removed. Returns the panel el and the panel id.
+* `tribe-panels.opened-one` is emitted when a panel is expanded by the user. Returns the panel el and the panel id.
+* `tribe-panels.closed-one` is emitted when a panel is closed by the user. Returns the panel el and the panel id.
+
+Example usage:
+
+```$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
+	console.log( 'New panel added.' );
+	console.log( 'Event: ' + event );
+	console.log( 'New Panel: ' + element );
+	console.log( 'New Panel ID: ' + panel_id );
+} );```

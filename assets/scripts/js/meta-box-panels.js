@@ -134,6 +134,8 @@
 			});
 
 			_this.newPanelContainer = container;
+
+			$( document ).trigger( 'tribe-panels.picker-loaded', newPanelList.closest( '.panel-selection-list' ) );
 		};
 
 		PanelContainer.prototype.pickPanelType = function(e) {
@@ -197,6 +199,7 @@
 
 		PanelContainer.prototype.handleNewPanelAdded = function(el, id) {
 			$(el).trigger( 'new-panel-row', [id, {}] );
+			$( document ).trigger( 'tribe-panels.added-one', [el, id] );
 		};
 
 		return PanelContainer;
@@ -204,15 +207,15 @@
 	})();
 
 	/**
-	  * Panel View-Controller
-	  *
-	  * Handles interaction within any given panel and can
-	  * hold other Panel instances as children in the case of Tabs and
-	  * other repeater-type panels.
-	  *
-	  * Extends PanelContainer since we can re-use all the logic for handling
-	  * children in that.
-	  */
+	 * Panel View-Controller
+	 *
+	 * Handles interaction within any given panel and can
+	 * hold other Panel instances as children in the case of Tabs and
+	 * other repeater-type panels.
+	 *
+	 * Extends PanelContainer since we can re-use all the logic for handling
+	 * children in that.
+	 */
 	Panel = (function(_super) {
 		/* jshint ignore:start */
 		__extends(Panel, _super);
@@ -269,6 +272,7 @@
 			var _this = this;
 			if ( confirm( ModularContent.localization.delete_this_panel ) ) {
 				_this.$el.fadeOut(150, function() {
+					$( document ).trigger( 'tribe-panels.removed-one', [ _this.$el, _this.$el.attr( 'data-id' ) ] );
 					_this.$el.remove();
 				});
 				_this.unbindEvents();
@@ -293,6 +297,7 @@
 				this.$el.addClass("panel-builder-border-color");
 				this.$el.find("input:text").first().focus();
 				this.setThumbnail( "data-alt" );
+				$( document ).trigger( 'tribe-panels.opened-one', [ this.$el, this.$el,attr( 'data-id' ) ] );
 			}
 		};
 
@@ -302,6 +307,7 @@
 			this.$el.removeClass("panel-builder-border-color");
 			this.$el.one( 'click.panel', this.openPanel );
 			this.setThumbnail( "data-default" );
+			$( document ).trigger( 'tribe-panels.closed-one', [ this.$el, this.$el,attr( 'data-id' ) ] );
 		};
 
 		Panel.prototype.setThumbnail = function( imageSrc ) {
@@ -396,13 +402,13 @@
 		var panels = $('.panels');
 		window.tribe.panels.container = new PanelContainer( panels.get(0) );
 
-
 		// Instantiates panels from server-side rendered markup.
 		// Wait untill window.load so we know all deps are loaded first.
 		$(window).load(function() {
 			window.tribe.panels.creator = new PanelCreator( panels );
 			window.tribe.panels.container.initExistingPanels();
 			submitButtons.removeClass( 'disabled' );
+			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
 		});
 	});
 
