@@ -297,7 +297,7 @@
 				this.$el.addClass("panel-builder-border-color");
 				this.$el.find("input:text").first().focus();
 				this.setThumbnail( "data-alt" );
-				$( document ).trigger( 'tribe-panels.opened-one', [ this.$el, this.$el,attr( 'data-id' ) ] );
+				$( document ).trigger( 'tribe-panels.opened-one', [ this.$el, this.$el.attr( 'data-id' ) ] );
 			}
 		};
 
@@ -307,7 +307,7 @@
 			this.$el.removeClass("panel-builder-border-color");
 			this.$el.one( 'click.panel', this.openPanel );
 			this.setThumbnail( "data-default" );
-			$( document ).trigger( 'tribe-panels.closed-one', [ this.$el, this.$el,attr( 'data-id' ) ] );
+			$( document ).trigger( 'tribe-panels.closed-one', [ this.$el, this.$el.attr( 'data-id' ) ] );
 		};
 
 		Panel.prototype.setThumbnail = function( imageSrc ) {
