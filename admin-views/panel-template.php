@@ -10,7 +10,19 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 ?>
 
-<div class="panel-template" data-panel-type="<?php esc_attr_e($this->id); ?>" <?php if ( $this->max_depth != self::NO_LIMIT ): ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php endif; ?>>
+<div
+	class="panel-template"
+	data-panel-type="<?php esc_attr_e($this->id); ?>"
+	<?php if ( $this->max_depth != self::NO_LIMIT ) { ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php } ?>
+	<?php
+	if ( $this->allowed_contexts() ) {
+	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->allowed_contexts())); ?>"
+		data-panel-context-mode="allow"<?php
+	} elseif ( $this->forbidden_contexts() ) {
+	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->forbidden_contexts())); ?>"
+		data-panel-context-mode="deny"<?php
+	}?>
+	>
 	<div class="thumbnail">
 		<span class="panel-icon"><img src="<?php echo esc_url($this->get_icon()); ?>" alt="<?php esc_attr_e($this->get_label()); ?>" /></span>
 		<span class="panel-title"><?php esc_html_e($this->get_label()); ?></span>
@@ -47,7 +59,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 						<h4><?php echo $this->get_child_label('plural'); ?></h4>
 						<div class="panel-children" data-max_children="<?php echo $this->max_children; ?>" data-depth="<# data.child_depth = data.depth + 1 #>{{data.child_depth}}" id="{{data.panel_id}}-children">
 						</div>
-						<a id="create-child-for-{{data.panel_id}}" class="add-new-child-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel"><?php printf(__('Add %s', 'modular-content'), $this->get_child_label('singular')); ?></a>
+						<a id="create-child-for-{{data.panel_id}}" class="add-new-child-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel" data-title="<?php printf(__('Select a %s Type', 'modular-content'), $this->get_child_label('singular')); ?>"><?php printf(__('Add %s', 'modular-content'), $this->get_child_label('singular')); ?></a>
 					</div>
 
 				<?php endif; ?>

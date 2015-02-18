@@ -107,4 +107,13 @@ class Panel implements \JsonSerializable {
 	public function get_admin_html() {
 		return $this->type->get_admin_template($this->data);
 	}
+
+	public function update_admin_cache( AdminPreCache $cache ) {
+		foreach ( $this->type->all_fields() as $field ) {
+			$name = $field->get_name();
+			if ( isset($this->data[$name]) ) {
+				$field->precache( $this->data[$name], $cache );
+			}
+		}
+	}
 } 

@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
 
@@ -75,6 +76,18 @@ abstract class Field {
 	 */
 	public function get_vars( $data, $panel ) {
 		return $data;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		// nothing to add
 	}
 
 	protected function render_before() {

@@ -1,7 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
-use ModularContent\Panel;
+use ModularContent\Panel, ModularContent\AdminPreCache;
 
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
@@ -37,6 +37,7 @@ class Posts extends Field {
 	}
 
 	public function render_field() {
+		$p2p = $this->p2p_options();
 		$taxonomies = $this->taxonomy_options();
 		$input_name = $this->get_input_name();
 		$input_value = sprintf("data.fields.%s", $this->name);
@@ -66,6 +67,38 @@ class Posts extends Field {
 	}
 
 
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		if ( !empty( $data['filters'] ) ) {
+			foreach ( $data['filters'] as $filter_id => $filter_args ) {
+				if ( !is_array( $filter_args['selection'] ) ) {
+					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
+				}
+				if ( !empty( $filter_args['selection'] ) ) {
+					if ( $filter_id == 'post_type' ) {
+						continue;
+					}
+					if ( in_array( $filter_id, self::taxonomy_options() ) ) {
+						foreach ( $filter_args['selection'] as $term_id ) {
+							$cache->add_term( $term_id, $filter_id );
+						}
+					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
+						foreach ( $filter_args['selection'] as $post_id ) {
+							$cache->add_post( $post_id, $filter_id );
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Query for posts matching the selected filters
@@ -116,6 +149,14 @@ class Posts extends Field {
 		return apply_filters('modular_content_posts_field_taxonomy_options', array('post_tag'));
 	}
 
+	public static function p2p_options() {
+		$options = array();
+		if ( class_exists( 'P2P_Connection_Type_Factory' ) ) {
+			$options = \P2P_Connection_Type_Factory::get_all_instances();
+		}
+		return apply_filters('modular_content_posts_field_p2p_options', $options);
+	}
+
 	public function post_type_options() {
 		$post_types = get_post_types(array('has_archive' => TRUE, 'public' => TRUE), 'objects', 'and');
 		$post_types['post'] = get_post_type_object('post'); // posts are special
@@ -124,8 +165,24 @@ class Posts extends Field {
 		return array_filter( $post_types );
 	}
 
+	protected static function get_filter_groups() {
+		$filter_groups = array();
+		foreach ( self::taxonomy_options() as $taxonomy_name ) {
+			$filter_groups[$taxonomy_name] = 'taxonomy';
+		}
+		foreach ( array_keys( self::p2p_options() ) as $p2p_id ) {
+			$filter_groups[$p2p_id] = 'p2p';
+		}
+		return $filter_groups;
+	}
+
 	public static function print_supporting_templates() {
 		?>
+		<script type="text/javascript">
+			<?php // var declared in meta-box-panels.php ?>
+			<?php $filter_groups = self::get_filter_groups(); ?>
+			ModularContent.posts_filter_templates = <?php echo json_encode($filter_groups); ?>;
+		</script>
 		<script type="text/template" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">
 				<a href="#" class="remove-filter icon-remove" title="<?php _e('Delete this filter', 'modular-content'); ?>"></a>
@@ -134,9 +191,18 @@ class Posts extends Field {
 				<!--<label class="filter-lock" title="<?php _e('Unlock to override with current context', 'modular-content'); ?>"><span class="wrapper">--><input type="hidden" name="{{data.name}}[filters][{{data.type}}][lock]" value="1" /><!-- <?php _e('Lock Selection', 'modular-content'); ?></span></label>-->
 			</div>
 		</script>
+
+		<script type="text/template" class="template" id="tmpl-field-posts-p2p-options">
+			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select" data-placeholder="<?php _e('Select Posts', 'modular-content'); ?>" data-filter_type="{{data.type}}" />
+		</script>
+
+		<script type="text/template" class="template" id="tmpl-field-posts-meta-options">
+			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select" data-placeholder="<?php _e('Insert Values', 'modular-content'); ?>" data-filter_type="{{data.type}}" />
+		</script>
+
 		<?php
 
-		foreach ( self::taxonomy_options() as $taxonomy_name ):
+		foreach ( self::taxonomy_options() as $taxonomy_name ){
 			$terms = get_terms($taxonomy_name, array('hide_empty' => FALSE));
 			$options = array();
 			foreach ( $terms as $term ) {
@@ -151,7 +217,7 @@ class Posts extends Field {
 				</select>
 			</script>
 
-		<?php endforeach;
+		<?php }
 		add_action( 'after_panel_admin_template', array( __CLASS__, 'dequeue_supporting_templates' ), 10 );
 
 	}
@@ -196,6 +262,19 @@ class Posts extends Field {
 	}
 
 	public static function get_posts_for_filters( $filters, $max = 10, $context = 0 ) {
+		$query = self::get_query_for_filters( $filters, $max, $context );
+		$cache = self::get_cache($query);
+		if ( FALSE && !empty($cache) ) {
+			return $cache;
+		}
+
+		$result = get_posts($query);
+		self::set_cache($query, $result);
+
+		return $result;
+	}
+
+	public static function get_query_for_filters( $filters, $max = 10, $context = 0 ) {
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'publish',
@@ -210,6 +289,10 @@ class Posts extends Field {
 			if ( empty($filter['selection']) ) {
 				continue;
 			}
+			if ( !is_array( $filter['selection'] ) ) {
+				$filter['selection'] = explode( ',', $filter['selection'] );
+			}
+			$filter_groups = self::get_filter_groups();
 			if ( $type == 'post_type' ) {
 				if ( !empty($filter['lock']) || !is_post_type_archive() ) {
 					$query['post_type'] = $filter['selection'];
@@ -217,6 +300,16 @@ class Posts extends Field {
 					$post_type_object = get_queried_object();
 					$query['post_type'] = $post_type_object->name;
 				}
+			} elseif ( isset( $filter_groups[$type] ) && $filter_groups[$type] == 'p2p' ) {
+				$ids = self::get_p2p_filtered_ids( $type, $filter['selection'] );
+				if ( empty( $ids ) ) {
+					$query['post__in'] = array( -1 );
+					break; // stop filtering. nothing should match
+				}
+				if ( !isset($query['post__in']) ) {
+					$query['post__in'] = array();
+				}
+				$query['post__in'] = array_merge( $query['post__in'], $ids );
 			} else {
 				$locked = FALSE;
 				if ( !empty($filter['lock']) ) {
@@ -251,14 +344,17 @@ class Posts extends Field {
 
 		$query = apply_filters( 'panels_input_query_filter', $query, $filters, $context );
 
-		$cache = self::get_cache($query);
-		if ( FALSE && !empty($cache) ) {
-			return $cache;
-		}
+		return $query;
+	}
 
-		$result = get_posts($query);
-		self::set_cache($query, $result);
-
-		return $result;
+	protected function get_p2p_filtered_ids( $connection_id, $post_ids ) {
+		$connected = get_posts( array(
+			'suppress_filters' => FALSE,
+			'connected_type' => $connection_id,
+			'connected_items' => $post_ids,
+			'nopaging' => TRUE,
+			'fields' => 'ids',
+		));
+		return $connected;
 	}
 }

@@ -23,6 +23,7 @@ function jqueryui_register_theme( $theme ) {
 			} else {
 				$ui_base = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/$theme";
 			}
+
 			wp_register_style( 'jquery-ui', "$ui_base/jquery-ui.css", FALSE, $ui->ver );
 		}
 	}

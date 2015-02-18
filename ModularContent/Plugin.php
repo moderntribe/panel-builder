@@ -55,6 +55,7 @@ class Plugin {
 		add_post_type_support( 'post', 'modular-content' );
 		add_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
 		add_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
+		$this->wrap_kses();
 		do_action( 'panels_init', $this->registry );
 		if ( is_admin() ) {
 			$this->metabox->add_hooks();
@@ -103,6 +104,13 @@ class Plugin {
 	public function do_not_filter_the_content() {
 		add_filter( 'the_content', array( $this, 'passthrough' ), 100, 1 );
 		remove_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
+	}
+
+	protected function wrap_kses() {
+		if ( has_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' ) ) {
+			remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+			add_filter( 'content_filtered_save_pre', array( Kses::instance(), 'filter_content_filtered' ), 10, 1 );
+		}
 	}
 
 	public function passthrough( $var ) {

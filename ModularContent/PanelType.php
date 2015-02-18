@@ -45,6 +45,9 @@ class PanelType {
 	/** @var int */
 	protected $max_children = 0;
 
+	/** @var array */
+	protected $contexts = array();
+
 	/** @var string */
 	protected $child_label_singular = '';
 
@@ -114,8 +117,8 @@ class PanelType {
 	/**
 	 * Set the directory to look in for front-end templates
 	 *
-	 * @param Template|string $directory
-	 * @return Template
+	 * @param ViewFinder|string $directory
+	 * @return ViewFinder
 	 */
 	public function set_template_dir( $directory = '' ) {
 		if ( is_object($directory) && $directory instanceof PanelViewFinder ) {
@@ -186,6 +189,44 @@ class PanelType {
 
 	public function get_max_children() {
 		return $this->max_children;
+	}
+
+	/**
+	 * @param string $id The ID of a panel type that this type can be a child of
+	 * @param bool $allowed
+	 *
+	 * @return void
+	 */
+	public function set_context( $id, $allowed = FALSE ) {
+		$this->contexts[$id] = $allowed;
+	}
+
+	/**
+	 * @param string $id The ID of a panel type
+	 *
+	 * @return void
+	 */
+	public function remove_context( $id ) {
+		unset($this->contexts[$id]);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function allowed_contexts() {
+		return array_keys( array_filter( $this->contexts ) );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function forbidden_contexts() {
+		if ( $this->allowed_contexts() ) {
+			return array(); // if allowed contexts are set, then forbidden contexts are ignored
+		}
+		return array_keys( array_filter( $this->contexts, function( $allowed ) {
+			return !$allowed;
+		}));
 	}
 
 	public function set_child_labels( $singular, $plural ) {

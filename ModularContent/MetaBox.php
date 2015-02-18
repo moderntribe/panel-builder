@@ -14,6 +14,7 @@ class MetaBox {
 		add_filter( '_wp_post_revision_fields', array( $this, 'filter_post_revision_fields' ) );
 		add_action( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
+		add_action( 'wp_ajax_posts-field-p2p-options-search', array( $this, 'get_post_field_p2p_search_results' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-titles', array( $this, 'ajax_fetch_titles' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 	}
@@ -36,8 +37,8 @@ class MetaBox {
 	}
 
 	protected function enqueue_scripts() {
-		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util' ), FALSE, TRUE );
-		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui' ) );
+		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
+		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
 	}
 
@@ -119,6 +120,12 @@ class MetaBox {
 
 	public function render( $post ) {
 		$collection = PanelCollection::find_by_post_id( $post->ID );
+
+		$cache = new AdminPreCache();
+		foreach ( $collection->panels() as $panel ) {
+			$panel->update_admin_cache( $cache );
+		}
+
 		$localization = array(
 			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
@@ -141,8 +148,8 @@ class MetaBox {
 		return $post_data;
 	}
 
-	protected function submission_to_json( $submission ) {
-		$panel_ids = $submission['panel_id'];
+	public function submission_to_json( $submission ) {
+		$panel_ids = isset( $submission['panel_id'] ) ? $submission['panel_id'] : array();
 		if ( !is_array( $panel_ids ) ) {
 			$panel_ids = array();
 		}
@@ -269,6 +276,56 @@ class MetaBox {
 				$response['posts'][] = array(
 					'id' => $post->ID,
 					'text' => html_entity_decode( $title ),
+				);
+			}
+
+			if ( $query->max_num_pages > $request['paged'] ) {
+				$response['more'] = TRUE;
+			}
+		}
+
+		wp_send_json($response); // exits
+	}
+	public function get_post_field_p2p_search_results() {
+		$response = array(
+			'posts' => array(),
+			'more' => false,
+		);
+
+		$request = wp_parse_args( $_REQUEST, array(
+			's' => '',
+			'type' => '',
+			'paged' => 1,
+			'post_type' => 'any',
+		));
+
+		if ( !empty($request['s']) || !empty($request['post_type']) ) {
+			$args = array(
+				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
+				'post_status' => 'publish',
+				's' => $request['s'],
+				'posts_per_page' => 50,
+				'suppress_filters' => false,
+				'connected_type' => $request['type'],
+				'connected_items' => 'any',
+				'connected_direction' => 'any',
+			);
+			if ( !empty($request['paged']) ) {
+				$offset = $request['paged'] - 1;
+				$offset = $offset * 50;
+				if ( $offset > 0 ) {
+					$args['offset'] = $offset;
+				}
+			}
+
+			$args  = apply_filters( 'panel_input_p2p_search_query', $args, $request['type'] );
+			$query = new \WP_Query();
+			$posts = $query->query( $args );
+
+			foreach ( $posts as $post ) {
+				$response['posts'][] = array(
+					'id' => $post->ID,
+					'text' => esc_html(get_the_title($post)),
 				);
 			}
 

@@ -99,19 +99,43 @@
 			}
 
 			var depth = container.data('depth');
+			var container_type = container.closest('.panel-row').data('type');
+
+			var title = $(e.target).data('title');
+			$( '#new-panel' ).find( 'h2.new-panel-list-title ').text( title );
 
 			var newPanelList = $( '#new-panel' ).find( '.panel-template' );
 			newPanelList.each( function() {
 				var template = $(this);
 				var template_max_depth = template.data( 'max_depth' );
+				var template_contexts = [];
+				var template_context_mode = template.data( 'panel-context-mode' );
 				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
 					template.parent().hide();
+				} else if ( template_context_mode == 'allow' && depth == 0 ) {
+					template.parent().hide(); // the panel requires a parent context
+				} else if ( template_context_mode == 'allow' ) {
+					template_contexts = template.data( 'panel-contexts' );
+					if ( $.inArray( container_type, template_contexts ) >= 0 ) {
+						template.parent().show();
+					} else {
+						template.parent().hide();
+					}
+				} else if ( template_context_mode == 'deny' ) {
+					template_contexts = template.data( 'panel-contexts' );
+					if ( $.inArray( container_type, template_contexts ) < 0 ) {
+						template.parent().show();
+					} else {
+						template.parent().hide();
+					}
 				} else {
 					template.parent().show();
 				}
 			});
 
 			_this.newPanelContainer = container;
+
+			$( document ).trigger( 'tribe-panels.picker-loaded', newPanelList.closest( '.panel-selection-list' ) );
 		};
 
 		PanelContainer.prototype.pickPanelType = function(e) {
@@ -175,6 +199,7 @@
 
 		PanelContainer.prototype.handleNewPanelAdded = function(el, id) {
 			$(el).trigger( 'new-panel-row', [id, {}] );
+			$( document ).trigger( 'tribe-panels.added-one', [el, id] );
 		};
 
 		return PanelContainer;
@@ -182,15 +207,15 @@
 	})();
 
 	/**
-	  * Panel View-Controller
-	  *
-	  * Handles interaction within any given panel and can
-	  * hold other Panel instances as children in the case of Tabs and
-	  * other repeater-type panels.
-	  *
-	  * Extends PanelContainer since we can re-use all the logic for handling
-	  * children in that.
-	  */
+	 * Panel View-Controller
+	 *
+	 * Handles interaction within any given panel and can
+	 * hold other Panel instances as children in the case of Tabs and
+	 * other repeater-type panels.
+	 *
+	 * Extends PanelContainer since we can re-use all the logic for handling
+	 * children in that.
+	 */
 	Panel = (function(_super) {
 		/* jshint ignore:start */
 		__extends(Panel, _super);
@@ -247,6 +272,7 @@
 			var _this = this;
 			if ( confirm( ModularContent.localization.delete_this_panel ) ) {
 				_this.$el.fadeOut(150, function() {
+					$( document ).trigger( 'tribe-panels.removed-one', [ _this.$el, _this.$el.attr( 'data-id' ) ] );
 					_this.$el.remove();
 				});
 				_this.unbindEvents();
@@ -271,6 +297,7 @@
 				this.$el.addClass("panel-builder-border-color");
 				this.$el.find("input:text").first().focus();
 				this.setThumbnail( "data-alt" );
+				$( document ).trigger( 'tribe-panels.opened-one', [ this.$el, this.$el.attr( 'data-id' ) ] );
 			}
 		};
 
@@ -280,6 +307,7 @@
 			this.$el.removeClass("panel-builder-border-color");
 			this.$el.one( 'click.panel', this.openPanel );
 			this.setThumbnail( "data-default" );
+			$( document ).trigger( 'tribe-panels.closed-one', [ this.$el, this.$el.attr( 'data-id' ) ] );
 		};
 
 		Panel.prototype.setThumbnail = function( imageSrc ) {
@@ -364,19 +392,23 @@
 	 * DOM Ready handler
 	 * Kicks everything into motion
 	 */
+	var submitButtons = $('#submitpost').find( ':button, :submit, a.submitdelete, #post-preview' );
+	submitButtons.addClass( 'disabled' );
 	$(function() {
+
 		window.tribe = window.tribe || {};
 		window.tribe.panels = window.tribe.panels || {};
 
 		var panels = $('.panels');
 		window.tribe.panels.container = new PanelContainer( panels.get(0) );
 
-
 		// Instantiates panels from server-side rendered markup.
 		// Wait untill window.load so we know all deps are loaded first.
 		$(window).load(function() {
-			new PanelCreator( panels );
+			window.tribe.panels.creator = new PanelCreator( panels );
 			window.tribe.panels.container.initExistingPanels();
+			submitButtons.removeClass( 'disabled' );
+			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
 		});
 	});
 
@@ -389,7 +421,19 @@
  * Autosave for panels
  */
 (function($) {
+	function cleanup_wysiwygs() {
+		if ( typeof tinymce !== 'undefined' ) {
+			$('#modular-content').find('textarea.wp-editor-area').each(function () {
+				var editor = tinymce.get($(this).attr('id'));
+				if ( editor && editor.isDirty() ) {
+					editor.save();
+				}
+			});
+		}
+	}
+
 	$(document).on('before-autosave.panel-autosave', function( e, postdata ) {
+		cleanup_wysiwygs();
 		postdata.post_content_filtered = $('#modular-content').find('input, select, textarea').serialize();
 	});
 })(jQuery);

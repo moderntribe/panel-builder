@@ -24,7 +24,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				<div class="panel-filter-row filter-post_type">
 					<label><?php _e('Content Type', 'modular-content'); ?></label>
 					<span class="filter-options">
-						<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select" multiple="multiple" data-placeholder="<?php _e('Select Post Types', 'modular-content'); ?>" data-filter_type="post_type">
+						<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?php _e('Select Post Types', 'modular-content'); ?>" data-filter_type="post_type">
 							<?php foreach ( $this->post_type_options() as $post_type ): ?>
 								<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>'
 							<?php endforeach; ?>

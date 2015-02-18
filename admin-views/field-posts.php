@@ -5,6 +5,7 @@
  *
  * @var \ModularContent\Fields\Posts $this
  * @var array $taxonomies
+ * @var array $p2p
  * @var string $input_name
  * @var string $input_value
  * @var int $max
@@ -52,7 +53,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 			<div class="panel-filter-row filter-post_type">
 				<label><?php _e('Content Type', 'modular-content'); ?></label>
 				<span class="filter-options">
-					<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select" multiple="multiple" data-placeholder="<?php _e('Select Post Types', 'modular-content'); ?>" data-filter_type="post_type">
+					<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?php _e('Select Post Types', 'modular-content'); ?>" data-filter_type="post_type">
 						<?php foreach ( $this->post_type_options() as $post_type ): ?>
 							<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>'
 						<?php endforeach; ?>
@@ -67,9 +68,17 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 					<?php foreach ( $taxonomies as $tax_name ): ?>
 						<?php $tax = get_taxonomy($tax_name); ?>
 						<?php if ( !$tax ) { continue; } ?>
-						<option value="<?php esc_attr_e($tax_name); ?>"><?php esc_html_e($tax->label); ?></option>
+						<option data-filter-group="taxonomy" value="<?php esc_attr_e($tax_name); ?>"><?php esc_html_e($tax->label); ?></option>
 					<?php endforeach; ?>
 				</optgroup>
+				<?php if ( $p2p ){
+					?><optgroup label="<?php esc_attr_e('Relationship', 'modular-content'); ?>"><?php
+					foreach ( $p2p as $relationship_id => $relationship ){
+						?><option data-filter-group="p2p" value="<?php esc_attr_e($relationship_id); ?>"><?php esc_html_e($relationship->get_field( 'title', 'from' )); ?></option><?php
+					}
+					?></optgroup><?php
+				} ?>
+				<?php do_action( 'modular_content_posts_field_filter_options', $this ); ?>
 			</select>
 			<div class="query-filters">
 			</div>
