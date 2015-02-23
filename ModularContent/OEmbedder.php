@@ -4,6 +4,8 @@
 namespace ModularContent;
 
 
+use Core\Oembed;
+
 class OEmbedder {
 	private $url = '';
 	private $args = array();
@@ -72,6 +74,11 @@ class OEmbedder {
 		if ( !$data ) {
 			$data = new \stdClass();
 		}
+		//youku
+		if( !empty( $data->data ) ){
+			$data = $this->get_youku_data( $data );
+		}
+
 		$this->set_cache( $data );
 		return $data;
 	}
@@ -115,5 +122,30 @@ class OEmbedder {
 		}
 
 		return $provider;
+	}
+
+
+	function youku_iframe( $matches, $attr = null, $url = null, $rawattr = null ){
+		if( !empty( $rawattr[ 'width' ] ) && !empty( $rawattr[ 'height' ] ) ){
+			$width  = (int) $rawattr[ 'width' ];
+			$height = (int) $rawattr[ 'height' ];
+		} else {
+			list( $width, $height ) = wp_expand_dimensions( 480, 400, 700, 650 );
+		}
+
+		return '<iframe width=' . esc_attr( $width ) . ' height=' . esc_attr( $height ) . ' src="http://player.youku.com/embed/' . esc_attr( $matches[ 1 ] ) . '" frameborder=0 allowfullscreen></iframe>';
+
+	}
+
+
+	public function get_youku_data( $data ){
+		if( empty( $data->data[ 0 ] ) ){
+			return $data;
+		}
+		$data                = $data->data[ 0 ];
+		$data->thumbnail_url = $data->logo;
+		$data->html          = $this->youku_iframe( array( 1 => $data->vidEncoded ) );
+
+		return $data;
 	}
 } 
