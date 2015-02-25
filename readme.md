@@ -216,4 +216,5 @@ $( document ).on( 'tribe-panels.added-one', function( event, element, panel_id )
 	console.log( 'Event: ' + event );
 	console.log( 'New Panel: ' + element );
 	console.log( 'New Panel ID: ' + panel_id );
-} );```
+} );
+```
