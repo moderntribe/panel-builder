@@ -210,7 +210,8 @@ Most events return the applicable element along with the event object, plus the 
 
 Example usage:
 
-```$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
+```js
+$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
 	console.log( 'New panel added.' );
 	console.log( 'Event: ' + event );
 	console.log( 'New Panel: ' + element );
