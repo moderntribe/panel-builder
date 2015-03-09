@@ -3,9 +3,6 @@
 
 namespace ModularContent;
 
-
-use Core\Oembed;
-
 class OEmbedder {
 	private $url = '';
 	private $args = array();
