@@ -7,9 +7,11 @@ use ModularContent\Panel;
 
 class Repeater extends Group {
 	protected $max = 0;
+	protected $new_button_label = '';
 
 	public function __construct( $args = array() ){
 		$this->defaults['max'] = $this->max;
+		$this->defaults['new_button_label'] = __( 'New', 'panels' );
 		parent::__construct($args);
 	}
 
@@ -45,7 +47,7 @@ class Repeater extends Group {
 
 	protected function render_field() {
 		echo '<div class="repeater-field-container"></div>';
-		echo '<a href="#" class="panel-repeater-new-row icon-plus-sign"> '.__('New', 'panels').'</a>';
+		echo '<a href="#" class="panel-repeater-new-row icon-plus-sign"> ' . $this->new_button_label . '</a>';
 		add_action( 'after_panel_admin_template_inside', array( $this, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-repeater-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/repeater-field.js'), array('jquery'), FALSE, TRUE );
 	}
