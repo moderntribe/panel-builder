@@ -6,6 +6,12 @@ use ModularContent\Panel;
 
 
 class Repeater extends Group {
+	protected $max = 0;
+
+	public function __construct( $args = array() ){
+		$this->defaults['max'] = $this->max;
+		parent::__construct($args);
+	}
 
 	/**
 	 * @param Field $field
@@ -30,7 +36,7 @@ class Repeater extends Group {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s">', $this->esc_class($this->name), esc_attr($this->name));
+		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->max);
 	}
 
 	protected function get_default_value_js() {
