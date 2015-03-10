@@ -25,21 +25,30 @@ class TextArea extends Field {
 
 	public function render_field() {
 		if ( $this->richtext ) {
+			add_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
 			wp_editor(
 				$this->get_input_value(),
-				$this->get_indexed_id(),
+				$this->get_indexed_name(),
 				array(
 					'textarea_rows' => $this->rows,
 					'textarea_name' => $this->get_input_name(),
 					'quicktags'     => true,
-					'editor_class'    => 'wysiwyg-{{data.panel_id}}-'.$this->index,
+					'editor_class'    => 'wysiwyg-'.$this->get_indexed_name(),
 				)
 			);
+			remove_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
+
+			wp_enqueue_script( 'modular-content-wysiwyg-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/wysiwyg-field.js'), array('jquery'), FALSE, FALSE );
 
 			add_action( 'wp_tiny_mce_init', array( $this, 'render_tinymce_initilizaton_script' ) );
 		} else {
 			printf('<span class="panel-input-field"><textarea name="%s" rows="6" cols="40">%s</textarea></span>', $this->get_input_name(), $this->get_input_value() );
 		}
+	}
+
+	public function add_data_atts_to_editor( $editor_html ) {
+		$editor_html = str_replace('<div', '<div data-settings_id="'.$this->get_indexed_name().'"', $editor_html );
+		return $editor_html;
 	}
 
 	public static function enqueue_styles() {
@@ -50,94 +59,24 @@ class TextArea extends Field {
 		if ( empty(self::$first_mce_init_settings) ) {
 			self::$first_mce_init_settings = reset($settings);
 		}
-		$id = $this->get_indexed_id();
-		if ( !isset($settings[$id]) ) {
+		$name = $this->get_indexed_name();
+		if ( !isset($settings[$name]) ) {
 			return;
 		}
-		$settings = $settings[$id];
+		$settings = $settings[$name];
 		$settings = wp_parse_args( $settings, self::$first_mce_init_settings );
 		$settings['wp_autoresize_on'] = false;
 
 		?><script type="text/javascript">
-			(function($, tinymce) {
-				var counter = 0;
-				var generic_id = '<?php echo $id; ?>';
-				if ( tinyMCEPreInit.mceInit.hasOwnProperty(generic_id) ) {
-					delete tinyMCEPreInit.mceInit[generic_id];
-				}
-				if ( tinyMCEPreInit.qtInit.hasOwnProperty(generic_id) ) {
-					delete tinyMCEPreInit.qtInit[generic_id];
-				}
+			(function() {
 
-				var init_editor = function( row, uuid ) {
-					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
-					if ( wysiwyg.hasClass('wp-editor-initialized') ) {
-						return;
-					}
-					var wysiwyg_id = 'panels-wysiwyg-'+uuid+'-<?php echo $this->index; ?>-'+counter;
-					counter++;
-					wysiwyg.attr('id', wysiwyg_id);
-					wysiwyg.parents('.wp-editor-container').attr('id', 'wp-'+wysiwyg_id+'-editor-container');
-					wysiwyg.parents( '.panel-input.input-type-textarea' ).find( '.add_media' ).data( 'editor', wysiwyg_id );
+				var generic_id = '<?php echo $name; ?>';
+				window.tribe.panels.wysywig_field.settings[generic_id] = <?php echo $this->build_js_settings_string($settings); ?>;
 
-					var wrap = wysiwyg.parents('.wp-editor-wrap');
-
-					wrap.attr('id', 'wp-'+wysiwyg_id+'-wrap');
-					wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html');
-					wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
-
-
-					var settings = <?php echo $this->build_js_settings_string($settings); ?>;
-					settings.body_class = wysiwyg_id;
-					settings.selector = '#'+wysiwyg_id;
-
-					var qt_settings = {id:wysiwyg_id,buttons:"strong,em,link,block,del,ins,img,ul,ol,li,code,more,close"};
-
-					try {
-						settings = tinymce.extend( {}, tinyMCEPreInit.ref, settings );
-						tinyMCEPreInit.mceInit[wysiwyg_id] = settings;
-						tinyMCEPreInit.qtInit[wysiwyg_id] = qt_settings;
-						quicktags( tinyMCEPreInit.qtInit[wysiwyg_id] ); // sets up the quick tags toolbar
-						QTags._buttonsInit(); // adds buttons to the new quick tags toolbar
-
-						if ( wrap.hasClass('tmce-active') ) {
-							switchEditors.go( wysiwyg_id, 'tmce' );
-						}
-
-						if ( ! window.wpActiveEditor ) {
-							window.wpActiveEditor = wysiwyg_id;
-						}
-
-						document.getElementById( 'wp-' + wysiwyg_id + '-wrap' ).onclick = function() {
-							console.log(this.id.slice( 3, -5 ));
-							window.wpActiveEditor = this.id.slice( 3, -5 );
-						}
-					} catch(e){}
-				};
-
-				var panels_div = $('div.panels');
-				panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
-					var row = $(this);
-					if ( row.data('panel_id') != uuid ) {
-						return;
-					}
-					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
-					if ( wysiwyg.length < 1 ) {
-						return;
-					}
-					init_editor(row, uuid);
-				});
-				panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid) {
-					var row = $(this);
-					var wysiwyg = row.find('textarea.wysiwyg-'+uuid+'-<?php echo $this->index; ?>');
-					if ( wysiwyg.length < 1 ) {
-						return;
-					}
-					init_editor(row, uuid);
-				});
-			})(jQuery, tinymce);
+				window.tribe.panels.wysywig_field.setup_editor_template( generic_id );
+			})();
 		</script>
-		<?php
+	<?php
 	}
 
 	/**
@@ -172,6 +111,11 @@ class TextArea extends Field {
 	protected function get_indexed_id( $uuid = '{{data.panel_id}}' ) {
 		$id = $this->get_id($uuid);
 		return $id.'-'.$this->index;
+	}
+
+	protected function get_indexed_name() {
+		$name = $this->esc_class( $this->name );
+		return $name . '-' . $this->index;
 	}
 
 	public function get_vars( $data, $panel ) {
