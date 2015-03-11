@@ -3,6 +3,7 @@
 
 namespace ModularContent\Fields;
 use ModularContent\Panel;
+use ModularContent\AdminPreCache;
 
 /**
  * Class Group
@@ -79,5 +80,22 @@ class Group extends Field {
 			}
 		}
 		return $vars;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		foreach ( $this->fields as $field ) {
+			$name = str_replace($this->get_name().'.', '', $field->get_name());
+			if ( isset($data[$name]) ) {
+				$field->precache( $data[$name], $cache );
+			}
+		}
 	}
 } 

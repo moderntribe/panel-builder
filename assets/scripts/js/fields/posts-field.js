@@ -403,11 +403,14 @@
 				select2_args.initSelection =function( element, callback ) {
 					var data = [];
 					$(element.val().split(',')).each( function() {
-						data.push({
-							id: this,
-							// meta box should have put the post into the cache
-							text: ModularContent.cache.posts[this].post_title
-						})
+						var id = this;
+						if ( ModularContent.cache.posts.hasOwnProperty( id ) ) {
+							data.push({
+								id: id,
+								// meta box should have put the post into the cache
+								text: ModularContent.cache.posts[id].post_title
+							});
+						}
 					});
 					callback(data);
 				};
