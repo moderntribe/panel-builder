@@ -9,12 +9,14 @@ class Posts extends Field {
 	protected $max = 12;
 	protected $min = 0;
 	protected $suggested = 0;
+	protected $support_external = false;
 	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
 
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
+		$this->defaults['support_external'] = $this->support_external;
 		parent::__construct($args);
 		if ( empty($this->max) ) {
 			$this->max = max(12, $this->min);
@@ -45,6 +47,7 @@ class Posts extends Field {
 		$min = (int)$this->min;
 		$suggested = (int)$this->suggested;
 		$description = $this->description;
+		$support_external = (bool)$this->support_external;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
@@ -161,7 +164,7 @@ class Posts extends Field {
 		$post_types = get_post_types(array('has_archive' => TRUE, 'public' => TRUE), 'objects', 'and');
 		$post_types['post'] = get_post_type_object('post'); // posts are special
 		unset($post_types['landing_page']); // because, really, why would you?
-		$post_types = apply_filters('panels_query_post_type_options', $post_types, $this );
+		$post_types = apply_filters('panels_query_post_type_options', $post_types, $this->name );
 		return array_filter( $post_types );
 	}
 
@@ -240,24 +243,41 @@ class Posts extends Field {
 		$posts = array();
 		global $post;
 		$original_post = $post;
+
 		foreach ( $post_ids as $id ) {
-			$post = get_post($id);
-			setup_postdata($post);
-			$excerpt = $post->post_excerpt;
-			if ( empty($excerpt) ) {
-				$excerpt = $post->post_content;
+
+			if ( strrpos( $id, '|' ) !== false ) {
+				$id_split = explode( '|', $id );
+
+				$posts[$id] = array(
+					'post_title' => $id_split[0],
+					'post_excerpt' => $id_split[1],
+					'thumbnail_html' => '',
+				);
 			}
-			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
-			$posts[$id] = array(
-				'post_title' => get_the_title($post),
-				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
-				'thumbnail_html' => get_the_post_thumbnail($post->ID, array(150, 150)),
-			);
+			else {
+				$post = get_post($id);
+				setup_postdata($post);
+				$excerpt = $post->post_excerpt;
+				if ( empty($excerpt) ) {
+					$excerpt = $post->post_content;
+				}
+				$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
+				$posts[$id] = array(
+					'post_title' => html_entity_decode( get_the_title($post) ),
+					'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
+					'thumbnail_html' => get_the_post_thumbnail($post->ID, array(150, 150)),
+				);
+			}
+
 		}
 		$post = $original_post;
 		if ( $original_post ) {
 			wp_reset_postdata();
 		}
+
+		error_log( print_r( $posts, true ) );
+
 		return $posts;
 	}
 

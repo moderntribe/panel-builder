@@ -76,6 +76,12 @@
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
+
+
+			var post_selector = container.find('.post-selector');
+			var external_links_fields = container.find('.external-links-fields');
+			post_selector.show();
+			external_links_fields.hide();
 		},
 
 		intialize_data: function ( container, data ) {
@@ -221,16 +227,31 @@
 			var container = button.closest('.panel-input-posts');
 			var selector = container.find('.selected-post-input > input:hidden');
 			var post_id = selector.val();
-			if ( !post_id ) {
+
+			var external_title_input = container.find('.external-title');
+			var external_link_input = container.find('.external-url');
+			var external_title = external_title_input.val();
+			var external_link = external_link_input.val();
+
+			if ( !post_id && ( external_title == undefined || external_title == '' ) ) {
 				return;
 			}
+
 			var preview_slot = postsField.find_open_preview_slot( container );
 			if ( !preview_slot ) {
 				return;
 			}
-			preview_slot.val( post_id );
+
+			if ( post_id ) {
+				preview_slot.val(post_id);
+			} else {
+				preview_slot.val(external_title + "|" + external_link);
+			}
+
 			preview_slot.trigger('change');
 			selector.select2('val', '');
+			external_title_input.val('');
+			external_link_input.val('');
 			postsField.update_selected_post_previews(container);
 		},
 
@@ -297,6 +318,28 @@
 			}
 		},
 
+		show_hide_manual_inputs: function( e ) {
+			e.preventDefault();
+			var radio_input = $(this);
+
+			if ( radio_input === undefined ) {
+				return;
+			}
+
+			var container = radio_input.closest('.panel-input-posts');
+			var post_selector = container.find('.post-selector');
+			var external_links_fields = container.find('.external-links-fields');
+
+			post_selector.hide();
+			external_links_fields.hide();
+
+			if ( radio_input.val() == 'internal' ) {
+				post_selector.show();
+			} else {
+				external_links_fields.show();
+			}
+		},
+
 		initialize_events: function( container ) {
 			container
 				.on( 'change', '.selected-post input', postsField.load_manual_post_preview )
@@ -304,7 +347,8 @@
 				.on( 'click', '.remove-selected-post', postsField.remove_selected_post )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
-				.on( 'change', '.filter-options .term-select', postsField.preview_query );
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.radio-option input', postsField.show_hide_manual_inputs );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -443,7 +487,7 @@
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: container.find('.panel-input-group').data('max'),
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {

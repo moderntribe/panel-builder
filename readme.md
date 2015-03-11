@@ -132,7 +132,7 @@ The user can pick an arbitrary number of posts, or define a query that will dyna
 the list of posts from your site's content.
 
 ```php
-$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'description' => 'Select 3-12 posts' ) ) );
+$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'support_external'=> true, 'description' => 'Select 3-12 posts' ) ) );
 ```
 
 #### `PostQuacker`

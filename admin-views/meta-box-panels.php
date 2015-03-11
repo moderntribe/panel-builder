@@ -3,7 +3,10 @@
  * The Panels meta box
  *
  * @var \ModularContent\PanelCollection $collection
+<<<<<<< HEAD
+=======
  * @var array $cache
+>>>>>>> master
  * @var array $localization
  */
 ?>

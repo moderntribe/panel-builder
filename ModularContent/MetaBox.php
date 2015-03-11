@@ -120,10 +120,12 @@ class MetaBox {
 
 	public function render( $post ) {
 		$collection = PanelCollection::find_by_post_id( $post->ID );
+
 		$cache = new AdminPreCache();
 		foreach ( $collection->panels() as $panel ) {
 			$panel->update_admin_cache( $cache );
 		}
+
 		$localization = array(
 			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
@@ -270,9 +272,10 @@ class MetaBox {
 			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
+				$title = apply_filters( 'panel_manual_query_post_title', get_the_title( $post ), $post );
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'text' => html_entity_decode( $title ),
 				);
 			}
 
