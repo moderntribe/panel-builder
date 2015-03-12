@@ -152,11 +152,14 @@ class MetaBox {
 			$panel_ids = array();
 		}
 		$panels = array();
+		$registry = Plugin::instance()->registry();
 		foreach ( $panel_ids as $id ) {
 			if ( isset($submission[$id]) ) {
 				$type = $submission[$id]['type'];
 				$depth = $submission[$id]['depth'];
 				$data = $submission[$id];
+				$panel = new Panel( $registry->get($type), $data, $depth );
+				$data = $panel->prepare_data_for_save();
 				unset($data['type']);
 				unset($data['depth']);
 				$data = wp_unslash($data);

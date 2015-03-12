@@ -97,4 +97,17 @@ class Repeater extends Group {
 		}
 		return $vars;
 	}
+
+	/**
+	 * Ensure that the submitted array is keyless
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepare_data_for_save( $data ) {
+		if ( is_array( $data ) ) {
+			return array_values( $data );
+		}
+		return $data;
+	}
 }

@@ -178,4 +178,16 @@ abstract class Field {
 		$class = trim($class, '\\');
 		return strtolower($class);
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * Default implementation is a passthrough.
+	 *
+	 * @param mixed $data
+	 * @return mixed
+	 */
+	public function prepare_data_for_save( $data ) {
+		return $data;
+	}
 }
