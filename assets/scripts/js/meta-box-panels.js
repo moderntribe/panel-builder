@@ -112,7 +112,7 @@
 				var template_context_mode = template.data( 'panel-context-mode' );
 				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
 					template.parent().hide();
-				} else if ( template_context_mode == 'allow' && depth == 0 ) {
+				} else if ( template_context_mode == 'allow' && depth === 0 ) {
 					template.parent().hide(); // the panel requires a parent context
 				} else if ( template_context_mode == 'allow' ) {
 					template_contexts = template.data( 'panel-contexts' );

@@ -44,7 +44,7 @@
 
 				document.getElementById( 'wp-' + wysiwyg_id + '-wrap' ).onclick = function() {
 					window.wpActiveEditor = this.id.slice( 3, -5 );
-				}
+				};
 
 				wysiwyg.addClass('wp-editor-initialized');
 			} catch(e){}
