@@ -28,7 +28,7 @@ class TextArea extends Field {
 				$this->get_input_value(),
 				$this->get_indexed_name(),
 				array(
-					'textarea_rows' => 30,
+					'textarea_rows' => 15,
 					'textarea_name' => $this->get_input_name(),
 					'quicktags'     => true,
 					'editor_class'    => 'wysiwyg-'.$this->get_indexed_name(),

@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-03-11 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-03-12 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -729,6 +729,27 @@
 			container
 				.on( 'click', 'a.panel-repeater-new-row', repeaterField.add_row )
 				.on( 'click', 'a.delete', repeaterField.remove_row );
+
+			if ( ! container.hasClass('ui-sortable') ) {
+				container.on('dragstart', '.panel-repeater-row', function () {
+					console.log(this);
+				});
+				console.log( container.find('.move') );
+				container.find('.move').bind( 'click', function() {
+					console.log(this);
+				});
+				container.sortable({
+					items: '.panel-repeater-row',
+					handle: '.move',
+					axis: 'y',
+					start: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					},
+					stop: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					}
+				});
+			}
 		},
 
 		add_row: function( e ) {
@@ -895,6 +916,30 @@
 					wysiwyg_field.init_editor( $(this) );
 				});
 			});
+		},
+
+		remove_editor: function ( wysiwyg ) {
+			var wysiwyg_id = wysiwyg.attr('id');
+			wysiwyg.removeClass('wp-editor-initialized');
+			tinymce.remove('#' + wysiwyg_id);
+
+			delete tinyMCEPreInit.mceInit[wysiwyg_id];
+			delete tinyMCEPreInit.qtInit[wysiwyg_id];
+			wysiwyg.siblings('.quicktags-toolbar').remove();
+		},
+
+		handle_sort_start: function( event ) {
+			var wysiwyg = $(this).find( 'textarea.wp-editor-initialized' );
+			wysiwyg.each( function() {
+				wysiwyg_field.remove_editor( $(this) );
+			});
+		},
+
+		handle_sort_stop: function( event ) {
+			var wysiwyg = $(this).find( 'textarea.wp-editor-area' );
+			wysiwyg.each( function() {
+				wysiwyg_field.init_editor( $(this) );
+			} );
 		}
 
 	};
@@ -902,5 +947,8 @@
 	window.tribe = window.tribe || {};
 	window.tribe.panels = window.tribe.panels || {};
 	window.tribe.panels.wysywig_field = wysiwyg_field;
+
+	$(document).on( 'tribe-panels.start-repeater-drag-sort', wysiwyg_field.handle_sort_start );
+	$(document).on( 'tribe-panels.stop-repeater-drag-sort', wysiwyg_field.handle_sort_stop );
 
 })(jQuery);

@@ -842,6 +842,23 @@ button.close:focus {
 }
 
 /* line 18, ../sass/fields/_repeater.scss */
+.panel-input-repeater-row-controls .move {
+  display: inline-block;
+  margin-left: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  color: #999;
+  text-decoration: none;
+  line-height: 25px;
+  cursor: pointer;
+}
+
+/* line 28, ../sass/fields/_repeater.scss */
+.panel-input-repeater-row-controls .move:hover {
+  color: #333;
+}
+
+/* line 32, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete {
   display: inline-block;
   margin-left: 10px;
@@ -853,24 +870,24 @@ button.close:focus {
   line-height: 25px;
 }
 
-/* line 28, ../sass/fields/_repeater.scss */
+/* line 42, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete:hover {
   color: #c43d3a;
 }
 
-/* line 32, ../sass/fields/_repeater.scss */
+/* line 46, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row {
   text-decoration: none;
 }
 
-/* line 35, ../sass/fields/_repeater.scss */
+/* line 49, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
   color: green;
   font-size: 125%;
   vertical-align: middle;
 }
 
-/* line 41, ../sass/fields/_repeater.scss */
+/* line 55, ../sass/fields/_repeater.scss */
 .panel-children-container {
   padding-top: 1em;
   padding-bottom: 2em;
@@ -884,13 +901,13 @@ button.close:focus {
   margin-bottom: 14px;
 }
 
-/* line 55, ../sass/fields/_repeater.scss */
+/* line 69, ../sass/fields/_repeater.scss */
 .panel-children-container > h4 {
   margin-top: 0;
   margin-bottom: 1.5em;
 }
 
-/* line 60, ../sass/fields/_repeater.scss */
+/* line 74, ../sass/fields/_repeater.scss */
 .panel-children {
   margin-bottom: 2em;
 }
@@ -898,7 +915,7 @@ button.close:focus {
 /**
  * Panel Children
  */
-/* line 67, ../sass/fields/_repeater.scss */
+/* line 81, ../sass/fields/_repeater.scss */
 .panel-children-container .panel-row {
   margin-top: 12px;
   margin-bottom: 12px;

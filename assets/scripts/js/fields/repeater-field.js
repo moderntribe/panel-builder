@@ -52,6 +52,27 @@
 			container
 				.on( 'click', 'a.panel-repeater-new-row', repeaterField.add_row )
 				.on( 'click', 'a.delete', repeaterField.remove_row );
+
+			if ( ! container.hasClass('ui-sortable') ) {
+				container.on('dragstart', '.panel-repeater-row', function () {
+					console.log(this);
+				});
+				console.log( container.find('.move') );
+				container.find('.move').bind( 'click', function() {
+					console.log(this);
+				});
+				container.sortable({
+					items: '.panel-repeater-row',
+					handle: '.move',
+					axis: 'y',
+					start: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					},
+					stop: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					}
+				});
+			}
 		},
 
 		add_row: function( e ) {

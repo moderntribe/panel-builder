@@ -56,11 +56,11 @@ class Repeater extends Group {
 		?>
 		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
 			<div class="panel-repeater-row">
-				<span class="panel-input-repeater-row-controls"><a class="delete icon-remove"></a></span>
+				<span class="panel-input-repeater-row-controls"><a class="move icon-reorder"></a><a class="delete icon-remove"></a></span>
 				<?php
-					foreach ( $this->fields as $field ) {
-						$field->render();
-					}
+				foreach ( $this->fields as $field ) {
+					$field->render();
+				}
 				?>
 			</div>
 		</script>
