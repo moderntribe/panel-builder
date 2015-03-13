@@ -322,7 +322,7 @@
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			$(this).parent().fadeOut( 500, function() { $(this).remove(); } );
 			postsField.preview_query.call(container);
 		},
@@ -424,7 +424,7 @@
 		},
 
 		preview_query: function() {
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
 				var select = $(this).find(':input.term-select');
