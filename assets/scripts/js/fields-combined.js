@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-03-12 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-03-13 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -228,6 +228,10 @@
 		},
 
 		initialize_tabs: function ( container ) {
+			if( container.is( '.tabs-initialized' ) ){
+				// we've already done this, bail
+				return;
+			}
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset
@@ -244,7 +248,7 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.prepend(navigation).tabs({
+			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
@@ -494,7 +498,7 @@
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			$(this).parent().fadeOut( 500, function() { $(this).remove(); } );
 			postsField.preview_query.call(container);
 		},
@@ -596,7 +600,7 @@
 		},
 
 		preview_query: function() {
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
 				var select = $(this).find(':input.term-select');

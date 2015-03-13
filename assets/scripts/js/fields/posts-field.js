@@ -56,6 +56,10 @@
 		},
 
 		initialize_tabs: function ( container ) {
+			if( container.is( '.tabs-initialized' ) ){
+				// we've already done this, bail
+				return;
+			}
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset
@@ -72,7 +76,7 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.prepend(navigation).tabs({
+			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
