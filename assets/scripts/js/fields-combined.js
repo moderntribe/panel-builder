@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-10-23 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-03-13 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -173,9 +173,30 @@
 (function($) {
 	var postsField = {
 		filter_row_template: wp.template('field-posts-filter'),
+		p2p_options_template: wp.template('field-posts-p2p-options'),
+		meta_options_template: wp.template('field-posts-meta-options'),
 
 		taxonomy_options_template: function( taxonomy ) {
 			return wp.template('field-posts-taxonomy-'+taxonomy+'-options');
+		},
+
+		options_template: function( filter_id ) {
+			var group = postsField.get_filter_group( filter_id );
+			if ( group == 'taxonomy' ) {
+				return postsField.taxonomy_options_template( filter_id );
+			} else if ( group == 'p2p' ) {
+				return postsField.p2p_options_template;
+			} else if ( group == 'meta' ) {
+				return postsField.meta_options_template;
+			}
+		},
+
+		get_filter_group: function( filter_id ) {
+			var group = ModularContent.posts_filter_templates[filter_id];
+			if ( !group ) {
+				group = 'taxonomy';
+			}
+			return group;
 		},
 
 		update_active_tab: function( event, ui ) {
@@ -196,7 +217,7 @@
 			var select = container.find('select.post-type-select');
 			container.find('.'+type+' .filter-post_type-container').append(container.find('.filter-post_type'));
 			select.select2('destroy');
-			if ( type == 'manual' ) {
+			if ( type === 'manual' ) {
 				select.select2({width: 'element', maximumSelectionSize: 1});
 				if ( select.select2('val').length > 1 ) {
 					select.select2('val', select.select2('val').shift());
@@ -207,7 +228,14 @@
 		},
 
 		initialize_tabs: function ( container ) {
+			if( container.is( '.tabs-initialized' ) ){
+				// we've already done this, bail
+				return;
+			}
 			var fieldsets = container.children('fieldset');
+			if ( fieldsets.length < 2 ) {
+				return; // no tabs if there's only one fieldset
+			}
 			var navigation = $('<ul></ul>');
 			var type = container.find('input.query-type').val();
 			var active_tab_index = 0;
@@ -220,10 +248,16 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.prepend(navigation).tabs({
+			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
+
+
+			var post_selector = container.find('.post-selector');
+			var external_links_fields = container.find('.external-links-fields');
+			post_selector.show();
+			external_links_fields.hide();
 		},
 
 		intialize_data: function ( container, data ) {
@@ -265,7 +299,7 @@
 				ajax: {
 					url: ajaxurl,
 					dataType: 'json',
-					quiteMillis: 200,
+					quietMillis: 200,
 					data: postsField.manualSearchQueryParams,
 					initSelection: function( element, callback ) {
 						callback({id: 0, text:''});
@@ -369,16 +403,31 @@
 			var container = button.closest('.panel-input-posts');
 			var selector = container.find('.selected-post-input > input:hidden');
 			var post_id = selector.val();
-			if ( !post_id ) {
+
+			var external_title_input = container.find('.external-title');
+			var external_link_input = container.find('.external-url');
+			var external_title = external_title_input.val();
+			var external_link = external_link_input.val();
+
+			if ( !post_id && ( external_title === undefined || external_title === '' ) ) {
 				return;
 			}
+
 			var preview_slot = postsField.find_open_preview_slot( container );
 			if ( !preview_slot ) {
 				return;
 			}
-			preview_slot.val( post_id );
+
+			if ( post_id ) {
+				preview_slot.val(post_id);
+			} else {
+				preview_slot.val(external_title + "|" + external_link);
+			}
+
 			preview_slot.trigger('change');
 			selector.select2('val', '');
+			external_title_input.val('');
+			external_link_input.val('');
 			postsField.update_selected_post_previews(container);
 		},
 
@@ -445,6 +494,28 @@
 			}
 		},
 
+		show_hide_manual_inputs: function( e ) {
+			e.preventDefault();
+			var radio_input = $(this);
+
+			if ( radio_input === undefined ) {
+				return;
+			}
+
+			var container = radio_input.closest('.panel-input-posts');
+			var post_selector = container.find('.post-selector');
+			var external_links_fields = container.find('.external-links-fields');
+
+			post_selector.hide();
+			external_links_fields.hide();
+
+			if ( radio_input.val() == 'internal' ) {
+				post_selector.show();
+			} else {
+				external_links_fields.show();
+			}
+		},
+
 		initialize_events: function( container ) {
 			container
 				.on( 'change', '.selected-post input', postsField.load_manual_post_preview )
@@ -452,7 +523,8 @@
 				.on( 'click', '.remove-selected-post', postsField.remove_selected_post )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
-				.on( 'change', '.filter-options select', postsField.preview_query );
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.radio-option input', postsField.show_hide_manual_inputs );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -478,20 +550,24 @@
 		add_filter_row_event: function( e ) {
 			var select = $(this);
 			var container = select.closest('.panel-input');
-			var type = select.val();
-			if ( !type ) {
+			var id = select.val();
+			var option = select.find(':selected');
+			var group = option.data('filter-group');
+			if ( !group ) {
+				group = 'taxonomy';
+			}
+			if ( !id ) {
 				return;
 			}
-			postsField.add_filter_row( container, type, {} );
+			postsField.add_filter_row( container, id, {} );
 			select.val('');
 		},
 
-		add_filter_row: function( container, type, data ) {
+		add_filter_row: function( container, filter_id, data ) {
 			data = $.extend({ selection: [], lock: 1 }, data);
 
-
 			// if we already have that filter, just highlight it for a moment
-			var exists = container.find('.filter-'+type);
+			var exists = container.find('.filter-'+filter_id);
 			if ( exists.length > 0 ) {
 				exists.stop(true).css({backgroundColor: 'lightYellow'}).animate({backgroundColor: 'white'}, {
 					duration: 1500,
@@ -503,22 +579,64 @@
 			}
 
 			var options, options_template;
-			options_template = postsField.taxonomy_options_template(type);
+			options_template = postsField.options_template( filter_id );
 			options = $(options_template({
-				type: type,
+				type: filter_id,
 				name: container.find('.posts-group-name').val()
 			}));
+
 			var template = postsField.filter_row_template;
 			var new_filter = $(template({
-				type: type,
+				type: filter_id,
 				name: container.find('.posts-group-name').val(),
-				label: container.find('.select-new-filter').find('option[value='+type+']').text()
+				label: container.find('.select-new-filter').find('option[value=' + filter_id + ']').text()
 			}));
 			container.find('.query .query-filters').append(new_filter);
 			new_filter.find('.filter-options').append(options);
 
-			options.select2({width: 'element'});
+			var select2_args = {width: 'element'};
+			var filter_group = postsField.get_filter_group( filter_id );
 
+			if ( filter_group == 'p2p' ) {
+				if ( $.isArray(data.selection) ) {
+					options.val(data.selection.join(','));
+				} else {
+					options.val(data.selection);
+				}
+				select2_args.multiple = true;
+				select2_args.ajax = {
+					url: ajaxurl,
+					dataType: 'json',
+					quietMillis: 200,
+					data: function ( term, page ) {
+						return {
+							action: 'posts-field-p2p-options-search',
+							s: term,
+							type: filter_id,
+							paged: page
+						};
+					},
+					results: function( data, page, query ) {
+						return { results: data.posts, more: data.more };
+					}
+				};
+				select2_args.initSelection =function( element, callback ) {
+					var data = [];
+					$(element.val().split(',')).each( function() {
+						data.push({
+							id: this,
+							// meta box should have put the post into the cache
+							text: ModularContent.cache.posts[this].post_title
+						});
+					});
+					callback(data);
+				};
+			} else if ( filter_group == 'meta' ) {
+				select2_args.tags = true;
+				select2_args.multiple = true;
+			}
+
+			options.select2(select2_args);
 			options.val(data.selection).trigger('change');
 		},
 
@@ -526,7 +644,7 @@
 			var container = $(this).closest('.panel-row');
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
-				var select = $(this).find('select');
+				var select = $(this).find(':input.term-select');
 				var val = select.val();
 				if ( val && val.length > 0 ) {
 					filters[select.data('filter_type')] = {
@@ -545,7 +663,7 @@
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: container.find('.panel-input-group').data('max'),
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {

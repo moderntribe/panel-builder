@@ -45,7 +45,7 @@
 			var select = container.find('select.post-type-select');
 			container.find('.'+type+' .filter-post_type-container').append(container.find('.filter-post_type'));
 			select.select2('destroy');
-			if ( type == 'manual' ) {
+			if ( type === 'manual' ) {
 				select.select2({width: 'element', maximumSelectionSize: 1});
 				if ( select.select2('val').length > 1 ) {
 					select.select2('val', select.select2('val').shift());
@@ -56,6 +56,10 @@
 		},
 
 		initialize_tabs: function ( container ) {
+			if( container.is( '.tabs-initialized' ) ){
+				// we've already done this, bail
+				return;
+			}
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset
@@ -72,7 +76,7 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.prepend(navigation).tabs({
+			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
@@ -233,7 +237,7 @@
 			var external_title = external_title_input.val();
 			var external_link = external_link_input.val();
 
-			if ( !post_id && ( external_title == undefined || external_title == '' ) ) {
+			if ( !post_id && ( external_title === undefined || external_title === '' ) ) {
 				return;
 			}
 
@@ -451,7 +455,7 @@
 							id: this,
 							// meta box should have put the post into the cache
 							text: ModularContent.cache.posts[this].post_title
-						})
+						});
 					});
 					callback(data);
 				};
