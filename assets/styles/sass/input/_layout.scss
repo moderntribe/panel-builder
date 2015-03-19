@@ -8,6 +8,7 @@
 		background: #ccc;
 		opacity: 0.4;
 		transition: all 0.1s ease-out;
+		backface-visibility: hidden;
 	}
 
 	input[type="radio"]:checked + img, img:hover {

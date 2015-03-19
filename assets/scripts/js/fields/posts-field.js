@@ -56,8 +56,7 @@
 		},
 
 		initialize_tabs: function ( container ) {
-			if( container.is( '.tabs-initialized' ) ){
-				// we've already done this, bail
+			if( container.is('.tabs-initialized')){
 				return;
 			}
 			var fieldsets = container.children('fieldset');
@@ -76,7 +75,7 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
+			container.addClass('tabs-initialized').prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});

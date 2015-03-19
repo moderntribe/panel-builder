@@ -76,6 +76,8 @@ class PostQuacker extends Field {
 				}
 			}
 			$vars['excerpt'] = $vars['content'];
+			$vars['post_type'] = '';
+			$vars['post_id'] = 0;
 		}
 		return $vars;
 	}
@@ -84,12 +86,15 @@ class PostQuacker extends Field {
 		$data = array(
 			'title' => '',
 			'content' => '',
+			'excerpt' => '',
 			'image' => 0,
 			'link' => array(
 				'url' => '',
 				'target' => '',
 				'label' => '',
 			),
+			'post_type' => '',
+			'post_id' => 0,
 		);
 		if ( empty($post_id) ) {
 			return $data;
@@ -107,6 +112,8 @@ class PostQuacker extends Field {
 			'target' => '',
 			'label' => $data['title'],
 		);
+		$data['post_type'] = $post->post_type;
+		$data['post_id'] = $post->ID;
 		wp_reset_postdata();
 		return $data;
 	}
