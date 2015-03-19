@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class MetaBox
+ *
+ * @package ModularContent
+ *
+ * The admin metabox where all the magic happens
+ */
 class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';

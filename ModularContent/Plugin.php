@@ -2,6 +2,13 @@
 
 namespace ModularContent;
 
+/**
+ * Class Plugin
+ *
+ * @package ModularContent
+ *
+ * Responsible for setting up the plugin and hooking into WordPress
+ */
 class Plugin {
 	/** @var self */
 	private static $instance;

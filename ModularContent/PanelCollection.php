@@ -7,15 +7,29 @@ namespace ModularContent;
  * Class PanelCollection
  *
  * @package ModularContent
+ *
+ * A collection of Panels.
  */
 class PanelCollection implements \JsonSerializable {
 	/** @var Panel[] */
 	private $panels = array();
 
+	/**
+	 * Add a panel to this collection
+	 *
+	 * @param Panel $panel
+	 *
+	 * @return void
+	 */
 	public function add_panel( Panel $panel ) {
 		$this->panels[] = $panel;
 	}
 
+	/**
+	 * Get all the panels in this collection
+	 *
+	 * @return Panel[]
+	 */
 	public function panels() {
 		return $this->panels;
 	}
@@ -41,6 +55,15 @@ class PanelCollection implements \JsonSerializable {
 		return json_encode($this->jsonSerialize());
 	}
 
+	/**
+	 * Restore a panel collection from an array of panels
+	 *
+	 * @param array $data An associative array that should have JSON-encoded panels
+	 *                    in an array at $data['panels']
+	 * @param TypeRegistry $registry
+	 *
+	 * @return PanelCollection
+	 */
 	public static function create_from_array( $data, $registry = NULL ) {
 		$registry = $registry ? $registry : Plugin::instance()->registry();
 		$collection = new self();
@@ -61,6 +84,14 @@ class PanelCollection implements \JsonSerializable {
 		return $collection;
 	}
 
+	/**
+	 * Restore a panel collection that has been JSON encoded
+	 *
+	 * @param string $json
+	 * @param TypeRegistry $registry
+	 *
+	 * @return PanelCollection
+	 */
 	public static function create_from_json( $json, $registry = NULL ) {
 		$decoded = json_decode($json, TRUE);
 		if ( $decoded === NULL ) {
@@ -69,6 +100,14 @@ class PanelCollection implements \JsonSerializable {
 		return self::create_from_array( $decoded, $registry );
 	}
 
+	/**
+	 * Get the panel collection saved to the given post
+	 *
+	 * @param int $post_id
+	 * @param TypeRegistry $registry
+	 *
+	 * @return PanelCollection
+	 */
 	public static function find_by_post_id( $post_id, $registry = NULL ) {
 		$post = get_post($post_id);
 		$meta = $post->post_content_filtered;

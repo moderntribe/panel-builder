@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class TypeRegistry
+ *
+ * @package ModularContent
+ *
+ * A collection of registered panel types.
+ */
 class TypeRegistry {
 
 	/** @var PanelType[] */

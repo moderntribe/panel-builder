@@ -68,7 +68,7 @@ function have_panels() {
 /**
  * Move back to the start of the panels loop.
  * Analogous to rewind_posts() in a WP posts loop.
- * 
+ *
  * @return void
  */
 function rewind_panels() {
