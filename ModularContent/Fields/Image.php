@@ -3,7 +3,24 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel;
 
-
+/**
+ * Class Image
+ *
+ * @package ModularContent\Fields
+ *
+ * An image field.
+ *
+ * Note: this depends on the Attachment Helper library.
+ *
+ *
+ * $field = new Image( array(
+ *   'label' => __('Featured Image'),
+ *   'name' => 'featured-image',
+ *   'description' => __( 'An image to feature' )
+ * ) );
+ *
+ * The image is stored in the field as an attachment ID.
+ */
 class Image extends Field {
 	protected $size = 'thumbnail'; // The size that will displayed in the admin
 

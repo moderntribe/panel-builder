@@ -3,6 +3,21 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel;
 
+/**
+ * Class TextArea
+ *
+ * @package ModularContent\Fields
+ *
+ * A textarea. Set the argument 'richtext' to TRUE to use
+ * a WordPress visual editor.
+ *
+ * $field = new TextArea( array(
+ *   'label' => __('Description'),
+ *   'name' => 'description',
+ *   'description' => __( 'How would you describe it?' ),
+ *   'richtext' => TRUE,
+ * ) );
+ */
 class TextArea extends Field {
 	protected $richtext = FALSE;
 	protected static $global_index = 0;

@@ -5,7 +5,16 @@ namespace ModularContent\Fields;
 use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
-
+/**
+ * Class Field
+ *
+ * @package ModularContent\Fields
+ *
+ * A field for a Panel. A field can be a single form input, or multiple.
+ *
+ * A field is responsible for rendering a template for its admin controls,
+ * and for preparing data entered in that field for the front-end template.
+ */
 abstract class Field {
 
 	/** @var string $label The human-readable label for the field */
@@ -45,6 +54,11 @@ abstract class Field {
 		$this->sanitize_name();
 	}
 
+	/**
+	 * A field name should not have any whitespace or periods
+	 *
+	 * @return void
+	 */
 	protected function sanitize_name() {
 		$this->name = preg_replace('/[^\w\.]/', '_', $this->name);
 	}
@@ -99,6 +113,12 @@ abstract class Field {
 		printf('<div class="panel-input input-name-%s input-type-%s">', $this->esc_class($this->name), $this->get_short_type_name());
 	}
 
+	/**
+	 * Avoid JS errors by making sure that all required properties
+	 * of the data object exist.
+	 *
+	 * @return void
+	 */
 	protected function print_hasOwnProperty_statements() {
 		$base = 'data.fields';
 		$default = '{}';
@@ -119,6 +139,9 @@ abstract class Field {
 		}
 	}
 
+	/**
+	 * @return string The JS string for setting the default value for the field
+	 */
 	protected function get_default_value_js() {
 		return sprintf("'%s'", esc_js($this->default));
 	}
