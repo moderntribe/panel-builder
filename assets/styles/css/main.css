@@ -1,7 +1,10 @@
-/* line 9, ../sass/utility/_utilities.scss */
-.clearfix {
-  content: "";
+/* line 14, ../sass/mixins/_clearfix.scss */
+.clearfix:before, .clearfix:after {
+  content: " ";
   display: table;
+}
+/* line 19, ../sass/mixins/_clearfix.scss */
+.clearfix:after {
   clear: both;
 }
 
