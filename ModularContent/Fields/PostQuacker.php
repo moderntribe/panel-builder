@@ -107,6 +107,7 @@ class PostQuacker extends Field {
 			'target' => '',
 			'label' => $data['title'],
 		);
+		$data['post_id'] = $post_id;
 		wp_reset_postdata();
 		return $data;
 	}
