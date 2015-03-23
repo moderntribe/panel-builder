@@ -177,6 +177,11 @@
 
 			newRow.data( 'panel_id', panelId );
 
+			var delete_child_label = this.newPanelContainer.data( 'delete-child' );
+			if ( delete_child_label ) {
+				newRow.find('.delete-panel').text( delete_child_label );
+			}
+
 			var childContainer = newRow.find('.panel-children');
 
 			if ( childContainer.length == 1 ) {
@@ -378,6 +383,11 @@
 					placeholder: 'panel-row-drop-placeholder',
 					forcePlaceholderSize: true
 				});
+			}
+
+			var delete_child_label = currentContainer.data( 'delete-child' );
+			if ( delete_child_label ) {
+				newRow.find('.delete-panel').text( delete_child_label );
 			}
 
 			currentContainer.append( newRow );

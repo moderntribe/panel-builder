@@ -131,7 +131,7 @@ class MetaBox {
 			$panel->update_admin_cache( $cache );
 		}
 		$localization = array(
-			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
+			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
 			'untitled' => __( 'Untitled', 'modular-content' ),
 		);

@@ -13,7 +13,7 @@
 		var ModularContent = window.ModularContent || {};
 		ModularContent.panels = [];
 		<?php $cache = json_encode( $cache ); ?>
-		ModularContent.cache = <?php echo $cache ? $cache : '{}'; ?>;
+		ModularContent.cache = <?php echo $cache ? $cache : json_encode([ 'posts' => [], 'terms' => [], 'data' => [] ]); ?>;
 		ModularContent.localization = <?php echo json_encode($localization); ?>;
 
 		<?php foreach ( $collection->panels() as $panel ) { ?>
