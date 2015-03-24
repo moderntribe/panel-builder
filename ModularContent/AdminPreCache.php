@@ -16,12 +16,16 @@ class AdminPreCache implements \JsonSerializable {
 
 	public function add_post( $post_id ) {
 		$post = get_post( $post_id );
-		$this->posts[$post->ID] = get_object_vars($post);
+		if ( $post ) {
+			$this->posts[$post->ID] = get_object_vars($post);
+		}
 	}
 
 	public function add_term( $term_id, $taxonomy ) {
 		$term = get_term( (int)$term_id, $taxonomy );
-		$this->terms[ $term_id ] = get_object_vars( $term );
+		if ( $term ) {
+			$this->terms[ $term_id ] = get_object_vars( $term );
+		}
 	}
 
 	public function add_data( $key, $data ) {
