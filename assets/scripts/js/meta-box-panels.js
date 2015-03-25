@@ -318,7 +318,6 @@
 		Panel.prototype.setThumbnail = function( imageSrc ) {
 			var image = this.$el.find("> .panel-row-header").find(".media-object");
 			image.attr( "src", image.attr( imageSrc ) );
-			console.log("Set thumbnail src: ", image.attr( imageSrc ));
 		};
 
 
@@ -346,7 +345,7 @@
 			var panels = window.ModularContent ? window.ModularContent.panels : null;
 
 			if ( ! ( panels && panels.length ) ) {
-				return console.warn( "No panels found on window.ModularContent: ", window.ModularContent );
+				return;
 			}
 
 			_.each( panels, this.createPanel, this );

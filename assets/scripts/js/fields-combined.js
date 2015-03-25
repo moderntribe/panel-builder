@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-03-19 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-03-25 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -225,6 +225,7 @@
 			} else {
 				select.select2({width: 'element', maximumSelectionSize: 0});
 			}
+			postsField.hide_irrelevant_filter_options.call(container);
 		},
 
 		initialize_tabs: function ( container ) {
@@ -479,6 +480,7 @@
 				.on( 'click', '.remove-selected-post', postsField.remove_selected_post )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
+				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
 				.on( 'change', '.filter-options .term-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
@@ -596,6 +598,34 @@
 
 			options.select2(select2_args);
 			options.val(data.selection).trigger('change');
+		},
+
+		hide_irrelevant_filter_options: function() {
+			var container = $(this).closest( '.panel-input-posts' );
+			var post_type_select = container.find('select.post-type-select');
+			var post_types = post_type_select.val();
+			var filter_options = container.find('select.select-new-filter').find('option');
+			if ( !post_types || post_types.length < 1 ) {
+				filter_options.show();
+				return;
+			}
+
+			filter_options.each( function() {
+				var option = $(this);
+				if ( !option.val() ) {
+					return; // skip placeholders
+				}
+				var supported_post_types = option.data('filter-post-types');
+				if ( !supported_post_types ) {
+					return; // skip ambiguous filters
+				}
+				var intersection = _.intersection( supported_post_types, post_types );
+				if ( intersection.length < 1 ) {
+					option.hide();
+				} else {
+					option.show();
+				}
+			} );
 		},
 
 		preview_query: function() {
@@ -734,13 +764,6 @@
 				.on( 'click', 'a.delete', repeaterField.remove_row );
 
 			if ( ! container.hasClass('ui-sortable') ) {
-				container.on('dragstart', '.panel-repeater-row', function () {
-					console.log(this);
-				});
-				console.log( container.find('.move') );
-				container.find('.move').bind( 'click', function() {
-					console.log(this);
-				});
 				container.sortable({
 					items: '.panel-repeater-row',
 					handle: '.move',
