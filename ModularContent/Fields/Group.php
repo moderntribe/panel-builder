@@ -41,7 +41,7 @@ class Group extends Field {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s">', $this->esc_class($this->name));
+		printf('<fieldset class="panel-input panel-input-type-group input-name-%s">', $this->esc_class($this->name));
 	}
 
 	protected function render_label() {
