@@ -184,7 +184,7 @@ button.close:focus {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777777;
+  border-top: 6.5px solid #777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */
@@ -518,7 +518,7 @@ button.close:focus {
 /* line 102, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
-  width: 33%;
+  width: 50%;
   padding-right: 2em;
   min-width: 200px;
   margin-bottom: 1em;
