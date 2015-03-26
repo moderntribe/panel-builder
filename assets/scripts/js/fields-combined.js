@@ -736,6 +736,7 @@
 			new_row.trigger('new-panel-repeater-row', [uuid, data.fields]);
 
 			repeaterField.toggle_new_row_button_visibility( container );
+			$( document ).trigger( 'tribe-panels.repeater-row-added', [ container, new_row ] );
 		},
 
 		toggle_new_row_button_visibility: function( container ) {
@@ -790,6 +791,7 @@
 			$(this).closest('.panel-repeater-row').remove();
 
 			repeaterField.toggle_new_row_button_visibility( container );
+			$( document ).trigger( 'tribe-panels.repeater-row-removed', [ container ] );
 		}
 
 	};
