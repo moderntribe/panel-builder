@@ -167,7 +167,7 @@ class MetaBox {
 		}
 		$collection = PanelCollection::create_from_array( array('panels' => $panels) );
 
-		$collection = apply_filters( 'submission_to_json_collection', $collection, $submission );
+		$collection = apply_filters( 'panel_submission_to_json_collection', $collection, $submission );
 
 		return json_encode($collection);
 	}
