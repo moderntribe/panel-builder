@@ -15,9 +15,9 @@ class AdminPreCache implements \JsonSerializable {
 	private $data = array();
 
 	public function add_post( $post_id ) {
-		$post = get_post( $post_id );
+		$post = self::get_post_array( $post_id );
 		if ( $post ) {
-			$this->posts[$post->ID] = get_object_vars($post);
+			$this->posts[ $post_id ] = $post;
 		}
 	}
 
@@ -46,6 +46,41 @@ class AdminPreCache implements \JsonSerializable {
 			'terms' => $this->terms,
 			'data' => $this->data,
 		);
+	}
+
+	/**
+	 * @param int $post_id
+	 *
+	 * @return array
+	 */
+	public static function get_post_array( $post_id ) {
+		global $post;
+		$original_post = $post;
+		$post = get_post($post_id);
+		$post_data = array();
+		if ( $post ) {
+			setup_postdata( $post );
+			$excerpt = $post->post_excerpt;
+			if ( empty( $excerpt ) ) {
+				$excerpt = $post->post_content;
+			}
+			$title = get_the_title( $post );
+			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
+			$excerpt = apply_filters( 'get_the_excerpt', $excerpt );
+			$thumbnail_html = get_the_post_thumbnail( $post->ID, array( 150, 150 ) );
+
+			$post_data = get_object_vars( $post );
+
+			$post_data[ 'post_title' ] = $title;
+			$post_data[ 'post_excerpt' ] = $excerpt;
+			$post_data[ 'thumbnail_html' ] = $thumbnail_html;
+		}
+
+		$post = $original_post;
+		if ( $original_post ) {
+			wp_reset_postdata();
+		}
+		return $post_data;
 	}
 
 

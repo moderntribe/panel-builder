@@ -29,7 +29,9 @@ class Posts extends Field {
 	}
 
 	protected function render_label() {
-		// Posts fields don't get to have labels
+		if ( !empty($this->label) ) {
+			printf('<legend class="panel-input-label">%s</legend>', $this->label);
+		}
 	}
 
 	protected function render_description() {
@@ -77,6 +79,11 @@ class Posts extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
+		if ( !empty( $data['type'] ) && $data['type'] == 'manual' && !empty( $data['post_ids'] ) ) {
+			foreach ( $data['post_ids'] as $post_id ) {
+				$cache->add_post( $post_id );
+			}
+		}
 		if ( !empty( $data['filters'] ) ) {
 			foreach ( $data['filters'] as $filter_id => $filter_args ) {
 				if ( !is_array( $filter_args['selection'] ) ) {
@@ -92,7 +99,7 @@ class Posts extends Field {
 						}
 					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
 						foreach ( $filter_args['selection'] as $post_id ) {
-							$cache->add_post( $post_id, $filter_id );
+							$cache->add_post( $post_id );
 						}
 					}
 				}
@@ -238,25 +245,8 @@ class Posts extends Field {
 
 	public static function get_post_data( $post_ids ) {
 		$posts = array();
-		global $post;
-		$original_post = $post;
 		foreach ( $post_ids as $id ) {
-			$post = get_post($id);
-			setup_postdata($post);
-			$excerpt = $post->post_excerpt;
-			if ( empty($excerpt) ) {
-				$excerpt = $post->post_content;
-			}
-			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
-			$posts[$id] = array(
-				'post_title' => get_the_title($post),
-				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
-				'thumbnail_html' => get_the_post_thumbnail($post->ID, array(150, 150)),
-			);
-		}
-		$post = $original_post;
-		if ( $original_post ) {
-			wp_reset_postdata();
+			$posts[$id] = AdminPreCache::get_post_array( $id );
 		}
 		return $posts;
 	}

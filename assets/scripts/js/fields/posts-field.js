@@ -176,27 +176,27 @@
 		},
 
 		fetch_queued_previews: function() {
-			var post_ids = [];
+			var post_ids_to_fetch = [];
+			var post_ids_already_fetched = [];
 			for ( var post_id in postsField.previews_to_fetch ) {
 				if ( postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
-					post_ids.push(post_id);
+					if ( ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+						post_ids_already_fetched.push(post_id);
+					} else {
+						post_ids_to_fetch.push(post_id);
+					}
 				}
 			}
-			if ( post_ids.length > 0 ) {
+			if ( post_ids_to_fetch.length > 0 ) {
 				wp.ajax.send({
 					data: {
 						action: 'posts-field-fetch-preview',
-						post_ids: post_ids
+						post_ids: post_ids_to_fetch
 					},
 					success: function(data) {
 						$.each( data.posts, function ( returned_id, post_data ) {
-							if ( postsField.previews_to_fetch.hasOwnProperty(returned_id) ) {
-								var wrapper = postsField.previews_to_fetch[returned_id];
-								wrapper.find('.post-title').text(post_data.post_title);
-								wrapper.find('.post-excerpt').text(post_data.post_excerpt);
-								wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
-								delete postsField.previews_to_fetch[returned_id];
-							}
+							ModularContent.cache.posts[ returned_id ] = post_data;
+							postsField.display_post_preview( returned_id );
 						});
 						postsField.set_preview_queue_timeout();
 					}
@@ -204,6 +204,24 @@
 			} else {
 				postsField.set_preview_queue_timeout();
 			}
+			$.each( post_ids_already_fetched, function( index, post_id ) {
+				postsField.display_post_preview( post_id );
+			});
+		},
+
+		display_post_preview: function( post_id ) {
+			if ( !ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			if ( !postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			var post_data = ModularContent.cache.posts[post_id];
+			var wrapper = postsField.previews_to_fetch[post_id];
+			wrapper.find('.post-title').text(post_data.post_title);
+			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
+			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
+			delete postsField.previews_to_fetch[post_id];
 		},
 
 		load_manual_post_preview: function() {

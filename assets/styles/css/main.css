@@ -210,8 +210,8 @@ button.close:focus {
   margin-bottom: 12px;
   border: thin solid #dddddd;
   background-color: #fafafa;
-  -webkit-transition: -webkit-transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-          transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: -webkit-transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 /* line 21, ../sass/panels/_panel.scss */
 .panel-row:not(.editing) {
@@ -302,7 +302,6 @@ button.close:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
   background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
   content: "";
 }
@@ -539,8 +538,7 @@ button.close:focus {
 .input-name-layout img {
   background: #ccc;
   opacity: 0.4;
-  -webkit-transition: all 0.1s ease-out;
-          transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
 }
