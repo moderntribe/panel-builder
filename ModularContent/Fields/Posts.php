@@ -3,6 +3,29 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel, ModularContent\AdminPreCache;
 
+/**
+ * Class Posts
+ *
+ * @package ModularContent\Fields
+ *
+ * A complex field for selecting or querying posts
+ *
+ * $field = new Posts( array(
+ *   'label' => __( 'Select some posts' ),
+ *   'name' => 'some-posts',
+ *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
+ *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
+ *   'suggested' => 6, // the number of empty slots that will be shown in the admin
+ * ) );
+ *
+ * Returns an array of post IDs for use in the template.
+ *
+ * $post_ids = get_panel_var( 'some-posts' );
+ * $posts = array_map( 'get_post', $post_ids );
+ * foreach ( $posts as $wp_post ) {
+ *   // do something with a WP_Post object
+ * }
+ */
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
 

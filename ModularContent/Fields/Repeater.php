@@ -5,6 +5,42 @@ namespace ModularContent\Fields;
 use ModularContent\Panel;
 
 
+/**
+ * Class Repeater
+ *
+ * A repeatable container for a group of fields. The Repeater can
+ * contain one or more fields. An editor can add, remove, or sort
+ * instances of the group.
+ *
+ * Creating a repeater:
+ *
+ * $name = new Text( array(
+ *   'label' => __('Name'),
+ *   'name' => 'name',
+ * ) );
+ * $email = new Text( array(
+ *   'label' => __('Email'),
+ *   'name' => 'email',
+ * ) );
+ * $group = new Repeater( array(
+ *   'label' => __('Contacts'),
+ *   'name' => 'contacts',
+ *   'max' => 5,
+ *   'new_button_label' => __( 'Add a Contact' ),
+ * ) );
+ * $group->add_field( $name );
+ * $group->add_field( $email );
+ *
+ *
+ * Using data from a repeater in a template:
+ *
+ * $contacts = get_panel_var( 'contacts' );
+ * foreach ( $contacts as $contact ) {
+ *   $name = $contact['name'];
+ *   $email = $contact['email'];
+ * }
+ *
+ */
 class Repeater extends Group {
 	protected $max = 0;
 	protected $new_button_label = '';
