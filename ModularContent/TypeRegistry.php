@@ -18,8 +18,10 @@ class TypeRegistry {
 	private $post_type_map = array();
 
 	/**
-	 * @param PanelType $type
-	 * @param array|string $post_type
+	 * Register a panel type.
+	 *
+	 * @param PanelType $type The type the register
+	 * @param array|string $post_type An optional array of post types the type will be limited to
 	 *
 	 * @return void
 	 * @throws \InvalidArgumentException
@@ -33,6 +35,12 @@ class TypeRegistry {
 		$this->add_to_post_type_map($type->id, $post_type);
 	}
 
+	/**
+	 * Convert empty or string post types to an array
+	 *
+	 * @param string $post_type
+	 * @return array
+	 */
 	private function normalize_post_type( $post_type ) {
 		if ( empty($post_type) ) {
 			$post_type = array('all');
@@ -42,16 +50,37 @@ class TypeRegistry {
 		return $post_type;
 	}
 
+	/**
+	 * Maintain a mapping of panel IDs available for each post type
+	 *
+	 * @param string $type_id
+	 * @param array $post_types
+	 *
+	 * @return void
+	 */
 	private function add_to_post_type_map( $type_id, $post_types ) {
 		foreach ( $post_types as $pt ) {
 			$this->post_type_map[$pt][] = $type_id;
 		}
 	}
 
+	/**
+	 * Remove a panel type from the registry
+	 *
+	 * @param string $type_id
+	 * @return void
+	 */
 	public function unregister( $type_id ) {
 		unset($this->types[$type_id]);
 	}
 
+	/**
+	 * Get a registered panel type object
+	 *
+	 * @param string $type_id
+	 * @return PanelType
+	 * @throws \RuntimeException
+	 */
 	public function get( $type_id ) {
 		if ( isset($this->types[$type_id]) ) {
 			return $this->types[$type_id];
