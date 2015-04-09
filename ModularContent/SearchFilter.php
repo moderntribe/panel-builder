@@ -5,6 +5,13 @@ namespace ModularContent;
 use WP_Query;
 
 
+/**
+ * Class SearchFilter
+ *
+ * @package ModularContent
+ *
+ * Filters search queries to include content entered into panels
+ */
 class SearchFilter {
 	private $query = NULL;
 
@@ -26,7 +33,6 @@ class SearchFilter {
 	public function add_post_content_filtered_to_search_sql( $sql, $query ) {
 		if ( $query->get( 'panel_search_filter' ) ) {
 			global $wpdb;
-			//  OR ($wpdb->posts.post_content LIKE %s)
 			remove_filter( 'posts_search', array( $this, 'add_post_content_filtered_to_search_sql' ), 1000, 2 );
 			
 			$pattern = "#OR \($wpdb->posts.post_content LIKE '(.*?)'\)#";

@@ -4,8 +4,23 @@
 namespace ModularContent;
 
 
+/**
+ * Class Util
+ *
+ * @package ModularContent
+ *
+ * A collection of utility methods
+ */
 class Util {
 
+	/**
+	 * Get a list of post types that can use the given relationship
+	 *
+	 * @param \P2P_Connection_Type $relationship
+	 * @param string $side
+	 *
+	 * @return array
+	 */
 	public static function get_post_types_for_p2p_relationship( $relationship, $side = 'both' ) {
 		if ( !class_exists( 'P2P_Side_Post' ) ) {
 			return array();
@@ -28,6 +43,12 @@ class Util {
 
 	}
 
+	/**
+	 * Get an array of post types that can use the given taxonomy
+	 *
+	 * @param string $taxonomy_id
+	 * @return array
+	 */
 	public static function get_post_types_for_taxonomy( $taxonomy_id ) {
 		$taxonomy = get_taxonomy( $taxonomy_id );
 		if ( !$taxonomy ) {
@@ -38,8 +59,9 @@ class Util {
 	}
 
 	/**
-	 * @param \P2P_Connection_Type $relationship
+	 * Get a label to use for displaying a P2P relationship
 	 *
+	 * @param \P2P_Connection_Type $relationship
 	 * @return string
 	 */
 	public static function get_p2p_relationship_label( $relationship ) {
