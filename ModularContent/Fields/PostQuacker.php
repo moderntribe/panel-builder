@@ -6,6 +6,13 @@ use ModularContent\Panel;
 
 class PostQuacker extends Field {
 
+	protected $link_label = 'Link';
+
+	public function __construct( $args = array() ) {
+		$this->defaults['link_label'] = $this->link_label;
+		parent::__construct($args);
+	}
+
 	protected $default = '{ type: "manual", post_id: 0, title: "", content: "", image: 0, link: { url: "", target: "", label: "" } }';
 
 
@@ -51,12 +58,13 @@ class PostQuacker extends Field {
 	}
 
 	protected function get_manual_field_definitions() {
+		$link_label = ! empty( $this->link_label ) ? $this->link_label : __('Link', 'modular-content');
 		/** @var Field[] $fields */
 		$fields = array(
 			'title' => new Text( array( 'name' => $this->name.'.title', 'label' => __('Title', 'modular-content') ) ),
 			'image' => new Image( array( 'name' => $this->name.'.image', 'label' => __('Image', 'modular-content') ) ),
 			'content' => new TextArea( array( 'name' => $this->name.'.content', 'label' => __('Content', 'modular-content'), 'richtext' => TRUE ) ),
-			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => __('Link', 'modular-content') ) ),
+			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => $link_label ) ),
 		);
 		return $fields;
 	}
