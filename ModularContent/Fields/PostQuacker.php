@@ -68,7 +68,7 @@ class PostQuacker extends Field {
 			'title' => new Text( array( 'name' => $this->name.'.title', 'label' => __('Title', 'modular-content') ) ),
 			'image' => new Image( array( 'name' => $this->name.'.image', 'label' => __('Image', 'modular-content') ) ),
 			'content' => new TextArea( array( 'name' => $this->name.'.content', 'label' => __('Content', 'modular-content'), 'richtext' => TRUE ) ),
-			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => $link_label, 'default_label_val' => $this->link_default_label_val ) ),
+			'link' => new Link( array( 'name' => $this->name.'.link', 'label' => $link_label, 'default_url_val' => $this->link_default_url_val, 'default_label_val' => $this->link_default_label_val ) ),
 		);
 		return $fields;
 	}

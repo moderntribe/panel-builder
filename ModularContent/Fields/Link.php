@@ -10,7 +10,7 @@ class Link extends Field {
 	protected $default_url_val = 'www.example.com';
 	protected $default_label_val = 'Label';
 
-	protected $default = '{ url: "", label: "" }';
+	protected $default = '{ url: "", label: "", default_label: "" }';
 
 	public function __construct( $args = array() ) {
 		$this->defaults['default_url_val'] = $this->default_url_val;
@@ -31,6 +31,8 @@ class Link extends Field {
 	public function render_field() {
 		printf('<span class="panel-input-field link-field-url"><input type="text" name="%s[url]" value="%s" size="40" placeholder="%s" /></span>', $this->get_input_name(), $this->get_input_value('url'), __($this->default_url_val, 'modular-content'));
 		printf('<span class="panel-input-field link-field-label"><input type="text" name="%s[label]" value="%s" size="40" placeholder="%s" /></span>', $this->get_input_name(), $this->get_input_value('label'), __($this->default_label_val, 'modular-content'));
+		printf('<input type="hidden" name="%s[default_link]" value="%s" />', $this->get_input_name(), __($this->default_url_val, 'modular-content'));
+		printf('<input type="hidden" name="%s[default_label]" value="%s" />', $this->get_input_name(), __($this->default_label_val, 'modular-content'));
 	}
 
 	protected function render_closing_tag() {
