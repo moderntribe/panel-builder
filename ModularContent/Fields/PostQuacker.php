@@ -17,7 +17,7 @@ class PostQuacker extends Field {
 		parent::__construct($args);
 	}
 
-	protected $default = '{ type: "manual", post_id: 0, title: "", content: "", image: 0, link: { url: "", target: "", label: "" } }';
+	protected $default = '{ type: "manual", post_id: 0, title: "", content: "", image: 0, link: { url: "", target: "", label: "", default_label: "" } }';
 
 
 	protected function render_opening_tag() {
@@ -118,6 +118,7 @@ class PostQuacker extends Field {
 			'url' => get_permalink(),
 			'target' => '',
 			'label' => $data['title'],
+			'default_label' => $this->link_default_label_val
 		);
 		$data['post_id'] = $post_id;
 		wp_reset_postdata();
