@@ -16,10 +16,10 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 	<?php if ( $this->max_depth != self::NO_LIMIT ) { ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php } ?>
 	<?php
 	if ( $this->allowed_contexts() ) {
-	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->allowed_contexts())); ?>"
+	?>data-panel-contexts="<?php echo esc_attr(\ModularContent\Util::json_encode($this->allowed_contexts())); ?>"
 		data-panel-context-mode="allow"<?php
 	} elseif ( $this->forbidden_contexts() ) {
-	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->forbidden_contexts())); ?>"
+	?>data-panel-contexts="<?php echo esc_attr(\ModularContent\Util::json_encode($this->forbidden_contexts())); ?>"
 		data-panel-context-mode="deny"<?php
 	}?>
 	>

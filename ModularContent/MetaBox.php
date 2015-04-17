@@ -176,7 +176,7 @@ class MetaBox {
 
 		$collection = apply_filters( 'panel_submission_to_json_collection', $collection, $submission );
 
-		return json_encode($collection);
+		return \ModularContent\Util::json_encode($collection);
 	}
 
 	/**
@@ -328,6 +328,16 @@ class MetaBox {
 			}
 
 			$args  = apply_filters( 'panel_input_p2p_search_query', $args, $request['type'] );
+
+			// p2p adds p2p.* to the returned fields for the query, causing the DISTINCT argument
+			// to become somewhat useless
+			add_filter( 'posts_clauses', function( $clauses, $query ) {
+				/** @var \wpdb $wpdb */
+				global $wpdb;
+				$clauses['fields'] = str_replace( ", $wpdb->p2p.*", '', $clauses['fields'] );
+				return $clauses;
+			}, 20, 2 ); // hook in at same priority as p2p to avoid the #17817 recursion bug
+
 			$query = new \WP_Query();
 			$posts = $query->query( $args );
 

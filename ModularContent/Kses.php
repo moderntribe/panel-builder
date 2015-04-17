@@ -35,7 +35,7 @@ class Kses {
 		foreach ( $unfiltered_collection->panels() as $panel ) {
 			$filtered_collection->add_panel( $this->filter_panel( $panel ) );
 		}
-		return wp_slash( json_encode($filtered_collection) );
+		return wp_slash( \ModularContent\Util::json_encode($filtered_collection) );
 	}
 
 	private function is_jsonish( $value ) {

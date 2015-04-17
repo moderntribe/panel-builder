@@ -12,12 +12,12 @@
 	<script>
 		var ModularContent = window.ModularContent || {};
 		ModularContent.panels = [];
-		<?php $cache = json_encode( $cache ); ?>
+		<?php $cache = \ModularContent\Util::json_encode( $cache ); ?>
 		ModularContent.cache = <?php echo $cache ? $cache : json_encode([ 'posts' => [], 'terms' => [], 'data' => [] ]); ?>;
-		ModularContent.localization = <?php echo json_encode($localization); ?>;
+		ModularContent.localization = <?php echo \ModularContent\Util::json_encode($localization); ?>;
 
 		<?php foreach ( $collection->panels() as $panel ) { ?>
-			ModularContent.panels.push(<?php echo json_encode($panel); ?>);
+			ModularContent.panels.push(<?php echo \ModularContent\Util::json_encode($panel); ?>);
 		<?php } ?>
 	</script>
 </div>

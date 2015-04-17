@@ -52,7 +52,7 @@ class PanelCollection implements \JsonSerializable {
 	}
 
 	public function to_json() {
-		return json_encode($this->jsonSerialize());
+		return \ModularContent\Util::json_encode($this->jsonSerialize());
 	}
 
 	/**

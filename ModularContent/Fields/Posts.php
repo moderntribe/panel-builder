@@ -211,7 +211,7 @@ class Posts extends Field {
 		<script type="text/javascript">
 			<?php // var declared in meta-box-panels.php ?>
 			<?php $filter_groups = self::get_filter_groups(); ?>
-			ModularContent.posts_filter_templates = <?php echo json_encode($filter_groups); ?>;
+			ModularContent.posts_filter_templates = <?php echo \ModularContent\Util::json_encode($filter_groups); ?>;
 		</script>
 		<script type="text/template" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">

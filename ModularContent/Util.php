@@ -78,4 +78,66 @@ class Util {
 			return "$from &rarr; $to";
 		}
 	}
+
+	public static function json_encode( $data ) {
+		if ( is_object( $data ) && $data instanceof \JsonSerializable ) {
+			$data = $data->jsonSerialize();
+		}
+		$data = self::utf8_encode_recursive( $data );
+		return json_encode( $data );
+	}
+
+	public static function utf8_encode_recursive( $data ) {
+		if ( empty( $data ) ) {
+			return $data;
+		}
+		$result = [ ];
+		foreach ( $data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$result[ $key ] = self::utf8_encode_recursive( $value );
+			} elseif ( is_object( $value ) ) {
+				$result[ $key ] = (object)self::utf8_encode_recursive( (array)$value );
+			} else if ( is_string( $value ) ) {
+				$result[ $key ] = utf8_encode( self::clean_cp1252( $value ) );
+			} else {
+				$result[ $key ] = $value;
+			}
+		}
+
+		return $result;
+	}
+
+	protected static function clean_cp1252( $string ) {
+		static $trans = array();
+		if ( empty( $trans ) ) {
+			$trans[ chr( 130 ) ] = '&sbquo;';    // Single Low-9 Quotation Mark
+			$trans[ chr( 131 ) ] = '&fnof;';    // Latin Small Letter F With Hook
+			$trans[ chr( 132 ) ] = '&bdquo;';    // Double Low-9 Quotation Mark
+			$trans[ chr( 133 ) ] = '&hellip;';    // Horizontal Ellipsis
+			$trans[ chr( 134 ) ] = '&dagger;';    // Dagger
+			$trans[ chr( 135 ) ] = '&Dagger;';    // Double Dagger
+			$trans[ chr( 136 ) ] = '&circ;';    // Modifier Letter Circumflex Accent
+			$trans[ chr( 137 ) ] = '&permil;';    // Per Mille Sign
+			$trans[ chr( 138 ) ] = '&Scaron;';    // Latin Capital Letter S With Caron
+			$trans[ chr( 139 ) ] = '&lsaquo;';    // Single Left-Pointing Angle Quotation Mark
+			$trans[ chr( 140 ) ] = '&OElig;';    // Latin Capital Ligature OE
+			$trans[ chr( 145 ) ] = '&lsquo;';    // Left Single Quotation Mark
+			$trans[ chr( 146 ) ] = '&rsquo;';    // Right Single Quotation Mark
+			$trans[ chr( 147 ) ] = '&ldquo;';    // Left Double Quotation Mark
+			$trans[ chr( 148 ) ] = '&rdquo;';    // Right Double Quotation Mark
+			$trans[ chr( 149 ) ] = '&bull;';    // Bullet
+			$trans[ chr( 150 ) ] = '&ndash;';    // En Dash
+			$trans[ chr( 151 ) ] = '&mdash;';    // Em Dash
+			$trans[ chr( 152 ) ] = '&tilde;';    // Small Tilde
+			$trans[ chr( 153 ) ] = '&trade;';    // Trade Mark Sign
+			$trans[ chr( 154 ) ] = '&scaron;';    // Latin Small Letter S With Caron
+			$trans[ chr( 155 ) ] = '&rsaquo;';    // Single Right-Pointing Angle Quotation Mark
+			$trans[ chr( 156 ) ] = '&oelig;';    // Latin Small Ligature OE
+			$trans[ chr( 159 ) ] = '&Yuml;';    // Latin Capital Letter Y With Diaeresis
+
+			$trans = array_map( 'html_entity_decode', $trans ); // convert the above to utf-8 characters
+		}
+
+		return strtr( $string, $trans );
+	}
 }
