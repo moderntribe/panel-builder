@@ -96,7 +96,12 @@ class Util {
 			if ( is_array( $value ) ) {
 				$result[ $key ] = self::utf8_encode_recursive( $value );
 			} elseif ( is_object( $value ) ) {
-				$result[ $key ] = (object)self::utf8_encode_recursive( (array)$value );
+				if ( is_object( $value ) && $value instanceof \JsonSerializable ) {
+					$value = $value->jsonSerialize();
+				} else {
+					$value = (array)$value;
+				}
+				$result[ $key ] = self::utf8_encode_recursive( $value );
 			} else if ( is_string( $value ) ) {
 				$result[ $key ] = utf8_encode( self::clean_cp1252( $value ) );
 			} else {
