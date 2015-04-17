@@ -197,10 +197,11 @@
 					success: function(data) {
 						$.each( data.posts, function ( returned_id, post_data ) {
 							if ( postsField.previews_to_fetch.hasOwnProperty(returned_id) ) {
-								var wrapper = postsField.previews_to_fetch[returned_id];
-								wrapper.find('.post-title').text(post_data.post_title);
-								wrapper.find('.post-excerpt').text(post_data.post_excerpt);
-								wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
+								_.forEach( postsField.previews_to_fetch[returned_id], function( preview ){
+									preview.find('.post-title').text(post_data.post_title);
+									preview.find('.post-excerpt').text(post_data.post_excerpt);
+									preview.find('.post-thumbnail').html(post_data.thumbnail_html);
+								});
 								delete postsField.previews_to_fetch[returned_id];
 							}
 						});
@@ -215,13 +216,16 @@
 		load_manual_post_preview: function() {
 			var field = $(this);
 			var wrapper = field.closest('.selected-post');
-			if ( !field.val() ) {
+			var post_id = field.val();
+			if ( ! post_id ) {
 				wrapper.find('.selected-post-preview').find('.post-title, .post-thumbnail').empty();
 				wrapper.find('.selected-post-preview').find('.post-excerpt').html("<div class='text-line'/><div class='text-line'/>");
 				return;
 			}
-
-			postsField.previews_to_fetch[field.val()] = wrapper;
+			if( ! postsField.previews_to_fetch[post_id] ){
+				postsField.previews_to_fetch[post_id] = [];
+			}
+			postsField.previews_to_fetch[post_id].push( wrapper );
 		},
 
 
