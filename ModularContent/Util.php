@@ -79,12 +79,34 @@ class Util {
 		}
 	}
 
+	/**
+	 * A wrapper around json_encode that attempts to recover from malformed UTF-8
+	 *
+	 * @param mixed $data
+	 *
+	 * @return string
+	 */
 	public static function json_encode( $data ) {
-		if ( is_object( $data ) && $data instanceof \JsonSerializable ) {
-			$data = $data->jsonSerialize();
+		if ( empty( $data ) ) {
+			return json_encode( $data ); // nothing to clean up
 		}
-		$data = self::utf8_encode_recursive( $data );
-		return json_encode( $data );
+
+		$encoded = json_encode( $data );
+		if ( !empty( $encoded ) ) {
+			return $encoded; // successful encoding
+		}
+
+		if ( json_last_error() === JSON_ERROR_UTF8 && function_exists( 'mb_convert_encoding' ) ) {
+
+			if ( is_object( $data ) && $data instanceof \JsonSerializable ) {
+				$data = $data->jsonSerialize();
+			}
+			$data = self::utf8_encode_recursive( $data );
+
+			$encoded = json_encode( $data );
+
+		}
+		return $encoded;
 	}
 
 	public static function utf8_encode_recursive( $data ) {
@@ -103,13 +125,20 @@ class Util {
 				}
 				$result[ $key ] = self::utf8_encode_recursive( $value );
 			} else if ( is_string( $value ) ) {
-				$result[ $key ] = utf8_encode( self::clean_cp1252( $value ) );
+				$result[ $key ] = self::utf8_encode_string( $value );
 			} else {
 				$result[ $key ] = $value;
 			}
 		}
 
 		return $result;
+	}
+
+	protected static function utf8_encode_string( $string ) {
+		$string = self::clean_cp1252( $string );
+		$encoding = mb_detect_encoding( $string, "UTF-8, ISO-8859-1, ISO-8859-15", true );
+		$string = mb_convert_encoding( $string,  'UTF-8', $encoding );
+		return $string;
 	}
 
 	protected static function clean_cp1252( $string ) {
