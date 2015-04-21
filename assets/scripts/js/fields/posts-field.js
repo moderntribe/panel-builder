@@ -431,7 +431,7 @@
 							data.push({
 								id: id,
 								// meta box should have put the post into the cache
-								text: ModularContent.cache.posts[id].post_title
+								text: '[' + ModularContent.cache.posts[id].post_type_label + '] ' + ModularContent.cache.posts[id].post_title
 							});
 						}
 					});

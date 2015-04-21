@@ -367,6 +367,7 @@ class Posts extends Field {
 			'connected_items' => $post_ids,
 			'nopaging' => TRUE,
 			'fields' => 'ids',
+			'post_type' => 'any',
 		));
 		return $connected;
 	}

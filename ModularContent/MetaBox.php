@@ -342,9 +342,11 @@ class MetaBox {
 			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
+				$post_type_object = get_post_type_object( $post->post_type );
+				$post_type_label = $post_type_object->labels->singular_name;
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'text' => esc_html( sprintf( '[%s] %s', $post_type_label, get_the_title($post) ) ),
 				);
 			}
 
