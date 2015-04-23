@@ -10,13 +10,6 @@ use ModularContent\Panel;
  *
  * A textarea. Set the argument 'richtext' to TRUE to use
  * a WordPress visual editor.
- *
- * $field = new TextArea( array(
- *   'label' => __('Description'),
- *   'name' => 'description',
- *   'description' => __( 'How would you describe it?' ),
- *   'richtext' => TRUE,
- * ) );
  */
 class TextArea extends Field {
 	protected $richtext = FALSE;
@@ -24,6 +17,18 @@ class TextArea extends Field {
 	protected $index = 0;
 	protected static $first_mce_init_settings = array();
 
+	/**
+	 * @param array $args
+	 *
+	 * Usage example:
+	 *
+	 * $field = new TextArea( array(
+	 *   'label' => __('Description'),
+	 *   'name' => 'description',
+	 *   'description' => __( 'How would you describe it?' ),
+	 *   'richtext' => TRUE,
+	 * ) );
+	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
 		parent::__construct($args);

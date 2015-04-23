@@ -10,14 +10,6 @@ use ModularContent\Panel, ModularContent\AdminPreCache;
  *
  * A complex field for selecting or querying posts
  *
- * $field = new Posts( array(
- *   'label' => __( 'Select some posts' ),
- *   'name' => 'some-posts',
- *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
- *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
- *   'suggested' => 6, // the number of empty slots that will be shown in the admin
- * ) );
- *
  * Returns an array of post IDs for use in the template.
  *
  * $post_ids = get_panel_var( 'some-posts' );
@@ -34,6 +26,19 @@ class Posts extends Field {
 	protected $suggested = 0;
 	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
 
+	/**
+	 * @param array $args
+	 *
+	 * Usage example:
+	 *
+	 * $field = new Posts( array(
+	 *   'label' => __( 'Select some posts' ),
+	 *   'name' => 'some-posts',
+	 *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
+	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
+	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin
+	 * ) );
+	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;

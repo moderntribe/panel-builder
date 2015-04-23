@@ -12,26 +12,6 @@ use ModularContent\Panel;
  * contain one or more fields. An editor can add, remove, or sort
  * instances of the group.
  *
- * Creating a repeater:
- *
- * $name = new Text( array(
- *   'label' => __('Name'),
- *   'name' => 'name',
- * ) );
- * $email = new Text( array(
- *   'label' => __('Email'),
- *   'name' => 'email',
- * ) );
- * $group = new Repeater( array(
- *   'label' => __('Contacts'),
- *   'name' => 'contacts',
- *   'max' => 5,
- *   'new_button_label' => __( 'Add a Contact' ),
- * ) );
- * $group->add_field( $name );
- * $group->add_field( $email );
- *
- *
  * Using data from a repeater in a template:
  *
  * $contacts = get_panel_var( 'contacts' );
@@ -45,6 +25,28 @@ class Repeater extends Group {
 	protected $max = 0;
 	protected $new_button_label = '';
 
+	/**
+	 * @param array $args
+	 *
+	 * Creating a repeater:
+	 *
+	 * $name = new Text( array(
+	 *   'label' => __('Name'),
+	 *   'name' => 'name',
+	 * ) );
+	 * $email = new Text( array(
+	 *   'label' => __('Email'),
+	 *   'name' => 'email',
+	 * ) );
+	 * $group = new Repeater( array(
+	 *   'label' => __('Contacts'),
+	 *   'name' => 'contacts',
+	 *   'max' => 5,
+	 *   'new_button_label' => __( 'Add a Contact' ),
+	 * ) );
+	 * $group->add_field( $name );
+	 * $group->add_field( $email );
+	 */
 	public function __construct( $args = array() ){
 		$this->defaults['max'] = $this->max;
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
