@@ -80,23 +80,23 @@ class Posts extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
-		if ( !empty( $data['filters'] ) ) {
+		if ( ! empty( $data['filters'] ) && ! empty( $filter_args['selection'] ) ) {
 			foreach ( $data['filters'] as $filter_id => $filter_args ) {
-				if ( !is_array( $filter_args['selection'] ) ) {
+
+				if ( ! is_array( $filter_args['selection'] ) ) {
 					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
 				}
-				if ( !empty( $filter_args['selection'] ) ) {
-					if ( $filter_id == 'post_type' ) {
-						continue;
+
+				if ( $filter_id == 'post_type' ) {
+					continue;
+				}
+				if ( in_array( $filter_id, self::taxonomy_options() ) ) {
+					foreach ( $filter_args['selection'] as $term_id ) {
+						$cache->add_term( $term_id, $filter_id );
 					}
-					if ( in_array( $filter_id, self::taxonomy_options() ) ) {
-						foreach ( $filter_args['selection'] as $term_id ) {
-							$cache->add_term( $term_id, $filter_id );
-						}
-					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
-						foreach ( $filter_args['selection'] as $post_id ) {
-							$cache->add_post( $post_id, $filter_id );
-						}
+				} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
+					foreach ( $filter_args['selection'] as $post_id ) {
+						$cache->add_post( $post_id, $filter_id );
 					}
 				}
 			}
