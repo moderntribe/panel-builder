@@ -186,13 +186,13 @@ class MetaBox {
 			return FALSE;
 		}
 
-		// make sure the submission is for the correct post
-		if ( !isset($submission['post_ID']) || $submission['post_ID'] != $post['ID'] ) {
-			return FALSE;
+		// make sure the submission is for the correct post (or a revision)
+		if ( ! isset( $submission['post_ID'] ) || ( $submission['post_ID'] != $post['ID'] && $post['post_parent'] != $submission['post_ID'] ) ) {
+			return false;
 		}
 
-		// don't do anything on autosave, auto-draft, bulk edit, or quick edit
-		if ( wp_is_post_autosave( $post['ID'] ) || $post_data['post_status'] == 'auto-draft' || defined('DOING_AJAX') || isset($_GET['bulk_edit']) ) {
+		// don't do anything on auto-draft, bulk edit, or quick edit
+		if (  $post_data['post_status'] == 'auto-draft' || defined('DOING_AJAX') || isset($_GET['bulk_edit']) ) {
 			return FALSE;
 		}
 
