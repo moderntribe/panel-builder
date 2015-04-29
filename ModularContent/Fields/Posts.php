@@ -114,7 +114,7 @@ class Posts extends Field {
 		}
 		if ( !empty( $data['filters'] ) ) {
 			foreach ( $data['filters'] as $filter_id => $filter_args ) {
-				if ( !is_array( $filter_args['selection'] ) ) {
+				if ( isset( $filter_args['selection'] ) && !is_array( $filter_args['selection'] ) ) {
 					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
 				}
 				if ( !empty( $filter_args['selection'] ) ) {
