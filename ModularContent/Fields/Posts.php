@@ -275,9 +275,7 @@ class Posts extends Field {
 		if ( $original_post ) {
 			wp_reset_postdata();
 		}
-
-		error_log( print_r( $posts, true ) );
-
+		
 		return $posts;
 	}
 
