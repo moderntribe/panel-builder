@@ -12,6 +12,7 @@
  * @var int $min
  * @var int $suggested
  * @var string $description
+ * @var bool $show_max_control
  */
 
 $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
@@ -61,6 +62,18 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				</span>
 			</div>
 		</div>
+		<?php if ( $show_max_control ) { ?>
+			<label for="<?php echo $id_string; ?>-max-results-selection">
+				<?php _e( 'Max Results:', 'modular-content' ); ?>
+				<select name="<?php echo $input_name; ?>[max]" class="max-results-selection">
+					<?php for ( $i = $min ; $i <= $max ; $i++ ) { ?>
+						<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+					<?php } ?>
+				</select>
+			</label>
+		<?php } else { ?>
+			<input class="max-results-selection" type="hidden" name="<?php echo $input_name; ?>[max]" value="0" />
+		<?php } ?>
 		<div class="select-filters">
 			<select class="select-new-filter">
 				<option value=""><?php _e('Add a Filter', 'modular-content'); ?></option>

@@ -83,7 +83,7 @@
 		},
 
 		intialize_data: function ( container, data ) {
-			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
+			data = $.extend({type: 'manual', post_ids: [], filters: {}, max: 0}, data);
 
 			var post_type_options = container.find('select.post-type-select');
 			if ( ! post_type_options.length ) {
@@ -97,6 +97,11 @@
 					post_type_options.val(filter.selection).trigger('change');
 				}
 			});
+
+			if ( data.max < container.data('min') ) {
+				data.max = container.data('max');
+			}
+			container.find( '.max-results-selection' ).val( data.max );
 
 			postsField.update_post_type_select( container );
 
@@ -328,6 +333,7 @@
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
 				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
+				.on( 'change', '.max-results-selection', postsField.preview_query )
 				.on( 'change', '.filter-options .term-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
@@ -493,12 +499,17 @@
 				return;
 			}
 
+			var max = container.find( '.max-results-selection' ).val();
+			if ( max < container.data('min') || max > container.data('max') ) {
+				max = container.data('max');
+			}
+
 
 			wp.ajax.send({
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: max,
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {

@@ -24,7 +24,8 @@ class Posts extends Field {
 	protected $max = 12;
 	protected $min = 0;
 	protected $suggested = 0;
-	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
+	protected $default = '{ type: "manual", post_ids: [], filters: {}, max: 0 }';
+	protected $show_max_control = false;
 
 	/**
 	 * @param array $args
@@ -36,13 +37,15 @@ class Posts extends Field {
 	 *   'name' => 'some-posts',
 	 *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
 	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
-	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin
+	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin,
+	 *   'show_max_control' => false, // if true, the user can pick the max number of posts (between min and max)
 	 * ) );
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
+		$this->defaults['show_max_control'] = $this->show_max_control;
 		parent::__construct($args);
 		if ( empty($this->max) ) {
 			$this->max = max(12, $this->min);
@@ -75,6 +78,7 @@ class Posts extends Field {
 		$min = (int)$this->min;
 		$suggested = (int)$this->suggested;
 		$description = $this->description;
+		$show_max_control = $this->show_max_control;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
@@ -91,7 +95,12 @@ class Posts extends Field {
 		if ( $data['type'] == 'manual' ) {
 			$post_ids = isset($data['post_ids'])?$data['post_ids']:array();
 		} else {
-			$post_ids = isset($data['filters'])?$this->filter_posts($data['filters']):array();
+			if ( !empty( $data['max'] ) && $data['max'] > $this->min && $data['max'] < $this->max ) {
+				$max = (int) $data['max'];
+			} else {
+				$max = (int) $this->max;
+			}
+			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
 		}
 		return $post_ids;
 	}
@@ -140,19 +149,21 @@ class Posts extends Field {
 	 *
 	 * @param array $filters
 	 * @param string $fields
+	 * @param int $max
 	 *
 	 * @return array Matching post IDs
 	 */
-	protected function filter_posts( $filters, $fields = 'ids' ) {
+	protected function filter_posts( $filters, $fields = 'ids', $max = 0 ) {
 		$context = get_queried_object_id();
-		$ids = self::get_posts_for_filters( $filters, $this->max, $context );
+		$max = $max ? $max : $this->max;
+		$ids = self::get_posts_for_filters( $filters, $max, $context );
 		if ( $fields == 'ids' || empty($ids) ) {
 			return $ids;
 		}
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'any',
-			'posts_per_page' => $this->max,
+			'posts_per_page' => $max,
 			'post__in' => $ids,
 			'fields' => $fields,
 			'suppress_filters' => FALSE,
