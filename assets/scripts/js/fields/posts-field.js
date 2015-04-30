@@ -136,6 +136,7 @@
 						});
 						$.each(data.posts, function(index, post) {
 							if ( !selected.hasOwnProperty( post.id ) ) {
+								post.text = $('<div />').html( post.text ).text(); // hack to render html entities
 								posts.push(post);
 							}
 						});
@@ -218,7 +219,7 @@
 			}
 			var post_data = ModularContent.cache.posts[post_id];
 			var wrapper = postsField.previews_to_fetch[post_id];
-			wrapper.find('.post-title').text(post_data.post_title);
+			wrapper.find('.post-title').html(post_data.post_title);
 			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
 			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
 			delete postsField.previews_to_fetch[post_id];

@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-04-01 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-04-29 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -308,6 +308,7 @@
 						});
 						$.each(data.posts, function(index, post) {
 							if ( !selected.hasOwnProperty( post.id ) ) {
+								post.text = $('<div />').html( post.text ).text(); // hack to render html entities
 								posts.push(post);
 							}
 						});
@@ -390,7 +391,7 @@
 			}
 			var post_data = ModularContent.cache.posts[post_id];
 			var wrapper = postsField.previews_to_fetch[post_id];
-			wrapper.find('.post-title').text(post_data.post_title);
+			wrapper.find('.post-title').html(post_data.post_title);
 			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
 			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
 			delete postsField.previews_to_fetch[post_id];
@@ -603,7 +604,7 @@
 							data.push({
 								id: id,
 								// meta box should have put the post into the cache
-								text: ModularContent.cache.posts[id].post_title
+								text: '[' + ModularContent.cache.posts[id].post_type_label + '] ' + ModularContent.cache.posts[id].post_title
 							});
 						}
 					});
