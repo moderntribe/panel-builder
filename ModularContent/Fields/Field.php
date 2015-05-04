@@ -28,6 +28,8 @@ abstract class Field {
 
 	protected $default = '';
 
+	protected $strings = array();
+
 	protected $defaults = array(
 		'name' => '',
 		'label' => '',
@@ -112,6 +114,17 @@ abstract class Field {
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
 		// nothing to add
+	}
+
+	public function set_string( $key, $value ) {
+		$this->strings[ $key ] = $value;
+	}
+
+	public function get_string( $key ) {
+		if ( isset( $this->strings[ $key ] ) ) {
+			return $this->strings[ $key ];
+		}
+		return '';
 	}
 
 	protected function render_before() {

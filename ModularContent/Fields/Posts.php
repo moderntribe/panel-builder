@@ -46,6 +46,10 @@ class Posts extends Field {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
 		$this->defaults['show_max_control'] = $this->show_max_control;
+		$this->defaults['strings'] = array(
+			'tabs.manual' => __( 'Manual', 'modular-content' ),
+			'tabs.dynamic' => __( 'Dynamic', 'modular-content' ),
+		);
 		parent::__construct($args);
 		if ( empty($this->max) ) {
 			$this->max = max(12, $this->min);
