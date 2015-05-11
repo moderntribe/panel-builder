@@ -44,6 +44,10 @@ class Posts extends Field {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
+		$this->defaults['strings'] = array(
+			'tabs.manual' => __( 'Manual', 'modular-content' ),
+			'tabs.dynamic' => __( 'Dynamic', 'modular-content' ),
+		);
 		$this->defaults['support_external'] = $this->support_external;
 		parent::__construct($args);
 		if ( empty($this->max) ) {

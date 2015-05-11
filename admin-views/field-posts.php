@@ -22,7 +22,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 	<input type="hidden" class="posts-group-name" value="<?php echo $input_name ?>" />
 	<input type="hidden" name="<?php echo $input_name ?>[type]" class="query-type" value="{{<?php echo $input_value; ?>.type}}" />
 	<fieldset class="manual" id="<?php echo $id_string;?>-manual" data-type="manual">
-		<legend><?php _e('Selection', 'modular-content'); ?></legend>
+		<legend><?php echo $this->get_string('tabs.manual'); ?></legend>
 		<div class="search-controls">
 			<?php if ( $support_external ) : ?>
 			<div class="link-type-choices">
@@ -68,7 +68,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 		</div>
 	</fieldset>
 	<fieldset class="query" id="<?php echo $id_string;?>-query" data-type="query">
-		<legend><?php _e('Dynamic', 'modular-content'); ?></legend>
+		<legend><?php echo $this->get_string('tabs.dynamic'); ?></legend>
 		<div class="filter-post_type-container">
 			<div class="panel-filter-row filter-post_type">
 				<label><?php _e('Content Type', 'modular-content'); ?></label>
