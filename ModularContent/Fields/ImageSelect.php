@@ -11,6 +11,18 @@ use ModularContent\Panel;
  * @package ModularContent\Fields
  *
  * Use just like a Radio, but option values should be image URLs
+ *
+ *
+ * $field = new ImageGallery( array(
+ *   'label' => __('Layout'),
+ *   'name' => 'layout',
+ *   'description' => __( 'Images to display in the gallery' ),
+ *   'options' => array(
+ *     'left' => 'http://example.com/path/to/module-layout-left.png',
+ *     'right' => 'http://example.com/path/to/module-layout-right.png',
+ *   )
+ * ) );
+ *
  */
 class ImageSelect extends Radio {
 

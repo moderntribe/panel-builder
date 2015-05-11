@@ -3,6 +3,21 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel, ModularContent\AdminPreCache;
 
+/**
+ * Class Posts
+ *
+ * @package ModularContent\Fields
+ *
+ * A complex field for selecting or querying posts
+ *
+ * Returns an array of post IDs for use in the template.
+ *
+ * $post_ids = get_panel_var( 'some-posts' );
+ * $posts = array_map( 'get_post', $post_ids );
+ * foreach ( $posts as $wp_post ) {
+ *   // do something with a WP_Post object
+ * }
+ */
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
 
@@ -12,6 +27,19 @@ class Posts extends Field {
 	protected $support_external = false;
 	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
 
+	/**
+	 * @param array $args
+	 *
+	 * Usage example:
+	 *
+	 * $field = new Posts( array(
+	 *   'label' => __( 'Select some posts' ),
+	 *   'name' => 'some-posts',
+	 *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
+	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
+	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin
+	 * ) );
+	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;
@@ -31,7 +59,9 @@ class Posts extends Field {
 	}
 
 	protected function render_label() {
-		// Posts fields don't get to have labels
+		if ( !empty($this->label) ) {
+			printf('<legend class="panel-input-label">%s</legend>', $this->label);
+		}
 	}
 
 	protected function render_description() {
@@ -80,23 +110,28 @@ class Posts extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
-		if ( ! empty( $data['filters'] ) && ! empty( $filter_args['selection'] ) ) {
+		if ( !empty( $data['type'] ) && $data['type'] == 'manual' && !empty( $data['post_ids'] ) ) {
+			foreach ( $data['post_ids'] as $post_id ) {
+				$cache->add_post( $post_id );
+			}
+		}
+		if ( !empty( $data['filters'] ) ) {
 			foreach ( $data['filters'] as $filter_id => $filter_args ) {
-
-				if ( ! is_array( $filter_args['selection'] ) ) {
+				if ( isset( $filter_args['selection'] ) && !is_array( $filter_args['selection'] ) ) {
 					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
 				}
-
-				if ( $filter_id == 'post_type' ) {
-					continue;
-				}
-				if ( in_array( $filter_id, self::taxonomy_options() ) ) {
-					foreach ( $filter_args['selection'] as $term_id ) {
-						$cache->add_term( $term_id, $filter_id );
+				if ( !empty( $filter_args['selection'] ) ) {
+					if ( $filter_id == 'post_type' ) {
+						continue;
 					}
-				} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
-					foreach ( $filter_args['selection'] as $post_id ) {
-						$cache->add_post( $post_id, $filter_id );
+					if ( in_array( $filter_id, self::taxonomy_options() ) ) {
+						foreach ( $filter_args['selection'] as $term_id ) {
+							$cache->add_term( $term_id, $filter_id );
+						}
+					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
+						foreach ( $filter_args['selection'] as $post_id ) {
+							$cache->add_post( $post_id );
+						}
 					}
 				}
 			}
@@ -184,7 +219,7 @@ class Posts extends Field {
 		<script type="text/javascript">
 			<?php // var declared in meta-box-panels.php ?>
 			<?php $filter_groups = self::get_filter_groups(); ?>
-			ModularContent.posts_filter_templates = <?php echo json_encode($filter_groups); ?>;
+			ModularContent.posts_filter_templates = <?php echo \ModularContent\Util::json_encode($filter_groups); ?>;
 		</script>
 		<script type="text/template" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">
@@ -372,6 +407,7 @@ class Posts extends Field {
 			'connected_items' => $post_ids,
 			'nopaging' => TRUE,
 			'fields' => 'ids',
+			'post_type' => 'any',
 		));
 		return $connected;
 	}

@@ -87,14 +87,17 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				<optgroup label="<?php esc_attr_e('Taxonomy', 'modular-content'); ?>">
 					<?php foreach ( $taxonomies as $tax_name ): ?>
 						<?php $tax = get_taxonomy($tax_name); ?>
-						<?php if ( !$tax ) { continue; } ?>
-						<option data-filter-group="taxonomy" value="<?php esc_attr_e($tax_name); ?>"><?php esc_html_e($tax->label); ?></option>
+						<?php if ( !$tax ) { continue; }
+						$connected_post_types = \ModularContent\Util::json_encode( \ModularContent\Util::get_post_types_for_taxonomy( $tax_name ) );
+						?>
+						<option data-filter-group="taxonomy" data-filter-post-types="<?php esc_attr_e($connected_post_types); ?>" value="<?php esc_attr_e($tax_name); ?>"><?php esc_html_e($tax->label); ?></option>
 					<?php endforeach; ?>
 				</optgroup>
 				<?php if ( $p2p ){
 					?><optgroup label="<?php esc_attr_e('Relationship', 'modular-content'); ?>"><?php
-					foreach ( $p2p as $relationship_id => $relationship ){
-						?><option data-filter-group="p2p" value="<?php esc_attr_e($relationship_id); ?>"><?php esc_html_e($relationship->get_field( 'title', 'from' )); ?></option><?php
+					foreach ( $p2p as $relationship_id => $relationship ) {
+						$connected_post_types = \ModularContent\Util::json_encode( \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship ) );
+						?><option data-filter-group="p2p" data-filter-post-types="<?php esc_attr_e($connected_post_types); ?>" value="<?php esc_attr_e($relationship_id); ?>"><?php esc_html_e(\ModularContent\Util::get_p2p_relationship_label( $relationship ) ); ?></option><?php
 					}
 					?></optgroup><?php
 				} ?>

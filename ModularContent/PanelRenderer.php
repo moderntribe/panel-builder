@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class PanelRenderer
+ *
+ * @package ModularContent
+ *
+ * Renders a panel
+ */
 class PanelRenderer {
 	/** @var Panel */
 	protected $panel = NULL;

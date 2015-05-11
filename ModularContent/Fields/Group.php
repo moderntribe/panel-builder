@@ -3,11 +3,48 @@
 
 namespace ModularContent\Fields;
 use ModularContent\Panel;
+use ModularContent\AdminPreCache;
 
 /**
  * Class Group
  *
- * A container for a group of fields
+ * A container for a group of fields. It wraps fields in the admin
+ * in a fieldset to show logical groupings.
+ *
+ * Creating a group:
+ *
+ * $first_name = new Text( array(
+ *   'label' => __('First Name'),
+ *   'name' => 'first',
+ * ) );
+ * $last_name = new Text( array(
+ *   'label' => __('Last Name'),
+ *   'name' => 'last',
+ * ) );
+ * $group = new Group( array(
+ *   'label' => __('Name'),
+ *   'name' => 'name',
+ * ) );
+ * $group->add_field( $first_name );
+ * $group->add_field( $last_name );
+ *
+ *
+ * Using data from a group in a template:
+ *
+ * $first_name = get_panel_var( 'name.first' );
+ * $last_name = get_panel_var( 'name.last' );
+ *
+ * OR
+ *
+ * $name = get_panel_var( 'name' );
+ * $first_name = $name['first'];
+ * $last_name = $name['last'];
+ *
+ * OR
+ *
+ * $vars = get_panel_vars();
+ * $first_name = $vars['name']['first'];
+ * $last_name = $vars['name']['last'];
  */
 class Group extends Field {
 
@@ -40,7 +77,7 @@ class Group extends Field {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s">', $this->esc_class($this->name));
+		printf('<fieldset class="panel-input panel-input-type-group input-name-%s">', $this->esc_class($this->name));
 	}
 
 	protected function render_label() {
@@ -79,5 +116,22 @@ class Group extends Field {
 			}
 		}
 		return $vars;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		foreach ( $this->fields as $field ) {
+			$name = str_replace($this->get_name().'.', '', $field->get_name());
+			if ( isset($data[$name]) ) {
+				$field->precache( $data[$name], $cache );
+			}
+		}
 	}
 } 

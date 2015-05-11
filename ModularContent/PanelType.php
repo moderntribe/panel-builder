@@ -10,6 +10,8 @@ use \ModularContent\Fields\Field;
  *
  * @package ModularContent
  *
+ * The configuration object for a Panel type.
+ *
  * @property-read string id
  */
 class PanelType {
@@ -54,6 +56,9 @@ class PanelType {
 	/** @var string */
 	protected $child_label_plural = '';
 
+	/**
+	 * @param string $id A unique string identifying this panel type
+	 */
 	public function __construct( $id ) {
 		$this->id = $id;
 		$default_fields = array();
@@ -77,6 +82,9 @@ class PanelType {
 		}
 	}
 
+	/**
+	 * @return string The panel type's unique identifier
+	 */
 	public function get_id() {
 		return $this->id;
 	}
@@ -87,7 +95,6 @@ class PanelType {
 
 	/**
 	 * @param Field $field
-	 *
 	 */
 	public function add_field( Field $field ) {
 		$this->fields[$field->get_name()] = $field;
@@ -117,8 +124,8 @@ class PanelType {
 	/**
 	 * Set the directory to look in for front-end templates
 	 *
-	 * @param ViewFinder|string $directory
-	 * @return ViewFinder
+	 * @param PanelViewFinder|string $directory
+	 * @return PanelViewFinder
 	 */
 	public function set_template_dir( $directory = '' ) {
 		if ( is_object($directory) && $directory instanceof PanelViewFinder ) {
@@ -129,18 +136,48 @@ class PanelType {
 		return $this->view_finder;
 	}
 
+	/**
+	 * Get the path to the template file for this panel type
+	 *
+	 * @return string|bool
+	 */
 	public function get_template_path() {
 		return $this->view_finder->get_template_file_path($this->get_id());
 	}
 
+	/**
+	 * Set the admin label for the panel type
+	 *
+	 * @param string $label
+	 *
+	 * @return void
+	 */
 	public function set_label( $label ) {
 		$this->label = $label;
 	}
 
+	/**
+	 * Get the admin label
+	 *
+	 * @return string
+	 */
 	public function get_label() {
 		return $this->label;
 	}
 
+	/**
+	 * Set the icon to display with this panel type.
+	 *
+	 * The "active" state is shown when the panel is open
+	 * for editing.
+	 *
+	 * The "inactive" state is shown at all other times.
+	 *
+	 * @param string $icon The URL to the image file
+	 * @param string $state One of: 'both', 'active', or 'inactive'
+	 *
+	 * @return void
+	 */
 	public function set_icon( $icon, $state = 'both' ) {
 		switch ( $state ) {
 			case 'active':
@@ -157,6 +194,13 @@ class PanelType {
 		}
 	}
 
+	/**
+	 * Get the URL for the image file
+	 *
+	 * @param string $state
+	 *
+	 * @return string
+	 */
 	public function get_icon( $state = 'inactive' ) {
 		switch ( $state ) {
 			case 'active':
@@ -167,33 +211,70 @@ class PanelType {
 		}
 	}
 
+	/**
+	 * @param $text
+	 *
+	 * @return void
+	 */
 	public function set_description( $text ) {
 		$this->description = $text;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_description() {
 		return $this->description;
 	}
 
+	/**
+	 * Set the maximum depth at which this panel type can be added.
+	 *
+	 * If 0, this can only be a top-level panel.
+	 * If 1, this can be top-level or nested inside a top-level panel.
+	 *
+	 * @param int $depth
+	 *
+	 * @return void
+	 */
 	public function set_max_depth( $depth ) {
 		$this->max_depth = absint($depth);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function get_max_depth() {
 		return $this->max_depth;
 	}
 
+	/**
+	 * Set the maximum number of child panels that this panel can hold.
+	 *
+	 * Set to 0 if the panel should not have children.
+	 * Set to PanelType::NO_LIMIT if it can hold unlimited children.
+	 *
+	 * @param int $max
+	 *
+	 * @return void
+	 */
 	public function set_max_children( $max ) {
 		$this->max_children = absint($max);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function get_max_children() {
 		return $this->max_children;
 	}
 
 	/**
+	 * Limit the contexts in which this panel can appear
+	 *
 	 * @param string $id The ID of a panel type that this type can be a child of
-	 * @param bool $allowed
+	 * @param bool $allowed If TRUE, this panel can _only_ appear in the given context(s)
+	 *                      If FALSE, this panel cannot appear in the given context(s)
 	 *
 	 * @return void
 	 */
@@ -202,6 +283,8 @@ class PanelType {
 	}
 
 	/**
+	 * Remove a context setting
+	 *
 	 * @param string $id The ID of a panel type
 	 *
 	 * @return void
@@ -211,6 +294,8 @@ class PanelType {
 	}
 
 	/**
+	 * Get the contexts for which this panel type has been explicitly approved
+	 *
 	 * @return array
 	 */
 	public function allowed_contexts() {
@@ -218,6 +303,10 @@ class PanelType {
 	}
 
 	/**
+	 * Get the contexts for which this panel type has been explicitly denied.
+	 *
+	 * If there are allowed contexts set, then forbidden contexts are ignored.
+	 *
 	 * @return array
 	 */
 	public function forbidden_contexts() {
@@ -229,15 +318,36 @@ class PanelType {
 		}));
 	}
 
+	/**
+	 * Set the label to use when referring to child panels of this type.
+	 *
+	 * E.g., blocks, tabs, slides, etc.
+	 *
+	 * @param string $singular
+	 * @param string $plural
+	 *
+	 * @return void
+	 */
 	public function set_child_labels( $singular, $plural ) {
 		$this->child_label_singular = $singular;
 		$this->child_label_plural = $plural;
 	}
 
+	/**
+	 * Get the label for children of this panel type
+	 *
+	 * @param string $quantity
+	 *
+	 * @return string
+	 */
 	public function get_child_label( $quantity = 'singular' ) {
 		return ( $quantity == 'plural' ) ? $this->child_label_plural : $this->child_label_singular;
 	}
 
+	/**
+	 * Get the admin HTML template for rendering this panel type's controls
+	 * @return string
+	 */
 	public function get_admin_template() {
 		ob_start();
 		do_action('before_panel_admin_template', $this );

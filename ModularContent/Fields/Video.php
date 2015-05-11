@@ -5,7 +5,20 @@ namespace ModularContent\Fields;
 use ModularContent\OEmbedder;
 use ModularContent\Panel;
 
-
+/**
+ * Class Video
+ *
+ * @package ModularContent\Fields
+ *
+ * A field for adding video embed URLs.
+ *
+ *
+ * $field = new Video( array(
+ *   'label' => __('Video URL'),
+ *   'name' => 'video',
+ *   'description' => __( 'The URL for the video' )
+ * ) );
+ */
 class Video extends Text {
 	public function render_field() {
 		printf('<span class="panel-input-field"><input type="text" class="video-url" name="%s" value="%s" size="40" /></span>', $this->get_input_name(), $this->get_input_value());

@@ -112,7 +112,7 @@
 				var template_context_mode = template.data( 'panel-context-mode' );
 				if ( typeof template_max_depth == 'number' && template_max_depth < depth ) {
 					template.parent().hide();
-				} else if ( template_context_mode == 'allow' && depth == 0 ) {
+				} else if ( template_context_mode == 'allow' && depth === 0 ) {
 					template.parent().hide(); // the panel requires a parent context
 				} else if ( template_context_mode == 'allow' ) {
 					template_contexts = template.data( 'panel-contexts' );
@@ -177,6 +177,11 @@
 
 			newRow.data( 'panel_id', panelId );
 
+			var delete_child_label = this.newPanelContainer.data( 'delete-child' );
+			if ( delete_child_label ) {
+				newRow.find('.delete-panel').text( delete_child_label );
+			}
+
 			var childContainer = newRow.find('.panel-children');
 
 			if ( childContainer.length == 1 ) {
@@ -230,13 +235,14 @@
 		};
 
 		Panel.prototype.bindEvents = function() {
-			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel' );
+			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel', 'emitImageSelectEvent' );
 
 			this.$el.on( 'click.' + this.id, '> .panel-row-editor > .delete-panel', this.remove );
 			this.$el.on( 'keyup.' + this.id, '> .panel-row-editor > .input-name-title input:text', this.updateTitle );
 			this.$el.one( 'click.' + this.id, this.openPanel );
 			this.$el.on( 'click.' + this.id, '> .close-panel', this.closePanel );
 			this.$el.on( 'click.' + this.id, '.add-new-child-panel', this.checkChildLimit );
+			this.$el.on( 'change.' + this.id, 'label.image-option input[type=radio]', this.emitImageSelectEvent );
 
 			$('#modular-content').on( 'click.' + this.id, '#create-child-for-' + this.id, {self:this}, this.spawnPanelPicker );
 			$("body").on( 'click.' + this.id, '.new-panel-option .thumbnail', {self:this}, this.pickPanelType );
@@ -244,6 +250,11 @@
 
 		Panel.prototype.unbindEvents = function() {
 			this.$el.off("." + this.id);
+		};
+
+		Panel.prototype.emitImageSelectEvent = function( e ){
+			e.stopPropagation();
+			$( document ).trigger( 'tribe-panels.image-select-changed', [ this.$el, e.target.value ] );
 		};
 
 		Panel.prototype.initExistingPanels = function() {
@@ -313,7 +324,6 @@
 		Panel.prototype.setThumbnail = function( imageSrc ) {
 			var image = this.$el.find("> .panel-row-header").find(".media-object");
 			image.attr( "src", image.attr( imageSrc ) );
-			console.log("Set thumbnail src: ", image.attr( imageSrc ));
 		};
 
 
@@ -341,7 +351,7 @@
 			var panels = window.ModularContent ? window.ModularContent.panels : null;
 
 			if ( ! ( panels && panels.length ) ) {
-				return console.warn( "No panels found on window.ModularContent: ", window.ModularContent );
+				return;
 			}
 
 			_.each( panels, this.createPanel, this );
@@ -378,6 +388,11 @@
 					placeholder: 'panel-row-drop-placeholder',
 					forcePlaceholderSize: true
 				});
+			}
+
+			var delete_child_label = currentContainer.data( 'delete-child' );
+			if ( delete_child_label ) {
+				newRow.find('.delete-panel').text( delete_child_label );
 			}
 
 			currentContainer.append( newRow );

@@ -15,6 +15,20 @@
 	clear: none;
 }
 
+.panel-input-repeater-row-controls .move {
+	display: inline-block;
+	margin-left: 0;
+	overflow: hidden;
+	vertical-align: middle;
+	color: #999;
+	text-decoration: none;
+	line-height: 25px;
+	cursor: pointer;
+}
+.panel-input-repeater-row-controls .move:hover {
+	color: #333;
+}
+
 .panel-input-repeater-row-controls .delete {
 	display: inline-block;
 	margin-left: 10px;

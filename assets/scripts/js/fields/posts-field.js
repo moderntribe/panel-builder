@@ -53,11 +53,11 @@
 			} else {
 				select.select2({width: 'element', maximumSelectionSize: 0});
 			}
+			postsField.hide_irrelevant_filter_options.call(container);
 		},
 
 		initialize_tabs: function ( container ) {
-			if( container.is( '.tabs-initialized' ) ){
-				// we've already done this, bail
+			if( container.is('.tabs-initialized')){
 				return;
 			}
 			var fieldsets = container.children('fieldset');
@@ -76,11 +76,10 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.addClass( 'tabs-initialized' ).prepend(navigation).tabs({
+			container.addClass('tabs-initialized').prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
-
 
 			var post_selector = container.find('.post-selector');
 			var external_links_fields = container.find('.external-links-fields');
@@ -182,28 +181,27 @@
 		},
 
 		fetch_queued_previews: function() {
-			var post_ids = [];
+			var post_ids_to_fetch = [];
+			var post_ids_already_fetched = [];
 			for ( var post_id in postsField.previews_to_fetch ) {
 				if ( postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
-					post_ids.push(post_id);
+					if ( ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+						post_ids_already_fetched.push(post_id);
+					} else {
+						post_ids_to_fetch.push(post_id);
+					}
 				}
 			}
-			if ( post_ids.length > 0 ) {
+			if ( post_ids_to_fetch.length > 0 ) {
 				wp.ajax.send({
 					data: {
 						action: 'posts-field-fetch-preview',
-						post_ids: post_ids
+						post_ids: post_ids_to_fetch
 					},
 					success: function(data) {
 						$.each( data.posts, function ( returned_id, post_data ) {
-							if ( postsField.previews_to_fetch.hasOwnProperty(returned_id) ) {
-								_.forEach( postsField.previews_to_fetch[returned_id], function( preview ){
-									preview.find('.post-title').text(post_data.post_title);
-									preview.find('.post-excerpt').text(post_data.post_excerpt);
-									preview.find('.post-thumbnail').html(post_data.thumbnail_html);
-								});
-								delete postsField.previews_to_fetch[returned_id];
-							}
+							ModularContent.cache.posts[ returned_id ] = post_data;
+							postsField.display_post_preview( returned_id );
 						});
 						postsField.set_preview_queue_timeout();
 					}
@@ -211,6 +209,24 @@
 			} else {
 				postsField.set_preview_queue_timeout();
 			}
+			$.each( post_ids_already_fetched, function( index, post_id ) {
+				postsField.display_post_preview( post_id );
+			});
+		},
+
+		display_post_preview: function( post_id ) {
+			if ( !ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			if ( !postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			var post_data = ModularContent.cache.posts[post_id];
+			var wrapper = postsField.previews_to_fetch[post_id];
+			wrapper.find('.post-title').text(post_data.post_title);
+			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
+			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
+			delete postsField.previews_to_fetch[post_id];
 		},
 
 		load_manual_post_preview: function() {
@@ -355,8 +371,9 @@
 				.on( 'click', '.remove-selected-post', postsField.remove_selected_post )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
-				.on( 'change', '.filter-options .term-select', postsField.preview_query )
-				.on( 'change', '.radio-option input', postsField.show_hide_manual_inputs );
+				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
+				.on( 'change', '.max-results-selection', postsField.preview_query )
+				.on( 'change', '.filter-options .term-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -374,7 +391,7 @@
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			$(this).parent().fadeOut( 500, function() { $(this).remove(); } );
 			postsField.preview_query.call(container);
 		},
@@ -455,11 +472,14 @@
 				select2_args.initSelection =function( element, callback ) {
 					var data = [];
 					$(element.val().split(',')).each( function() {
-						data.push({
-							id: this,
-							// meta box should have put the post into the cache
-							text: ModularContent.cache.posts[this].post_title
-						});
+						var id = this;
+						if ( ModularContent.cache.posts.hasOwnProperty( id ) ) {
+							data.push({
+								id: id,
+								// meta box should have put the post into the cache
+								text: '[' + ModularContent.cache.posts[id].post_type_label + '] ' + ModularContent.cache.posts[id].post_title
+							});
+						}
 					});
 					callback(data);
 				};
@@ -472,8 +492,36 @@
 			options.val(data.selection).trigger('change');
 		},
 
+		hide_irrelevant_filter_options: function() {
+			var container = $(this).closest( '.panel-input-posts' );
+			var post_type_select = container.find('select.post-type-select');
+			var post_types = post_type_select.val();
+			var filter_options = container.find('select.select-new-filter').find('option');
+			if ( !post_types || post_types.length < 1 ) {
+				filter_options.show();
+				return;
+			}
+
+			filter_options.each( function() {
+				var option = $(this);
+				if ( !option.val() ) {
+					return; // skip placeholders
+				}
+				var supported_post_types = option.data('filter-post-types');
+				if ( !supported_post_types ) {
+					return; // skip ambiguous filters
+				}
+				var intersection = _.intersection( supported_post_types, post_types );
+				if ( intersection.length < 1 ) {
+					option.hide();
+				} else {
+					option.show();
+				}
+			} );
+		},
+
 		preview_query: function() {
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
 				var select = $(this).find(':input.term-select');

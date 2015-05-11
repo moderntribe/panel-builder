@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class MetaBox
+ *
+ * @package ModularContent
+ *
+ * The admin metabox where all the magic happens
+ */
 class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';
@@ -127,7 +133,7 @@ class MetaBox {
 		}
 
 		$localization = array(
-			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
+			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
 			'untitled' => __( 'Untitled', 'modular-content' ),
 		);
@@ -154,11 +160,14 @@ class MetaBox {
 			$panel_ids = array();
 		}
 		$panels = array();
+		$registry = Plugin::instance()->registry();
 		foreach ( $panel_ids as $id ) {
 			if ( isset($submission[$id]) ) {
 				$type = $submission[$id]['type'];
 				$depth = $submission[$id]['depth'];
 				$data = $submission[$id];
+				$panel = new Panel( $registry->get($type), $data, $depth );
+				$data = $panel->prepare_data_for_save();
 				unset($data['type']);
 				unset($data['depth']);
 				$data = wp_unslash($data);
@@ -169,7 +178,7 @@ class MetaBox {
 
 		$collection = apply_filters( 'panel_submission_to_json_collection', $collection, $submission );
 
-		return json_encode($collection);
+		return \ModularContent\Util::json_encode($collection);
 	}
 
 	/**
@@ -322,13 +331,25 @@ class MetaBox {
 			}
 
 			$args  = apply_filters( 'panel_input_p2p_search_query', $args, $request['type'] );
+
+			// p2p adds p2p.* to the returned fields for the query, causing the DISTINCT argument
+			// to become somewhat useless
+			add_filter( 'posts_clauses', function( $clauses, $query ) {
+				/** @var \wpdb $wpdb */
+				global $wpdb;
+				$clauses['fields'] = str_replace( ", $wpdb->p2p.*", '', $clauses['fields'] );
+				return $clauses;
+			}, 20, 2 ); // hook in at same priority as p2p to avoid the #17817 recursion bug
+
 			$query = new \WP_Query();
 			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
+				$post_type_object = get_post_type_object( $post->post_type );
+				$post_type_label = $post_type_object->labels->singular_name;
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'text' => esc_html( sprintf( '[%s] %s', $post_type_label, get_the_title($post) ) ),
 				);
 			}
 
