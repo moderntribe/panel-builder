@@ -36,14 +36,17 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				<div class="selected-post-input"><label><?php _e('Select Content', 'modular-content'); ?></label><input type="hidden" data-placeholder="<?php esc_attr_e('Choose a Post', 'modular-content'); ?>" /></div>
 			</div>
 			<div class="external-links-fields">
+				<p>
+					<label class="panel-input-label"><strong><?php _e('External Link', 'modular-content'); ?></strong></label>
 				<p/>
-				<label class="panel-input-label"><strong><?php _e('External Link', 'modular-content'); ?></strong></label>
-				<p/>
-				<label class="panel-input-label"><?php _e('External URL', 'modular-content'); ?></label>
-				<span class="panel-input-field"><input type="text" class="external-url" name="external-url" value="" size="40" placeholder="http://example.com" /></span>
-				<p/>
-				<label class="panel-input-label"><?php _e('Link Text', 'modular-content'); ?></label>
-				<span class="panel-input-field"><input type="text" class="external-title" name="external-title" value="" size="40" /></span>
+				<p>
+					<label class="panel-input-label"><?php _e('External URL', 'modular-content'); ?></label>
+					<span class="panel-input-field"><input type="text" class="external-url" name="external-url" value="" size="40" placeholder="http://example.com" /></span>
+				</p>
+				<p>
+					<label class="panel-input-label"><?php _e('Link Text', 'modular-content'); ?></label>
+					<span class="panel-input-field"><input type="text" class="external-title" name="external-title" value="" size="40" /></span>
+				</p>
 			</div>
 			<button class="button button-secondary"><?php printf( __('Add to %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label() ); ?></button>
 			<span class="description"><?php echo $description; ?></span>

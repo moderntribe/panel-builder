@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-05-11 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-05-12 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -229,9 +229,7 @@
 		},
 
 		initialize_tabs: function ( container ) {
-			if( container.is('.tabs-initialized')){
-				return;
-			}
+
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset
@@ -432,18 +430,16 @@
 			if ( !post_id && ( external_title === undefined || external_title === '' ) ) {
 				return;
 			}
-
 			var preview_slot = postsField.find_open_preview_slot( container );
+
 			if ( !preview_slot ) {
 				return;
 			}
-
 			if ( post_id ) {
 				preview_slot.val(post_id);
 			} else {
 				preview_slot.val(external_title + "|" + external_link);
 			}
-
 			preview_slot.trigger('change');
 			selector.select2('val', '');
 			external_title_input.val('');
@@ -545,7 +541,8 @@
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
 				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
 				.on( 'change', '.max-results-selection', postsField.preview_query )
-				.on( 'change', '.filter-options .term-select', postsField.preview_query );
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.radio-option input', postsField.show_hide_manual_inputs );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
