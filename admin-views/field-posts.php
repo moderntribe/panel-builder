@@ -89,8 +89,10 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 				<?php if ( $p2p ){
 					?><optgroup label="<?php esc_attr_e('Relationship', 'modular-content'); ?>"><?php
 					foreach ( $p2p as $relationship_id => $relationship ) {
-						$connected_post_types = \ModularContent\Util::json_encode( \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship ) );
-						?><option data-filter-group="p2p" data-filter-post-types="<?php esc_attr_e($connected_post_types); ?>" value="<?php esc_attr_e($relationship_id); ?>"><?php esc_html_e(\ModularContent\Util::get_p2p_relationship_label( $relationship ) ); ?></option><?php
+						$post_types_for_p2p = \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship );
+						$connected_post_types = \ModularContent\Util::json_encode( array_keys( $post_types_for_p2p ) );
+						$connected_post_type_labels = \ModularContent\Util::json_encode( $post_types_for_p2p );
+						?><option data-filter-group="p2p" data-filter-post-types="<?php esc_attr_e($connected_post_types); ?>" data-filter-post-type-labels="<?php esc_attr_e($connected_post_type_labels); ?>" data-any-post-type-label="<?php esc_attr_e( '-- Post type --', 'modular-content' ); ?>" value="<?php esc_attr_e($relationship_id); ?>"><?php esc_html_e(\ModularContent\Util::get_p2p_relationship_label( $relationship ) ); ?></option><?php
 					}
 					?></optgroup><?php
 				} ?>

@@ -395,19 +395,37 @@
 				name: container.find('.posts-group-name').val()
 			}));
 
+			var selected_filter_type_option = container.find('.select-new-filter').find('option[value=' + filter_id + ']');
+
 			var template = postsField.filter_row_template;
 			var new_filter = $(template({
 				type: filter_id,
 				name: container.find('.posts-group-name').val(),
-				label: container.find('.select-new-filter').find('option[value=' + filter_id + ']').text()
+				label: selected_filter_type_option.text()
 			}));
 			container.find('.query .query-filters').append(new_filter);
 			new_filter.find('.filter-options').append(options);
 
 			var select2_args = {width: 'element'};
 			var filter_group = postsField.get_filter_group( filter_id );
+			new_filter.addClass( 'filter-type-group-'+filter_group );
 
 			if ( filter_group == 'p2p' ) {
+				// add a drop-down to filter search results by post type
+				var possible_post_types = selected_filter_type_option.data('filter-post-type-labels');
+				var post_type_filters_select = $('<select class="p2p-search-post-type-filter" />');
+				post_type_filters_select.append(
+					'<option value="any">' + selected_filter_type_option.data('any-post-type-label') + '</option>'
+				);
+				$.each( possible_post_types, function ( index, label ) {
+					var option = $('<option />');
+					option.attr('value', index);
+					option.text( label );
+					post_type_filters_select.append( option );
+				});
+				options.before(post_type_filters_select);
+
+
 				if ( $.isArray(data.selection) ) {
 					options.val(data.selection.join(','));
 				} else {
@@ -423,7 +441,8 @@
 							action: 'posts-field-p2p-options-search',
 							s: term,
 							type: filter_id,
-							paged: page
+							paged: page,
+							post_type: post_type_filters_select.val()
 						};
 					},
 					results: function( data, page, query ) {

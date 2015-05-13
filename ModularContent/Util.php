@@ -39,7 +39,14 @@ class Util {
 				$connected_post_types = array_merge( $connected_post_types, $relationship->side[$direction]->query_vars['post_type'] );
 			}
 		}
-		return array_unique( $connected_post_types );
+		$labeled_post_types = array();
+		foreach( array_unique( $connected_post_types ) as $post_type_id ) {
+			$pto = get_post_type_object( $post_type_id );
+			if ( $pto ) {
+				$labeled_post_types[ $post_type_id ] = $pto->label;
+			}
+		}
+		return $labeled_post_types;
 
 	}
 

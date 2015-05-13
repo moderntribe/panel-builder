@@ -168,6 +168,16 @@
 		width: 100% !important;
 	}
 
+	.filter-type-group-p2p {
+		select.p2p-search-post-type-filter {
+			width: 32% !important;
+			margin-right: 1%;
+		}
+		.select2-container {
+			width: 65% !important;
+		}
+	}
+
 	.remove-filter {
 		display: inline-block;
 		overflow: hidden;
