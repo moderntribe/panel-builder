@@ -222,7 +222,7 @@
 			var post_data = ModularContent.cache.posts[post_id];
 			_.forEach( postsField.previews_to_fetch[post_id], function( preview ){
 				preview.find('.post-title').text(post_data.post_title);
-				preview.find('.post-excerpt').text(post_data.post_excerpt);
+				preview.find('.post-excerpt').html(post_data.post_excerpt);
 				preview.find('.post-thumbnail').html(post_data.thumbnail_html);
 			});
 			delete postsField.previews_to_fetch[post_id];
