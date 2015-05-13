@@ -392,10 +392,11 @@
 				return false;
 			}
 			var post_data = ModularContent.cache.posts[post_id];
-			var wrapper = postsField.previews_to_fetch[post_id];
-			wrapper.find('.post-title').text(post_data.post_title);
-			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
-			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
+			_.forEach( postsField.previews_to_fetch[post_id], function( preview ){
+				preview.find('.post-title').text(post_data.post_title);
+				preview.find('.post-excerpt').text(post_data.post_excerpt);
+				preview.find('.post-thumbnail').html(post_data.thumbnail_html);
+			});
 			delete postsField.previews_to_fetch[post_id];
 		},
 
