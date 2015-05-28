@@ -3,10 +3,10 @@
 }
 
 #TB_ajaxContent {
-	width:640px !important;
+    /* this doesn't appear to do anything helpful to panels and is causing conflicts on other modals */
+	/*width:640px !important;*/
 	min-height:90% !important;
 }
-
 .panel-selection-list {
 	overflow:auto;
 	width:630px;
