@@ -309,16 +309,24 @@ class MetaBox {
 		));
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
+			if ( $request['type'] ) {
+				$post__in = $this->get_posts_with_p2p_connection( $request['type'] );
+				if ( empty( $post__in ) ) {
+					$post__in = array( -1 );
+				}
+			} else {
+				$post__in = '';
+			}
 			$args = array(
 				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
 				'post_status' => 'publish',
 				's' => $request['s'],
 				'posts_per_page' => 50,
 				'suppress_filters' => false,
-				'connected_type' => $request['type'],
-				'connected_items' => 'any',
-				'connected_direction' => 'any',
 			);
+			if ( $post__in ) {
+				$args['post__in'] = $post__in;
+			}
 			if ( !empty($request['paged']) ) {
 				$offset = $request['paged'] - 1;
 				$offset = $offset * 50;
@@ -356,6 +364,14 @@ class MetaBox {
 		}
 
 		wp_send_json($response); // exits
+	}
+
+	private function get_posts_with_p2p_connection( $type ) {
+		/** @var \wpdb $wpdb */
+		global $wpdb;
+		$from_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		$to_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_to FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		return array_merge( $from_ids, $to_ids );
 	}
 
 	public function ajax_fetch_titles() {
