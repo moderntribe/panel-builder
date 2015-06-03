@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-05-12 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-06-03 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -229,7 +229,9 @@
 		},
 
 		initialize_tabs: function ( container ) {
-
+			if ( container.is('.tabs-initialized') ) {
+				return;
+			}
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset

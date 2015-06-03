@@ -57,7 +57,9 @@
 		},
 
 		initialize_tabs: function ( container ) {
-
+			if ( container.is('.tabs-initialized') ) {
+				return;
+			}
 			var fieldsets = container.children('fieldset');
 			if ( fieldsets.length < 2 ) {
 				return; // no tabs if there's only one fieldset
