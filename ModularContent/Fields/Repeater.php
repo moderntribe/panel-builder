@@ -48,7 +48,8 @@ class Repeater extends Group {
 	 * $group->add_field( $name );
 	 * $group->add_field( $email );
 	 */
-	public function __construct( $args = array() ){
+	public function __construct( $args = array() ) {
+		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
 		parent::__construct($args);
