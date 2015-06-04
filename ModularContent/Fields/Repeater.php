@@ -22,6 +22,7 @@ use ModularContent\Panel;
  *
  */
 class Repeater extends Group {
+	protected $min = 0;
 	protected $max = 0;
 	protected $new_button_label = '';
 
@@ -76,7 +77,7 @@ class Repeater extends Group {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->max);
+		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-min="%d" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->min, $this->max);
 	}
 
 	protected function get_default_value_js() {
