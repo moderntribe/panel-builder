@@ -85,7 +85,7 @@ class Posts extends Field {
 		$show_max_control = $this->show_max_control;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'jquery-ui-datepicker', 'select2'), FALSE, TRUE );
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'select2' );
 
@@ -223,6 +223,7 @@ class Posts extends Field {
 		foreach ( array_keys( self::p2p_options() ) as $p2p_id ) {
 			$filter_groups[$p2p_id] = 'p2p';
 		}
+		$filter_groups['date'] = 'date';
 		return $filter_groups;
 	}
 
@@ -248,6 +249,14 @@ class Posts extends Field {
 
 		<script type="text/template" class="template" id="tmpl-field-posts-meta-options">
 			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select" data-placeholder="<?php _e('Insert Values', 'modular-content'); ?>" data-filter_type="{{data.type}}" />
+		</script>
+
+		<script type="text/template" class="template" id="tmpl-field-posts-date-options">
+			<div class="date-range-input" data-filter_type="{{data.type}}">
+				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][start]" class="date-select date-start" placeholder="<?php _e('Start Date', 'modular-content'); ?>" />
+				<span class="sep">&ndash;</span>
+				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][end]"   class="date-select date-end"   placeholder="<?php _e( 'End Date' , 'modular-content'); ?>" />
+			</div>
 		</script>
 
 		<?php
@@ -343,6 +352,21 @@ class Posts extends Field {
 					$query['post__in'] = array();
 				}
 				$query['post__in'] = array_merge( $query['post__in'], $ids );
+			} elseif ( isset( $filter_groups[$type] ) && $filter_groups[$type] == 'date' ) {
+				$dq = array( 'inclusive' => true, 'relation' => 'AND' );
+				if ( !empty( $filter['selection']['start'] ) ) {
+					$dq['after'] = $filter['selection']['start'];
+				}
+				if ( !empty( $filter['selection']['end'] ) && $end = strtotime( $filter['selection']['end'] ) ) {
+					$dq['before'] = array( // end date must be an array for inclusiveness
+						'year' => date( 'Y', $end ),
+						'month' => date( 'n', $end ),
+						'day' => date( 'j', $end ),
+					);
+				}
+				if ( ! ( empty( $dq['after'] ) && empty( $dq['before'] ) ) ) {
+					$query['date_query'] = $dq;
+				}
 			} else {
 				$locked = FALSE;
 				if ( !empty($filter['lock']) ) {

@@ -65,6 +65,10 @@ class Util {
 		return $taxonomy->object_type;
 	}
 
+	public static function get_post_types_for_date() {
+		return get_post_types();
+	}
+
 	/**
 	 * Get a label to use for displaying a P2P relationship
 	 *

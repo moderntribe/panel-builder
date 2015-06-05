@@ -96,6 +96,7 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 					}
 					?></optgroup><?php
 				} ?>
+				<option data-filter-group="date" data-filter-post_types="<?php echo \ModularContent\Util::json_encode( \ModularContent\Util::get_post_types_for_date() ); ?>" value="date"><?php _e( 'Date', 'modular-content' ); ?></option>
 				<?php do_action( 'modular_content_posts_field_filter_options', $this ); ?>
 			</select>
 			<div class="query-filters">

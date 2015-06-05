@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-05-13 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-06-04 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -174,6 +174,7 @@
 	var postsField = {
 		filter_row_template: wp.template('field-posts-filter'),
 		p2p_options_template: wp.template('field-posts-p2p-options'),
+		date_options_template: wp.template('field-posts-date-options'),
 		meta_options_template: wp.template('field-posts-meta-options'),
 
 		taxonomy_options_template: function( taxonomy ) {
@@ -188,6 +189,8 @@
 				return postsField.p2p_options_template;
 			} else if ( group == 'meta' ) {
 				return postsField.meta_options_template;
+			} else if ( group == 'date' ) {
+				return postsField.date_options_template;
 			}
 		},
 
@@ -506,7 +509,8 @@
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
 				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
 				.on( 'change', '.max-results-selection', postsField.preview_query )
-				.on( 'change', '.filter-options .term-select', postsField.preview_query );
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.filter-options .date-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -635,13 +639,27 @@
 					});
 					callback(data);
 				};
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
 			} else if ( filter_group == 'meta' ) {
 				select2_args.tags = true;
 				select2_args.multiple = true;
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
+			} else if ( filter_group == 'date' ) {
+				data.selection = $.extend({ start: '', end: '' }, data.selection);
+				options.find( '.date-start' ).val( data.selection.start );
+				options.find( '.date-end' ).val( data.selection.end );
+				options.find( '.date-select' ).datepicker(
+					{
+						dateFormat: 'yy-mm-dd'
+					}
+				);
+			} else {
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
 			}
 
-			options.select2(select2_args);
-			options.val(data.selection).trigger('change');
 		},
 
 		hide_irrelevant_filter_options: function() {
@@ -677,10 +695,20 @@
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
 				var select = $(this).find(':input.term-select');
-				var val = select.val();
-				if ( val && val.length > 0 ) {
-					filters[select.data('filter_type')] = {
-						selection: select.val(),
+				var date = $(this).find('.date-range-input');
+				if ( select.length > 0 ) {
+					var val = select.val();
+					if ( val && val.length > 0 ) {
+						filters[ select.data( 'filter_type' ) ] = {
+							selection: select.val(),
+							lock: true
+						};
+					}
+				} else if ( date.length > 0 ) {
+					var start = date.find( '.date-start' ).val();
+					var end   = date.find( '.date-end' ).val();
+					filters[ date.data( 'filter_type' ) ] = {
+						selection: { start: start, end: end },
 						lock: true
 					};
 				}
@@ -762,7 +790,15 @@
 		counter: 0,
 
 		intialize_data: function ( container, rows ) {
-			for ( var i in rows ) {
+			var min = container.data( 'min' );
+			rows = rows || [{}];
+			if ( min && rows.length < min ) {
+				var offset = min - rows.length;
+				for (var i in rows){
+					rows.push({});
+				}
+			}
+			for ( i in rows ) {
 				repeaterField.load_row( container, rows[i] );
 			}
 		},
