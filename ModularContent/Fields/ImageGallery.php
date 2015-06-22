@@ -5,6 +5,22 @@ namespace ModularContent\Fields;
 use ModularContent\Panel;
 
 
+/**
+ * Class ImageGallery
+ *
+ * @package ModularContent\Fields
+ *
+ * An image gallery field.
+ *
+ *
+ * $field = new ImageGallery( array(
+ *   'label' => __('Gallery Images'),
+ *   'name' => 'images',
+ *   'description' => __( 'Images to display in the gallery' )
+ * ) );
+ *
+ * get_panel_var() will return an array of attachment IDs
+ */
 class ImageGallery extends Field {
 	public function render_field() {
 		wp_enqueue_script( 'modular-content-gallery-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/gallery-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );

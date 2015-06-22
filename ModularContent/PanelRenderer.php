@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class PanelRenderer
+ *
+ * @package ModularContent
+ *
+ * Renders a panel
+ */
 class PanelRenderer {
 	/** @var Panel */
 	protected $panel = NULL;
@@ -20,6 +26,7 @@ class PanelRenderer {
 			$loop->set_the_panel($this->panel);
 		}
 		$template = $this->panel->get_type_object()->get_template_path();
+		$template = apply_filters( 'panel_template_path', $template, $this->panel );
 		if ( empty($template) ) {
 			return '';
 		}

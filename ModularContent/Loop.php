@@ -4,7 +4,13 @@
 namespace ModularContent;
 use ArrayIterator;
 
-
+/**
+ * Class Loop
+ *
+ * @package ModularContent
+ *
+ * An iterator over a collection of panels
+ */
 class Loop {
 	protected $panel = NULL;
 	protected $collection = NULL;
@@ -47,6 +53,8 @@ class Loop {
 	}
 
 	/**
+	 * Build a tree using the depth field of the panels in a collection
+	 *
 	 * @param Panel[] $panels
 	 *
 	 * @return array

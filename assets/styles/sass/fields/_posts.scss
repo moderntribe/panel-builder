@@ -31,7 +31,11 @@
 
 	.filter-options { width: 100%; }
 
-	select, .select2-container { width: 100%; }
+	select, .select2-container {
+		width: 100%;
+		display: table;
+		table-layout: fixed;
+	}
 
 	.button { margin-top: 1em; }
 
@@ -126,12 +130,15 @@
 		right: $post-preview-padding;
 		width: $post-thumbnail-size;
 		height: $post-thumbnail-size;
+		text-align: center;
 	}
 
 	.post-preview img,
 	.selected-post img {
+		width: auto;
 		max-width: 100%;
 		height: auto;
+		max-height: 100%;
 	}
 
 	.select-filters {
@@ -159,6 +166,16 @@
 
 	.panel-filter-row select, .panel-filter-row .select2-container {
 		width: 100% !important;
+	}
+
+	.filter-type-group-p2p {
+		select.p2p-search-post-type-filter {
+			width: 32% !important;
+			margin-right: 1%;
+		}
+		.select2-container {
+			width: 65% !important;
+		}
 	}
 
 	.remove-filter {

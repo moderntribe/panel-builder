@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2014-10-23 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-06-04 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -173,9 +173,33 @@
 (function($) {
 	var postsField = {
 		filter_row_template: wp.template('field-posts-filter'),
+		p2p_options_template: wp.template('field-posts-p2p-options'),
+		date_options_template: wp.template('field-posts-date-options'),
+		meta_options_template: wp.template('field-posts-meta-options'),
 
 		taxonomy_options_template: function( taxonomy ) {
 			return wp.template('field-posts-taxonomy-'+taxonomy+'-options');
+		},
+
+		options_template: function( filter_id ) {
+			var group = postsField.get_filter_group( filter_id );
+			if ( group == 'taxonomy' ) {
+				return postsField.taxonomy_options_template( filter_id );
+			} else if ( group == 'p2p' ) {
+				return postsField.p2p_options_template;
+			} else if ( group == 'meta' ) {
+				return postsField.meta_options_template;
+			} else if ( group == 'date' ) {
+				return postsField.date_options_template;
+			}
+		},
+
+		get_filter_group: function( filter_id ) {
+			var group = ModularContent.posts_filter_templates[filter_id];
+			if ( !group ) {
+				group = 'taxonomy';
+			}
+			return group;
 		},
 
 		update_active_tab: function( event, ui ) {
@@ -204,10 +228,17 @@
 			} else {
 				select.select2({width: 'element', maximumSelectionSize: 0});
 			}
+			postsField.hide_irrelevant_filter_options.call(container);
 		},
 
 		initialize_tabs: function ( container ) {
+			if( container.is('.tabs-initialized')){
+				return;
+			}
 			var fieldsets = container.children('fieldset');
+			if ( fieldsets.length < 2 ) {
+				return; // no tabs if there's only one fieldset
+			}
 			var navigation = $('<ul></ul>');
 			var type = container.find('input.query-type').val();
 			var active_tab_index = 0;
@@ -220,14 +251,14 @@
 				navigation.append('<li><a href="#'+id+'">'+legend.html()+'</a></li>');
 				legend.hide();
 			});
-			container.prepend(navigation).tabs({
+			container.addClass('tabs-initialized').prepend(navigation).tabs({
 				activate: postsField.update_active_tab,
 				active: active_tab_index
 			});
 		},
 
 		intialize_data: function ( container, data ) {
-			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
+			data = $.extend({type: 'manual', post_ids: [], filters: {}, max: 0}, data);
 
 			var post_type_options = container.find('select.post-type-select');
 			if ( ! post_type_options.length ) {
@@ -241,6 +272,11 @@
 					post_type_options.val(filter.selection).trigger('change');
 				}
 			});
+
+			if ( data.max < container.data('min') ) {
+				data.max = container.data('max');
+			}
+			container.find( '.max-results-selection' ).val( data.max );
 
 			postsField.update_post_type_select( container );
 
@@ -265,7 +301,7 @@
 				ajax: {
 					url: ajaxurl,
 					dataType: 'json',
-					quiteMillis: 200,
+					quietMillis: 200,
 					data: postsField.manualSearchQueryParams,
 					initSelection: function( element, callback ) {
 						callback({id: 0, text:''});
@@ -280,6 +316,7 @@
 						});
 						$.each(data.posts, function(index, post) {
 							if ( !selected.hasOwnProperty( post.id ) ) {
+								post.text = $('<div />').html( post.text ).text(); // hack to render html entities
 								posts.push(post);
 							}
 						});
@@ -320,27 +357,27 @@
 		},
 
 		fetch_queued_previews: function() {
-			var post_ids = [];
+			var post_ids_to_fetch = [];
+			var post_ids_already_fetched = [];
 			for ( var post_id in postsField.previews_to_fetch ) {
 				if ( postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
-					post_ids.push(post_id);
+					if ( ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+						post_ids_already_fetched.push(post_id);
+					} else {
+						post_ids_to_fetch.push(post_id);
+					}
 				}
 			}
-			if ( post_ids.length > 0 ) {
+			if ( post_ids_to_fetch.length > 0 ) {
 				wp.ajax.send({
 					data: {
 						action: 'posts-field-fetch-preview',
-						post_ids: post_ids
+						post_ids: post_ids_to_fetch
 					},
 					success: function(data) {
 						$.each( data.posts, function ( returned_id, post_data ) {
-							if ( postsField.previews_to_fetch.hasOwnProperty(returned_id) ) {
-								var wrapper = postsField.previews_to_fetch[returned_id];
-								wrapper.find('.post-title').text(post_data.post_title);
-								wrapper.find('.post-excerpt').text(post_data.post_excerpt);
-								wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
-								delete postsField.previews_to_fetch[returned_id];
-							}
+							ModularContent.cache.posts[ returned_id ] = post_data;
+							postsField.display_post_preview( returned_id );
 						});
 						postsField.set_preview_queue_timeout();
 					}
@@ -348,6 +385,24 @@
 			} else {
 				postsField.set_preview_queue_timeout();
 			}
+			$.each( post_ids_already_fetched, function( index, post_id ) {
+				postsField.display_post_preview( post_id );
+			});
+		},
+
+		display_post_preview: function( post_id ) {
+			if ( !ModularContent.cache.posts.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			if ( !postsField.previews_to_fetch.hasOwnProperty(post_id) ) {
+				return false;
+			}
+			var post_data = ModularContent.cache.posts[post_id];
+			var wrapper = postsField.previews_to_fetch[post_id];
+			wrapper.find('.post-title').html(post_data.post_title);
+			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
+			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
+			delete postsField.previews_to_fetch[post_id];
 		},
 
 		load_manual_post_preview: function() {
@@ -452,7 +507,10 @@
 				.on( 'click', '.remove-selected-post', postsField.remove_selected_post )
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
-				.on( 'change', '.filter-options select', postsField.preview_query );
+				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
+				.on( 'change', '.max-results-selection', postsField.preview_query )
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.filter-options .date-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -470,7 +528,7 @@
 
 		remove_filter_row: function( e ) {
 			e.preventDefault();
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			$(this).parent().fadeOut( 500, function() { $(this).remove(); } );
 			postsField.preview_query.call(container);
 		},
@@ -478,20 +536,24 @@
 		add_filter_row_event: function( e ) {
 			var select = $(this);
 			var container = select.closest('.panel-input');
-			var type = select.val();
-			if ( !type ) {
+			var id = select.val();
+			var option = select.find(':selected');
+			var group = option.data('filter-group');
+			if ( !group ) {
+				group = 'taxonomy';
+			}
+			if ( !id ) {
 				return;
 			}
-			postsField.add_filter_row( container, type, {} );
+			postsField.add_filter_row( container, id, {} );
 			select.val('');
 		},
 
-		add_filter_row: function( container, type, data ) {
+		add_filter_row: function( container, filter_id, data ) {
 			data = $.extend({ selection: [], lock: 1 }, data);
 
-
 			// if we already have that filter, just highlight it for a moment
-			var exists = container.find('.filter-'+type);
+			var exists = container.find('.filter-'+filter_id);
 			if ( exists.length > 0 ) {
 				exists.stop(true).css({backgroundColor: 'lightYellow'}).animate({backgroundColor: 'white'}, {
 					duration: 1500,
@@ -503,34 +565,150 @@
 			}
 
 			var options, options_template;
-			options_template = postsField.taxonomy_options_template(type);
+			options_template = postsField.options_template( filter_id );
 			options = $(options_template({
-				type: type,
+				type: filter_id,
 				name: container.find('.posts-group-name').val()
 			}));
+
+			var selected_filter_type_option = container.find('.select-new-filter').find('option[value=' + filter_id + ']');
+
 			var template = postsField.filter_row_template;
 			var new_filter = $(template({
-				type: type,
+				type: filter_id,
 				name: container.find('.posts-group-name').val(),
-				label: container.find('.select-new-filter').find('option[value='+type+']').text()
+				label: selected_filter_type_option.text()
 			}));
 			container.find('.query .query-filters').append(new_filter);
 			new_filter.find('.filter-options').append(options);
 
-			options.select2({width: 'element'});
+			var select2_args = {width: 'element'};
+			var filter_group = postsField.get_filter_group( filter_id );
+			new_filter.addClass( 'filter-type-group-'+filter_group );
 
-			options.val(data.selection).trigger('change');
+			if ( filter_group == 'p2p' ) {
+				// add a drop-down to filter search results by post type
+				var possible_post_types = selected_filter_type_option.data('filter-post-type-labels');
+				var post_type_filters_select = $('<select class="p2p-search-post-type-filter" />');
+				post_type_filters_select.append(
+					'<option value="any">' + selected_filter_type_option.data('any-post-type-label') + '</option>'
+				);
+				$.each( possible_post_types, function ( index, label ) {
+					var option = $('<option />');
+					option.attr('value', index);
+					option.text( label );
+					post_type_filters_select.append( option );
+				});
+				options.before(post_type_filters_select);
+
+
+				if ( $.isArray(data.selection) ) {
+					options.val(data.selection.join(','));
+				} else {
+					options.val(data.selection);
+				}
+				select2_args.multiple = true;
+				select2_args.ajax = {
+					url: ajaxurl,
+					dataType: 'json',
+					quietMillis: 200,
+					data: function ( term, page ) {
+						return {
+							action: 'posts-field-p2p-options-search',
+							s: term,
+							type: filter_id,
+							paged: page,
+							post_type: post_type_filters_select.val()
+						};
+					},
+					results: function( data, page, query ) {
+						return { results: data.posts, more: data.more };
+					}
+				};
+				select2_args.initSelection =function( element, callback ) {
+					var data = [];
+					$(element.val().split(',')).each( function() {
+						var id = this;
+						if ( ModularContent.cache.posts.hasOwnProperty( id ) ) {
+							data.push({
+								id: id,
+								// meta box should have put the post into the cache
+								text: '[' + ModularContent.cache.posts[id].post_type_label + '] ' + ModularContent.cache.posts[id].post_title
+							});
+						}
+					});
+					callback(data);
+				};
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
+			} else if ( filter_group == 'meta' ) {
+				select2_args.tags = true;
+				select2_args.multiple = true;
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
+			} else if ( filter_group == 'date' ) {
+				data.selection = $.extend({ start: '', end: '' }, data.selection);
+				options.find( '.date-start' ).val( data.selection.start );
+				options.find( '.date-end' ).val( data.selection.end );
+				options.find( '.date-select' ).datepicker(
+					{
+						dateFormat: 'yy-mm-dd'
+					}
+				);
+			} else {
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
+			}
+
+		},
+
+		hide_irrelevant_filter_options: function() {
+			var container = $(this).closest( '.panel-input-posts' );
+			var post_type_select = container.find('select.post-type-select');
+			var post_types = post_type_select.val();
+			var filter_options = container.find('select.select-new-filter').find('option');
+			if ( !post_types || post_types.length < 1 ) {
+				filter_options.show();
+				return;
+			}
+
+			filter_options.each( function() {
+				var option = $(this);
+				if ( !option.val() ) {
+					return; // skip placeholders
+				}
+				var supported_post_types = option.data('filter-post-types');
+				if ( !supported_post_types ) {
+					return; // skip ambiguous filters
+				}
+				var intersection = _.intersection( supported_post_types, post_types );
+				if ( intersection.length < 1 ) {
+					option.hide();
+				} else {
+					option.show();
+				}
+			} );
 		},
 
 		preview_query: function() {
-			var container = $(this).closest('.panel-row');
+			var container = $(this).closest('.panel-input-posts');
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
-				var select = $(this).find('select');
-				var val = select.val();
-				if ( val && val.length > 0 ) {
-					filters[select.data('filter_type')] = {
-						selection: select.val(),
+				var select = $(this).find(':input.term-select');
+				var date = $(this).find('.date-range-input');
+				if ( select.length > 0 ) {
+					var val = select.val();
+					if ( val && val.length > 0 ) {
+						filters[ select.data( 'filter_type' ) ] = {
+							selection: select.val(),
+							lock: true
+						};
+					}
+				} else if ( date.length > 0 ) {
+					var start = date.find( '.date-start' ).val();
+					var end   = date.find( '.date-end' ).val();
+					filters[ date.data( 'filter_type' ) ] = {
+						selection: { start: start, end: end },
 						lock: true
 					};
 				}
@@ -540,12 +718,17 @@
 				return;
 			}
 
+			var max = container.find( '.max-results-selection' ).val();
+			if ( max < container.data('min') || max > container.data('max') ) {
+				max = container.data('max');
+			}
+
 
 			wp.ajax.send({
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: max,
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {
@@ -607,12 +790,23 @@
 		counter: 0,
 
 		intialize_data: function ( container, rows ) {
-			for ( var i in rows ) {
+			var min = container.data( 'min' );
+			rows = rows || [{}];
+			if ( min && rows.length < min ) {
+				var offset = min - rows.length;
+				for (var i in rows){
+					rows.push({});
+				}
+			}
+			for ( i in rows ) {
 				repeaterField.load_row( container, rows[i] );
 			}
 		},
 
 		load_row: function ( container, fields ) {
+			if ( repeaterField.is_full( container ) ) {
+				return;
+			}
 			var uuid = container.data('uuid');
 			var name = container.data('name');
 			var template = wp.template('repeater-'+name);
@@ -625,23 +819,64 @@
 			container.find('.repeater-field-container').append(new_row);
 			repeaterField.counter++;
 			new_row.trigger('new-panel-repeater-row', [uuid, data.fields]);
+
+			repeaterField.toggle_new_row_button_visibility( container );
+			$( document ).trigger( 'tribe-panels.repeater-row-added', [ container, new_row ] );
+		},
+
+		toggle_new_row_button_visibility: function( container ) {
+			if ( repeaterField.is_full( container ) ) {
+				container.children( '.panel-repeater-new-row').hide();
+			} else {
+				container.children( '.panel-repeater-new-row').show();
+			}
+		},
+
+		is_full: function( container ) {
+			var max = container.data('max');
+			if ( max < 1 ) {
+				return false;
+			}
+			var children = container.children('.repeater-field-container').children('.panel-repeater-row');
+			if ( children.length >= max ) {
+				return true;
+			}
+			return false;
 		},
 
 		initialize_events: function( container ) {
 			container
 				.on( 'click', 'a.panel-repeater-new-row', repeaterField.add_row )
 				.on( 'click', 'a.delete', repeaterField.remove_row );
+
+			if ( ! container.hasClass('ui-sortable') ) {
+				container.sortable({
+					items: '.panel-repeater-row',
+					handle: '.move',
+					axis: 'y',
+					start: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					},
+					stop: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					}
+				});
+			}
 		},
 
 		add_row: function( e ) {
 			e.preventDefault();
-			var container = $(this).closest('fieldset.panel-input');
+			var container = $(this).closest('fieldset.panel-input-repeater');
 			repeaterField.load_row( container, {} );
 		},
 
 		remove_row: function ( e ) {
 			e.preventDefault();
+			var container = $(this).closest('fieldset.panel-input-repeater');
 			$(this).closest('.panel-repeater-row').remove();
+
+			repeaterField.toggle_new_row_button_visibility( container );
+			$( document ).trigger( 'tribe-panels.repeater-row-removed', [ container ] );
 		}
 
 	};
@@ -714,4 +949,119 @@
 	panels_div.on('change', 'input.video-url', function() {
 		preview_video($(this));
 	});
+})(jQuery);
+(function($) {
+	var wysiwyg_field = {
+		counter: 0,
+		settings: {},
+
+		init_editor: function( wysiwyg ) {
+			if ( wysiwyg.hasClass('wp-editor-initialized') ) {
+				return;
+			}
+			var wysiwyg_container = wysiwyg.parents( '.wp-editor-container' );
+			var wysiwyg_id = 'panels-wysiwyg-'+wysiwyg_field.counter;
+			wysiwyg_field.counter++;
+			wysiwyg.attr('id', wysiwyg_id);
+			wysiwyg_container.attr('id', 'wp-'+wysiwyg_id+'-editor-container');
+			wysiwyg.parents( '.panel-input.input-type-textarea' ).find( '.add_media' ).data( 'editor', wysiwyg_id );
+
+			var wrap = wysiwyg.parents('.wp-editor-wrap');
+
+			wrap.attr('id', 'wp-'+wysiwyg_id+'-wrap');
+			wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html');
+			wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
+
+			var settings_id = wysiwyg_container.data('settings_id');
+			var settings = $.extend({}, wysiwyg_field.settings[settings_id] || {});
+			settings.body_class = wysiwyg_id;
+			settings.selector = '#'+wysiwyg_id;
+
+			var qt_settings = {id:wysiwyg_id,buttons:"strong,em,link,block,del,ins,img,ul,ol,li,code,more,close"};
+
+			try {
+				settings = tinymce.extend( {}, tinyMCEPreInit.ref, settings );
+				tinyMCEPreInit.mceInit[wysiwyg_id] = settings;
+				tinyMCEPreInit.qtInit[wysiwyg_id] = qt_settings;
+				quicktags( tinyMCEPreInit.qtInit[wysiwyg_id] ); // sets up the quick tags toolbar
+				QTags._buttonsInit(); // adds buttons to the new quick tags toolbar
+
+				if ( wrap.hasClass('tmce-active') ) {
+					switchEditors.go( wysiwyg_id, 'tmce' );
+				}
+
+				if ( ! window.wpActiveEditor ) {
+					window.wpActiveEditor = wysiwyg_id;
+				}
+
+				document.getElementById( 'wp-' + wysiwyg_id + '-wrap' ).onclick = function() {
+					window.wpActiveEditor = this.id.slice( 3, -5 );
+				};
+
+				wysiwyg.addClass('wp-editor-initialized');
+			} catch(e){}
+		},
+
+		setup_editor_template: function( generic_id ) {
+
+			if ( tinyMCEPreInit.mceInit.hasOwnProperty(generic_id) ) {
+				delete tinyMCEPreInit.mceInit[generic_id];
+			}
+			if ( tinyMCEPreInit.qtInit.hasOwnProperty(generic_id) ) {
+				delete tinyMCEPreInit.qtInit[generic_id];
+			}
+
+			var panels_div = $('div.panels');
+			panels_div.on('new-panel-row load-panel-row', '.panel-row', function(e, uuid) {
+				var row = $(this);
+				if ( row.data('panel_id') != uuid ) {
+					return;
+				}
+				var wysiwyg = row.find('textarea.wysiwyg-'+generic_id);
+				wysiwyg.each( function() {
+					wysiwyg_field.init_editor( $(this) );
+				});
+			});
+			panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid) {
+				var row = $(this);
+				var wysiwyg = row.find('textarea.wysiwyg-'+generic_id);
+				wysiwyg.each( function() {
+					wysiwyg_field.init_editor( $(this) );
+				});
+			});
+		},
+
+		remove_editor: function ( wysiwyg ) {
+			var wysiwyg_id = wysiwyg.attr('id');
+			wysiwyg.removeClass('wp-editor-initialized');
+			tinymce.remove('#' + wysiwyg_id);
+
+			delete tinyMCEPreInit.mceInit[wysiwyg_id];
+			delete tinyMCEPreInit.qtInit[wysiwyg_id];
+			wysiwyg.siblings('.quicktags-toolbar').remove();
+		},
+
+		handle_sort_start: function( event ) {
+			var wysiwyg = $(this).find( 'textarea.wp-editor-initialized' );
+			wysiwyg.each( function() {
+				wysiwyg_field.remove_editor( $(this) );
+			});
+		},
+
+		handle_sort_stop: function( event ) {
+			var wysiwyg = $(this).find( 'textarea.wp-editor-area' );
+			wysiwyg.each( function() {
+				wysiwyg_field.init_editor( $(this) );
+			} );
+		}
+
+	};
+
+	window.tribe = window.tribe || {};
+	window.tribe.panels = window.tribe.panels || {};
+	window.tribe.panels.wysywig_field = wysiwyg_field;
+
+	$(document).on( 'tribe-panels.start-repeater-drag-sort', wysiwyg_field.handle_sort_start );
+	$(document).on( 'tribe-panels.stop-repeater-drag-sort', wysiwyg_field.handle_sort_stop );
+
 })(jQuery);

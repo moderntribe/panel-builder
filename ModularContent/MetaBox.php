@@ -3,7 +3,13 @@
 
 namespace ModularContent;
 
-
+/**
+ * Class MetaBox
+ *
+ * @package ModularContent
+ *
+ * The admin metabox where all the magic happens
+ */
 class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';
@@ -125,7 +131,7 @@ class MetaBox {
 			$panel->update_admin_cache( $cache );
 		}
 		$localization = array(
-			'delete_this_panel' => __( 'Delete this panel?', 'modular-content' ),
+			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
 			'untitled' => __( 'Untitled', 'modular-content' ),
 		);
@@ -152,11 +158,14 @@ class MetaBox {
 			$panel_ids = array();
 		}
 		$panels = array();
+		$registry = Plugin::instance()->registry();
 		foreach ( $panel_ids as $id ) {
 			if ( isset($submission[$id]) ) {
 				$type = $submission[$id]['type'];
 				$depth = $submission[$id]['depth'];
 				$data = $submission[$id];
+				$panel = new Panel( $registry->get($type), $data, $depth );
+				$data = $panel->prepare_data_for_save();
 				unset($data['type']);
 				unset($data['depth']);
 				$data = wp_unslash($data);
@@ -164,7 +173,10 @@ class MetaBox {
 			}
 		}
 		$collection = PanelCollection::create_from_array( array('panels' => $panels) );
-		return json_encode($collection);
+
+		$collection = apply_filters( 'panel_submission_to_json_collection', $collection, $submission );
+
+		return \ModularContent\Util::json_encode($collection);
 	}
 
 	/**
@@ -297,16 +309,24 @@ class MetaBox {
 		));
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
+			if ( $request['type'] ) {
+				$post__in = $this->get_posts_with_p2p_connection( $request['type'] );
+				if ( empty( $post__in ) ) {
+					$post__in = array( -1 );
+				}
+			} else {
+				$post__in = '';
+			}
 			$args = array(
 				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
 				'post_status' => 'publish',
 				's' => $request['s'],
 				'posts_per_page' => 50,
 				'suppress_filters' => false,
-				'connected_type' => $request['type'],
-				'connected_items' => 'any',
-				'connected_direction' => 'any',
 			);
+			if ( $post__in ) {
+				$args['post__in'] = $post__in;
+			}
 			if ( !empty($request['paged']) ) {
 				$offset = $request['paged'] - 1;
 				$offset = $offset * 50;
@@ -316,13 +336,25 @@ class MetaBox {
 			}
 
 			$args  = apply_filters( 'panel_input_p2p_search_query', $args, $request['type'] );
+
+			// p2p adds p2p.* to the returned fields for the query, causing the DISTINCT argument
+			// to become somewhat useless
+			add_filter( 'posts_clauses', function( $clauses, $query ) {
+				/** @var \wpdb $wpdb */
+				global $wpdb;
+				$clauses['fields'] = str_replace( ", $wpdb->p2p.*", '', $clauses['fields'] );
+				return $clauses;
+			}, 20, 2 ); // hook in at same priority as p2p to avoid the #17817 recursion bug
+
 			$query = new \WP_Query();
 			$posts = $query->query( $args );
 
 			foreach ( $posts as $post ) {
+				$post_type_object = get_post_type_object( $post->post_type );
+				$post_type_label = $post_type_object->labels->singular_name;
 				$response['posts'][] = array(
 					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'text' => esc_html( sprintf( '[%s] %s', $post_type_label, get_the_title($post) ) ),
 				);
 			}
 
@@ -332,6 +364,14 @@ class MetaBox {
 		}
 
 		wp_send_json($response); // exits
+	}
+
+	private function get_posts_with_p2p_connection( $type ) {
+		/** @var \wpdb $wpdb */
+		global $wpdb;
+		$from_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		$to_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_to FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		return array_merge( $from_ids, $to_ids );
 	}
 
 	public function ajax_fetch_titles() {

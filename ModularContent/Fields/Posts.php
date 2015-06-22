@@ -3,18 +3,53 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel, ModularContent\AdminPreCache;
 
+/**
+ * Class Posts
+ *
+ * @package ModularContent\Fields
+ *
+ * A complex field for selecting or querying posts
+ *
+ * Returns an array of post IDs for use in the template.
+ *
+ * $post_ids = get_panel_var( 'some-posts' );
+ * $posts = array_map( 'get_post', $post_ids );
+ * foreach ( $posts as $wp_post ) {
+ *   // do something with a WP_Post object
+ * }
+ */
 class Posts extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
 
 	protected $max = 12;
 	protected $min = 0;
 	protected $suggested = 0;
-	protected $default = '{ type: "manual", post_ids: [], filters: {} }';
+	protected $default = '{ type: "manual", post_ids: [], filters: {}, max: 0 }';
+	protected $show_max_control = false;
 
+	/**
+	 * @param array $args
+	 *
+	 * Usage example:
+	 *
+	 * $field = new Posts( array(
+	 *   'label' => __( 'Select some posts' ),
+	 *   'name' => 'some-posts',
+	 *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
+	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
+	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin,
+	 *   'show_max_control' => false, // if true, the user can pick the max number of posts (between min and max)
+	 * ) );
+	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
+		$this->defaults['show_max_control'] = $this->show_max_control;
+		$this->defaults['strings'] = array(
+			'tabs.manual' => __( 'Manual', 'modular-content' ),
+			'tabs.dynamic' => __( 'Dynamic', 'modular-content' ),
+		);
 		parent::__construct($args);
 		if ( empty($this->max) ) {
 			$this->max = max(12, $this->min);
@@ -29,7 +64,9 @@ class Posts extends Field {
 	}
 
 	protected function render_label() {
-		// Posts fields don't get to have labels
+		if ( !empty($this->label) ) {
+			printf('<legend class="panel-input-label">%s</legend>', $this->label);
+		}
 	}
 
 	protected function render_description() {
@@ -45,9 +82,10 @@ class Posts extends Field {
 		$min = (int)$this->min;
 		$suggested = (int)$this->suggested;
 		$description = $this->description;
+		$show_max_control = $this->show_max_control;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'jquery-ui-datepicker', 'select2'), FALSE, TRUE );
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'select2' );
 
@@ -61,7 +99,12 @@ class Posts extends Field {
 		if ( $data['type'] == 'manual' ) {
 			$post_ids = isset($data['post_ids'])?$data['post_ids']:array();
 		} else {
-			$post_ids = isset($data['filters'])?$this->filter_posts($data['filters']):array();
+			if ( !empty( $data['max'] ) && $data['max'] > $this->min && $data['max'] < $this->max ) {
+				$max = (int) $data['max'];
+			} else {
+				$max = (int) $this->max;
+			}
+			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
 		}
 		return $post_ids;
 	}
@@ -77,9 +120,14 @@ class Posts extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
+		if ( !empty( $data['type'] ) && $data['type'] == 'manual' && !empty( $data['post_ids'] ) ) {
+			foreach ( $data['post_ids'] as $post_id ) {
+				$cache->add_post( $post_id );
+			}
+		}
 		if ( !empty( $data['filters'] ) ) {
 			foreach ( $data['filters'] as $filter_id => $filter_args ) {
-				if ( !is_array( $filter_args['selection'] ) ) {
+				if ( isset( $filter_args['selection'] ) && !is_array( $filter_args['selection'] ) ) {
 					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
 				}
 				if ( !empty( $filter_args['selection'] ) ) {
@@ -92,7 +140,7 @@ class Posts extends Field {
 						}
 					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
 						foreach ( $filter_args['selection'] as $post_id ) {
-							$cache->add_post( $post_id, $filter_id );
+							$cache->add_post( $post_id );
 						}
 					}
 				}
@@ -105,19 +153,21 @@ class Posts extends Field {
 	 *
 	 * @param array $filters
 	 * @param string $fields
+	 * @param int $max
 	 *
 	 * @return array Matching post IDs
 	 */
-	protected function filter_posts( $filters, $fields = 'ids' ) {
+	protected function filter_posts( $filters, $fields = 'ids', $max = 0 ) {
 		$context = get_queried_object_id();
-		$ids = self::get_posts_for_filters( $filters, $this->max, $context );
+		$max = $max ? $max : $this->max;
+		$ids = self::get_posts_for_filters( $filters, $max, $context );
 		if ( $fields == 'ids' || empty($ids) ) {
 			return $ids;
 		}
 		$query = array(
 			'post_type' => 'any',
 			'post_status' => 'any',
-			'posts_per_page' => $this->max,
+			'posts_per_page' => $max,
 			'post__in' => $ids,
 			'fields' => $fields,
 			'suppress_filters' => FALSE,
@@ -173,6 +223,7 @@ class Posts extends Field {
 		foreach ( array_keys( self::p2p_options() ) as $p2p_id ) {
 			$filter_groups[$p2p_id] = 'p2p';
 		}
+		$filter_groups['date'] = 'date';
 		return $filter_groups;
 	}
 
@@ -181,7 +232,7 @@ class Posts extends Field {
 		<script type="text/javascript">
 			<?php // var declared in meta-box-panels.php ?>
 			<?php $filter_groups = self::get_filter_groups(); ?>
-			ModularContent.posts_filter_templates = <?php echo json_encode($filter_groups); ?>;
+			ModularContent.posts_filter_templates = <?php echo \ModularContent\Util::json_encode($filter_groups); ?>;
 		</script>
 		<script type="text/template" class="template" id="tmpl-field-posts-filter">
 			<div class="panel-filter-row filter-{{data.type}}">
@@ -198,6 +249,14 @@ class Posts extends Field {
 
 		<script type="text/template" class="template" id="tmpl-field-posts-meta-options">
 			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select" data-placeholder="<?php _e('Insert Values', 'modular-content'); ?>" data-filter_type="{{data.type}}" />
+		</script>
+
+		<script type="text/template" class="template" id="tmpl-field-posts-date-options">
+			<div class="date-range-input" data-filter_type="{{data.type}}">
+				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][start]" class="date-select date-start" placeholder="<?php _e('Start Date', 'modular-content'); ?>" />
+				<span class="sep">&ndash;</span>
+				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][end]"   class="date-select date-end"   placeholder="<?php _e( 'End Date' , 'modular-content'); ?>" />
+			</div>
 		</script>
 
 		<?php
@@ -238,25 +297,8 @@ class Posts extends Field {
 
 	public static function get_post_data( $post_ids ) {
 		$posts = array();
-		global $post;
-		$original_post = $post;
 		foreach ( $post_ids as $id ) {
-			$post = get_post($id);
-			setup_postdata($post);
-			$excerpt = $post->post_excerpt;
-			if ( empty($excerpt) ) {
-				$excerpt = $post->post_content;
-			}
-			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
-			$posts[$id] = array(
-				'post_title' => get_the_title($post),
-				'post_excerpt' => apply_filters( 'get_the_excerpt', $excerpt ),
-				'thumbnail_html' => get_the_post_thumbnail($post->ID, array(150, 150)),
-			);
-		}
-		$post = $original_post;
-		if ( $original_post ) {
-			wp_reset_postdata();
+			$posts[$id] = AdminPreCache::get_post_array( $id );
 		}
 		return $posts;
 	}
@@ -310,6 +352,21 @@ class Posts extends Field {
 					$query['post__in'] = array();
 				}
 				$query['post__in'] = array_merge( $query['post__in'], $ids );
+			} elseif ( isset( $filter_groups[$type] ) && $filter_groups[$type] == 'date' ) {
+				$dq = array( 'inclusive' => true, 'relation' => 'AND' );
+				if ( !empty( $filter['selection']['start'] ) ) {
+					$dq['after'] = $filter['selection']['start'];
+				}
+				if ( !empty( $filter['selection']['end'] ) && $end = strtotime( $filter['selection']['end'] ) ) {
+					$dq['before'] = array( // end date must be an array for inclusiveness
+						'year' => date( 'Y', $end ),
+						'month' => date( 'n', $end ),
+						'day' => date( 'j', $end ),
+					);
+				}
+				if ( ! ( empty( $dq['after'] ) && empty( $dq['before'] ) ) ) {
+					$query['date_query'] = $dq;
+				}
 			} else {
 				$locked = FALSE;
 				if ( !empty($filter['lock']) ) {
@@ -354,6 +411,7 @@ class Posts extends Field {
 			'connected_items' => $post_ids,
 			'nopaging' => TRUE,
 			'fields' => 'ids',
+			'post_type' => 'any',
 		));
 		return $connected;
 	}

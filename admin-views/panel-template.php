@@ -16,10 +16,10 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 	<?php if ( $this->max_depth != self::NO_LIMIT ) { ?>data-max_depth="<?php echo $this->max_depth; ?>"<?php } ?>
 	<?php
 	if ( $this->allowed_contexts() ) {
-	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->allowed_contexts())); ?>"
+	?>data-panel-contexts="<?php echo esc_attr(\ModularContent\Util::json_encode($this->allowed_contexts())); ?>"
 		data-panel-context-mode="allow"<?php
 	} elseif ( $this->forbidden_contexts() ) {
-	?>data-panel-contexts="<?php echo esc_attr(json_encode($this->forbidden_contexts())); ?>"
+	?>data-panel-contexts="<?php echo esc_attr(\ModularContent\Util::json_encode($this->forbidden_contexts())); ?>"
 		data-panel-context-mode="deny"<?php
 	}?>
 	>
@@ -57,7 +57,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 				<?php if ( $this->max_children > 0 ): ?>
 					<div class="panel-children-container">
 						<h4><?php echo $this->get_child_label('plural'); ?></h4>
-						<div class="panel-children" data-max_children="<?php echo $this->max_children; ?>" data-depth="<# data.child_depth = data.depth + 1 #>{{data.child_depth}}" id="{{data.panel_id}}-children">
+						<div class="panel-children" data-max_children="<?php echo $this->max_children; ?>" data-depth="<# data.child_depth = data.depth + 1 #>{{data.child_depth}}" data-delete-child="<?php echo esc_attr( sprintf( __( 'Delete %s', 'modular-content' ), $this->get_child_label() ) ); ?>" id="{{data.panel_id}}-children">
 						</div>
 						<a id="create-child-for-{{data.panel_id}}" class="add-new-child-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel" data-title="<?php printf(__('Select a %s Type', 'modular-content'), $this->get_child_label('singular')); ?>"><?php printf(__('Add %s', 'modular-content'), $this->get_child_label('singular')); ?></a>
 					</div>

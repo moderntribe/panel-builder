@@ -3,9 +3,13 @@
 
 namespace ModularContent;
 
-
-use Core\Oembed;
-
+/**
+ * Class OEmbedder
+ *
+ * @package ModularContent
+ *
+ * A utility class for getting oembed data (e.g., video thumbnails)
+ */
 class OEmbedder {
 	private $url = '';
 	private $args = array();

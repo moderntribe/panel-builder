@@ -2,6 +2,13 @@
 
 namespace ModularContent;
 
+/**
+ * Class Plugin
+ *
+ * @package ModularContent
+ *
+ * Responsible for setting up the plugin and hooking into WordPress
+ */
 class Plugin {
 	/** @var self */
 	private static $instance;
@@ -55,6 +62,7 @@ class Plugin {
 		add_post_type_support( 'post', 'modular-content' );
 		add_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
 		add_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
+		add_action( 'pre_get_posts', array( $this, 'filter_search_queries' ) );
 		$this->wrap_kses();
 		do_action( 'panels_init', $this->registry );
 		if ( is_admin() ) {
@@ -104,6 +112,20 @@ class Plugin {
 	public function do_not_filter_the_content() {
 		add_filter( 'the_content', array( $this, 'passthrough' ), 100, 1 );
 		remove_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
+	}
+
+	/**
+	 * @param \WP_Query $query
+	 *
+	 * @return void
+	 */
+	public function filter_search_queries( $query ) {
+		if ( $query->get( 's' ) && $query->get( 'panel_search_filter', NULL ) !== FALSE ) {
+			if ( apply_filters( 'include_panels_in_search_queries', true, $query ) ) {
+				$filter = new SearchFilter( $query );
+				$filter->set_hooks();
+			}
+		}
 	}
 
 	protected function wrap_kses() {

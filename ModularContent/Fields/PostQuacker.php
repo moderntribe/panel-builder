@@ -4,6 +4,29 @@
 namespace ModularContent\Fields;
 use ModularContent\Panel;
 
+/**
+ * Class PostQuacker
+ *
+ * @package ModularContent\Fields
+ *
+ * A complex field for selecting a post, or making something that looks like one
+ *
+ * $field = new PostQuacker( array(
+ *   'label' => __( 'Featured Post' ),
+ *   'name' => 'featured-post',
+ * ) );
+ *
+ * Returns an array with data for the selected post or the simulated post
+ *
+ * $post = get_panel_var( 'featured-post' );
+ * $title = $post['title']; // the title of the post, or the value entered into the title field
+ * $content = $post['content']; // the content of the post, or the value entered into the content field
+ * $excerpt = $post['excerpt']; // the excerpt of the post, or the value entered into the content field
+ * $image = $post['image']; // the post's featured image ID, or the ID of the image entered into the image field
+ * $link = $post['link']; // an array with the url, label, and target to which this should link
+ * $post_type = $post['post_type']; // the selected post's type, or empty if a simulated post
+ * $post_id = $post['post_id']; // the selected post's ID, or 0 if a simulated post
+ */
 class PostQuacker extends Field {
 
 	protected $default = '{ type: "manual", post_id: 0, title: "", content: "", image: 0, link: { url: "", target: "", label: "" } }';
@@ -76,6 +99,8 @@ class PostQuacker extends Field {
 				}
 			}
 			$vars['excerpt'] = $vars['content'];
+			$vars['post_type'] = '';
+			$vars['post_id'] = 0;
 		}
 		return $vars;
 	}
@@ -84,12 +109,15 @@ class PostQuacker extends Field {
 		$data = array(
 			'title' => '',
 			'content' => '',
+			'excerpt' => '',
 			'image' => 0,
 			'link' => array(
 				'url' => '',
 				'target' => '',
 				'label' => '',
 			),
+			'post_type' => '',
+			'post_id' => 0,
 		);
 		if ( empty($post_id) ) {
 			return $data;
@@ -107,6 +135,8 @@ class PostQuacker extends Field {
 			'target' => '',
 			'label' => $data['title'],
 		);
+		$data['post_type'] = $post->post_type;
+		$data['post_id'] = $post->ID;
 		wp_reset_postdata();
 		return $data;
 	}

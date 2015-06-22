@@ -132,7 +132,7 @@ The user can pick an arbitrary number of posts, or define a query that will dyna
 the list of posts from your site's content.
 
 ```php
-$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'description' => 'Select 3-12 posts' ) ) );
+$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'show_max_control' => false, 'description' => 'Select 3-12 posts' ) ) );
 ```
 
 #### `PostQuacker`
@@ -207,12 +207,17 @@ Most events return the applicable element along with the event object, plus the 
 * `tribe-panels.removed-one` is emitted when a panel is removed. Returns the panel el and the panel id.
 * `tribe-panels.opened-one` is emitted when a panel is expanded by the user. Returns the panel el and the panel id.
 * `tribe-panels.closed-one` is emitted when a panel is closed by the user. Returns the panel el and the panel id.
+* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el and value of radio.
+* `tribe-panels.repeater-row-added` is emitted when a repeater field is added in any panel. Returns container and new row.
+* `tribe-panels.repeater-row-removed` is emitted when a repeater field is removed in any panel. Returns repeater container.
 
 Example usage:
 
-```$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
+```js
+$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
 	console.log( 'New panel added.' );
 	console.log( 'Event: ' + event );
 	console.log( 'New Panel: ' + element );
 	console.log( 'New Panel ID: ' + panel_id );
-} );```
+} );
+```
