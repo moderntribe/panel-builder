@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-06-04 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-07-21 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -65,9 +65,17 @@
 
 						var attachments = models.map( function( attachment ) {
 							var att = attachment.toJSON();
+							var thumbnail = '';
+							if ( att.sizes.hasOwnProperty('thumbnail') ) {
+								thumbnail = att.sizes.thumbnail.url;
+							} else {
+								// If it doesn't have a thumbnail, that's because it was
+								// too small for WP to create one. Use the full size image.
+								thumbnail = att.sizes.full.url;
+							}
 							return {
 								id: att.id,
-								thumbnail: att.sizes.thumbnail.url
+								thumbnail: thumbnail
 							};
 						} );
 
