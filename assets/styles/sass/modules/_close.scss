@@ -26,25 +26,27 @@
 	}
 }
 
-.panel-row {
-	> .close {
-		width: 54px;
-		height: 100%;
-		.caret {
-			margin-top: 12px;
-			border-width: 7px;
-			border-top-width: 12px;
-		}
-
-	}
-	&.editing{
+#modular-content {
+	.panel-row {
 		> .close {
-			height: 88px;
+			width: 54px;
+			height: 100%;
 			.caret {
+				margin-top: 12px;
 				border-width: 7px;
-				border-bottom-width: 12px;
-				margin-top: -3px;
-				border-top: 0;
+				border-top-width: 12px;
+			}
+
+		}
+		&.editing {
+			> .close {
+				height: 88px;
+				.caret {
+					border-width: 7px;
+					border-bottom-width: 12px;
+					margin-top: -3px;
+					border-top: 0;
+				}
 			}
 		}
 	}

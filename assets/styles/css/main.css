@@ -189,23 +189,23 @@
   opacity: 0.7;
 }
 
-/* line 30, ../sass/modules/_close.scss */
-.panel-row > .close {
+/* line 31, ../sass/modules/_close.scss */
+#modular-content .panel-row > .close {
   width: 54px;
   height: 100%;
 }
-/* line 33, ../sass/modules/_close.scss */
-.panel-row > .close .caret {
+/* line 34, ../sass/modules/_close.scss */
+#modular-content .panel-row > .close .caret {
   margin-top: 12px;
   border-width: 7px;
   border-top-width: 12px;
 }
-/* line 41, ../sass/modules/_close.scss */
-.panel-row.editing > .close {
+/* line 42, ../sass/modules/_close.scss */
+#modular-content .panel-row.editing > .close {
   height: 88px;
 }
-/* line 43, ../sass/modules/_close.scss */
-.panel-row.editing > .close .caret {
+/* line 44, ../sass/modules/_close.scss */
+#modular-content .panel-row.editing > .close .caret {
   border-width: 7px;
   border-bottom-width: 12px;
   margin-top: -3px;
@@ -666,26 +666,32 @@
 .panel-row-editor .panel-children-container > h4:hover:after {
   color: white;
 }
-/* line 131, ../sass/panels/_panel-editor.scss */
+/* line 130, ../sass/panels/_panel-editor.scss */
+.panel-row-editor legend.panel-toggle.is-closed:after,
+.panel-row-editor .panel-toggle.is-closed:after,
+.panel-row-editor .panel-children-container.is-closed > h4:after {
+  content: '\f140';
+}
+/* line 135, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input.input-type-title .panel-input-label,
 .panel-row-editor .panel-children-container > h4 {
   font-size: 14px;
 }
 
-/* line 137, ../sass/panels/_panel-editor.scss */
+/* line 141, ../sass/panels/_panel-editor.scss */
 .panel-row .input-name-title {
   margin: 0 -15px 25px;
   padding: 5px 15px 25px;
   border-bottom: 1px solid #ddd;
 }
 
-/* line 143, ../sass/panels/_panel-editor.scss */
+/* line 147, ../sass/panels/_panel-editor.scss */
 .panel-children .panel-row .panel-row-editor > fieldset.panel-input > .panel-input-label {
   margin-bottom: .5em;
   font-size: 14px;
 }
 
-/* line 148, ../sass/panels/_panel-editor.scss */
+/* line 152, ../sass/panels/_panel-editor.scss */
 .panel-repeater-row .panel-toggle,
 .panel-row-editor .panel-children-container > h4 {
   width: auto;
@@ -693,7 +699,7 @@
   margin-right: -1px;
 }
 
-/* line 155, ../sass/panels/_panel-editor.scss */
+/* line 159, ../sass/panels/_panel-editor.scss */
 .panel-repeater-row .panel-toggle {
   padding-left: 38px;
 }
@@ -701,18 +707,13 @@
 /**
  * Editor fieldset
  */
-/* line 162, ../sass/panels/_panel-editor.scss */
-.panel-row-editor fieldset {
-  border: 1px solid #CCC;
-  padding: 0.5em 1.5em;
-}
-/* line 166, ../sass/panels/_panel-editor.scss */
+/* line 168, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link {
   border: none;
   padding: 0;
   overflow: hidden;
 }
-/* line 171, ../sass/panels/_panel-editor.scss */
+/* line 173, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
   width: 33%;
@@ -720,14 +721,14 @@
   min-width: 200px;
   margin-bottom: 1em;
 }
-/* line 179, ../sass/panels/_panel-editor.scss */
+/* line 181, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .link-field-target {
   padding-right: 0;
   width: auto;
   min-width: 0;
 }
 
-/* line 188, ../sass/panels/_panel-editor.scss */
+/* line 190, ../sass/panels/_panel-editor.scss */
 .editing .panel-row-editor {
   border: thin solid #ddd;
   border-bottom: 0;
@@ -1184,7 +1185,7 @@
 .panel-repeater-row {
   clear: both;
   background: #fff;
-  border: thin solid #ddd;
+  border: 1px solid #ddd;
   border-top: 0;
   margin: 0 0 15px;
 }
@@ -1221,12 +1222,10 @@
 /* line 33, ../sass/fields/_repeater.scss */
 .panel-row-editor fieldset,
 .panel-repeater-row {
-  border: 0;
-  padding: 0;
   box-shadow: none;
 }
 
-/* line 40, ../sass/fields/_repeater.scss */
+/* line 38, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .move {
   display: inline-block;
   margin-left: 0;
@@ -1238,12 +1237,12 @@
   cursor: pointer;
 }
 
-/* line 50, ../sass/fields/_repeater.scss */
+/* line 48, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .move:hover {
   color: #333;
 }
 
-/* line 54, ../sass/fields/_repeater.scss */
+/* line 52, ../sass/fields/_repeater.scss */
 .panels .move {
   color: white;
   position: absolute;
@@ -1255,12 +1254,12 @@
   z-index: 1;
   padding: 18px 0;
 }
-/* line 64, ../sass/fields/_repeater.scss */
+/* line 62, ../sass/fields/_repeater.scss */
 .panels .move:hover, .panels .move:focus {
   color: #dadada;
 }
 
-/* line 70, ../sass/fields/_repeater.scss */
+/* line 68, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete {
   display: inline-block;
   margin-left: 10px;
@@ -1272,24 +1271,24 @@
   line-height: 25px;
 }
 
-/* line 80, ../sass/fields/_repeater.scss */
+/* line 78, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete:hover {
   color: #c43d3a;
 }
 
-/* line 84, ../sass/fields/_repeater.scss */
+/* line 82, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row {
   text-decoration: none;
 }
 
-/* line 87, ../sass/fields/_repeater.scss */
+/* line 85, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
   color: green;
   font-size: 125%;
   vertical-align: middle;
 }
 
-/* line 93, ../sass/fields/_repeater.scss */
+/* line 91, ../sass/fields/_repeater.scss */
 .panel-children-container {
   clear: both;
   background: #fefefe;
@@ -1298,29 +1297,29 @@
   border-top: 0;
   margin-bottom: 30px;
 }
-/* line 100, ../sass/fields/_repeater.scss */
+/* line 98, ../sass/fields/_repeater.scss */
 .panel-children-container.panel-toggle-closed {
   border-color: transparent;
 }
-/* line 103, ../sass/fields/_repeater.scss */
+/* line 101, ../sass/fields/_repeater.scss */
 .panel-children-container > h4 {
   margin-top: 0;
   margin-bottom: 1.5em;
 }
-/* line 107, ../sass/fields/_repeater.scss */
+/* line 105, ../sass/fields/_repeater.scss */
 .panel-children-container .panel-row {
   margin-top: 0;
   margin-bottom: 15px;
 }
 
-/* line 113, ../sass/fields/_repeater.scss */
+/* line 111, ../sass/fields/_repeater.scss */
 .panel-input-repeater > .panel-input-label,
 .panel-input-type-group > .panel-input-label {
   font-size: 18px;
   margin-bottom: 18px;
 }
 
-/* line 119, ../sass/fields/_repeater.scss */
+/* line 117, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row {
   height: 42px;
   line-height: 43px;
@@ -1334,25 +1333,34 @@
   margin: 0;
   white-space: nowrap;
 }
-/* line 131, ../sass/fields/_repeater.scss */
+/* line 129, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:hover {
   background: #1e8cbe;
   color: #fff;
 }
-/* line 135, ../sass/fields/_repeater.scss */
+/* line 133, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:focus, .panel-repeater-new-row:active {
   background: #1b7aa6;
   color: rgba(255, 255, 255, 0.95);
   vertical-align: top;
 }
-/* line 141, ../sass/fields/_repeater.scss */
+/* line 139, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
   color: white;
   padding-right: 5px;
   vertical-align: top;
 }
 
-/* line 148, ../sass/fields/_repeater.scss */
+/* line 146, ../sass/fields/_repeater.scss */
+.panel-repeater-row .panel-input,
+.panel-repeater-row fieldset.input-type-link {
+  background-color: white;
+  border-bottom: 0 none;
+  margin-top: 20px;
+  padding: 0 15px;
+}
+
+/* line 154, ../sass/fields/_repeater.scss */
 .panel-children .input-name-nav_title {
   display: none;
 }
@@ -1360,14 +1368,14 @@
 /**
  * Panel Children
  */
-/* line 156, ../sass/fields/_repeater.scss */
+/* line 162, ../sass/fields/_repeater.scss */
 .panel-children {
   padding: 0 15px;
   margin-bottom: 15px;
   margin-top: 20px;
 }
 
-/* line 162, ../sass/fields/_repeater.scss */
+/* line 168, ../sass/fields/_repeater.scss */
 .panel-children-container .panel-row {
   margin-top: 12px;
   margin-bottom: 12px;

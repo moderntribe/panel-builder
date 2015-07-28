@@ -96,12 +96,16 @@ class Repeater extends Group {
 		?>
 		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
 			<div class="panel-repeater-row">
-				<span class="panel-input-repeater-row-controls"><a class="move icon-reorder"></a><a class="delete icon-remove"></a></span>
+				<div class="panel-toggle repeater-toggle" data-target="panel-input">
+					<a class="move icon-reorder repeater-sort"></a>
+					<?php _e('Row', 'modular-content'); ?>
+				</div>
 				<?php
 				foreach ( $this->fields as $field ) {
 					$field->render();
 				}
 				?>
+				<a class="delete icon-remove"><?php _e('Delete Row', 'modular-content'); ?></a>
 			</div>
 		</script>
 		<?php

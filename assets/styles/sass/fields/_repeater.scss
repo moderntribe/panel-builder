@@ -1,7 +1,7 @@
 .panel-repeater-row {
 	clear: both;
 	background:#fff;
-	border: thin solid #ddd;
+	border: 1px solid #ddd;
 	border-top: 0;
 	margin: 0 0 15px;
 	&.panel-toggle-closed {
@@ -32,8 +32,6 @@
 
 .panel-row-editor fieldset,
 .panel-repeater-row {
-	border: 0;
-	padding: 0;
 	box-shadow: none;
 }
 
@@ -143,6 +141,14 @@
 		padding-right: 5px;
 		vertical-align: top;
 	}
+}
+
+.panel-repeater-row .panel-input,
+.panel-repeater-row fieldset.input-type-link {
+	background-color: white;
+	border-bottom: 0 none;
+	margin-top: 20px;
+	padding: 0 15px;
 }
 
 .panel-children .input-name-nav_title {

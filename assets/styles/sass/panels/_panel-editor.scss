@@ -127,7 +127,11 @@
 			}
 		}
 	}
-
+	legend.panel-toggle.is-closed:after,
+	.panel-toggle.is-closed:after,
+	.panel-children-container.is-closed > h4:after {
+		content: '\f140';
+	}
 	.panel-input.input-type-title .panel-input-label,
 	.panel-children-container > h4 {
 		font-size: 14px;
@@ -160,8 +164,6 @@
  * Editor fieldset
  */
 .panel-row-editor fieldset {
-	border: 1px solid #CCC;
-	padding: 0.5em 1.5em;
 
 	&.input-type-link {
 		border: none;

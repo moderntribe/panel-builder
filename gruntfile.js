@@ -117,7 +117,7 @@ module.exports = function(grunt) {
 			'sass',
 			'autoprefixer',
 			'concat',
-			'jshint',
+			'jshint', 
 			'watch'
 		]);
 	});

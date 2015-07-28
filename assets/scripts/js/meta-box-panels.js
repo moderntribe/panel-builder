@@ -52,13 +52,19 @@
 			this.bindEvents();
 			this.initExistingPanels();
 			this.enableDragDrop();
+			this.toggleRepeatersClosed();
 		};
 
 		PanelContainer.prototype.bindEvents = function() {
 			// Context has to be passed dynamically via event data obj, so that
 			// new panels are added to the correct parent. Otherwise they'd all get added to the PanelContainer instance element
-			$('#modular-content').on( 'click.' + this.id, '.create-new-panel', {self:this}, this.spawnPanelPicker );
-			$('body').on( 'click.' + this.id, '.new-panel-option .thumbnail', {self: this}, this.pickPanelType );
+
+			$('#modular-content')
+				.on( 'click.' + this.id, '.repeater-toggle', {self:this}, this.toggleRepeaterGroup )
+				.on( 'click.' + this.id, '.create-new-panel', {self:this}, this.spawnPanelPicker );
+
+			$('body')
+				.on( 'click.' + this.id, '.new-panel-option .thumbnail', {self: this}, this.pickPanelType );
 		};
 
 		PanelContainer.prototype.unbindEvents = function() {
@@ -84,6 +90,40 @@
 
 		PanelContainer.prototype.getChildContainer = function(e) {
 			return this.$el;
+		};
+
+		PanelContainer.prototype.toggleRepeatersClosed = function(){
+
+			Array.prototype.forEach.call( this.el.getElementsByClassName( 'panel-toggle' ), function( toggle ){
+
+				this.toggleRepeaterGroup( toggle );
+
+			}.bind( this ) );
+
+		};
+
+		PanelContainer.prototype.toggleRepeaterGroup = function(e) {
+			var _this = e.data ? e.data.self : this,
+				el = e.data ? e.currentTarget : e,
+				$target = $( el ).siblings();
+
+			if( ! el.matches( '.is-closed' ) ){
+				_this.closeGroup( el, $target );
+			} else {
+				_this.openGroup( el, $target );
+			}
+		};
+
+		PanelContainer.prototype.openGroup = function(el, $target) {
+			el.classList.remove('is-closed');
+			el.parentNode.classList.remove( 'panel-toggle-closed' );
+			$target.show();
+		};
+
+		PanelContainer.prototype.closeGroup = function(el, $target) {
+			el.classList.add( 'is-closed' );
+			el.parentNode.classList.add( 'panel-toggle-closed' );
+			$target.hide();
 		};
 
 		PanelContainer.prototype.spawnPanelPicker = function(e) {
