@@ -88,6 +88,35 @@
   top: 1px;
 }
 
+/* line 19, ../sass/modules/_add-new.scss */
+.create-new-panel,
+.add-new-child-panel,
+.save-panel-set {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* line 27, ../sass/modules/_add-new.scss */
+.create-new-panel:before,
+.add-new-child-panel:before,
+.save-panel-set:before {
+  font-size: 23px;
+  margin-right: 7px;
+  position: relative;
+  bottom: 1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: top;
+}
+
+/* line 39, ../sass/modules/_add-new.scss */
+.add-new-child-panel {
+  padding: 0 15px 20px;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
 /**
  * Base media component
  * Source: http://stubbornella.org/content/?p=497
@@ -135,33 +164,52 @@
   list-style: none;
 }
 
-/* line 4, ../sass/modules/_close.scss */
-.close {
+/* line 5, ../sass/modules/_close.scss */
+#modular-content button.close {
   float: right;
   font-size: 1.5em;
   font-weight: bold;
   line-height: 1;
   color: #111;
   opacity: .7;
-}
-/* line 12, ../sass/modules/_close.scss */
-.close:hover, .close:focus {
-  text-decoration: none;
-  cursor: pointer;
-  opacity: 1;
-}
-
-/* line 23, ../sass/modules/_close.scss */
-button.close {
   padding: 0;
   cursor: pointer;
   background: transparent;
   border: 0;
   -webkit-appearance: none;
 }
-/* line 30, ../sass/modules/_close.scss */
-button.close:focus {
+/* line 12, ../sass/modules/_close.scss */
+#modular-content button.close:hover, #modular-content button.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 1;
+}
+/* line 23, ../sass/modules/_close.scss */
+#modular-content button.close:focus {
   opacity: 0.7;
+}
+
+/* line 30, ../sass/modules/_close.scss */
+.panel-row > .close {
+  width: 54px;
+  height: 100%;
+}
+/* line 33, ../sass/modules/_close.scss */
+.panel-row > .close .caret {
+  margin-top: 12px;
+  border-width: 7px;
+  border-top-width: 12px;
+}
+/* line 41, ../sass/modules/_close.scss */
+.panel-row.editing > .close {
+  height: 88px;
+}
+/* line 43, ../sass/modules/_close.scss */
+.panel-row.editing > .close .caret {
+  border-width: 7px;
+  border-bottom-width: 12px;
+  margin-top: -3px;
+  border-top: 0;
 }
 
 /* line 1, ../sass/modules/_delete-panel.scss */
@@ -176,6 +224,59 @@ button.close:focus {
   color: #b03236;
 }
 
+/* line 12, ../sass/modules/_delete-panel.scss */
+.delete-panel,
+.panel-repeater-row .delete {
+  cursor: pointer;
+  font-size: 14px;
+  text-align: right;
+  display: block;
+}
+
+/* line 20, ../sass/modules/_delete-panel.scss */
+.panel-row-editor > .delete-panel {
+  color: #888;
+}
+
+/* line 24, ../sass/modules/_delete-panel.scss */
+.panel-row-editor > .delete-panel:hover {
+  color: #555;
+}
+
+/* line 28, ../sass/modules/_delete-panel.scss */
+.panel-repeater-row .delete {
+  padding: 5px 15px 20px;
+}
+
+/* line 32, ../sass/modules/_delete-panel.scss */
+.panel-children-container .delete-panel,
+.panel-repeater-row .delete {
+  color: #d15e61;
+}
+
+/* line 37, ../sass/modules/_delete-panel.scss */
+.panel-children-container .delete-panel:hover,
+.panel-repeater-row .delete:hover {
+  color: #B03234;
+}
+
+/* line 42, ../sass/modules/_delete-panel.scss */
+.delete-panel:before,
+.panel-repeater-row .delete:before {
+  content: '\f182';
+  display: inline-block;
+  font-family: "dashicons";
+  text-decoration: inherit;
+  font-weight: normal;
+  font-style: normal;
+  vertical-align: top;
+  font-size: 15px;
+  padding-right: 3px;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* line 2, ../sass/modules/_caret.scss */
 .caret {
   display: inline-block;
@@ -184,7 +285,7 @@ button.close:focus {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777777;
+  border-top: 6.5px solid #777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */
@@ -243,39 +344,47 @@ button.close:focus {
 }
 /* line 49, ../sass/panels/_panel.scss */
 .panel-row.editing {
-  padding-top: 0;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
-/* line 55, ../sass/panels/_panel.scss */
+/* line 53, ../sass/panels/_panel.scss */
 .panel-row.editing > .close {
   height: 32px;
   z-index: 999;
 }
-/* line 58, ../sass/panels/_panel.scss */
+/* line 56, ../sass/panels/_panel.scss */
 .panel-row.editing > .close .caret {
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
   border-bottom: 6.5px solid white;
 }
-/* line 61, ../sass/panels/_panel.scss */
+/* line 59, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
   outline: none;
 }
 
 /* line 66, ../sass/panels/_panel.scss */
+.panel-builder-border-color {
+  border-color: transparent !important;
+  border-bottom: thin solid #ddd !important;
+}
+
+/* line 71, ../sass/panels/_panel.scss */
 .panel-row-drop-placeholder {
   border: thin dashed #dddddd;
 }
 
-/* line 71, ../sass/panels/_panel.scss */
+/* line 76, ../sass/panels/_panel.scss */
 .panel-row.panel-warning {
   background-color: #fcf8e3;
   border-color: #e7deab;
 }
 
-/* line 2, ../sass/panels/_panel-header.scss */
+/* line 1, ../sass/panels/_panel-header.scss */
+.panel-row-header {
+  padding-right: 40px;
+}
+/* line 3, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header {
   position: relative;
   box-shadow: 0 1px 0 #fffcf9;
@@ -285,16 +394,16 @@ button.close:focus {
   border-left: thin solid rgba(255, 255, 255, 0.25);
   padding: 15px 15px 10px;
 }
-/* line 14, ../sass/panels/_panel-header.scss */
+/* line 15, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header .panel-title, .editing > .panel-row-header .panel-type {
   color: #fffbfb;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
-/* line 19, ../sass/panels/_panel-header.scss */
+/* line 20, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header .media-object {
   border-right-color: #fffbfb;
 }
-/* line 23, ../sass/panels/_panel-header.scss */
+/* line 24, ../sass/panels/_panel-header.scss */
 .editing > .panel-row-header:before {
   display: block;
   position: absolute;
@@ -305,22 +414,32 @@ button.close:focus {
   background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
   content: "";
 }
-/* line 35, ../sass/panels/_panel-header.scss */
+/* line 36, ../sass/panels/_panel-header.scss */
 .panel-row-header .media-object {
   padding-right: 6px;
   border-right: thin solid #dddddd;
 }
-/* line 40, ../sass/panels/_panel-header.scss */
+/* line 41, ../sass/panels/_panel-header.scss */
 .panel-row-header .panel-title {
   padding: 0 !important;
   border-bottom: none;
 }
-/* line 45, ../sass/panels/_panel-header.scss */
+/* line 46, ../sass/panels/_panel-header.scss */
 .panel-row-header .panel-type {
   margin-top: 0.2em;
   font-weight: lighter;
   font-style: italic;
   color: #A8A8A8;
+}
+
+/* line 55, ../sass/panels/_panel-header.scss */
+.editing > .panel-row-header {
+  border: 0;
+  padding-right: 40px;
+}
+/* line 58, ../sass/panels/_panel-header.scss */
+.editing > .panel-row-header:before {
+  content: none;
 }
 
 /* line 1, ../sass/panels/_new-panel.scss */
@@ -424,19 +543,24 @@ button.close:focus {
   clear: both;
 }
 /* line 22, ../sass/panels/_panel-editor.scss */
+.panel-row-editor fieldset.panel-input {
+  margin-bottom: 15px;
+}
+/* line 26, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-label {
-  font-weight: lighter;
-  font-style: italic;
   display: block;
   margin-bottom: 0.5em;
-  color: #999;
-}
-/* line 30, ../sass/panels/_panel-editor.scss */
-.panel-row-editor legend.panel-input-label {
-  color: #999;
-  padding: 5px 10px;
+  color: #444;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
 }
 /* line 35, ../sass/panels/_panel-editor.scss */
+.panel-row-editor legend.panel-input-label {
+  color: #444;
+  padding: 0;
+}
+/* line 40, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input:first-child .panel-input-label,
 .panel-row-editor .panel-children-container > h4 {
   font-weight: bold;
@@ -444,78 +568,151 @@ button.close:focus {
   font-style: normal;
   font-size: 110%;
 }
-/* line 43, ../sass/panels/_panel-editor.scss */
+/* line 48, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field {
   display: block;
 }
-/* line 45, ../sass/panels/_panel-editor.scss */
+/* line 50, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-field input, .panel-row-editor .panel-input-field textarea {
   width: 100%;
 }
-/* line 48, ../sass/panels/_panel-editor.scss */
+/* line 53, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-checkbox-label {
   font-weight: normal;
   font-size: 100%;
 }
-/* line 53, ../sass/panels/_panel-editor.scss */
+/* line 58, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox {
   display: inline;
 }
-/* line 56, ../sass/panels/_panel-editor.scss */
+/* line 61, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input-checkbox input {
   width: auto;
   margin-right: 0.5em;
 }
-/* line 62, ../sass/panels/_panel-editor.scss */
+/* line 67, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option {
   margin-right: 5px;
 }
-/* line 64, ../sass/panels/_panel-editor.scss */
+/* line 69, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .radio-option img {
   max-width: 100px;
   max-height: 100px;
 }
-/* line 67, ../sass/panels/_panel-editor.scss */
+/* line 72, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .updated {
   padding: 1em 1.5em;
   font-weight: bold;
 }
-/* line 72, ../sass/panels/_panel-editor.scss */
+/* line 77, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video {
   overflow: hidden;
 }
-/* line 75, ../sass/panels/_panel-editor.scss */
+/* line 80, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-field {
   width: 50%;
   float: left;
 }
-/* line 80, ../sass/panels/_panel-editor.scss */
+/* line 85, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview {
   width: 50%;
   float: right;
   text-align: right;
 }
-/* line 85, ../sass/panels/_panel-editor.scss */
+/* line 90, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview img {
   max-width: 200px;
   max-height: 200px;
+}
+/* line 93, ../sass/panels/_panel-editor.scss */
+.panel-row-editor legend.panel-toggle,
+.panel-row-editor .panel-toggle,
+.panel-row-editor .panel-children-container > h4 {
+  background-color: #888;
+  color: white;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  padding: 18px 50px 18px 15px;
+  display: block;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+/* line 107, ../sass/panels/_panel-editor.scss */
+.panel-row-editor legend.panel-toggle:after,
+.panel-row-editor .panel-toggle:after,
+.panel-row-editor .panel-children-container > h4:after {
+  content: '\f142';
+  color: #dadada;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  font-family: "dashicons";
+  text-decoration: inherit;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 31px;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 0;
+  width: 50px;
+}
+/* line 125, ../sass/panels/_panel-editor.scss */
+.panel-row-editor legend.panel-toggle:hover:after,
+.panel-row-editor .panel-toggle:hover:after,
+.panel-row-editor .panel-children-container > h4:hover:after {
+  color: white;
+}
+/* line 131, ../sass/panels/_panel-editor.scss */
+.panel-row-editor .panel-input.input-type-title .panel-input-label,
+.panel-row-editor .panel-children-container > h4 {
+  font-size: 14px;
+}
+
+/* line 137, ../sass/panels/_panel-editor.scss */
+.panel-row .input-name-title {
+  margin: 0 -15px 25px;
+  padding: 5px 15px 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* line 143, ../sass/panels/_panel-editor.scss */
+.panel-children .panel-row .panel-row-editor > fieldset.panel-input > .panel-input-label {
+  margin-bottom: .5em;
+  font-size: 14px;
+}
+
+/* line 148, ../sass/panels/_panel-editor.scss */
+.panel-repeater-row .panel-toggle,
+.panel-row-editor .panel-children-container > h4 {
+  width: auto;
+  margin-left: -1px;
+  margin-right: -1px;
+}
+
+/* line 155, ../sass/panels/_panel-editor.scss */
+.panel-repeater-row .panel-toggle {
+  padding-left: 38px;
 }
 
 /**
  * Editor fieldset
  */
-/* line 93, ../sass/panels/_panel-editor.scss */
+/* line 162, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset {
   border: 1px solid #CCC;
   padding: 0.5em 1.5em;
 }
-/* line 97, ../sass/panels/_panel-editor.scss */
+/* line 166, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link {
   border: none;
   padding: 0;
   overflow: hidden;
 }
-/* line 102, ../sass/panels/_panel-editor.scss */
+/* line 171, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
   width: 33%;
@@ -523,11 +720,18 @@ button.close:focus {
   min-width: 200px;
   margin-bottom: 1em;
 }
-/* line 110, ../sass/panels/_panel-editor.scss */
+/* line 179, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .link-field-target {
   padding-right: 0;
   width: auto;
   min-width: 0;
+}
+
+/* line 188, ../sass/panels/_panel-editor.scss */
+.editing .panel-row-editor {
+  border: thin solid #ddd;
+  border-bottom: 0;
+  padding-bottom: 30px;
 }
 
 /* line 3, ../sass/input/_layout.scss */
@@ -587,6 +791,55 @@ button.close:focus {
 /* line 2, ../sass/fields/_base.scss */
 .panel-input-field input {
   padding: 8px 10px;
+}
+
+/* Various Panel Titles, Headlines, Grouping Headline Blocks */
+/* line 9, ../sass/fields/_base.scss */
+.panel-children-title {
+  font-size: 18px;
+  margin: 0 0 18px;
+  color: #444;
+  padding: 0;
+}
+
+/* Panel Field Helper Text */
+/* line 18, ../sass/fields/_base.scss */
+.description.panel-input-description {
+  letter-spacing: .05em;
+  margin-top: 8px;
+}
+
+/* Background Color Options */
+/* line 25, ../sass/fields/_base.scss */
+.input-name-block_option_bgd_color input[type="radio"] {
+  display: none;
+}
+
+/* line 29, ../sass/fields/_base.scss */
+.input-name-block_option_bgd_color img {
+  width: 42px;
+  height: 42px;
+  padding: 2px;
+  background: white;
+  opacity: 0.4;
+  border: solid 1px #d7d7d7;
+  transition: all .1s ease-out;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+/* line 41, ../sass/fields/_base.scss */
+.input-name-block_option_bgd_color input[type="radio"]:checked + img,
+.input-name-block_option_bgd_color img:hover {
+  opacity: 1;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Layout Type Options Tweaks */
+/* line 49, ../sass/fields/_base.scss */
+.input-name-layout input[type="radio"]:checked + img,
+.input-name-layout img:hover {
+  background-color: white;
 }
 
 /* line 2, ../sass/fields/_posts.scss */
@@ -835,25 +1088,145 @@ button.close:focus {
   height: 64px;
 }
 
-/* line 1, ../sass/fields/_repeater.scss */
-.panel-repeater-row {
-  /*margin: 5px 0;
-  padding: 20px 0;
-  border-bottom: 1px solid #ddd;*/
-  clear: both;
-  background: #fff;
-  padding: 30px;
-  margin: 30px 0;
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+/* line 239, ../sass/fields/_posts.scss */
+.panel-toggle + .ui-widget-content.panel-input-group,
+.panel-toggle + .input-type-posts .ui-widget-content.panel-input-group {
+  border-top: 0;
 }
 
-/* line 14, ../sass/fields/_repeater.scss */
+/* line 245, ../sass/fields/_posts.scss */
+.panels .ui-widget-content.panel-input-group {
+  border: thin solid #ddd;
+}
+/* line 247, ../sass/fields/_posts.scss */
+.panels .ui-widget-content.panel-input-group .ui-tabs-nav {
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 0;
+}
+/* line 252, ../sass/fields/_posts.scss */
+.panels .ui-widget-content.panel-input-group .manual.ui-tabs-panel,
+.panels .ui-widget-content.panel-input-group .fieldgroup.ui-tabs-panel,
+.panels .ui-widget-content.panel-input-group .query.ui-tabs-panel {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  background-color: white;
+}
+/* line 262, ../sass/fields/_posts.scss */
+.panels .ui-tabs-nav .ui-corner-top {
+  border-radius: 0;
+}
+/* line 265, ../sass/fields/_posts.scss */
+.panels .ui-state-active,
+.panels .ui-widget-content .ui-state-active,
+.panels .ui-widget-header .ui-state-active {
+  background-color: white;
+  border-bottom-color: transparent;
+}
+/* line 272, ../sass/fields/_posts.scss */
+.panels .select2-container-multi .select2-choice {
+  background-image: none;
+  border-radius: 0;
+  height: 29px;
+}
+/* line 276, ../sass/fields/_posts.scss */
+.panels .select2-container-multi .select2-choice .select2-arrow {
+  border-radius: 0;
+  background-image: none;
+  background-color: #e9e9e9;
+}
+/* line 282, ../sass/fields/_posts.scss */
+.panels .select2-container-multi .select2-choices {
+  background-image: none;
+}
+/* line 284, ../sass/fields/_posts.scss */
+.panels .select2-container-multi .select2-choices .select2-search-choice {
+  border-radius: 0;
+  background-image: none;
+  background-color: #e9e9e9;
+  box-shadow: none;
+}
+/* line 291, ../sass/fields/_posts.scss */
+.panels .select2-container-multi .select2-search-choice-close {
+  top: 3px;
+}
+
+/* line 298, ../sass/fields/_posts.scss */
+.panel-input-posts .button-secondary {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  padding: 0 12px;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  background: #2ea2cc;
+  color: white;
+}
+/* line 308, ../sass/fields/_posts.scss */
+.panel-input-posts .button-secondary:hover {
+  background: #1e8cbe;
+  color: white;
+}
+/* line 312, ../sass/fields/_posts.scss */
+.panel-input-posts .button-secondary:focus, .panel-input-posts .button-secondary:active {
+  background: #1b7aa6;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* line 320, ../sass/fields/_posts.scss */
+.input-type-archive .filter-post_type-container .panel-filter-row {
+  border-top: 0;
+}
+
+/* line 1, ../sass/fields/_repeater.scss */
+.panel-repeater-row {
+  clear: both;
+  background: #fff;
+  border: thin solid #ddd;
+  border-top: 0;
+  margin: 0 0 15px;
+}
+/* line 7, ../sass/fields/_repeater.scss */
+.panel-repeater-row.panel-toggle-closed {
+  border-color: transparent;
+}
+/* line 10, ../sass/fields/_repeater.scss */
+.panel-repeater-row .panel-input,
+.panel-repeater-row fieldset.input-type-link {
+  padding: 0 15px;
+  background-color: white;
+  border-bottom: 0;
+  margin-top: 20px;
+}
+/* line 17, ../sass/fields/_repeater.scss */
+.panel-repeater-row .panel-input ~ .panel-input {
+  padding-top: 0;
+}
+
+/* line 22, ../sass/fields/_repeater.scss */
 .panel-repeater-row > .panel-input {
   clear: none;
 }
 
-/* line 18, ../sass/fields/_repeater.scss */
+/* line 26, ../sass/fields/_repeater.scss */
+.panels .ui-widget-content.panel-input-group,
+.panel-repeater-row .panel-input {
+  padding: 20px 0 0;
+  border-radius: 0;
+  background-color: #fafafa;
+}
+
+/* line 33, ../sass/fields/_repeater.scss */
+.panel-row-editor fieldset,
+.panel-repeater-row {
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* line 40, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .move {
   display: inline-block;
   margin-left: 0;
@@ -865,12 +1238,29 @@ button.close:focus {
   cursor: pointer;
 }
 
-/* line 28, ../sass/fields/_repeater.scss */
+/* line 50, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .move:hover {
   color: #333;
 }
 
-/* line 32, ../sass/fields/_repeater.scss */
+/* line 54, ../sass/fields/_repeater.scss */
+.panels .move {
+  color: white;
+  position: absolute;
+  height: 100%;
+  width: 40px;
+  top: 0;
+  left: 0;
+  text-align: center;
+  z-index: 1;
+  padding: 18px 0;
+}
+/* line 64, ../sass/fields/_repeater.scss */
+.panels .move:hover, .panels .move:focus {
+  color: #dadada;
+}
+
+/* line 70, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete {
   display: inline-block;
   margin-left: 10px;
@@ -882,52 +1272,102 @@ button.close:focus {
   line-height: 25px;
 }
 
-/* line 42, ../sass/fields/_repeater.scss */
+/* line 80, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .delete:hover {
   color: #c43d3a;
 }
 
-/* line 46, ../sass/fields/_repeater.scss */
+/* line 84, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row {
   text-decoration: none;
 }
 
-/* line 49, ../sass/fields/_repeater.scss */
+/* line 87, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
   color: green;
   font-size: 125%;
   vertical-align: middle;
 }
 
-/* line 55, ../sass/fields/_repeater.scss */
+/* line 93, ../sass/fields/_repeater.scss */
 .panel-children-container {
-  padding-top: 1em;
-  padding-bottom: 2em;
-  border-top: 1px solid #DDD;
   clear: both;
   background: #fefefe;
-  padding: 30px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e5e5;
-  padding-bottom: 22px;
-  margin-bottom: 14px;
+  padding: 0;
+  border: thin solid #ddd;
+  border-top: 0;
+  margin-bottom: 30px;
 }
-
-/* line 69, ../sass/fields/_repeater.scss */
+/* line 100, ../sass/fields/_repeater.scss */
+.panel-children-container.panel-toggle-closed {
+  border-color: transparent;
+}
+/* line 103, ../sass/fields/_repeater.scss */
 .panel-children-container > h4 {
   margin-top: 0;
   margin-bottom: 1.5em;
 }
+/* line 107, ../sass/fields/_repeater.scss */
+.panel-children-container .panel-row {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
 
-/* line 74, ../sass/fields/_repeater.scss */
-.panel-children {
-  margin-bottom: 2em;
+/* line 113, ../sass/fields/_repeater.scss */
+.panel-input-repeater > .panel-input-label,
+.panel-input-type-group > .panel-input-label {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+/* line 119, ../sass/fields/_repeater.scss */
+.panel-repeater-new-row {
+  height: 42px;
+  line-height: 43px;
+  padding: 0 20px;
+  background: #2ea2cc;
+  color: #fff;
+  text-decoration: none;
+  vertical-align: top;
+  display: inline-block;
+  font-size: 12px;
+  margin: 0;
+  white-space: nowrap;
+}
+/* line 131, ../sass/fields/_repeater.scss */
+.panel-repeater-new-row:hover {
+  background: #1e8cbe;
+  color: #fff;
+}
+/* line 135, ../sass/fields/_repeater.scss */
+.panel-repeater-new-row:focus, .panel-repeater-new-row:active {
+  background: #1b7aa6;
+  color: rgba(255, 255, 255, 0.95);
+  vertical-align: top;
+}
+/* line 141, ../sass/fields/_repeater.scss */
+.panel-repeater-new-row:before {
+  color: white;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+/* line 148, ../sass/fields/_repeater.scss */
+.panel-children .input-name-nav_title {
+  display: none;
 }
 
 /**
  * Panel Children
  */
-/* line 81, ../sass/fields/_repeater.scss */
+/* line 156, ../sass/fields/_repeater.scss */
+.panel-children {
+  padding: 0 15px;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+/* line 162, ../sass/fields/_repeater.scss */
 .panel-children-container .panel-row {
   margin-top: 12px;
   margin-bottom: 12px;

@@ -47,9 +47,7 @@
 	}
 
 	&.editing {
-		padding-top: 0;
-		padding-left: 0;
-		padding-right: 0;
+		padding: 0;
 	}
 
 	&.editing > .close {
@@ -61,6 +59,13 @@
 	> button.close:focus {
 		outline: none;
 	}
+}
+
+
+
+.panel-builder-border-color {
+	border-color: transparent !important;
+	border-bottom: thin solid #ddd !important;
 }
 
 .panel-row-drop-placeholder {

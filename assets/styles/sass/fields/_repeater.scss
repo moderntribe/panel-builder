@@ -1,18 +1,40 @@
 .panel-repeater-row {
-	/*margin: 5px 0;
-	padding: 20px 0;
-	border-bottom: 1px solid #ddd;*/
 	clear: both;
 	background:#fff;
-	padding:30px;
-	margin: 30px 0;
-	border: 1px solid #e5e5e5;
-	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.06);
-	box-shadow: 0 1px 1px rgba(0,0,0,0.06)
+	border: thin solid #ddd;
+	border-top: 0;
+	margin: 0 0 15px;
+	&.panel-toggle-closed {
+		border-color: transparent;
+	}
+	.panel-input,
+	fieldset.input-type-link {
+		padding: 0 15px;
+		background-color: white;
+		border-bottom: 0;
+		margin-top: 20px;
+	}
+	.panel-input ~ .panel-input {
+		padding-top: 0;
+	}
 }
 
 .panel-repeater-row > .panel-input {
 	clear: none;
+}
+
+.panels .ui-widget-content.panel-input-group,
+.panel-repeater-row .panel-input {
+	padding: 20px 0 0;
+	border-radius: 0;
+	background-color: #fafafa;
+}
+
+.panel-row-editor fieldset,
+.panel-repeater-row {
+	border: 0;
+	padding: 0;
+	box-shadow: none;
 }
 
 .panel-input-repeater-row-controls .move {
@@ -27,6 +49,22 @@
 }
 .panel-input-repeater-row-controls .move:hover {
 	color: #333;
+}
+
+.panels .move {
+	color: white;
+	position: absolute;
+	height: 100%;
+	width: 40px;
+	top: 0;
+	left: 0;
+	text-align: center;
+	z-index: 1;
+	padding: 18px 0;
+	&:hover,
+	&:focus {
+		color: #dadada;
+	}
 }
 
 .panel-input-repeater-row-controls .delete {
@@ -53,31 +91,74 @@
 }
 
 .panel-children-container {
-	padding-top: 1em;
-	padding-bottom: 2em;
-	border-top: 1px solid #DDD;
 	clear: both;
-
 	background: #fefefe;
- 	padding: 30px;
- 	box-shadow: 0 1px 1px rgba(0,0,0,0.06);
- 	border: 1px solid #e5e5e5;
-	padding-bottom: 22px;
-	margin-bottom: 14px;
+	padding: 0;
+	border: thin solid #ddd;
+	border-top: 0;
+	margin-bottom: 30px;
+	&.panel-toggle-closed {
+		border-color: transparent;
+	}
+	> h4 {
+		margin-top: 0;
+		margin-bottom: 1.5em;
+	}
+	.panel-row {
+		margin-top: 0;
+		margin-bottom: 15px;
+	}
 }
 
-.panel-children-container > h4 {
-	margin-top: 0;
-	margin-bottom: 1.5em;
+.panel-input-repeater > .panel-input-label,
+.panel-input-type-group > .panel-input-label {
+	font-size: 18px;
+	margin-bottom: 18px;
 }
 
-.panel-children {
-	margin-bottom: 2em;
+.panel-repeater-new-row {
+	height: 42px;
+	line-height: 43px;
+	padding: 0 20px;
+	background: #2ea2cc;
+	color: #fff;
+	text-decoration: none;
+	vertical-align: top;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0;
+	white-space: nowrap;
+	&:hover {
+		background: #1e8cbe;
+		color: #fff;
+	}
+	&:focus,
+	&:active {
+		background: #1b7aa6;
+		color: rgba( 255, 255, 255, 0.95 );
+		vertical-align: top;
+	}
+	&:before {
+		color: white;
+		padding-right: 5px;
+		vertical-align: top;
+	}
+}
+
+.panel-children .input-name-nav_title {
+	display: none;
 }
 
 /**
  * Panel Children
  */
+
+.panel-children {
+	padding: 0 15px;
+	margin-bottom: 15px;
+	margin-top: 20px;
+}
+
 .panel-children-container .panel-row {
 	margin-top: $panel-nested-margin-vertical;
 	margin-bottom: $panel-nested-margin-vertical;
