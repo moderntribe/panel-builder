@@ -107,9 +107,6 @@
 				el = e.data ? e.currentTarget : e,
 				$target = $( el ).siblings();
 
-			console.log( e );
-			console.log( $target );
-
 			if( ! el.matches( '.is-closed' ) ){
 				_this.closeGroup( el, $target );
 			} else {
