@@ -60,7 +60,7 @@
 			// new panels are added to the correct parent. Otherwise they'd all get added to the PanelContainer instance element
 
 			$('#modular-content')
-				.on( 'click.' + this.id, '.repeater-toggle', {self:this}, this.toggleRepeaterGroup )
+				.on( 'click.' + this.id, '.panel-toggle', {self:this}, this.toggleRepeaterGroup )
 				.on( 'click.' + this.id, '.create-new-panel', {self:this}, this.spawnPanelPicker );
 
 			$('body')
@@ -106,6 +106,9 @@
 			var _this = e.data ? e.data.self : this,
 				el = e.data ? e.currentTarget : e,
 				$target = $( el ).siblings();
+
+			console.log( e );
+			console.log( $target );
 
 			if( ! el.matches( '.is-closed' ) ){
 				_this.closeGroup( el, $target );
