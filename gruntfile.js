@@ -15,38 +15,39 @@ module.exports = function(grunt) {
 				files: '<%= paths.sass %>/**/*.scss',
 				tasks: ['sass', 'autoprefixer'],
 				options: {
-					livereload: true
+					spawn: false,
+					livereload: false
 				}
 			},
 			fieldsScripts: {
 				files: '<%= paths.scripts %>/js/fields/*.js',
 				tasks: ['concat:fields'],
 				options: {
+					spawn: false,
 					livereload: false
 				}
 			},
 			configFiles: {
 				files: 'gruntfile.js',
 				options: {
-					reload: true
+					spawn: false,
+					livereload: false
 				}
 			},
 			jshint: {
 				files: '<%= paths.scripts %>/js/**/*.js',
 				tasks: ['jshint'],
 				options: {
+					spawn: false,
 					livereload: false
 				}
 			},
-			other: {
-				files: [
-					'!<%= paths.scripts %>/js/fields/*.js',
-					'<%= paths.scripts %>/**/*.js',
-					'**/*.php'
-				],
+			css: {
+				files: '<%= paths.css %>/*.css',
 				options: {
+					spawn: false,
 					livereload: true
-				},
+				}
 			}
 		},
 		sass: {
@@ -117,8 +118,7 @@ module.exports = function(grunt) {
 			'sass',
 			'autoprefixer',
 			'concat',
-			'jshint', 
-			'watch'
+			'jshint'
 		]);
 	});
 

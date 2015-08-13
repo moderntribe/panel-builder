@@ -3,16 +3,16 @@
 		counter: 0,
 
 		intialize_data: function ( container, rows ) {
-			var min = container.data( 'min' );
+			var min = container.data( 'min' ), i;
 			rows = rows || [{}];
 			if ( min && rows.length < min ) {
 				var offset = min - rows.length;
-				for (var i in rows){
+				for ( i in rows ) {
 					rows.push({});
 				}
 			}
 			for ( i in rows ) {
-				repeaterField.load_row( container, rows[i] );
+				repeaterField.load_row( container, rows[ i ] );
 			}
 		},
 
