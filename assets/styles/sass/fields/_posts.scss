@@ -233,13 +233,47 @@
 		}
 	}
 
+	.selected-post.manual {
+		min-height: 165px;
+	}
+
 	.selected-post.manual .manual-post-input {
 		display: block;
 
 		.post-title, .post-excerpt, .post-url {
 			padding-left: 10px;
 			padding-right: 10px;
-			width: 90%;
+			width: 65%;
+		}
+
+		.post-excerpt {
+			min-height: 8em;
+		}
+
+		.attachment-helper-uploader {
+			position: absolute;
+			top: 7px;
+			right: 7px;
+			width: 150px;
+			height: 150px;
+			text-align: center;
+		}
+
+		.drag-drop-inside {
+			width: auto;
+			margin: 1em !important;
+		}
+
+		.attachment-thumbnail {
+			max-height: 100px;
+			max-width: 100px;
+			display: inline-block;
+		}
+		.wp-caption {
+			display: none;
+		}
+		.remove-botton-container {
+			margin: 5px 0 0;
 		}
 	}
 

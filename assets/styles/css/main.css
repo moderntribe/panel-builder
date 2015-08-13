@@ -1088,69 +1088,105 @@
   margin-left: 1em;
 }
 /* line 236, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual, .panel-input-post-list .selected-post.manual {
+  min-height: 165px;
+}
+/* line 240, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.manual .manual-post-input, .panel-input-post-list .selected-post.manual .manual-post-input {
   display: block;
 }
-/* line 239, ../sass/fields/_posts.scss */
+/* line 243, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.manual .manual-post-input .post-title, .panel-input-posts .selected-post.manual .manual-post-input .post-excerpt, .panel-input-posts .selected-post.manual .manual-post-input .post-url, .panel-input-post-list .selected-post.manual .manual-post-input .post-title, .panel-input-post-list .selected-post.manual .manual-post-input .post-excerpt, .panel-input-post-list .selected-post.manual .manual-post-input .post-url {
   padding-left: 10px;
   padding-right: 10px;
-  width: 90%;
+  width: 65%;
 }
 /* line 249, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .post-excerpt, .panel-input-post-list .selected-post.manual .manual-post-input .post-excerpt {
+  min-height: 8em;
+}
+/* line 253, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .attachment-helper-uploader, .panel-input-post-list .selected-post.manual .manual-post-input .attachment-helper-uploader {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+}
+/* line 262, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .drag-drop-inside, .panel-input-post-list .selected-post.manual .manual-post-input .drag-drop-inside {
+  width: auto;
+  margin: 1em !important;
+}
+/* line 267, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .attachment-thumbnail, .panel-input-post-list .selected-post.manual .manual-post-input .attachment-thumbnail {
+  max-height: 100px;
+  max-width: 100px;
+  display: inline-block;
+}
+/* line 272, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .wp-caption, .panel-input-post-list .selected-post.manual .manual-post-input .wp-caption {
+  display: none;
+}
+/* line 275, ../sass/fields/_posts.scss */
+.panel-input-posts .selected-post.manual .manual-post-input .remove-botton-container, .panel-input-post-list .selected-post.manual .manual-post-input .remove-botton-container {
+  margin: 5px 0 0;
+}
+/* line 283, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty, .panel-input-post-list .selected-post.empty {
   background-color: #fff;
 }
-/* line 252, ../sass/fields/_posts.scss */
+/* line 286, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty:hover, .panel-input-post-list .selected-post.empty:hover {
   box-shadow: none;
 }
-/* line 256, ../sass/fields/_posts.scss */
+/* line 290, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title, .panel-input-posts .selected-post.empty .text-line, .panel-input-posts .selected-post.empty .post-thumbnail, .panel-input-post-list .selected-post.empty .post-title, .panel-input-post-list .selected-post.empty .text-line, .panel-input-post-list .selected-post.empty .post-thumbnail {
   background-color: #f1f1f1;
 }
-/* line 260, ../sass/fields/_posts.scss */
+/* line 294, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-title, .panel-input-post-list .selected-post.empty .post-title {
   width: 45%;
   height: 18px;
 }
-/* line 265, ../sass/fields/_posts.scss */
+/* line 299, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line, .panel-input-post-list .selected-post.empty .text-line {
   height: 7px;
   margin-top: 7px;
 }
-/* line 269, ../sass/fields/_posts.scss */
+/* line 303, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:first-child, .panel-input-post-list .selected-post.empty .text-line:first-child {
   margin-top: 0;
 }
-/* line 271, ../sass/fields/_posts.scss */
+/* line 305, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(1), .panel-input-post-list .selected-post.empty .text-line:nth-child(1) {
   width: 100%;
 }
-/* line 272, ../sass/fields/_posts.scss */
+/* line 306, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(2), .panel-input-post-list .selected-post.empty .text-line:nth-child(2) {
   width: 88%;
 }
-/* line 273, ../sass/fields/_posts.scss */
+/* line 307, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .text-line:nth-child(3), .panel-input-post-list .selected-post.empty .text-line:nth-child(3) {
   width: 97%;
 }
-/* line 276, ../sass/fields/_posts.scss */
+/* line 310, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .post-thumbnail, .panel-input-post-list .selected-post.empty .post-thumbnail {
   width: 64px;
   height: 64px;
 }
-/* line 282, ../sass/fields/_posts.scss */
+/* line 316, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty ~ .selected-post.empty .selected-post-toggle, .panel-input-post-list .selected-post.empty ~ .selected-post.empty .selected-post-toggle {
   display: none;
 }
-/* line 286, ../sass/fields/_posts.scss */
+/* line 320, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty .selected-post-toggle,
 .panel-input-posts .selected-post.empty ~ .selected-post.empty:hover .selected-post-toggle, .panel-input-post-list .selected-post.empty .selected-post-toggle,
 .panel-input-post-list .selected-post.empty ~ .selected-post.empty:hover .selected-post-toggle {
   display: block;
 }
-/* line 291, ../sass/fields/_posts.scss */
+/* line 325, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary, .panel-input-post-list .button-secondary {
   border-radius: 0;
   border: 0;
@@ -1162,34 +1198,34 @@
   background: #2ea2cc;
   color: white;
 }
-/* line 301, ../sass/fields/_posts.scss */
+/* line 335, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:hover, .panel-input-post-list .button-secondary:hover {
   background: #1e8cbe;
   color: white;
 }
-/* line 305, ../sass/fields/_posts.scss */
+/* line 339, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:focus, .panel-input-posts .button-secondary:active, .panel-input-post-list .button-secondary:focus, .panel-input-post-list .button-secondary:active {
   background: #1b7aa6;
   color: rgba(255, 255, 255, 0.95);
 }
 
-/* line 313, ../sass/fields/_posts.scss */
+/* line 347, ../sass/fields/_posts.scss */
 .panel-toggle + .ui-widget-content.panel-input-group,
 .panel-toggle + .input-type-posts .ui-widget-content.panel-input-group {
   border-top: 0;
 }
 
-/* line 319, ../sass/fields/_posts.scss */
+/* line 353, ../sass/fields/_posts.scss */
 .panels .ui-widget-content.panel-input-group {
   border: thin solid #ddd;
 }
-/* line 321, ../sass/fields/_posts.scss */
+/* line 355, ../sass/fields/_posts.scss */
 .panels .ui-widget-content.panel-input-group .ui-tabs-nav {
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 0;
 }
-/* line 326, ../sass/fields/_posts.scss */
+/* line 360, ../sass/fields/_posts.scss */
 .panels .ui-widget-content.panel-input-group .manual.ui-tabs-panel,
 .panels .ui-widget-content.panel-input-group .fieldgroup.ui-tabs-panel,
 .panels .ui-widget-content.panel-input-group .query.ui-tabs-panel {
@@ -1198,46 +1234,46 @@
   padding-bottom: 15px;
   background-color: white;
 }
-/* line 336, ../sass/fields/_posts.scss */
+/* line 370, ../sass/fields/_posts.scss */
 .panels .ui-tabs-nav .ui-corner-top {
   border-radius: 0;
 }
-/* line 339, ../sass/fields/_posts.scss */
+/* line 373, ../sass/fields/_posts.scss */
 .panels .ui-state-active,
 .panels .ui-widget-content .ui-state-active,
 .panels .ui-widget-header .ui-state-active {
   background-color: white;
   border-bottom-color: transparent;
 }
-/* line 346, ../sass/fields/_posts.scss */
+/* line 380, ../sass/fields/_posts.scss */
 .panels .select2-container-multi .select2-choice {
   background-image: none;
   border-radius: 0;
   height: 29px;
 }
-/* line 350, ../sass/fields/_posts.scss */
+/* line 384, ../sass/fields/_posts.scss */
 .panels .select2-container-multi .select2-choice .select2-arrow {
   border-radius: 0;
   background-image: none;
   background-color: #e9e9e9;
 }
-/* line 356, ../sass/fields/_posts.scss */
+/* line 390, ../sass/fields/_posts.scss */
 .panels .select2-container-multi .select2-choices {
   background-image: none;
 }
-/* line 358, ../sass/fields/_posts.scss */
+/* line 392, ../sass/fields/_posts.scss */
 .panels .select2-container-multi .select2-choices .select2-search-choice {
   border-radius: 0;
   background-image: none;
   background-color: #e9e9e9;
   box-shadow: none;
 }
-/* line 365, ../sass/fields/_posts.scss */
+/* line 399, ../sass/fields/_posts.scss */
 .panels .select2-container-multi .select2-search-choice-close {
   top: 3px;
 }
 
-/* line 371, ../sass/fields/_posts.scss */
+/* line 405, ../sass/fields/_posts.scss */
 .input-type-archive .filter-post_type-container .panel-filter-row {
   border-top: 0;
 }

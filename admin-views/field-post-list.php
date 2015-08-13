@@ -53,6 +53,16 @@ $id_string = '{{data.panel_id}}-'.$this->esc_class($this->name);
 						<input type="text" name="<?= $input_name ?>[posts][<?= $i ?>][post_title]" class="post-title" placeholder="<?php _e( 'Title', 'modular-content' ); ?>" />
 						<textarea name="<?= $input_name ?>[posts][<?= $i ?>][post_content]" class="post-excerpt" placeholder="<?php _e( 'Content', 'modular-content' ); ?>"></textarea>
 						<input type="text" name="<?= $input_name ?>[posts][<?= $i ?>][url]" class="post-url" placeholder="<?php _e( 'Link: http://example.com/', 'modular-content' ); ?>" />
+						<?php $thumbnail_field = new AttachmentHelper\Field(array(
+							'label' => __( 'Thumbnail', 'modular-content' ),
+							'value' => 0,
+							'size'  => 'thumbnail',
+							'name'  => $input_name . '[posts][' . $i . '][thumbnail_id]',
+							'type'  => 'image',
+							'id' => preg_replace('/[^\w\{\}\.]/', '_', $input_name . '_thumbnail_' . $i ),
+							'settings' => preg_replace('/[^\w\{\}\.]/', '_', str_replace('{{data.field_name}}', '{{data.panel_id}}', $input_name)),
+						));
+						$thumbnail_field->render(); ?>
 					</div>
 					<div class="selected-post-toggle">
 						<a href="#" class="choose-select-post button button-secondary"><?php _e( 'Select a post', 'modular-content' ); ?></a>

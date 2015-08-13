@@ -377,7 +377,7 @@
 							post_container.find('.post-title' ).val( post_data.post_title );
 							post_container.find('.post-excerpt' ).val( post_data.post_content );
 							post_container.find('.post-url' ).val( post_data.url );
-							// TODO: thumbnail
+							post_container.find('.attachment_helper_value' ).val( post_data.thumbnail_id ).trigger( 'change' );
 							return;
 						}
 					}.bind( this ) );
