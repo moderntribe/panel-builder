@@ -610,6 +610,9 @@
 			var max = container.data('max');
 			var min = container.data('min');
 			var suggested = container.data('suggested');
+			if ( !suggested ) {
+				suggested = 1;
+			}
 			var visible = [];
 			var hidden = [];
 			container.find('.selected-post').each( function() {
@@ -642,6 +645,11 @@
 
 			// make sure we have enough rows visible
 			while ( visible.length < suggested ) {
+				visible.push( hidden.shift().addClass('visible').removeClass('hidden') );
+			}
+
+			// ensure that at least one empty row is visible (if we have any more)
+			if ( hidden.length > 0 && container.find('.selected-post.empty.visible' ).length < 1 ) {
 				visible.push( hidden.shift().addClass('visible').removeClass('hidden') );
 			}
 

@@ -251,10 +251,6 @@
 
 		&:hover {
 			box-shadow: none;
-
-			.selected-post-toggle {
-				display: block;
-			}
 		}
 
 		.post-title, .text-line, .post-thumbnail {
@@ -281,6 +277,15 @@
 			width: $post-thumbnail-size;
 			height: $post-thumbnail-size;
 		}
+	}
+
+	.selected-post.empty ~ .selected-post.empty .selected-post-toggle {
+		display: none;
+	}
+
+	.selected-post.empty .selected-post-toggle,
+	.selected-post.empty ~ .selected-post.empty:hover .selected-post-toggle {
+		display: block;
 	}
 
 	.button-secondary {
