@@ -99,8 +99,21 @@ class Post_List extends Field {
 	}
 
 	public function get_vars( $data, $panel ) {
-		if ( $data['type'] == 'manual' ) {
-			$post_ids = isset($data['post_ids'])?$data['post_ids']:array();
+		$posts = array();
+		if ( $data['type'] === 'manual' ) {
+			foreach ( $data['posts'] as $post_data ) {
+				if ( $post_data['method'] === 'select' && !empty( $post_data['id'] ) ) {
+					$post = $this->post_id_to_array( $post_data['id'] );
+					if ( $post ) {
+						$posts[] = $post;
+					}
+				} elseif ( $post_data['method'] === 'manual' ) {
+					$post = $this->manual_post_to_array( $post_data );
+					if ( $post ) {
+						$posts[] = $post;
+					}
+				}
+			}
 		} else {
 			if ( !empty( $data['max'] ) && $data['max'] > $this->min && $data['max'] < $this->max ) {
 				$max = (int) $data['max'];
@@ -108,10 +121,72 @@ class Post_List extends Field {
 				$max = (int) $this->max;
 			}
 			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
+			$posts = array_map( array( $this, 'post_id_to_array' ), $post_ids );
 		}
-		return $post_ids;
+		return $posts;
 	}
 
+	protected function post_id_to_array( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+		$_post = get_post( $post_id );
+		if ( empty( $_post ) ) {
+			return false;
+		}
+
+		$data = array(
+			'title' => '',
+			'content' => '',
+			'excerpt' => '',
+			'image' => 0,
+			'link' => array(
+				'url' => '',
+				'target' => '',
+				'label' => '',
+			),
+			'post_type' => '',
+			'post_id' => 0,
+		);
+
+		global $post;
+		$post = $_post;
+		setup_postdata($post);
+		$data['title'] = get_the_title();
+		$data['content'] = get_the_content();
+		$data['excerpt'] = get_the_excerpt();
+		$data['image'] = get_post_thumbnail_id();
+		$data['link'] = array(
+			'url' => get_permalink(),
+			'target' => '',
+			'label' => $data['title'],
+		);
+		$data['post_type'] = $post->post_type;
+		$data['post_id'] = $post->ID;
+		wp_reset_postdata();
+		return $data;
+	}
+
+	protected function manual_post_to_array( $post_data ) {
+		if ( empty( $post_data['post_title'] ) && empty( $post_data['post_content'] ) && empty( $post_data['url'] ) && empty( $post_data['thumbnail_id'] ) ) {
+			return false; // no data
+		}
+		$data = array(
+			'title' => $post_data['post_title'],
+			'content' => $post_data['post_content'],
+			'excerpt' => $post_data['post_content'],
+			'image' => (int)$post_data['thumbnail_id'],
+			'link' => array(
+				'url' => $post_data['url'],
+				'target' => '',
+				'label' => !empty($post_data['post_title']) ? $post_data['post_title'] : $post_data['url'],
+			),
+			'post_type' => '',
+			'post_id' => 0,
+		);
+		return $data;
+
+	}
 
 
 	/**
