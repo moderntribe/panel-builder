@@ -3,7 +3,7 @@
 /**
  * The admin view for the Posts field
  *
- * @var \ModularContent\Fields\Posts $this
+ * @var \ModularContent\Fields\Post_List $this
  * @var array $taxonomies
  * @var array $p2p
  * @var string $input_name

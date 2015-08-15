@@ -13,9 +13,18 @@ use ModularContent\Panel, ModularContent\AdminPreCache;
  * Returns an array of post objects for use in the template.
  *
  * $posts = get_panel_var( 'some-posts' );
- * foreach ( $posts as $wp_post ) {
- *   // do something with a WP_Post object
+ * foreach ( $posts as $post ) {
+ *   // do something with a $post array
  * }
+ *
+ * Each post array will have these fields:
+ *   title
+ *   content
+ *   excerpt
+ *   image
+ *   link => [ url, target, label ]
+ *   post_type
+ *   post_id
  */
 class Post_List extends Field {
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
@@ -376,7 +385,7 @@ class Post_List extends Field {
 
 
 	public static function dequeue_supporting_templates() {
-		remove_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
+		remove_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10 );
 	}
 
 	protected static function build_hierarchical_term_name( $term, $sep = ' > ' ) {
