@@ -77,6 +77,7 @@ class AdminPreCache implements \JsonSerializable {
 
 			$post_type_object = get_post_type_object( $post->post_type );
 			$post_data[ 'post_type_label' ] = $post_type_object->labels->singular_name;
+			$post_data[ 'permalink' ] = get_permalink( $post->ID );
 		}
 
 		$post = $original_post;

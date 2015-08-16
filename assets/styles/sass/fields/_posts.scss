@@ -236,6 +236,9 @@
 	.selected-post.manual {
 		min-height: 165px;
 	}
+	&.hidden-thumbnail_id .selected-post.manual {
+		min-height: 0;
+	}
 
 	.selected-post.manual .manual-post-input {
 		display: block;
@@ -341,6 +344,33 @@
 			background: #1b7aa6;
 			color: rgba( 255, 255, 255, 0.95 );
 		}
+	}
+}
+
+.hidden-post_title {
+	.selected-post-preview .post-title,
+	.manual-post-input .post-title,
+	.post-preview .post-title {
+		display: none;
+	}
+}
+.hidden-post_content {
+	.selected-post-preview .post-excerpt,
+	.manual-post-input .post-excerpt,
+	.post-preview .post-excerpt {
+		display: none;
+	}
+}
+.hidden-url {
+	.manual-post-input .post-url {
+		display: none;
+	}
+}
+.hidden-thumbnail_id {
+	.selected-post-preview .post-thumbnail,
+	.manual-post-input .attachment-helper-uploader,
+	.post-preview .post-thumbnail {
+		display: none;
 	}
 }
 

@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-08-13 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-08-16 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -692,10 +692,12 @@
 						preview_div.empty();
 						$.each( data.post_ids, function ( index, post_id ) {
 							var post_data = data.posts[post_id];
-							var title = $('<div class="post-title">'+post_data.post_title+'</div>');
-							var content = $('<div class="post-excerpt">'+post_data.post_excerpt+'</div>');
-							var thumbnail = $('<div class="post-thumbnail">'+post_data.thumbnail_html+'</div>');
-							var preview = $('<div class="post-preview"></div>');
+							var post_title_link = $('<a />' ).attr( 'href', post_data.permalink ).attr( 'target', '_blank' );
+							post_title_link.html( post_data.post_title );
+							var title = $( '<div class="post-title"/>' ).append( post_title_link );
+							var content = $( '<div class="post-excerpt"/>' ).html( post_data.post_excerpt );
+							var thumbnail = $( '<div class="post-thumbnail">'+post_data.thumbnail_html+'</div>' );
+							var preview = $( '<div class="post-preview"></div>' );
 							preview.append(title).append(thumbnail).append(content);
 							preview_div.append(preview);
 						});
@@ -776,8 +778,10 @@
 				return false;
 			}
 			var post_data = ModularContent.cache.posts[post_id];
+			var post_title_link = $('<a />' ).attr('href', post_data.permalink ).attr('target', '_blank');
+			post_title_link.html(post_data.post_title);
 			$.each( Post_List.previews_to_fetch[post_id], function( index, wrapper ) {
-				wrapper.find('.post-title').html(post_data.post_title);
+				wrapper.find('.post-title').append(post_title_link);
 				wrapper.find('.post-excerpt').html(post_data.post_excerpt);
 				wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
 				wrapper.find('.post-type' ).val('');

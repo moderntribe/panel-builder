@@ -34,6 +34,8 @@ class Post_List extends Field {
 	protected $suggested = 0;
 	protected $default = '{ type: "manual", posts: [], filters: {}, max: 0 }';
 	protected $show_max_control = false;
+	protected $strings = array();
+	protected $hidden_fields = array();
 
 	/**
 	 * @param array $args
@@ -47,6 +49,7 @@ class Post_List extends Field {
 	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
 	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin,
 	 *   'show_max_control' => false, // if true, the user can pick the max number of posts (between min and max)
+	 *   'hidden_fields' => array( 'post_title, 'post_content', 'url', 'thumbnail_id' ), // Hide the selected fields from previews and from manual input
 	 * ) );
 	 */
 	public function __construct( $args = array() ) {
@@ -57,7 +60,24 @@ class Post_List extends Field {
 		$this->defaults['strings'] = array(
 			'tabs.manual' => __( 'Manual', 'modular-content' ),
 			'tabs.dynamic' => __( 'Dynamic', 'modular-content' ),
+			'button.select_post' => __( 'Select a post', 'modular-content' ),
+			'button.create_content' => __( 'Create content', 'modular-content' ),
+			'button.remove_post' => __( 'Remove this post', 'modular-content' ),
+			'label.content_type' => __( 'Content Type', 'modular-content' ),
+			'label.choose_post' => __( 'Choose a Post', 'modular-content' ),
+			'label.max_results' => __( 'Max Results', 'modular-content' ),
+			'label.select_post_type' => __( 'Select Post Type', 'modular-content' ),
+			'label.select_post_types' => __( 'Select Post Types', 'modular-content' ),
+			'label.add_a_filter' => __( 'Add a Filter', 'modular-content' ),
+			'label.taxonomy' => __( 'Taxonomy', 'modular-content' ),
+			'label.relationship' => __( 'Relationship', 'modular-content' ),
+			'label.date' => __( 'Date', 'modular-content' ),
+			'label.title' => __( 'Title', 'modular-content' ),
+			'label.content' => __( 'Content', 'modular-content' ),
+			'label.link' => __( 'Link: http://example.com/', 'modular-content' ),
+			'label.thumbnail' => __( 'Thumbnail', 'modular-content' ),
 		);
+		$this->defaults['hidden_fields'] = array();
 		parent::__construct($args);
 		if ( empty($this->max) ) {
 			$this->max = max(12, $this->min);
@@ -95,6 +115,7 @@ class Post_List extends Field {
 		$suggested = (int)$this->suggested;
 		$description = $this->description;
 		$show_max_control = $this->show_max_control;
+		$hidden_fields = (array)$this->hidden_fields;
 		include(\ModularContent\Plugin::plugin_path('admin-views/field-post-list.php'));
 		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
 		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/post-list-field.js'), array('jquery', 'jquery-ui-tabs', 'jquery-ui-datepicker', 'select2'), FALSE, TRUE );
