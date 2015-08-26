@@ -38,6 +38,7 @@
 			this.$el = $(this.el);
 			this.newPanelContainer = null;
 			this.panels = [];
+			this.conditionalTargets = ".input-type-imageselect, .input-type-radio, .input-type-select";
 
 			this.id = id || this.getUniqueId();
 
@@ -53,7 +54,7 @@
 			this.initExistingPanels();
 			this.enableDragDrop();
 			this.toggleRepeatersClosed();
-			this.emitInitialState();
+			this.initConditionalFields( this.$el.find( this.conditionalTargets ) );
 		};
 
 		PanelContainer.prototype.bindEvents = function() {
@@ -245,33 +246,48 @@
 
 		PanelContainer.prototype.handleNewPanelAdded = function(el, id) {
 			$(el).trigger( 'new-panel-row', [id, {}] );
+			this.initConditionalFields( $( el ).find( this.conditionalTargets ) );
 			$( document ).trigger( 'tribe-panels.added-one', [el, id] );
 		};
 
-		PanelContainer.prototype.emitInitialState = function(){
+		PanelContainer.prototype.initConditionalFields = function( $targets ) {
 
-			_.each(this.$el.find( ".panel-input.input-type-imageselect, .panel-input.input-type-radio, .panel-input.input-type-select" ), function(field) {
+			_.each( $targets, function( field ) {
 				var selectedOption;
-				if( field.classList.contains('input-type-select') ){
+				if ( field.classList.contains( 'input-type-select' ) ) {
 					var select = field.querySelectorAll( 'select' )[0];
-					selectedOption = select.options[ select.selectedIndex ].value;
-				} else {
+					selectedOption = select.options[select.selectedIndex].value;
+				}
+				else {
 					selectedOption = $( field ).find( ':checked' ).val();
 				}
-				this.emitCustomEvent( null, $( field ).closest( '.panel-row' ), selectedOption, $( field ) );
-			}, this);
+				this.handleConditionalFields( null, $( field ).closest( '.panel-row' ), selectedOption, $( field ) );
+			}, this );
 
 		};
 
-		PanelContainer.prototype.emitCustomEvent = function( e, $panel, val, $field ){
-			if( e ){
-				e.stopPropagation();
-			}
-			var eventName;
+		PanelContainer.prototype.setConditionalClass = function( $field, $panel, val ){
 
-			// this has been done to maintain legacy support for the existing customizations that hooked
-			// into image-select-changed. If we have more fields to output for this event system
-			// we will have to refactor to use and attribute to generate event name and drop this
+			var cssClassKey;
+
+			_.find( $field[0].classList, function( classItem, index ){
+				if( classItem.indexOf( 'input-name-' ) !== -1 ){ cssClassKey = $field[0].classList[index]; return true;}
+			});
+
+			if ( cssClassKey ) {
+				cssClassKey = 'condition-' + cssClassKey;
+				var classes = $panel[0].className.split( " " ).filter( function( c ) {
+					return c.lastIndexOf( cssClassKey, 0 ) !== 0;
+				} );
+				$panel[0].className = $.trim( classes.join( " " ) );
+				$panel[0].classList.add( cssClassKey + '-' + val );
+			}
+
+		};
+
+		PanelContainer.prototype.getConditionalEventName = function( $field ){
+
+			var eventName;
 
 			if( $field.is( '.input-type-imageselect' ) ){
 				eventName = 'tribe-panels.image-select-changed';
@@ -281,7 +297,19 @@
 				eventName = 'tribe-panels.select-changed';
 			}
 
+			return eventName;
+
+		};
+
+		PanelContainer.prototype.handleConditionalFields = function( e, $panel, val, $field ){
+			if( e ){
+				e.stopPropagation();
+			}
+
+			var eventName = this.getConditionalEventName( $field );
+
 			if( eventName ){
+				this.setConditionalClass( $field, $panel, val );
 				$( document ).trigger( eventName, [ $panel, val, $field ] );
 			}
 		};
@@ -334,7 +362,7 @@
 				'.panel-input.input-type-radio input[type=radio], ' +
 				'.panel-input.input-type-select select',
 				function( e ){
-					_this.emitCustomEvent( e, _this.$el, e.target.value, $( e.currentTarget ).closest( '.panel-input' ) );
+					_this.handleConditionalFields( e, _this.$el, e.target.value, $( e.currentTarget ).closest( '.panel-input' ) );
 				} );
 
 			$('#modular-content').on( 'click.' + this.id, '#create-child-for-' + this.id, {self:this}, this.spawnPanelPicker );
