@@ -53,6 +53,7 @@
 			this.initExistingPanels();
 			this.enableDragDrop();
 			this.toggleRepeatersClosed();
+			this.emitInitialState();
 		};
 
 		PanelContainer.prototype.bindEvents = function() {
@@ -247,6 +248,44 @@
 			$( document ).trigger( 'tribe-panels.added-one', [el, id] );
 		};
 
+		PanelContainer.prototype.emitInitialState = function(){
+
+			_.each(this.$el.find( ".panel-input.input-type-imageselect, .panel-input.input-type-radio, .panel-input.input-type-select" ), function(field) {
+				var selectedOption;
+				if( field.classList.contains('input-type-select') ){
+					var select = field.querySelectorAll( 'select' )[0];
+					selectedOption = select.options[ select.selectedIndex ].value;
+				} else {
+					selectedOption = $( field ).find( ':checked' ).val();
+				}
+				this.emitCustomEvent( null, $( field ).closest( '.panel-row' ), selectedOption, $( field ) );
+			}, this);
+
+		};
+
+		PanelContainer.prototype.emitCustomEvent = function( e, $panel, val, $field ){
+			if( e ){
+				e.stopPropagation();
+			}
+			var eventName;
+
+			// this has been done to maintain legacy support for the existing customizations that hooked
+			// into image-select-changed. If we have more fields to output for this event system
+			// we will have to refactor to use and attribute to generate event name and drop this
+
+			if( $field.is( '.input-type-imageselect' ) ){
+				eventName = 'tribe-panels.image-select-changed';
+			} else if( $field.is( '.input-type-radio' ) ){
+				eventName = 'tribe-panels.radio-changed';
+			} else if( $field.is( '.input-type-select' ) ){
+				eventName = 'tribe-panels.select-changed';
+			}
+
+			if( eventName ){
+				$( document ).trigger( eventName, [ $panel, val, $field ] );
+			}
+		};
+
 		return PanelContainer;
 
 	})();
@@ -275,14 +314,28 @@
 		};
 
 		Panel.prototype.bindEvents = function() {
-			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel', 'emitImageSelectEvent' );
+			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel' );
+
+			var _this = this;
+
+			// panel events
 
 			this.$el.on( 'click.' + this.id, '> .panel-row-editor > .delete-panel', this.remove );
 			this.$el.on( 'keyup.' + this.id, '> .panel-row-editor > .input-name-title input:text', this.updateTitle );
 			this.$el.one( 'click.' + this.id, this.openPanel );
 			this.$el.on( 'click.' + this.id, '> .close-panel', this.closePanel );
 			this.$el.on( 'click.' + this.id, '.add-new-child-panel', this.checkChildLimit );
-			this.$el.on( 'change.' + this.id, 'label.image-option input[type=radio]', this.emitImageSelectEvent );
+
+			// custom events emitters for external scripts
+
+			this.$el.on(
+				'change.' + this.id,
+				'.panel-input.input-type-imageselect input[type=radio], ' +
+				'.panel-input.input-type-radio input[type=radio], ' +
+				'.panel-input.input-type-select select',
+				function( e ){
+					_this.emitCustomEvent( e, _this.$el, e.target.value, $( e.currentTarget ).closest( '.panel-input' ) );
+				} );
 
 			$('#modular-content').on( 'click.' + this.id, '#create-child-for-' + this.id, {self:this}, this.spawnPanelPicker );
 			$("body").on( 'click.' + this.id, '.new-panel-option .thumbnail', {self:this}, this.pickPanelType );
@@ -290,11 +343,6 @@
 
 		Panel.prototype.unbindEvents = function() {
 			this.$el.off("." + this.id);
-		};
-
-		Panel.prototype.emitImageSelectEvent = function( e ){
-			e.stopPropagation();
-			$( document ).trigger( 'tribe-panels.image-select-changed', [ this.$el, e.target.value ] );
 		};
 
 		Panel.prototype.initExistingPanels = function() {
@@ -465,6 +513,7 @@
 			submitButtons.removeClass( 'disabled' );
 			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
 		});
+
 	});
 
 })(jQuery);

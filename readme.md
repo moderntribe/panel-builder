@@ -207,7 +207,6 @@ Most events return the applicable element along with the event object, plus the 
 * `tribe-panels.removed-one` is emitted when a panel is removed. Returns the panel el and the panel id.
 * `tribe-panels.opened-one` is emitted when a panel is expanded by the user. Returns the panel el and the panel id.
 * `tribe-panels.closed-one` is emitted when a panel is closed by the user. Returns the panel el and the panel id.
-* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el and value of radio.
 * `tribe-panels.repeater-row-added` is emitted when a repeater field is added in any panel. Returns container and new row.
 * `tribe-panels.repeater-row-removed` is emitted when a repeater field is removed in any panel. Returns repeater container.
 
@@ -219,5 +218,25 @@ $( document ).on( 'tribe-panels.added-one', function( event, element, panel_id )
 	console.log( 'Event: ' + event );
 	console.log( 'New Panel: ' + element );
 	console.log( 'New Panel ID: ' + panel_id );
+} );
+```
+
+Special events (useful for conditional logic in the admin)
+Note that these events also emit on panel init so you can do any first run setup on existing panels.
+
+* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el, value of selected radio and field el.
+* `tribe-panels.select-changed` is emitted when an select field has changed it value. Returns panel el, value of selected option and field el.
+* `tribe-panels.radio-changed` is emitted when an radio field set has changed it value. Returns panel el, value of selected radio and field el.
+
+Example usage:
+
+```js
+$( document ).on( 'tribe-panels.select-changed', function( event, $panel, val, $field ) {
+	if( $field.is( '.input-name-slide_text_color' ) ){
+		// do something for this registered field on value
+		if( val === 'dark' ){
+			console.log( event );
+		}
+	}
 } );
 ```
