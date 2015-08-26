@@ -222,7 +222,9 @@ $( document ).on( 'tribe-panels.added-one', function( event, element, panel_id )
 ```
 
 Special events (useful for conditional logic in the admin)
-Note that these events also emit on panel init so you can do any first run setup on existing panels.
+Note that these events also emit on panel init so you can do any first run setup on existing panels, and they emit every time a new panel is added.
+Also note that when registering these fields (image-select, radio, select) a class will be added to the panel row.
+It looks like this: condition-input-name-YOUR_FIELD_NAME-YOUR_ACTIVE_RADIOS_OR_SELECTS_VALUE 
 
 * `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el, value of selected radio and field el.
 * `tribe-panels.select-changed` is emitted when an select field has changed it value. Returns panel el, value of selected option and field el.
