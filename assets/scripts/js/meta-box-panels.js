@@ -38,6 +38,7 @@
 			this.$el = $(this.el);
 			this.newPanelContainer = null;
 			this.panels = [];
+			this.conditionalTargets = ".input-type-imageselect, .input-type-radio, .input-type-select";
 
 			this.id = id || this.getUniqueId();
 
@@ -53,6 +54,7 @@
 			this.initExistingPanels();
 			this.enableDragDrop();
 			this.toggleRepeatersClosed();
+			this.initConditionalFields( this.$el.find( this.conditionalTargets ) );
 		};
 
 		PanelContainer.prototype.bindEvents = function() {
@@ -60,7 +62,7 @@
 			// new panels are added to the correct parent. Otherwise they'd all get added to the PanelContainer instance element
 
 			$('#modular-content')
-				.on( 'click.' + this.id, '.repeater-toggle', {self:this}, this.toggleRepeaterGroup )
+				.on( 'click.' + this.id, '.panel-toggle', {self:this}, this.toggleRepeaterGroup )
 				.on( 'click.' + this.id, '.create-new-panel', {self:this}, this.spawnPanelPicker );
 
 			$('body')
@@ -244,7 +246,72 @@
 
 		PanelContainer.prototype.handleNewPanelAdded = function(el, id) {
 			$(el).trigger( 'new-panel-row', [id, {}] );
+			this.initConditionalFields( $( el ).find( this.conditionalTargets ) );
 			$( document ).trigger( 'tribe-panels.added-one', [el, id] );
+		};
+
+		PanelContainer.prototype.initConditionalFields = function( $targets ) {
+
+			_.each( $targets, function( field ) {
+				var selectedOption;
+				if ( field.classList.contains( 'input-type-select' ) ) {
+					var select = field.querySelectorAll( 'select' )[0];
+					selectedOption = select.options[select.selectedIndex].value;
+				}
+				else {
+					selectedOption = $( field ).find( ':checked' ).val();
+				}
+				this.handleConditionalFields( null, $( field ).closest( '.panel-row' ), selectedOption, $( field ) );
+			}, this );
+
+		};
+
+		PanelContainer.prototype.setConditionalClass = function( $field, $panel, val ){
+
+			var cssClassKey;
+
+			_.find( $field[0].classList, function( classItem, index ){
+				if( classItem.indexOf( 'input-name-' ) !== -1 ){ cssClassKey = $field[0].classList[index]; return true;}
+			});
+
+			if ( cssClassKey ) {
+				cssClassKey = 'condition-' + cssClassKey;
+				var classes = $panel[0].className.split( " " ).filter( function( c ) {
+					return c.lastIndexOf( cssClassKey, 0 ) !== 0;
+				} );
+				$panel[0].className = $.trim( classes.join( " " ) );
+				$panel[0].classList.add( cssClassKey + '-' + val );
+			}
+
+		};
+
+		PanelContainer.prototype.getConditionalEventName = function( $field ){
+
+			var eventName;
+
+			if( $field.is( '.input-type-imageselect' ) ){
+				eventName = 'tribe-panels.image-select-changed';
+			} else if( $field.is( '.input-type-radio' ) ){
+				eventName = 'tribe-panels.radio-changed';
+			} else if( $field.is( '.input-type-select' ) ){
+				eventName = 'tribe-panels.select-changed';
+			}
+
+			return eventName;
+
+		};
+
+		PanelContainer.prototype.handleConditionalFields = function( e, $panel, val, $field ){
+			if( e ){
+				e.stopPropagation();
+			}
+
+			var eventName = this.getConditionalEventName( $field );
+
+			if( eventName ){
+				this.setConditionalClass( $field, $panel, val );
+				$( document ).trigger( eventName, [ $panel, val, $field ] );
+			}
 		};
 
 		return PanelContainer;
@@ -275,14 +342,28 @@
 		};
 
 		Panel.prototype.bindEvents = function() {
-			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel', 'emitImageSelectEvent' );
+			_.bindAll( this, 'remove', 'updateTitle', 'openPanel', 'closePanel' );
+
+			var _this = this;
+
+			// panel events
 
 			this.$el.on( 'click.' + this.id, '> .panel-row-editor > .delete-panel', this.remove );
 			this.$el.on( 'keyup.' + this.id, '> .panel-row-editor > .input-name-title input:text', this.updateTitle );
 			this.$el.one( 'click.' + this.id, this.openPanel );
 			this.$el.on( 'click.' + this.id, '> .close-panel', this.closePanel );
 			this.$el.on( 'click.' + this.id, '.add-new-child-panel', this.checkChildLimit );
-			this.$el.on( 'change.' + this.id, 'label.image-option input[type=radio]', this.emitImageSelectEvent );
+
+			// custom events emitters for external scripts
+
+			this.$el.on(
+				'change.' + this.id,
+				'.panel-input.input-type-imageselect input[type=radio], ' +
+				'.panel-input.input-type-radio input[type=radio], ' +
+				'.panel-input.input-type-select select',
+				function( e ){
+					_this.handleConditionalFields( e, _this.$el, e.target.value, $( e.currentTarget ).closest( '.panel-input' ) );
+				} );
 
 			$('#modular-content').on( 'click.' + this.id, '#create-child-for-' + this.id, {self:this}, this.spawnPanelPicker );
 			$("body").on( 'click.' + this.id, '.new-panel-option .thumbnail', {self:this}, this.pickPanelType );
@@ -290,11 +371,6 @@
 
 		Panel.prototype.unbindEvents = function() {
 			this.$el.off("." + this.id);
-		};
-
-		Panel.prototype.emitImageSelectEvent = function( e ){
-			e.stopPropagation();
-			$( document ).trigger( 'tribe-panels.image-select-changed', [ this.$el, e.target.value ] );
 		};
 
 		Panel.prototype.initExistingPanels = function() {
@@ -465,6 +541,7 @@
 			submitButtons.removeClass( 'disabled' );
 			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
 		});
+
 	});
 
 })(jQuery);
