@@ -112,6 +112,23 @@ class Posts extends Post_List {
 		return $post_ids;
 	}
 
+	public function get_vars_for_api( $data, $panel ) {
+		if ( $data['type'] == 'manual' ) {
+			$post_ids = isset( $data['post_ids'] ) ? $data['post_ids'] : array();
+		} else {
+			if ( ! empty( $data['max'] ) && $data['max'] > $this->min && $data['max'] < $this->max ) {
+				$max = (int) $data['max'];
+			} else {
+				$max = (int) $this->max;
+			}
+			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
+		}
+
+		$posts = $this->post_id_to_array( $post_ids );
+
+		return $posts;
+	}
+
 
 
 	/**
