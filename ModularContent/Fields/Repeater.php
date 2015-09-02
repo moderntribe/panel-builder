@@ -142,6 +142,34 @@ class Repeater extends Group {
 		return $vars;
 	}
 
+
+	/**
+	 * Child fields should have the opportunity to set their own vars
+	 *
+	 * @param mixed $data
+	 * @param Panel $panel
+	 *
+	 * @return array
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+		$vars = array();
+		$data = (array) $data; // probably stored as an object with numeric properties
+		foreach ( $data as $instance ) {
+			$instance_vars = array();
+			foreach ( $this->fields as $field ) {
+				$name = $field->get_name();
+				if ( isset( $instance[ $name ] ) ) {
+					$instance_vars[ $name ] = $field->get_vars_for_api( $instance[ $name ], $panel );
+				}
+			}
+			if ( ! empty( $instance_vars ) ) {
+				$vars[] = $instance_vars;
+			}
+		}
+
+		return $vars;
+	}
+
 	/**
 	 * Ensure that the submitted array is keyless
 	 *
