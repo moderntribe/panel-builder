@@ -101,6 +101,8 @@ abstract class Field {
 	 * @return mixed
 	 */
 	public function get_vars( $data, $panel ) {
+		$data = apply_filters( 'panels_field_vars', $data, $this, $panel );
+
 		return $data;
 	}
 
