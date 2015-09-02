@@ -17,6 +17,7 @@ class Loop {
 	/** @var Panel[] */
 	protected $panels = array();
 	protected $vars = array();
+	protected $vars_for_api = array();
 	protected $settings = array();
 	protected $panel_tree = array();
 
@@ -146,13 +147,15 @@ class Loop {
 			$panel = $this->iterator->current();
 		}
 		if ( empty($panel) ) {
-			$this->panel = NULL;
-			$this->vars = array();
-			$this->settings = array();
+			$this->panel        = null;
+			$this->vars         = array();
+			$this->vars_for_api = array();
+			$this->settings     = array();
 		} else {
-			$this->panel = $panel;
-			$this->vars = $panel->get_template_vars();
-			$this->settings = $panel->get_settings();
+			$this->panel        = $panel;
+			$this->vars         = $panel->get_template_vars();
+			$this->vars_for_api = $panel->get_api_vars();
+			$this->settings     = $panel->get_settings();
 		}
 	}
 
@@ -168,21 +171,42 @@ class Loop {
 	 * @return mixed
 	 */
 	public function get_var( $name ) {
-		if ( isset($this->vars[$name]) ) {
-			return $this->vars[$name];
+		return $this->generic_get_var( $name, $this->vars );
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return mixed
+	 */
+	public function get_var_for_api( $name ) {
+		return $this->generic_get_var( $name, $this->vars_for_api );
+	}
+
+	/**
+	 * @param $name
+	 * @param $where
+	 *
+	 * @return string
+	 */
+	private function generic_get_var( $name, $where ) {
+		if ( isset( $where[ $name ] ) ) {
+			return $where[ $name ];
 		}
 
-		$parts = explode('.', $name);
-		if ( isset($this->vars[$parts[0]]) ) {
-			$component = $this->vars[$parts[0]];
-			for ( $i = 1 ; $i < count($parts) ; $i++ ) {
-				if ( !is_array($component) || !isset($component[$parts[$i]]) ) {
+		$parts = explode( '.', $name );
+		if ( isset( $where[ $parts[0] ] ) ) {
+			$component = $where[ $parts[0] ];
+			for ( $i = 1; $i < count( $parts ); $i ++ ) {
+				if ( ! is_array( $component ) || ! isset( $component[ $parts[ $i ] ] ) ) {
 					return '';
 				}
-				$component = $component[$parts[$i]];
+				$component = $component[ $parts[ $i ] ];
 			}
+
 			return $component;
 		}
+
 		return '';
 	}
 
@@ -202,6 +226,13 @@ class Loop {
 	 */
 	public function vars() {
 		return $this->vars;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function vars_for_api() {
+		return $this->vars_for_api;
 	}
 
 
