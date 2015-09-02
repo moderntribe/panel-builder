@@ -105,6 +105,20 @@ abstract class Field {
 	}
 
 	/**
+	 * Get a list of variables from this field that should be passed on to an external source via an API
+	 *
+	 * @param $data
+	 * @param $panel
+	 *
+	 * @return mixed|void
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+		$data = apply_filters( 'panels_field_vars_for_api', $data, $this, $panel );
+
+		return $data;
+	}
+
+	/**
 	 * Add data relevant to this field to the precache
 	 *
 	 * @param mixed $data
