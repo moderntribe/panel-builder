@@ -38,4 +38,10 @@ class ImageGallery extends Field {
 		$ids = wp_list_pluck( $images, 'id' );
 		return $ids;
 	}
+
+	public function get_vars_for_api( $data, $panel ) {
+		$images = parent::get_vars( $data, $panel );
+
+		return $images;
+	}
 }
