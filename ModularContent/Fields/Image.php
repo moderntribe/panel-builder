@@ -56,7 +56,9 @@ class Image extends Field {
 
 	public function get_vars_for_api( $data, $panel ) {
 
-		$data = wp_get_attachment_image_src( $data );
+		$new_data = wp_get_attachment_image_src( $data );
+
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
 
 		return $data;
 	}

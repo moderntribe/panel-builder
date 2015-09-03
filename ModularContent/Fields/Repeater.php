@@ -167,6 +167,8 @@ class Repeater extends Group {
 			}
 		}
 
+		$vars = apply_filters( 'panels_field_vars_for_api', $vars, $data, $this, $panel );
+
 		return $vars;
 	}
 

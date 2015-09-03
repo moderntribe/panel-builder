@@ -126,6 +126,8 @@ class Posts extends Post_List {
 
 		$posts = $this->post_id_to_array( $post_ids );
 
+		$posts = apply_filters( 'panels_field_vars_for_api', $posts, $data, $this, $panel );
+
 		return $posts;
 	}
 

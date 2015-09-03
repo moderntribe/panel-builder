@@ -65,9 +65,13 @@ class P2P extends Field {
 	}
 
 	public function get_vars_for_api( $data, $panel ) {
-		$ids = $this->get_vars_for_api( $data, $panel );
+		$ids = $this->get_vars( $data, $panel );
 
-		return array_map( array( $this, 'post_id_to_array' ), $ids );
+		$new_data = array_map( array( $this, 'post_id_to_array' ), $ids );
+
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
+
+		return $new_data;
 	}
 
 	// ToDo: Can the P2P field be a child of Post_List too?

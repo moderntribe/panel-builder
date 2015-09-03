@@ -43,6 +43,9 @@ class ImageGallery extends Field {
 		$image_ids = $this->get_vars( $data, $panel );
 		$resources = array_map( 'wp_get_attachment_image_src', $image_ids );
 
+		$resources = apply_filters( 'panels_field_vars_for_api', $resources, $data, $this, $panel );
+
+
 		return $resources;
 	}
 }
