@@ -56,7 +56,7 @@ class Image extends Field {
 
 	public function get_vars_for_api( $data, $panel ) {
 
-		$size = apply_filters( 'panels_image_field_size_for_api', $this->size, $this, $data, $panel );
+		$size = apply_filters( 'panels_image_field_size_for_api', 'full', $this, $data, $panel );
 
 		$new_data = wp_get_attachment_image_src( $data, $size );
 
