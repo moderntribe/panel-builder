@@ -53,4 +53,11 @@ class Image extends Field {
 
 		wp_enqueue_script( 'modular-content-image-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/image-field.js'), array('jquery'), FALSE, TRUE );
 	}
+
+	public function get_vars_for_api( $data, $panel ) {
+
+		$data = wp_get_attachment_image_src( $data );
+
+		return $data;
+	}
 }
