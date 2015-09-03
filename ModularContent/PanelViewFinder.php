@@ -23,12 +23,13 @@ class PanelViewFinder extends ViewFinder {
 	 *                     or FALSE if not found.
 	 */
 	public function get_template_file_path( $panel_type ) {
-		$basename = sprintf('%s.php', $panel_type);
-		$file = $this->locate_theme_file( $basename );
-		if ( $file ) {
-			return $file;
+		$basename = sprintf( '%s.php', $panel_type );
+		$file     = $this->locate_theme_file( $basename );
+		if ( empty( $file ) ) {
+			$file = $this->get_default_view();
 		}
-		return $this->get_default_view();
+
+		return apply_filters( 'panels_panel_template', $file, $panel_type );
 	}
 
 	/**
