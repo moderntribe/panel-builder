@@ -40,8 +40,9 @@ class ImageGallery extends Field {
 	}
 
 	public function get_vars_for_api( $data, $panel ) {
-		$images = parent::get_vars( $data, $panel );
+		$image_ids = $this->get_vars( $data, $panel );
+		$resources = array_map( 'wp_get_attachment_image_src', $image_ids );
 
-		return $images;
+		return $resources;
 	}
 }
