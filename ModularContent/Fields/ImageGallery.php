@@ -41,10 +41,14 @@ class ImageGallery extends Field {
 
 	public function get_vars_for_api( $data, $panel ) {
 		$image_ids = $this->get_vars( $data, $panel );
-		$resources = array_map( 'wp_get_attachment_image_src', $image_ids );
+		$size      = apply_filters( 'panels_image_gallery_field_size_for_api', 'full', $this, $data, $panel );
+		$resources = array();
+
+		foreach ( (array) $image_ids as $id ) {
+			$resources[] = wp_get_attachment_image_src( $id, $size );
+		}
 
 		$resources = apply_filters( 'panels_field_vars_for_api', $resources, $data, $this, $panel );
-
 
 		return $resources;
 	}
