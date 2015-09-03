@@ -109,6 +109,9 @@ class Posts extends Post_List {
 			}
 			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
 		}
+
+		$post_ids = apply_filters( 'panels_field_vars', $post_ids, $this, $panel );
+
 		return $post_ids;
 	}
 

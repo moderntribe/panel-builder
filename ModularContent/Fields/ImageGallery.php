@@ -36,6 +36,9 @@ class ImageGallery extends Field {
 		 */
 		$images = parent::get_vars( $data, $panel );
 		$ids = wp_list_pluck( $images, 'id' );
+
+		$ids = apply_filters( 'panels_field_vars', $ids, $this, $panel );
+
 		return $ids;
 	}
 

@@ -141,6 +141,9 @@ class TextArea extends Field {
 		if ( $this->richtext && apply_filters( 'apply_the_content_filters_to_panel_builder_wysiwygs', TRUE, $this, $panel ) ) {
 			$text = apply_filters( 'the_content', $text );
 		}
+
+		$text = apply_filters( 'panels_field_vars', $text, $this, $panel );
+
 		return $text;
 	}
 }

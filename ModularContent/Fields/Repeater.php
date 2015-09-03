@@ -139,6 +139,9 @@ class Repeater extends Group {
 				$vars[] = $instance_vars;
 			}
 		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
 		return $vars;
 	}
 

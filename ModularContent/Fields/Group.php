@@ -115,6 +115,9 @@ class Group extends Field {
 				$vars[$name] = $field->get_vars($data[$name], $panel);
 			}
 		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
 		return $vars;
 	}
 

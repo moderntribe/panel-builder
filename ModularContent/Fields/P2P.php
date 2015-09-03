@@ -61,6 +61,9 @@ class P2P extends Field {
 				$connected = $query->get_posts();
 			}
 		}
+
+		$connected = apply_filters( 'panels_field_vars', $connected, $this, $panel );
+
 		return $connected;
 	}
 

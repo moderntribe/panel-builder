@@ -153,6 +153,9 @@ class Post_List extends Field {
 			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
 			$posts = array_map( array( $this, 'post_id_to_array' ), $post_ids );
 		}
+
+		$posts = apply_filters( 'panels_field_vars', $posts, $this, $panel );
+
 		return $posts;
 	}
 
