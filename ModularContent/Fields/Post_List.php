@@ -156,6 +156,14 @@ class Post_List extends Field {
 		return $posts;
 	}
 
+	public function get_vars_for_api( $data, $panel ) {
+
+		$posts = $this->get_vars( $data, $panel );
+		$posts = apply_filters( 'panels_field_vars_for_api', $posts, $data, $this, $panel );
+
+		return $posts;
+	}
+
 	protected function post_id_to_array( $post_id ) {
 		if ( empty( $post_id ) ) {
 			return false;
