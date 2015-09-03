@@ -60,6 +60,6 @@ class Image extends Field {
 
 		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
 
-		return $data;
+		return $new_data;
 	}
 }
