@@ -117,10 +117,10 @@ abstract class Field {
 	public function get_vars_for_api( $data, $panel ) {
 
 		// By default let's leverage the work done by get_vars
-		$data = $this->get_vars( $data, $panel );
-		$data = apply_filters( 'panels_field_vars_for_api', $data, $this, $panel );
+		$new_data = $this->get_vars( $data, $panel );
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
 
-		return $data;
+		return $new_data;
 	}
 
 	/**
