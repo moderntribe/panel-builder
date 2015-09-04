@@ -102,6 +102,9 @@ class PostQuacker extends Field {
 			$vars['post_type'] = '';
 			$vars['post_id'] = 0;
 		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
 		return $vars;
 	}
 

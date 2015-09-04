@@ -115,6 +115,30 @@ class Group extends Field {
 				$vars[$name] = $field->get_vars($data[$name], $panel);
 			}
 		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
+		return $vars;
+	}
+
+	/**
+	 * Child fields should have the opportunity to set their own vars for API
+	 *
+	 * @param mixed $data
+	 * @param Panel $panel
+	 * @return array
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+		$vars = array();
+		foreach ( $this->fields as $field ) {
+			$name = str_replace( $this->get_name() . '.', '', $field->get_name() );
+			if ( isset( $data[ $name ] ) ) {
+				$vars[ $name ] = $field->get_vars_for_api( $data[ $name ], $panel );
+			}
+		}
+
+		$vars = apply_filters( 'panels_field_vars_for_api', $vars, $data, $this, $panel );
+
 		return $vars;
 	}
 

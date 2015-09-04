@@ -101,7 +101,26 @@ abstract class Field {
 	 * @return mixed
 	 */
 	public function get_vars( $data, $panel ) {
+		$data = apply_filters( 'panels_field_vars', $data, $this, $panel );
+
 		return $data;
+	}
+
+	/**
+	 * Get a list of variables from this field that should be passed on to an external source via an API
+	 *
+	 * @param $data
+	 * @param $panel
+	 *
+	 * @return mixed|void
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+
+		// By default let's leverage the work done by get_vars
+		$new_data = $this->get_vars( $data, $panel );
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
+
+		return $new_data;
 	}
 
 	/**

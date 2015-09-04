@@ -61,6 +61,62 @@ class P2P extends Field {
 				$connected = $query->get_posts();
 			}
 		}
+
+		$connected = apply_filters( 'panels_field_vars', $connected, $this, $panel );
+
 		return $connected;
+	}
+
+	public function get_vars_for_api( $data, $panel ) {
+		$ids = $this->get_vars( $data, $panel );
+
+		$new_data = array_map( array( $this, 'post_id_to_array' ), $ids );
+
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
+
+		return $new_data;
+	}
+
+	// ToDo: Can the P2P field be a child of Post_List too?
+	protected function post_id_to_array( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+		$_post = get_post( $post_id );
+		if ( empty( $_post ) ) {
+			return false;
+		}
+
+		$data = array(
+			'title'     => '',
+			'content'   => '',
+			'excerpt'   => '',
+			'image'     => 0,
+			'link'      => array(
+				'url'    => '',
+				'target' => '',
+				'label'  => '',
+			),
+			'post_type' => '',
+			'post_id'   => 0,
+		);
+
+		global $post;
+		$post = $_post;
+		setup_postdata( $post );
+		$data['title']     = get_the_title();
+		$data['content']   = get_the_content();
+		$data['excerpt']   = get_the_excerpt();
+		$data['image']     = get_post_thumbnail_id();
+		$data['link']      = array(
+			'url'    => get_permalink(),
+			'target' => '',
+			'label'  => $data['title'],
+		);
+		$data['post_type'] = $post->post_type;
+		$data['post_id']   = $post->ID;
+		wp_reset_postdata();
+
+		return $data;
 	}
 } 
