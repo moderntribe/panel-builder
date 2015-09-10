@@ -134,6 +134,7 @@ class MetaBox {
 			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
 			'untitled' => __( 'Untitled', 'modular-content' ),
+			'loading' => __( 'Loading...', 'modular-content' ),
 		);
 		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}

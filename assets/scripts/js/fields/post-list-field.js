@@ -536,6 +536,7 @@
 					return;
 				}
 
+				wrapper.find('.selected-post-preview').find('.post-title' ).text( ModularContent.localization.loading );
 				if ( ! Post_List.previews_to_fetch.hasOwnProperty( post_id ) ) {
 					Post_List.previews_to_fetch[ post_id ] = [];
 				}
@@ -601,7 +602,7 @@
 			var post_title_link = $('<a />' ).attr('href', post_data.permalink ).attr('target', '_blank');
 			post_title_link.html(post_data.post_title);
 			$.each( Post_List.previews_to_fetch[post_id], function( index, wrapper ) {
-				wrapper.find('.post-title').append(post_title_link);
+				wrapper.find('.post-title' ).empty().append(post_title_link);
 				wrapper.find('.post-excerpt').html(post_data.post_excerpt);
 				wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
 				wrapper.find('.post-type' ).val('');

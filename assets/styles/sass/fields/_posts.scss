@@ -98,7 +98,8 @@
 		min-height: 80px;
 	}
 
-	.post-title {
+	.post-title,
+	.post-url {
 		margin-top: 0;
 		margin-bottom: 0;
 		font-size: 15px;
@@ -372,6 +373,17 @@
 	.post-preview .post-thumbnail {
 		display: none;
 	}
+}
+
+.hidden-post_content.hidden-thumbnail_id .selected-post.manual .manual-post-input {
+	.post-title, .post-url {
+		display: inline;
+		width: 45%;
+		padding-right: 0;
+	}
+}
+.hidden-thumbnail_id .selected-post.select {
+	min-height: 35px;
 }
 
 .panel-toggle + .ui-widget-content.panel-input-group,
