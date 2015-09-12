@@ -4,11 +4,14 @@
 		settings: {},
 
 		init_editor: function( wysiwyg ) {
+
+
 			if ( wysiwyg.hasClass('wp-editor-initialized') ) {
 				return;
 			}
 			var wysiwyg_container = wysiwyg.parents( '.wp-editor-container' );
-			var wysiwyg_id = 'panels-wysiwyg-'+wysiwyg_field.counter;
+			var wysiwyg_id = wysiwyg.attr('id');
+
 			wysiwyg_field.counter++;
 			wysiwyg.attr('id', wysiwyg_id);
 			wysiwyg_container.attr('id', 'wp-'+wysiwyg_id+'-editor-container');
