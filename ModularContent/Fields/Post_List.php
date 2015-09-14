@@ -276,9 +276,10 @@ class Post_List extends Field {
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
-		if ( is_array( $data['posts'] ) ) {
+		if ( array_key_exists( 'posts', $data ) && is_array( $data['posts'] ) ) {
 			$data['posts'] = array_values( $data['posts'] );
 		}
+
 		return $data;
 	}
 
