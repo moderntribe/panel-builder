@@ -383,6 +383,7 @@ class MetaBox {
 			$response['post_ids'] = $post_ids;
 			$response['posts'] = Fields\Posts::get_post_data($post_ids);
 		}
+
 		wp_send_json_success($response);
 	}
 }
