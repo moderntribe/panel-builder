@@ -28,7 +28,7 @@ global $wp_version; // wp's test suite doesn't globalize this, but we depend on 
 if( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	require getenv( 'WP_TESTS_DIR' ) . '/includes/bootstrap.php';
 } else {
-	require dirname( dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) ) . '/includes/bootstrap.php';
+	require dirname( dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) ) . '/tests/phpunit/includes/bootstrap.php';
 }
 
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
