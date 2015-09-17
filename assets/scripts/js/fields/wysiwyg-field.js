@@ -17,8 +17,11 @@
 			var wrap = wysiwyg.parents('.wp-editor-wrap');
 
 			wrap.attr('id', 'wp-'+wysiwyg_id+'-wrap');
-			wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html');
-			wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce');
+
+			// pre 4.3 onclick handlers refer to the current tinymce instance on these buttons using switchEditors
+			// 4.3 onwards the onclick is removed and a new attribute of data-wp-editor-id is used to target the instance of tinymce
+			wrap.find('.wp-switch-editor.switch-html').attr('id', wysiwyg_id+'-html').attr('data-wp-editor-id', wysiwyg_id);
+			wrap.find('.wp-switch-editor.switch-tmce').attr('id', wysiwyg_id+'-tmce').attr('data-wp-editor-id', wysiwyg_id);
 
 			var settings_id = wysiwyg_container.data('settings_id');
 			var settings = $.extend({}, wysiwyg_field.settings[settings_id] || {});
