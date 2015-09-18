@@ -221,8 +221,11 @@ class Loop {
 	}
 
 	protected function get_wrapper_template_path() {
-		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
-		$template_file = $viewfinder->locate_theme_file('collection-wrapper.php');
+		$viewfinder    = new ViewFinder( Plugin::plugin_path( 'public-views' ) );
+		$template_file = $viewfinder->locate_theme_file( 'collection-wrapper.php' );
+
+		$template_file = apply_filters( 'panels_collection_wrapper_template', $template_file, $viewfinder );
+
 		return $template_file;
 	}
 
