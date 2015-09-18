@@ -56,11 +56,45 @@ class Image extends Field {
 
 	public function get_vars_for_api( $data, $panel ) {
 
-		$size = apply_filters( 'panels_image_field_size_for_api', 'full', $this, $data, $panel );
+		$all_sizes_data = [ ];
 
-		$new_data = wp_get_attachment_image_src( $data, $size );
+		// Full is the only guaranteed size, so it's going to be our default
+		$size_data = wp_get_attachment_image_src( $data, 'full' );
 
-		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
+		// Something went wrong. Most likely the attachment was deleted.
+		if ( $size_data === false ) {
+			return '';
+		}
+
+		$all_sizes_data['full'] = [
+			'url'    => $size_data[0],
+			'width'  => $size_data[1],
+			'height' => $size_data[2],
+			'title'  => get_the_title( $data )
+		];
+
+		// Set all the other sizes
+
+		foreach ( get_intermediate_image_sizes() as $size ) {
+
+			if ( $size === 'full' ) {
+				continue;
+			}
+
+			$size_data = wp_get_attachment_image_src( $data, $size );
+
+			if ( $size_data === false ) {
+				continue;
+			}
+
+			$all_sizes_data[ $size ] = [
+				'url'    => $size_data[0],
+				'width'  => $size_data[1],
+				'height' => $size_data[2],
+			];
+		}
+
+		$new_data = apply_filters( 'panels_field_vars_for_api', $all_sizes_data, $data, $this, $panel );
 
 		return $new_data;
 	}
