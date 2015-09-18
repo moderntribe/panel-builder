@@ -63,14 +63,19 @@ class Image extends Field {
 
 		// Something went wrong. Most likely the attachment was deleted.
 		if ( $size_data === false ) {
-			return '';
+			return [ ];
 		}
 
-		$all_sizes_data['full'] = [
-			'url'    => $size_data[0],
-			'width'  => $size_data[1],
-			'height' => $size_data[2],
-			'title'  => get_the_title( $data )
+		$attachment = get_post( $data );
+
+		$return_data = [
+			'url'         => $size_data[0],
+			'width'       => $size_data[1],
+			'height'      => $size_data[2],
+			'title'       => $attachment->post_title,
+			'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+			'description' => $attachment->post_content,
+			'caption'     => $attachment->post_excerpt,
 		];
 
 		// Set all the other sizes
@@ -94,8 +99,10 @@ class Image extends Field {
 			];
 		}
 
-		$new_data = apply_filters( 'panels_field_vars_for_api', $all_sizes_data, $data, $this, $panel );
+		$return_data['sizes'] = $all_sizes_data;
 
-		return $new_data;
+		$return_data = apply_filters( 'panels_field_vars_for_api', $return_data, $data, $this, $panel );
+
+		return $return_data;
 	}
 }
