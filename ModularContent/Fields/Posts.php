@@ -45,7 +45,7 @@ class Posts extends Field {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['suggested'] = $this->suggested;
 		$this->defaults['strings'] = array(
-			'tabs.manual' => __( 'Manual', 'modular-content' ),
+			'tabs.manual' => __( 'Selection', 'modular-content' ),
 			'tabs.dynamic' => __( 'Dynamic', 'modular-content' ),
 		);
 		$this->defaults['support_external'] = $this->support_external;
