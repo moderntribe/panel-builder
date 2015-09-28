@@ -79,7 +79,13 @@
 				items: '> .panel-row',
 				handle: '.panel-row-header',
 				placeholder: 'panel-row-drop-placeholder',
-				forcePlaceholderSize: true
+				forcePlaceholderSize: true,
+				start: function( e, ui ) {
+					$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+				},
+				stop: function( e, ui ) {
+					$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+				}
 			});
 		};
 
@@ -231,7 +237,13 @@
 					items: '> div.panel-row',
 					handle: '.panel-row-header',
 					placeholder: 'panel-row-drop-placeholder',
-					forcePlaceholderSize: true
+					forcePlaceholderSize: true,
+					start: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					},
+					stop: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					}
 				});
 			}
 
@@ -502,7 +514,13 @@
 					items: '> div.panel-row',
 					handle: '.panel-row-header',
 					placeholder: 'panel-row-drop-placeholder',
-					forcePlaceholderSize: true
+					forcePlaceholderSize: true,
+					start: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					},
+					stop: function( e, ui ) {
+						$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					}
 				});
 			}
 
