@@ -96,7 +96,7 @@ class OEmbedder {
 	}
 
 	protected function cache_key() {
-		return '_oembed_thumb_'.md5($this->url.serialize($this->args));
+		return '_oembed_thumb_'.md5($this->url.serialize($this->args)) . 2;
 	}
 
 	protected function get_provider() {
@@ -143,7 +143,8 @@ class OEmbedder {
 			return $data;
 		}
 		$data                = $data->data[ 0 ];
-		$data->thumbnail_url = $data->logo;
+		//$data->thumbnail_url = $data->logo; Unreliable
+		$data->thumbnail_url = "http://events.youku.com/global/api/video-thumb.php?vid=" . $data->vidEncoded;
 		$data->html          = $this->youku_iframe( array( 1 => $data->vidEncoded ) );
 
 		return $data;
