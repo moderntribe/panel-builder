@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-09-16 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-10-22 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -107,6 +107,9 @@
 		var panel_id = container.find( '.gallery-field-name' ).val();
 		var selection_row = container.find( '.gallery-field-selection' );
 		var default_attachment = { id: 0, thumbnail: '' };
+		if ( !Array.isArray( data ) ) {
+			data = [];
+		}
 		selection_row.empty();
 		$.each( data, function ( index, attachment ) {
 			attachment = _.extend( {}, default_attachment, attachment );
