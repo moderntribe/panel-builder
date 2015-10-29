@@ -539,6 +539,7 @@
 			window.tribe.panels.creator = new PanelCreator( panels );
 			window.tribe.panels.container.initExistingPanels();
 			submitButtons.removeClass( 'disabled' );
+			$( '#panels_meta_box_loaded' ).val( 1 );
 			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
 		});
 

@@ -13,6 +13,7 @@ namespace ModularContent;
 class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';
+	const PANELS_LOADED_FLAG = 'ModularContent_meta_box_loaded';
 
 	public function add_hooks() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
@@ -101,6 +102,7 @@ class MetaBox {
 	public static function display_nonce() {
 		if ( post_type_supports(get_post_type(), 'modular-content') ) {
 			wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME);
+			printf( '<input id="panels_meta_box_loaded" type="hidden" name="%s" value="0" />', self::PANELS_LOADED_FLAG );
 		}
 	}
 
@@ -191,6 +193,10 @@ class MetaBox {
 	protected function should_post_be_filtered( $post_data, $post, $submission ) {
 		// make sure this is a valid submission
 		if ( !isset($submission[self::NONCE_NAME]) || !wp_verify_nonce($submission[self::NONCE_NAME], self::NONCE_ACTION) ) {
+			return FALSE;
+		}
+
+		if ( empty( $submission[ self::PANELS_LOADED_FLAG ] ) ) {
 			return FALSE;
 		}
 
