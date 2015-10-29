@@ -61,9 +61,17 @@
 
 						var attachments = models.map( function( attachment ) {
 							var att = attachment.toJSON();
+							var thumbnail = '';
+							if ( att.sizes.hasOwnProperty('thumbnail') ) {
+								thumbnail = att.sizes.thumbnail.url;
+							} else {
+								// If it doesn't have a thumbnail, that's because it was
+								// too small for WP to create one. Use the full size image.
+								thumbnail = att.sizes.full.url;
+							}
 							return {
 								id: att.id,
-								thumbnail: att.sizes.thumbnail.url
+								thumbnail: thumbnail
 							};
 						} );
 
@@ -95,6 +103,9 @@
 		var panel_id = container.find( '.gallery-field-name' ).val();
 		var selection_row = container.find( '.gallery-field-selection' );
 		var default_attachment = { id: 0, thumbnail: '' };
+		if ( !Array.isArray( data ) ) {
+			data = [];
+		}
 		selection_row.empty();
 		$.each( data, function ( index, attachment ) {
 			attachment = _.extend( {}, default_attachment, attachment );

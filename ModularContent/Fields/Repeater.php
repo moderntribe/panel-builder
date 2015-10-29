@@ -22,6 +22,7 @@ use ModularContent\Panel;
  *
  */
 class Repeater extends Group {
+	protected $min = 0;
 	protected $max = 0;
 	protected $new_button_label = '';
 
@@ -47,7 +48,8 @@ class Repeater extends Group {
 	 * $group->add_field( $name );
 	 * $group->add_field( $email );
 	 */
-	public function __construct( $args = array() ){
+	public function __construct( $args = array() ) {
+		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
 		parent::__construct($args);
@@ -76,7 +78,7 @@ class Repeater extends Group {
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->max);
+		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-min="%d" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->min, $this->max);
 	}
 
 	protected function get_default_value_js() {
@@ -94,12 +96,16 @@ class Repeater extends Group {
 		?>
 		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
 			<div class="panel-repeater-row">
-				<span class="panel-input-repeater-row-controls"><a class="move icon-reorder"></a><a class="delete icon-remove"></a></span>
+				<div class="panel-toggle repeater-toggle" data-target="panel-input">
+					<a class="move icon-reorder repeater-sort"></a>
+					<?php _e('Row', 'modular-content'); ?>
+				</div>
 				<?php
 				foreach ( $this->fields as $field ) {
 					$field->render();
 				}
 				?>
+				<a class="delete icon-remove"><?php _e('Delete Row', 'modular-content'); ?></a>
 			</div>
 		</script>
 		<?php
@@ -133,6 +139,39 @@ class Repeater extends Group {
 				$vars[] = $instance_vars;
 			}
 		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
+		return $vars;
+	}
+
+
+	/**
+	 * Child fields should have the opportunity to set their own vars
+	 *
+	 * @param mixed $data
+	 * @param Panel $panel
+	 *
+	 * @return array
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+		$vars = array();
+		$data = (array) $data; // probably stored as an object with numeric properties
+		foreach ( $data as $instance ) {
+			$instance_vars = array();
+			foreach ( $this->fields as $field ) {
+				$name = $field->get_name();
+				if ( isset( $instance[ $name ] ) ) {
+					$instance_vars[ $name ] = $field->get_vars_for_api( $instance[ $name ], $panel );
+				}
+			}
+			if ( ! empty( $instance_vars ) ) {
+				$vars[] = $instance_vars;
+			}
+		}
+
+		$vars = apply_filters( 'panels_field_vars_for_api', $vars, $data, $this, $panel );
+
 		return $vars;
 	}
 

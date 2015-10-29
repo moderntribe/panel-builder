@@ -17,6 +17,7 @@ class Panel implements \JsonSerializable {
 	private $depth = 0;
 	private $data = array();
 	private $template_vars = NULL;
+	private $api_vars = NULL;
 	/** @var Panel[] */
 	private $children = array();
 
@@ -149,6 +150,27 @@ class Panel implements \JsonSerializable {
 		}
 		$this->template_vars = $vars;
 		return $this->template_vars;
+	}
+
+	/**
+	 * Translate our admin settings into variables to export to an external source
+	 *
+	 * @return array
+	 */
+	public function get_api_vars() {
+		if ( isset( $this->api_vars ) ) {
+			return $this->api_vars;
+		}
+		$vars = array();
+		foreach ( $this->type->all_fields() as $field ) {
+			$name = $field->get_name();
+			if ( isset( $this->data[ $name ] ) ) {
+				$vars[ $name ] = $field->get_vars_for_api( $this->data[ $name ], $this );
+			}
+		}
+		$this->api_vars = $vars;
+
+		return $this->api_vars;
 	}
 
 	/**

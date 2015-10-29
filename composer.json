@@ -1,0 +1,22 @@
+{
+  "name": "moderntribe/panel-builder",
+  "description": "The Modern Tribe Panel Builder plugin",
+  "type": "wordpress-plugin",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Modern Tribe",
+      "email": "peter@tri.be"
+    }
+  ],
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:flightless/attachment-helper"
+    }
+  ],
+  "require": {
+    "flightless/attachment-helper": "*"
+  }
+}

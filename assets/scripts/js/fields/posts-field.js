@@ -2,6 +2,7 @@
 	var postsField = {
 		filter_row_template: wp.template('field-posts-filter'),
 		p2p_options_template: wp.template('field-posts-p2p-options'),
+		date_options_template: wp.template('field-posts-date-options'),
 		meta_options_template: wp.template('field-posts-meta-options'),
 
 		taxonomy_options_template: function( taxonomy ) {
@@ -16,6 +17,8 @@
 				return postsField.p2p_options_template;
 			} else if ( group == 'meta' ) {
 				return postsField.meta_options_template;
+			} else if ( group == 'date' ) {
+				return postsField.date_options_template;
 			}
 		},
 
@@ -83,7 +86,7 @@
 		},
 
 		intialize_data: function ( container, data ) {
-			data = $.extend({type: 'manual', post_ids: [], filters: {}}, data);
+			data = $.extend({type: 'manual', post_ids: [], filters: {}, max: 0}, data);
 
 			var post_type_options = container.find('select.post-type-select');
 			if ( ! post_type_options.length ) {
@@ -97,6 +100,11 @@
 					post_type_options.val(filter.selection).trigger('change');
 				}
 			});
+
+			if ( data.max < container.data('min') ) {
+				data.max = container.data('max');
+			}
+			container.find( '.max-results-selection' ).val( data.max );
 
 			postsField.update_post_type_select( container );
 
@@ -136,6 +144,7 @@
 						});
 						$.each(data.posts, function(index, post) {
 							if ( !selected.hasOwnProperty( post.id ) ) {
+								post.text = $('<div />').html( post.text ).text(); // hack to render html entities
 								posts.push(post);
 							}
 						});
@@ -218,7 +227,7 @@
 			}
 			var post_data = ModularContent.cache.posts[post_id];
 			var wrapper = postsField.previews_to_fetch[post_id];
-			wrapper.find('.post-title').text(post_data.post_title);
+			wrapper.find('.post-title').html(post_data.post_title);
 			wrapper.find('.post-excerpt').html(post_data.post_excerpt);
 			wrapper.find('.post-thumbnail').html(post_data.thumbnail_html);
 			delete postsField.previews_to_fetch[post_id];
@@ -327,7 +336,9 @@
 				.on( 'change', '.select-new-filter', postsField.add_filter_row_event )
 				.on( 'click', 'a.remove-filter', postsField.remove_filter_row )
 				.on( 'change', '.filter-options .term-select', postsField.hide_irrelevant_filter_options )
-				.on( 'change', '.filter-options .term-select', postsField.preview_query );
+				.on( 'change', '.max-results-selection', postsField.preview_query )
+				.on( 'change', '.filter-options .term-select', postsField.preview_query )
+				.on( 'change', '.filter-options .date-select', postsField.preview_query );
 
 			container.find('.selection').sortable({
 				placeholder: 'panel-row-drop-placeholder',
@@ -388,19 +399,37 @@
 				name: container.find('.posts-group-name').val()
 			}));
 
+			var selected_filter_type_option = container.find('.select-new-filter').find('option[value=' + filter_id + ']');
+
 			var template = postsField.filter_row_template;
 			var new_filter = $(template({
 				type: filter_id,
 				name: container.find('.posts-group-name').val(),
-				label: container.find('.select-new-filter').find('option[value=' + filter_id + ']').text()
+				label: selected_filter_type_option.text()
 			}));
 			container.find('.query .query-filters').append(new_filter);
 			new_filter.find('.filter-options').append(options);
 
 			var select2_args = {width: 'element'};
 			var filter_group = postsField.get_filter_group( filter_id );
+			new_filter.addClass( 'filter-type-group-'+filter_group );
 
 			if ( filter_group == 'p2p' ) {
+				// add a drop-down to filter search results by post type
+				var possible_post_types = selected_filter_type_option.data('filter-post-type-labels');
+				var post_type_filters_select = $('<select class="p2p-search-post-type-filter" />');
+				post_type_filters_select.append(
+					'<option value="any">' + selected_filter_type_option.data('any-post-type-label') + '</option>'
+				);
+				$.each( possible_post_types, function ( index, label ) {
+					var option = $('<option />');
+					option.attr('value', index);
+					option.text( label );
+					post_type_filters_select.append( option );
+				});
+				options.before(post_type_filters_select);
+
+
 				if ( $.isArray(data.selection) ) {
 					options.val(data.selection.join(','));
 				} else {
@@ -416,7 +445,8 @@
 							action: 'posts-field-p2p-options-search',
 							s: term,
 							type: filter_id,
-							paged: page
+							paged: page,
+							post_type: post_type_filters_select.val()
 						};
 					},
 					results: function( data, page, query ) {
@@ -437,13 +467,27 @@
 					});
 					callback(data);
 				};
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
 			} else if ( filter_group == 'meta' ) {
 				select2_args.tags = true;
 				select2_args.multiple = true;
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
+			} else if ( filter_group == 'date' ) {
+				data.selection = $.extend({ start: '', end: '' }, data.selection);
+				options.find( '.date-start' ).val( data.selection.start );
+				options.find( '.date-end' ).val( data.selection.end );
+				options.find( '.date-select' ).datepicker(
+					{
+						dateFormat: 'yy-mm-dd'
+					}
+				);
+			} else {
+				options.select2(select2_args);
+				options.val(data.selection).trigger('change');
 			}
 
-			options.select2(select2_args);
-			options.val(data.selection).trigger('change');
 		},
 
 		hide_irrelevant_filter_options: function() {
@@ -479,10 +523,20 @@
 			var filters = {};
 			container.find('.panel-filter-row').each( function() {
 				var select = $(this).find(':input.term-select');
-				var val = select.val();
-				if ( val && val.length > 0 ) {
-					filters[select.data('filter_type')] = {
-						selection: select.val(),
+				var date = $(this).find('.date-range-input');
+				if ( select.length > 0 ) {
+					var val = select.val();
+					if ( val && val.length > 0 ) {
+						filters[ select.data( 'filter_type' ) ] = {
+							selection: select.val(),
+							lock: true
+						};
+					}
+				} else if ( date.length > 0 ) {
+					var start = date.find( '.date-start' ).val();
+					var end   = date.find( '.date-end' ).val();
+					filters[ date.data( 'filter_type' ) ] = {
+						selection: { start: start, end: end },
 						lock: true
 					};
 				}
@@ -492,12 +546,17 @@
 				return;
 			}
 
+			var max = container.find( '.max-results-selection' ).val();
+			if ( max < container.data('min') || max > container.data('max') ) {
+				max = container.data('max');
+			}
+
 
 			wp.ajax.send({
 				data: {
 					action: 'posts-field-fetch-preview',
 					filters: filters,
-					max: container.data('max'),
+					max: max,
 					context: $('input#post_ID').val()
 				},
 				success: function(data) {

@@ -28,6 +28,8 @@ abstract class Field {
 
 	protected $default = '';
 
+	protected $strings = array();
+
 	protected $defaults = array(
 		'name' => '',
 		'label' => '',
@@ -54,6 +56,11 @@ abstract class Field {
 		}
 
 		// merge defaults with passed args
+		foreach ( $this->defaults as $key => $value ) {
+			if ( is_array( $value ) && isset( $args[ $key ] ) ) {
+				$args[ $key ] = wp_parse_args( $args[ $key ], $value );
+			}
+		}
 		$args = wp_parse_args($args, $this->defaults);
 
 		// only set properties that we know about
@@ -99,7 +106,26 @@ abstract class Field {
 	 * @return mixed
 	 */
 	public function get_vars( $data, $panel ) {
+		$data = apply_filters( 'panels_field_vars', $data, $this, $panel );
+
 		return $data;
+	}
+
+	/**
+	 * Get a list of variables from this field that should be passed on to an external source via an API
+	 *
+	 * @param $data
+	 * @param $panel
+	 *
+	 * @return mixed|void
+	 */
+	public function get_vars_for_api( $data, $panel ) {
+
+		// By default let's leverage the work done by get_vars
+		$new_data = $this->get_vars( $data, $panel );
+		$new_data = apply_filters( 'panels_field_vars_for_api', $new_data, $data, $this, $panel );
+
+		return $new_data;
 	}
 
 	/**
@@ -112,6 +138,17 @@ abstract class Field {
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
 		// nothing to add
+	}
+
+	public function set_string( $key, $value ) {
+		$this->strings[ $key ] = $value;
+	}
+
+	public function get_string( $key ) {
+		if ( isset( $this->strings[ $key ] ) ) {
+			return $this->strings[ $key ];
+		}
+		return '';
 	}
 
 	protected function render_before() {

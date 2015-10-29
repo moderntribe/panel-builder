@@ -1,33 +1,53 @@
 //
 // Close icons
 // --------------------------------------------------
-.close {
-	float: right;
-	font-size: 1.5em;
-	font-weight: bold;
-	line-height: 1;
-	color: #111;
-	opacity: .7;
-
-	&:hover,
-	&:focus {
-		text-decoration: none;
+#modular-content{
+	button.close {
+		float: right;
+		font-size: 1.5em;
+		font-weight: bold;
+		line-height: 1;
+		color: #111;
+		opacity: .7;
+		&:hover,
+		&:focus {
+			text-decoration: none;
+			cursor: pointer;
+			opacity: 1;
+		}
+		padding: 0;
 		cursor: pointer;
-		opacity: 1;
+		background: transparent;
+		border: 0;
+		-webkit-appearance: none;
+		&:focus {
+			opacity: 0.7;
+		}
 	}
 }
 
-// Additional properties for button version
-// iOS requires the button element instead of an anchor tag.
-// If you want the anchor version, it requires `href="#"`.
-button.close {
-	padding: 0;
-	cursor: pointer;
-	background: transparent;
-	border: 0;
-	-webkit-appearance: none;
+#modular-content {
+	.panel-row {
+		> .close {
+			width: 54px;
+			height: 100%;
+			.caret {
+				margin-top: 12px;
+				border-width: 7px;
+				border-top-width: 12px;
+			}
 
-	&:focus {
-		opacity: 0.7;
+		}
+		&.editing {
+			> .close {
+				height: 88px;
+				.caret {
+					border-width: 7px;
+					border-bottom-width: 12px;
+					margin-top: -3px;
+					border-top: 0;
+				}
+			}
+		}
 	}
 }

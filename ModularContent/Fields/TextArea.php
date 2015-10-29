@@ -13,6 +13,7 @@ use ModularContent\Panel;
  */
 class TextArea extends Field {
 	protected $richtext = FALSE;
+	protected $media_buttons = true;
 	protected static $global_index = 0;
 	protected $index = 0;
 	protected static $first_mce_init_settings = array();
@@ -31,6 +32,7 @@ class TextArea extends Field {
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
+		$this->defaults['media_buttons'] = $this->media_buttons;
 		parent::__construct($args);
 		$this->index = sprintf('%04d', self::$global_index++);
 
@@ -51,7 +53,8 @@ class TextArea extends Field {
 					'textarea_rows' => 15,
 					'textarea_name' => $this->get_input_name(),
 					'quicktags'     => true,
-					'editor_class'    => 'wysiwyg-'.$this->get_indexed_name(),
+					'editor_class'  => 'wysiwyg-' . $this->get_indexed_name(),
+					'media_buttons' => $this->media_buttons
 				)
 			);
 			remove_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
@@ -141,6 +144,9 @@ class TextArea extends Field {
 		if ( $this->richtext && apply_filters( 'apply_the_content_filters_to_panel_builder_wysiwygs', TRUE, $this, $panel ) ) {
 			$text = apply_filters( 'the_content', $text );
 		}
+
+		$text = apply_filters( 'panels_field_vars', $text, $this, $panel );
+
 		return $text;
 	}
 }

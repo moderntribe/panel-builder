@@ -20,7 +20,31 @@ function get_panel_var( $name ) {
  * @return array Keys will be the configured field names
  */
 function get_panel_vars() {
- return \ModularContent\Plugin::instance()->loop()->vars();
+	return \ModularContent\Plugin::instance()->loop()->vars();
+}
+
+/**
+ * Get the value of a single field from the current panel for an external source.
+ *
+ * Example:
+ * You set up a panel with a text field with the name "my_field".
+ * get_panel_var( 'my_field' ) returns the value entered for that field.
+ *
+ * @param string $name
+ *
+ * @return mixed
+ */
+function get_panel_var_for_api( $name ) {
+	return \ModularContent\Plugin::instance()->loop()->get_var_for_api( $name );
+}
+
+/**
+ * Get the values of all fields from the current panel for using on external sources.
+ *
+ * @return array Keys will be the configured field names
+ */
+function get_panel_vars_for_api() {
+	return \ModularContent\Plugin::instance()->loop()->vars_for_api();
 }
 
 

@@ -132,7 +132,7 @@ The user can pick an arbitrary number of posts, or define a query that will dyna
 the list of posts from your site's content.
 
 ```php
-$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'description' => 'Select 3-12 posts' ) ) );
+$module->add_field( new \ModularContent\Fields\Posts( array( 'label' => __('Posts', 'steelcase'), 'name' => 'posts', 'min' => 3, 'suggested' => 3, 'max' => 12, 'show_max_control' => false, 'description' => 'Select 3-12 posts' ) ) );
 ```
 
 #### `PostQuacker`
@@ -207,7 +207,6 @@ Most events return the applicable element along with the event object, plus the 
 * `tribe-panels.removed-one` is emitted when a panel is removed. Returns the panel el and the panel id.
 * `tribe-panels.opened-one` is emitted when a panel is expanded by the user. Returns the panel el and the panel id.
 * `tribe-panels.closed-one` is emitted when a panel is closed by the user. Returns the panel el and the panel id.
-* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el and value of radio.
 * `tribe-panels.repeater-row-added` is emitted when a repeater field is added in any panel. Returns container and new row.
 * `tribe-panels.repeater-row-removed` is emitted when a repeater field is removed in any panel. Returns repeater container.
 
@@ -219,5 +218,27 @@ $( document ).on( 'tribe-panels.added-one', function( event, element, panel_id )
 	console.log( 'Event: ' + event );
 	console.log( 'New Panel: ' + element );
 	console.log( 'New Panel ID: ' + panel_id );
+} );
+```
+
+Special events (useful for conditional logic in the admin)
+Note that these events also emit on panel init so you can do any first run setup on existing panels, and they emit every time a new panel is added.
+Also note that when registering these fields (image-select, radio, select) a class will be added to the panel row.
+It looks like this: condition-input-name-YOUR_FIELD_NAME-YOUR_ACTIVE_RADIOS_OR_SELECTS_VALUE 
+
+* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el, value of selected radio and field el.
+* `tribe-panels.select-changed` is emitted when an select field has changed it value. Returns panel el, value of selected option and field el.
+* `tribe-panels.radio-changed` is emitted when an radio field set has changed it value. Returns panel el, value of selected radio and field el.
+
+Example usage:
+
+```js
+$( document ).on( 'tribe-panels.select-changed', function( event, $panel, val, $field ) {
+	if( $field.is( '.input-name-slide_text_color' ) ){
+		// do something for this registered field on value
+		if( val === 'dark' ){
+			console.log( event );
+		}
+	}
 } );
 ```

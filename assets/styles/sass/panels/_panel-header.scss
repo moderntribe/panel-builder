@@ -1,4 +1,5 @@
 .panel-row-header {
+	padding-right: 40px;
 	.editing > & {
 		position: relative;
 
@@ -47,5 +48,15 @@
 		font-weight: lighter;
 		font-style: italic;
 		color: #A8A8A8;
+	}
+}
+
+.editing {
+	> .panel-row-header {
+		border: 0;
+		padding-right: 40px;
+		&:before {
+			content: none;
+		}
 	}
 }

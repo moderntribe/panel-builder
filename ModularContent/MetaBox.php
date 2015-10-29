@@ -13,6 +13,7 @@ namespace ModularContent;
 class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';
+	const PANELS_LOADED_FLAG = 'ModularContent_meta_box_loaded';
 
 	public function add_hooks() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
@@ -101,6 +102,7 @@ class MetaBox {
 	public static function display_nonce() {
 		if ( post_type_supports(get_post_type(), 'modular-content') ) {
 			wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME);
+			printf( '<input id="panels_meta_box_loaded" type="hidden" name="%s" value="0" />', self::PANELS_LOADED_FLAG );
 		}
 	}
 
@@ -134,6 +136,7 @@ class MetaBox {
 			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
 			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
 			'untitled' => __( 'Untitled', 'modular-content' ),
+			'loading' => __( 'Loading...', 'modular-content' ),
 		);
 		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}
@@ -196,6 +199,10 @@ class MetaBox {
 		// make sure the submission is for the correct post (or a revision)
 		if ( ! isset( $submission['post_ID'] ) || ( $submission['post_ID'] != $post['ID'] && $post['post_parent'] != $submission['post_ID'] ) ) {
 			return false;
+		}
+
+		if ( empty( $submission[ self::PANELS_LOADED_FLAG ] ) ) {
+			return FALSE;
 		}
 
 		// don't do anything on auto-draft, bulk edit, or quick edit
@@ -309,16 +316,24 @@ class MetaBox {
 		));
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
+			if ( $request['type'] ) {
+				$post__in = $this->get_posts_with_p2p_connection( $request['type'] );
+				if ( empty( $post__in ) ) {
+					$post__in = array( -1 );
+				}
+			} else {
+				$post__in = '';
+			}
 			$args = array(
 				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
 				'post_status' => 'publish',
 				's' => $request['s'],
 				'posts_per_page' => 50,
 				'suppress_filters' => false,
-				'connected_type' => $request['type'],
-				'connected_items' => 'any',
-				'connected_direction' => 'any',
 			);
+			if ( $post__in ) {
+				$args['post__in'] = $post__in;
+			}
 			if ( !empty($request['paged']) ) {
 				$offset = $request['paged'] - 1;
 				$offset = $offset * 50;
@@ -358,6 +373,14 @@ class MetaBox {
 		wp_send_json($response); // exits
 	}
 
+	private function get_posts_with_p2p_connection( $type ) {
+		/** @var \wpdb $wpdb */
+		global $wpdb;
+		$from_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		$to_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_to FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
+		return array_merge( $from_ids, $to_ids );
+	}
+
 	public function ajax_fetch_titles() {
 		$post_ids = $_POST['post_ids'];
 		$response = array('post_ids' => array());
@@ -374,11 +397,11 @@ class MetaBox {
 		} elseif ( !empty($_POST['filters']) ) {
 			$max = !empty($_POST['max']) ? $_POST['max'] : 12;
 			$context = empty($_POST['context']) ? 0 : $_POST['context'];
-			$post_ids = Fields\Posts::get_posts_for_filters($_POST['filters'], $max, $context);
+			$post_ids = Fields\Post_List::get_posts_for_filters($_POST['filters'], $max, $context);
 		}
 		if ( !empty($post_ids) ) {
 			$response['post_ids'] = $post_ids;
-			$response['posts'] = Fields\Posts::get_post_data($post_ids);
+			$response['posts'] = Fields\Post_List::get_post_data($post_ids);
 		}
 		wp_send_json_success($response);
 	}

@@ -26,6 +26,7 @@ class PanelRenderer {
 			$loop->set_the_panel($this->panel);
 		}
 		$template = $this->panel->get_type_object()->get_template_path();
+		$template = apply_filters( 'panel_template_path', $template, $this->panel );
 		if ( empty($template) ) {
 			return '';
 		}
@@ -52,13 +53,12 @@ class PanelRenderer {
 	}
 
 	protected function get_wrapper_template_path() {
-		$viewfinder = new ViewFinder(Plugin::plugin_path('public-views'));
-		$template_file = $viewfinder->locate_theme_file('panel-wrapper.php');
+		$viewfinder    = new ViewFinder( Plugin::plugin_path( 'public-views' ) );
+		$template_file = $viewfinder->locate_theme_file( 'panel-wrapper.php' );
+
+		$template_file = apply_filters( 'panels_panel_wrapper_template', $template_file, $viewfinder );
+
 		return $template_file;
-		if ( empty($template_file) ) {
-			return '';
-		}
-		return $this->include_wrapper_template($template_file);
 	}
 
 	protected function include_wrapper_template( $template_path, $html ) {
