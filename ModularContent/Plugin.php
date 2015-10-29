@@ -49,7 +49,10 @@ class Plugin {
 			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
 
 				if ( is_preview() ) {
-					$current_post = wp_get_post_autosave( get_the_ID() );
+					$autosave = wp_get_post_autosave( get_the_ID() );
+					if ( $autosave ) {
+						$current_post = $autosave;
+					}
 				}
 
 				$panels = PanelCollection::find_by_post_id( $current_post->ID );
