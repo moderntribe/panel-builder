@@ -43,8 +43,18 @@ class Plugin {
 	public function loop() {
 		if ( !isset($this->loop) ) {
 			$panels = NULL;
-			$current_post = get_queried_object();
+
+			$current_post =  get_queried_object();
+
 			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
+
+				if ( is_preview() ) {
+					$autosave = wp_get_post_autosave( get_the_ID() );
+					if ( $autosave ) {
+						$current_post = $autosave;
+					}
+				}
+
 				$panels = PanelCollection::find_by_post_id( $current_post->ID );
 			}
 			$this->loop = new Loop($panels);
