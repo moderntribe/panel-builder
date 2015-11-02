@@ -112,7 +112,7 @@
 	window.tribe.panels = window.tribe.panels || {};
 	window.tribe.panels.wysywig_field = wysiwyg_field;
 
-	$(document).on( 'tribe-panels.start-repeater-drag-sort', wysiwyg_field.handle_sort_start );
-	$(document).on( 'tribe-panels.stop-repeater-drag-sort', wysiwyg_field.handle_sort_stop );
+	$(document).on( 'tribe-panels.start-repeater-drag-sort tribe-panels.start-panel-drag-sort', wysiwyg_field.handle_sort_start );
+	$(document).on( 'tribe-panels.stop-repeater-drag-sort tribe-panels.stop-panel-drag-sort', wysiwyg_field.handle_sort_stop );
 
 })(jQuery);

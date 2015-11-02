@@ -81,10 +81,10 @@
 				placeholder: 'panel-row-drop-placeholder',
 				forcePlaceholderSize: true,
 				start: function( e, ui ) {
-					$(ui.item).trigger('tribe-panels.start-repeater-drag-sort');
+					$(ui.item).trigger('tribe-panels.start-panel-drag-sort');
 				},
 				stop: function( e, ui ) {
-					$(ui.item).trigger('tribe-panels.stop-repeater-drag-sort');
+					$(ui.item).trigger('tribe-panels.stop-panel-drag-sort');
 				}
 			});
 		};
