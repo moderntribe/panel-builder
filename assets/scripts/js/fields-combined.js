@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-11-01 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-10-22 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -107,6 +107,9 @@
 		var panel_id = container.find( '.gallery-field-name' ).val();
 		var selection_row = container.find( '.gallery-field-selection' );
 		var default_attachment = { id: 0, thumbnail: '' };
+		if ( !Array.isArray( data ) ) {
+			data = [];
+		}
 		selection_row.empty();
 		$.each( data, function ( index, attachment ) {
 			attachment = _.extend( {}, default_attachment, attachment );
@@ -1777,7 +1780,7 @@
 	window.tribe.panels = window.tribe.panels || {};
 	window.tribe.panels.wysywig_field = wysiwyg_field;
 
-	$(document).on( 'tribe-panels.start-repeater-drag-sort tribe-panels.start-panel-drag-sort', wysiwyg_field.handle_sort_start );
-	$(document).on( 'tribe-panels.stop-repeater-drag-sort tribe-panels.stop-panel-drag-sort', wysiwyg_field.handle_sort_stop );
+	$(document).on( 'tribe-panels.start-repeater-drag-sort', wysiwyg_field.handle_sort_start );
+	$(document).on( 'tribe-panels.stop-repeater-drag-sort', wysiwyg_field.handle_sort_stop );
 
 })(jQuery);

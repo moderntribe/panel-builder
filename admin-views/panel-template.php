@@ -64,7 +64,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 				<?php endif; ?>
 
-				<a class="delete-panel" href="JavaScript:void(0);"><?php _e('Delete Panel', 'modular-content'); ?></a>
+				<a class="delete-panel" href="JavaScript:void(0);"><?php printf( __('Delete %s', 'modular-content'), $singular ); ?></a>
 
 			</div>
 

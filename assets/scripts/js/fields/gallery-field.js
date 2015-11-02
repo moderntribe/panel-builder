@@ -103,6 +103,9 @@
 		var panel_id = container.find( '.gallery-field-name' ).val();
 		var selection_row = container.find( '.gallery-field-selection' );
 		var default_attachment = { id: 0, thumbnail: '' };
+		if ( !Array.isArray( data ) ) {
+			data = [];
+		}
 		selection_row.empty();
 		$.each( data, function ( index, attachment ) {
 			attachment = _.extend( {}, default_attachment, attachment );

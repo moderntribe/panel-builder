@@ -558,6 +558,7 @@
 			window.tribe.panels.container.initExistingPanels();
 			submitButtons.removeClass( 'disabled' );
 			$( document ).trigger( 'tribe-panels.loaded', window.tribe.panels.container.$el );
+			$( '#panels_meta_box_loaded' ).val( 1 );
 		});
 
 	});
