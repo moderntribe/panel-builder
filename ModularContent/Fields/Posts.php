@@ -127,7 +127,7 @@ class Posts extends Post_List {
 			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : array();
 		}
 
-		$posts = $this->post_id_to_array( $post_ids );
+		$posts = array_map( [ $this, 'post_id_to_array' ], array_filter( $post_ids ) );
 
 		$posts = apply_filters( 'panels_field_vars_for_api', $posts, $data, $this, $panel );
 
