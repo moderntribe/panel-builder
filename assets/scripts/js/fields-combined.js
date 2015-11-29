@@ -111,16 +111,19 @@
 			data = [];
 		}
 		selection_row.empty();
-		$.each( data, function ( index, attachment ) {
-			attachment = _.extend( {}, default_attachment, attachment );
-			if ( attachment.id && attachment.thumbnail ) {
-				var item = $('<div class="gallery-field-item"></div>');
-				item.append( '<input type="hidden" class="gallery-field-attachment-id" name="'+panel_id+'['+index+'][id]" value="'+attachment.id+'" />');
-				item.append( '<input type="hidden" class="gallery-field-attachment-thumbnail" name="'+panel_id+'['+index+'][thumbnail]" value="'+attachment.thumbnail+'" />');
-				item.append( '<img src="'+attachment.thumbnail+'" width="75" height="75" />' );
-				selection_row.append( item );
-			}
-		});
+
+		if (data.length) {
+			$.each(data, function (index, attachment) {
+				attachment = _.extend({}, default_attachment, attachment);
+				if (attachment.id && attachment.thumbnail) {
+					var item = $('<div class="gallery-field-item"></div>');
+					item.append('<input type="hidden" class="gallery-field-attachment-id" name="' + panel_id + '[' + index + '][id]" value="' + attachment.id + '" />');
+					item.append('<input type="hidden" class="gallery-field-attachment-thumbnail" name="' + panel_id + '[' + index + '][thumbnail]" value="' + attachment.thumbnail + '" />');
+					item.append('<img src="' + attachment.thumbnail + '" width="75" height="75" />');
+					selection_row.append(item);
+				}
+			});
+		}
 	};
 
 	var initialize_row = function( container, data ) {
