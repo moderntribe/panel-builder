@@ -128,11 +128,8 @@ class PostQuacker extends Field {
 			$vars['post_id']   = 0;
 		}
 
-		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
 
-		return $vars;
-
-		$return_data = apply_filters( 'panels_field_vars_for_api', $return_data, $data, $this, $panel );
+		$return_data = apply_filters( 'panels_field_vars_for_api', $vars, $data, $this, $panel );
 
 		return $return_data;
 	}
