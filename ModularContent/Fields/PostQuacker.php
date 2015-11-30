@@ -108,6 +108,35 @@ class PostQuacker extends Field {
 		return $vars;
 	}
 
+	public function get_vars_for_api( $data, $panel ) {
+
+		if ( $data['type'] == 'manual' ) {
+			$post_id = ! empty( $data['post_ids'] ) ? reset( $data['post_ids'] ) : 0;
+			$vars    = $this->post_id_to_array( $post_id );
+		} else {
+			$fields = $this->get_manual_field_definitions();
+			$vars   = array();
+			foreach ( $fields as $key => $f ) {
+				if ( isset( $data[ $key ] ) ) {
+					$vars[ $key ] = $f->get_vars_for_api( $data[ $key ], $panel );
+				} else {
+					$vars[ $key ] = $f->get_vars_for_api( '', $panel );
+				}
+			}
+			$vars['excerpt']   = $vars['content'];
+			$vars['post_type'] = '';
+			$vars['post_id']   = 0;
+		}
+
+		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
+
+		return $vars;
+
+		$return_data = apply_filters( 'panels_field_vars_for_api', $return_data, $data, $this, $panel );
+
+		return $return_data;
+	}
+
 	protected function post_id_to_array( $post_id ) {
 		$data = array(
 			'title' => '',
