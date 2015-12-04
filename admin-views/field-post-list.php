@@ -54,9 +54,9 @@ foreach ( $hidden_fields as $hidden_field_name ) {
 								<?php endforeach; ?>
 							</select>
 						<?php else : ?>
-							<?php $post_type = reset($this->post_type_options()); ?>
+							<?php $post_type = $this->post_type_options()[0]; ?>
 							<input type="hidden" class="post-type" data-filter_type="post_type" value="<?php esc_attr_e( $post_type->name ); ?>" />
-						<?php endif ?>
+						<?php endif; ?>
 						<div class="post-picker">
 							<input class="selected-post-field" type="hidden" data-placeholder="<?= esc_attr( $this->get_string( 'label.choose_post' ) ); ?>" />
 						</div>
@@ -90,13 +90,18 @@ foreach ( $hidden_fields as $hidden_field_name ) {
 		<div class="filter-post_type-container">
 			<div class="panel-filter-row filter-post_type">
 				<label><?= $this->get_string( 'label.content_type' ); ?></label>
-				<span class="filter-options">
-					<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?= esc_attr( $this->get_string( 'label.select_post_types' ) ); ?>" data-filter_type="post_type">
-						<?php foreach ( $this->post_type_options() as $post_type ): ?>
-							<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>'
-						<?php endforeach; ?>
-					</select>
-				</span>
+				<?php if ( count( $this->post_type_options() ) > 1 ) : ?>
+					<span class="filter-options">
+							<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?= esc_attr( $this->get_string( 'label.select_post_types' ) ); ?>" data-filter_type="post_type">
+								<?php foreach ( $this->post_type_options() as $post_type ): ?>
+									<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>'
+								<?php endforeach; ?>
+							</select>
+					</span>
+				<?php else: ?>
+					<?php $post_type = $this->post_type_options()[0];?>
+					<input type="hidden" value="<?php esc_attr_e($post_type->name); ?>" name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-input term-select" data-filter_type="post_type" />
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php if ( $show_max_control ) { ?>
