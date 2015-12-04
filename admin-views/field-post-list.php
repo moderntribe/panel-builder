@@ -45,12 +45,18 @@ foreach ( $hidden_fields as $hidden_field_name ) {
 						</div>
 					</div>
 					<div class="select-post-input">
-						<select class="post-type" data-filter_type="post_type">
-							<option value=""><?= $this->get_string( 'label.select_post_type' ); ?></option>
-							<?php foreach ( $this->post_type_options() as $post_type ): ?>
-								<option value="<?php esc_attr_e($post_type->name); ?>"><?php esc_html_e($post_type->label); ?></option>
-							<?php endforeach; ?>
-						</select>
+						<?php if (count($this->post_type_options()) > 1) : ?>
+							<select class="post-type" data-filter_type="post_type">
+								<option value=""><?= $this->get_string( 'label.select_post_type' ); ?></option>
+								<?php foreach ( $this->post_type_options() as $post_type ): ?>
+									<option
+										value="<?php esc_attr_e( $post_type->name ); ?>"><?php esc_html_e( $post_type->label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						<?php else : ?>
+							<?php $post_type = reset($this->post_type_options()); ?>
+							<input type="hidden" class="post-type" data-filter_type="post_type" value="<?php esc_attr_e( $post_type->name ); ?>" />
+						<?php endif ?>
 						<div class="post-picker">
 							<input class="selected-post-field" type="hidden" data-placeholder="<?= esc_attr( $this->get_string( 'label.choose_post' ) ); ?>" />
 						</div>
