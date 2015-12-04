@@ -216,7 +216,7 @@
 					s: term,
 					type: panel.data('type'),
 					paged: page,
-					post_type: row.find('select.post-type').val(),
+					post_type: row.find('select.post-type').val() || row.find('input.post-type' ).val(),
 					field_name: field.data('name')
 				};
 			};
