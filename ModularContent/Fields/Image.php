@@ -63,7 +63,7 @@ class Image extends Field {
 
 		// Something went wrong. Most likely the attachment was deleted.
 		if ( $size_data === false ) {
-			return [ ];
+			return new \stdClass;
 		}
 
 		$attachment = get_post( $data );
