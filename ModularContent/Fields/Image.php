@@ -101,8 +101,13 @@ class Image extends Field {
 
 		$return_data['sizes'] = $all_sizes_data;
 
-		$return_data = apply_filters( 'panels_field_vars_for_api', $return_data, $data, $this, $panel );
+		$return_object = new \stdClass();
+		foreach ( $return_data as $key => $value ) {
+			$return_object->$key = $value;
+		}
 
-		return $return_data;
+		$return_object = apply_filters( 'panels_field_vars_for_api', $return_object, $data, $this, $panel );
+
+		return $return_object;
 	}
 }
