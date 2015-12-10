@@ -166,8 +166,10 @@ class PostQuacker extends Field {
 		);
 		$data['post_type'] = $post->post_type;
 		$data['post_id'] = $post->ID;
+		$_post = $post;
 		wp_reset_postdata();
-		return $data;
+
+		return apply_filters( 'panel_post_id_to_array', $data, $post_id, $_post );
 	}
 
 	public function post_type_options() {
