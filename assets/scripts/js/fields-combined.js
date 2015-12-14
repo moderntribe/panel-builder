@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-11-01 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2015-12-14 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -357,7 +357,7 @@
 					}
 				});
 
-				if ( data.type == 'dynamic' ) {
+				if ( data.type == 'query' ) {
 					$.each(data.filters, function( index, filter ) {
 						if ( index != 'post_type' ) {
 							this.add_filter_row( index, filter );
