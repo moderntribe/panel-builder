@@ -174,7 +174,7 @@
 					}
 				});
 
-				if ( data.type == 'dynamic' ) {
+				if ( data.type == 'query' ) {
 					$.each(data.filters, function( index, filter ) {
 						if ( index != 'post_type' ) {
 							this.add_filter_row( index, filter );
