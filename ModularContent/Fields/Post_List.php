@@ -4,7 +4,7 @@ namespace ModularContent\Fields;
 use ModularContent\Panel, ModularContent\AdminPreCache;
 
 /**
- * Class Posts
+ * Class Post_List
  *
  * @package ModularContent\Fields
  *
