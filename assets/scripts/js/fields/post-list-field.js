@@ -700,6 +700,9 @@
 		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
 			Post_List.initialize_row( $(this), uuid, data );
 		});
+		$( '#post' ).submit( function () {
+			$( 'select[data-filter_type="post_type"]' ).prop( 'disabled', false );
+		} );
 	});
 
 })(jQuery);
