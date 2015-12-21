@@ -87,13 +87,13 @@ $post_type_option_selected = $post_type_select_disabled ? 'selected="selected"' 
 		<div class="filter-post_type-container">
 			<div class="panel-filter-row filter-post_type">
 				<label><?= $this->get_string( 'label.content_type' ); ?></label>
-					<span class="filter-options">
-						<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?= esc_attr( $this->get_string( 'label.select_post_types' ) ); ?>" data-filter_type="post_type" <?php echo $post_type_select_disabled; ?>>
-							<?php foreach ( $this->post_type_options() as $post_type ): ?>
-								<option value="<?php esc_attr_e($post_type->name); ?>" <?php echo $post_type_option_selected; ?>><?php esc_html_e($post_type->label); ?></option>'
-							<?php endforeach; ?>
-						</select>
-					</span>
+				<span class="filter-options">
+					<select name="<?php echo $input_name ?>[filters][post_type][selection][]" class="post-type-select term-select" multiple="multiple" data-placeholder="<?= esc_attr( $this->get_string( 'label.select_post_types' ) ); ?>" data-filter_type="post_type" <?php echo $post_type_select_disabled; ?>>
+						<?php foreach ( $this->post_type_options() as $post_type ): ?>
+							<option value="<?php esc_attr_e($post_type->name); ?>" <?php echo $post_type_option_selected; ?>><?php esc_html_e($post_type->label); ?></option>'
+						<?php endforeach; ?>
+					</select>
+				</span>
 			</div>
 		</div>
 		<?php if ( $show_max_control ) { ?>
