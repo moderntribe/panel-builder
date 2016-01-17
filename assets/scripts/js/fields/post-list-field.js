@@ -700,6 +700,11 @@
 		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
 			Post_List.initialize_row( $(this), uuid, data );
 		});
+		$( '#post' ).submit( function () {
+			// the post type field might be disabled if there is one post type only
+			// re-enable it to have it sent along in submitted data
+			$( 'select[data-filter_type="post_type"]' ).prop( 'disabled', false );
+		} );
 	});
 
 })(jQuery);
