@@ -23,7 +23,7 @@ foreach ( $hidden_fields as $hidden_field_name ) {
 	$hidden_field_classes .= ' hidden-'.$hidden_field_name;
 }
 $count                     = count( $this->post_type_options() );
-$post_type_select_disabled = $count > 1 ? '' : 'disabled="disabled"';
+$post_type_select_disabled = $count < 2 ? 'disabled="disabled"' : '';
 $post_type_option_selected = $post_type_select_disabled ? 'selected="selected"' : '';
 ?>
 <div class="panel-input-group panel-input-post-list <?= $hidden_field_classes; ?>" id="<?php echo $id_string; ?>" data-name="<?php esc_attr_e($this->name); ?>" data-max="<?php echo $max; ?>" data-min="<?php echo $min; ?>" data-suggested="<?php echo $suggested; ?>">
