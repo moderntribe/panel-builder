@@ -43,10 +43,3 @@
 	opacity: 1;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
-
-/* Layout Type Options Tweaks */
-
-.input-name-layout input[type="radio"]:checked + img,
-.input-name-layout img:hover {
-	background-color: white;
-}

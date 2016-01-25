@@ -735,30 +735,6 @@
   padding-bottom: 30px;
 }
 
-/* line 3, ../sass/input/_layout.scss */
-.input-name-layout input[type="radio"] {
-  display: none;
-}
-/* line 7, ../sass/input/_layout.scss */
-.input-name-layout img {
-  background: #ccc;
-  opacity: 0.4;
-  transition: all 0.1s ease-out;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-}
-/* line 14, ../sass/input/_layout.scss */
-.input-name-layout input[type="radio"]:checked + img, .input-name-layout img:hover {
-  opacity: 0.6;
-  background: transparent;
-  border: thin solid #d7d7d7;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-}
-/* line 21, ../sass/input/_layout.scss */
-.input-name-layout input[type="radio"]:checked + img {
-  opacity: 1;
-}
-
 /* line 1, ../sass/input/_description.scss */
 .description.panel-input-description {
   font-style: normal;
@@ -834,13 +810,6 @@
 .input-name-block_option_bgd_color img:hover {
   opacity: 1;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-}
-
-/* Layout Type Options Tweaks */
-/* line 49, ../sass/fields/_base.scss */
-.input-name-layout input[type="radio"]:checked + img,
-.input-name-layout img:hover {
-  background-color: white;
 }
 
 /* line 1, ../sass/fields/_posts.scss */
@@ -1536,6 +1505,49 @@
 .gallery-field-item {
   float: left;
   margin: 0.25em 0.5em;
+}
+
+/* line 2, ../sass/fields/_image-select.scss */
+.input-type-imageselect label {
+  display: inline-block;
+}
+/* line 6, ../sass/fields/_image-select.scss */
+.input-type-imageselect input[type="radio"] {
+  display: none;
+}
+/* line 10, ../sass/fields/_image-select.scss */
+.input-type-imageselect img {
+  background: #ccc;
+  opacity: 0.4;
+  transition: all 0.1s ease-out;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  display: block;
+}
+/* line 18, ../sass/fields/_image-select.scss */
+.input-type-imageselect input[type="radio"]:checked + img, .input-type-imageselect img:hover {
+  opacity: 0.6;
+  background-color: white;
+  border: thin solid #d7d7d7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+/* line 25, ../sass/fields/_image-select.scss */
+.input-type-imageselect input[type="radio"]:checked + img {
+  opacity: 1;
+}
+/* line 29, ../sass/fields/_image-select.scss */
+.input-type-imageselect .label-text {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  padding: 2px;
+  border: thin solid transparent;
+}
+/* line 37, ../sass/fields/_image-select.scss */
+.input-type-imageselect input[type="radio"]:checked + .label-text, .input-type-imageselect input[type="radio"] + .label-text:hover {
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  border-color: #d7d7d7;
 }
 
 /**
