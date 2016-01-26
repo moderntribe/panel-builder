@@ -285,7 +285,7 @@
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777777;
+  border-top: 6.5px solid #777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */
@@ -331,7 +331,7 @@
 }
 /* line 35, ../sass/panels/_panel.scss */
 .panel-row.ui-sortable-placeholder {
-  border: thin dashed #DDD;
+  border: thin dashed #dddddd;
   visibility: visible;
 }
 /* line 40, ../sass/panels/_panel.scss */
@@ -356,7 +356,7 @@
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-bottom: 6.5px solid white;
+  border-bottom: 6.5px solid #fff;
 }
 /* line 59, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
@@ -366,7 +366,7 @@
 /* line 66, ../sass/panels/_panel.scss */
 .panel-builder-border-color {
   border-color: transparent !important;
-  border-bottom: thin solid #ddd !important;
+  border-bottom: thin solid #dddddd !important;
 }
 
 /* line 71, ../sass/panels/_panel.scss */
@@ -629,7 +629,7 @@
 .panel-row-editor .panel-toggle,
 .panel-row-editor .panel-children-container > h4 {
   background-color: #888;
-  color: white;
+  color: #fff;
   font-weight: 400;
   font-size: 14px;
   line-height: 1;
@@ -664,7 +664,7 @@
 .panel-row-editor legend.panel-toggle:hover:after,
 .panel-row-editor .panel-toggle:hover:after,
 .panel-row-editor .panel-children-container > h4:hover:after {
-  color: white;
+  color: #fff;
 }
 /* line 130, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-toggle.is-closed:after,
@@ -682,7 +682,7 @@
 .panel-row .input-name-title {
   margin: 0 -15px 25px;
   padding: 5px 15px 25px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #dddddd;
 }
 
 /* line 147, ../sass/panels/_panel-editor.scss */
@@ -730,7 +730,7 @@
 
 /* line 190, ../sass/panels/_panel-editor.scss */
 .editing .panel-row-editor {
-  border: thin solid #ddd;
+  border: thin solid #dddddd;
   border-bottom: 0;
   padding-bottom: 30px;
 }
@@ -797,7 +797,7 @@
   width: 42px;
   height: 42px;
   padding: 2px;
-  background: white;
+  background: #fff;
   opacity: 0.4;
   border: solid 1px #d7d7d7;
   transition: all .1s ease-out;
@@ -841,7 +841,7 @@
 /* line 22, ../sass/fields/_posts.scss */
 .panel-input-posts .search-controls, .panel-input-post-list .search-controls {
   padding-bottom: 1em;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #dddddd;
   margin-bottom: 1em;
 }
 /* line 27, ../sass/fields/_posts.scss */
@@ -917,7 +917,7 @@
   padding: 7px;
   background-color: #f1f1f1;
   margin-bottom: 1em;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   min-height: 80px;
 }
 /* line 101, ../sass/fields/_posts.scss */
@@ -966,7 +966,7 @@
 }
 /* line 144, ../sass/fields/_posts.scss */
 .panel-input-posts .panel-filter-row, .panel-input-post-list .panel-filter-row {
-  border-top: 1px solid #DDD;
+  border-top: 1px solid #dddddd;
   padding: 10px 0;
 }
 /* line 149, ../sass/fields/_posts.scss */
@@ -1171,12 +1171,12 @@
   height: 30px;
   line-height: 30px;
   background: #2ea2cc;
-  color: white;
+  color: #fff;
 }
 /* line 339, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:hover, .panel-input-post-list .button-secondary:hover {
   background: #1e8cbe;
-  color: white;
+  color: #fff;
 }
 /* line 343, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:focus, .panel-input-posts .button-secondary:active, .panel-input-post-list .button-secondary:focus, .panel-input-post-list .button-secondary:active {
@@ -1230,7 +1230,7 @@
 
 /* line 395, ../sass/fields/_posts.scss */
 .panels .ui-widget-content.panel-input-group {
-  border: thin solid #ddd;
+  border: thin solid #dddddd;
 }
 /* line 397, ../sass/fields/_posts.scss */
 .panels .ui-widget-content.panel-input-group .ui-tabs-nav {
@@ -1245,7 +1245,7 @@
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 15px;
-  background-color: white;
+  background-color: #fff;
 }
 /* line 412, ../sass/fields/_posts.scss */
 .panels .ui-tabs-nav .ui-corner-top {
@@ -1255,7 +1255,7 @@
 .panels .ui-state-active,
 .panels .ui-widget-content .ui-state-active,
 .panels .ui-widget-header .ui-state-active {
-  background-color: white;
+  background-color: #fff;
   border-bottom-color: transparent;
 }
 /* line 422, ../sass/fields/_posts.scss */
@@ -1295,7 +1295,7 @@
 .panel-repeater-row {
   clear: both;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   border-top: 0;
   margin: 0 0 15px;
 }
@@ -1307,7 +1307,7 @@
 .panel-repeater-row .panel-input,
 .panel-repeater-row fieldset.input-type-link {
   padding: 0 15px;
-  background-color: white;
+  background-color: #fff;
   border-bottom: 0;
   margin-top: 20px;
 }
@@ -1359,7 +1359,7 @@
 
 /* line 59, ../sass/fields/_repeater.scss */
 .panels .move {
-  color: white;
+  color: #fff;
   position: absolute;
   height: 100%;
   width: 40px;
@@ -1408,7 +1408,7 @@
   clear: both;
   background: #fefefe;
   padding: 0;
-  border: thin solid #ddd;
+  border: thin solid #dddddd;
   border-top: 0;
   margin-bottom: 30px;
 }
@@ -1461,7 +1461,7 @@
 }
 /* line 146, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
-  color: white;
+  color: #fff;
   padding-right: 5px;
   vertical-align: top;
 }
@@ -1469,7 +1469,7 @@
 /* line 153, ../sass/fields/_repeater.scss */
 .panel-repeater-row .panel-input,
 .panel-repeater-row fieldset.input-type-link {
-  background-color: white;
+  background-color: #fff;
   border-bottom: 0 none;
   margin-top: 20px;
   padding: 0 15px;
@@ -1527,7 +1527,7 @@
 /* line 18, ../sass/fields/_image-select.scss */
 .input-type-imageselect input[type="radio"]:checked + img, .input-type-imageselect img:hover {
   opacity: 0.6;
-  background-color: white;
+  background-color: #fff;
   border: thin solid #d7d7d7;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
@@ -1545,7 +1545,7 @@
 }
 /* line 37, ../sass/fields/_image-select.scss */
 .input-type-imageselect input[type="radio"]:checked + .label-text, .input-type-imageselect input[type="radio"] + .label-text:hover {
-  background-color: white;
+  background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
   border-color: #d7d7d7;
 }
@@ -1593,7 +1593,7 @@
 .panels .ui-widget-header .ui-state-active {
   top: 0;
   background: transparent;
-  border: thin solid #ddd;
+  border: thin solid #dddddd;
   border-bottom: thin solid #fafafa;
   color: #2b2b2b;
   font-weight: bold;
@@ -1616,7 +1616,7 @@
 }
 /* line 70, ../sass/_jquery-ui-overwrites.scss */
 .panels .ui-tabs .ui-tabs-nav {
-  border-bottom: thin solid #ddd;
+  border-bottom: thin solid #dddddd;
 }
 /* line 74, ../sass/_jquery-ui-overwrites.scss */
 .panels .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,

@@ -1,4 +1,4 @@
-@mixin triangle( $direction: up, $size: 9px, $color: #777 ) {
+@mixin triangle( $direction: up, $size: 9px, $color: $arrow-color ) {
   $size: $size / 2;
 
   width: 0;
