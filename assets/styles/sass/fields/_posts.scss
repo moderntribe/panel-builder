@@ -7,13 +7,13 @@
 	label {
 		display: block;
 		margin-bottom: 0.4em;
-		color: #aaa;
+		color: $post-list-text-color;
 		font-weight: lighter;
 	}
 
 	.description {
 		margin-left: 1em;
-		color: #aaa;
+		color: $post-list-text-color;
 		font-weight: lighter;
 		font-size: 85%;
 		vertical-align: bottom;
@@ -21,7 +21,7 @@
 
 	.search-controls {
 		padding-bottom: 1em;
-		border-bottom: 1px solid #DDD;
+		border-bottom: 1px solid $border-color;
 		margin-bottom: 1em;
 
 		.panel-filter-row { border-top: none; }
@@ -43,10 +43,10 @@
 		margin: 1em 0;
 		padding: 0.8em 1em;
 
-		background-color: #f9e2a9;
-		border: thin solid #e8cab0;
+		background-color: $post-list-notification-bg-color;
+		border: thin solid $post-list-notification-border-color;
 
-		color: #c4793a;
+		color: $post-list-notification-text-color;
 
 		[class*="icon"] {
 			margin-right: 0.5em;
@@ -67,17 +67,17 @@
 		top: 0;
 		right: 0;
 		padding: 0.5em;
-		background-color: #fff;
+		background-color: $white;
 		text-decoration: none;
 		display: none;
 	}
 
 	.selected-post .remove-selected-post:hover {
-		color: #c43d3a;
+		color: $warn-delete-color;
 	}
 
 	.selection .selected-post:hover {
-		background-color: #fff;
+		background-color: $white;
 		box-shadow: 0 1px 3px rgba(0,0,0,.2);
 	}
 
@@ -92,9 +92,9 @@
 	.post-preview, .selected-post {
 		position: relative;
 		padding: $post-preview-padding;
-		background-color: #f1f1f1;
+		background-color: $panel-bg-color-alt;
 		margin-bottom: 1em;
-		border: 1px solid #ddd;
+		border: 1px solid $border-color;
 		min-height: 80px;
 	}
 
@@ -142,7 +142,7 @@
 	}
 
 	.panel-filter-row {
-		border-top: 1px solid #DDD;
+		border-top: 1px solid $border-color;
 		padding: 10px 0;
 	}
 
@@ -178,12 +178,12 @@
 		display: inline-block;
 		overflow: hidden;
 		margin-left: 10px;
-		color: #999;
+		color: $link-color;
 		text-decoration: none;
 		vertical-align: middle;
 		float: right;
 
-		&:hover { color: #c43d3a; }
+		&:hover { color: $warn-delete-color; }
 	}
 
 	.selected-post.disabled {
@@ -285,14 +285,14 @@
 	 * Placeholder post
 	 */
 	.selected-post.empty {
-		background-color: #fff;
+		background-color: $white;
 
 		&:hover {
 			box-shadow: none;
 		}
 
 		.post-title, .text-line, .post-thumbnail {
-			background-color: #f1f1f1;
+			background-color: $panel-bg-color-alt;
 		}
 
 		.post-title {
@@ -334,15 +334,15 @@
 		font-size: 12px;
 		height: 30px;
 		line-height: 30px;
-		background: #2ea2cc;
-		color: white;
+		background: $button-secondary-bg-color;
+		color: $white;
 		&:hover {
-			background: #1e8cbe;
-			color: white;
+			background: $button-secondary-bg-hover-color;
+			color: $white;
 		}
 		&:focus,
 		&:active {
-			background: #1b7aa6;
+			background: $button-secondary-bg-focus-color;
 			color: rgba( 255, 255, 255, 0.95 );
 		}
 	}
@@ -393,7 +393,7 @@
 .panels{
 	.ui-widget-content{
 		&.panel-input-group{
-			border: thin solid #ddd;
+			border: thin solid $border-color;
 			.ui-tabs-nav {
 				padding-left: 15px;
 				padding-right: 15px;
@@ -405,7 +405,7 @@
 				padding-left: 15px;
 				padding-right: 15px;
 				padding-bottom: 15px;
-				background-color: white;
+				background-color: $white;
 			}
 		}
 	}
@@ -415,7 +415,7 @@
 	.ui-state-active,
 	.ui-widget-content .ui-state-active,
 	.ui-widget-header .ui-state-active {
-		background-color: white;
+		background-color: $white;
 		border-bottom-color: transparent;
 	}
 	.select2-container-multi {
@@ -426,7 +426,7 @@
 			.select2-arrow {
 				border-radius: 0;
 				background-image: none;
-				background-color: #e9e9e9;
+				background-color: $select-bg-color;
 			}
 		}
 		.select2-choices {
@@ -434,7 +434,7 @@
 			.select2-search-choice {
 				border-radius: 0;
 				background-image: none;
-				background-color: #e9e9e9;
+				background-color: $select-bg-color;
 				box-shadow: none;
 			}
 		}

@@ -1,7 +1,7 @@
 .panel-repeater-row {
 	clear: both;
-	background:#fff;
-	border: 1px solid #ddd;
+	background:$white;
+	border: 1px solid $border-color;
 	border-top: 0;
 	margin: 0 0 15px;
 	&.panel-toggle-closed {
@@ -10,7 +10,7 @@
 	.panel-input,
 	fieldset.input-type-link {
 		padding: 0 15px;
-		background-color: white;
+		background-color: $white;
 		border-bottom: 0;
 		margin-top: 20px;
 	}
@@ -34,7 +34,7 @@
 .panel-repeater-row .panel-input {
 	padding: 20px 0 0;
 	border-radius: 0;
-	background-color: #fafafa;
+	background-color: $panel-bg-color;
 }
 
 .panel-row-editor fieldset,
@@ -47,17 +47,17 @@
 	margin-left: 0;
 	overflow: hidden;
 	vertical-align: middle;
-	color: #999;
+	color: $link-color;
 	text-decoration: none;
 	line-height: 25px;
 	cursor: pointer;
 }
 .panel-input-repeater-row-controls .move:hover {
-	color: #333;
+	color: $move-hover-color;
 }
 
 .panels .move {
-	color: white;
+	color: $white;
 	position: absolute;
 	height: 100%;
 	width: 40px;
@@ -68,7 +68,7 @@
 	padding: 18px 0;
 	&:hover,
 	&:focus {
-		color: #dadada;
+		color: $move-hover-color-alt;
 	}
 }
 
@@ -77,13 +77,13 @@
 	margin-left: 10px;
 	overflow: hidden;
 	vertical-align: middle;
-	color: #999;
+	color: $link-color;
 	text-decoration: none;
 	float: right;
 	line-height: 25px;
 }
 .panel-input-repeater-row-controls .delete:hover {
-	color: #c43d3a;
+	color: $warn-delete-color;
 }
 
 .panel-repeater-new-row {
@@ -97,9 +97,9 @@
 
 .panel-children-container {
 	clear: both;
-	background: #fefefe;
+	background: $panel-bg-color-light;
 	padding: 0;
-	border: thin solid #ddd;
+	border: thin solid $border-color;
 	border-top: 0;
 	margin-bottom: 30px;
 	&.panel-toggle-closed {
@@ -125,8 +125,8 @@
 	height: 42px;
 	line-height: 43px;
 	padding: 0 20px;
-	background: #2ea2cc;
-	color: #fff;
+	background: $button-secondary-bg-color;
+	color: $white;
 	text-decoration: none;
 	vertical-align: top;
 	display: inline-block;
@@ -134,17 +134,17 @@
 	margin: 0;
 	white-space: nowrap;
 	&:hover {
-		background: #1e8cbe;
-		color: #fff;
+		background: $button-secondary-bg-hover-color;
+		color: $white;
 	}
 	&:focus,
 	&:active {
-		background: #1b7aa6;
+		background: $button-secondary-bg-focus-color;
 		color: rgba( 255, 255, 255, 0.95 );
 		vertical-align: top;
 	}
 	&:before {
-		color: white;
+		color: $white;
 		padding-right: 5px;
 		vertical-align: top;
 	}
@@ -152,7 +152,7 @@
 
 .panel-repeater-row .panel-input,
 .panel-repeater-row fieldset.input-type-link {
-	background-color: white;
+	background-color: $white;
 	border-bottom: 0 none;
 	margin-top: 20px;
 	padding: 0 15px;

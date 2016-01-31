@@ -1,5 +1,5 @@
 /**
- * Auto-concatenaed on 2015-12-14 based on files in assets/scripts/js/fields
+ * Auto-concatenaed on 2016-01-26 based on files in assets/scripts/js/fields
  */
 
 (function($, window) {
@@ -883,6 +883,11 @@
 		panels_div.on('new-panel-repeater-row', '.panel-repeater-row', function(e, uuid, data) {
 			Post_List.initialize_row( $(this), uuid, data );
 		});
+		$( '#post' ).submit( function () {
+			// the post type field might be disabled if there is one post type only
+			// re-enable it to have it sent along in submitted data
+			$( 'select[data-filter_type="post_type"]' ).prop( 'disabled', false );
+		} );
 	});
 
 })(jQuery);

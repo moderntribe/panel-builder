@@ -18,11 +18,11 @@
 }
 
 .panel-row-editor > .delete-panel {
-	color: #888;
+	color: $panel-bg-color-dark;
 }
 
 .panel-row-editor > .delete-panel:hover {
-	color: #555;
+	color: $delete-panel-hover-color;
 }
 
 .panel-repeater-row .delete {
@@ -31,12 +31,12 @@
 
 .panel-children-container .delete-panel,
 .panel-repeater-row .delete {
-	color: #d15e61;
+	color: $delete-panel-color;
 }
 
 .panel-children-container .delete-panel:hover,
 .panel-repeater-row .delete:hover {
-	color: #B03234;
+	color: $delete-panel-hover-color-alt;
 }
 
 .delete-panel:before,

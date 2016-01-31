@@ -13,7 +13,7 @@
 	margin-top: $panel-margin-vertical;
 	margin-bottom: $panel-margin-vertical;
 
-	border: thin solid $panel-border-color;
+	border: thin solid $border-color;
 	background-color: $panel-bg-color;
 
 	transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -28,12 +28,12 @@
 
 	&.ui-sortable-helper {
 		transform: scale(1.02);
-		box-shadow: 0 0 15px rgba(black, 0.15);
+		box-shadow: 0 0 15px rgba($black, 0.15);
 		z-index: 999999 !important;
 	}
 
 	&.ui-sortable-placeholder {
-		border: thin dashed #DDD;
+		border: thin dashed $border-color;
 		visibility: visible;
 	}
 
@@ -53,7 +53,7 @@
 	&.editing > .close {
 		height: 32px;
 		z-index: 999;
-		.caret { @include triangle(up, 9px, white); }
+		.caret { @include triangle(up, 9px, $white); }
 	}
 
 	> button.close:focus {
@@ -65,11 +65,11 @@
 
 .panel-builder-border-color {
 	border-color: transparent !important;
-	border-bottom: thin solid #ddd !important;
+	border-bottom: thin solid $border-color !important;
 }
 
 .panel-row-drop-placeholder {
-	border: thin dashed $panel-border-color;
+	border: thin dashed $border-color;
 }
 
 // Panel states

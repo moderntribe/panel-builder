@@ -29,7 +29,6 @@
 @import "panels/panel-editor";
 
 // Inputs
-@import "input/layout";
 @import "input/description";
 @import "input/wp-uploader";
 
@@ -39,6 +38,7 @@
 @import "fields/repeater";
 @import "fields/tabs";
 @import "fields/gallery";
+@import "fields/image-select";
 
 // Other
 @import "jquery-ui-overwrites";

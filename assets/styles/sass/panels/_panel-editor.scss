@@ -26,14 +26,14 @@
 	.panel-input-label {
 		display: block;
 		margin-bottom: 0.5em;
-		color: #444;
+		color: $panel-label-color;
 		font-style: normal;
 		font-weight: bold;
 		font-size: 14px;
 	}
 
 	legend.panel-input-label{
-		color: #444;
+		color: $panel-label-color;
 		padding: 0;
 	}
 
@@ -93,8 +93,8 @@
 	legend.panel-toggle,
 	.panel-toggle,
 	.panel-children-container > h4 {
-		background-color: #888;
-		color: white;
+		background-color: $panel-bg-color-dark;
+		color: $white;
 		font-weight: 400;
 		font-size: 14px;
 		line-height: 1;
@@ -106,7 +106,7 @@
 		margin-bottom: 0;
 		&:after {
 			content: '\f142';
-			color: #dadada;
+			color: $move-hover-color-alt;
 			position: absolute;
 			top: 50%;
 			right: 0;
@@ -123,7 +123,7 @@
 		}
 		&:hover {
 			&:after{
-				color: white;
+				color: $white;
 			}
 		}
 	}
@@ -141,7 +141,7 @@
 .panel-row .input-name-title {
 	margin: 0 -15px 25px;
 	padding: 5px 15px 25px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid $border-color;
 }
 
 .panel-children .panel-row .panel-row-editor > fieldset.panel-input > .panel-input-label {
@@ -188,7 +188,7 @@
 
 .editing {
 	.panel-row-editor {
-		border: thin solid #ddd;
+		border: thin solid $border-color;
 		border-bottom: 0;
 		padding-bottom: 30px;
 	}
