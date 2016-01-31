@@ -58,7 +58,7 @@ abstract class Field {
 		// merge defaults with passed args
 		foreach ( $this->defaults as $key => $value ) {
 			if ( is_array( $value ) && isset( $args[ $key ] ) ) {
-				$args[ $key ] = $value + $args[ $key ];
+				$args[ $key ] = $args[ $key ] + $value;
 			}
 		}
 		$args = wp_parse_args($args, $this->defaults);
