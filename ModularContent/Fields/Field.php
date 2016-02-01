@@ -58,6 +58,7 @@ abstract class Field {
 		// merge defaults with passed args
 		foreach ( $this->defaults as $key => $value ) {
 			if ( is_array( $value ) && isset( $args[ $key ] ) ) {
+				// use union operator (+) instead of array_merge() to preserve numeric keys
 				$args[ $key ] = $args[ $key ] + $value;
 			}
 		}
