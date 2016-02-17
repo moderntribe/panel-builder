@@ -1,6 +1,11 @@
 .input-type-imageselect {
 	label {
 		display: inline-block;
+		vertical-align: top;
+	}
+
+	.label-text {
+		width: 80px;
 	}
 
 	input[type="radio"] {
