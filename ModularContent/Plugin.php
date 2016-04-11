@@ -48,7 +48,7 @@ class Plugin {
 
 			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
 
-				if ( is_preview() ) {
+				if ( !empty( $_GET['preview_id'] ) ) {
 					$autosave = wp_get_post_autosave( get_the_ID() );
 					if ( $autosave ) {
 						$current_post = $autosave;
