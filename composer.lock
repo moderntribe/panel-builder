@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "27f15afcbab96616fdac7b017fb91b03",
+    "content-hash": "18924f288cbf91374393acfce83e3521",
+    "packages": [
+        {
+            "name": "moderntribe/attachment-helper",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moderntribe/attachment-helper.git",
+                "reference": "d93c543fb4b51d67b496eeb1cb9a4d388b949a67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moderntribe/attachment-helper/zipball/d93c543fb4b51d67b496eeb1cb9a4d388b949a67",
+                "reference": "d93c543fb4b51d67b496eeb1cb9a4d388b949a67",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AttachmentHelper\\": "AttachmentHelper"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Brinley",
+                    "email": "jonathan@tri.be"
+                }
+            ],
+            "description": "A library for adding a file upload field to an admin meta box",
+            "support": {
+                "source": "https://github.com/moderntribe/attachment-helper/tree/1.0.0"
+            },
+            "time": "2016-04-24 19:39:28"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

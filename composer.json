@@ -13,10 +13,10 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:flightless/attachment-helper"
+      "url": "git@github.com:moderntribe/attachment-helper.git"
     }
   ],
   "require": {
-    "flightless/attachment-helper": "*"
+    "moderntribe/attachment-helper": "^1.0.0"
   }
 }

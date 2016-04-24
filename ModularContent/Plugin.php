@@ -63,6 +63,7 @@ class Plugin {
 	}
 
 	private function setup() {
+		\AttachmentHelper\Plugin::init();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
 	}
