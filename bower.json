@@ -1,6 +1,0 @@
-{
-	"name": "Panel Builder",
-	"dependencies": {
-		"jquery": "1.11.1"
-	}
-}
