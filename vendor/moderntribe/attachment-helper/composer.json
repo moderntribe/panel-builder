@@ -1,0 +1,19 @@
+{
+    "name": "moderntribe/attachment-helper",
+    "description": "A library for adding a file upload field to an admin meta box",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan Brinley",
+            "email": "jonathan@tri.be"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "AttachmentHelper\\": "AttachmentHelper"
+        }
+    }
+}
