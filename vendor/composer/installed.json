@@ -1,20 +1,20 @@
 [
     {
         "name": "moderntribe/attachment-helper",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/moderntribe/attachment-helper.git",
-            "reference": "d93c543fb4b51d67b496eeb1cb9a4d388b949a67"
+            "reference": "96e35fcb4c0883702d3f91e95b00985273a8eae7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/moderntribe/attachment-helper/zipball/d93c543fb4b51d67b496eeb1cb9a4d388b949a67",
-            "reference": "d93c543fb4b51d67b496eeb1cb9a4d388b949a67",
+            "url": "https://api.github.com/repos/moderntribe/attachment-helper/zipball/96e35fcb4c0883702d3f91e95b00985273a8eae7",
+            "reference": "96e35fcb4c0883702d3f91e95b00985273a8eae7",
             "shasum": ""
         },
-        "time": "2016-04-24 19:39:28",
+        "time": "2016-04-24 20:00:57",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -33,7 +33,7 @@
         ],
         "description": "A library for adding a file upload field to an admin meta box",
         "support": {
-            "source": "https://github.com/moderntribe/attachment-helper/tree/1.0.0"
+            "source": "https://github.com/moderntribe/attachment-helper/tree/1.0.1"
         }
     }
 ]

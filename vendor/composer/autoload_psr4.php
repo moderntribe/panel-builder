@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ModularContent\\' => array($baseDir . '/ModularContent'),
     'AttachmentHelper\\' => array($vendorDir . '/moderntribe/attachment-helper/AttachmentHelper'),
 );

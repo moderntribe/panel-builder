@@ -1,0 +1,54 @@
+actor: Tester
+paths:
+    tests: tests/codeception
+    log: tests/codeception/_output
+    data: tests/codeception/_data
+    support: tests/codeception/_support
+    envs: tests/codeception/_envs
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=127.0.0.1;dbname=panels-tests'
+            user: root
+            password: password
+            dump: tests/codeception/_data/dump.sql
+        WPBrowser:
+            url: 'http://wp.local'
+            adminUsername: admin
+            adminPassword: admin
+            adminUrl: /wp-admin
+        WPDb:
+            dsn: 'mysql:host=127.0.0.1;dbname=panels-tests'
+            user: root
+            password: 'password'
+            dump: tests/codeception/_data/dump.sql
+            populate: false
+            cleanup: false
+            url: 'http://wp.local'
+            tablePrefix: wp_
+            checkExistence: true
+            update: true
+        WPLoader:
+            wpRootFolder: /srv/www
+            dbName: panels-tests
+            dbHost: localhost
+            dbUser: root
+            dbPassword: password
+            wpDebug: true
+            dbCharset: utf8
+            dbCollate: ''
+            tablePrefix: wp_
+            domain: wp.local
+            adminEmail: admin@wp.local
+            title: 'Panel Builder Tests'
+            phpBinary: php
+            language: ''
+            configFile: tests-config.php
+            plugins:
+                - panel-builder/tribe-panel-builder.php
+            activatePlugins:
+                - panel-builder/tribe-panel-builder.php
