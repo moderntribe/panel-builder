@@ -18,5 +18,13 @@
   ],
   "require": {
     "moderntribe/attachment-helper": "^1.0.0"
+  },
+  "require-dev": {
+    "lucatume/wp-browser": "^1.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "ModularContent\\": "ModularContent/"
+    }
   }
 }

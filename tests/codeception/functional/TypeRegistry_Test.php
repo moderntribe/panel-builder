@@ -3,7 +3,9 @@
 
 namespace ModularContent;
 
-class TypeRegistry_Test extends UnitTestCase {
+use Codeception\TestCase\WPTestCase;
+
+class TypeRegistry_Test extends WPTestCase {
 	public function test_add_panel_type() {
 		$registry = new TypeRegistry();
 		$type = new PanelType('test_type');

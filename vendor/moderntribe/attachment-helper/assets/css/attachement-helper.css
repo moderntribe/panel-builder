@@ -51,7 +51,8 @@ div.drag-drop-area {
 
 
 div.uploaderSection div.drag-drop-inside {
-	margin-top: 48px !important;
+	margin-top: 24px;
+	margin-bottom: 24px;
 }
 
 body.mp6 div.uploaderSection div.drag-drop-inside,
