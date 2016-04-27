@@ -4,7 +4,9 @@
 namespace ModularContent;
 
 
-class PanelType_Test extends UnitTestCase {
+use Codeception\TestCase\WPTestCase;
+
+class PanelType_Test extends WPTestCase {
 	public function test_contexts() {
 		$type = new PanelType('test_type');
 		$type->set_context( 'a', TRUE );

@@ -17,3 +17,10 @@ node_modules
 
 *.sublime-project
 *.sublime-workspace
+
+codeception.yml
+tests/codeception/_output/*
+vendor/*
+!vendor/autoload.php
+!vendor/composer
+!vendor/moderntribe
