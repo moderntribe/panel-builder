@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import blueprint from './data/blueprint';
 
-import Layout from './layout';
-import PanelContainer from './panel-container';
+import PanelContainer from './container';
 
 export default class App extends Component {
 	render() {
@@ -13,9 +12,10 @@ export default class App extends Component {
 		});
 
 		return (
-			<Layout>
+			<div className='panel-collection'>
+				<h1>Panel Prototyping</h1>
 				{Panels}
-			</Layout>
+			</div>
 		);
 	}
 }

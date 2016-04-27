@@ -1,7 +1,7 @@
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './panel-collection';
+import App from './collection';
 
 const rootEl = document.getElementById('root');
 
@@ -11,9 +11,9 @@ ReactDOM.render(
 );
 
 if (module.hot) {
-	module.hot.accept('./panel-collection', () => {
+	module.hot.accept('./collection', () => {
 		ReactDOM.render(
-			<AppContainer component={require('./panel-collection').default}/>,
+			<AppContainer component={require('./collection').default}/>,
 			rootEl
 		);
 	});

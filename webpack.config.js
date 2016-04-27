@@ -21,9 +21,9 @@ module.exports = {
 		fallback: path.join(__dirname, 'node_modules'),
 	},
 	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: 'bundle.js',
-		publicPath: '/static/'
+		path: path.join(__dirname, './ui/dist/'),
+		filename: 'master.js',
+		publicPath: './ui/dist/'
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
