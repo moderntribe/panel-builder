@@ -62,4 +62,10 @@ class Select extends Field {
 		}
 		return $this->options_cache;
 	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['options'] = $this->get_options();
+		return $blueprint;
+	}
 } 

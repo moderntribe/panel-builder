@@ -1,0 +1,108 @@
+[
+    {
+        "type": "contentgrid",
+        "label": "Content Grid",
+        "description": "A grid of content with 2 layouts.",
+        "icon": {
+            "active": "module-contentgrid.png",
+            "inactive": "module-contentgrid.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Style",
+                "name": "layout",
+                "description": "",
+                "strings": [],
+                "default": "standard",
+                "options": {
+                    "standard": "module-contentgrid-standard.png",
+                    "cards": "module-contentgrid-cards.png",
+                    "full": "module-contentgrid-full.png"
+                }
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Description",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": false,
+                "media_buttons": true
+            },
+            {
+                "type": "ModularContent\\Fields\\Repeater",
+                "label": "Content Blocks",
+                "name": "columns",
+                "description": "",
+                "strings": {
+                    "button.new": "Add Content Block"
+                },
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\Text",
+                        "label": "Column Title",
+                        "name": "title",
+                        "description": "",
+                        "strings": [],
+                        "default": ""
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\TextArea",
+                        "label": "Column Text",
+                        "name": "text",
+                        "description": "",
+                        "strings": [],
+                        "default": "",
+                        "richtext": true,
+                        "media_buttons": true
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\Link",
+                        "label": "Call To Action Link",
+                        "name": "cta",
+                        "description": "",
+                        "strings": [],
+                        "default": {
+                            "url": "",
+                            "target": "",
+                            "label": ""
+                        }
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\ImageSelect",
+                        "label": "Call To Action Link Style",
+                        "name": "cta_style",
+                        "description": "",
+                        "strings": [],
+                        "default": "text",
+                        "options": {
+                            "text": "link-style-text.png",
+                            "button": "link-style-button.png"
+                        }
+                    }
+                ],
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": []
+        }
+    }
+]
