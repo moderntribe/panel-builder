@@ -1,19 +1,19 @@
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './collection';
+import PanelCollection from './components/collection';
 
-const rootEl = document.getElementById('root');
+const rootEl = document.getElementById('modular-content');
 
 ReactDOM.render(
-	<AppContainer component={App}/>,
+	<AppContainer component={PanelCollection}/>,
 	rootEl
 );
 
 if (module.hot) {
-	module.hot.accept('./collection', () => {
+	module.hot.accept('./components/collection', () => {
 		ReactDOM.render(
-			<AppContainer component={require('./collection').default}/>,
+			<AppContainer component={require('./components/collection').default}/>,
 			rootEl
 		);
 	});

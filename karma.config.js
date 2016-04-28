@@ -19,12 +19,12 @@ module.exports = function(config) {
 		files: [
 			'node_modules/babel-polyfill/dist/polyfill.js',
 			'./node_modules/phantomjs-polyfill/bind-polyfill.js',
-			'./ui/tests/**/*.js'
+			'./tests/ui/**/*.js'
 		],
 		preprocessors: {
 			// these files we want to be precompiled with webpack
 			// also run tests throug sourcemap for easier debugging
-			['./ui/tests/**/*.js']: ['webpack', 'sourcemap']
+			['./tests/ui/**/*.js']: ['webpack', 'sourcemap']
 		},
 		// A lot of people will reuse the same webpack config that they use
 		// in development for karma but remove any production plugins like UglifyJS etc.
@@ -34,7 +34,7 @@ module.exports = function(config) {
 			resolve: {
 				// allow us to import components in tests like:
 				// import Example from 'components/Example';
-				root: path.resolve(__dirname, '../ui/src'),
+				root: path.resolve(__dirname, './ui/src/'),
 
 				// allow us to avoid including extension name
 				extensions: ['', '.js', '.jsx'],
@@ -51,7 +51,15 @@ module.exports = function(config) {
 				],
 				// run babel loader for our tests
 				loaders: [
-					{ test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
+					{ 
+						test: /\.js?$/, 
+						exclude: /node_modules/, 
+						loader: 'babel' 
+					},
+					{
+						test: /\.pcss$/,
+						loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+					},
 				],
 			},
 			// required for enzyme to work properly

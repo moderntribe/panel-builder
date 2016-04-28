@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import blueprint from './data/blueprint';
-
+import blueprint from '../data/blueprint';
 import PanelContainer from './container';
 
-export default class App extends Component {
+import styles from './collection.pcss';
+
+export default class PanelCollection extends Component {
 	render() {
 
 		const Panels = _.map(blueprint, (panelBlueprint) => {
@@ -12,10 +13,10 @@ export default class App extends Component {
 		});
 
 		return (
-			<div className='panel-collection'>
-				<h1>Panel Prototyping</h1>
+			<div className={styles.main}>
+				<h1>Panel Dev</h1>
 				{Panels}
 			</div>
 		);
 	}
-}
+};
