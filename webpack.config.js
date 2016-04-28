@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var DEBUG = process.env.NODE_ENV !== 'production';
+
+var devtool = DEBUG ? 'eval' : 'source-map';
 var entry = DEBUG ? [
 	'react-hot-loader/patch',
 	'webpack-dev-server/client?http://localhost:3000',
@@ -11,21 +13,31 @@ var entry = DEBUG ? [
 	'react-hot-loader/patch', 
 	'./ui/src/index' 
 ];
-
-var plugins;
-
+var plugins = [
+	new webpack.ProvidePlugin({
+		jQuery: 'jquery',
+		$: 'jquery',
+		_: 'lodash',
+	}),
+	new ExtractTextPlugin('ui/dist/master.css', {
+		allChunks: true
+	})
+];
+var cssloader;
 if( DEBUG ){
-	plugins = new webpack.HotModuleReplacementPlugin();
+	plugins.push( new webpack.HotModuleReplacementPlugin() );
+	cssloader = 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 } else {
-	plugins = new webpack.DefinePlugin({
+	plugins.push( new webpack.DefinePlugin({
 		'process.env': {
 			'NODE_ENV': JSON.stringify('production')
 		}
-	});
+	}));
+	cssloader = ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader');
 }
 
 module.exports = {
-	devtool: DEBUG ? 'eval' : 'source-map',
+	devtool: devtool,
 	entry: entry,
 	externals: {
 		jquery: 'jQuery',
@@ -43,17 +55,7 @@ module.exports = {
 		filename: 'ui/dist/master.js',
 		publicPath: '/'
 	},
-	plugins: [
-		plugins,
-		new webpack.ProvidePlugin({
-			jQuery: 'jquery',
-			$: 'jquery',
-			_: 'lodash',
-		}),
-		new ExtractTextPlugin('ui/dist/master.css', {
-			allChunks: true
-		})
-	],
+	plugins: plugins,
 	module: {
 		loaders: [
 			{
@@ -68,7 +70,7 @@ module.exports = {
 			},
 			{
 				test: /\.pcss$/,
-				loader: DEBUG ? 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader' : ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader') 
+				loader: cssloader,
 			},
 		]
 	},

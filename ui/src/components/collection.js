@@ -14,7 +14,7 @@ export default class PanelCollection extends Component {
 
 		return (
 			<div className={styles.main}>
-				<h1>Panel Dev</h1>
+				<h1>Panel Development</h1>
 				{Panels}
 			</div>
 		);
