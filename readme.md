@@ -242,3 +242,32 @@ $( document ).on( 'tribe-panels.select-changed', function( event, $panel, val, $
 	}
 } );
 ```
+
+## Development Setup
+
+### Node and Dependencies
+
+This system uses node version 5.11.0. If you don't already have that plus some system to control node versions (eg NVM) it
+is recommended you install one. For your convenience this project has an .nvmrc file at its root. Once you have installed Node 5.11.0
+you can either set it as your default OR every time you come to this project just type `nvm use` to load the correct version.
+
+After getting your node version ready and making sure you are on 5.11.0, first delete an existing node_modules folder if 
+you still have one in place. Then `npm install` and grab some popcorn. 
+
+After npm install has completed you can run the npm scripts that define the tasks for this project. They are currently:
+
+```json
+    "start": "NODE_ENV=development node server.js",
+    "lint": "eslint ./ui/src || exit 0",
+    "dist": "NODE_ENV=production webpack -p",
+    "test": "node_modules/.bin/karma start karma.config.js",
+    "test:dev": "npm run test -- --watch"
+```
+The development task that fires up webpack-dev-server and gets you ready to dev is start. You launch that by typing: `npm start`
+You can then navigate to http://localhost:3000 to see things in action.
+
+The other tasks must be run in this fashion: `npm run task` . Give the karma tests a run with `npm run test` to make sure 
+things are working well.
+
+This system is also redux dev tools enabled. You will want to install https://github.com/zalmoxisus/redux-devtools-extension 
+in chrome if you want to use them.
