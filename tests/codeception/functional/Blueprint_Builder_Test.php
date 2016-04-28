@@ -5,8 +5,10 @@ namespace ModularContent;
 
 
 use Codeception\TestCase\WPTestCase;
+use ModularContent\Fields\Image;
 use ModularContent\Fields\ImageSelect;
 use ModularContent\Fields\Link;
+use ModularContent\Fields\Post_List;
 use ModularContent\Fields\Repeater;
 use ModularContent\Fields\Text;
 use ModularContent\Fields\TextArea;
@@ -200,7 +202,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry = new TypeRegistry();
 		$type = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
-		
+
 		$label = __CLASS__ . '::' . __FUNCTION__;
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
@@ -218,10 +220,10 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$blueprint = $builder->get_blueprint();
 
 		$this->assertCount( 1, $blueprint );
-		$fields = $blueprint[0]['fields'];
+		$fields = $blueprint[ 0 ][ 'fields' ];
 		$this->assertCount( 2, $fields );
-		$this->assertEquals( 'ModularContent\Fields\Title', $fields[0]['type'] );
-		$this->assertEquals( 'ModularContent\Fields\Text', $fields[1]['type'] );
+		$this->assertEquals( 'ModularContent\Fields\Title', $fields[ 0 ][ 'type' ] );
+		$this->assertEquals( 'ModularContent\Fields\Text', $fields[ 1 ][ 'type' ] );
 	}
 
 	/**
@@ -233,80 +235,267 @@ class Blueprint_Builder_Test extends WPTestCase {
 	public function test_build_json() {
 		$registry = new TypeRegistry();
 
-		$contentgrid = new PanelType( 'contentgrid' );
-		$contentgrid->set_label( 'Content Grid' );
-		$contentgrid->set_description( 'A grid of content with 2 layouts.' );
-		$contentgrid->set_icon( 'module-contentgrid.png', 'inactive' );
-		$contentgrid->set_icon( 'module-contentgrid.png', 'active' );
+		$this->register_contentgrid( $registry );
+		$this->register_gallery( $registry );
+		$this->register_imagetext( $registry );
+		$this->register_micronav( $registry );
+		$this->register_wysiwyg( $registry );
+		$this->register_tabgroup( $registry );
+
+		$builder = new Blueprint_Builder( $registry );
+		$json = json_encode( $builder, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
+		$output_file = codecept_data_dir() . '/blueprint.json';
+		$return = file_put_contents( $output_file, $json );
+		$this->assertNotEmpty( $return, 'no data written to blueprint.json' );
+	}
+
+	private function register_contentgrid( TypeRegistry $registry ) {
+		$panel = new PanelType( 'contentgrid' );
+		$panel->set_label( 'Content Grid' );
+		$panel->set_description( 'A grid of content with 2 layouts.' );
+		$panel->set_icon( 'module-contentgrid.png', 'inactive' );
+		$panel->set_icon( 'module-contentgrid.png', 'active' );
 
 		// Panel Style
-		$contentgrid->add_field( new Fields\ImageSelect( array(
-			'name'      => 'layout',
-			'label'     => 'Style',
-			'options'   => array(
-				'standard'  => 'module-contentgrid-standard.png',
-				'cards'     => 'module-contentgrid-cards.png',
-				'full'      => 'module-contentgrid-full.png',
-			),
+		$panel->add_field( new Fields\ImageSelect( [
+			'name'    => 'layout',
+			'label'   => 'Style',
+			'options' => [
+				'standard' => 'module-contentgrid-standard.png',
+				'cards'    => 'module-contentgrid-cards.png',
+				'full'     => 'module-contentgrid-full.png',
+			],
 			'default' => 'standard',
-		) ) );
+		] ) );
 
 		// Panel Description
-		$contentgrid->add_field( new TextArea( array(
-			'name'      => 'content',
-			'label'     => 'Description',
-		) ) );
+		$panel->add_field( new TextArea( [
+			'name'  => 'content',
+			'label' => 'Description',
+		] ) );
 
 		// Grid Columns
 		/** @var Fields\Group $columns */
-		$columns = new Repeater( array(
+		$columns = new Repeater( [
 			'label'            => 'Content Blocks',
 			'name'             => 'columns',
 			'min'              => 2,
 			'max'              => 4,
 			'new_button_label' => 'Add Content Block',
-		) );
+		] );
 
 		// Column Title
-		$columns->add_field( new Text( array(
-			'name'      => 'title',
-			'label'     => 'Column Title',
-		) ) );
+		$columns->add_field( new Text( [
+			'name'  => 'title',
+			'label' => 'Column Title',
+		] ) );
 
 		// Column Text
-		$columns->add_field( new TextArea( array(
-			'name'      => 'text',
-			'label'     => 'Column Text',
+		$columns->add_field( new TextArea( [
+			'name'     => 'text',
+			'label'    => 'Column Text',
+			'richtext' => true,
+		] ) );
+
+		// Column CTA Link
+		$columns->add_field( new Link( [
+			'name'  => 'cta',
+			'label' => 'Call To Action Link',
+		] ) );
+
+		// Column CTA Link Style
+		$columns->add_field( new ImageSelect( [
+			'name'    => 'cta_style',
+			'label'   => 'Call To Action Link Style',
+			'options' => [
+				'text'   => 'link-style-text.png',
+				'button' => 'link-style-button.png',
+			],
+			'default' => 'text',
+		] ) );
+
+		// Repeater Fields
+		$panel->add_field( $columns );
+
+		$registry->register( $panel );
+	}
+
+	private function register_gallery( TypeRegistry $registry ) {
+
+		$panel = new PanelType( 'gallery' );
+		$panel->set_label( 'Gallery' );
+		$panel->set_description( 'An image gallery slider.' );
+		$panel->set_icon( 'module-gallery.png', 'inactive' );
+		$panel->set_icon( 'module-gallery.png', 'active' );
+
+		// Panel Description
+		$panel->add_field( new Fields\TextArea( [
+			'name'  => 'content',
+			'label' => 'Description',
+		] ) );
+
+		// ImageGallery
+		$panel->add_field( new Fields\ImageGallery( [
+			'label' => 'Image Gallery',
+			'name'  => 'gallery',
+		] ) );
+
+		$registry->register( $panel );
+	}
+
+	private function register_imagetext( TypeRegistry $registry ) {
+
+		$panel = new PanelType( 'imagetext' );
+
+		$panel->set_label( 'Image+Text' );
+		$panel->set_description( 'An image and text with several layout options.' );
+		$panel->set_icon( 'module-imagetext.png', 'inactive' );
+		$panel->set_icon( 'module-imagetext.png', 'active' );
+		$panel->set_max_depth( 2 );
+
+		// Panel Layout
+		$panel->add_field( new ImageSelect( [
+			'name'    => 'layout',
+			'label'   => 'Layout',
+			'options' => [
+				'image-right' => 'module-imagetext-right.png',
+				'image-left'  => 'module-imagetext-left.png',
+				'boxed'       => 'module-imagetext-boxed.png',
+				'hero'        => 'module-imagetext-hero.png',
+			],
+			'default' => 'image-right',
+		] ) );
+
+		// Content
+		$panel->add_field( new TextArea( [
+			'name'     => 'content',
+			'label'    => 'Description',
+			'richtext' => true,
+		] ) );
+
+		// Image
+		$panel->add_field( new Image( [
+			'name'        => 'image',
+			'label'       => 'Image',
+			'description' => 'Optimal image sizes: 1500 x 1125 for Left/Right Aligned layouts; 1500 x 844 for Boxed/Hero layouts.',
+			'size'        => 'medium', // the size displayed in the admin
+		] ) );
+
+		// Image Overlay
+		$panel->add_field( new ImageSelect( [
+			'name'        => 'overlay',
+			'label'       => 'Image Overlay',
+			'description' => 'Apply a color over the image to improve text visibility. Only applies to Boxed/Hero layouts.',
+			'options'     => [
+				'none'      => 'module-imagetext-none.png',
+				'tint'      => 'module-imagetext-tint.png',
+				'primary'   => 'module-imagetext-blue.png',
+				'secondary' => 'module-imagetext-orange.png',
+			],
+			'default'     => 'none',
+		] ) );
+
+		// CTA Link
+		$panel->add_field( new Link( [
+			'name'  => 'cta',
+			'label' => 'Call To Action Link',
+		] ) );
+
+		// CTA Link Style
+		$panel->add_field( new ImageSelect( [
+			'name'    => 'cta_style',
+			'label'   => 'Call To Action Link Style',
+			'options' => [
+				'text'   => 'link-style-text.png',
+				'button' => 'link-style-button.png',
+			],
+			'default' => 'text',
+		] ) );
+
+		$registry->register( $panel );
+	}
+
+	private function register_micronav( TypeRegistry $registry ) {
+		$panel = new PanelType( 'micronav' );
+
+		$panel->set_label( 'MicroNav' );
+		$panel->set_description( 'Display a set of links and related content.' );
+		$panel->set_icon( 'module-micronav.png', 'inactive' );
+		$panel->set_icon( 'module-micronav.png', 'active' );
+
+		// Panel Layout
+		$panel->add_field( new ImageSelect( array(
+			'name'      => 'layout',
+			'label'     => 'Style',
+			'options'   => array(
+				'buttons'   => 'module-micronav-buttons.png',
+				'list'      => 'module-micronav-list.png',
+			),
+			'default' => 'buttons',
+		) ) );
+
+		// Optional Content
+		$panel->add_field( new TextArea( array(
+			'name'      => 'content',
+			'label'     => 'Content',
 			'richtext'  => true
 		) ) );
 
-		// Column CTA Link
-		$columns->add_field( new Link( array(
-			'name'      => 'cta',
-			'label'     => 'Call To Action Link',
+		$panel->add_field( new Post_List( array(
+			'name' => 'items',
+			'label' => 'Links',
+			'max' => 12,
+			'min' => 1,
+			'suggested' => 3,
+			'show_max_control' => true,
+			'hidden_fields' => [ 'post_content', 'thumbnail_id' ],
+			'strings' => [
+				'button.create_content' => 'Add Link',
+			]
+		) ) );
+		
+		$registry->register( $panel );
+	}
+
+	private function register_wysiwyg( TypeRegistry $registry ) {
+		$panel = new PanelType( 'wysiwyg' );
+
+		$panel->set_label( 'WYSIWYG Editor' );
+		$panel->set_description( 'Displays custom content' );
+		$panel->set_icon( 'module-wysiwyg.png', 'inactive' );
+		$panel->set_icon( 'module-wysiwyg.png', 'active' );
+		$panel->set_max_depth( 2 );
+
+		// Field: Editor Columns
+		$group = new Fields\Repeater( array(
+			'label'            => 'Columns',
+			'name'             => 'repeater',
+			'min'              => 1,
+			'max'              => 3,
+			'new_button_label' => 'Add Column'
+		) );
+
+		$group->add_field( new Fields\TextArea( array(
+			'label'    => 'Column',
+			'name'     => 'column',
+			'richtext' => true
 		) ) );
 
-		// Column CTA Link Style
-		$columns->add_field( new ImageSelect( array(
-			'name'      => 'cta_style',
-			'label'     => 'Call To Action Link Style',
-			'options'   => array(
-				'text'      => 'link-style-text.png',
-				'button'    => 'link-style-button.png',
-			),
-			'default' => 'text',
-		) ) );
+		$panel->add_field( $group );
+		
+		$registry->register( $panel );
+	}
 
-		// Repeater Fields
-		$contentgrid->add_field( $columns );
+	private function register_tabgroup( TypeRegistry $registry ) {
+		$panel = new PanelType( 'tabgroup' );
 
-		$registry->register( $contentgrid );
+		$panel->set_label( 'Tab Group' );
+		$panel->set_description( 'Displays a group of panels as tabs' );
+		$panel->set_icon( 'module-tabgroup.png', 'inactive' );
+		$panel->set_icon( 'module-tabgroup.png', 'active' );
+		$panel->set_max_children( 6 );
 
-		$builder = new Blueprint_Builder( $registry );
-		$json = json_encode( $builder, JSON_PRETTY_PRINT|JSON_PARTIAL_OUTPUT_ON_ERROR );
-		$output_file = codecept_data_dir() . '/blueprint.json';
-		$return = file_put_contents( $output_file, $json );
-		$this->assertNotEmpty( $return, 'no data written to blueprint.json' );
+		$registry->register( $panel );
 	}
 
 } 
