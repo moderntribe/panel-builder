@@ -3,6 +3,7 @@
  * The Panels meta box
  *
  * @var \ModularContent\PanelCollection $collection
+ * @var \ModularContent\Blueprint_Builder $blueprint
  * @var array $cache
  * @var array $localization
  */
@@ -12,6 +13,7 @@
 	<script>
 		var ModularContent = window.ModularContent || {};
 		ModularContent.panels = [];
+		ModularContent.blueprint = <?php echo \ModularContent\Util::json_encode( $blueprint, JSON_PARTIAL_OUTPUT_ON_ERROR ); ?>;
 		<?php $cache = \ModularContent\Util::json_encode( $cache ); ?>
 		ModularContent.cache = <?php echo $cache ? $cache : json_encode([ 'posts' => [], 'terms' => [], 'data' => [] ]); ?>;
 		ModularContent.localization = <?php echo \ModularContent\Util::json_encode($localization); ?>;

@@ -149,4 +149,11 @@ class TextArea extends Field {
 
 		return $text;
 	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint[ 'richtext' ] = $this->richtext;
+		$blueprint[ 'media_buttons' ] = $this->media_buttons;
+		return $blueprint;
+	}
 }

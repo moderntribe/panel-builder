@@ -127,6 +127,8 @@ class MetaBox {
 	}
 
 	public function render( $post ) {
+		$registry = Plugin::instance()->registry();
+		$blueprint = new Blueprint_Builder( $registry );
 		$collection = PanelCollection::find_by_post_id( $post->ID );
 		$cache = new AdminPreCache();
 		foreach ( $collection->panels() as $panel ) {

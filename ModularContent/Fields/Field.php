@@ -261,4 +261,16 @@ abstract class Field {
 	public function prepare_data_for_save( $data ) {
 		return $data;
 	}
+
+	public function get_blueprint() {
+		$blueprint = [
+			'type'        => get_class( $this ),
+			'label'       => $this->label,
+			'name'        => $this->get_name(),
+			'description' => $this->description,
+			'strings'     => $this->strings,
+			'default'     => $this->default,
+		];
+		return $blueprint;
+	}
 }

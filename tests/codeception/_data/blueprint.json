@@ -1,0 +1,1622 @@
+[
+    {
+        "type": "contentgrid",
+        "label": "Content Grid",
+        "description": "A grid of content with 2 layouts.",
+        "icon": {
+            "active": "module-contentgrid.png",
+            "inactive": "module-contentgrid.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Style",
+                "name": "layout",
+                "description": "",
+                "strings": [],
+                "default": "standard",
+                "options": [
+                    {
+                        "src": "module-contentgrid-standard.png",
+                        "label": "",
+                        "value": "standard"
+                    },
+                    {
+                        "src": "module-contentgrid-cards.png",
+                        "label": "",
+                        "value": "cards"
+                    },
+                    {
+                        "src": "module-contentgrid-full.png",
+                        "label": "",
+                        "value": "full"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Description",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": false,
+                "media_buttons": true
+            },
+            {
+                "type": "ModularContent\\Fields\\Repeater",
+                "label": "Content Blocks",
+                "name": "columns",
+                "description": "",
+                "strings": {
+                    "button.new": "Add Content Block"
+                },
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\Text",
+                        "label": "Column Title",
+                        "name": "title",
+                        "description": "",
+                        "strings": [],
+                        "default": ""
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\TextArea",
+                        "label": "Column Text",
+                        "name": "text",
+                        "description": "",
+                        "strings": [],
+                        "default": "",
+                        "richtext": true,
+                        "media_buttons": true
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\Link",
+                        "label": "Call To Action Link",
+                        "name": "cta",
+                        "description": "",
+                        "strings": [],
+                        "default": {
+                            "url": "",
+                            "target": "",
+                            "label": ""
+                        }
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\ImageSelect",
+                        "label": "Call To Action Link Style",
+                        "name": "cta_style",
+                        "description": "",
+                        "strings": [],
+                        "default": "text",
+                        "options": [
+                            {
+                                "src": "link-style-text.png",
+                                "label": "",
+                                "value": "text"
+                            },
+                            {
+                                "src": "link-style-button.png",
+                                "label": "",
+                                "value": "button"
+                            }
+                        ]
+                    }
+                ],
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "gallery",
+        "label": "Gallery",
+        "description": "An image gallery slider.",
+        "icon": {
+            "active": "module-gallery.png",
+            "inactive": "module-gallery.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Description",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": false,
+                "media_buttons": true
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageGallery",
+                "label": "Image Gallery",
+                "name": "gallery",
+                "description": "",
+                "strings": [],
+                "default": ""
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "imagetext",
+        "label": "Image+Text",
+        "description": "An image and text with several layout options.",
+        "icon": {
+            "active": "module-imagetext.png",
+            "inactive": "module-imagetext.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Layout",
+                "name": "layout",
+                "description": "",
+                "strings": [],
+                "default": "image-right",
+                "options": [
+                    {
+                        "src": "module-imagetext-right.png",
+                        "label": "",
+                        "value": "image-right"
+                    },
+                    {
+                        "src": "module-imagetext-left.png",
+                        "label": "",
+                        "value": "image-left"
+                    },
+                    {
+                        "src": "module-imagetext-boxed.png",
+                        "label": "",
+                        "value": "boxed"
+                    },
+                    {
+                        "src": "module-imagetext-hero.png",
+                        "label": "",
+                        "value": "hero"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Description",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": true,
+                "media_buttons": true
+            },
+            {
+                "type": "ModularContent\\Fields\\Image",
+                "label": "Image",
+                "name": "image",
+                "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                "strings": [],
+                "default": "",
+                "size": "medium"
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Image Overlay",
+                "name": "overlay",
+                "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                "strings": [],
+                "default": "none",
+                "options": [
+                    {
+                        "src": "module-imagetext-none.png",
+                        "label": "",
+                        "value": "none"
+                    },
+                    {
+                        "src": "module-imagetext-tint.png",
+                        "label": "",
+                        "value": "tint"
+                    },
+                    {
+                        "src": "module-imagetext-blue.png",
+                        "label": "",
+                        "value": "primary"
+                    },
+                    {
+                        "src": "module-imagetext-orange.png",
+                        "label": "",
+                        "value": "secondary"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\Link",
+                "label": "Call To Action Link",
+                "name": "cta",
+                "description": "",
+                "strings": [],
+                "default": {
+                    "url": "",
+                    "target": "",
+                    "label": ""
+                }
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Call To Action Link Style",
+                "name": "cta_style",
+                "description": "",
+                "strings": [],
+                "default": "text",
+                "options": [
+                    {
+                        "src": "link-style-text.png",
+                        "label": "",
+                        "value": "text"
+                    },
+                    {
+                        "src": "link-style-button.png",
+                        "label": "",
+                        "value": "button"
+                    }
+                ]
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "micronav",
+        "label": "MicroNav",
+        "description": "Display a set of links and related content.",
+        "icon": {
+            "active": "module-micronav.png",
+            "inactive": "module-micronav.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Style",
+                "name": "layout",
+                "description": "",
+                "strings": [],
+                "default": "buttons",
+                "options": [
+                    {
+                        "src": "module-micronav-buttons.png",
+                        "label": "",
+                        "value": "buttons"
+                    },
+                    {
+                        "src": "module-micronav-list.png",
+                        "label": "",
+                        "value": "list"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Content",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": true,
+                "media_buttons": true
+            },
+            {
+                "type": "ModularContent\\Fields\\Post_List",
+                "label": "Links",
+                "name": "items",
+                "description": "",
+                "strings": {
+                    "button.create_content": "Add Link",
+                    "tabs.manual": "Manual",
+                    "tabs.dynamic": "Dynamic",
+                    "button.select_post": "Select a post",
+                    "button.remove_post": "Remove this post",
+                    "label.content_type": "Content Type",
+                    "label.choose_post": "Choose a Post",
+                    "label.max_results": "Max Results",
+                    "label.select_post_type": "Select Post Type",
+                    "label.select_post_types": "Select Post Types",
+                    "label.add_a_filter": "Add a Filter",
+                    "label.taxonomy": "Taxonomy",
+                    "label.relationship": "Relationship",
+                    "label.date": "Date",
+                    "label.title": "Title",
+                    "label.content": "Content",
+                    "label.link": "Link: http:\/\/example.com\/",
+                    "label.thumbnail": "Thumbnail"
+                },
+                "default": {
+                    "type": "manual",
+                    "posts": [],
+                    "filters": [],
+                    "max": 0
+                },
+                "min": 1,
+                "max": 12,
+                "suggested": 3,
+                "show_max_control": true
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "wysiwyg",
+        "label": "WYSIWYG Editor",
+        "description": "Displays custom content",
+        "icon": {
+            "active": "module-wysiwyg.png",
+            "inactive": "module-wysiwyg.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\Repeater",
+                "label": "Columns",
+                "name": "repeater",
+                "description": "",
+                "strings": {
+                    "button.new": "Add Column"
+                },
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\TextArea",
+                        "label": "Column",
+                        "name": "column",
+                        "description": "",
+                        "strings": [],
+                        "default": "",
+                        "richtext": true,
+                        "media_buttons": true
+                    }
+                ],
+                "min": 1,
+                "max": 3
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "tabgroup",
+        "label": "Tab Group",
+        "description": "Displays a group of panels as tabs",
+        "icon": {
+            "active": "module-tabgroup.png",
+            "inactive": "module-tabgroup.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            }
+        ],
+        "children": {
+            "max": 6,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    }
+]
