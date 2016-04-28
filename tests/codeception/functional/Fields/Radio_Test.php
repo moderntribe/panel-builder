@@ -30,8 +30,14 @@ class Radio_Test extends WPTestCase {
 			'strings'     => [ ],
 			'default'     => 'second',
 			'options'     => [
-				'first'  => 'First Option',
-				'second' => 'Second Option',
+				[
+					'label' => 'First Option',
+					'value' => 'first',
+				],
+				[
+					'label' => 'Second Option',
+					'value' => 'second',
+				],
 			],
 		];
 

@@ -36,13 +36,15 @@ class ImageSelect_Test extends WPTestCase {
 			'strings'     => [ ],
 			'default'     => 'left',
 			'options'     => [
-				'left'  => [
-					'src'   => 'http://example.com/path/to/module-layout-left.png',
+				[
+					'src' => 'http://example.com/path/to/module-layout-left.png',
 					'label' => 'Left',
+					'value' => 'left',
 				],
-				'right' => [
-					'src'   => 'http://example.com/path/to/module-layout-right.png',
+				[
+					'src' => 'http://example.com/path/to/module-layout-right.png',
 					'label' => 'Right',
+					'value' => 'right',
 				],
 			],
 		];

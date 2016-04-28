@@ -65,7 +65,14 @@ class Select extends Field {
 
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
-		$blueprint['options'] = $this->get_options();
+		$options = $this->get_options();
+		$blueprint['options'] = [];
+		foreach ( $options as $key => $label ) {
+			$blueprint['options'][] = [
+				'label' => $label,
+			  'value' => $key,
+			];
+		}
 		return $blueprint;
 	}
 } 

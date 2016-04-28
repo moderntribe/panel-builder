@@ -23,11 +23,23 @@
                 "description": "",
                 "strings": [],
                 "default": "standard",
-                "options": {
-                    "standard": "module-contentgrid-standard.png",
-                    "cards": "module-contentgrid-cards.png",
-                    "full": "module-contentgrid-full.png"
-                }
+                "options": [
+                    {
+                        "src": "module-contentgrid-standard.png",
+                        "label": "",
+                        "value": "standard"
+                    },
+                    {
+                        "src": "module-contentgrid-cards.png",
+                        "label": "",
+                        "value": "cards"
+                    },
+                    {
+                        "src": "module-contentgrid-full.png",
+                        "label": "",
+                        "value": "full"
+                    }
+                ]
             },
             {
                 "type": "ModularContent\\Fields\\TextArea",
@@ -86,10 +98,18 @@
                         "description": "",
                         "strings": [],
                         "default": "text",
-                        "options": {
-                            "text": "link-style-text.png",
-                            "button": "link-style-button.png"
-                        }
+                        "options": [
+                            {
+                                "src": "link-style-text.png",
+                                "label": "",
+                                "value": "text"
+                            },
+                            {
+                                "src": "link-style-button.png",
+                                "label": "",
+                                "value": "button"
+                            }
+                        ]
                     }
                 ],
                 "min": 2,
