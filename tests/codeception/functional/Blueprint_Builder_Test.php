@@ -305,7 +305,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$builder = new Blueprint_Builder( $registry );
 		$json = json_encode( $builder, JSON_PRETTY_PRINT|JSON_PARTIAL_OUTPUT_ON_ERROR );
 		$output_file = codecept_data_dir() . '/blueprint.json';
-		file_put_contents( $output_file, $json );
+		$return = file_put_contents( $output_file, $json );
+		$this->assertNotEmpty( $return, 'no data written to blueprint.json' );
 	}
 
 } 
