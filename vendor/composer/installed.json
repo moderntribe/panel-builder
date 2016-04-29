@@ -35,5 +35,37 @@
         "support": {
             "source": "https://github.com/moderntribe/attachment-helper/tree/1.0.1"
         }
+    },
+    {
+        "name": "moderntribe/ajax-queue",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/moderntribe/ajax-queue.git",
+            "reference": "6579564c44d78b558d275c22eea40c0433fd5a17"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/moderntribe/ajax-queue/zipball/6579564c44d78b558d275c22eea40c0433fd5a17",
+            "reference": "6579564c44d78b558d275c22eea40c0433fd5a17",
+            "shasum": ""
+        },
+        "time": "2015-08-21 06:25:04",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "AJAXQueue": "src/"
+            }
+        },
+        "license": [
+            "Private"
+        ],
+        "description": "Group ajax calls",
+        "support": {
+            "source": "https://github.com/moderntribe/ajax-queue/tree/master",
+            "issues": "https://github.com/moderntribe/ajax-queue/issues"
+        }
     }
 ]
