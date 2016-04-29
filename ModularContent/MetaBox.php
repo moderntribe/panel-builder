@@ -44,7 +44,12 @@ class MetaBox {
 	}
 
 	protected function enqueue_scripts() {
-		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			wp_enqueue_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', [], time(), true );
+		} else {
+			wp_enqueue_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), [], time(), true );
+		}
+		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
 	}
@@ -138,7 +143,7 @@ class MetaBox {
 			'untitled' => __( 'Untitled', 'modular-content' ),
 			'loading' => __( 'Loading...', 'modular-content' ),
 		);
-		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
+		//include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}
 
 	/**

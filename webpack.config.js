@@ -53,7 +53,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, '/'),
 		filename: 'ui/dist/master.js',
-		publicPath: '/'
+		publicPath: 'http://localhost:3000/'
 	},
 	plugins: plugins,
 	module: {
