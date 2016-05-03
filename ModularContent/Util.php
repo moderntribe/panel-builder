@@ -102,7 +102,7 @@ class Util {
 			return json_encode( $data ); // nothing to clean up
 		}
 
-		$encoded = json_encode( $data );
+		$encoded = json_encode( $data, JSON_PARTIAL_OUTPUT_ON_ERROR );
 		if ( !empty( $encoded ) ) {
 			return $encoded; // successful encoding
 		}

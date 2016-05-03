@@ -32,7 +32,7 @@ class Post_List extends Field {
 	protected $max = 12;
 	protected $min = 0;
 	protected $suggested = 0;
-	protected $default = '{ type: "manual", posts: [], filters: {}, max: 0 }';
+	protected $default = [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ];
 	protected $show_max_control = false;
 	protected $strings = array();
 	protected $hidden_fields = array();
@@ -550,5 +550,14 @@ class Post_List extends Field {
 			'post_type' => 'any',
 		));
 		return $connected;
+	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['min'] = $this->min;
+		$blueprint['max'] = $this->max;
+		$blueprint['suggested'] = $this->suggested;
+		$blueprint['show_max_control'] = $this->show_max_control;
+		return $blueprint;
 	}
 }

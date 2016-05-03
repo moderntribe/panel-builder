@@ -110,4 +110,10 @@ class Image extends Field {
 
 		return $return_object;
 	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['size'] = $this->size;
+		return $blueprint;
+	}
 }

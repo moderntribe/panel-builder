@@ -29,8 +29,18 @@ use ModularContent\Panel;
  */
 class PostQuacker extends Field {
 
-	protected $default = '{ type: "manual", post_id: 0, title: "", content: "", image: 0, link: { url: "", target: "", label: "" } }';
-
+	protected $default = [
+		'type'    => 'manual',
+		'post_id' => 0,
+		'title'   => '',
+		'content' => '',
+		'image'   => 0,
+		'link'    => [
+			'url'    => '',
+			'target' => '',
+			'label'  => '',
+		],
+	];
 
 	protected function render_opening_tag() {
 		printf('<fieldset class="panel-input input-type-postquacker input-name-%s">', $this->esc_class($this->name));

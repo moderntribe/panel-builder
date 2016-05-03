@@ -20,7 +20,7 @@ use ModularContent\Panel;
  */
 class Link extends Field {
 
-	protected $default = '{ url: "", target: "", label: "" }';
+	protected $default = [ 'url' => '', 'target' => '', 'label' => '' ];
 
 
 

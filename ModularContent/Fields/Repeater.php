@@ -51,8 +51,18 @@ class Repeater extends Group {
 	public function __construct( $args = array() ) {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
+		$this->defaults[ 'strings' ] = [
+			'button.new' => __( 'New', 'modular-content' ),
+		];
+
+		// backwards compat
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
+		if ( isset( $args['new_button_label'] ) && !isset( $args['strings']['button.new'] ) ) {
+			$args['strings']['button.new'] = $args['new_button_label'];
+		}
+
 		parent::__construct($args);
+
 	}
 
 	/**
@@ -186,5 +196,12 @@ class Repeater extends Group {
 			return array_values( $data );
 		}
 		return $data;
+	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['min'] = $this->min;
+		$blueprint['max'] = $this->max;
+		return $blueprint;
 	}
 }

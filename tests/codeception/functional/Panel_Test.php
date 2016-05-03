@@ -4,7 +4,9 @@
 namespace ModularContent;
 
 
-class Panel_Test extends UnitTestCase {
+use Codeception\TestCase\WPTestCase;
+
+class Panel_Test extends WPTestCase {
 	public function test_json_encode() {
 		$panel_type = new PanelType('test_panel');
 		$panel_type->add_field(new Fields\Title());

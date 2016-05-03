@@ -70,4 +70,20 @@ class ImageSelect extends Radio {
 		}
 		return $this->options_cache;
 	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$options = $this->get_options();
+		$blueprint['options'] = [];
+		foreach ( $options as $key => $data ) {
+			if ( !is_array( $data ) ) {
+				$data = [ 'src' => $data, 'label' => '' ];
+			} else {
+				$data = wp_parse_args( $data, [ 'src' => '', 'label' => '' ] );
+			}
+			$data['value'] = $key;
+			$blueprint['options'][] = $data;
+		}
+		return $blueprint;
+	}
 }
