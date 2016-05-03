@@ -77,6 +77,13 @@ module.exports = {
 		]
 	},
 	postcss: [
-		require('postcss-cssnext'),
+		require('postcss-inline-comment'),
+		require('postcss-import'),
+		require('postcss-custom-media'),
+		require('lost'),
+		require('postcss-quantity-queries'),
+		require('postcss-aspect-ratio'),
+		require('postcss-cssnext')({ browsers: ['last 3 versions', 'ie 10'] }),
+		require('postcss-nested'),
 	],
 };
