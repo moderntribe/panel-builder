@@ -229,24 +229,37 @@ class Blueprint_Builder_Test extends WPTestCase {
 	/**
 	 * One of the main goals of this method is to build
 	 * a JSON file out of all the standard field type
-	 * and save them to _data/blueprint.json for front-end
+	 * and save them to _data/blueprint.json, as well as
+	 * some sample data populating those fields for front-end
 	 * testing.
 	 */
 	public function test_build_json() {
 		$registry = new TypeRegistry();
+		$collection = new PanelCollection();
 
 		$this->register_contentgrid( $registry );
+		$this->add_sample_contentgrid( $collection, $registry->get( 'contentgrid' ) );
 		$this->register_gallery( $registry );
+		$this->add_sample_gallery( $collection, $registry->get( 'gallery' ) );
 		$this->register_imagetext( $registry );
+		$this->add_sample_imagetext( $collection, $registry->get( 'imagetext' ) );
 		$this->register_micronav( $registry );
+		$this->add_sample_micronav( $collection, $registry->get( 'micronav' ) );
 		$this->register_wysiwyg( $registry );
 		$this->register_tabgroup( $registry );
+		$this->add_sample_tabgroup( $collection, $registry->get( 'tabgroup' ), $registry->get( 'wysiwyg' ) );
+		$this->add_sample_wysiwyg( $collection, $registry->get( 'wysiwyg' ) );
 
 		$builder = new Blueprint_Builder( $registry );
 		$json = json_encode( $builder, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
 		$output_file = codecept_data_dir() . '/blueprint.json';
 		$return = file_put_contents( $output_file, $json );
 		$this->assertNotEmpty( $return, 'no data written to blueprint.json' );
+
+		$samples = json_encode( $collection, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
+		$output_file = codecept_data_dir() . '/sample_panels.json';
+		$return = file_put_contents( $output_file, $samples );
+		$this->assertNotEmpty( $return, 'no data written to sample_panels.json' );
 	}
 
 	private function register_contentgrid( TypeRegistry $registry ) {
@@ -320,6 +333,37 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry->register( $panel );
 	}
 
+	private function add_sample_contentgrid( PanelCollection $collection, PanelType $type ) {
+		$panel = new Panel( $type, [
+			'title' => 'Sample Content Grid',
+		  'layout' => 'cards',
+		  'content' => 'Content Grid Content',
+		  'columns' => [
+			  [
+				  'title' => 'Column One',
+			    'text' => 'This goes in column one',
+			  ],
+		    [
+			    'title' => 'Column Two',
+		      'text' => 'An image in column two: <img width="300" height="250" src="http://griddle.tri.be/?w=300&h=250" />',
+		    ],
+		    [
+			    'title' => 'Column Three',
+		      'text' => '',
+			  ],
+		  ],
+		  'cta' => [
+			  'url' => 'http://tri.be/',
+		    'target' => '',
+		    'label' => 'Modern Tribe',
+		  ],
+		  'cta_style' => [
+			  'button',
+		  ],
+		], 0 );
+		$collection->add_panel( $panel );
+	}
+
 	private function register_gallery( TypeRegistry $registry ) {
 
 		$panel = new PanelType( 'gallery' );
@@ -341,6 +385,32 @@ class Blueprint_Builder_Test extends WPTestCase {
 		] ) );
 
 		$registry->register( $panel );
+	}
+
+	private function add_sample_gallery( PanelCollection $collection, PanelType $type ) {
+		$panel = new Panel( $type, [
+			'title' => 'Some Images',
+		  'content' => 'A caption to go with the gallery',
+		  'gallery' => [
+			  [
+				  'id' => 12345,
+			    'thumbnail' => 'http://griddle.tri.be/?w=300&h=250',
+			  ],
+			  [
+				  'id' => 12346,
+				  'thumbnail' => 'http://griddle.tri.be/?w=350&h=250',
+			  ],
+			  [
+				  'id' => 12347,
+				  'thumbnail' => 'http://griddle.tri.be/?w=400&h=250',
+			  ],
+			  [
+				  'id' => 12348,
+				  'thumbnail' => 'http://griddle.tri.be/?w=450&h=250',
+			  ],
+		  ],
+		]);
+		$collection->add_panel( $panel );
 	}
 
 	private function register_imagetext( TypeRegistry $registry ) {
@@ -415,6 +485,25 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry->register( $panel );
 	}
 
+	private function add_sample_imagetext( PanelCollection $collection, PanelType $type ) {
+		$panel = new Panel( $type, [
+			'title' => 'Sample Image + Text Panel',
+		  'layout' => 'boxed',
+		  'content' => '',
+		  'image' => 1234,
+		  'overlay' => 'tint',
+		  'cta' => [
+			  'url' => 'http://tri.be',
+		    'target' => '_blank',
+		    'label' => 'Visit the Tribe',
+		  ],
+		  'cta_style' => [
+			  'text',
+		  ],
+		]);
+		$collection->add_panel( $panel );
+	}
+
 	private function register_micronav( TypeRegistry $registry ) {
 		$panel = new PanelType( 'micronav' );
 
@@ -457,6 +546,21 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry->register( $panel );
 	}
 
+	private function add_sample_micronav( PanelCollection $collection, PanelType $type ) {
+		$panel = new Panel( $type, [
+			'title' => 'Some Links',
+		  'layout' => 'list',
+		  'content' => 'Preface to the links',
+		  'items' => [
+			  'type' => 'manual',
+		    'posts' => [],
+		    'filters' => [],
+		    'max' => 0,
+		  ],
+		]);
+		$collection->add_panel( $panel );
+	}
+
 	private function register_wysiwyg( TypeRegistry $registry ) {
 		$panel = new PanelType( 'wysiwyg' );
 
@@ -486,6 +590,21 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry->register( $panel );
 	}
 
+	private function add_sample_wysiwyg( PanelCollection $collection, PanelType $type ) {
+		$panel = new Panel( $type, [
+			'title' => 'Wysiwyg Panel',
+		  'repeater' => [
+			  [
+				  'column' => 'Column 1 Content',
+			  ],
+			  [
+				  'column' => 'Column 2 Content',
+			  ],
+		  ]
+		]);
+		$collection->add_panel( $panel );
+	}
+
 	private function register_tabgroup( TypeRegistry $registry ) {
 		$panel = new PanelType( 'tabgroup' );
 
@@ -496,6 +615,34 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_max_children( 6 );
 
 		$registry->register( $panel );
+	}
+
+	private function add_sample_tabgroup( PanelCollection $collection, PanelType $parent, PanelType $child ) {
+		$tabs = new Panel( $parent, [ 'title' => 'A group of tabs' ] );
+		$collection->add_panel( $tabs );
+
+		$child_1 = new Panel( $child, [
+			'title' => 'Wysiwyg Panel 1',
+			'repeater' => [
+				[
+					'column' => 'Column 1 Content',
+				],
+				[
+					'column' => 'Column 2 Content',
+				],
+			]
+		], 1 );
+		$collection->add_panel( $child_1 );
+
+		$child_2 = new Panel( $child, [
+			'title' => 'Wysiwyg Panel 2',
+			'repeater' => [
+				[
+					'column' => 'Column 1 Content',
+				],
+			]
+		], 1 );
+		$collection->add_panel( $child_2 );
 	}
 
 } 
