@@ -17,7 +17,6 @@ var plugins = [
 	new webpack.ProvidePlugin({
 		jQuery: 'jquery',
 		$: 'jquery',
-		_: 'lodash',
 	}),
 	new ExtractTextPlugin('ui/dist/master.css', {
 		allChunks: true
@@ -60,9 +59,12 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js$/,
-				loaders: ['babel'],
+				loader: 'babel',
 				include: path.join(__dirname, 'ui/src'),
 				exclude: /node_modules/,
+				query: {
+					'plugins': ['lodash'],
+				}
 			},
 			{
 				include: /\.json$/,
