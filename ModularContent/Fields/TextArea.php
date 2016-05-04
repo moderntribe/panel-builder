@@ -14,6 +14,8 @@ use ModularContent\Panel;
 class TextArea extends Field {
 	protected $richtext = FALSE;
 	protected $media_buttons = true;
+	protected $editor_settings = [];
+
 	protected static $global_index = 0;
 	protected $index = 0;
 	protected static $first_mce_init_settings = array();
@@ -33,6 +35,7 @@ class TextArea extends Field {
 	public function __construct( $args = array() ) {
 		$this->defaults['richtext'] = $this->richtext;
 		$this->defaults['media_buttons'] = $this->media_buttons;
+		$this->defaults['editor_settings'] = $this->editor_settings;
 		parent::__construct($args);
 		$this->index = sprintf('%04d', self::$global_index++);
 
@@ -45,23 +48,7 @@ class TextArea extends Field {
 
 	public function render_field() {
 		if ( $this->richtext ) {
-			add_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
-			wp_editor(
-				$this->get_input_value(),
-				$this->get_indexed_name(),
-				array(
-					'textarea_rows' => 15,
-					'textarea_name' => $this->get_input_name(),
-					'quicktags'     => true,
-					'editor_class'  => 'wysiwyg-' . $this->get_indexed_name(),
-					'media_buttons' => $this->media_buttons
-				)
-			);
-			remove_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
-
-			wp_enqueue_script( 'modular-content-wysiwyg-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/wysiwyg-field.js'), array('jquery'), FALSE, FALSE );
-
-			add_action( 'wp_tiny_mce_init', array( $this, 'render_tinymce_initilizaton_script' ) );
+			// TODO
 		} else {
 			printf('<span class="panel-input-field"><textarea name="%s" rows="6" cols="40">%s</textarea></span>', $this->get_input_name(), $this->get_input_value() );
 		}
@@ -74,55 +61,6 @@ class TextArea extends Field {
 
 	public static function enqueue_styles() {
 		wp_print_styles('editor-buttons');
-	}
-
-	public function render_tinymce_initilizaton_script( $settings ) {
-		if ( empty(self::$first_mce_init_settings) ) {
-			self::$first_mce_init_settings = reset($settings);
-		}
-		$name = $this->get_indexed_name();
-		if ( !isset($settings[$name]) ) {
-			return;
-		}
-		$settings = $settings[$name];
-		$settings = wp_parse_args( $settings, self::$first_mce_init_settings );
-		$settings['wp_autoresize_on'] = false;
-
-		?><script type="text/javascript">
-			(function() {
-
-				var generic_id = '<?php echo $name; ?>';
-				window.tribe.panels.wysywig_field.settings[generic_id] = <?php echo $this->build_js_settings_string($settings); ?>;
-
-				window.tribe.panels.wysywig_field.setup_editor_template( generic_id );
-			})();
-		</script>
-	<?php
-	}
-
-	/**
-	 * @param $settings
-	 *
-	 * @see \_WP_Editors::_parse_init()
-	 *
-	 * @return string
-	 */
-	protected function build_js_settings_string( $settings ) {
-		$string = '';
-
-		foreach ( $settings as $k => $v ) {
-			if ( is_bool($v) ) {
-				$val = $v ? 'true' : 'false';
-				$string .= $k . ':' . $val . ',';
-				continue;
-			} elseif ( !empty($v) && is_string($v) && ( ('{' == $v{0} && '}' == $v{strlen($v) - 1}) || ('[' == $v{0} && ']' == $v{strlen($v) - 1}) || preg_match('/^\(?function ?\(/', $v) ) ) {
-				$string .= $k . ':' . $v . ',';
-				continue;
-			}
-			$string .= $k . ':"' . $v . '",';
-		}
-
-		return '{' . trim( $string, ' ,' ) . '}';
 	}
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
@@ -154,6 +92,39 @@ class TextArea extends Field {
 		$blueprint = parent::get_blueprint();
 		$blueprint[ 'richtext' ] = $this->richtext;
 		$blueprint[ 'media_buttons' ] = $this->media_buttons;
+		$blueprint[ 'editor_settings_reference' ] = '';
+		if ( $this->richtext ) {
+			$blueprint[ 'editor_settings_reference' ] = $this->setup_editor_settings();
+		}
 		return $blueprint;
+	}
+
+	/**
+	 * Tell WP to render an editor so that the settings
+	 * can be found later in the tinyMCEPreInit object.
+	 * @return string
+	 */
+	private function setup_editor_settings() {
+		ob_start();
+
+		$editor_id = $this->get_indexed_name();
+		$settings = wp_parse_args( $this->editor_settings, array(
+			'textarea_rows' => 15,
+			'textarea_name' => $this->get_input_name(),
+			'quicktags'     => true,
+			'editor_class'  => 'wysiwyg-' . $editor_id,
+			'media_buttons' => $this->media_buttons,
+		) );
+		add_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10, 1 );
+		wp_editor(
+			'',
+			$editor_id,
+			$settings
+		);
+		remove_filter( 'the_editor', array( $this, 'add_data_atts_to_editor' ), 10 );
+
+		ob_end_clean();
+
+		return $editor_id;
 	}
 }
