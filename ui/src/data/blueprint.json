@@ -17,6 +17,28 @@
         "default": ""
       },
       {
+        "type": "ModularContent\\Fields\\Radio",
+        "label": "Style",
+        "name": "layout",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": "standard",
+        "options": [
+          {
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
         "type": "ModularContent\\Fields\\Image",
         "label": "Image",
         "name": "image",
