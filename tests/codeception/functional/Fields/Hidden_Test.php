@@ -20,7 +20,7 @@ class Hidden_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Hidden',
+			'type'        => 'Hidden',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

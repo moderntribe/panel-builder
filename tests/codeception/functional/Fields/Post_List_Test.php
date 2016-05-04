@@ -26,7 +26,7 @@ class Post_List_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'             => 'ModularContent\Fields\Post_List',
+			'type'             => 'Post_List',
 			'label'            => $label,
 			'name'             => $name,
 			'description'      => $description,

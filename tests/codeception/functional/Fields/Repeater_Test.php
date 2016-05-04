@@ -35,7 +35,7 @@ class Repeater_Test extends WPTestCase {
 		$blueprint = $group->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Repeater',
+			'type'        => 'Repeater',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
@@ -45,7 +45,7 @@ class Repeater_Test extends WPTestCase {
 			'default'     => [ ],
 			'fields'      => [
 				[
-					'type'        => 'ModularContent\Fields\Text',
+					'type'        => 'Text',
 					'label'       => $label . '1',
 					'name'        => $name . '1',
 					'description' => $description . '1',
@@ -53,7 +53,7 @@ class Repeater_Test extends WPTestCase {
 					'default'     => '',
 				],
 				[
-					'type'        => 'ModularContent\Fields\Text',
+					'type'        => 'Text',
 					'label'       => $label . '2',
 					'name'        => $name . '2',
 					'description' => $description . '2',

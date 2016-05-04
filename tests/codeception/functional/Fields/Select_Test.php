@@ -23,7 +23,7 @@ class Select_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Select',
+			'type'        => 'Select',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

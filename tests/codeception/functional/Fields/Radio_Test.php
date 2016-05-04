@@ -23,7 +23,7 @@ class Radio_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Radio',
+			'type'        => 'Radio',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

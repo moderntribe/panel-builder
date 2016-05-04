@@ -20,7 +20,7 @@ class Text_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Text',
+			'type'        => 'Text',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

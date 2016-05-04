@@ -20,7 +20,7 @@ class ImageGallery_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\ImageGallery',
+			'type'        => 'ImageGallery',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

@@ -18,7 +18,7 @@ class Link_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Link',
+			'type'        => 'Link',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

@@ -47,7 +47,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 				],
 				'fields'      => [
 					[
-						'type'        => 'ModularContent\Fields\Title',
+						'type'        => 'Title',
 						'label'       => 'Title',
 						'name'        => 'title',
 						'description' => '',
@@ -102,7 +102,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 				],
 				'fields'      => [
 					[
-						'type'        => 'ModularContent\Fields\Title',
+						'type'        => 'Title',
 						'label'       => 'Title',
 						'name'        => 'title',
 						'description' => '',
@@ -127,7 +127,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 							],
 							'fields'      => [
 								[
-									'type'        => 'ModularContent\Fields\Title',
+									'type'        => 'Title',
 									'label'       => 'Title',
 									'name'        => 'title',
 									'description' => '',
@@ -231,8 +231,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$this->assertCount( 1, $blueprint );
 		$fields = $blueprint[ 0 ][ 'fields' ];
 		$this->assertCount( 2, $fields );
-		$this->assertEquals( 'ModularContent\Fields\Title', $fields[ 0 ][ 'type' ] );
-		$this->assertEquals( 'ModularContent\Fields\Text', $fields[ 1 ][ 'type' ] );
+		$this->assertEquals( 'Title', $fields[ 0 ][ 'type' ] );
+		$this->assertEquals( 'Text', $fields[ 1 ][ 'type' ] );
 	}
 
 	/**

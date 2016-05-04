@@ -9,7 +9,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -17,7 +17,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\HTML",
+                "type": "HTML",
                 "label": "Need Help?",
                 "name": "help",
                 "description": "<p>Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
@@ -25,7 +25,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\Radio",
+                "type": "Radio",
                 "label": "Alignment",
                 "name": "alignment",
                 "description": "",
@@ -43,7 +43,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\Repeater",
+                "type": "Repeater",
                 "label": "Links",
                 "name": "links",
                 "description": "",
@@ -53,7 +53,7 @@
                 "default": [],
                 "fields": [
                     {
-                        "type": "ModularContent\\Fields\\Link",
+                        "type": "Link",
                         "label": "Link",
                         "name": "link",
                         "description": "",
@@ -65,7 +65,7 @@
                         }
                     },
                     {
-                        "type": "ModularContent\\Fields\\Image",
+                        "type": "Image",
                         "label": "Image (optional)",
                         "name": "image",
                         "description": "",
@@ -78,7 +78,7 @@
                 "max": 6
             },
             {
-                "type": "ModularContent\\Fields\\ImageGallery",
+                "type": "ImageGallery",
                 "label": "Gallery",
                 "name": "gallery",
                 "description": "This is a gallery field",
@@ -86,7 +86,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\Post_List",
+                "type": "Post_List",
                 "label": "A Post_List field",
                 "name": "posts",
                 "description": "",
@@ -122,7 +122,7 @@
                 "show_max_control": true
             },
             {
-                "type": "ModularContent\\Fields\\PostQuacker",
+                "type": "PostQuacker",
                 "label": "Quacker",
                 "name": "quack",
                 "description": "",
@@ -141,7 +141,7 @@
                 }
             },
             {
-                "type": "ModularContent\\Fields\\Select",
+                "type": "Select",
                 "label": "Proposed budget",
                 "name": "budget",
                 "description": "How much money do you have?",
@@ -163,7 +163,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\Group",
+                "type": "Group",
                 "label": "Your Name",
                 "name": "name",
                 "description": "What do people call you?",
@@ -171,7 +171,7 @@
                 "default": [],
                 "fields": [
                     {
-                        "type": "ModularContent\\Fields\\Text",
+                        "type": "Text",
                         "label": "First Name",
                         "name": "first_name",
                         "description": "",
@@ -179,7 +179,7 @@
                         "default": ""
                     },
                     {
-                        "type": "ModularContent\\Fields\\Text",
+                        "type": "Text",
                         "label": "Last Name",
                         "name": "last_name",
                         "description": "",
@@ -189,7 +189,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\Hidden",
+                "type": "Hidden",
                 "label": "",
                 "name": "secret",
                 "description": "",
@@ -197,7 +197,7 @@
                 "default": "You can't see me"
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Style",
                 "name": "layout",
                 "description": "",
@@ -222,7 +222,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Biography",
                 "name": "bio",
                 "description": "Provide a brief history of your life to date.",
@@ -233,7 +233,7 @@
                 "editor_settings_reference": "bio-0000"
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Content",
                 "name": "content",
                 "description": "Anything you would like to say. Really.",
@@ -244,7 +244,7 @@
                 "editor_settings_reference": "content-0001"
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Discontent",
                 "name": "discontent",
                 "description": "Maybe don't say so much. Thanks.",
@@ -255,7 +255,7 @@
                 "editor_settings_reference": "discontent-0002"
             },
             {
-                "type": "ModularContent\\Fields\\Video",
+                "type": "Video",
                 "label": "Cat Video",
                 "name": "cat_video",
                 "description": "URL to a cute cate video on YouTube",
@@ -280,7 +280,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -288,7 +288,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -318,7 +318,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -329,7 +329,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -338,7 +338,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -368,7 +368,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -380,7 +380,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -419,7 +419,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -427,7 +427,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -437,7 +437,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -474,7 +474,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -482,7 +482,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Style",
                 "name": "layout",
                 "description": "",
@@ -507,7 +507,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Description",
                 "name": "content",
                 "description": "",
@@ -518,7 +518,7 @@
                 "editor_settings_reference": ""
             },
             {
-                "type": "ModularContent\\Fields\\Repeater",
+                "type": "Repeater",
                 "label": "Content Blocks",
                 "name": "columns",
                 "description": "",
@@ -528,7 +528,7 @@
                 "default": [],
                 "fields": [
                     {
-                        "type": "ModularContent\\Fields\\Text",
+                        "type": "Text",
                         "label": "Column Title",
                         "name": "title",
                         "description": "",
@@ -536,7 +536,7 @@
                         "default": ""
                     },
                     {
-                        "type": "ModularContent\\Fields\\TextArea",
+                        "type": "TextArea",
                         "label": "Column Text",
                         "name": "text",
                         "description": "",
@@ -547,7 +547,7 @@
                         "editor_settings_reference": "text-0004"
                     },
                     {
-                        "type": "ModularContent\\Fields\\Link",
+                        "type": "Link",
                         "label": "Call To Action Link",
                         "name": "cta",
                         "description": "",
@@ -559,7 +559,7 @@
                         }
                     },
                     {
-                        "type": "ModularContent\\Fields\\ImageSelect",
+                        "type": "ImageSelect",
                         "label": "Call To Action Link Style",
                         "name": "cta_style",
                         "description": "",
@@ -600,7 +600,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -608,7 +608,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -638,7 +638,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -649,7 +649,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -658,7 +658,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -688,7 +688,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -700,7 +700,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -739,7 +739,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -747,7 +747,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -757,7 +757,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -794,7 +794,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -802,7 +802,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Description",
                 "name": "content",
                 "description": "",
@@ -813,7 +813,7 @@
                 "editor_settings_reference": ""
             },
             {
-                "type": "ModularContent\\Fields\\ImageGallery",
+                "type": "ImageGallery",
                 "label": "Image Gallery",
                 "name": "gallery",
                 "description": "",
@@ -838,7 +838,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -846,7 +846,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -876,7 +876,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -887,7 +887,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -896,7 +896,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -926,7 +926,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -938,7 +938,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -977,7 +977,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -985,7 +985,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -995,7 +995,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -1032,7 +1032,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -1040,7 +1040,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Layout",
                 "name": "layout",
                 "description": "",
@@ -1070,7 +1070,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Description",
                 "name": "content",
                 "description": "",
@@ -1081,7 +1081,7 @@
                 "editor_settings_reference": "content-0006"
             },
             {
-                "type": "ModularContent\\Fields\\Image",
+                "type": "Image",
                 "label": "Image",
                 "name": "image",
                 "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -1090,7 +1090,7 @@
                 "size": "medium"
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Image Overlay",
                 "name": "overlay",
                 "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -1120,7 +1120,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\Link",
+                "type": "Link",
                 "label": "Call To Action Link",
                 "name": "cta",
                 "description": "",
@@ -1132,7 +1132,7 @@
                 }
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Call To Action Link Style",
                 "name": "cta_style",
                 "description": "",
@@ -1169,7 +1169,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1177,7 +1177,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -1207,7 +1207,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -1218,7 +1218,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -1227,7 +1227,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -1257,7 +1257,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -1269,7 +1269,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -1308,7 +1308,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1316,7 +1316,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -1326,7 +1326,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -1363,7 +1363,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -1371,7 +1371,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\ImageSelect",
+                "type": "ImageSelect",
                 "label": "Style",
                 "name": "layout",
                 "description": "",
@@ -1391,7 +1391,7 @@
                 ]
             },
             {
-                "type": "ModularContent\\Fields\\TextArea",
+                "type": "TextArea",
                 "label": "Content",
                 "name": "content",
                 "description": "",
@@ -1402,7 +1402,7 @@
                 "editor_settings_reference": "content-0007"
             },
             {
-                "type": "ModularContent\\Fields\\Post_List",
+                "type": "Post_List",
                 "label": "Links",
                 "name": "items",
                 "description": "",
@@ -1455,7 +1455,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1463,7 +1463,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -1493,7 +1493,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -1504,7 +1504,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -1513,7 +1513,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -1543,7 +1543,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -1555,7 +1555,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -1594,7 +1594,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1602,7 +1602,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -1612,7 +1612,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -1649,7 +1649,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -1657,7 +1657,7 @@
                 "default": ""
             },
             {
-                "type": "ModularContent\\Fields\\Repeater",
+                "type": "Repeater",
                 "label": "Columns",
                 "name": "repeater",
                 "description": "",
@@ -1667,7 +1667,7 @@
                 "default": [],
                 "fields": [
                     {
-                        "type": "ModularContent\\Fields\\TextArea",
+                        "type": "TextArea",
                         "label": "Column",
                         "name": "column",
                         "description": "",
@@ -1699,7 +1699,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1707,7 +1707,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -1737,7 +1737,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -1748,7 +1748,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -1757,7 +1757,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -1787,7 +1787,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -1799,7 +1799,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -1838,7 +1838,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1846,7 +1846,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -1856,7 +1856,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
@@ -1893,7 +1893,7 @@
         },
         "fields": [
             {
-                "type": "ModularContent\\Fields\\Title",
+                "type": "Title",
                 "label": "Title",
                 "name": "title",
                 "description": "",
@@ -1918,7 +1918,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -1926,7 +1926,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
@@ -1956,7 +1956,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\TextArea",
+                            "type": "TextArea",
                             "label": "Description",
                             "name": "content",
                             "description": "",
@@ -1967,7 +1967,7 @@
                             "editor_settings_reference": "content-0006"
                         },
                         {
-                            "type": "ModularContent\\Fields\\Image",
+                            "type": "Image",
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
@@ -1976,7 +1976,7 @@
                             "size": "medium"
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
@@ -2006,7 +2006,7 @@
                             ]
                         },
                         {
-                            "type": "ModularContent\\Fields\\Link",
+                            "type": "Link",
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
@@ -2018,7 +2018,7 @@
                             }
                         },
                         {
-                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "type": "ImageSelect",
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
@@ -2057,7 +2057,7 @@
                     },
                     "fields": [
                         {
-                            "type": "ModularContent\\Fields\\Title",
+                            "type": "Title",
                             "label": "Title",
                             "name": "title",
                             "description": "",
@@ -2065,7 +2065,7 @@
                             "default": ""
                         },
                         {
-                            "type": "ModularContent\\Fields\\Repeater",
+                            "type": "Repeater",
                             "label": "Columns",
                             "name": "repeater",
                             "description": "",
@@ -2075,7 +2075,7 @@
                             "default": [],
                             "fields": [
                                 {
-                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "type": "TextArea",
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",

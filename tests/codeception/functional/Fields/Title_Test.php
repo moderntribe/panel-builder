@@ -20,7 +20,7 @@ class Title_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Title',
+			'type'        => 'Title',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

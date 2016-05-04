@@ -20,7 +20,7 @@ class Video_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\Video',
+			'type'        => 'Video',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

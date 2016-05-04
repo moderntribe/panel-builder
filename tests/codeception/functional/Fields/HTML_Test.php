@@ -20,7 +20,7 @@ class HTML_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ModularContent\Fields\HTML',
+			'type'        => 'HTML',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,

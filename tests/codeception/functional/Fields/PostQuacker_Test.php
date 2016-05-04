@@ -18,7 +18,7 @@ class PostQuacker_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'             => 'ModularContent\Fields\PostQuacker',
+			'type'             => 'PostQuacker',
 			'label'            => $label,
 			'name'             => $name,
 			'description'      => $description,

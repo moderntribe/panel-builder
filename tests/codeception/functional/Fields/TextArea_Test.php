@@ -21,7 +21,7 @@ class TextArea_Test extends WPTestCase {
 		$blueprint = $plaintext->get_blueprint();
 
 		$expected = [
-			'type'                      => 'ModularContent\Fields\TextArea',
+			'type'                      => 'TextArea',
 			'label'                     => $label,
 			'name'                      => $name,
 			'description'               => $description,
@@ -52,7 +52,7 @@ class TextArea_Test extends WPTestCase {
 		$blueprint = $plaintext->get_blueprint();
 
 		$expected = [
-			'type'          => 'ModularContent\Fields\TextArea',
+			'type'          => 'TextArea',
 			'label'         => $label,
 			'name'          => $name,
 			'description'   => $description,
