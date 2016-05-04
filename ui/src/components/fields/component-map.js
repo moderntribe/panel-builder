@@ -1,9 +1,7 @@
-import Text from './text';
-import Select from './select';
-import Repeater from './repeater';
+import ModularContentFieldsText from './text';
+import ModularContentFieldsImage from './image';
 
 export default {
-	Text,
-	Select,
-	Repeater,
+	ModularContentFieldsText,
+	ModularContentFieldsImage,
 };

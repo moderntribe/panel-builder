@@ -1,0 +1,30 @@
+[
+  {
+    "type": "fielddev",
+    "label": "One of Each Field Panel for Early Dev",
+    "description": "Before full hookup get fields rendering.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "ModularContent\\Fields\\Text",
+        "label": "Text Input Label",
+        "name": "text_test",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "ModularContent\\Fields\\Image",
+        "label": "Image",
+        "name": "image",
+        "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+        "strings": [],
+        "default": "",
+        "size": "medium"
+      }
+    ]
+  }
+]

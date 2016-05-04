@@ -19,6 +19,7 @@
     "test:dev": "npm run test -- --watch"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "jquery": "^2.2.0",
     "lodash": "^4.11.1",
     "lost": "^6.7.2",
