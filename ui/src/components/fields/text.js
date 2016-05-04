@@ -26,7 +26,7 @@ class Text extends Component {
 			<div className={ styles.panelInput }>
 				<label className={ styles.panelInputLabel }>{this.props.label}</label>
 				<span className={ styles.panelInputField }>
-					<input type="text" name={this.props.name} value="" size="40" value={this.state.input_value} onChange={ (e) => { return this.handleChange (e) }} />
+					<input type="text" name={this.props.name} value="" size="40" value={this.state.input_value} onChange={this.handleChange} />
 				</span>
 				<p className={ styles.panelInputDescription }>{this.props.description}</p>
 			</div>
