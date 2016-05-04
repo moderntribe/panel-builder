@@ -50,11 +50,34 @@ class Post_List_Test extends WPTestCase {
 				'label.link'              => 'Link: http://example.com/',
 				'label.thumbnail'         => 'Thumbnail',
 			],
-			'default'          => [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ],
+			'default'          => [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ],
 			'min'              => 5,
 			'max'              => 18,
 			'suggested'        => 8,
 			'show_max_control' => true,
+			'post_type'        => [
+				[
+					'name'  => 'post',
+					'label' => 'Posts',
+				],
+			],
+			'filters'           => [
+				'taxonomy' => [
+					[
+						'name'      => 'post_tag',
+						'label'     => 'Tags',
+						'post_type' => [ 'post' ],
+					],
+				],
+				'p2p'      => [ ],
+				'misc'     => [
+					[
+						'name'      => 'date',
+						'label'     => 'Date',
+						'post_type' => [ 'post', 'page', 'attachment' ],
+					],
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $blueprint );

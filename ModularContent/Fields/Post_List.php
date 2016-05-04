@@ -2,6 +2,7 @@
 
 namespace ModularContent\Fields;
 use ModularContent\Panel, ModularContent\AdminPreCache;
+use ModularContent\Util;
 
 /**
  * Class Post_List
@@ -554,10 +555,48 @@ class Post_List extends Field {
 
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
-		$blueprint['min'] = $this->min;
-		$blueprint['max'] = $this->max;
-		$blueprint['suggested'] = $this->suggested;
-		$blueprint['show_max_control'] = $this->show_max_control;
+		$blueprint[ 'min' ] = $this->min;
+		$blueprint[ 'max' ] = $this->max;
+		$blueprint[ 'suggested' ] = $this->suggested;
+		$blueprint[ 'show_max_control' ] = $this->show_max_control;
+		$blueprint[ 'post_type' ] = [];
+		foreach ( $this->post_type_options() as $pto ) {
+			if ( !is_object( $pto ) ) {
+				$pto = get_post_type_object( $pto );
+			}
+			$blueprint[ 'post_type' ][] = [
+				'name'  => $pto->name,
+				'label' => $pto->label,
+			];
+		}
+		$blueprint[ 'filters' ] = [
+			'taxonomy' => [ ],
+			'p2p'      => [ ],
+			'misc'     => [
+				[
+					'name'      => 'date',
+					'label'     => __( 'Date', 'modular-content' ),
+					'post_type' => Util::get_post_types_for_date(),
+				],
+			],
+		];
+		foreach ( $this->taxonomy_options() as $tax ) {
+			$taxonomy = get_taxonomy( $tax );
+			$blueprint[ 'filters' ][ 'taxonomy' ][] = [
+				'name'      => $tax,
+				'label'     => $taxonomy->label,
+				'post_type' => Util::get_post_types_for_taxonomy( $tax ),
+			];
+		}
+
+		foreach ( $this->p2p_options() as $relationship_id => $relationship ) {
+			$post_types_for_p2p = \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship );
+			$blueprint[ 'filters' ][ 'p2p' ][] = [
+				'name'      => $relationship_id,
+				'label'     => Util::get_p2p_relationship_label( $relationship ),
+				'post_type' => $post_types_for_p2p,
+			];
+		}
 		return $blueprint;
 	}
 }
