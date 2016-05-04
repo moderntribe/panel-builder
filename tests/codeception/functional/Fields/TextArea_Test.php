@@ -21,14 +21,15 @@ class TextArea_Test extends WPTestCase {
 		$blueprint = $plaintext->get_blueprint();
 
 		$expected = [
-			'type'          => 'ModularContent\Fields\TextArea',
-			'label'         => $label,
-			'name'          => $name,
-			'description'   => $description,
-			'strings'       => [ ],
-			'default'       => $default,
-			'richtext'      => false,
-			'media_buttons' => true,
+			'type'                      => 'ModularContent\Fields\TextArea',
+			'label'                     => $label,
+			'name'                      => $name,
+			'description'               => $description,
+			'strings'                   => [ ],
+			'default'                   => $default,
+			'richtext'                  => false,
+			'media_buttons'             => true,
+			'editor_settings_reference' => '',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
@@ -61,6 +62,10 @@ class TextArea_Test extends WPTestCase {
 			'media_buttons' => true,
 		];
 
+		$reference = $blueprint[ 'editor_settings_reference' ];
+		$this->assertRegExp( '#^' . $name . '-\d+$#', $reference, 'unexpected editor reference' );
+		
+		unset( $blueprint[ 'editor_settings_reference' ] );
 		$this->assertEquals( $expected, $blueprint );
 	}
 }
