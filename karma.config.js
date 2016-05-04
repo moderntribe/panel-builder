@@ -19,7 +19,7 @@ module.exports = function(config) {
 		files: [
 			'node_modules/babel-polyfill/dist/polyfill.js',
 			'./node_modules/phantomjs-polyfill/bind-polyfill.js',
-			'./tests/ui/**/*.js'
+			'./tests/ui/**/*.js',
 		],
 		preprocessors: {
 			// these files we want to be precompiled with webpack
@@ -41,27 +41,30 @@ module.exports = function(config) {
 
 				// required for enzyme to work properly
 				alias: {
-					'sinon': 'sinon/pkg/sinon'
-				}
+					sinon: 'sinon/pkg/sinon',
+				},
 			},
 			module: {
+
 				// don't run babel-loader through the sinon module
 				noParse: [
-					/node_modules\/sinon\//
+					/node_modules\/sinon\//,
 				],
+
 				// run babel loader for our tests
 				loaders: [
-					{ 
-						test: /\.js?$/, 
-						exclude: /node_modules/, 
-						loader: 'babel' 
+					{
+						test: /\.js?$/,
+						exclude: /node_modules/,
+						loader: 'babel',
 					},
 					{
 						test: /\.pcss$/,
-						loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+						loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
 					},
 				],
 			},
+
 			// required for enzyme to work properly
 			externals: {
 				'jsdom': 'window',
@@ -72,8 +75,9 @@ module.exports = function(config) {
 			},
 		},
 		webpackMiddleware: {
-			noInfo: true
+			noInfo: true,
 		},
+
 		// tell karma all the plugins we're going to be using to prevent warnings
 		plugins: [
 			'karma-mocha',
@@ -81,7 +85,7 @@ module.exports = function(config) {
 			'karma-webpack',
 			'karma-phantomjs-launcher',
 			'karma-spec-reporter',
-			'karma-sourcemap-loader'
+			'karma-sourcemap-loader',
 		]
 	});
 };
