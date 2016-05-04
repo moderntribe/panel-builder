@@ -5,13 +5,22 @@ namespace ModularContent;
 
 
 use Codeception\TestCase\WPTestCase;
+use ModularContent\Fields\Group;
+use ModularContent\Fields\Hidden;
+use ModularContent\Fields\HTML;
 use ModularContent\Fields\Image;
+use ModularContent\Fields\ImageGallery;
 use ModularContent\Fields\ImageSelect;
 use ModularContent\Fields\Link;
 use ModularContent\Fields\Post_List;
+use ModularContent\Fields\PostQuacker;
+use ModularContent\Fields\Posts;
+use ModularContent\Fields\Radio;
 use ModularContent\Fields\Repeater;
+use ModularContent\Fields\Select;
 use ModularContent\Fields\Text;
 use ModularContent\Fields\TextArea;
+use ModularContent\Fields\Video;
 
 class Blueprint_Builder_Test extends WPTestCase {
 	public function test_basic_blueprint() {
@@ -237,6 +246,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry = new TypeRegistry();
 		$collection = new PanelCollection();
 
+		$this->register_kitchensink( $registry );
+
 		$this->register_contentgrid( $registry );
 		$this->add_sample_contentgrid( $collection, $registry->get( 'contentgrid' ) );
 		$this->register_gallery( $registry );
@@ -260,6 +271,148 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$output_file = codecept_data_dir() . '/sample_panels.json';
 		$return = file_put_contents( $output_file, $samples );
 		$this->assertNotEmpty( $return, 'no data written to sample_panels.json' );
+	}
+
+	private function register_kitchensink( TypeRegistry $registry ) {
+		$panel = new PanelType( 'kitchensink' );
+		$panel->set_label( 'Kitchen Sink' );
+		$panel->set_description( 'At least one of every kind of field' );
+		$panel->set_icon( 'module-kitchensink.png' );
+
+		$panel->add_field( new HTML( [
+			'name'        => 'help',
+			'label'       => 'Need Help?',
+			'description' => '<p>Check out the <a href="https://github.com/moderntribe/panel-builder/blob/master/readme.md">Readme</a>.</p>',
+		] ) );
+
+		$panel->add_field( new Radio( [
+			'name'    => 'alignment',
+			'label'   => 'Alignment',
+			'options' => [
+				'left'  => 'Left',
+				'right' => 'Right',
+			],
+			'default' => 'standard',
+		] ) );
+
+		$links = new Repeater( [
+			'name'    => 'links',
+			'label'   => 'Links',
+			'strings' => [
+				'button.new' => 'Add a link',
+			],
+			'max'     => 6,
+		] );
+		$links->add_field( new Link( [
+			'label' => 'Link',
+			'name'  => 'link',
+		] ) );
+		$links->add_field( new Image( [
+			'label' => 'Image (optional)',
+			'name'  => 'image',
+		] ) );
+		$panel->add_field( $links );
+
+		$panel->add_field( new ImageGallery( [
+			'label'       => 'Gallery',
+			'name'        => 'gallery',
+			'description' => 'This is a gallery field',
+		] ) );
+
+		$panel->add_field( new Post_List( [
+			'label'            => 'A Post_List field',
+			'name'             => 'posts',
+			'min'              => 2,
+			'max'              => 12,
+			'suggested'        => 6,
+			'show_max_control' => true,
+			'strings'          => [
+				'tabs.manual'  => 'Select/Create',
+				'tabs.dynamic' => 'Query',
+			],
+		] ) );
+
+		$panel->add_field( new PostQuacker( [
+			'name'  => 'quack',
+			'label' => 'Quacker',
+		] ) );
+
+		$panel->add_field( new Select( [
+			'name'        => 'budget',
+			'label'       => 'Proposed budget',
+			'options'     => [
+				'<100'    => 'Less than $100,000',
+				'100-200' => '$100,000 - $200,000',
+				'200+'    => 'More than $200,000',
+			],
+			'description' => 'How much money do you have?',
+		] ) );
+
+		$name = new Group( [
+			'name'        => 'name',
+			'label'       => 'Your Name',
+			'description' => 'What do people call you?',
+		] );
+		$name->add_field( new Text( [
+			'name'  => 'first_name',
+			'label' => 'First Name',
+		] ) );
+		$name->add_field( new Text( [
+			'name'  => 'last_name',
+			'label' => 'Last Name',
+		] ) );
+		$panel->add_field( $name );
+
+		$panel->add_field( new Hidden( [
+			'name'    => 'secret',
+			'default' => "You can't see me",
+		] ) );
+
+		// Panel Style
+		$panel->add_field( new ImageSelect( [
+			'name'    => 'layout',
+			'label'   => 'Style',
+			'options' => [
+				'standard' => 'module-contentgrid-standard.png',
+				'cards'    => 'module-contentgrid-cards.png',
+				'full'     => 'module-contentgrid-full.png',
+			],
+			'default' => 'standard',
+		] ) );
+
+		$panel->add_field( new TextArea( [
+			'name'        => 'bio',
+			'label'       => 'Biography',
+			'description' => 'Provide a brief history of your life to date.',
+			'richtext'    => 'false',
+		] ) );
+
+		$panel->add_field( new TextArea( [
+			'name'          => 'content',
+			'label'         => 'Content',
+			'description'   => 'Anything you would like to say. Really.',
+			'richtext'      => 'true',
+			'media_buttons' => true,
+		] ) );
+
+		$panel->add_field( new TextArea( [
+			'name'            => 'discontent',
+			'label'           => 'Discontent',
+			'description'     => "Maybe don't say so much. Thanks.",
+			'richtext'        => 'true',
+			'media_buttons'   => true,
+			'editor_settings' => [
+				'teeny' => true,
+			],
+		] ) );
+
+		$panel->add_field( new Video( [
+			'name'        => 'cat_video',
+			'label'       => 'Cat Video',
+			'description' => 'URL to a cute cate video on YouTube',
+		] ) );
+
+		$registry->register( $panel );
 	}
 
 	private function register_contentgrid( TypeRegistry $registry ) {
@@ -335,31 +488,31 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 	private function add_sample_contentgrid( PanelCollection $collection, PanelType $type ) {
 		$panel = new Panel( $type, [
-			'title' => 'Sample Content Grid',
-		  'layout' => 'cards',
-		  'content' => 'Content Grid Content',
-		  'columns' => [
-			  [
-				  'title' => 'Column One',
-			    'text' => 'This goes in column one',
-			  ],
-		    [
-			    'title' => 'Column Two',
-		      'text' => 'An image in column two: <img width="300" height="250" src="http://griddle.tri.be/?w=300&h=250" />',
-		    ],
-		    [
-			    'title' => 'Column Three',
-		      'text' => '',
-			  ],
-		  ],
-		  'cta' => [
-			  'url' => 'http://tri.be/',
-		    'target' => '',
-		    'label' => 'Modern Tribe',
-		  ],
-		  'cta_style' => [
-			  'button',
-		  ],
+			'title'     => 'Sample Content Grid',
+			'layout'    => 'cards',
+			'content'   => 'Content Grid Content',
+			'columns'   => [
+				[
+					'title' => 'Column One',
+					'text'  => 'This goes in column one',
+				],
+				[
+					'title' => 'Column Two',
+					'text'  => 'An image in column two: <img width="300" height="250" src="http://griddle.tri.be/?w=300&h=250" />',
+				],
+				[
+					'title' => 'Column Three',
+					'text'  => '',
+				],
+			],
+			'cta'       => [
+				'url'    => 'http://tri.be/',
+				'target' => '',
+				'label'  => 'Modern Tribe',
+			],
+			'cta_style' => [
+				'button',
+			],
 		], 0 );
 		$collection->add_panel( $panel );
 	}
@@ -389,27 +542,27 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 	private function add_sample_gallery( PanelCollection $collection, PanelType $type ) {
 		$panel = new Panel( $type, [
-			'title' => 'Some Images',
-		  'content' => 'A caption to go with the gallery',
-		  'gallery' => [
-			  [
-				  'id' => 12345,
-			    'thumbnail' => 'http://griddle.tri.be/?w=300&h=250',
-			  ],
-			  [
-				  'id' => 12346,
-				  'thumbnail' => 'http://griddle.tri.be/?w=350&h=250',
-			  ],
-			  [
-				  'id' => 12347,
-				  'thumbnail' => 'http://griddle.tri.be/?w=400&h=250',
-			  ],
-			  [
-				  'id' => 12348,
-				  'thumbnail' => 'http://griddle.tri.be/?w=450&h=250',
-			  ],
-		  ],
-		]);
+			'title'   => 'Some Images',
+			'content' => 'A caption to go with the gallery',
+			'gallery' => [
+				[
+					'id'        => 12345,
+					'thumbnail' => 'http://griddle.tri.be/?w=300&h=250',
+				],
+				[
+					'id'        => 12346,
+					'thumbnail' => 'http://griddle.tri.be/?w=350&h=250',
+				],
+				[
+					'id'        => 12347,
+					'thumbnail' => 'http://griddle.tri.be/?w=400&h=250',
+				],
+				[
+					'id'        => 12348,
+					'thumbnail' => 'http://griddle.tri.be/?w=450&h=250',
+				],
+			],
+		] );
 		$collection->add_panel( $panel );
 	}
 
@@ -487,20 +640,20 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 	private function add_sample_imagetext( PanelCollection $collection, PanelType $type ) {
 		$panel = new Panel( $type, [
-			'title' => 'Sample Image + Text Panel',
-		  'layout' => 'boxed',
-		  'content' => '',
-		  'image' => 1234,
-		  'overlay' => 'tint',
-		  'cta' => [
-			  'url' => 'http://tri.be',
-		    'target' => '_blank',
-		    'label' => 'Visit the Tribe',
-		  ],
-		  'cta_style' => [
-			  'text',
-		  ],
-		]);
+			'title'     => 'Sample Image + Text Panel',
+			'layout'    => 'boxed',
+			'content'   => '',
+			'image'     => 1234,
+			'overlay'   => 'tint',
+			'cta'       => [
+				'url'    => 'http://tri.be',
+				'target' => '_blank',
+				'label'  => 'Visit the Tribe',
+			],
+			'cta_style' => [
+				'text',
+			],
+		] );
 		$collection->add_panel( $panel );
 	}
 
@@ -513,51 +666,51 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_icon( 'module-micronav.png', 'active' );
 
 		// Panel Layout
-		$panel->add_field( new ImageSelect( array(
-			'name'      => 'layout',
-			'label'     => 'Style',
-			'options'   => array(
-				'buttons'   => 'module-micronav-buttons.png',
-				'list'      => 'module-micronav-list.png',
-			),
+		$panel->add_field( new ImageSelect( [
+			'name'    => 'layout',
+			'label'   => 'Style',
+			'options' => [
+				'buttons' => 'module-micronav-buttons.png',
+				'list'    => 'module-micronav-list.png',
+			],
 			'default' => 'buttons',
-		) ) );
+		] ) );
 
 		// Optional Content
-		$panel->add_field( new TextArea( array(
-			'name'      => 'content',
-			'label'     => 'Content',
-			'richtext'  => true
-		) ) );
+		$panel->add_field( new TextArea( [
+			'name'     => 'content',
+			'label'    => 'Content',
+			'richtext' => true,
+		] ) );
 
-		$panel->add_field( new Post_List( array(
-			'name' => 'items',
-			'label' => 'Links',
-			'max' => 12,
-			'min' => 1,
-			'suggested' => 3,
+		$panel->add_field( new Post_List( [
+			'name'             => 'items',
+			'label'            => 'Links',
+			'max'              => 12,
+			'min'              => 1,
+			'suggested'        => 3,
 			'show_max_control' => true,
-			'hidden_fields' => [ 'post_content', 'thumbnail_id' ],
-			'strings' => [
+			'hidden_fields'    => [ 'post_content', 'thumbnail_id' ],
+			'strings'          => [
 				'button.create_content' => 'Add Link',
-			]
-		) ) );
-		
+			],
+		] ) );
+
 		$registry->register( $panel );
 	}
 
 	private function add_sample_micronav( PanelCollection $collection, PanelType $type ) {
 		$panel = new Panel( $type, [
-			'title' => 'Some Links',
-		  'layout' => 'list',
-		  'content' => 'Preface to the links',
-		  'items' => [
-			  'type' => 'manual',
-		    'posts' => [],
-		    'filters' => [],
-		    'max' => 0,
-		  ],
-		]);
+			'title'   => 'Some Links',
+			'layout'  => 'list',
+			'content' => 'Preface to the links',
+			'items'   => [
+				'type'    => 'manual',
+				'posts'   => [ ],
+				'filters' => [ ],
+				'max'     => 0,
+			],
+		] );
 		$collection->add_panel( $panel );
 	}
 
@@ -571,37 +724,37 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_max_depth( 2 );
 
 		// Field: Editor Columns
-		$group = new Fields\Repeater( array(
+		$group = new Fields\Repeater( [
 			'label'            => 'Columns',
 			'name'             => 'repeater',
 			'min'              => 1,
 			'max'              => 3,
-			'new_button_label' => 'Add Column'
-		) );
+			'new_button_label' => 'Add Column',
+		] );
 
-		$group->add_field( new Fields\TextArea( array(
+		$group->add_field( new Fields\TextArea( [
 			'label'    => 'Column',
 			'name'     => 'column',
-			'richtext' => true
-		) ) );
+			'richtext' => true,
+		] ) );
 
 		$panel->add_field( $group );
-		
+
 		$registry->register( $panel );
 	}
 
 	private function add_sample_wysiwyg( PanelCollection $collection, PanelType $type ) {
 		$panel = new Panel( $type, [
-			'title' => 'Wysiwyg Panel',
-		  'repeater' => [
-			  [
-				  'column' => 'Column 1 Content',
-			  ],
-			  [
-				  'column' => 'Column 2 Content',
-			  ],
-		  ]
-		]);
+			'title'    => 'Wysiwyg Panel',
+			'repeater' => [
+				[
+					'column' => 'Column 1 Content',
+				],
+				[
+					'column' => 'Column 2 Content',
+				],
+			],
+		] );
 		$collection->add_panel( $panel );
 	}
 
@@ -622,7 +775,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$collection->add_panel( $tabs );
 
 		$child_1 = new Panel( $child, [
-			'title' => 'Wysiwyg Panel 1',
+			'title'    => 'Wysiwyg Panel 1',
 			'repeater' => [
 				[
 					'column' => 'Column 1 Content',
@@ -630,17 +783,17 @@ class Blueprint_Builder_Test extends WPTestCase {
 				[
 					'column' => 'Column 2 Content',
 				],
-			]
+			],
 		], 1 );
 		$collection->add_panel( $child_1 );
 
 		$child_2 = new Panel( $child, [
-			'title' => 'Wysiwyg Panel 2',
+			'title'    => 'Wysiwyg Panel 2',
 			'repeater' => [
 				[
 					'column' => 'Column 1 Content',
 				],
-			]
+			],
 		], 1 );
 		$collection->add_panel( $child_2 );
 	}

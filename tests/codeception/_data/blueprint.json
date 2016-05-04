@@ -1,11 +1,11 @@
 [
     {
-        "type": "contentgrid",
-        "label": "Content Grid",
-        "description": "A grid of content with 2 layouts.",
+        "type": "kitchensink",
+        "label": "Kitchen Sink",
+        "description": "At least one of every kind of field",
         "icon": {
-            "active": "module-contentgrid.png",
-            "inactive": "module-contentgrid.png"
+            "active": "module-kitchensink.png",
+            "inactive": "module-kitchensink.png"
         },
         "fields": [
             {
@@ -15,6 +15,186 @@
                 "description": "",
                 "strings": [],
                 "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\HTML",
+                "label": "Need Help?",
+                "name": "help",
+                "description": "<p>Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\Radio",
+                "label": "Alignment",
+                "name": "alignment",
+                "description": "",
+                "strings": [],
+                "default": "standard",
+                "options": [
+                    {
+                        "label": "Left",
+                        "value": "left"
+                    },
+                    {
+                        "label": "Right",
+                        "value": "right"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\Repeater",
+                "label": "Links",
+                "name": "links",
+                "description": "",
+                "strings": {
+                    "button.new": "Add a link"
+                },
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\Link",
+                        "label": "Link",
+                        "name": "link",
+                        "description": "",
+                        "strings": [],
+                        "default": {
+                            "url": "",
+                            "target": "",
+                            "label": ""
+                        }
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\Image",
+                        "label": "Image (optional)",
+                        "name": "image",
+                        "description": "",
+                        "strings": [],
+                        "default": "",
+                        "size": "thumbnail"
+                    }
+                ],
+                "min": 0,
+                "max": 6
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageGallery",
+                "label": "Gallery",
+                "name": "gallery",
+                "description": "This is a gallery field",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\Post_List",
+                "label": "A Post_List field",
+                "name": "posts",
+                "description": "",
+                "strings": {
+                    "tabs.manual": "Select\/Create",
+                    "tabs.dynamic": "Query",
+                    "button.select_post": "Select a post",
+                    "button.create_content": "Create content",
+                    "button.remove_post": "Remove this post",
+                    "label.content_type": "Content Type",
+                    "label.choose_post": "Choose a Post",
+                    "label.max_results": "Max Results",
+                    "label.select_post_type": "Select Post Type",
+                    "label.select_post_types": "Select Post Types",
+                    "label.add_a_filter": "Add a Filter",
+                    "label.taxonomy": "Taxonomy",
+                    "label.relationship": "Relationship",
+                    "label.date": "Date",
+                    "label.title": "Title",
+                    "label.content": "Content",
+                    "label.link": "Link: http:\/\/example.com\/",
+                    "label.thumbnail": "Thumbnail"
+                },
+                "default": {
+                    "type": "manual",
+                    "posts": [],
+                    "filters": [],
+                    "max": 0
+                },
+                "min": 2,
+                "max": 12,
+                "suggested": 6,
+                "show_max_control": true
+            },
+            {
+                "type": "ModularContent\\Fields\\PostQuacker",
+                "label": "Quacker",
+                "name": "quack",
+                "description": "",
+                "strings": [],
+                "default": {
+                    "type": "manual",
+                    "post_id": 0,
+                    "title": "",
+                    "content": "",
+                    "image": 0,
+                    "link": {
+                        "url": "",
+                        "target": "",
+                        "label": ""
+                    }
+                }
+            },
+            {
+                "type": "ModularContent\\Fields\\Select",
+                "label": "Proposed budget",
+                "name": "budget",
+                "description": "How much money do you have?",
+                "strings": [],
+                "default": "",
+                "options": [
+                    {
+                        "label": "Less than $100,000",
+                        "value": "<100"
+                    },
+                    {
+                        "label": "$100,000 - $200,000",
+                        "value": "100-200"
+                    },
+                    {
+                        "label": "More than $200,000",
+                        "value": "200+"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\Group",
+                "label": "Your Name",
+                "name": "name",
+                "description": "What do people call you?",
+                "strings": [],
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\Text",
+                        "label": "First Name",
+                        "name": "first_name",
+                        "description": "",
+                        "strings": [],
+                        "default": ""
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\Text",
+                        "label": "Last Name",
+                        "name": "last_name",
+                        "description": "",
+                        "strings": [],
+                        "default": ""
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\Hidden",
+                "label": "",
+                "name": "secret",
+                "description": "",
+                "strings": [],
+                "default": "You can't see me"
             },
             {
                 "type": "ModularContent\\Fields\\ImageSelect",
@@ -43,79 +223,44 @@
             },
             {
                 "type": "ModularContent\\Fields\\TextArea",
-                "label": "Description",
-                "name": "content",
-                "description": "",
+                "label": "Biography",
+                "name": "bio",
+                "description": "Provide a brief history of your life to date.",
                 "strings": [],
                 "default": "",
-                "richtext": false,
+                "richtext": "false",
                 "media_buttons": true,
-                "editor_settings_reference": ""
+                "editor_settings_reference": "bio-0000"
             },
             {
-                "type": "ModularContent\\Fields\\Repeater",
-                "label": "Content Blocks",
-                "name": "columns",
-                "description": "",
-                "strings": {
-                    "button.new": "Add Content Block"
-                },
-                "default": [],
-                "fields": [
-                    {
-                        "type": "ModularContent\\Fields\\Text",
-                        "label": "Column Title",
-                        "name": "title",
-                        "description": "",
-                        "strings": [],
-                        "default": ""
-                    },
-                    {
-                        "type": "ModularContent\\Fields\\TextArea",
-                        "label": "Column Text",
-                        "name": "text",
-                        "description": "",
-                        "strings": [],
-                        "default": "",
-                        "richtext": true,
-                        "media_buttons": true,
-                        "editor_settings_reference": "text-0001"
-                    },
-                    {
-                        "type": "ModularContent\\Fields\\Link",
-                        "label": "Call To Action Link",
-                        "name": "cta",
-                        "description": "",
-                        "strings": [],
-                        "default": {
-                            "url": "",
-                            "target": "",
-                            "label": ""
-                        }
-                    },
-                    {
-                        "type": "ModularContent\\Fields\\ImageSelect",
-                        "label": "Call To Action Link Style",
-                        "name": "cta_style",
-                        "description": "",
-                        "strings": [],
-                        "default": "text",
-                        "options": [
-                            {
-                                "src": "link-style-text.png",
-                                "label": "",
-                                "value": "text"
-                            },
-                            {
-                                "src": "link-style-button.png",
-                                "label": "",
-                                "value": "button"
-                            }
-                        ]
-                    }
-                ],
-                "min": 2,
-                "max": 4
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Content",
+                "name": "content",
+                "description": "Anything you would like to say. Really.",
+                "strings": [],
+                "default": "",
+                "richtext": "true",
+                "media_buttons": true,
+                "editor_settings_reference": "content-0001"
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Discontent",
+                "name": "discontent",
+                "description": "Maybe don't say so much. Thanks.",
+                "strings": [],
+                "default": "",
+                "richtext": "true",
+                "media_buttons": true,
+                "editor_settings_reference": "discontent-0002"
+            },
+            {
+                "type": "ModularContent\\Fields\\Video",
+                "label": "Cat Video",
+                "name": "cat_video",
+                "description": "URL to a cute cate video on YouTube",
+                "strings": [],
+                "default": ""
             }
         ],
         "children": {
@@ -181,7 +326,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -300,7 +445,327 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
+                                }
+                            ],
+                            "min": 1,
+                            "max": 3
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "type": "contentgrid",
+        "label": "Content Grid",
+        "description": "A grid of content with 2 layouts.",
+        "icon": {
+            "active": "module-contentgrid.png",
+            "inactive": "module-contentgrid.png"
+        },
+        "fields": [
+            {
+                "type": "ModularContent\\Fields\\Title",
+                "label": "Title",
+                "name": "title",
+                "description": "",
+                "strings": [],
+                "default": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\ImageSelect",
+                "label": "Style",
+                "name": "layout",
+                "description": "",
+                "strings": [],
+                "default": "standard",
+                "options": [
+                    {
+                        "src": "module-contentgrid-standard.png",
+                        "label": "",
+                        "value": "standard"
+                    },
+                    {
+                        "src": "module-contentgrid-cards.png",
+                        "label": "",
+                        "value": "cards"
+                    },
+                    {
+                        "src": "module-contentgrid-full.png",
+                        "label": "",
+                        "value": "full"
+                    }
+                ]
+            },
+            {
+                "type": "ModularContent\\Fields\\TextArea",
+                "label": "Description",
+                "name": "content",
+                "description": "",
+                "strings": [],
+                "default": "",
+                "richtext": false,
+                "media_buttons": true,
+                "editor_settings_reference": ""
+            },
+            {
+                "type": "ModularContent\\Fields\\Repeater",
+                "label": "Content Blocks",
+                "name": "columns",
+                "description": "",
+                "strings": {
+                    "button.new": "Add Content Block"
+                },
+                "default": [],
+                "fields": [
+                    {
+                        "type": "ModularContent\\Fields\\Text",
+                        "label": "Column Title",
+                        "name": "title",
+                        "description": "",
+                        "strings": [],
+                        "default": ""
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\TextArea",
+                        "label": "Column Text",
+                        "name": "text",
+                        "description": "",
+                        "strings": [],
+                        "default": "",
+                        "richtext": true,
+                        "media_buttons": true,
+                        "editor_settings_reference": "text-0004"
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\Link",
+                        "label": "Call To Action Link",
+                        "name": "cta",
+                        "description": "",
+                        "strings": [],
+                        "default": {
+                            "url": "",
+                            "target": "",
+                            "label": ""
+                        }
+                    },
+                    {
+                        "type": "ModularContent\\Fields\\ImageSelect",
+                        "label": "Call To Action Link Style",
+                        "name": "cta_style",
+                        "description": "",
+                        "strings": [],
+                        "default": "text",
+                        "options": [
+                            {
+                                "src": "link-style-text.png",
+                                "label": "",
+                                "value": "text"
+                            },
+                            {
+                                "src": "link-style-button.png",
+                                "label": "",
+                                "value": "button"
+                            }
+                        ]
+                    }
+                ],
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "children": {
+            "max": 0,
+            "label": {
+                "singular": "Module",
+                "plural": "Modules"
+            },
+            "types": [
+                {
+                    "type": "imagetext",
+                    "label": "Image+Text",
+                    "description": "An image and text with several layout options.",
+                    "icon": {
+                        "active": "module-imagetext.png",
+                        "inactive": "module-imagetext.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Layout",
+                            "name": "layout",
+                            "description": "",
+                            "strings": [],
+                            "default": "image-right",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-right.png",
+                                    "label": "",
+                                    "value": "image-right"
+                                },
+                                {
+                                    "src": "module-imagetext-left.png",
+                                    "label": "",
+                                    "value": "image-left"
+                                },
+                                {
+                                    "src": "module-imagetext-boxed.png",
+                                    "label": "",
+                                    "value": "boxed"
+                                },
+                                {
+                                    "src": "module-imagetext-hero.png",
+                                    "label": "",
+                                    "value": "hero"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\TextArea",
+                            "label": "Description",
+                            "name": "content",
+                            "description": "",
+                            "strings": [],
+                            "default": "",
+                            "richtext": true,
+                            "media_buttons": true,
+                            "editor_settings_reference": "content-0006"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Image",
+                            "label": "Image",
+                            "name": "image",
+                            "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "",
+                            "size": "medium"
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Image Overlay",
+                            "name": "overlay",
+                            "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                            "strings": [],
+                            "default": "none",
+                            "options": [
+                                {
+                                    "src": "module-imagetext-none.png",
+                                    "label": "",
+                                    "value": "none"
+                                },
+                                {
+                                    "src": "module-imagetext-tint.png",
+                                    "label": "",
+                                    "value": "tint"
+                                },
+                                {
+                                    "src": "module-imagetext-blue.png",
+                                    "label": "",
+                                    "value": "primary"
+                                },
+                                {
+                                    "src": "module-imagetext-orange.png",
+                                    "label": "",
+                                    "value": "secondary"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Link",
+                            "label": "Call To Action Link",
+                            "name": "cta",
+                            "description": "",
+                            "strings": [],
+                            "default": {
+                                "url": "",
+                                "target": "",
+                                "label": ""
+                            }
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\ImageSelect",
+                            "label": "Call To Action Link Style",
+                            "name": "cta_style",
+                            "description": "",
+                            "strings": [],
+                            "default": "text",
+                            "options": [
+                                {
+                                    "src": "link-style-text.png",
+                                    "label": "",
+                                    "value": "text"
+                                },
+                                {
+                                    "src": "link-style-button.png",
+                                    "label": "",
+                                    "value": "button"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": {
+                        "max": 0,
+                        "label": {
+                            "singular": "Module",
+                            "plural": "Modules"
+                        },
+                        "types": []
+                    }
+                },
+                {
+                    "type": "wysiwyg",
+                    "label": "WYSIWYG Editor",
+                    "description": "Displays custom content",
+                    "icon": {
+                        "active": "module-wysiwyg.png",
+                        "inactive": "module-wysiwyg.png"
+                    },
+                    "fields": [
+                        {
+                            "type": "ModularContent\\Fields\\Title",
+                            "label": "Title",
+                            "name": "title",
+                            "description": "",
+                            "strings": [],
+                            "default": ""
+                        },
+                        {
+                            "type": "ModularContent\\Fields\\Repeater",
+                            "label": "Columns",
+                            "name": "repeater",
+                            "description": "",
+                            "strings": {
+                                "button.new": "Add Column"
+                            },
+                            "default": [],
+                            "fields": [
+                                {
+                                    "type": "ModularContent\\Fields\\TextArea",
+                                    "label": "Column",
+                                    "name": "column",
+                                    "description": "",
+                                    "strings": [],
+                                    "default": "",
+                                    "richtext": true,
+                                    "media_buttons": true,
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
@@ -419,7 +884,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -538,7 +1003,7 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
@@ -613,7 +1078,7 @@
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
-                "editor_settings_reference": "content-0003"
+                "editor_settings_reference": "content-0006"
             },
             {
                 "type": "ModularContent\\Fields\\Image",
@@ -750,7 +1215,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -869,7 +1334,7 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
@@ -934,7 +1399,7 @@
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
-                "editor_settings_reference": "content-0004"
+                "editor_settings_reference": "content-0007"
             },
             {
                 "type": "ModularContent\\Fields\\Post_List",
@@ -1036,7 +1501,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -1155,7 +1620,7 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
@@ -1210,7 +1675,7 @@
                         "default": "",
                         "richtext": true,
                         "media_buttons": true,
-                        "editor_settings_reference": "column-0005"
+                        "editor_settings_reference": "column-0008"
                     }
                 ],
                 "min": 1,
@@ -1280,7 +1745,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -1399,7 +1864,7 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
@@ -1499,7 +1964,7 @@
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
-                            "editor_settings_reference": "content-0003"
+                            "editor_settings_reference": "content-0006"
                         },
                         {
                             "type": "ModularContent\\Fields\\Image",
@@ -1618,7 +2083,7 @@
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
-                                    "editor_settings_reference": "column-0005"
+                                    "editor_settings_reference": "column-0008"
                                 }
                             ],
                             "min": 1,
