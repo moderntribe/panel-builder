@@ -20,28 +20,17 @@ const initialState = {
 	}],
 };
 
+/* eslint-disable */
 export function items(state = initialState, action) {
 	switch (action.type) {
 		case 'ADD_ITEM':
-			return {
-				...state,
-				items: [
-					...state.items, {
-						text: action.fields.name.value,
-					},
-				],
-			};
+			return state;
 
 		case 'DELETE_ITEM':
-			return {
-				...state,
-				items: [
-					...state.items.slice(0, action.index),
-					...state.items.slice(+action.index + 1),
-				],
-			};
+			return state;
 
 		default:
 			return state;
 	}
 }
+/* eslint-enable */

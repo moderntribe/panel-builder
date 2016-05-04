@@ -16,14 +16,15 @@ ReactDOM.render(
 	</Provider>,
 	modularContent
 );
-
+/* eslint-disable global-require */
 if (module.hot) {
 	module.hot.accept('./components/collection', () => {
 		ReactDOM.render(
 			<Provider store={store}>
-				<AppContainer component={require('./components/collection').default}/>
+				<AppContainer component={require('./components/collection').default} />
 			</Provider>,
 			modularContent
 		);
 	});
 }
+/* eslint-enable */

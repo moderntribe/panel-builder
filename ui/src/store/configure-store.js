@@ -7,7 +7,7 @@ export default function configureStore(initialState) {
 	const logger = createLogger({
 		collapsed: true,
 		predicate: () =>
-		process.env.NODE_ENV === `development`, // eslint-disable-line no-unused-vars
+		process.env.NODE_ENV === 'development', // eslint-disable-line no-unused-vars
 	});
 
 	const middleware = [thunkMiddleware, logger];
@@ -18,7 +18,9 @@ export default function configureStore(initialState) {
 
 	if (module.hot) {
 		module.hot.accept('../reducers/index', () => {
+			/* eslint-disable global-require */
 			const nextRootReducer = require('../reducers/index').default;
+			/* eslint-enable */
 			store.replaceReducer(nextRootReducer);
 		});
 	}

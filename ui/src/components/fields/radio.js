@@ -3,28 +3,31 @@ import React, { Component } from 'react';
 import styles from './radio.pcss';
 
 class Radio extends Component {
-
-
 	constructor (props) {
 		super(props);
-		this.state = {
-			current_value: this.props.default,
-		};
 		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleChange(e) {
-		this.setState({
-			current_value: e.target.value,
-		});
-		return true;
+		//code to connect to actions that execute on redux store, sending along e.currentTarget.value
 	}
 
 	render() {
-
-		const Options = _.map(this.props.options, (option) => {
-			return <label className={ styles.panelRadioOption } key={_.uniqueId('option-id-')}><input type="radio" name={this.props.name} value={option.value} onChange={this.handleChange} checked={this.state.current_value === option.value}  />{option.label} </label>;
-		});
+		const Options = _.map(this.props.options, (option, i) =>
+			<label
+				className={ styles.panelRadioOption }
+				key={_.uniqueId('option-id-')}
+			>
+				<input
+					type="radio"
+					name={this.props.name}
+					value={option.value}
+					onChange={this.handleChange}
+					checked={this.props.default === option.value}
+					/>
+				{option.label}
+			</label>
+		);
 
 		return (
 			<div className={ styles.panelRadio }>

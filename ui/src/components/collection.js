@@ -7,6 +7,10 @@ import Panel from './panel';
 import styles from './collection.pcss';
 
 export default class PanelCollection extends Component {
+	componentDidMount() {
+		// code
+	}
+
 	render() {
 		const Panels = _.map(blueprint, (panelBlueprint) => <Panel {...panelBlueprint} key={_.uniqueId('panel-id-')} />);
 
@@ -16,4 +20,4 @@ export default class PanelCollection extends Component {
 			</div>
 		);
 	}
-};
+}
