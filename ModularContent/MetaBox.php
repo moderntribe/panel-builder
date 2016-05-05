@@ -45,13 +45,84 @@ class MetaBox {
 
 	protected function enqueue_scripts() {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			wp_enqueue_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', [], time(), true );
+			wp_enqueue_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', ['wp-util', 'media-upload', 'media-views'], time(), true );
 		} else {
-			wp_enqueue_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), [], time(), true );
+			wp_enqueue_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), ['wp-util', 'media-upload', 'media-views'], time(), true );
 		}
+		wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
+		wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
 		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
+	}
+
+	/**
+	 * Provides config data to be used by front-end JS
+	 *
+	 * @return array
+	 */
+
+	public function js_config() {
+
+		static $data = [ ];
+		if ( empty( $data ) ) {
+			$data = [
+				'fields' => [
+					'image' => [
+						'plupload' => [
+							'runtimes' => 'html5,silverlight,flash,html4',
+							'browse_button' => 'plupload-browse-button',
+							'container' => 'plupload-upload-ui',
+							'drop_element' => 'drag-drop-area',
+							'file_data_name' => 'async-upload',
+							'multiple_queues' => false,
+							'multi_selection' => false,
+							'max_file_size' => wp_max_upload_size() . 'b',
+							'url' => admin_url( 'admin-ajax.php' ),
+							'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
+							'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
+							'multipart' => true,
+							'urlstream_upload' => true,
+
+							// Additional parameters:
+							'multipart_params' => [
+								'_ajax_nonce' => wp_create_nonce( 'photo-upload' ),
+								'action' => 'attachment_helper_upload_image',
+								'postID' => get_the_ID(),
+								'size' => 'medium',
+							],
+						]
+					]
+				]
+			];
+			$data = apply_filters( 'panels_js_config', $data );
+		}
+
+		return $data;
+
+	}
+
+	/**
+	 * js_i18n stores all text strings needed in the js driven ui
+	 *
+	 * @return array
+	 */
+
+	public function js_i18n() {
+
+		$js_i18n_array = [
+			'fields' => [
+				'image' => [
+					'btn_remove' => __( 'Remove', 'modular-content' ),
+					'btn_select' => __( 'Select Files', 'modular-content' ),
+					'drp_info' => __( 'Drop files here', 'modular-content' ),
+					'drp_or' => __( 'or', 'modular-content' ),
+				]
+			]
+		];
+
+		return $js_i18n_array;
+
 	}
 
 	/**

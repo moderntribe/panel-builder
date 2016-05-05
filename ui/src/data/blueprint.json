@@ -45,7 +45,7 @@
         "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
         "strings": [],
         "default": "",
-        "size": "medium"
+        "size": "large"
       }
     ]
   }
