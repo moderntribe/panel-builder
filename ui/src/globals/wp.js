@@ -1,3 +1,6 @@
 
-export const wpMedia = window.wp.media || null;
-export const PlUploader = window.plupload.Uploader || null;
+const wp = window.wp || {};
+const plupload = window.plupload || {};
+
+export const wpMedia = wp.media || null;
+export const PlUploader = plupload.Uploader || null;
