@@ -25,7 +25,7 @@ class PanelContainer extends Component {
 				`input-type-${field.type.toLowerCase()}`,
 			);
 
-			return <div className={classes}><Field {...field} key={_.uniqueId('field-id-')} /></div>;
+			return <div className={classes} key={_.uniqueId('field-id-')}><Field {...field} /></div>;
 		});
 
 		const classes = classNames(

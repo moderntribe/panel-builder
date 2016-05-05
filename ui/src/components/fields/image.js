@@ -23,6 +23,7 @@ class Image extends Component {
 		// todo: move state to redux store
 		this.state = {
 			image: '',
+			loading: false,
 		};
 		this.ids = {
 			plContainer: `upload-ui-${fid}`,
@@ -65,25 +66,45 @@ class Image extends Component {
 	}
 
 	/**
-	 * Remove events and destroy plupload instance on component unmount.
+	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
 	 *
-	 * @method cleanUp
+	 * @method getElementClasses
 	 */
 
-	cleanUp() {
-		this.plupload.destroy();
-		this.removeDragEvents();
-	}
+	getElementClasses() {
+		const container = classNames({ [styles.uploaderContainer]: true });
+		const label = classNames({ [styles.panelInputLabel]: true });
+		const description = classNames({ [styles.panelInputDescription]: true });
+		const dropArea = classNames({ 'plupload-upload-ui': true });
+		const loaderWrap = classNames({
+			[styles.loaderWrap]: true,
+			[styles.loaderShowing]: this.state.loading,
+		});
+		const current = classNames({
+			'current-image': true,
+			[styles.currentOpen]: this.state.image.length,
+			[styles.currentUploadedImage]: true,
+		});
+		const dropAreaInner = classNames({
+			[styles.dragDropArea]: true,
+			[styles.loaderShowing]: this.state.loading,
+		});
+		const uploader = classNames({
+			'image-uploader': true,
+			[styles.uploaderOpen]: !this.state.image.length,
+			[styles.uploaderSection]: true,
+		});
 
-	/**
-	 * Cache the dom elements this component works on. Needed to work with plupload.
-	 *
-	 * @method cacheDom
-	 */
-
-	cacheDom() {
-		this.uploadDiv = ReactDOM.findDOMNode(this.refs[this.ids.plContainer]);
-		this.dropDiv = ReactDOM.findDOMNode(this.refs[this.ids.plDropElement]);
+		return {
+			container,
+			label,
+			current,
+			loaderWrap,
+			dropArea,
+			dropAreaInner,
+			uploader,
+			description,
+		};
 	}
 
 	/**
@@ -93,9 +114,9 @@ class Image extends Component {
 	 */
 
 	addDragEvents() {
-		this.dropDiv.addEventListener('dragover', () => this.uploadDiv.classList.add('drag-over'));
-		this.dropDiv.addEventListener('dragleave', this.uploadDiv.classList.remove('drag-over'));
-		this.dropDiv.addEventListener('drop', this.uploadDiv.classList.remove('drag-over'));
+		this.dropDiv.addEventListener('dragover', () => { this.uploadDiv.classList.add('drag-over'); });
+		this.dropDiv.addEventListener('dragleave', () => { this.uploadDiv.classList.remove('drag-over'); });
+		this.dropDiv.addEventListener('drop', () => { this.uploadDiv.classList.remove('drag-over'); });
 	}
 
 	/**
@@ -139,7 +160,6 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			console.log(attachment);
 			this.setState({ image: attachment.sizes[this.props.size].url });
 
 			// todo when hooking up store trigger action which updates ui/store with image selection
@@ -172,6 +192,42 @@ class Image extends Component {
 		this.plupload.type = 'image';
 		this.bindDropEvents();
 		this.plupload.init();
+		this.bindFilesAdded();
+		this.bindFilesUploaded();
+	}
+
+	/**
+	 * Handle file drop on drop area.
+	 *
+	 * @method bindFilesAdded
+	 */
+
+	bindFilesAdded() {
+		this.plupload.bind('FilesAdded', () => {
+			this.plupload.refresh();
+			this.plupload.start();
+			this.setState({ loading: true });
+		});
+	}
+
+	/**
+	 * Handle file drop on drop area.
+	 *
+	 * @method bindFilesAdded
+	 */
+
+	bindFilesUploaded() {
+		this.plupload.bind('FileUploaded', (up, file, response) => {
+			this.setState({ loading: false });
+			try {
+				JSON.parse(response.response);
+			} catch (e) {
+				return;
+			}
+
+			const res = JSON.parse(response.response);
+			this.setState({ image: res.image });
+		});
 	}
 
 	/**
@@ -181,43 +237,32 @@ class Image extends Component {
 	 */
 
 	removeDragEvents() {
-		this.dropDiv.removeEventListener('dragover', () => this.uploadDiv.classList.add('drag-over'));
-		this.dropDiv.removeEventListener('dragleave', this.uploadDiv.classList.remove('drag-over'));
-		this.dropDiv.removeEventListener('drop', this.uploadDiv.classList.remove('drag-over'));
+		this.dropDiv.removeEventListener('dragover', () => { this.uploadDiv.classList.add('drag-over'); });
+		this.dropDiv.removeEventListener('dragleave', () => { this.uploadDiv.classList.remove('drag-over'); });
+		this.dropDiv.removeEventListener('drop', () => { this.uploadDiv.classList.remove('drag-over'); });
 	}
 
 	/**
-	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
+	 * Cache the dom elements this component works on. Needed to work with plupload.
 	 *
-	 * @method getElementClasses
+	 * @method cacheDom
 	 */
 
-	getElementClasses() {
-		const container = classNames({
-			[styles.currentOpen]: this.state.image.length,
-			[styles.currentUploadedImage]: true,
-		});
-		
-		const current = classNames({
-			[styles.currentOpen]: this.state.image.length,
-			[styles.currentUploadedImage]: true,
-		});
+	cacheDom() {
+		this.uploadDiv = ReactDOM.findDOMNode(this.refs[this.ids.plContainer]);
+		this.dropDiv = ReactDOM.findDOMNode(this.refs[this.ids.plDropElement]);
+	}
 
-		const img = classNames(
-			`attachment-${this.props.size}`,
-		);
+	/**
+	 * Remove events and destroy plupload instance on component unmount.
+	 *
+	 * @method cleanUp
+	 */
 
-		const uploader = classNames({
-			[styles.uploaderOpen]: !this.state.image.length,
-			[styles.uploaderSection]: true,
-		});
-
-		return {
-			current,
-			img,
-			uploader,
-		};
-	};
+	cleanUp() {
+		this.plupload.destroy();
+		this.removeDragEvents();
+	}
 
 	/**
 	 * Inject to dom.
@@ -229,9 +274,10 @@ class Image extends Component {
 		const classes = this.getElementClasses();
 
 		return (
-			<div className="uploadContainer attachment-helper-uploader">
+			<div className={classes.container}>
+				<label className={classes.label}>{this.props.label}</label>
 				<div className={classes.current}>
-					<img className={classes.img} onClick={this.handleAddMedia} src={this.state.image} role="presentation" />
+					<img onClick={this.handleAddMedia} src={this.state.image} role="presentation" />
 					<div className="wp-caption" onClick={this.handleAddMedia}></div>
 					<p className={styles.removeButtonContainer}>
 						<button
@@ -244,9 +290,9 @@ class Image extends Component {
 					</p>
 				</div>
 				<div className={classes.uploader}>
-					<div className="loading"></div>
-					<div id={this.ids.plContainer} className="plupload-upload-ui" ref={this.ids.plContainer}>
-						<div id={this.ids.plDropElement} className={styles.dragDropArea} ref={this.ids.plDropElement}>
+					<div className={classes.loaderWrap}><div className={styles.loader}></div></div>
+					<div id={this.ids.plContainer} className={classes.dropArea} ref={this.ids.plContainer}>
+						<div id={this.ids.plDropElement} className={classes.dropAreaInner} ref={this.ids.plDropElement}>
 							<div className={styles.dragDropInside}>
 								<p className={styles.dragDropInfo}>{IMAGE_I18N.drp_info}</p>
 								<p>{IMAGE_I18N.drp_or}</p>
@@ -261,10 +307,19 @@ class Image extends Component {
 										<span>{IMAGE_I18N.btn_select}</span>
 									</button>
 								</p>
+								<p className="drag-drop-buttons" style={{ display: 'none' }}>
+									<input
+										id={this.ids.plBrowseButton}
+										type="button"
+										value={IMAGE_I18N.btn_select}
+										className="plupload-browse-button button"
+									/>
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
+				<p className={classes.description}>{this.props.description}</p>
 			</div>
 		);
 	}

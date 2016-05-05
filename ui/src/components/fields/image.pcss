@@ -1,8 +1,28 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 
+.panelInputLabel {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
 .dragDropArea{
 	border: 4px dashed var(--border-color-drag);
+	&.loaderShowing{
+		display:none;
+	}
+}
+
+.loaderWrap{
+	height:157px;
+	position:relative;
+	display:none;
+	&.loaderShowing{
+		display:block;
+	}
+}
+
+.loader {
+	composes: loader1 from "../../shared/loaders.pcss";
 }
 
 .dragDropInside{
@@ -16,6 +36,10 @@
 	.dragDropInfo{
 		font-size: 20px;
 	}
+}
+
+.uploaderContainer{
+
 }
 
 .currentUploadedImage{
@@ -34,4 +58,8 @@
 
 .removeButtonContainer{
 	margin:20px 0;
+}
+
+.panelInputDescription {
+	composes: inputDescription from "../../shared/fields.pcss";
 }
