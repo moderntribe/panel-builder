@@ -18,7 +18,14 @@ class PanelContainer extends Component {
 				return null;
 			}
 
-			return <Field {...field} key={_.uniqueId('field-id-')} />;
+			const classes = classNames(
+				styles.field,
+				'panel-input',
+				`input-name-${field.type.toLowerCase()}`,
+				`input-type-${field.type.toLowerCase()}`,
+			);
+
+			return <div className={classes}><Field {...field} key={_.uniqueId('field-id-')} /></div>;
 		});
 
 		const classes = classNames(

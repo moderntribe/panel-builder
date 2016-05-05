@@ -19,6 +19,11 @@ class Image extends Component {
 	constructor(props) {
 		super(props);
 		const fid = _.uniqueId('image-field-');
+
+		// todo: move state to redux store
+		this.state = {
+			image: '',
+		};
 		this.ids = {
 			plContainer: `upload-ui-${fid}`,
 			plDropElement: `drag-drop-area-${fid}`,
@@ -29,6 +34,7 @@ class Image extends Component {
 		this.dropDiv = null;
 
 		this.handleAddMedia = this.handleAddMedia.bind(this);
+		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
 	}
 
 	componentDidMount() {
@@ -92,7 +98,6 @@ class Image extends Component {
 		this.dropDiv.addEventListener('drop', this.uploadDiv.classList.remove('drag-over'));
 	}
 
-
 	/**
 	 * This one calls add or remove for the drag events on plupload.
 	 *
@@ -117,9 +122,7 @@ class Image extends Component {
 	 * @method handleAddMedia
 	 */
 
-	handleAddMedia(e) {
-		e.preventDefault();
-
+	handleAddMedia() {
 		const frame = wpMedia({
 			multiple: false,
 			library: {
@@ -130,14 +133,29 @@ class Image extends Component {
 		frame.on('open', () => {
 			const selection = frame.state().get('selection');
 			console.log(selection);
+
+			// todo when hooking up store and have current image load selection
 		});
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			console.log(attachment);
+			this.setState({ image: attachment.sizes[this.props.size].url });
+
+			// todo when hooking up store trigger action which updates ui/store with image selection
 		});
 
 		frame.open();
+	}
+
+	/**
+	 * Handles the removal of an image from state/store. Will be hooked up to redux soon.
+	 *
+	 * @method handleRemoveMedia
+	 */
+
+	handleRemoveMedia() {
+		this.setState({ image: '' });
 	}
 
 	/**
@@ -169,29 +187,63 @@ class Image extends Component {
 	}
 
 	/**
+	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
+	 *
+	 * @method getElementClasses
+	 */
+
+	getElementClasses() {
+		const container = classNames({
+			[styles.currentOpen]: this.state.image.length,
+			[styles.currentUploadedImage]: true,
+		});
+		
+		const current = classNames({
+			[styles.currentOpen]: this.state.image.length,
+			[styles.currentUploadedImage]: true,
+		});
+
+		const img = classNames(
+			`attachment-${this.props.size}`,
+		);
+
+		const uploader = classNames({
+			[styles.uploaderOpen]: !this.state.image.length,
+			[styles.uploaderSection]: true,
+		});
+
+		return {
+			current,
+			img,
+			uploader,
+		};
+	};
+
+	/**
 	 * Inject to dom.
 	 *
 	 * @method render
 	 */
 
 	render() {
-		const currentClasses = classNames({
-			open: true,
-			[styles.currentUploadedImage]: true,
-		});
+		const classes = this.getElementClasses();
 
 		return (
 			<div className="uploadContainer attachment-helper-uploader">
-				<div className={currentClasses}>
-					<img className="attachment-{this.props.size}" onClick={this.handleAddMedia} role="presentation" />
+				<div className={classes.current}>
+					<img className={classes.img} onClick={this.handleAddMedia} src={this.state.image} role="presentation" />
 					<div className="wp-caption" onClick={this.handleAddMedia}></div>
-					<p className="remove-button-container">
-						<a className="button-secondary remove-image" href="#">
+					<p className={styles.removeButtonContainer}>
+						<button
+							type="button"
+							className="button-secondary remove-image"
+							onClick={this.handleRemoveMedia}
+						>
 							{`${IMAGE_I18N.btn_remove} ${this.props.label}`}
-						</a>
+						</button>
 					</p>
 				</div>
-				<div className="uploaderSection">
+				<div className={classes.uploader}>
 					<div className="loading"></div>
 					<div id={this.ids.plContainer} className="plupload-upload-ui" ref={this.ids.plContainer}>
 						<div id={this.ids.plDropElement} className={styles.dragDropArea} ref={this.ids.plDropElement}>
@@ -199,35 +251,20 @@ class Image extends Component {
 								<p className={styles.dragDropInfo}>{IMAGE_I18N.drp_info}</p>
 								<p>{IMAGE_I18N.drp_or}</p>
 								<p className="drag-drop-buttons">
-									<a
-										href="#"
+									<button
+										type="button"
 										className="button attachment_helper_library_button"
 										title="Add Media"
 										data-size={this.props.size}
 										onClick={this.handleAddMedia}
 									>
-										<span className="wp-media-buttons-icon"></span>
 										<span>{IMAGE_I18N.btn_select}</span>
-									</a>
-								</p>
-								<p className="drag-drop-buttons" style={{ display: 'none' }}>
-									<input
-										id={this.ids.plBrowseButton}
-										type="button"
-										value={IMAGE_I18N.btn_select}
-										className="plupload-browse-button button"
-									/>
+									</button>
 								</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<input
-					type="hidden"
-					name="this.name"
-					value=""
-					className="attachment_helper_value"
-				/>
 			</div>
 		);
 	}
