@@ -24,7 +24,12 @@ class Image_Test extends WPTestCase {
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
-			'strings'     => [ ],
+			'strings'     => [
+				'button.remove' => 'Remove',
+				'button.select' => 'Select Files',
+				'drop.info'     => 'Drop files here',
+				'drop.or'       => 'or',
+			],
 			'default'     => $default,
 			'size'        => 'thumbnail',
 		];

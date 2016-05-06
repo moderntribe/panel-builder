@@ -5,7 +5,6 @@ import _ from 'lodash';
 import deepAssign from 'deep-assign';
 
 import { IMAGE_CONFIG } from '../../globals/config';
-import { IMAGE_I18N } from '../../globals/i18n';
 import { wpMedia, PlUploader } from '../../globals/wp';
 
 import styles from './image.pcss';
@@ -285,7 +284,7 @@ class Image extends Component {
 							className="button-secondary remove-image"
 							onClick={this.handleRemoveMedia}
 						>
-							{`${IMAGE_I18N.btn_remove} ${this.props.label}`}
+							{`${this.props.strings['button.remove']} ${this.props.label}`}
 						</button>
 					</p>
 				</div>
@@ -294,8 +293,8 @@ class Image extends Component {
 					<div id={this.ids.plContainer} className={classes.dropArea} ref={this.ids.plContainer}>
 						<div id={this.ids.plDropElement} className={classes.dropAreaInner} ref={this.ids.plDropElement}>
 							<div className={styles.dragDropInside}>
-								<p className={styles.dragDropInfo}>{IMAGE_I18N.drp_info}</p>
-								<p>{IMAGE_I18N.drp_or}</p>
+								<p className={styles.dragDropInfo}>{this.props.strings['drop.info']}</p>
+								<p>{this.props.strings['drop.or']}</p>
 								<p className="drag-drop-buttons">
 									<button
 										type="button"
@@ -304,14 +303,14 @@ class Image extends Component {
 										data-size={this.props.size}
 										onClick={this.handleAddMedia}
 									>
-										<span>{IMAGE_I18N.btn_select}</span>
+										<span>{this.props.strings['button.select']}</span>
 									</button>
 								</p>
 								<p className="drag-drop-buttons" style={{ display: 'none' }}>
 									<input
 										id={this.ids.plBrowseButton}
 										type="button"
-										value={IMAGE_I18N.btn_select}
+										value={this.props.strings['button.select']}
 										className="plupload-browse-button button"
 									/>
 								</p>
@@ -329,7 +328,7 @@ Image.propTypes = {
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
-	strings: React.PropTypes.array,
+	strings: React.PropTypes.object,
 	default: React.PropTypes.string,
 	size: React.PropTypes.string,
 };
@@ -338,7 +337,7 @@ Image.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	strings: [],
+	strings: {},
 	default: '',
 	size: 'thumbnail',
 };
