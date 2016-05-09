@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import styles from './text.pcss';
 
@@ -26,11 +26,11 @@ class Text extends Component {
 }
 
 Text.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.array,
-	default: React.PropTypes.string,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.array,
+	default: PropTypes.string,
 };
 
 Text.defaultProps = {
