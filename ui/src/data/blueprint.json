@@ -51,6 +51,14 @@
         },
         "default": "",
         "size": "large"
+      },
+      {
+        "type": "HTML",
+        "label": "Need Help?",
+        "name": "help",
+        "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
+        "strings": [],
+        "default": ""
       }
     ]
   }
