@@ -12,16 +12,21 @@ const store = configureStore();
 
 ReactDOM.render(
 	<Provider store={store}>
-		<AppContainer component={PanelCollection} />
+		<AppContainer>
+			<PanelCollection />
+		</AppContainer>
 	</Provider>,
 	modularContent
 );
 /* eslint-disable global-require */
 if (module.hot) {
 	module.hot.accept('./components/collection', () => {
+		const NextApp = require('./components/collection').default;
 		ReactDOM.render(
 			<Provider store={store}>
-				<AppContainer component={require('./components/collection').default} />
+				<AppContainer>
+					<NextApp />
+				</AppContainer>
 			</Provider>,
 			modularContent
 		);
