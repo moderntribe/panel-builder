@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import styles from './radio.pcss';
 
 class Radio extends Component {
@@ -13,9 +14,14 @@ class Radio extends Component {
 	}
 
 	render() {
+		const radioLabelClasses = classNames({
+			'plradio-label': true,
+			[styles.radioLabel]: true,
+		});
+
 		const Options = _.map(this.props.options, (option) =>
 			<label
-				className={styles.radioLabel}
+				className={radioLabelClasses}
 				key={_.uniqueId('option-id-')}
 			>
 				<input
