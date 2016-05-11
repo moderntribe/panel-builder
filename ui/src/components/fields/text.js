@@ -14,7 +14,7 @@ class Text extends Component {
 
 	render() {
 		return (
-			<div className={styles.panelInput}>
+			<div className={styles.panel}>
 				<label className={styles.label}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={this.props.name} value="" size="40" onChange={this.handleChange} />
