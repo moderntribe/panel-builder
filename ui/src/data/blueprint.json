@@ -17,6 +17,14 @@
         "default": ""
       },
       {
+        "type": "HTML",
+        "label": "Need Help?",
+        "name": "help",
+        "description": "<p>Check <i>out</i> the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>. It has <b>everything</b> you need to build a website from <u>scratch</u>.<\/p>",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Radio",
         "label": "Style",
         "name": "layout",
