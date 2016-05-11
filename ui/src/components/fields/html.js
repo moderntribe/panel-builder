@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './html.pcss';
 
 const HTML = (props) => (
-	<div className={ styles.panel }>
-		<div className={ styles.description } dangerouslySetInnerHTML={{ __html: props.description }} ></div>
+	<div className={styles.panel}>
+		<div className={styles.description} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
 	</div>
 );
 
