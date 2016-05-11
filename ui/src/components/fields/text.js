@@ -15,11 +15,11 @@ class Text extends Component {
 	render() {
 		return (
 			<div className={styles.panelInput}>
-				<label className={styles.panelInputLabel}>{this.props.label}</label>
-				<span className={styles.panelInputField}>
+				<label className={styles.label}>{this.props.label}</label>
+				<span className={styles.inputContainer}>
 					<input type="text" name={this.props.name} value="" size="40" onChange={this.handleChange} />
 				</span>
-				<p className={styles.panelInputDescription}>{this.props.description}</p>
+				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}
