@@ -7,7 +7,7 @@ import styles from './link.pcss';
 const TARGET_OPTIONS = [
 	{
 		target: '',
-		target_label: 'Stay in Window'
+		target_label: 'Stay in Window',
 	},
 	{
 		target: '_blank',
@@ -26,14 +26,13 @@ class Link extends Component {
 	}
 
 	render() {
-
 		let url = this.props.default.url;
 		let target = this.props.default.target;
 		let label = this.props.default.label;
 
-		const Options = _.map(TARGET_OPTIONS, (option) => {
-			return <option value={option.target} key={_.uniqueId('link-option-id-')} >{option.target_label}</option>;
-		})
+		const Options = _.map(TARGET_OPTIONS, (option) =>
+			<option value={option.target} key={_.uniqueId('link-option-id-')} >{option.target_label}</option>
+		);
 
 		// styles
 		const targetClasses = classNames({
@@ -46,16 +45,16 @@ class Link extends Component {
 				<fieldset className={styles.fieldset}>
 					<legend className={styles.label}>{this.props.label}</legend>
 					<span className={styles.inputGeneric}>
- 						<input type="text" name={this.props.name} value={url} size="40" placeholder="URL" />
- 					</span>
- 					<span className={styles.inputGeneric}>
+						<input type="text" name={this.props.name} value={url} size="40" placeholder="URL" />
+					</span>
+					<span className={styles.inputGeneric}>
 						<input type="text" name={this.props.name} value={label} size="40" placeholder="Label" />
- 					</span>
- 					<span className={targetClasses}>
- 						<select defaultValue={target} >
+					</span>
+					<span className={targetClasses}>
+						<select defaultValue={target} >
 							{Options}
 						</select>
- 					</span>
+					</span>
 					<p className={styles.description}>{this.props.description}</p>
 				</fieldset>
 			</div>
