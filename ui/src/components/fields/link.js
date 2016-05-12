@@ -38,16 +38,25 @@ class Link extends Component {
 		const targetClasses = classNames({
 			[styles.inputGeneric]: true,
 			[styles.inputTarget]: true,
+			'pllink-target': true,
+		});
+		const urlClasses = classNames({
+			[styles.inputGeneric]: true,
+			'pllink-url': true,
+		});
+		const labelClasses = classNames({
+			[styles.inputGeneric]: true,
+			'pllink-label': true,
 		});
 
 		return (
 			<div className={styles.panel}>
 				<fieldset className={styles.fieldset}>
 					<legend className={styles.label}>{this.props.label}</legend>
-					<span className={styles.inputGeneric}>
+					<span className={urlClasses}>
 						<input type="text" name={this.props.name} value={url} size="40" placeholder="URL" />
 					</span>
-					<span className={styles.inputGeneric}>
+					<span className={labelClasses}>
 						<input type="text" name={this.props.name} value={label} size="40" placeholder="Label" />
 					</span>
 					<span className={targetClasses}>
