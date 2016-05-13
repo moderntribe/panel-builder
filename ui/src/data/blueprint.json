@@ -25,6 +25,18 @@
         "default": ""
       },
       {
+        "type": "Link",
+        "label": "Link",
+        "name": "link",
+        "description": "some description",
+        "strings": [],
+        "default": {
+          "url": "",
+          "target": "",
+          "label": ""
+        }
+      },
+      {
         "type": "Radio",
         "label": "Style",
         "name": "layout",

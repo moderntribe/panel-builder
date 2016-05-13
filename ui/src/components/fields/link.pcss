@@ -1,0 +1,36 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.panel {
+	margin-bottom: 1.5em;
+	clear: both;
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+	clear:both;
+}
+
+.fieldset {
+	border: none;
+	padding: 0;
+	overflow: hidden;
+}
+
+.inputGeneric {
+	float: left;
+	width: 33%;
+	padding-right: 2em;
+	min-width: 200px;
+	margin-bottom: 5px;
+}
+
+.inputTarget {
+	padding-right: 0;
+	width: auto;
+	min-width: 0;
+}
