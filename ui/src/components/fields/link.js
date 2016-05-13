@@ -26,10 +26,6 @@ class Link extends Component {
 	}
 
 	render() {
-		let url = this.props.default.url;
-		let target = this.props.default.target;
-		let label = this.props.default.label;
-
 		const Options = _.map(TARGET_OPTIONS, (option) =>
 			<option value={option.target} key={_.uniqueId('link-option-id-')} >{option.target_label}</option>
 		);
@@ -54,13 +50,13 @@ class Link extends Component {
 				<fieldset className={styles.fieldset}>
 					<legend className={styles.label}>{this.props.label}</legend>
 					<span className={urlClasses}>
-						<input type="text" name={this.props.name} value={url} size="40" placeholder="URL" />
+						<input type="text" name={this.props.name} value={this.props.default.url} size="40" placeholder="URL" />
 					</span>
 					<span className={labelClasses}>
-						<input type="text" name={this.props.name} value={label} size="40" placeholder="Label" />
+						<input type="text" name={this.props.name} value={this.props.default.label} size="40" placeholder="Label" />
 					</span>
 					<span className={targetClasses}>
-						<select defaultValue={target} >
+						<select defaultValue={this.props.default.target} >
 							{Options}
 						</select>
 					</span>
