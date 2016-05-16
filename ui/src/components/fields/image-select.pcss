@@ -1,0 +1,44 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.panel{
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: block;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.imageSelectLabel {
+	display: inline-block;
+	vertical-align: top;
+	margin-right:10px;
+
+	input[type="radio"] {
+		display: none;
+	}
+	input[type="radio"]:checked + img, img:hover {
+		opacity: 0.6;
+		background-color: white;
+		border: 2px solid #8a8d93;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+	}
+	input[type="radio"]:checked + img {
+		opacity: 1;
+	}
+	img {
+		background: #cccccc;
+		opacity: 0.4;
+		transition: all 0.1s ease-out;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		display: block;
+		border: 2px solid #d7d7d7;
+	}
+
+}
+

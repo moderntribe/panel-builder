@@ -59,6 +59,31 @@
         ]
       },
       {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "cards",
+        "options": [
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "",
+            "value": "standard"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "",
+            "value": "cards"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "",
+            "value": "full"
+          }
+        ]
+      },
+      {
         "type": "Image",
         "label": "Image Test",
         "name": "image",
