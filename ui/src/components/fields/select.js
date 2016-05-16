@@ -15,12 +15,16 @@ class Select extends Component {
 
 	render() {
 		const Options = _.map(this.props.options, (option) =>
-			<option value={option.value}>{option.label}</option>
+			<option
+				value={option.value}
+				key={_.uniqueId('select-option-id-')}>
+				{option.label}
+			</option>
 		);
 		return (
 			<div className={styles.panel}>
 				<label className={styles.label}>{this.props.label}</label>
-				<select value={this.props.default} name={this.props.name}>
+				<select value={this.props.default} name={this.props.name} onChange={this.handleChange}>
 					{Options}
 				</select>
 				<p className={styles.description}>{this.props.description}</p>
