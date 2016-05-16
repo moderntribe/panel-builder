@@ -68,17 +68,17 @@
         "options": [
           {
             "src": "http://panels.tribe.dev/content/uploads/test.png",
-            "label": "",
+            "label": "Standard",
             "value": "standard"
           },
           {
             "src": "http://panels.tribe.dev/content/uploads/test.png",
-            "label": "",
+            "label": "Cards",
             "value": "cards"
           },
           {
             "src": "http://panels.tribe.dev/content/uploads/test.png",
-            "label": "",
+            "label": "Full",
             "value": "full"
           }
         ]
