@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
@@ -15,17 +15,14 @@ class ImageSelect extends Component {
 	}
 
 	render() {
-
 		const imgSelectLabelClasses = classNames({
 			'plimageselect-label': true,
 			[styles.imageSelectLabel]: true,
 		});
 
-		console.log("this.props.options",this.props.options);
-
 		const Options = _.map(this.props.options, (option) =>
 			<label
-				className={imgSelectLabelClasses }
+				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
 			>
 				<input
