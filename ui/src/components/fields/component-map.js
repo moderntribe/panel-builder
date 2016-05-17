@@ -1,9 +1,13 @@
-import ModularContentFieldsText from './text';
-import ModularContentFieldsImage from './image';
-import ModularContentFieldsRadio from './radio';
+import Text from './text';
+import Image from './image';
+import Radio from './radio';
+import HTML from './html';
+import Link from './link';
 
 export default {
-	ModularContentFieldsText,
-	ModularContentFieldsImage,
-	ModularContentFieldsRadio,
+	Text,
+	Image,
+	Radio,
+	HTML,
+	Link,
 };

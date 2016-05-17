@@ -69,7 +69,12 @@
                         "label": "Image (optional)",
                         "name": "image",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "button.remove": "Remove",
+                            "button.select": "Select Files",
+                            "drop.info": "Drop files here",
+                            "drop.or": "or"
+                        },
                         "default": "",
                         "size": "thumbnail"
                     }
@@ -362,7 +367,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -682,7 +692,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -920,7 +935,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -1114,7 +1134,12 @@
                 "label": "Image",
                 "name": "image",
                 "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                "strings": [],
+                "strings": {
+                    "button.remove": "Remove",
+                    "button.select": "Select Files",
+                    "drop.info": "Drop files here",
+                    "drop.or": "or"
+                },
                 "default": "",
                 "size": "medium"
             },
@@ -1251,7 +1276,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -1566,7 +1596,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -1810,7 +1845,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },
@@ -2029,7 +2069,12 @@
                             "label": "Image",
                             "name": "image",
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {
+                                "button.remove": "Remove",
+                                "button.select": "Select Files",
+                                "drop.info": "Drop files here",
+                                "drop.or": "or"
+                            },
                             "default": "",
                             "size": "medium"
                         },

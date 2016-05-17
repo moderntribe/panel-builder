@@ -1,36 +1,45 @@
 import React, { Component } from 'react';
-
+import _ from 'lodash';
+import classNames from 'classnames';
 import styles from './radio.pcss';
 
 class Radio extends Component {
-
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
-		this.state = {
-			current_value: this.props.default,
-		};
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleChange(e) {
-		this.setState({
-			current_value: e.target.value,
-		});
-		return true;
+	handleChange() {
+		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 	}
 
 	render() {
-
-		const Options = _.map(this.props.options, (option) => {
-			return <label className={ styles.panelRadioOption } key={_.uniqueId('option-id-')}><input type="radio" name={this.props.name} value={option.value} onChange={this.handleChange} checked={this.state.current_value === option.value}  />{option.label} </label>;
+		const radioLabelClasses = classNames({
+			'plradio-label': true,
+			[styles.radioLabel]: true,
 		});
 
+		const Options = _.map(this.props.options, (option) =>
+			<label
+				className={radioLabelClasses}
+				key={_.uniqueId('option-id-')}
+			>
+				<input
+					type="radio"
+					name={this.props.name}
+					value={option.value}
+					onChange={this.handleChange}
+					checked={this.props.default === option.value}
+				/>
+				{option.label}
+			</label>
+		);
+
 		return (
-			<div className={ styles.panelRadio }>
-				<label className={ styles.panelRadioLabel }>{this.props.label}</label>
+			<div className={styles.panel}>
+				<label className={styles.label}>{this.props.label}</label>
 				{Options}
-				<p className={ styles.panelRadioDescription }>{this.props.description}</p>
+				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}

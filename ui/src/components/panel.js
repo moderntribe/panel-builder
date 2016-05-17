@@ -6,7 +6,11 @@ import componentMap from './fields/component-map';
 
 import styles from './panel.pcss';
 
-export default class PanelContainer extends Component {
+class PanelContainer extends Component {
+	componentDidMount() {
+		// code
+	}
+
 	render() {
 		const Fields = _.map(this.props.fields, (field) => {
 			const Field = componentMap[field.type.replace(/\\/g, '')];
@@ -14,7 +18,14 @@ export default class PanelContainer extends Component {
 				return null;
 			}
 
-			return <Field {...field} key={_.uniqueId('field-id-')}/>;
+			const classes = classNames(
+				styles.field,
+				'panel-input',
+				`input-name-${field.type.toLowerCase()}`,
+				`input-type-${field.type.toLowerCase()}`,
+			);
+
+			return <div className={classes} key={_.uniqueId('field-id-')}><Field {...field} /></div>;
 		});
 
 		const classes = classNames(

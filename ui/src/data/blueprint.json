@@ -9,7 +9,7 @@
     },
     "fields": [
       {
-        "type": "ModularContent\\Fields\\Text",
+        "type": "Text",
         "label": "Text Input Label",
         "name": "text_test",
         "description": "A test description for this text input.",
@@ -17,7 +17,27 @@
         "default": ""
       },
       {
-        "type": "ModularContent\\Fields\\Radio",
+        "type": "HTML",
+        "label": "Need Help?",
+        "name": "help",
+        "description": "<p>Check <i>out</i> the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>. It has <b>everything</b> you need to build a website from <u>scratch</u>.<\/p>",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "Link",
+        "label": "Link",
+        "name": "link",
+        "description": "some description",
+        "strings": [],
+        "default": {
+          "url": "",
+          "target": "",
+          "label": ""
+        }
+      },
+      {
+        "type": "Radio",
         "label": "Style",
         "name": "layout",
         "description": "A test description for this text input.",
@@ -39,13 +59,26 @@
         ]
       },
       {
-        "type": "ModularContent\\Fields\\Image",
-        "label": "Image",
+        "type": "Image",
+        "label": "Image Test",
         "name": "image",
         "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-        "strings": [],
+        "strings": {
+          "button.remove": "Remove",
+          "button.select": "Select Files",
+          "drop.info": "Drop files here",
+          "drop.or": "or"
+        },
         "default": "",
-        "size": "medium"
+        "size": "large"
+      },
+      {
+        "type": "HTML",
+        "label": "Need Help?",
+        "name": "help",
+        "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
+        "strings": [],
+        "default": ""
       }
     ]
   }

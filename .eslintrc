@@ -10,8 +10,23 @@
       500,
       4
     ],
+    "react/jsx-indent": [
+      "error",
+      "tab"
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      "tab"
+    ],
     "no-console": 0,
     "no-new": 0
+  },
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true,
+    "restParams": true,
+    "destructuring": true,
+    "spread": true
   },
   "env": {
     "browser": true,
@@ -23,3 +38,4 @@
     "_": true
   }
 }
+
