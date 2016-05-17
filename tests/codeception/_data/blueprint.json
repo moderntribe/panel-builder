@@ -30,7 +30,7 @@
                 "name": "alignment",
                 "description": "",
                 "strings": [],
-                "default": "standard",
+                "default": "left",
                 "options": [
                     {
                         "label": "Left",
@@ -39,6 +39,30 @@
                     {
                         "label": "Right",
                         "value": "right"
+                    }
+                ]
+            },
+            {
+                "type": "Checkbox",
+                "label": "Partner",
+                "name": "partner",
+                "description": "",
+                "strings": [],
+                "default": {
+                    "reid": 1
+                },
+                "options": [
+                    {
+                        "label": "Peter",
+                        "value": "peter"
+                    },
+                    {
+                        "label": "Reid",
+                        "value": "reid"
+                    },
+                    {
+                        "label": "Shane",
+                        "value": "shane"
                     }
                 ]
             },
