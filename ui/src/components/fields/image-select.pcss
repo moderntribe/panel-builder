@@ -59,19 +59,20 @@
 
 	input[type="radio"]:checked + .optionImage {
 		&::after{
-			content: "\2713";
+			content: "\f147";
+			font-family:dashicons;
 			width:25px;
 			height:25px;
 			position: absolute;
 			display: block;
 			right:5px;
 			top:5px;
-			font-size: 17px;
+			font-size:20px;
 			line-height: 25px;
 			text-align: center;
 			color: var(--white);
 			border-radius: 50%;
-			background-color: var(--border-color-dark-alt);
+			background-color: color(var(--black) a(40%)) ;
 		}
 		img {
 			opacity: 1;
