@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
-import styles from './text.pcss';
+import styles from './title.pcss';
 
-class Text extends Component {
+class Title extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
@@ -25,7 +25,7 @@ class Text extends Component {
 	}
 }
 
-Text.propTypes = {
+Title.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -33,7 +33,7 @@ Text.propTypes = {
 	default: PropTypes.string,
 };
 
-Text.defaultProps = {
+Title.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
@@ -41,4 +41,4 @@ Text.defaultProps = {
 	default: '',
 };
 
-export default Text;
+export default Title;
