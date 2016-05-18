@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 import styles from './checkbox.pcss';
 
 class Checkbox extends Component {
