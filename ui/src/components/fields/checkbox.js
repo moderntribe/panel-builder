@@ -20,10 +20,9 @@ class Checkbox extends Component {
 		});
 
 		const Options = _.map(this.props.options, (option) =>
-			<li>
+			<li key={_.uniqueId('checkbox-id-')}>
 				<label
 					className={checkboxLabelClasses}
-					key={_.uniqueId('checkbox-id-')}
 				>
 					<input
 						type="checkbox"
