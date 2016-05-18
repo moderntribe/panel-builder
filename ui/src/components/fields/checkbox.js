@@ -31,7 +31,7 @@ class Checkbox extends Component {
 						value={option.value}
 						className={styles.checkbox}
 						onChange={this.handleChange}
-						checked={this.props.default && this.props.default[option.value] == 1 }
+						checked={this.props.default && this.props.default[option.value] === 1}
 					/>
 					{option.label}
 				</label>
