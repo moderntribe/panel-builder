@@ -14,16 +14,9 @@ class Checkbox extends Component {
 	}
 
 	render() {
-		const checkboxLabelClasses = classNames({
-			'plcheckbox-label': true,
-			[styles.checkboxLabel]: true,
-		});
-
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>
-				<label
-					className={checkboxLabelClasses}
-				>
+				<label>
 					<input
 						type="checkbox"
 						name={this.props.name}
