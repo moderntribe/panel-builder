@@ -30,7 +30,7 @@
                 "name": "alignment",
                 "description": "",
                 "strings": [],
-                "default": "standard",
+                "default": "left",
                 "options": [
                     {
                         "label": "Left",
@@ -39,6 +39,30 @@
                     {
                         "label": "Right",
                         "value": "right"
+                    }
+                ]
+            },
+            {
+                "type": "Checkbox",
+                "label": "Partner",
+                "name": "partner",
+                "description": "",
+                "strings": [],
+                "default": {
+                    "reid": 1
+                },
+                "options": [
+                    {
+                        "label": "Peter",
+                        "value": "peter"
+                    },
+                    {
+                        "label": "Reid",
+                        "value": "reid"
+                    },
+                    {
+                        "label": "Shane",
+                        "value": "shane"
                     }
                 ]
             },
@@ -124,7 +148,36 @@
                 "min": 2,
                 "max": 12,
                 "suggested": 6,
-                "show_max_control": true
+                "show_max_control": true,
+                "post_type": [
+                    {
+                        "name": "post",
+                        "label": "Posts"
+                    }
+                ],
+                "filters": {
+                    "taxonomy": [
+                        {
+                            "name": "post_tag",
+                            "label": "Tags",
+                            "post_type": [
+                                "post"
+                            ]
+                        }
+                    ],
+                    "p2p": [],
+                    "misc": [
+                        {
+                            "name": "date",
+                            "label": "Date",
+                            "post_type": [
+                                "post",
+                                "page",
+                                "attachment"
+                            ]
+                        }
+                    ]
+                }
             },
             {
                 "type": "PostQuacker",
@@ -1465,7 +1518,36 @@
                 "min": 1,
                 "max": 12,
                 "suggested": 3,
-                "show_max_control": true
+                "show_max_control": true,
+                "post_type": [
+                    {
+                        "name": "post",
+                        "label": "Posts"
+                    }
+                ],
+                "filters": {
+                    "taxonomy": [
+                        {
+                            "name": "post_tag",
+                            "label": "Tags",
+                            "post_type": [
+                                "post"
+                            ]
+                        }
+                    ],
+                    "p2p": [],
+                    "misc": [
+                        {
+                            "name": "date",
+                            "label": "Date",
+                            "post_type": [
+                                "post",
+                                "page",
+                                "attachment"
+                            ]
+                        }
+                    ]
+                }
             }
         ],
         "children": {

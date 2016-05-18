@@ -5,6 +5,7 @@ namespace ModularContent;
 
 
 use Codeception\TestCase\WPTestCase;
+use ModularContent\Fields\Checkbox;
 use ModularContent\Fields\Group;
 use ModularContent\Fields\Hidden;
 use ModularContent\Fields\HTML;
@@ -292,7 +293,18 @@ class Blueprint_Builder_Test extends WPTestCase {
 				'left'  => 'Left',
 				'right' => 'Right',
 			],
-			'default' => 'standard',
+			'default' => 'left',
+		] ) );
+
+		$panel->add_field( new Checkbox( [
+			'name'    => 'partner',
+			'label'   => 'Partner',
+			'options' => [
+				'peter' => 'Peter',
+				'reid' => 'Reid',
+				'shane'  => 'Shane',
+			],
+			'default' => [ 'reid' => 1 ],
 		] ) );
 
 		$links = new Repeater( [
