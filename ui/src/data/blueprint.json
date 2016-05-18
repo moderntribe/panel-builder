@@ -25,6 +25,14 @@
         "default": ""
       },
       {
+        "type": "Hidden",
+        "label": "Some Label",
+        "name": "secret",
+        "description": "A description",
+        "strings": [],
+        "default": "You can't see me"
+      },
+      {
         "type": "Link",
         "label": "Link",
         "name": "link",
