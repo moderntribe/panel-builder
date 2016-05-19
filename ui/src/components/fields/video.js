@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import styles from './video.pcss';
 import VideoPreview from './parts/video-preview';
-import $ from 'jquery';
 
 class Video extends Component {
 	constructor(props) {
@@ -42,9 +41,9 @@ class Video extends Component {
 	}
 
 	previewVideo() {
-		if (this.state.videoURL === '') { return; };
+		if (this.state.videoURL === '') { return; }
 		this.setState({
-			preview:''
+			preview: '',
 		});
 		wp.ajax.send({
 			success: this.handlePreviewResponse,
@@ -58,9 +57,7 @@ class Video extends Component {
 	handleChange(event) {
 		this.setState({
 			videoURL: event.target.value,
-		}, function() {
-			this.previewVideo();
-		});
+		}, this.previewVideo);
 	}
 
 	render() {
