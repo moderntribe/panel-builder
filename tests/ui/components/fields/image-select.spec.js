@@ -5,33 +5,33 @@ import ImageSelect from 'components/fields/image-select';
 // test data
 const OPTIONS1 = [
 	{
-		"src": "http://panels.tribe.dev/content/uploads/test.png",
+		"src": "img/test-icon.png",
 		"label": "Standard",
-		"value": "standard",
+		"value": "standard"
 	},
 	{
-		"src": "http://panels.tribe.dev/content/uploads/test.png",
+		"src": "img/test-icon.png",
 		"label": "Cards",
-		"value": "cards",
+		"value": "cards"
 	},
 	{
-		"src": "http://panels.tribe.dev/content/uploads/test.png",
+		"src": "img/test-icon.png",
 		"label": "Full",
-		"value": "full",
-	},
-]
+		"value": "full"
+	}
+];
 const OPTIONS2 = [
 	{
-		"src": "http://panels.tribe.dev/content/uploads/test.png",
+		"src": "img/test-icon.png",
 		"label": "Cows",
-		"value": "cows",
+		"value": "cows"
 	},
 	{
-		"src": "http://panels.tribe.dev/content/uploads/test.png",
+		"src": "img/test-icon.png",
 		"label": "Orangutan",
-		"value": "orangutan",
-	},
-]
+		"value": "orangutan"
+	}
+];
 
 describe('ImageSelect field', () => {
 
@@ -84,7 +84,8 @@ describe('ImageSelect field', () => {
 		const wrapper = mount(<ImageSelect description="This is a test description" label="Some test label" options={OPTIONS1} name="layout" default="cards" />);
 		expect(wrapper.find('label.plimageselect-label')).to.have.length(3);
 		expect(wrapper.find('label.plimageselect-label').first().find('input')).to.have.length(1);
-		expect(wrapper.find('label.plimageselect-label').first().find('input').props().value).to.equal('standard')
+		expect(wrapper.find('label.plimageselect-label').first().find('img')).to.have.length(1);
+		expect(wrapper.find('label.plimageselect-label').first().find('input').props().value).to.equal('standard');
 		expect(wrapper.find('label.plimageselect-label').first().text()).to.eql("Standard");
 	});
 
