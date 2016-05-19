@@ -188,7 +188,7 @@ class MetaBox {
 			'untitled' => __( 'Untitled', 'modular-content' ),
 			'loading' => __( 'Loading...', 'modular-content' ),
 		);
-		//include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
+		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
 	}
 
 	/**
