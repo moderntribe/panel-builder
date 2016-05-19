@@ -43,6 +43,9 @@ class TextArea extends Field {
 		// better place to put it to ensure that WP doesn't print the styles in
 		// the middle of a JS template
 		add_action( 'before_panel_meta_box', array( __CLASS__, 'enqueue_styles' ) );
+		if ( $this->media_buttons ) {
+			add_action( 'modular_content_metabox_js_init', [ __CLASS__, 'get_media_button_html_for_js' ] );
+		}
 	}
 
 
@@ -61,6 +64,13 @@ class TextArea extends Field {
 
 	public static function enqueue_styles() {
 		wp_print_styles('editor-buttons');
+	}
+
+	public static function get_media_button_html_for_js() {
+		ob_start();
+		do_action( 'media_buttons', '%REFERENCE_ID%' );
+		$html = ob_get_clean();
+		printf( "ModularContent.media_buttons_html = %s;", json_encode( $html ) );
 	}
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
