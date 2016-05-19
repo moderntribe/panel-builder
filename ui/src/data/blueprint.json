@@ -79,6 +79,17 @@
         "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
         "strings": [],
         "default": ""
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "content-0006"
       }
     ]
   }
