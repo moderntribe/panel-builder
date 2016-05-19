@@ -18,8 +18,8 @@ class Checkbox extends Component {
 				<label>
 					<input
 						type="checkbox"
-						name={this.props.name}
-						value={option.value}
+						name={option.value}
+						value="1"
 						className={styles.checkbox}
 						onChange={this.handleChange}
 						checked={this.props.default && this.props.default[option.value] === 1}
