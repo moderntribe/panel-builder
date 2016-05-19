@@ -17,14 +17,6 @@
         "default": ""
       },
       {
-        "type": "HTML",
-        "label": "Need Help?",
-        "name": "help",
-        "description": "<p>Check <i>out</i> the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>. It has <b>everything</b> you need to build a website from <u>scratch</u>.<\/p>",
-        "strings": [],
-        "default": ""
-      },
-      {
         "type": "Link",
         "label": "Link",
         "name": "link",
@@ -55,6 +47,28 @@
           {
             "label": "Full",
             "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Proposed budget",
+        "name": "budget",
+        "description": "How much money do you have?",
+        "strings": [],
+        "default": "",
+        "options": [
+          {
+            "label": "Less than $100,000",
+            "value": "<100"
+          },
+          {
+            "label": "$100,000 - $200,000",
+            "value": "100-200"
+          },
+          {
+            "label": "More than $200,000",
+            "value": "200+"
           }
         ]
       },
