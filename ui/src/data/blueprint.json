@@ -29,6 +29,14 @@
         }
       },
       {
+        "type": "Video",
+        "label": "Cat Video",
+        "name": "cat_video",
+        "description": "URL to a cute cate video on YouTube",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Radio",
         "label": "Style",
         "name": "layout",
