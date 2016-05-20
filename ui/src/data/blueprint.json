@@ -9,6 +9,14 @@
     },
     "fields": [
       {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Text",
         "label": "Text Input Label",
         "name": "text_test",
