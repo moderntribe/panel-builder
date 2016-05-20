@@ -1,0 +1,81 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.panel{
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: block;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.optionImage{
+	width:100%;
+	img {
+		background: var(--border-color-dark);
+		opacity: 0.4;
+		transition: all 0.1s ease-out;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		display: block;
+		border: 2px solid var(--border-color-alt);
+		width:100%;
+		height:auto;
+		box-sizing:border-box;
+		margin-bottom:5px;
+	}
+}
+
+.imageSelectLabel {
+	display: inline-block;
+	vertical-align: top;
+	margin-right:5px;
+	text-align: center;
+	font-weight:bold;
+	width: calc(50% - 2.5px);
+	box-sizing:border-box;
+	position: relative;
+	margin-bottom:15px;
+
+	&:nth-child(even) {
+		margin-right:0;
+		clear: both;
+	}
+
+	input[type="radio"] {
+		display: none;
+	}
+
+	input[type="radio"]:checked + .optionImage img, .optionImage img:hover {
+		opacity: 0.6;
+		background-color: var(--white);
+		border: 2px solid var(--border-color-dark-alt);
+		box-shadow: 0 1px 1px rgba(var(--black), 0.08);
+	}
+
+	input[type="radio"]:checked + .optionImage {
+		&::after{
+			content: "\f147";
+			font-family:dashicons;
+			width:25px;
+			height:25px;
+			position: absolute;
+			display: block;
+			right:5px;
+			top:5px;
+			font-size:20px;
+			line-height: 25px;
+			text-align: center;
+			color: var(--white);
+			border-radius: 50%;
+			background-color: color(var(--black) a(40%)) ;
+		}
+		img {
+			opacity: 1;
+		}
+	}
+}
