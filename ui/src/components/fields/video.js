@@ -3,9 +3,13 @@ import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import styles from './video.pcss';
-import VideoPreview from './parts/video-preview';
 
 class Video extends Component {
+	/**
+	 * @param {props} props
+	 * @constructs Video
+	 */
+
 	constructor(props) {
 		super(props);
 
@@ -15,7 +19,7 @@ class Video extends Component {
 		};
 		this.videoInput = null;
 		this.state = {
-			videoURL: 'https://youtu.be/M3r2XDceM6A',
+			videoURL: '',
 			preview: '',
 		};
 
@@ -24,13 +28,17 @@ class Video extends Component {
 	}
 
 	componentDidMount() {
-		this.initPreviewer();
+		// cache DOM obj
+		this.videoInput = ReactDOM.findDOMNode(this.refs[this.ids.plVideoInput]);
 		this.previewVideo();
 	}
 
-	initPreviewer() {
-		this.videoInput = ReactDOM.findDOMNode(this.refs[this.ids.plVideoInput]);
-	}
+	/**
+	 * Handler after wp ajax call to BE for video preview
+	 *
+	 * @method handlePreviewResponse
+	 * @param {Object} data Markup containing video title and thumbnail
+	 */
 
 	handlePreviewResponse(data) {
 		if (data.preview !== '') {
@@ -39,6 +47,12 @@ class Video extends Component {
 			});
 		}
 	}
+
+	/**
+	 * Empties the current preview and asks the BE for a new preview based on the video URL
+	 *
+	 * @method previewVideo
+	 */
 
 	previewVideo() {
 		if (this.state.videoURL === '') { return; }
@@ -54,11 +68,24 @@ class Video extends Component {
 		});
 	}
 
+	/**
+	 * Handler for when a user types in the video input field
+	 *
+	 * @method handleChange
+	 * @param {Object} event.
+	 */
+
 	handleChange(event) {
 		this.setState({
 			videoURL: event.target.value,
 		}, this.previewVideo);
 	}
+
+	/**
+	 * Inject to dom.
+	 *
+	 * @method render
+	 */
 
 	render() {
 		const videoInputStyles = classNames({
@@ -68,12 +95,14 @@ class Video extends Component {
 			'panel-input-field': true,
 			[styles.inputContainer]: true,
 		});
+
+
 		return (
 			<div className={styles.field}>
 				<label className={styles.label}>{this.props.label}</label>
 				<span className={videoSpanStyles}>
 					<input type="text" ref={this.ids.plVideoInput} id={this.ids.plVideoInput} className={videoInputStyles} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
-					{(this.state.preview !== '') && <VideoPreview preview={this.state.preview} />}
+					{(this.state.preview !== '') && <div className={styles.preview}><div dangerouslySetInnerHTML={{ __html: this.state.preview }} ></div></div>}
 				</span>
 				<p className={styles.description}>{this.props.description}</p>
 			</div>
