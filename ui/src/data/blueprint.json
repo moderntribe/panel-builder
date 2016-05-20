@@ -9,12 +9,28 @@
     },
     "fields": [
       {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Text",
         "label": "Text Input Label",
         "name": "text_test",
         "description": "A test description for this text input.",
         "strings": [],
         "default": ""
+      },
+      {
+        "type": "Hidden",
+        "label": "Some Label",
+        "name": "secret",
+        "description": "A description",
+        "strings": [],
+        "default": "You can't see me"
       },
       {
         "type": "Link",
@@ -53,6 +69,31 @@
             "value": "cards"
           },
           {
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "cards",
+        "options": [
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
             "label": "Full",
             "value": "full"
           }
