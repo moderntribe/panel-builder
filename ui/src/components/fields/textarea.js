@@ -1,28 +1,34 @@
+/**
+ * @class TextArea
+ * @package ModularContent\Fields
+ *
+ * A textarea. Set the argument 'richtext' to TRUE to use
+ * a WordPress visual editor.
+ */
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import { tinyMCE, tinyMCEPreInit } from '../../globals/wp';
+import { mediaButtonsHTML } from '../../globals/config';
+
+// import { tinyMCE, tinyMCEPreInit } from '../../globals/wp';
 
 import styles from './textarea.pcss';
 
 class TextArea extends Component {
 	/**
 	 * @param {props} props
-	 * @constructs Image
+	 * @constructs TextArea
 	 */
 
 	constructor(props) {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
-
-		// todo: move state to redux store
-		this.state = {
-			image: '',
-			loading: false,
-		};
+		this.editor = null;
 		this.tinyMCEInstance = null;
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -31,37 +37,61 @@ class TextArea extends Component {
 		}
 
 		this.cacheDom();
-		console.log(tinyMCEPreInit);
+		this.initTinyMCE();
 	}
 
 	componentWillUnmount() {
 		this.cleanUp();
 	}
 
+	/**
+	 * Sourced from window.ModularContent.media_buttons_html. This will contain the
+	 * enabled buttons html for this tinymce instance.
+	 *
+	 * @method getMediaButtons
+	 */
+
+	getMediaButtons() {
+		const buttons = mediaButtonsHTML.replace('%EDITOR_ID%', this.fid);
+
+		return this.props.media_buttons ? (
+			<div
+				id={`wp-${this.fid}-media-buttons`}
+				className="wp-media-buttons"
+				dangerouslySetInnerHTML={{ __html: buttons }}
+			></div>
+		) : null;
+	}
+
+	/**
+	 * Depending on prop "richtext" this will return the jsx for a simple textarea or a dom ready to spin up a tinymce instance.
+	 *
+	 * @method getTemplate
+	 */
+
 	getTemplate() {
+		let Editor;
 		if (!this.props.richtext) {
-			return(
-				<textarea id={this.fid} ref={this.fid} />
+			Editor = (
+				<textarea
+					className={styles.rawTextarea}
+					id={this.fid}
+					ref={this.fid}
+					name={`${this.props.name}`}
+					onChange={this.handleChange}
+				/>
 			);
 		} else {
-			return (
-				<div
-					id={`wp-${this.fid}-wrap`}
-					class="wp-core-ui wp-editor-wrap tmce-active"
-				>
-					<div
-						id={`wp-${this.fid}-editor-tools`}
-						class="wp-editor-tools hide-if-no-js"
-					>
-						<div
-							id={`wp-${this.fid}-media-buttons`}
-							class="wp-media-buttons"
-						></div>
-						<div class="wp-editor-tabs">
+			const MediaButtons = this.getMediaButtons();
+			Editor = (
+				<div id={`wp-${this.fid}-wrap`} ref={this.fid} className="wp-core-ui wp-editor-wrap tmce-active">
+					<div id={`wp-${this.fid}-editor-tools`} className="wp-editor-tools hide-if-no-js">
+						{MediaButtons}
+						<div className="wp-editor-tabs">
 							<button
 								type="button"
 								id={`${this.fid}-tmce`}
-								class="wp-switch-editor switch-tmce"
+								className="wp-switch-editor switch-tmce"
 								data-wp-editor-id={this.fid}
 							>
 								Visual
@@ -69,49 +99,34 @@ class TextArea extends Component {
 							<button
 								type="button"
 								id={`${this.fid}-html`}
-								class="wp-switch-editor switch-html"
+								className="wp-switch-editor switch-html"
 								data-wp-editor-id={this.fid}
 							>
 								Text
 							</button>
+						</div>
 					</div>
-				</div>
-					<div
-						data-settings_id={this.fid}
-						id={`wp-${this.fid}-editor-container`}
-						class="wp-editor-container"
-					>
-						<div
-							data-settings_id={this.fid}
-							id={`qt_${this.fid}_toolbar`}
-							class="quicktags-toolbar"
-						></div>
+					<div data-settings_id={this.fid} id={`wp-${this.fid}-editor-container`} className="wp-editor-container">
+						<div data-settings_id={this.fid} id={`qt_${this.fid}_toolbar`} className="quicktags-toolbar"></div>
 						<textarea
-							class={`wysiwyg-${this.fid} wp-editor-area`}
+							className={`wysiwyg-${this.fid} wp-editor-area`}
 							rows="15"
-							autocomplete="off"
 							cols="40"
-							name={`${this.props.name}[content]`}
+							name={`${this.props.name}`}
 							id={this.fid}
-						></textarea>
+							onChange={this.handleChange}
+						/>
 					</div>
 				</div>
 			);
 		}
+
+		return Editor;
 	}
 
-	/**
-	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
-	 *
-	 * @method getElementClasses
-	 */
-
-	getElementClasses() {
-		const container = classNames({ [styles.uploaderContainer]: true });
-
-		return {
-			container,
-		};
+	handleChange(e) {
+		// code to connect to actions that execute on redux store
+		console.log(e.currentTarget.value);
 	}
 
 	/**
@@ -121,7 +136,40 @@ class TextArea extends Component {
 	 */
 
 	initTinyMCE() {
-		// meh
+		if (!this.props.richtext) {
+			return;
+		}
+
+		// todo: remove delay when scripts enqueue correctly after tinymce.
+		_.delay(() => {
+			window.tinyMCE.on('SetupEditor', (editor) => {
+				if (editor.id === this.fid) {
+					editor.on('change keyup paste', () => {
+						// get us content on keyups, pastes and change for live update magic
+						console.log(editor.getContent());
+					});
+				}
+			});
+			let settings = window.tinyMCEPreInit.mceInit[this.props.editor_settings_reference];
+			const qtSettings = { id: this.fid, buttons: window.tinyMCEPreInit.qtInit[this.props.editor_settings_reference].buttons };
+			settings.selector = `#${this.fid}`;
+			settings = window.tinyMCE.extend({}, window.tinyMCEPreInit.ref, settings);
+
+			window.tinyMCEPreInit.mceInit[this.fid] = settings;
+			window.tinyMCEPreInit.qtInit[this.fid] = qtSettings;
+			window.quicktags(window.tinyMCEPreInit.qtInit[this.fid]);
+			window.QTags._buttonsInit(); // eslint-disable-line no-underscore-dangle
+
+			if (this.editor.classList.contains('tmce-active')) {
+				window.switchEditors.go(this.fid, 'tmce');
+			}
+
+			if (!window.wpActiveEditor) {
+				window.wpActiveEditor = this.fid;
+			}
+
+			this.editor.addEventListener('click', () => { window.wpActiveEditor = this.fid; });
+		}, 1000);
 	}
 
 	/**
@@ -131,17 +179,24 @@ class TextArea extends Component {
 	 */
 
 	cacheDom() {
-		this.tinyMCEInstance = ReactDOM.findDOMNode(this.refs[this.ids.textarea]);
+		this.editor = ReactDOM.findDOMNode(this.refs[this.fid]);
 	}
 
 	/**
-	 * Remove events and destroy tinymce instance on component unmount.
+	 * Remove events and destroy tinymce instance and settings on component unmount.
 	 *
 	 * @method cleanUp
 	 */
 
 	cleanUp() {
-		// cleanup
+		if (!this.props.richtext) {
+			return;
+		}
+
+		delete window.tinyMCEPreInit.mceInit[this.fid];
+		delete window.tinyMCEPreInit.qtInit[this.fid];
+		window.tinymce.execCommand('mceRemoveControl', true, this.fid);
+		this.editor.removeEventListener('click', () => { window.wpActiveEditor = this.fid; });
 	}
 
 	/**
@@ -151,11 +206,16 @@ class TextArea extends Component {
 	 */
 
 	render() {
-		const classes = this.getElementClasses();
+		const containerClasses = classNames({
+			[styles.wrapper]: true,
+		});
+		const Editor = this.getTemplate();
 
 		return (
-			<div className={classes.container}>
-				<textarea id={this.ids.textarea} ref={this.ids.textarea} />
+			<div className={containerClasses}>
+				<label className={styles.label}>{this.props.label}</label>
+				{Editor}
+				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}

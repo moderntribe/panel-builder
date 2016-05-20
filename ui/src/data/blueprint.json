@@ -89,7 +89,18 @@
         "default": "",
         "richtext": true,
         "media_buttons": true,
-        "editor_settings_reference": "content-0006"
+        "editor_settings_reference": "slide_test-0000"
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Regular Textarea",
+        "name": "content",
+        "description": "This is the field of easy.",
+        "strings": [],
+        "default": "",
+        "richtext": false,
+        "media_buttons": false,
+        "editor_settings_reference": ""
       }
     ]
   }
