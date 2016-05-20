@@ -19,5 +19,5 @@ export default {
 	Link,
 	Checkbox,
 	ImageSelect,
-	Select
+	Select,
 };

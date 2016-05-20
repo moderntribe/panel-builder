@@ -20,7 +20,7 @@ class Checkbox extends Component {
 				<label>
 					<input
 						type="checkbox"
-						name={this.props.name + '[' + escape(option.value) + ']'}
+						name={`${this.props.name}[${escape(option.value)}]`}
 						value="1"
 						className={styles.checkbox}
 						onChange={this.handleChange}
