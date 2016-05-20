@@ -25,6 +25,14 @@
         "default": ""
       },
       {
+        "type": "ImageGallery",
+        "label": "Image Gallery",
+        "name": "gallery",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Hidden",
         "label": "Some Label",
         "name": "secret",
