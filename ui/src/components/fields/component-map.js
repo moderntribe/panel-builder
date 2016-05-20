@@ -3,6 +3,7 @@ import Image from './image';
 import Radio from './radio';
 import HTML from './html';
 import Link from './link';
+import Select from './select';
 import TextArea from './textarea';
 
 export default {
@@ -11,5 +12,6 @@ export default {
 	Radio,
 	HTML,
 	Link,
+	Select,
 	TextArea,
 };
