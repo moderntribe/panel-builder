@@ -67,6 +67,31 @@
         ]
       },
       {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "cards",
+        "options": [
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
         "type": "Select",
         "label": "Proposed budget",
         "name": "budget",

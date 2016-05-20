@@ -5,6 +5,7 @@ import Hidden from './hidden';
 import Radio from './radio';
 import HTML from './html';
 import Link from './link';
+import ImageSelect from './image-select';
 import Select from './select';
 
 export default {
@@ -15,5 +16,6 @@ export default {
 	Radio,
 	HTML,
 	Link,
-	Select,
+	ImageSelect,
+	Select
 };
