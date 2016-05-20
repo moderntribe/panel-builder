@@ -5,8 +5,6 @@ import _ from 'lodash';
 import styles from './image-gallery.pcss';
 import { IMAGE_GALLERY_I18N } from '../../globals/i18n';
 
-console.log("IMAGE_GALLERY_I18N",IMAGE_GALLERY_I18N)
-
 class ImageGallery extends Component {
 
 	constructor(props) {
