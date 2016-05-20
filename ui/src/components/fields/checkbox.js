@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import escape from 'escape-html';
+
 import styles from './checkbox.pcss';
 
 class Checkbox extends Component {
@@ -18,7 +20,7 @@ class Checkbox extends Component {
 				<label>
 					<input
 						type="checkbox"
-						name={option.value}
+						name={this.props.name + '[' + escape(option.value) + ']'}
 						value="1"
 						className={styles.checkbox}
 						onChange={this.handleChange}
