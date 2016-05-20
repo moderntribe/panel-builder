@@ -9,6 +9,14 @@
     },
     "fields": [
       {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Text",
         "label": "Text Input Label",
         "name": "text_test",
@@ -17,12 +25,12 @@
         "default": ""
       },
       {
-        "type": "HTML",
-        "label": "Need Help?",
-        "name": "help",
-        "description": "<p>Check <i>out</i> the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>. It has <b>everything</b> you need to build a website from <u>scratch</u>.<\/p>",
+        "type": "Hidden",
+        "label": "Some Label",
+        "name": "secret",
+        "description": "A description",
         "strings": [],
-        "default": ""
+        "default": "You can't see me"
       },
       {
         "type": "Link",
@@ -79,6 +87,53 @@
           {
             "label": "Full",
             "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "cards",
+        "options": [
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Proposed budget",
+        "name": "budget",
+        "description": "How much money do you have?",
+        "strings": [],
+        "default": "",
+        "options": [
+          {
+            "label": "Less than $100,000",
+            "value": "<100"
+          },
+          {
+            "label": "$100,000 - $200,000",
+            "value": "100-200"
+          },
+          {
+            "label": "More than $200,000",
+            "value": "200+"
           }
         ]
       },

@@ -17,12 +17,14 @@
 		<?php $cache = \ModularContent\Util::json_encode( $cache ); ?>
 		ModularContent.cache = <?php echo $cache ? $cache : json_encode([ 'posts' => [], 'terms' => [], 'data' => [] ]); ?>;
 		ModularContent.localization = <?php echo \ModularContent\Util::json_encode($localization); ?>;
+		<?php do_action( 'modular_content_metabox_js_init' ); ?>
 
 		<?php foreach ( $collection->panels() as $panel ) { ?>
 			ModularContent.panels.push(<?php echo \ModularContent\Util::json_encode($panel); ?>);
 		<?php } ?>
 	</script>
 </div>
+<?php return; ?>
 <a class="create-new-panel hide-if-no-js thickbox icon-plus-sign" href="#TB_inline?height=960&width=700&inlineId=new-panel" data-title="<?php printf(__('Select a %s Type', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?>"><?php printf(__('Create %s', 'modular-content'), \ModularContent\Plugin::instance()->get_label()); ?></a>
 <div id="new-panel">
 	<h2 class="new-panel-list-title"></h2>
