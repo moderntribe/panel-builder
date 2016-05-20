@@ -66,7 +66,7 @@ class Util {
 	}
 
 	public static function get_post_types_for_date() {
-		return get_post_types();
+		return array_values( get_post_types( [ 'public' => true ], 'names' ) );
 	}
 
 	/**
