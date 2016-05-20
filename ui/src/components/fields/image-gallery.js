@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import escape from 'escape-html';
 import _ from 'lodash';
+import classNames from 'classnames';
 import styles from './image-gallery.pcss';
 import { IMAGE_GALLERY_I18N } from '../../globals/i18n';
 
@@ -179,9 +180,18 @@ class ImageGallery extends Component {
 			</div>
 		);
 
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'pnl-field-description': true
+		})
+		const labelStyles = classNames({
+			[styles.label]: true,
+			'pnl-field-label': true
+		})
+
 		return (
 			<div className={styles.field}>
-				<label className={styles.label}>{this.props.label}</label>
+				<label className={labelStyles}>{this.props.label}</label>
 				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label={IMAGE_GALLERY_I18N.gallery_label} data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
@@ -193,7 +203,7 @@ class ImageGallery extends Component {
 						{previewItems}
 					</div>
 				</div>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}
