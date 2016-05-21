@@ -1,0 +1,144 @@
+{
+    "panels": [
+        {
+            "type": "contentgrid",
+            "depth": 0,
+            "data": {
+                "title": "Sample Content Grid",
+                "layout": "cards",
+                "content": "Content Grid Content",
+                "columns": [
+                    {
+                        "title": "Column One",
+                        "text": "This goes in column one"
+                    },
+                    {
+                        "title": "Column Two",
+                        "text": "An image in column two: <img width=\"300\" height=\"250\" src=\"http:\/\/griddle.tri.be\/?w=300&h=250\" \/>"
+                    },
+                    {
+                        "title": "Column Three",
+                        "text": ""
+                    }
+                ],
+                "cta": {
+                    "url": "http:\/\/tri.be\/",
+                    "target": "",
+                    "label": "Modern Tribe"
+                },
+                "cta_style": [
+                    "button"
+                ]
+            }
+        },
+        {
+            "type": "gallery",
+            "depth": 0,
+            "data": {
+                "title": "Some Images",
+                "content": "A caption to go with the gallery",
+                "gallery": [
+                    {
+                        "id": 12345,
+                        "thumbnail": "http:\/\/griddle.tri.be\/?w=300&h=250"
+                    },
+                    {
+                        "id": 12346,
+                        "thumbnail": "http:\/\/griddle.tri.be\/?w=350&h=250"
+                    },
+                    {
+                        "id": 12347,
+                        "thumbnail": "http:\/\/griddle.tri.be\/?w=400&h=250"
+                    },
+                    {
+                        "id": 12348,
+                        "thumbnail": "http:\/\/griddle.tri.be\/?w=450&h=250"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "imagetext",
+            "depth": 0,
+            "data": {
+                "title": "Sample Image + Text Panel",
+                "layout": "boxed",
+                "content": "",
+                "image": 1234,
+                "overlay": "tint",
+                "cta": {
+                    "url": "http:\/\/tri.be",
+                    "target": "_blank",
+                    "label": "Visit the Tribe"
+                },
+                "cta_style": [
+                    "text"
+                ]
+            }
+        },
+        {
+            "type": "micronav",
+            "depth": 0,
+            "data": {
+                "title": "Some Links",
+                "layout": "list",
+                "content": "Preface to the links",
+                "items": {
+                    "type": "manual",
+                    "posts": [],
+                    "filters": [],
+                    "max": 0
+                }
+            }
+        },
+        {
+            "type": "tabgroup",
+            "depth": 0,
+            "data": {
+                "title": "A group of tabs"
+            }
+        },
+        {
+            "type": "wysiwyg",
+            "depth": 1,
+            "data": {
+                "title": "Wysiwyg Panel 1",
+                "repeater": [
+                    {
+                        "column": "Column 1 Content"
+                    },
+                    {
+                        "column": "Column 2 Content"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "wysiwyg",
+            "depth": 1,
+            "data": {
+                "title": "Wysiwyg Panel 2",
+                "repeater": [
+                    {
+                        "column": "Column 1 Content"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "wysiwyg",
+            "depth": 0,
+            "data": {
+                "title": "Wysiwyg Panel",
+                "repeater": [
+                    {
+                        "column": "Column 1 Content"
+                    },
+                    {
+                        "column": "Column 2 Content"
+                    }
+                ]
+            }
+        }
+    ]
+}

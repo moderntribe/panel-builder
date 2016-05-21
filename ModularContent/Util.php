@@ -66,7 +66,7 @@ class Util {
 	}
 
 	public static function get_post_types_for_date() {
-		return get_post_types();
+		return array_values( get_post_types( [ 'public' => true ], 'names' ) );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Util {
 			return json_encode( $data ); // nothing to clean up
 		}
 
-		$encoded = json_encode( $data );
+		$encoded = json_encode( $data, JSON_PARTIAL_OUTPUT_ON_ERROR );
 		if ( !empty( $encoded ) ) {
 			return $encoded; // successful encoding
 		}

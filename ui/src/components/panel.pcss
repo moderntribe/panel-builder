@@ -1,0 +1,60 @@
+@import '../shared/spacing.pcss';
+@import '../shared/colors.pcss';
+
+
+.panelRow {
+	composes: group from "../shared/helpers.pcss";
+	position: relative;
+	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	margin-top: var(--panel-margin-vertical);
+	margin-bottom: var(--panel-margin-vertical);
+	border: thin solid var(--border-color);
+	background-color: var(--panel-bg-color);
+	transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	&:not(.editing) {
+		cursor: pointer;
+		&:hover {
+			/* add darken( , 2%) */
+			background-color: var(--panel-bg-color);
+		}
+	}
+
+	&.ui-sortable-helper {
+		transform: scale(1.02);
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+		z-index: 999999 !important; /* wtf */
+	}
+
+	&.ui-sortable-placeholder {
+		border: thin dashed var(--border-color);
+		visibility: visible;
+	}
+
+	> .close {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 30px;
+		width: 34px;
+	}
+
+	&.editing {
+		padding: 0;
+	}
+
+	&.editing > .close {
+		height: 32px;
+		z-index: 999;
+		.caret {
+			/* @include triangle(up, 9px, var(--white)); */
+		}
+	}
+
+	> button.close:focus {
+		outline: none;
+	}
+}
+
+.field{
+
+}

@@ -2,6 +2,7 @@
 
 
 namespace ModularContent;
+use ModularContent\Fields\Image;
 
 /**
  * Class MetaBox
@@ -44,9 +45,56 @@ class MetaBox {
 	}
 
 	protected function enqueue_scripts() {
-		wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			wp_enqueue_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', ['wp-util', 'media-upload', 'media-views'], time(), true );
+		} else {
+			wp_enqueue_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), ['wp-util', 'media-upload', 'media-views'], time(), true );
+		}
+		wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
+		wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
+		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
+	}
+
+	/**
+	 * Provides config data to be used by front-end JS
+	 *
+	 * @return array
+	 */
+
+	public function js_config() {
+
+		static $data = [ ];
+		if ( empty( $data ) ) {
+			$data = [
+				'fields' => [
+					'image' => Image::js_config(),
+				]
+			];
+			$data = apply_filters( 'panels_js_config', $data );
+		}
+
+		return $data;
+
+	}
+
+	/**
+	 * js_i18n stores all text strings needed in the js driven ui
+	 *
+	 * @return array
+	 */
+
+	public function js_i18n() {
+
+		$js_i18n_array = [
+			'fields' => [
+
+			]
+		];
+
+		return $js_i18n_array;
+
 	}
 
 	/**
@@ -127,6 +175,8 @@ class MetaBox {
 	}
 
 	public function render( $post ) {
+		$registry = Plugin::instance()->registry();
+		$blueprint = new Blueprint_Builder( $registry );
 		$collection = PanelCollection::find_by_post_id( $post->ID );
 		$cache = new AdminPreCache();
 		foreach ( $collection->panels() as $panel ) {

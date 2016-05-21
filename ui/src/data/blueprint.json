@@ -1,0 +1,140 @@
+[
+  {
+    "type": "fielddev",
+    "label": "One of Each Field Panel for Early Dev",
+    "description": "Before full hookup get fields rendering.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "Text",
+        "label": "Text Input Label",
+        "name": "text_test",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "Hidden",
+        "label": "Some Label",
+        "name": "secret",
+        "description": "A description",
+        "strings": [],
+        "default": "You can't see me"
+      },
+      {
+        "type": "Link",
+        "label": "Link",
+        "name": "link",
+        "description": "some description",
+        "strings": [],
+        "default": {
+          "url": "",
+          "target": "",
+          "label": ""
+        }
+      },
+      {
+        "type": "Radio",
+        "label": "Style",
+        "name": "layout",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": "standard",
+        "options": [
+          {
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "cards",
+        "options": [
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Proposed budget",
+        "name": "budget",
+        "description": "How much money do you have?",
+        "strings": [],
+        "default": "",
+        "options": [
+          {
+            "label": "Less than $100,000",
+            "value": "<100"
+          },
+          {
+            "label": "$100,000 - $200,000",
+            "value": "100-200"
+          },
+          {
+            "label": "More than $200,000",
+            "value": "200+"
+          }
+        ]
+      },
+      {
+        "type": "Image",
+        "label": "Image Test",
+        "name": "image",
+        "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+        "strings": {
+          "button.remove": "Remove",
+          "button.select": "Select Files",
+          "drop.info": "Drop files here",
+          "drop.or": "or"
+        },
+        "default": "",
+        "size": "large"
+      },
+      {
+        "type": "HTML",
+        "label": "Need Help?",
+        "name": "help",
+        "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
+        "strings": [],
+        "default": ""
+      }
+    ]
+  }
+]

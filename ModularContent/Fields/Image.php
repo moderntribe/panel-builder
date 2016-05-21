@@ -31,6 +31,13 @@ class Image extends Field {
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['size'] = $this->size;
+
+		$this->defaults[ 'strings' ] = [
+			'button.remove' => __( 'Remove', 'modular-content' ),
+			'button.select' => __( 'Select Files', 'modular-content' ),
+			'drop.info'     => __( 'Drop files here', 'modular-content' ),
+			'drop.or'       => __( 'or', 'modular-content' ),
+		];
 		parent::__construct($args);
 	}
 
@@ -109,5 +116,39 @@ class Image extends Field {
 		$return_object = apply_filters( 'panels_field_vars_for_api', $return_object, $data, $this, $panel );
 
 		return $return_object;
+	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['size'] = $this->size;
+		return $blueprint;
+	}
+
+	public static function js_config() {
+		return [
+			'plupload' => [
+				'runtimes' => 'html5,silverlight,flash,html4',
+				'browse_button' => 'plupload-browse-button',
+				'container' => 'plupload-upload-ui',
+				'drop_element' => 'drag-drop-area',
+				'file_data_name' => 'async-upload',
+				'multiple_queues' => false,
+				'multi_selection' => false,
+				'max_file_size' => wp_max_upload_size() . 'b',
+				'url' => admin_url( 'admin-ajax.php' ),
+				'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
+				'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
+				'multipart' => true,
+				'urlstream_upload' => true,
+
+				// Additional parameters:
+				'multipart_params' => [
+					'_ajax_nonce' => wp_create_nonce( 'photo-upload' ),
+					'action' => 'attachment_helper_upload_image',
+					'postID' => get_the_ID(),
+					'size' => 'medium',
+				],
+			]
+		];
 	}
 }

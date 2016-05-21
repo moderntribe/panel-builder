@@ -261,4 +261,27 @@ abstract class Field {
 	public function prepare_data_for_save( $data ) {
 		return $data;
 	}
+
+	public function get_blueprint() {
+		$blueprint = [
+			'type'        => $this->get_component_name(),
+			'label'       => $this->label,
+			'name'        => $this->get_name(),
+			'description' => $this->description,
+			'strings'     => $this->strings,
+			'default'     => $this->default,
+		];
+		return $blueprint;
+	}
+
+	/**
+	 * Returns the name of the react component used to render
+	 * this field. When extending core fields in 3rd-party
+	 * plugins, override this to re-use one of the core templates.
+	 * 
+	 * @return string
+	 */
+	protected function get_component_name() {
+		return (new \ReflectionClass( $this ))->getShortName();
+	}
 }

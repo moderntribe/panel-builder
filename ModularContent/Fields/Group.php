@@ -51,14 +51,13 @@ class Group extends Field {
 	/** @var Field[] */
 	protected $fields = array();
 
-	protected $default = '{}';
+	protected $default = [];
 
 	/**
 	 * @param Field $field
 	 *
 	 */
 	public function add_field( Field $field ) {
-		$field->name = $this->name.'.'.$field->name;
 		$this->fields[$field->get_name()] = $field;
 	}
 
@@ -69,7 +68,7 @@ class Group extends Field {
 	 */
 	public function get_field( $name ) {
 		foreach( $this->fields as $field ) {
-			if ( $field->get_name() == $name ) {
+			if ( $field->get_name() == $name || $this->get_name().'.'.$field->get_name() == $name ) {
 				return $field;
 			}
 		}
@@ -97,7 +96,13 @@ class Group extends Field {
 	}
 
 	protected function get_default_value_js() {
-		return $this->default;
+		if ( empty( $this->default ) ) {
+			return '{}';
+		}
+		if ( is_string( $this->default ) ) {
+			return $this->default;
+		}
+		return json_encode( $this->default );
 	}
 
 	/**
@@ -110,7 +115,7 @@ class Group extends Field {
 	public function get_vars( $data, $panel ) {
 		$vars = array();
 		foreach ( $this->fields as $field ) {
-			$name = str_replace($this->get_name().'.', '', $field->get_name());
+			$name = $field->get_name();
 			if ( isset($data[$name]) ) {
 				$vars[$name] = $field->get_vars($data[$name], $panel);
 			}
@@ -131,7 +136,7 @@ class Group extends Field {
 	public function get_vars_for_api( $data, $panel ) {
 		$vars = array();
 		foreach ( $this->fields as $field ) {
-			$name = str_replace( $this->get_name() . '.', '', $field->get_name() );
+			$name = $field->get_name();
 			if ( isset( $data[ $name ] ) ) {
 				$vars[ $name ] = $field->get_vars_for_api( $data[ $name ], $panel );
 			}
@@ -152,10 +157,19 @@ class Group extends Field {
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
 		foreach ( $this->fields as $field ) {
-			$name = str_replace($this->get_name().'.', '', $field->get_name());
+			$name = $field->get_name();
 			if ( isset($data[$name]) ) {
 				$field->precache( $data[$name], $cache );
 			}
 		}
+	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint['fields'] = [];
+		foreach( $this->fields as $field ) {
+			$blueprint['fields'][] = $field->get_blueprint();
+		}
+		return $blueprint;
 	}
 } 
