@@ -46,12 +46,24 @@ class MetaBox {
 
 	protected function enqueue_scripts() {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			wp_enqueue_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', ['wp-util', 'media-upload', 'media-views'], time(), true );
+			wp_register_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		} else {
-			wp_enqueue_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), ['wp-util', 'media-upload', 'media-views'], time(), true );
+			wp_register_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		}
-		wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
-		wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
+
+		/*
+		 * Rather than enqueuing this immediately, delay until after
+		 * admin_print_footer_scripts:50. This is when the WP visual
+		 * editor prints the tinymce config.
+		 */
+		add_action( 'admin_print_footer_scripts', function() {
+			wp_enqueue_script( 'panels-admin-ui' );
+			wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
+			wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
+			// since footer scripts have already printed, process the queue again on the next available action
+			add_action( "admin_footer-" . $GLOBALS['hook_suffix'], '_wp_footer_scripts' );
+		}, 60, 0 );
+
 		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
