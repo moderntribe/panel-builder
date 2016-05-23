@@ -8,12 +8,11 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { mediaButtonsHTML } from '../../globals/config';
 
-// import { tinyMCE, tinyMCEPreInit } from '../../globals/wp';
+import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags } from '../../globals/wp';
 
 import styles from './textarea.pcss';
 
@@ -27,7 +26,6 @@ class TextArea extends Component {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
 		this.editor = null;
-		this.tinyMCEInstance = null;
 		this.handleChange = this.handleChange.bind(this);
 	}
 
@@ -140,36 +138,33 @@ class TextArea extends Component {
 			return;
 		}
 
-		// todo: remove delay when scripts enqueue correctly after tinymce.
-		_.delay(() => {
-			window.tinyMCE.on('SetupEditor', (editor) => {
-				if (editor.id === this.fid) {
-					editor.on('change keyup paste', () => {
-						// get us content on keyups, pastes and change for live update magic
-						console.log(editor.getContent());
-					});
-				}
-			});
-			let settings = window.tinyMCEPreInit.mceInit[this.props.editor_settings_reference];
-			const qtSettings = { id: this.fid, buttons: window.tinyMCEPreInit.qtInit[this.props.editor_settings_reference].buttons };
-			settings.selector = `#${this.fid}`;
-			settings = window.tinyMCE.extend({}, window.tinyMCEPreInit.ref, settings);
-
-			window.tinyMCEPreInit.mceInit[this.fid] = settings;
-			window.tinyMCEPreInit.qtInit[this.fid] = qtSettings;
-			window.quicktags(window.tinyMCEPreInit.qtInit[this.fid]);
-			window.QTags._buttonsInit(); // eslint-disable-line no-underscore-dangle
-
-			if (this.editor.classList.contains('tmce-active')) {
-				window.switchEditors.go(this.fid, 'tmce');
+		tinyMCE.on('SetupEditor', (editor) => {
+			if (editor.id === this.fid) {
+				editor.on('change keyup paste', () => {
+					// get us content on keyups, pastes and change for live update magic
+					console.log(editor.getContent());
+				});
 			}
+		});
+		let settings = tinyMCEPreInit.mceInit[this.props.editor_settings_reference];
+		const qtSettings = { id: this.fid, buttons: tinyMCEPreInit.qtInit[this.props.editor_settings_reference].buttons };
+		settings.selector = `#${this.fid}`;
+		settings = tinyMCE.extend({}, tinyMCEPreInit.ref, settings);
 
-			if (!window.wpActiveEditor) {
-				window.wpActiveEditor = this.fid;
-			}
+		tinyMCEPreInit.mceInit[this.fid] = settings;
+		tinyMCEPreInit.qtInit[this.fid] = qtSettings;
+		quicktags(tinyMCEPreInit.qtInit[this.fid]);
+		QTags._buttonsInit(); // eslint-disable-line no-underscore-dangle
 
-			this.editor.addEventListener('click', () => { window.wpActiveEditor = this.fid; });
-		}, 1000);
+		if (!window.wpActiveEditor) {
+			window.wpActiveEditor = this.fid;
+		}
+
+		this.editor.addEventListener('click', () => { window.wpActiveEditor = this.fid; });
+
+		if (this.editor.classList.contains('tmce-active')) {
+			_.delay(() => { switchEditors.go(this.fid, 'tmce'); }, 100);
+		}
 	}
 
 	/**
@@ -206,13 +201,10 @@ class TextArea extends Component {
 	 */
 
 	render() {
-		const containerClasses = classNames({
-			[styles.wrapper]: true,
-		});
 		const Editor = this.getTemplate();
 
 		return (
-			<div className={containerClasses}>
+			<div className={styles.wrapper}>
 				<label className={styles.label}>{this.props.label}</label>
 				{Editor}
 				<p className={styles.description}>{this.props.description}</p>
