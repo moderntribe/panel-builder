@@ -19,5 +19,5 @@ export default {
 	HTML,
 	Link,
 	ImageSelect,
-	Select
+	Select,
 };

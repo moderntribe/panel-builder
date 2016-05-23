@@ -28,7 +28,7 @@
         "type": "ImageGallery",
         "label": "Image Gallery",
         "name": "gallery",
-        "description": "",
+        "description": "Gallery description goes here",
         "strings": [],
         "default": ""
       },

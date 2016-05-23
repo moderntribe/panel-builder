@@ -4,9 +4,12 @@ import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './image-gallery.pcss';
-import { IMAGE_GALLERY_I18N } from '../../globals/i18n';
 
 class ImageGallery extends Component {
+	/**
+	 * @param {props} props
+	 * @constructs ImageGallery
+	 */
 
 	constructor(props) {
 		super(props);
@@ -15,7 +18,6 @@ class ImageGallery extends Component {
 		this.ids = {
 			plContainer: `image-gallery-${fid}`,
 		};
-		this.galleryContainer = null;
 		this.frame = null;
 		this.state = {
 			attachments: [],
@@ -25,10 +27,6 @@ class ImageGallery extends Component {
 		this.overrideGalleryInsert = this.overrideGalleryInsert.bind(this);
 		this.handleFrameInsertClick = this.handleFrameInsertClick.bind(this);
 		this.hideGallerySidebar = this.hideGallerySidebar.bind(this);
-	}
-
-	componentDidMount() {
-		this.galleryContainer = ReactDOM.findDOMNode(this.refs[this.ids.plContainer]);
 	}
 
 	/**
@@ -105,7 +103,7 @@ class ImageGallery extends Component {
 		this.frame.toolbar.get('view').set({
 			insert: {
 				style: 'primary',
-				text: IMAGE_GALLERY_I18N.btn_save,
+				text: 'Save Gallery',  // to be translated
 				click: this.handleFrameInsertClick,
 			},
 		});
@@ -135,7 +133,7 @@ class ImageGallery extends Component {
 		this.frame = wp.media({
 			frame: 'post',
 			state: 'gallery-edit',
-			title: 'Gallery',
+			title: 'Gallery',  // to be translated
 			editing: true,
 			multiple: true,
 			selection: this.buildSelection(ids),
@@ -182,21 +180,22 @@ class ImageGallery extends Component {
 
 		const descriptionStyles = classNames({
 			[styles.description]: true,
-			'pnl-field-description': true
-		})
+			'pnl-field-description': true,
+		});
 		const labelStyles = classNames({
 			[styles.label]: true,
-			'pnl-field-label': true
-		})
+			'pnl-field-label': true,
+		});
 
+		// Edit Gallery button to be translated
 		return (
 			<div className={styles.field}>
 				<label className={labelStyles}>{this.props.label}</label>
-				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label={IMAGE_GALLERY_I18N.gallery_label} data-name={escape(this.props.name)}>
+				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
 						<button className="button button-large" onClick={this.handleMediaButtonClick}>
-							{IMAGE_GALLERY_I18N.btn_gallery}
+							Edit Gallery
 						</button>
 					</p>
 					<div className={styles.galleryFieldSelection} onClick={this.handleMediaButtonClick}>

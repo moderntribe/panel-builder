@@ -8,10 +8,5 @@ export const I18N_DEFAULTS = {
 			drp_info: 'Drop files here',
 			drp_or: 'or',
 		},
-		image_gallery: {
-			gallery_label: 'Gallery',
-			btn_save: 'Save Gallery',
-			btn_gallery: 'Edit Gallery',
-		},
 	},
 };

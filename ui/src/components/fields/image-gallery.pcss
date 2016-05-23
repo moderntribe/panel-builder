@@ -2,8 +2,7 @@
 @import '../../shared/colors.pcss';
 
 .field {
-	margin-bottom: 1.5em;
-	clear: both;
+	composes: fieldContainer from "../../shared/fields.pcss";
 }
 
 .inputContainer {
@@ -26,6 +25,7 @@
 }
 
 .galleryFieldSelection {
+	display: block;
 }
 
 .galleryFieldItem {
