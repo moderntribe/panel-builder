@@ -53,7 +53,7 @@ class MetaBox {
 		wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
 		wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
 		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
-		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('assets/styles/css/main.css'), array( 'font-awesome', 'jquery-ui', 'thickbox' ) );
+		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('ui/dist/react-libs.css'), ['font-awesome'] );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
 	}
 
