@@ -71,7 +71,7 @@ Link.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.array,
-	default: PropTypes.object,
+	default: PropTypes.string,
 };
 
 Link.defaultProps = {

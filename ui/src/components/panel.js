@@ -18,12 +18,12 @@ class PanelContainer extends Component {
 				return null;
 			}
 
-			const classes = classNames(
-				styles.field,
-				'panel-input',
-				`input-name-${field.type.toLowerCase()}`,
-				`input-type-${field.type.toLowerCase()}`,
-			);
+			const classes = classNames({
+				[styles.field]: true,
+				'panel-input': true,
+				[`input-name-${field.type.toLowerCase()}`]: true,
+				[`input-type-${field.type.toLowerCase()}`]: true,
+			});
 
 			return <div className={classes} key={_.uniqueId('field-id-')}><Field {...field} /></div>;
 		});
