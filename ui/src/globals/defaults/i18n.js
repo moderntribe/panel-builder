@@ -2,6 +2,12 @@
 
 export const I18N_DEFAULTS = {
 	fields: {
+		image: {
+			btn_remove: 'Remove',
+			btn_select: 'Select Files',
+			drp_info: 'Drop files here',
+			drp_or: 'or',
+		},
 		textarea: {
 			btn_remove: 'Visual',
 			btn_select: 'Text',
