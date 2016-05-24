@@ -68,7 +68,7 @@ class TextArea extends Field {
 
 	public static function get_media_button_html_for_js() {
 		ob_start();
-		do_action( 'media_buttons', '%REFERENCE_ID%' );
+		do_action( 'media_buttons', '%EDITOR_ID%' );
 		$html = ob_get_clean();
 		printf( "ModularContent.media_buttons_html = %s;", json_encode( $html ) );
 	}

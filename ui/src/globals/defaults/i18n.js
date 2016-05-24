@@ -8,5 +8,9 @@ export const I18N_DEFAULTS = {
 			drp_info: 'Drop files here',
 			drp_or: 'or',
 		},
+		textarea: {
+			btn_remove: 'Visual',
+			btn_select: 'Text',
+		},
 	},
 };

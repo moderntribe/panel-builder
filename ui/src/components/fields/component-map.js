@@ -5,6 +5,7 @@ import ImageGallery from './image-gallery';
 import Hidden from './hidden';
 import Radio from './radio';
 import HTML from './html';
+import TextArea from './textarea';
 import Link from './link';
 import ImageSelect from './image-select';
 import Select from './select';
@@ -16,6 +17,7 @@ export default {
 	ImageGallery,
 	Hidden,
 	Radio,
+	TextArea,
 	HTML,
 	Link,
 	ImageSelect,
