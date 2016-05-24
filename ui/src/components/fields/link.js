@@ -71,7 +71,7 @@ Link.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.array,
-	default: PropTypes.string,
+	default: React.PropTypes.object,
 };
 
 Link.defaultProps = {
@@ -79,7 +79,7 @@ Link.defaultProps = {
 	name: '',
 	description: '',
 	strings: [],
-	default: '',
+	default: {},
 };
 
 export default Link;
