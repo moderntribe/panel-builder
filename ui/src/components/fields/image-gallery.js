@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './image-gallery.pcss';
+import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
 class ImageGallery extends Component {
 	/**
@@ -40,13 +40,13 @@ class ImageGallery extends Component {
 			return false;
 		}
 
-		const shortcode = new wp.shortcode({
+		const shortcode = new WPShortcode({
 			tag: 'gallery',
 			attrs: { ids: attachmentIds.join(',') },
 			type: 'single',
 		});
-		const attachments = wp.media.gallery.attachments(shortcode);
-		const selection = new wp.media.model.Selection(attachments.models, {
+		const attachments = wpMedia.gallery.attachments(shortcode);
+		const selection = new wpMedia.model.Selection(attachments.models, {
 			props: attachments.props.toJSON(),
 			multiple: true,
 		});
@@ -83,11 +83,11 @@ class ImageGallery extends Component {
 			}
 			return {
 				id: att.id,
-				thumbnail,	// shorthand
+				thumbnail,
 			};
 		});
 		this.setState({
-			attachments, // shorthand
+			attachments,
 		});
 		this.frame.close();
 		this.frame = null;
@@ -130,7 +130,7 @@ class ImageGallery extends Component {
 	selectImages() {
 		const ids = _.map(this.state.attachments, (attachment) => attachment.id);
 		// Set frame object:
-		this.frame = wp.media({
+		this.frame = wpMedia({
 			frame: 'post',
 			state: 'gallery-edit',
 			title: 'Gallery',  // to be translated
@@ -142,7 +142,7 @@ class ImageGallery extends Component {
 		this.frame.open();
 
 		const GallerySidebarHider = {};
-		_.extend(GallerySidebarHider, Backbone.Events);
+		_.extend(GallerySidebarHider, panelBackbone.Events);
 		GallerySidebarHider.hideGallerySidebar = this.hideGallerySidebar;
 		GallerySidebarHider.listenTo(this.frame.state('gallery-edit'), 'activate', GallerySidebarHider.hideGallerySidebar);
 		GallerySidebarHider.hideGallerySidebar();
