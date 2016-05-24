@@ -21,7 +21,7 @@ class PanelContainer extends Component {
 			const classes = classNames({
 				[styles.field]: true,
 				'panel-input': true,
-				[`input-name-${field.type.toLowerCase()}`]: true,
+				[`input-name-${field.name.toLowerCase()}`]: true,
 				[`input-type-${field.type.toLowerCase()}`]: true,
 			});
 

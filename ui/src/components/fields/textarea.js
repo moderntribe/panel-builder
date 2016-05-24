@@ -75,7 +75,7 @@ class TextArea extends Component {
 					className={styles.rawTextarea}
 					id={this.fid}
 					ref={this.fid}
-					name={`${this.props.name}`}
+					name={this.props.name}
 					onChange={this.handleChange}
 				/>
 			);
@@ -104,13 +104,21 @@ class TextArea extends Component {
 							</button>
 						</div>
 					</div>
-					<div data-settings_id={this.fid} id={`wp-${this.fid}-editor-container`} className="wp-editor-container">
-						<div data-settings_id={this.fid} id={`qt_${this.fid}_toolbar`} className="quicktags-toolbar"></div>
+					<div
+						data-settings_id={this.fid}
+						id={`wp-${this.fid}-editor-container`}
+						className="wp-editor-container"
+					>
+						<div
+							data-settings_id={this.fid}
+							id={`qt_${this.fid}_toolbar`}
+							className="quicktags-toolbar"
+						></div>
 						<textarea
 							className={`wysiwyg-${this.fid} wp-editor-area`}
 							rows="15"
 							cols="40"
-							name={`${this.props.name}`}
+							name={this.props.name}
 							id={this.fid}
 							onChange={this.handleChange}
 						/>
@@ -147,7 +155,10 @@ class TextArea extends Component {
 			}
 		});
 		let settings = tinyMCEPreInit.mceInit[this.props.editor_settings_reference];
-		const qtSettings = { id: this.fid, buttons: tinyMCEPreInit.qtInit[this.props.editor_settings_reference].buttons };
+		const qtSettings = {
+			id: this.fid,
+			buttons: tinyMCEPreInit.qtInit[this.props.editor_settings_reference].buttons,
+		};
 		settings.selector = `#${this.fid}`;
 		settings = tinyMCE.extend({}, tinyMCEPreInit.ref, settings);
 
@@ -160,10 +171,14 @@ class TextArea extends Component {
 			window.wpActiveEditor = this.fid;
 		}
 
-		this.editor.addEventListener('click', () => { window.wpActiveEditor = this.fid; });
+		this.editor.addEventListener('click', () => {
+			window.wpActiveEditor = this.fid;
+		});
 
 		if (this.editor.classList.contains('tmce-active')) {
-			_.delay(() => { switchEditors.go(this.fid, 'tmce'); }, 100);
+			_.delay(() => {
+				switchEditors.go(this.fid, 'tmce');
+			}, 100);
 		}
 	}
 
@@ -191,7 +206,9 @@ class TextArea extends Component {
 		delete window.tinyMCEPreInit.mceInit[this.fid];
 		delete window.tinyMCEPreInit.qtInit[this.fid];
 		window.tinymce.execCommand('mceRemoveControl', true, this.fid);
-		this.editor.removeEventListener('click', () => { window.wpActiveEditor = this.fid; });
+		this.editor.removeEventListener('click', () => {
+			window.wpActiveEditor = this.fid;
+		});
 	}
 
 	/**
