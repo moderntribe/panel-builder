@@ -5,43 +5,6 @@
 	composes: inputLabel from "../../shared/fields.pcss";
 }
 
-.dragDropArea{
-	border: 4px dashed var(--border-color-drag);
-	&.loaderShowing{
-		display:none;
-	}
-}
-
-.loaderWrap{
-	height:157px;
-	position:relative;
-	display:none;
-	&.loaderShowing{
-		display:block;
-	}
-}
-
-.loader {
-	composes: loader1 from "../../shared/loaders.pcss";
-}
-
-.dragDropInside{
-	margin: 30px auto 30px;
-	p {
-		color: var(--drag-drop-text);
-		font-size: 14px;
-		margin: 5px 0;
-		text-align:center;
-	}
-	.dragDropInfo{
-		font-size: 20px;
-	}
-}
-
-.uploaderContainer{
-
-}
-
 .currentUploadedImage{
 	display:none;
 	&.currentOpen{

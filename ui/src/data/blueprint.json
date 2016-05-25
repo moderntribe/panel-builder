@@ -53,6 +53,30 @@
         }
       },
       {
+        "type": "Checkbox",
+        "label": "Partner",
+        "name": "partner",
+        "description": "Who is the best karaoke singer at Modern Tribe?",
+        "strings": [],
+        "default": {
+          "reid": 1
+        },
+        "options": [
+          {
+            "label": "Peter",
+            "value": "peter"
+          },
+          {
+            "label": "Reid",
+            "value": "reid"
+          },
+          {
+            "label": "Shane",
+            "value": "shane"
+          }
+        ]
+      },
+      {
         "type": "Radio",
         "label": "Style",
         "name": "layout",
