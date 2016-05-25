@@ -12,9 +12,11 @@
     "npm": "3.8.6"
   },
   "scripts": {
-    "start": "NODE_ENV=development node server.js",
+    "start": "npm prune && npm install && npm run dev",
+    "bundle": "NODE_ENV=production webpack -p",
+    "dev": "NODE_ENV=development node server.js",
     "lint": "eslint ./ui/src || exit 0",
-    "dist": "NODE_ENV=production webpack -p",
+    "dist": "npm prune && npm install && npm run lint && npm run test && npm run bundle",
     "test": "node_modules/.bin/karma start karma.config.js",
     "test:dev": "npm run test -- --watch"
   },
@@ -27,7 +29,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "react-select": "^1.0.0-beta13",
+    "react-select-plus": "^1.0.0-beta13",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
