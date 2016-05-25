@@ -7,6 +7,7 @@ import Radio from './radio';
 import HTML from './html';
 import TextArea from './textarea';
 import Link from './link';
+import Checkbox from './checkbox';
 import ImageSelect from './image-select';
 import Select from './select';
 
@@ -20,6 +21,7 @@ export default {
 	TextArea,
 	HTML,
 	Link,
+	Checkbox,
 	ImageSelect,
 	Select,
 };
