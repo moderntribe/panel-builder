@@ -1,32 +1,32 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import classNames from 'classnames';
+import ReactSelect from 'react-select';
 import styles from './select.pcss';
 
 class Select extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
+		this.state = {
+			value: this.props.default,
+		};
 	}
 
-	handleChange() {
+	handleChange(data) {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
+		const value = data ? data.value : this.props.default;
+		this.setState({ value });
 	}
 
 	render() {
-		const Options = _.map(this.props.options, (option) =>
-			<option
-				value={option.value}
-				key={_.uniqueId('select-option-id-')}>
-				{option.label}
-			</option>
-		);
 		return (
 			<div className={styles.panel}>
 				<label className={styles.label}>{this.props.label}</label>
-				<select value={this.props.default} name={this.props.name} onChange={this.handleChange}>
-					{Options}
-				</select>
+				<ReactSelect
+					name={this.props.name}
+					value={this.state.value}
+					options={this.props.options}
+					onChange={this.handleChange}
+				/>
 				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);

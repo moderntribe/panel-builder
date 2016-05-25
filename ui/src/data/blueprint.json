@@ -25,6 +25,14 @@
         "default": ""
       },
       {
+        "type": "ImageGallery",
+        "label": "Image Gallery",
+        "name": "gallery",
+        "description": "Gallery description goes here",
+        "strings": [],
+        "default": ""
+      },
+      {
         "type": "Hidden",
         "label": "Some Label",
         "name": "secret",
@@ -51,6 +59,30 @@
         "description": "URL to a cute cate video on YouTube",
         "strings": [],
         "default": ""
+      },
+      {
+        "type": "Checkbox",
+        "label": "Partner",
+        "name": "partner",
+        "description": "Who is the best karaoke singer at Modern Tribe?",
+        "strings": [],
+        "default": {
+          "reid": 1
+        },
+        "options": [
+          {
+            "label": "Peter",
+            "value": "peter"
+          },
+          {
+            "label": "Reid",
+            "value": "reid"
+          },
+          {
+            "label": "Shane",
+            "value": "shane"
+          }
+        ]
       },
       {
         "type": "Radio",
@@ -142,6 +174,28 @@
         "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
         "strings": [],
         "default": ""
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "slide_test-0000"
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Regular Textarea",
+        "name": "content",
+        "description": "This is the field of easy.",
+        "strings": [],
+        "default": "",
+        "richtext": false,
+        "media_buttons": false,
+        "editor_settings_reference": ""
       }
     ]
   }
