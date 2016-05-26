@@ -53,6 +53,30 @@
         }
       },
       {
+        "type": "PostQuacker",
+        "label": "Quacker",
+        "name": "quack",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Manual",
+          "tabs.selection": "Selection",
+          "button.remove": "Remove",
+          "button.select": "Select Files"
+        },
+        "default": {
+          "type": "selection",
+          "post_id": 0,
+          "title": "",
+          "content": "",
+          "image": 0,
+          "link": {
+            "url": "",
+            "target": "",
+            "label": ""
+          }
+        }
+      },
+      {
         "type": "Checkbox",
         "label": "Partner",
         "name": "partner",
