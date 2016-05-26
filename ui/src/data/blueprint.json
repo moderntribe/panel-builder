@@ -188,13 +188,13 @@
         "editor_settings_reference": ""
       },
       {
-        "type": "Post_List2",
+        "type": "Post_List",
         "label": "A Post List field",
         "name": "posts",
         "description": "",
         "strings": {
-          "tabs.manual": "Select\/Create",
-          "tabs.dynamic": "Query",
+          "tabs.manual": "Manuel",
+          "tabs.dynamic": "Dynamic",
           "button.select_post": "Select a post",
           "button.create_content": "Create content",
           "button.remove_post": "Remove this post",

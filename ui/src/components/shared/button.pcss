@@ -1,18 +1,57 @@
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
 
-.primary{
-	composes: reset from "../../shared/buttons.pcss";
-	composes: primary from "../../shared/buttons.pcss";
+.reset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	background: transparent;
+	cursor: pointer;
 }
 
-.secondary{
-	composes: reset from "../../shared/buttons.pcss";
-	composes: secondary from "../../shared/buttons.pcss";
+.primary {
+	composes: reset;
+	background-color: var(--button-primary-bg-color);
+	border: 1px solid var(--button-primary-border-color);
+	color: var(--button-primary-text-color);
+	transition: var(--transition-button-primary);
+	&:hover,
+	&:focus {
+		background-color: var(--button-primary-bg-hover-color);
+		border-color: var(--button-primary-border-hover-color);
+		color: var(--button-primary-text-hover-color);
+	}
 }
 
-.full{
-	composes: full from "../../shared/buttons.pcss";
+.secondary {
+	composes: reset;
+	background-color: var(--button-secondary-bg-color);
+	color: var(--button-secondary-text-color);
+	transition: var(--transition-button-primary);
+	&:hover,
+	&:focus {
+		background-color: var(--button-secondary-bg-hover-color);
+		color: var(--button-secondary-text-hover-color);
+	}
+	&:focus {
+		background-color: var(--button-secondary-bg-focus-color);
+	}
 }
 
-.inline{
-	composes: inline from "../../shared/buttons.pcss";
+.full {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.inline {
+	display: inline-block;
+	width: auto;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: 600;
 }

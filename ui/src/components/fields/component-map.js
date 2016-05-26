@@ -10,7 +10,7 @@ import Link from './link';
 import Checkbox from './checkbox';
 import ImageSelect from './image-select';
 import Select from './select';
-//import PostList from './post-list';
+import PostList from './post-list';
 
 export default {
 	Text,
@@ -25,5 +25,5 @@ export default {
 	Checkbox,
 	ImageSelect,
 	Select,
-	Post_List: '',
+	Post_List: PostList,
 };
