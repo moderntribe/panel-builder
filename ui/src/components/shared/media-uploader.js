@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
+import Button from './button';
+
 import styles from './media-uploader.pcss';
 
 /**
@@ -16,7 +18,7 @@ const MediaUploader = (props) => {
 	switch (props.fileType) {
 	case 'image':
 		Preview = (
-			<img onClick={props.handleAddMedia} src={props.file} role="presentation"/>
+			<img onClick={props.handleAddMedia} src={props.file} role="presentation" />
 		);
 		break;
 	default:
@@ -40,25 +42,19 @@ const MediaUploader = (props) => {
 			<div className={currentClasses}>
 				{Preview}
 				<p className={styles.removeButtonContainer}>
-					<button
-						type="button"
-						className="button-secondary"
-						onClick={props.handleRemoveMedia}
-					>
-						{`${props.strings['button.remove']} ${props.label}`}
-					</button>
+					<Button
+						text={`${props.strings['button.remove']} ${props.label}`}
+						primary={false}
+						handleClick={props.handleRemoveMedia}
+					/>
 				</p>
 			</div>
 			<div className={uploaderClasses}>
-				<button
-					type="button"
-					className="button attachment_helper_library_button"
-					title={props.strings['button.select']}
-					data-size={props.size}
-					onClick={props.handleAddMedia}
-				>
-					<span>{props.strings['button.select']}</span>
-				</button>
+				<Button
+					text={props.strings['button.select']}
+					classes="attachment_helper_library_button"
+					handleClick={props.handleAddMedia}
+				/>
 			</div>
 		</div>
 	);
