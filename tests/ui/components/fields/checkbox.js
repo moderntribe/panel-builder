@@ -5,30 +5,34 @@ import Checkbox from 'components/fields/checkbox';
 // test data
 const OPTIONS1 = [
 	{
-		"label": "Standard",
-		"value": "standard"
+		label: 'Standard',
+		value: 'standard',
 	},
 	{
-		"label": "Cards",
-		"value": "cards"
+		label: 'Cards',
+		value: 'cards',
 	},
 	{
-		"label": "Full",
-		"value": "full"
-	}
-]
+		label: 'Full',
+		value: 'full',
+	},
+];
 const OPTIONS2 = [
 	{
-		"label": "Orange",
-		"value": "1"
+		label: 'Orange',
+		value: '1',
 	},
 	{
-		"label": "Raspberry",
-		"value": "2"
-	}
-]
-const DEFAULT1 = { 'cards' : 1 };
-const DEFAULT2 = { 'full' : 1 };
+		label: 'Raspberry',
+		value: '2',
+	},
+];
+const DEFAULT1 = {
+	cards: 1,
+};
+const DEFAULT2 = {
+	full: 1,
+};
 
 describe('Checkbox field', () => {
 
@@ -80,8 +84,8 @@ describe('Checkbox field', () => {
 		const wrapper = mount(<Checkbox description="This is a test description" name="layout" label="Some test label" options={OPTIONS1} default={DEFAULT1} />);
 		expect(wrapper.find('ul').find('li')).to.have.length(3);
 		expect(wrapper.find('ul li').first().find('input[type="checkbox"]')).to.have.length(1);
-		expect(wrapper.find('ul li').first().find('input[type="checkbox"]').props().value).to.equal('standard')
-		expect(wrapper.find('ul li').first().find('label').text()).to.eql("Standard");
+		expect(wrapper.find('ul li').first().find('input[type="checkbox"]').props().value).to.equal('1');
+		expect(wrapper.find('ul li').first().find('label').text()).to.eql('Standard');
 	});
 
 });

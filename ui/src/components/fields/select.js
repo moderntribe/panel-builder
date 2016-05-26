@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactSelect from 'react-select';
+import ReactSelect from 'react-select-plus';
 import styles from './select.pcss';
 
 class Select extends Component {

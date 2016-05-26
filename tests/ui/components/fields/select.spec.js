@@ -5,29 +5,28 @@ import Select from 'components/fields/select';
 // test data
 const OPTIONS1 = [
 	{
-		"label": "Standard",
-		"value": "standard"
+		label: 'Standard',
+		value: 'standard',
 	},
 	{
-		"label": "Cards",
-		"value": "cards"
+		label: 'Cards',
+		value: 'cards',
 	},
 	{
-		"label": "Full",
-		"value": "full"
-	}
-]
+		label: 'Full',
+		value: 'full',
+	},
+];
 const OPTIONS2 = [
 	{
-		"label": "Orange",
-		"value": "1"
+		label: 'Orange',
+		value: '1',
 	},
 	{
-		"label": "Raspberry",
-		"value": "2"
-	}
-]
-
+		label: 'Raspberry',
+		value: '2',
+	},
+];
 
 describe('Select field', () => {
 
@@ -74,13 +73,5 @@ describe('Select field', () => {
 		expect(wrapper.props().options).to.equal(OPTIONS2);
 
 	});
-
-	it('allows us to properly formatted markup', () => {
-		const wrapper = mount(<Select description="This is a test description" label="Some test label" options={OPTIONS1} name="layout" default="cards" />);
-		expect(wrapper.find('option')).to.have.length(3);
-		expect(wrapper.find('option').first().props().value).to.equal('standard')
-		expect(wrapper.find('option').first().text()).to.eql("Standard");
-	});
-
-
+	
 });
