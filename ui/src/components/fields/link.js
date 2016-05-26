@@ -98,7 +98,6 @@ Link.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	target: PropTypes.string,
 	strings: PropTypes.array,
 	default: React.PropTypes.object,
 };
@@ -107,7 +106,6 @@ Link.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	target: '',
 	strings: [],
 	default: {},
 };
