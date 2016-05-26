@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import MediaUploader from '../shared/media-uploader';
 
 import { wpMedia } from '../../globals/wp';
 
@@ -21,36 +21,6 @@ class Image extends Component {
 
 		this.handleAddMedia = this.handleAddMedia.bind(this);
 		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
-	}
-
-	/**
-	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
-	 *
-	 * @method getElementClasses
-	 */
-
-	getElementClasses() {
-		const container = classNames({ [styles.uploaderContainer]: true });
-		const label = classNames({ [styles.panelInputLabel]: true });
-		const description = classNames({ [styles.panelInputDescription]: true });
-		const current = classNames({
-			'current-image': true,
-			[styles.currentOpen]: this.state.image.length,
-			[styles.currentUploadedImage]: true,
-		});
-		const uploader = classNames({
-			'image-uploader': true,
-			[styles.uploaderOpen]: !this.state.image.length,
-			[styles.uploaderSection]: true,
-		});
-
-		return {
-			container,
-			label,
-			current,
-			uploader,
-			description,
-		};
 	}
 
 	/**
@@ -101,36 +71,18 @@ class Image extends Component {
 	 */
 
 	render() {
-		const classes = this.getElementClasses();
-
 		return (
-			<div className={classes.container}>
-				<label className={classes.label}>{this.props.label}</label>
-				<div className={classes.current}>
-					<img onClick={this.handleAddMedia} src={this.state.image} role="presentation" />
-					<div className="wp-caption" onClick={this.handleAddMedia}></div>
-					<p className={styles.removeButtonContainer}>
-						<button
-							type="button"
-							className="button-secondary remove-image"
-							onClick={this.handleRemoveMedia}
-						>
-							{`${this.props.strings['button.remove']} ${this.props.label}`}
-						</button>
-					</p>
-				</div>
-				<div className={classes.uploader}>
-					<button
-						type="button"
-						className="button attachment_helper_library_button"
-						title={this.props.strings['button.select']}
-						data-size={this.props.size}
-						onClick={this.handleAddMedia}
-					>
-						<span>{this.props.strings['button.select']}</span>
-					</button>
-				</div>
-				<p className={classes.description}>{this.props.description}</p>
+			<div className={styles.container}>
+				<label className={styles.label}>{this.props.label}</label>
+				<MediaUploader
+					label={this.props.label}
+					size={this.props.size}
+					file={this.state.image}
+					strings={this.props.strings}
+					handleAddMedia={this.handleAddMedia}
+					handleRemoveMedia={this.handleRemoveMedia}
+				/>
+				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}

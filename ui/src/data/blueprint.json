@@ -152,9 +152,7 @@
         "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
         "strings": {
           "button.remove": "Remove",
-          "button.select": "Select Files",
-          "drop.info": "Drop files here",
-          "drop.or": "or"
+          "button.select": "Select Files"
         },
         "default": "",
         "size": "large"
@@ -188,6 +186,71 @@
         "richtext": false,
         "media_buttons": false,
         "editor_settings_reference": ""
+      },
+      {
+        "type": "Post_List2",
+        "label": "A Post List field",
+        "name": "posts",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Select\/Create",
+          "tabs.dynamic": "Query",
+          "button.select_post": "Select a post",
+          "button.create_content": "Create content",
+          "button.remove_post": "Remove this post",
+          "label.content_type": "Content Type",
+          "label.choose_post": "Choose a Post",
+          "label.max_results": "Max Results",
+          "label.select_post_type": "Select Post Type",
+          "label.select_post_types": "Select Post Types",
+          "label.add_a_filter": "Add a Filter",
+          "label.taxonomy": "Taxonomy",
+          "label.relationship": "Relationship",
+          "label.date": "Date",
+          "label.title": "Title",
+          "label.content": "Content",
+          "label.link": "Link: http:\/\/example.com\/",
+          "label.thumbnail": "Thumbnail"
+        },
+        "default": {
+          "type": "manual",
+          "posts": [],
+          "filters": [],
+          "max": 0
+        },
+        "min": 2,
+        "max": 12,
+        "suggested": 6,
+        "show_max_control": true,
+        "post_type": [
+          {
+            "name": "post",
+            "label": "Posts"
+          }
+        ],
+        "filters": {
+          "taxonomy": [
+            {
+              "name": "post_tag",
+              "label": "Tags",
+              "post_type": [
+                "post"
+              ]
+            }
+          ],
+          "p2p": [],
+          "misc": [
+            {
+              "name": "date",
+              "label": "Date",
+              "post_type": [
+                "post",
+                "page",
+                "attachment"
+              ]
+            }
+          ]
+        }
       }
     ]
   }

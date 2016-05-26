@@ -1,28 +1,14 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 
-.panelInputLabel {
+.label {
 	composes: inputLabel from "../../shared/fields.pcss";
 }
 
-.currentUploadedImage{
-	display:none;
-	&.currentOpen{
-		display:block;
-	}
-}
-
-.uploaderSection{
-	display:none;
-	&.uploaderOpen{
-		display:block;
-	}
-}
-
-.removeButtonContainer{
+.container{
 	margin:20px 0;
 }
 
-.panelInputDescription {
+.description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
