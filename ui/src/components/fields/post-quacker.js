@@ -54,6 +54,9 @@ class PostQuacker extends Component {
 			image: '',
 			title: '',
 			content: '',
+			link_url: '',
+			link_label: '',
+			link_target: '_blank',
 		};
 
 		this.editor = null;
@@ -252,7 +255,7 @@ class PostQuacker extends Component {
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<LinkFieldset label="Optional: Enter custom URL and target" />
+					<LinkFieldset label="Optional: Enter custom URL and target" value_target={this.state.link_target} value_url={this.state.link_url} value_label={this.state.link_label} />
 				</div>
 			</div>
 		);
