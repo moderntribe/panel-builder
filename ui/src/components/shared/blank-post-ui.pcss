@@ -1,114 +1,109 @@
 @import '../../shared/colors.pcss';
 
 .container{
-	position:relative;
-	display: block;
+	position:absolute;
 	top:0;
-	padding:10px 10px 15px;
 	left:0;
 	width:100%;
 	height:100%;
-	z-index:1;
-	u{
-		display: block;
-		width:calc(70% - 74px);
-		height:10px;
-		background:var(--panel-post-bg-color);
-		margin-bottom:8px;
-	}
 	b{
-		display: block;
 		width:65px;
 		height:65px;
-		float: right;
-		position:relative;
+		right:10px;
+		top:10px;
+		position:absolute;
 		background:var(--panel-post-bg-color);
 	}
 	i{
-		display: block;
 		width:calc(100% - 75px);
-		position:relative;
-		margin-bottom:5px;
-		height:5px;
-
+		left:10px;
+		position:absolute;
 		&:before,
 		&:after{
 			display: block;
 			content: '';
-			position:relative;
+			position:absolute;
 			height:5px;
 			width:100%;
 			background:var(--panel-post-bg-color);
 		}
 		&:before{
-			margin-bottom:5px;
+			top:-5px;
 		}
 		&:after{
-			margin-bottom:5px;
+			top:5px;
 		}
 	}
-	i:nth-of-type(1){
+	i:first-child{
+		top:15px;
 		&:before{
 			width:89%;
 		}
 		&:after{
-			width:50%;
+			width:80%;
 		}
 	}
-	i:nth-of-type(2){
+	i:nth-child(2){
+		top:35px;
 		&:before{
 			width:90%;
 		}
 		&:after{
-			width:75%;
+			width:95%;
 		}
 	}
-	i:nth-of-type(3){
+	i:nth-child(3){
+		top:65px;
 		&:before{
+			width:94%;
+		}
+		&:after{
 			width:84%;
 		}
-		&:after{
-			width:64%;
-		}
 	}
-	i:nth-of-type(4){
+	i:nth-child(4){
+		top:85px;
 		&:before{
 			width:95%;
 		}
 		&:after{
-			width:69%;
+			width:89%;
 		}
 	}
-	i:nth-of-type(5){
+	i:nth-child(5){
+		top:105px;
 		&:before{
-			width:77%;
+			width:87%;
 		}
 		&:after{
-			width:95%;
+			width:25%;
 		}
 	}
-	i:nth-of-type(6){
+	i:nth-child(6){
+		top:135px;
 		&:before{
 			width:92%;
 		}
 		&:after{
-			width:66%;
+			width:86%;
 		}
 	}
-	i:nth-of-type(7){
+	i:nth-child(7){
+		top:155px;
 		&:before{
-			width:84%;
+			width:94%;
 		}
 		&:after{
 			width:75%;
 		}
 	}
-	i:nth-of-type(8){
-		 &:before{
-			 width:87%;
-		 }
-		 &:after{
-			 width:55%;
-		 }
+	i:nth-child(8){
+		top:175px;
+		&:before{
+			width:97%;
+		}
+		&:after{
+			width:55%;
+		}
 	}
 }
