@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import ReactSelect from 'react-select-plus';
 
 import MediaUploader from '../shared/media-uploader';
+import PostListAddManual from './partials/post-list-add-manual';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 
@@ -14,6 +16,8 @@ class PostList extends Component {
 			type: this.props.default.type,
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.addManualPost = this.addManualPost.bind(this);
+		this.addSelectPost = this.addSelectPost.bind(this);
 		this.switchTabs = this.switchTabs.bind(this);
 	}
 
@@ -55,6 +59,14 @@ class PostList extends Component {
 		);
 	}
 
+	addSelectPost() {
+		// add post select
+	}
+
+	addManualPost() {
+		// add manual post
+	}
+
 	getManualTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -66,6 +78,11 @@ class PostList extends Component {
 				<Notification
 					text="This panel requires 2 more items"
 					type="warn"
+				/>
+				<PostListAddManual
+					handleSelectClick={this.addSelectPost}
+					handleManualClick={this.addManualPost}
+					strings={this.props.strings}
 				/>
 			</div>
 		);

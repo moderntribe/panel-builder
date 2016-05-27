@@ -8,6 +8,9 @@
 .panel-input .Select {
     position: relative;
 }
+.panel-input * {
+    box-sizing: border-box;
+}
 .panel-input .Select,
 .panel-input .Select div,
 .panel-input .Select input,
