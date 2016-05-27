@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
 import styles from './link-fieldset.pcss';
@@ -14,61 +14,66 @@ const TARGET_OPTIONS = [
 	},
 ];
 
-class LinkFieldset extends Component {
+/**
+ * Stateless component for links
+ *
+ * @param props
+ * @returns {XML}
+ * @constructor
+ */
 
-	render() {
-		// styles
-		const targetClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-target': true,
-		});
-		const urlClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-url': true,
-		});
-		const labelClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-label': true,
-		});
-		const legendClasses = classNames({
-			[styles.label]: true,
-			'legend-label': true,
-		});
+const LinkFieldset = (props) => {
+	// styles
+	const targetClasses = classNames({
+		[styles.inputGeneric]: true,
+		'pllink-target': true,
+	});
+	const urlClasses = classNames({
+		[styles.inputGeneric]: true,
+		'pllink-url': true,
+	});
+	const labelClasses = classNames({
+		[styles.inputGeneric]: true,
+		'pllink-label': true,
+	});
+	const legendClasses = classNames({
+		[styles.label]: true,
+		'legend-label': true,
+	});
 
-		return (
-			<fieldset className={styles.fieldset}>
-				<legend className={legendClasses}>{this.props.label}</legend>
-				<div className={urlClasses}>
-					<input
-						type="text"
-						name="url"
-						value={this.props.value_url}
-						placeholder="URL"
-						onChange={this.props.handleURLChange}
-					/>
-				</div>
-				<div className={labelClasses}>
-					<input
-						type="text"
-						name="label"
-						value={this.props.value_label}
-						placeholder="Label"
-						onChange={this.props.handleLabelChange}
-					/>
-				</div>
-				<div className={targetClasses}>
-					<ReactSelect
-						name="target"
-						value={this.props.value_target}
-						options={TARGET_OPTIONS}
-						clearable={false}
-						onChange={this.props.handleTargetChange}
-					/>
-				</div>
-				<p className={styles.description}>{this.props.description}</p>
-			</fieldset>
-		);
-	}
+	return (
+		<fieldset className={styles.fieldset}>
+			<legend className={legendClasses}>{props.label}</legend>
+			<div className={urlClasses}>
+				<input
+					type="text"
+					name="url"
+					value={props.value_url}
+					placeholder="URL"
+					onChange={props.handleURLChange}
+				/>
+			</div>
+			<div className={labelClasses}>
+				<input
+					type="text"
+					name="label"
+					value={props.value_label}
+					placeholder="Label"
+					onChange={props.handleLabelChange}
+				/>
+			</div>
+			<div className={targetClasses}>
+				<ReactSelect
+					name="target"
+					value={props.value_target}
+					options={TARGET_OPTIONS}
+					clearable={false}
+					onChange={props.handleTargetChange}
+				/>
+			</div>
+			<p className={styles.description}>{props.description}</p>
+		</fieldset>
+	);
 }
 
 LinkFieldset.propTypes = {
