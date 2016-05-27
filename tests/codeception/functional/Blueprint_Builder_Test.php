@@ -244,6 +244,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 	 * testing.
 	 */
 	public function test_build_json() {
+		$this->factory()->tag->create();
+		$this->factory()->tag->create();
 		$registry = new TypeRegistry();
 		$collection = new PanelCollection();
 

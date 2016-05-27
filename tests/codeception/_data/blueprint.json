@@ -151,30 +151,42 @@
                 "show_max_control": true,
                 "post_type": [
                     {
-                        "name": "post",
+                        "value": "post",
                         "label": "Posts"
                     }
                 ],
-                "filters": {
-                    "taxonomy": [
+                "filters": [
+                    {
+                        "label": "Taxonomy",
+                        "options": [
+                            {
+                                "value": "post_tag",
+                                "label": "Tags",
+                                "post_type": [
+                                    "post"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "value": "date",
+                        "label": "Date",
+                        "post_type": [
+                            "post",
+                            "page",
+                            "attachment"
+                        ]
+                    }
+                ],
+                "taxonomies": {
+                    "post_tag": [
                         {
-                            "name": "post_tag",
-                            "label": "Tags",
-                            "post_type": [
-                                "post"
-                            ]
-                        }
-                    ],
-                    "p2p": [],
-                    "misc": [
+                            "value": 2,
+                            "label": "Term 14"
+                        },
                         {
-                            "name": "date",
-                            "label": "Date",
-                            "post_type": [
-                                "post",
-                                "page",
-                                "attachment"
-                            ]
+                            "value": 3,
+                            "label": "Term 15"
                         }
                     ]
                 }
@@ -196,7 +208,13 @@
                         "target": "",
                         "label": ""
                     }
-                }
+                },
+                "post_type": [
+                    {
+                        "value": "post",
+                        "label": "Posts"
+                    }
+                ]
             },
             {
                 "type": "Select",
@@ -1521,30 +1539,42 @@
                 "show_max_control": true,
                 "post_type": [
                     {
-                        "name": "post",
+                        "value": "post",
                         "label": "Posts"
                     }
                 ],
-                "filters": {
-                    "taxonomy": [
+                "filters": [
+                    {
+                        "label": "Taxonomy",
+                        "options": [
+                            {
+                                "value": "post_tag",
+                                "label": "Tags",
+                                "post_type": [
+                                    "post"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "value": "date",
+                        "label": "Date",
+                        "post_type": [
+                            "post",
+                            "page",
+                            "attachment"
+                        ]
+                    }
+                ],
+                "taxonomies": {
+                    "post_tag": [
                         {
-                            "name": "post_tag",
-                            "label": "Tags",
-                            "post_type": [
-                                "post"
-                            ]
-                        }
-                    ],
-                    "p2p": [],
-                    "misc": [
+                            "value": 2,
+                            "label": "Term 14"
+                        },
                         {
-                            "name": "date",
-                            "label": "Date",
-                            "post_type": [
-                                "post",
-                                "page",
-                                "attachment"
-                            ]
+                            "value": 3,
+                            "label": "Term 15"
                         }
                     ]
                 }

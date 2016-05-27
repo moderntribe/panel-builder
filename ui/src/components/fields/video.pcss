@@ -1,0 +1,23 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	margin-bottom: 1.5em;
+	clear: both;
+}
+
+.inputContainer {
+	input {
+		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+		width: 100%;
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+

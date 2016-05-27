@@ -1,6 +1,7 @@
 import Text from './text';
 import Title from './title';
 import Image from './image';
+import Video from './video';
 import ImageGallery from './image-gallery';
 import PostQuacker from './post-quacker';
 import Hidden from './hidden';
@@ -21,6 +22,7 @@ export default {
 	PostQuacker,
 	Hidden,
 	Radio,
+	Video,
 	TextArea,
 	HTML,
 	Link,
