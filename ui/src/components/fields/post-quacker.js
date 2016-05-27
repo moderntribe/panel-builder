@@ -266,6 +266,10 @@ class PostQuacker extends Component {
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'selection',
 		});
+		const typeSelectClasses = classNames({
+			'post-type-select': true,
+			'term-select': true,
+		});
 
 		return (
 			<div className={tabClasses}>
@@ -274,6 +278,7 @@ class PostQuacker extends Component {
 					<ReactSelect
 						name={`${this.props.name}[filters][post_type][selection][]`}
 						value=""
+						className={typeSelectClasses}
 						placeholder="Select Post Types"
 						options={POST_TYPES}
 						onChange={this.handlePostTypeChange}
@@ -285,6 +290,7 @@ class PostQuacker extends Component {
 					<ReactSelect
 						disabled={true}
 						name=""
+						className={typeSelectClasses}
 						placeholder="Choose a Post"
 						value=""
 						options={POSTS_SAMPLE}
@@ -302,7 +308,7 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<div className={styles.blankPostContainer}>
-						<BlankPostUi />
+						<div><BlankPostUi /></div>
 					</div>
 				</div>
 			</div>
