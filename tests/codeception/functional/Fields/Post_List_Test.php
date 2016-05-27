@@ -9,6 +9,9 @@ class Post_List_Test extends WPTestCase {
 		$label = __CLASS__ . '::' . __FUNCTION__;
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
+
+		$tag = $this->factory()->tag->create_and_get();
+
 		$field = new Post_List( [
 			'label'            => $label,
 			'name'             => $name,
@@ -57,24 +60,32 @@ class Post_List_Test extends WPTestCase {
 			'show_max_control' => true,
 			'post_type'        => [
 				[
-					'name'  => 'post',
+					'value' => 'post',
 					'label' => 'Posts',
 				],
 			],
-			'filters'           => [
-				'taxonomy' => [
-					[
-						'name'      => 'post_tag',
-						'label'     => 'Tags',
-						'post_type' => [ 'post' ],
+			'filters'          => [
+				[
+					'label'   => 'Taxonomy',
+					'options' => [
+						[
+							'value'     => 'post_tag',
+							'label'     => 'Tags',
+							'post_type' => [ 'post' ],
+						],
 					],
 				],
-				'p2p'      => [ ],
-				'misc'     => [
+				[
+					'value'     => 'date',
+					'label'     => 'Date',
+					'post_type' => [ 'post', 'page', 'attachment' ],
+				],
+			],
+			'taxonomies'       => [
+				'post_tag' => [
 					[
-						'name'      => 'date',
-						'label'     => 'Date',
-						'post_type' => [ 'post', 'page', 'attachment' ],
+						'value' => $tag->term_id,
+						'label' => $tag->name,
 					],
 				],
 			],

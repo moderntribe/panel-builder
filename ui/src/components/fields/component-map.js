@@ -1,6 +1,7 @@
 import Text from './text';
 import Title from './title';
 import Image from './image';
+import Video from './video';
 import ImageGallery from './image-gallery';
 import Hidden from './hidden';
 import Radio from './radio';
@@ -19,6 +20,7 @@ export default {
 	ImageGallery,
 	Hidden,
 	Radio,
+	Video,
 	TextArea,
 	HTML,
 	Link,

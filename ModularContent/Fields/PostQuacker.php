@@ -189,4 +189,19 @@ class PostQuacker extends Field {
 		$post_types = apply_filters('panels_query_post_type_options', $post_types, $this );
 		return array_filter( $post_types );
 	}
+
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint[ 'post_type' ] = [ ];
+		foreach ( $this->post_type_options() as $pto ) {
+			if ( !is_object( $pto ) ) {
+				$pto = get_post_type_object( $pto );
+			}
+			$blueprint[ 'post_type' ][] = [
+				'value' => $pto->name,
+				'label' => $pto->label,
+			];
+		}
+		return $blueprint;
+	}
 }
