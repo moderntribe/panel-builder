@@ -1,10 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import { wpMedia } from '../../globals/wp';
+import ReactDOM from 'react-dom';
 
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
+import BlankPostUi from '../shared/blank-post-ui';
+
+import RichtextEditor from '../shared/richtext-editor';
+import * as RichtextEvents from '../../util/dom/tinymce';
+
+import LinkFieldset from '../shared/link-fieldset'
 
 import ReactSelect from 'react-select-plus';
 
@@ -44,19 +51,79 @@ class PostQuacker extends Component {
 		super(props);
 		this.state = {
 			type: this.props.default.type,
-			image:'',
+			image: '',
+			title: '',
+			content: '',
 		};
-		this.handleChange = this.handleChange.bind(this);
+
+		this.editor = null;
+		this.fid = _.uniqueId('quacker-field-textfield-');
+
+		// handlers
 		this.switchTabs = this.switchTabs.bind(this);
+		this.handleTextChange = this.handleTextChange.bind(this);
+
+		// selection
+		this.handleAddToModuleClick = this.handleAddToModuleClick.bind(this);
 		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
 		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
 		this.handlePostSelectChange = this.handlePostSelectChange.bind(this);
 
 		// manual
-		this.handleTitleChange = this.handleTitleChange.bind(this);
 		this.handleAddMedia = this.handleAddMedia.bind(this);
 		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
 
+	}
+
+	componentDidMount() {
+		this.cacheDom();
+		this.initTinyMCE();
+	}
+
+	componentWillUnmount() {
+		this.cleanUp();
+	}
+
+	/**
+	 * Kick off the TinyMCE if called
+	 *
+	 * @method initTinyMCE
+	 */
+
+	initTinyMCE() {
+		RichtextEvents.init({
+			editor: this.editor,
+			fid: this.fid,
+			editor_settings: 'slide_test-0000',
+		});
+	}
+
+	/**
+	 * Cache the dom elements this component works on.
+	 *
+	 * @method cacheDom
+	 */
+
+	cacheDom() {
+		this.editor = ReactDOM.findDOMNode(this.refs[this.fid]);
+	}
+
+	/**
+	 * Remove events and destroy tinymce instance and settings on component unmount.
+	 *
+	 * @method cleanUp
+	 */
+
+	cleanUp() {
+
+		RichtextEvents.destroy({
+			editor: this.editor,
+			fid: this.fid,
+		});
+	}
+
+	handleAddToModuleClick() {
+		// add the selected post to this field
 	}
 
 	handleAddMedia() {
@@ -95,8 +162,10 @@ class PostQuacker extends Component {
 		this.setState({ image: '' });
 	}
 
-	handleChange() {
+	handleTextChange(event) {
+		console.log("handleTextChange",event)
 		// code to connect to actions that execute on redux store
+		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
 	}
 
 	handlePostTypeSelectChange() {
@@ -107,13 +176,20 @@ class PostQuacker extends Component {
 		// code to connect to actions that execute on redux store
 	}
 
-	handleTitleChange() {
-		// code to connect to actions that execute on redux store
-	}
-
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
 		this.setState({ type });
+	}
+
+	getEditorTemplate() {
+		return (<div
+			id={`wp-${this.fid}-wrap`}
+			ref={this.fid}
+			className="wp-core-ui wp-editor-wrap tmce-active"
+		>
+			<RichtextEditor fid={this.fid} name="content" buttons={this.props.media_buttons} value={this.state.content} onChange={this.handleTextChange} />
+		</div>);
+
 	}
 
 	getTabButtons() {
@@ -151,11 +227,13 @@ class PostQuacker extends Component {
 			[styles.active]: this.state.type === 'manual',
 		});
 
+		const Editor = this.getEditorTemplate();
+
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Title</label>
-					<input type="text" name={`${this.props.name}.title`} value="" size="40" onChange={this.handleChange} />
+					<input type="text" name="title" value={this.state.title} size="40" onChange={this.handleTextChange} />
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Image</label>
@@ -167,8 +245,15 @@ class PostQuacker extends Component {
 						handleAddMedia={this.handleAddMedia}
 						handleRemoveMedia={this.handleRemoveMedia}
 					/>
-				</div>
 
+				</div>
+				<div className={styles.panelFilterRow}>
+					<label className={styles.tabLabel}>Content</label>
+					{Editor}
+				</div>
+				<div className={styles.panelFilterRow}>
+					<LinkFieldset label="Optional: Enter custom URL and target" />
+				</div>
 			</div>
 		);
 	}
@@ -204,6 +289,19 @@ class PostQuacker extends Component {
 					/>
 				</div>
 
+				<div className={styles.panelFilterRow}>
+					<Button
+						text="Add to Module"
+						primary={false}
+						full={false}
+						handleClick={this.handleAddToModuleClick}
+					/>
+				</div>
+				<div className={styles.panelFilterRow}>
+					<div className={styles.blankPostContainer}>
+						<BlankPostUi />
+					</div>
+				</div>
 			</div>
 		);
 	}

@@ -41,8 +41,15 @@
 	}
 }
 
+.rawTextarea{
+	width:100%;
+	min-height:300px;
+	padding:10px;
+}
+
 .panelFilterRow{
 	margin-bottom:10px;
+	position: relative;
 	img{
 		max-width: 100%;
 		height:auto;
@@ -51,8 +58,19 @@
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
 		width: 100%;
 	}
+	legend{
+		color:grey;
+	}
 }
 
-.description {
+.description{
 	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.blankPostContainer{
+	position: relative;
+	display: block;
+	width: 100%;
+	height:auto;
+	border: var(--border-color-alt) 1px solid;
 }

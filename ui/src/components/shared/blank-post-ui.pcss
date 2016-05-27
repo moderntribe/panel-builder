@@ -1,107 +1,111 @@
 @import '../../shared/colors.pcss';
 
 .container{
-	position:absolute;
+	position:relative;
+	display: block;
 	top:0;
+	padding:10px 10px 15px;
 	left:0;
 	width:100%;
 	height:100%;
 	z-index:1;
+	u{
+		display: block;
+		width:calc(70% - 74px);
+		height:10px;
+		background:var(--panel-post-bg-color);
+		margin-bottom:8px;
+	}
 	b{
+		display: block;
 		width:65px;
 		height:65px;
-		right:10px;
-		top:10px;
-		position:absolute;
+		float: right;
+		position:relative;
 		background:var(--panel-post-bg-color);
 	}
 	i{
+		display: block;
 		width:calc(100% - 75px);
-		left:10px;
-		position:absolute;
+		position:relative;
+		margin-bottom:5px;
+		height:5px;
+
 		&:before,
 		&:after{
 			display: block;
 			content: '';
-			position:absolute;
+			position:relative;
 			height:5px;
 			width:100%;
 			background:var(--panel-post-bg-color);
 		}
 		&:before{
-			top:-5px;
+			margin-bottom:5px;
 		}
 		&:after{
-			top:5px;
+			margin-bottom:5px;
 		}
 	}
-	i:first-child{
-		top:15px;
+	i:nth-of-type(1){
 		&:before{
 			width:89%;
 		}
 		&:after{
-			width:80%;
+			width:50%;
 		}
 	}
-	i:nth-child(2){
-		top:35px;
+	i:nth-of-type(2){
 		&:before{
 			width:90%;
-		}
-		&:after{
-			width:95%;
-		}
-	}
-	i:nth-child(3){
-		top:65px;
-		&:before{
-			width:94%;
-		}
-		&:after{
-			width:84%;
-		}
-	}
-	i:nth-child(4){
-		top:85px;
-		&:before{
-			width:95%;
-		}
-		&:after{
-			width:89%;
-		}
-	}
-	i:nth-child(5){
-		top:105px;
-		&:before{
-			width:87%;
-		}
-		&:after{
-			width:25%;
-		}
-	}
-	i:nth-child(6){
-		top:135px;
-		&:before{
-			width:92%;
-		}
-		&:after{
-			width:86%;
-		}
-	}
-	i:nth-child(7){
-		top:155px;
-		&:before{
-			width:94%;
 		}
 		&:after{
 			width:75%;
 		}
 	}
-	i:nth-child(8){
-		 top:175px;
+	i:nth-of-type(3){
+		&:before{
+			width:84%;
+		}
+		&:after{
+			width:64%;
+		}
+	}
+	i:nth-of-type(4){
+		&:before{
+			width:95%;
+		}
+		&:after{
+			width:69%;
+		}
+	}
+	i:nth-of-type(5){
+		&:before{
+			width:77%;
+		}
+		&:after{
+			width:95%;
+		}
+	}
+	i:nth-of-type(6){
+		&:before{
+			width:92%;
+		}
+		&:after{
+			width:66%;
+		}
+	}
+	i:nth-of-type(7){
+		&:before{
+			width:84%;
+		}
+		&:after{
+			width:75%;
+		}
+	}
+	i:nth-of-type(8){
 		 &:before{
-			 width:97%;
+			 width:87%;
 		 }
 		 &:after{
 			 width:55%;

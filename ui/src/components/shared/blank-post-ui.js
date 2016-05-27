@@ -11,8 +11,8 @@ import styles from './blank-post-ui.pcss';
 
 const BlankPostUi = () => (
 	<div className={styles.container}>
+		<b /><u />
 		<i /><i /><i /><i /><i /><i /><i /><i />
-		<b />
 	</div>
 );
 
