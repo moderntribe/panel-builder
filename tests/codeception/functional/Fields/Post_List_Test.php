@@ -57,25 +57,25 @@ class Post_List_Test extends WPTestCase {
 			'show_max_control' => true,
 			'post_type'        => [
 				[
-					'name'  => 'post',
+					'value' => 'post',
 					'label' => 'Posts',
 				],
 			],
-			'filters'           => [
-				'taxonomy' => [
-					[
-						'name'      => 'post_tag',
-						'label'     => 'Tags',
-						'post_type' => [ 'post' ],
+			'filters'          => [
+				[
+					'label'   => 'Taxonomy',
+					'options' => [
+						[
+							'value'     => 'post_tag',
+							'label'     => 'Tags',
+							'post_type' => [ 'post' ],
+						],
 					],
 				],
-				'p2p'      => [ ],
-				'misc'     => [
-					[
-						'name'      => 'date',
-						'label'     => 'Date',
-						'post_type' => [ 'post', 'page', 'attachment' ],
-					],
+				[
+					'value'     => 'date',
+					'label'     => 'Date',
+					'post_type' => [ 'post', 'page', 'attachment' ],
 				],
 			],
 		];
