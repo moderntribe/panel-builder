@@ -177,7 +177,10 @@
                             "attachment"
                         ]
                     }
-                ]
+                ],
+                "taxonomies": {
+                    "post_tag": []
+                }
             },
             {
                 "type": "PostQuacker",
@@ -1547,7 +1550,10 @@
                             "attachment"
                         ]
                     }
-                ]
+                ],
+                "taxonomies": {
+                    "post_tag": []
+                }
             }
         ],
         "children": {

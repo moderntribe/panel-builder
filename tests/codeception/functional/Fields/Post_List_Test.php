@@ -78,6 +78,9 @@ class Post_List_Test extends WPTestCase {
 					'post_type' => [ 'post', 'page', 'attachment' ],
 				],
 			],
+			'taxonomies'       => [
+				'post_tag' => [ ],
+			],
 		];
 
 		$this->assertEquals( $expected, $blueprint );

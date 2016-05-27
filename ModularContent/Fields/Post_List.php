@@ -623,6 +623,26 @@ class Post_List extends Field {
 			'post_type' => Util::get_post_types_for_date(),
 		];
 
+		$blueprint[ 'taxonomies' ] = [ ];
+		
+		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
+			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
+			$options = [ ];
+			foreach ( $terms as $term ) {
+				$term_name = self::build_hierarchical_term_name( $term );
+				$options[] = [
+					'value' => $term->term_id,
+					'label' => $term_name,
+				];
+			}
+			usort( $options, [ $this, 'sort_by_label' ] );
+			$blueprint[ 'taxonomies' ][ $taxonomy_name ] = $options;
+		}
+
 		return $blueprint;
+	}
+
+	private function sort_by_label( $a, $b ) {
+		return strcasecmp( $a[ 'label' ], $b[ 'label' ] );
 	}
 }
