@@ -179,7 +179,16 @@
                     }
                 ],
                 "taxonomies": {
-                    "post_tag": []
+                    "post_tag": [
+                        {
+                            "value": 2,
+                            "label": "Term 14"
+                        },
+                        {
+                            "value": 3,
+                            "label": "Term 15"
+                        }
+                    ]
                 }
             },
             {
@@ -1558,7 +1567,16 @@
                     }
                 ],
                 "taxonomies": {
-                    "post_tag": []
+                    "post_tag": [
+                        {
+                            "value": 2,
+                            "label": "Term 14"
+                        },
+                        {
+                            "value": 3,
+                            "label": "Term 15"
+                        }
+                    ]
                 }
             }
         ],

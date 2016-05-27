@@ -9,6 +9,9 @@ class Post_List_Test extends WPTestCase {
 		$label = __CLASS__ . '::' . __FUNCTION__;
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
+
+		$tag = $this->factory()->tag->create_and_get();
+
 		$field = new Post_List( [
 			'label'            => $label,
 			'name'             => $name,
@@ -79,7 +82,12 @@ class Post_List_Test extends WPTestCase {
 				],
 			],
 			'taxonomies'       => [
-				'post_tag' => [ ],
+				'post_tag' => [
+					[
+						'value' => $tag->term_id,
+						'label' => $tag->name,
+					],
+				],
 			],
 		];
 
