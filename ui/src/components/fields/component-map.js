@@ -3,6 +3,7 @@ import Title from './title';
 import Image from './image';
 import Video from './video';
 import ImageGallery from './image-gallery';
+import PostQuacker from './post-quacker';
 import Hidden from './hidden';
 import Radio from './radio';
 import HTML from './html';
@@ -18,6 +19,7 @@ export default {
 	Title,
 	Image,
 	ImageGallery,
+	PostQuacker,
 	Hidden,
 	Radio,
 	Video,
