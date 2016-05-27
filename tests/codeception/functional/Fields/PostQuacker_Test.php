@@ -35,6 +35,12 @@ class PostQuacker_Test extends WPTestCase {
 					'label'  => '',
 				],
 			],
+			'post_type'        => [
+				[
+					'value' => 'post',
+					'label' => 'Posts',
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $blueprint );
