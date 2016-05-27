@@ -7,6 +7,7 @@ import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import BlankPostUi from '../shared/blank-post-ui';
+import PostPreview from '../shared/post-preview';
 
 import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
@@ -71,6 +72,7 @@ class PostQuacker extends Component {
 		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
 		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
 		this.handlePostSelectChange = this.handlePostSelectChange.bind(this);
+		this.handleRemovePostClick = this.handleRemovePostClick.bind(this);
 
 		// manual
 		this.handleAddMedia = this.handleAddMedia.bind(this);
@@ -126,6 +128,10 @@ class PostQuacker extends Component {
 	}
 
 	handleAddToModuleClick() {
+		// add the selected post to this field
+	}
+
+	handleRemovePostClick() {
 		// add the selected post to this field
 	}
 
@@ -310,6 +316,9 @@ class PostQuacker extends Component {
 					<div className={styles.blankPostContainer}>
 						<div><BlankPostUi /></div>
 					</div>
+				</div>
+				<div className={styles.panelFilterRow}>
+					<PostPreview title="Some Post Title" excerpt="Some excerpt" thumbnail="http://placekitten.com/200/200" onClick={this.handleRemovePostClick} />
 				</div>
 			</div>
 		);
