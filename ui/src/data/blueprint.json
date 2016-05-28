@@ -139,17 +139,17 @@
         "default": "cards",
         "options": [
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Standard",
             "value": "standard"
           },
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Cards",
             "value": "cards"
           },
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Full",
             "value": "full"
           }
@@ -221,12 +221,12 @@
       },
       {
         "type": "Post_List",
-        "label": "A Post List field",
+        "label": "A Post_List field",
         "name": "posts",
         "description": "",
         "strings": {
-          "tabs.manual": "Manuel",
-          "tabs.dynamic": "Dynamic",
+          "tabs.manual": "Select\/Create",
+          "tabs.dynamic": "Query",
           "button.select_post": "Select a post",
           "button.create_content": "Create content",
           "button.remove_post": "Remove this post",
@@ -256,30 +256,42 @@
         "show_max_control": true,
         "post_type": [
           {
-            "name": "post",
+            "value": "post",
             "label": "Posts"
           }
         ],
-        "filters": {
-          "taxonomy": [
+        "filters": [
+          {
+            "label": "Taxonomy",
+            "options": [
+              {
+                "value": "post_tag",
+                "label": "Tags",
+                "post_type": [
+                  "post"
+                ]
+              }
+            ]
+          },
+          {
+            "value": "date",
+            "label": "Date",
+            "post_type": [
+              "post",
+              "page",
+              "attachment"
+            ]
+          }
+        ],
+        "taxonomies": {
+          "post_tag": [
             {
-              "name": "post_tag",
-              "label": "Tags",
-              "post_type": [
-                "post"
-              ]
-            }
-          ],
-          "p2p": [],
-          "misc": [
+              "value": 2,
+              "label": "Term 14"
+            },
             {
-              "name": "date",
-              "label": "Date",
-              "post_type": [
-                "post",
-                "page",
-                "attachment"
-              ]
+              "value": 3,
+              "label": "Term 15"
             }
           ]
         }

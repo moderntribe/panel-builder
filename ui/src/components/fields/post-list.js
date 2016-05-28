@@ -79,6 +79,10 @@ class PostList extends Component {
 					text="This panel requires 2 more items"
 					type="warn"
 				/>
+				<ReactSelect
+					options={this.props.filters}
+					onChange={this.handleChange}
+				/>
 				<PostListAddManual
 					handleSelectClick={this.addSelectPost}
 					handleManualClick={this.addManualPost}
