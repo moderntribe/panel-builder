@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import autobind from 'autobind-decorator';
 import { wpMedia } from '../../globals/wp';
 import ReactDOM from 'react-dom';
 
@@ -46,6 +47,7 @@ const POSTS_SAMPLE = [
 	},
 ];
 
+@autobind
 class PostQuacker extends Component {
 	constructor(props) {
 		super(props);
@@ -61,21 +63,6 @@ class PostQuacker extends Component {
 
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
-
-		// handlers
-		this.switchTabs = this.switchTabs.bind(this);
-		this.handleTextChange = this.handleTextChange.bind(this);
-
-		// selection
-		this.handleAddToModuleClick = this.handleAddToModuleClick.bind(this);
-		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
-		this.handlePostTypeSelectChange = this.handlePostTypeSelectChange.bind(this);
-		this.handlePostSelectChange = this.handlePostSelectChange.bind(this);
-
-		// manual
-		this.handleAddMedia = this.handleAddMedia.bind(this);
-		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
-
 	}
 
 	componentDidMount() {

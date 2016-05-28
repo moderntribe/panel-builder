@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -22,11 +23,6 @@ class ImageGallery extends Component {
 		this.state = {
 			attachments: [],
 		};
-
-		this.handleMediaButtonClick = this.handleMediaButtonClick.bind(this);
-		this.overrideGalleryInsert = this.overrideGalleryInsert.bind(this);
-		this.handleFrameInsertClick = this.handleFrameInsertClick.bind(this);
-		this.hideGallerySidebar = this.hideGallerySidebar.bind(this);
 	}
 
 	/**
@@ -68,7 +64,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method handleFrameInsertClick
 	 */
-
+	@autobind
 	handleFrameInsertClick() {
 		const models = this.frame.state().get('library');
 		const attachments = models.map((attachment) => {
@@ -98,7 +94,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method overrideGalleryInsert
 	 */
-
+	@autobind
 	overrideGalleryInsert() {
 		this.frame.toolbar.get('view').set({
 			insert: {
@@ -114,7 +110,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method hideGallerySidebar
 	 */
-
+	@autobind
 	hideGallerySidebar() {
 		if (this.frame) {
 			this.frame.content.get('view').sidebar.unset('gallery'); // Hide Gallery Settings in sidebar
@@ -157,7 +153,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method handleMediaButtonClick
 	 */
-
+	@autobind
 	handleMediaButtonClick(event) {
 		this.selectImages();
 		event.preventDefault();

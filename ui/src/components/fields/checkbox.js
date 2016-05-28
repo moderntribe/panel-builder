@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import escape from 'escape-html';
 
 import styles from './checkbox.pcss';
 
 class Checkbox extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
+	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 	}

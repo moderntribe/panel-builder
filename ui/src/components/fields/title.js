@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 
 import styles from './title.pcss';
 
 class Title extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
+	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store
 	}

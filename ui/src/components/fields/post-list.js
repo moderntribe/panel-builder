@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import Sortable from 'react-anything-sortable';
 import _ from 'lodash';
@@ -16,25 +17,18 @@ import { POST_LIST_I18N } from '../../globals/i18n';
 import styles from './post-list.pcss';
 
 class PostList extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			type: this.props.default.type,
+	state = {
+		type: this.props.default.type,
+		manual_post_count: 0,
+		manual_add_count: this.props.min,
+	};
 
-			// todo: hookup to existing post count from data
-			manual_post_count: 0,
-			manual_add_count: this.props.min,
-		};
-		this.handleChange = this.handleChange.bind(this);
-		this.addManualPost = this.addManualPost.bind(this);
-		this.addSelectPost = this.addSelectPost.bind(this);
-		this.switchTabs = this.switchTabs.bind(this);
-	}
-
+	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store
 	}
 
+	@autobind
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
 		this.setState({ type });
@@ -69,10 +63,12 @@ class PostList extends Component {
 		);
 	}
 
+	@autobind
 	addSelectPost() {
 		// add post select
 	}
 
+	@autobind
 	addManualPost() {
 		// add manual post
 	}

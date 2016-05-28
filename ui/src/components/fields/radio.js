@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './radio.pcss';
 
 class Radio extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
+	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 	}

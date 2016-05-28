@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import MediaUploader from '../shared/media-uploader';
 
 import { wpMedia } from '../../globals/wp';
@@ -6,29 +7,16 @@ import { wpMedia } from '../../globals/wp';
 import styles from './image.pcss';
 
 class Image extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs Image
-	 */
-
-	constructor(props) {
-		super(props);
-
-		// todo: move state to redux store
-		this.state = {
-			image: '',
-		};
-
-		this.handleAddMedia = this.handleAddMedia.bind(this);
-		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
-	}
+	state = {
+		image: '',
+	};
 
 	/**
 	 * Handles the media uploader open click. Will be hooked up to redux soon.
 	 *
 	 * @method handleAddMedia
 	 */
-
+	@autobind
 	handleAddMedia() {
 		const frame = wpMedia({
 			multiple: false,
@@ -59,7 +47,7 @@ class Image extends Component {
 	 *
 	 * @method handleRemoveMedia
 	 */
-
+	@autobind
 	handleRemoveMedia() {
 		this.setState({ image: '' });
 	}

@@ -12,6 +12,7 @@ import _ from 'lodash';
 
 import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
+import autobind from 'autobind-decorator';
 
 import styles from './textarea.pcss';
 
@@ -25,7 +26,6 @@ class TextArea extends Component {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
 		this.editor = null;
-		this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -74,6 +74,7 @@ class TextArea extends Component {
 		return Editor;
 	}
 
+	@autobind
 	handleChange(e) {
 		// code to connect to actions that execute on redux store
 		console.log(e.currentTarget.value);

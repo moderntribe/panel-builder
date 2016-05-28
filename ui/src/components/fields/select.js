@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import styles from './select.pcss';
 
 class Select extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-		this.state = {
-			value: this.props.default,
-		};
-	}
-
+	state = {
+		value: this.props.default,
+	};
+	
+	@autobind
 	handleChange(data) {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 		const value = data ? data.value : this.props.default;

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
 
@@ -16,25 +17,19 @@ const TARGET_OPTIONS = [
 ];
 
 class Link extends Component {
-	constructor(props) {
-		super(props);
+	state = {
+		url: this.props.default.url,
+		label: this.props.default.label,
+		target: this.props.default.target.length ? this.props.default.target : '_self',
+	};
 
-		// connect to redux
-		this.state = {
-			url: this.props.default.url,
-			label: this.props.default.label,
-			target: this.props.default.target.length ? this.props.default.target : '_self',
-		};
-
-		this.handleTextChange = this.handleTextChange.bind(this);
-		this.handleSelectChange = this.handleSelectChange.bind(this);
-	}
-
+	@autobind
 	handleTextChange(event) {
 		// code to connect to actions that execute on redux store
 		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
 	}
-
+	
+	@autobind
 	handleSelectChange(data) {
 		// code to connect to actions that execute on redux store
 		const target = data.value.length ? data.value : '_self';

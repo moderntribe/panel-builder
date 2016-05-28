@@ -1,20 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import styles from './video.pcss';
 
 class Video extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs Video
-	 */
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			videoURL: '',
-		};
-		this.handleChange = this.handleChange.bind(this);
-	}
+	state = {
+		videoURL: '',
+	};
 
 	/**
 	 * Handler for when a user types in the video input field
@@ -22,7 +14,7 @@ class Video extends Component {
 	 * @method handleChange
 	 * @param {Object} event.
 	 */
-
+	@autobind
 	handleChange(event) {
 		this.setState({
 			videoURL: event.target.value,

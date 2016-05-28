@@ -8,10 +8,11 @@ var entry = DEBUG ? [
 	'react-hot-loader/patch',
 	'webpack-dev-server/client?http://localhost:3000',
 	'webpack/hot/only-dev-server',
-	'./ui/src/index'
-] : [ 
-	'react-hot-loader/patch', 
-	'./ui/src/index' 
+	'./ui/src/index',
+] : [
+	'react-hot-loader/patch',
+	'babel-polyfill',
+	'./ui/src/index',
 ];
 var plugins = [
 	new webpack.ProvidePlugin({
@@ -19,18 +20,18 @@ var plugins = [
 		$: 'jquery',
 	}),
 	new ExtractTextPlugin('ui/dist/master.css', {
-		allChunks: true
-	})
+		allChunks: true,
+	}),
 ];
 var cssloader;
-if( DEBUG ){
-	plugins.push( new webpack.HotModuleReplacementPlugin() );
+if (DEBUG) {
+	plugins.push(new webpack.HotModuleReplacementPlugin());
 	cssloader = 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 } else {
-	plugins.push( new webpack.DefinePlugin({
+	plugins.push(new webpack.DefinePlugin({
 		'process.env': {
-			'NODE_ENV': JSON.stringify('production')
-		}
+			NODE_ENV: JSON.stringify('production')
+		},
 	}));
 	cssloader = ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader');
 }

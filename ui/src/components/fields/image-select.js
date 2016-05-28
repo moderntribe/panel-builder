@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import styles from './image-select.pcss';
 
 class ImageSelect extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
+	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store
 	}
