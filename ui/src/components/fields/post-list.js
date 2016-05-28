@@ -8,6 +8,8 @@ import PostListAddManual from './partials/post-list-add-manual';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 
+import { POST_LIST_I18N } from '../../globals/i18n';
+
 import styles from './post-list.pcss';
 
 class PostList extends Component {
@@ -72,6 +74,26 @@ class PostList extends Component {
 		// add manual post
 	}
 
+	getManualNotification() {
+		let MaybeNotification = null;
+
+		if (this.state.manual_post_count < this.props.min) {
+			const minCount = this.props.min - this.state.manual_post_count;
+			const noticeTextString = this.props.min > 1 ?
+				POST_LIST_I18N.notification_min_posts_multiple :
+				POST_LIST_I18N.notification_min_posts_single;
+			const noticeText = noticeTextString.replace('%MIN_COUNT%', `${minCount}`);
+			MaybeNotification = (
+				<Notification
+					text={noticeText}
+					type="warn"
+				/>
+			);
+		}
+
+		return MaybeNotification;
+	}
+
 	getManualTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -89,10 +111,7 @@ class PostList extends Component {
 
 		return (
 			<div className={tabClasses}>
-				<Notification
-					text="This panel requires 2 more items"
-					type="warn"
-				/>
+				{this.getManualNotification()}
 				{AddTemplate}
 			</div>
 		);
