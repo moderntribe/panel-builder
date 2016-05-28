@@ -108,6 +108,12 @@ class Post_List extends Field {
 		}
 	}
 
+	public static function js_i18n() {
+		return [
+			'notification_min_posts' => 'This field requires %MIN_COUNT% more items',
+		];
+	}
+
 	public function render_field() {
 		$p2p = $this->p2p_options();
 		$taxonomies = $this->taxonomy_options();

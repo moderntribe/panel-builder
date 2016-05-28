@@ -3,6 +3,8 @@
 
 namespace ModularContent;
 use ModularContent\Fields\Image;
+use ModularContent\Fields\Post_List;
+use ModularContent\Fields\TextArea;
 
 /**
  * Class MetaBox
@@ -81,7 +83,7 @@ class MetaBox {
 		if ( empty( $data ) ) {
 			$data = [
 				'fields' => [
-					'image' => Image::js_config(),
+					
 				]
 			];
 			$data = apply_filters( 'panels_js_config', $data );
@@ -101,7 +103,8 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'fields' => [
-
+				'post_list' => Post_List::js_i18n(),
+				'textarea' => TextArea::js_i18n(),
 			]
 		];
 

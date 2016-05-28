@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import ReactSelect from 'react-select-plus';
+import _ from 'lodash';
 
 import MediaUploader from '../shared/media-uploader';
 import PostListAddManual from './partials/post-list-add-manual';
@@ -14,6 +15,10 @@ class PostList extends Component {
 		super(props);
 		this.state = {
 			type: this.props.default.type,
+
+			// todo: hookup to existing post count from data
+			manual_post_count: 0,
+			manual_add_count: this.props.min,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.addManualPost = this.addManualPost.bind(this);
@@ -72,6 +77,15 @@ class PostList extends Component {
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'manual',
 		});
+		const AddTemplate = _.times(this.state.manual_add_count, (i) =>
+			<PostListAddManual
+				key={`add-manual-post-${i}`}
+				index={i}
+				handleSelectClick={this.addSelectPost}
+				handleManualClick={this.addManualPost}
+				strings={this.props.strings}
+			/>
+		);
 
 		return (
 			<div className={tabClasses}>
@@ -79,15 +93,7 @@ class PostList extends Component {
 					text="This panel requires 2 more items"
 					type="warn"
 				/>
-				<ReactSelect
-					options={this.props.filters}
-					onChange={this.handleChange}
-				/>
-				<PostListAddManual
-					handleSelectClick={this.addSelectPost}
-					handleManualClick={this.addManualPost}
-					strings={this.props.strings}
-				/>
+				{AddTemplate}
 			</div>
 		);
 	}
@@ -99,7 +105,12 @@ class PostList extends Component {
 		});
 
 		return (
-			<div className={tabClasses}>Hello Query</div>
+			<div className={tabClasses}>
+				<ReactSelect
+					options={this.props.filters}
+					onChange={this.handleChange}
+				/>
+			</div>
 		);
 	}
 

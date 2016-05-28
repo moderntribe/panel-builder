@@ -14,7 +14,7 @@ import styles from './post-list-add-manual.pcss';
  */
 
 const PostListAddManualPost = (props) => (
-	<article className={styles.container}>
+	<article className={styles.container} data-index={props.index}>
 		<BlankPostUi />
 		<Button
 			text={props.strings['button.select_post']}
@@ -22,7 +22,7 @@ const PostListAddManualPost = (props) => (
 			full={false}
 			handleClick={props.handleSelectClick}
 		/>
-		<span className={styles.divider} />
+		<span className={styles.divider}/>
 		<Button
 			text={props.strings['button.create_content']}
 			primary={false}
@@ -33,12 +33,14 @@ const PostListAddManualPost = (props) => (
 );
 
 PostListAddManualPost.propTypes = {
+	index: PropTypes.number,
 	strings: PropTypes.object,
 	handleManualClick: PropTypes.func,
 	handleSelectClick: PropTypes.func,
 };
 
 PostListAddManualPost.defaultProps = {
+	index: 0,
 	strings: {},
 	handleManualClick: () => {},
 	handleSelectClick: () => {},

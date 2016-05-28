@@ -5,12 +5,13 @@ export const I18N_DEFAULTS = {
 		image: {
 			btn_remove: 'Remove',
 			btn_select: 'Select Files',
-			drp_info: 'Drop files here',
-			drp_or: 'or',
+		},
+		post_list: {
+			notification_min_posts: 'This field requires %MIN_COUNT% more items',
 		},
 		textarea: {
-			btn_remove: 'Visual',
-			btn_select: 'Text',
+			tab_visual: 'Visual',
+			tab_text: 'Text',
 		},
 	},
 };
