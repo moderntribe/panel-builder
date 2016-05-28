@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import ReactSelect from 'react-select-plus';
+import Sortable from 'react-anything-sortable';
 import _ from 'lodash';
 
 import MediaUploader from '../shared/media-uploader';
 import PostListAddManual from './partials/post-list-add-manual';
+import PostListPostManual from './partials/post-list-post-manual';
+import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 
@@ -94,25 +97,34 @@ class PostList extends Component {
 		return MaybeNotification;
 	}
 
+	getManualChooser() {
+		let MaybeChooser = null;
+
+		if (this.state.manual_post_count < this.props.max) {
+			MaybeChooser = _.times(this.state.manual_add_count, (i) =>
+				<PostListAddManual
+					key={`add-manual-post-${i}`}
+					index={i}
+					handleSelectClick={this.addSelectPost}
+					handleManualClick={this.addManualPost}
+					strings={this.props.strings}
+				/>
+			);
+		}
+
+		return MaybeChooser;
+	}
+
 	getManualTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'manual',
 		});
-		const AddTemplate = _.times(this.state.manual_add_count, (i) =>
-			<PostListAddManual
-				key={`add-manual-post-${i}`}
-				index={i}
-				handleSelectClick={this.addSelectPost}
-				handleManualClick={this.addManualPost}
-				strings={this.props.strings}
-			/>
-		);
 
 		return (
 			<div className={tabClasses}>
 				{this.getManualNotification()}
-				{AddTemplate}
+				{this.getManualChooser()}
 			</div>
 		);
 	}
