@@ -5,8 +5,7 @@ import ReactSelect from 'react-select-plus';
 import Sortable from 'react-anything-sortable';
 import _ from 'lodash';
 
-import MediaUploader from '../shared/media-uploader';
-import PostListAddManual from './partials/post-list-add-manual';
+import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
 import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
@@ -19,6 +18,7 @@ import styles from './post-list.pcss';
 class PostList extends Component {
 	state = {
 		type: this.props.default.type,
+		manual_post_data: [],
 		manual_post_count: 0,
 		manual_add_count: this.props.min,
 	};
@@ -64,13 +64,27 @@ class PostList extends Component {
 	}
 
 	@autobind
-	addSelectPost() {
-		// add post select
+	addManualPost(e) {
+		let newState = {};
+		const type = e.currentTarget.classList.contains('type-manual') ? 'manual' : 'select';
+
+		if(this.state.manual_add_count > 1){
+			newState.manual_add_count = this.state.manual_add_count;
+			newState.manual_add_count--;
+		}
+
+		newState.manual_post_count = this.state.manual_post_count;
+		newState.manual_post_count++;
+
+		newState.manual_post_data = this.state.manual_post_data;
+		newState.manual_post_data.push({type});
+
+		this.setState(newState);
 	}
 
 	@autobind
-	addManualPost() {
-		// add manual post
+	handleManualSort(data){
+		console.log(data);
 	}
 
 	getManualNotification() {
@@ -93,16 +107,44 @@ class PostList extends Component {
 		return MaybeNotification;
 	}
 
-	getManualChooser() {
+	getManualPosts(){
+		let Posts = null;
+
+		if(this.state.manual_post_data.length){
+			const Items = _.map(this.state.manual_post_data, (data, i) => {
+				return data.type === 'manual' ? (
+					<PostListPostManual
+						key={`manual-post-${i}`}
+						index={i}
+						sortData={{type:'manual'}}
+					/>
+				) : (
+					<PostListPostSelected
+						key={`manual-post-${i}`}
+						index={i}
+						sortData={{type:'select'}}
+					/>
+				);
+			});
+			Posts = (
+				<Sortable onSort={this.handleManualSort} dynamic>
+					{Items}
+				</Sortable>
+			)
+		}
+
+		return Posts;
+	}
+
+	getManualTypeChooser() {
 		let MaybeChooser = null;
 
 		if (this.state.manual_post_count < this.props.max) {
 			MaybeChooser = _.times(this.state.manual_add_count, (i) =>
-				<PostListAddManual
+				<PostListManualTypeChooser
 					key={`add-manual-post-${i}`}
 					index={i}
-					handleSelectClick={this.addSelectPost}
-					handleManualClick={this.addManualPost}
+					handleClick={this.addManualPost}
 					strings={this.props.strings}
 				/>
 			);
@@ -120,7 +162,8 @@ class PostList extends Component {
 		return (
 			<div className={tabClasses}>
 				{this.getManualNotification()}
-				{this.getManualChooser()}
+				{this.getManualPosts()}
+				{this.getManualTypeChooser()}
 			</div>
 		);
 	}

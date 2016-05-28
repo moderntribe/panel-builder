@@ -3,48 +3,48 @@ import React, { PropTypes } from 'react';
 import Button from '../../shared/button';
 import BlankPostUi from '../../shared/blank-post-ui';
 
-import styles from './post-list-add-manual.pcss';
+import styles from './post-list-manual-type-chooser.pcss';
 
 /**
- * Stateless component for main button used throughout ui.
+ * Stateless component for post selection type chooser
  *
  * @param props
  * @returns {XML}
  * @constructor
  */
 
-const PostListAddManualPost = (props) => (
+const PostListManualTypeChooser = (props) => (
 	<article className={styles.container} data-index={props.index}>
 		<BlankPostUi />
 		<Button
 			text={props.strings['button.select_post']}
 			primary={false}
 			full={false}
-			handleClick={props.handleSelectClick}
+			classes="type-select"
+			handleClick={props.handleClick}
 		/>
 		<span className={styles.divider}/>
 		<Button
 			text={props.strings['button.create_content']}
 			primary={false}
 			full={false}
-			handleClick={props.handleManualClick}
+			classes="type-manual"
+			handleClick={props.handleClick}
 		/>
 	</article>
 );
 
-PostListAddManualPost.propTypes = {
+PostListManualTypeChooser.propTypes = {
 	index: PropTypes.number,
 	strings: PropTypes.object,
-	handleManualClick: PropTypes.func,
-	handleSelectClick: PropTypes.func,
+	handleClick: PropTypes.func,
 };
 
-PostListAddManualPost.defaultProps = {
+PostListManualTypeChooser.defaultProps = {
 	index: 0,
 	strings: {},
-	handleManualClick: () => {},
-	handleSelectClick: () => {},
+	handleClick: () => {},
 };
 
-export default PostListAddManualPost;
+export default PostListManualTypeChooser;
 

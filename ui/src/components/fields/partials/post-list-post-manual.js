@@ -1,5 +1,7 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { sortable } from 'react-anything-sortable';
+
+import MediaUploader from '../../shared/media-uploader';
 
 import styles from './post-list-post-manual.pcss';
 
@@ -13,3 +15,5 @@ class PostListPostManual extends Component {
 		);
 	}
 }
+
+export default PostListPostManual;
