@@ -35,6 +35,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
     "sortablejs": "^1.4.2",
+    "superagent": "^2.0.0",
     "verge": "^1.9.1",
     "yargs": "^4.6.0"
   },

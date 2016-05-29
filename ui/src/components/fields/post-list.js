@@ -84,8 +84,7 @@ class PostList extends Component {
 
 	@autobind
 	handleManualSort(data){
-		console.log(data.oldIndex);
-		console.log(data.newIndex);
+		console.log(data);
 	}
 
 	getManualNotification() {
@@ -227,7 +226,7 @@ PostList.propTypes = {
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
-	taxonomies: PropTypes.array,
+	taxonomies: PropTypes.object,
 };
 
 PostList.defaultProps = {
@@ -242,7 +241,7 @@ PostList.defaultProps = {
 	show_max_control: false,
 	post_type: [],
 	filters: [],
-	taxonomies: [],
+	taxonomies: {},
 };
 
 export default PostList;

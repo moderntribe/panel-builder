@@ -258,6 +258,14 @@
           {
             "value": "post",
             "label": "Posts"
+          },
+          {
+            "value": "menus",
+            "label": "Menus"
+          },
+          {
+            "value": "tribe_events",
+            "label": "Events"
           }
         ],
         "filters": [
@@ -286,12 +294,16 @@
         "taxonomies": {
           "post_tag": [
             {
-              "value": 2,
-              "label": "Term 14"
+              "value": 6,
+              "label": "Fun Times"
             },
             {
-              "value": 3,
-              "label": "Term 15"
+              "value": 7,
+              "label": "Maybe Better"
+            },
+            {
+              "value": 4,
+              "label": "Oh Boy"
             }
           ]
         }

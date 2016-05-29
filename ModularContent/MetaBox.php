@@ -356,8 +356,8 @@ class MetaBox {
 
 			foreach ( $posts as $post ) {
 				$response['posts'][] = array(
-					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'value' => $post->ID,
+					'label' => esc_html(get_the_title($post)),
 				);
 			}
 
