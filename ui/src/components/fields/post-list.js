@@ -124,6 +124,7 @@ class PostList extends Component {
 						key={`manual-post-${i}`}
 						index={i}
 						strings={this.props.strings}
+						post_type={this.props.post_type}
 						sortData={{type:'select'}}
 					/>
 				);
@@ -222,6 +223,7 @@ PostList.propTypes = {
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
+	taxonomies: PropTypes.array,
 };
 
 PostList.defaultProps = {
@@ -236,6 +238,7 @@ PostList.defaultProps = {
 	show_max_control: false,
 	post_type: [],
 	filters: [],
+	taxonomies: [],
 };
 
 export default PostList;
