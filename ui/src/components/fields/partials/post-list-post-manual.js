@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { sortable } from 'react-anything-sortable';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -9,7 +8,6 @@ import MediaUploader from '../../shared/media-uploader';
 
 import styles from './post-list-post-manual.pcss';
 
-@sortable
 class PostListPostManual extends Component {
 	state = {
 		image: '',
@@ -66,35 +64,33 @@ class PostListPostManual extends Component {
 		});
 
 		return (
-			<div {...this.props}>
-				<article className={styles.wrapper}>
-					<input
-						type="text"
-						className={titleClasses}
-						name="post_title"
-						placeholder={this.props.strings['label.title']}
-					/>
+			<article className={styles.wrapper}>
+				<input
+					type="text"
+					className={titleClasses}
+					name="post_title"
+					placeholder={this.props.strings['label.title']}
+				/>
 					<textarea
 						className={contentClasses}
 						name="post_content"
 						placeholder={this.props.strings['label.content']}
 					/>
-					<input
-						type="url"
-						className={urlClasses}
-						name="url"
-					    placeholder={this.props.strings['label.link']}
-					/>
-					<MediaUploader
-						label={this.props.label}
-						size="large"
-						file={this.state.image}
-						strings={this.props.strings}
-						handleAddMedia={this.handleAddMedia}
-						handleRemoveMedia={this.handleRemoveMedia}
-					/>
-				</article>
-			</div>
+				<input
+					type="url"
+					className={urlClasses}
+					name="url"
+					placeholder={this.props.strings['label.link']}
+				/>
+				<MediaUploader
+					label={this.props.label}
+					size="large"
+					file={this.state.image}
+					strings={this.props.strings}
+					handleAddMedia={this.handleAddMedia}
+					handleRemoveMedia={this.handleRemoveMedia}
+				/>
+			</article>
 		);
 	}
 }

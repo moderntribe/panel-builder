@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import ReactSelect from 'react-select-plus';
 import autobind from 'autobind-decorator';
-import { sortable } from 'react-anything-sortable';
 
 import styles from './post-list-post-selected.pcss';
 
-@sortable
 class PostListPostSelected extends Component {
 	state = {
 		type: '',

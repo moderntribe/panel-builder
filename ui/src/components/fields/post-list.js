@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
-import Sortable from 'react-anything-sortable';
+import Sortable from 'react-sortablejs';
 import _ from 'lodash';
 
 import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
@@ -84,7 +84,8 @@ class PostList extends Component {
 
 	@autobind
 	handleManualSort(data){
-		console.log(data);
+		console.log(data.oldIndex);
+		console.log(data.newIndex);
 	}
 
 	getManualNotification() {
@@ -115,22 +116,25 @@ class PostList extends Component {
 				return data.type === 'manual' ? (
 					<PostListPostManual
 						key={`manual-post-${i}`}
-						index={i}
 						strings={this.props.strings}
-						sortData={{type:'manual'}}
 					/>
 				) : (
 					<PostListPostSelected
-						key={`manual-post-${i}`}
-						index={i}
+						key={`select-post-${i}`}
 						strings={this.props.strings}
 						post_type={this.props.post_type}
-						sortData={{type:'select'}}
 					/>
 				);
 			});
+			const options = {
+				onSort: (e) => {
+					this.handleManualSort(e);
+				},
+			};
 			Posts = (
-				<Sortable direction="vertical" onSort={this.handleManualSort} dynamic>
+				<Sortable
+					options={options}
+				>
 					{Items}
 				</Sortable>
 			)
