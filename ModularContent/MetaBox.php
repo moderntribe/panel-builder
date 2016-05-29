@@ -103,6 +103,7 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'fields' => [
+				'image' => Image::js_i18n(),
 				'post_list' => Post_List::js_i18n(),
 				'textarea' => TextArea::js_i18n(),
 			]

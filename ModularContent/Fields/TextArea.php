@@ -50,8 +50,8 @@ class TextArea extends Field {
 
 	public static function js_i18n() {
 		return [
-			'tab_visual' => 'Visual',
-			'tab_text' => 'Text',
+			'tab_visual' => __( 'Visual', 'modular-content' ),
+			'tab_text' => __( 'Text', 'modular-content' ),
 		];
 	}
 

@@ -110,8 +110,9 @@ class Post_List extends Field {
 
 	public static function js_i18n() {
 		return [
-			'notification_min_posts_single' => 'This field requires %MIN_COUNT% more item',
-			'notification_min_posts_multiple' => 'This field requires %MIN_COUNT% more items',
+			'chooser_heading' => __( 'Add Another', 'modular-content' ),
+			'notification_min_posts_single' => __( 'This field requires %MIN_COUNT% more item', 'modular-content' ),
+			'notification_min_posts_multiple' => __( 'This field requires %MIN_COUNT% more items', 'modular-content' ),
 		];
 	}
 

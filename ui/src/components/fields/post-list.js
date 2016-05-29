@@ -116,18 +116,20 @@ class PostList extends Component {
 					<PostListPostManual
 						key={`manual-post-${i}`}
 						index={i}
+						strings={this.props.strings}
 						sortData={{type:'manual'}}
 					/>
 				) : (
 					<PostListPostSelected
 						key={`manual-post-${i}`}
 						index={i}
+						strings={this.props.strings}
 						sortData={{type:'select'}}
 					/>
 				);
 			});
 			Posts = (
-				<Sortable onSort={this.handleManualSort} dynamic>
+				<Sortable direction="vertical" onSort={this.handleManualSort} dynamic>
 					{Items}
 				</Sortable>
 			)
@@ -144,10 +146,19 @@ class PostList extends Component {
 				<PostListManualTypeChooser
 					key={`add-manual-post-${i}`}
 					index={i}
+					showHeading={this.state.manual_post_count !== 0}
 					handleClick={this.addManualPost}
 					strings={this.props.strings}
 				/>
 			);
+			if(this.state.manual_post_count){
+				MaybeChooser = (
+					<div>
+						<h3>{POST_LIST_I18N.chooser_heading}</h3>
+						{MaybeChooser}
+					</div>
+				);
+			}
 		}
 
 		return MaybeChooser;
@@ -210,7 +221,7 @@ PostList.propTypes = {
 	suggested: PropTypes.number,
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
-	filters: PropTypes.object,
+	filters: PropTypes.array,
 };
 
 PostList.defaultProps = {
@@ -224,7 +235,7 @@ PostList.defaultProps = {
 	suggested: 6,
 	show_max_control: false,
 	post_type: [],
-	filters: {},
+	filters: [],
 };
 
 export default PostList;
