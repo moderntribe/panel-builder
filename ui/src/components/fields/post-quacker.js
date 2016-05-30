@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { wpMedia } from '../../globals/wp';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import request from 'superagent';
 
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
@@ -15,23 +16,10 @@ import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
 import LinkFieldset from '../shared/link-fieldset';
 import ReactSelect from 'react-select-plus';
+import objectToParams from '../../util/data/object-to-params';
 
 import styles from './post-quacker.pcss';
 
-const POST_TYPES = [
-	{
-		label: 'Article',
-		value: 'article',
-	},
-	{
-		label: 'Products',
-		value: 'products',
-	},
-	{
-		label: 'Carousel Item',
-		value: 'carousel-item',
-	},
-];
 const POSTS_SAMPLE = [
 	{
 		label: 'Post Title',
@@ -47,7 +35,6 @@ const POSTS_SAMPLE = [
 	},
 ];
 
-@autobind
 class PostQuacker extends Component {
 	constructor(props) {
 		super(props);
@@ -56,6 +43,8 @@ class PostQuacker extends Component {
 			image: '',
 			title: '',
 			content: '',
+			post_types:[],
+			posts:[],
 			link_url: '',
 			link_label: '',
 			link_target: '_blank',
@@ -102,7 +91,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method handleAddToModuleClick
 	 */
-
+	@autobind
 	handleAddToModuleClick() {
 		// add the selected post to this field
 	}
@@ -112,7 +101,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method handleRemovePostClick
 	 */
-
+	@autobind
 	handleRemovePostClick() {
 		// add the selected post to this field
 	}
@@ -122,7 +111,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method handleAddMedia
 	 */
-
+	@autobind
 	handleAddMedia() {
 		const frame = wpMedia({
 			multiple: false,
@@ -153,7 +142,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method handleRemoveMedia
 	 */
-
+	@autobind
 	handleRemoveMedia() {
 		this.setState({
 			image: '',
@@ -165,7 +154,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method handleTextChange
 	 */
-
+	@autobind
 	handleTextChange(event) {
 		// code to connect to actions that execute on redux store
 		this.setState({
@@ -173,8 +162,13 @@ class PostQuacker extends Component {
 		});
 	}
 
-	handlePostTypeSelectChange() {
+	@autobind
+	handlePostTypeChange(types) {
 		// code to connect to actions that execute on redux store
+		this.setState({
+			post_types: types,
+		});
+
 	}
 
 	/**
@@ -182,9 +176,20 @@ class PostQuacker extends Component {
 	 *
 	 * @method handlePostSelectChange
 	 */
-
+	@autobind
 	handlePostSelectChange() {
 		// code to connect to actions that execute on redux store
+	}
+
+	getRequestParams(input) {
+		return objectToParams({
+			action: 'posts-field-posts-search',
+			s: input,
+			type: 'query-panel',
+			paged: 1,
+			post_type: this.state.search_post_type,
+			field_name: 'items',
+		});
 	}
 
 	/**
@@ -192,7 +197,7 @@ class PostQuacker extends Component {
 	 *
 	 * @method switchTabs
 	 */
-
+	@autobind
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
 		this.setState({ type });
@@ -314,10 +319,11 @@ class PostQuacker extends Component {
 					<label className={styles.tabLabel}>Content Type</label>
 					<ReactSelect
 						name={`${this.props.name}[filters][post_type][selection][]`}
-						value=""
+						value={this.state.post_types}
+						multi={true}
 						className={typeSelectClasses}
 						placeholder="Select Post Types"
-						options={POST_TYPES}
+						options={this.props.post_type}
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
@@ -388,15 +394,16 @@ PostQuacker.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	post_type: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.object,
-
 };
 
 PostQuacker.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	post_type: [],
 	strings: {},
 	default: {},
 };

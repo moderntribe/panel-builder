@@ -76,7 +76,21 @@
             "target": "",
             "label": ""
           }
-        }
+        },
+        "post_type": [
+          {
+            "value": "post",
+            "label": "Posts"
+          },
+          {
+            "value": "menus",
+            "label": "Menus"
+          },
+          {
+            "value": "tribe_events",
+            "label": "Events"
+          }
+        ]
       }
     ]
   },
