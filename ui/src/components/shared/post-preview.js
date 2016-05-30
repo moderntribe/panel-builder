@@ -31,22 +31,12 @@ const PostPreview = (props) => {
 	const removeClassses = classNames({
 		[styles.remove]: true,
 		'remove-selected-post': true,
-		'icon-remove': true,
 	});
-
-	let Preview;
-	if (props.thumbnail) {
-		Preview = (
-			<img src={props.thumbnail} role="presentation" />
-		);
-	}
 
 	return (
 		<div className={selectedPostClassses}>
 			<div className="selected-post-preview">
-				<div className={thumbnailClasses}>
-					{Preview}
-				</div>
+				<div className={thumbnailClasses} dangerouslySetInnerHTML={{ __html: props.thumbnail }}></div>
 				<h5 className={titleClasses}>{props.title}</h5>
 				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }}></div>
 			</div>

@@ -5,6 +5,7 @@ import { wpMedia } from '../../globals/wp';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import request from 'superagent';
+import param from 'jquery-param';
 
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
@@ -16,24 +17,9 @@ import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
 import LinkFieldset from '../shared/link-fieldset';
 import ReactSelect from 'react-select-plus';
-import objectToParams from '../../util/data/object-to-params';
+
 
 import styles from './post-quacker.pcss';
-
-const POSTS_SAMPLE = [
-	{
-		label: 'Post Title',
-		value: '11',
-	},
-	{
-		label: 'This is important news',
-		value: '12',
-	},
-	{
-		label: 'These are important times',
-		value: '13',
-	},
-];
 
 class PostQuacker extends Component {
 	constructor(props) {
@@ -48,6 +34,17 @@ class PostQuacker extends Component {
 			link_url: '',
 			link_label: '',
 			link_target: '_blank',
+			search: '',
+			loading: false,
+			post:null,
+			post_id:null,
+		};
+
+		this.noResults = {
+			options: [{
+				value: 0,
+				label: 'No Results',
+			}],
 		};
 
 		this.editor = null;
@@ -93,7 +90,10 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleAddToModuleClick() {
-		// add the selected post to this field
+		if (this.state.post_id && this.state.post_id !== 0){
+			this.updatePreview(this.state.post_id)
+		}
+
 	}
 
 	/**
@@ -104,6 +104,10 @@ class PostQuacker extends Component {
 	@autobind
 	handleRemovePostClick() {
 		// add the selected post to this field
+		this.setState({
+			post: null,
+			post_id: 0,
+		})
 	}
 
 	/**
@@ -122,8 +126,6 @@ class PostQuacker extends Component {
 
 		frame.on('open', () => {
 			const selection = frame.state().get('selection');
-			console.log(selection);
-
 			// todo when hooking up store and have current image load selection
 		});
 
@@ -156,15 +158,18 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleTextChange(event) {
-		// code to connect to actions that execute on redux store
 		this.setState({
 			[event.currentTarget.name]: event.currentTarget.value,
 		});
 	}
 
+	/**
+	 * Handler for when post type changes
+	 *
+	 * @method handlePostTypeChange
+	 */
 	@autobind
 	handlePostTypeChange(types) {
-		// code to connect to actions that execute on redux store
 		this.setState({
 			post_types: types,
 		});
@@ -174,20 +179,86 @@ class PostQuacker extends Component {
 	/**
 	 * Handler for post select change
 	 *
-	 * @method handlePostSelectChange
+	 * @method handlePostSearchChange
 	 */
 	@autobind
-	handlePostSelectChange() {
-		// code to connect to actions that execute on redux store
+	handlePostSearchChange(data) {
+		const search = data ? data.value : '';
+		this.setState({
+			search,
+			post_id: data.value
+		});
 	}
 
-	getRequestParams(input) {
-		return objectToParams({
+	/**
+	 * Handler for after the preview is retrieved
+	 *
+	 * @method handleUpdatePreview
+	 */
+	@autobind
+	handleUpdatePreview(err, response) {
+		this.setState({
+			post: response.body.data.posts[response.body.data.post_ids[0]]
+		});
+	}
+
+	/**
+	 * Handler to pass into react select for showing posts
+	 *
+	 * @method getOptions
+	 */
+	@autobind
+	getOptions(input, callback) {
+		let data = this.noResults;
+		if (!this.state.post_types.length && !input.length) {
+			callback(null, data);
+			return;
+		}
+		this.setState({ loading: true });
+		const ajaxURL = window.ajaxurl + '?' + this.getSearchRequestParams(input);
+		request.get(ajaxURL).end((err, response) => {
+			this.setState({ loading: false });
+			if(response.body.posts.length){
+				data = {
+					options: response.body.posts,
+				};
+			}
+			callback(null, data);
+		});
+	}
+
+	/**
+	 * Called to update the preview after a use selects a new post
+	 *
+	 * @method updatePreview
+	 */
+	updatePreview(id) {
+		let params = param({
+			action: 'posts-field-fetch-preview',
+			post_ids: [id],
+		});
+		request
+			.post(window.ajaxurl)
+			.send(params)
+			.end(this.handleUpdatePreview);
+	}
+
+	/**
+	 * Get search params for posts limited by type
+	 *
+	 * @method updatePreview
+	 */
+	getSearchRequestParams(input) {
+		let types = [];
+		_.forEach(this.state.post_types, (type, key) => {
+			types.push(type.value);
+		});
+		return param({
 			action: 'posts-field-posts-search',
 			s: input,
 			type: 'query-panel',
 			paged: 1,
-			post_type: this.state.search_post_type,
+			post_type: types,
 			field_name: 'items',
 		});
 	}
@@ -318,7 +389,7 @@ class PostQuacker extends Component {
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Content Type</label>
 					<ReactSelect
-						name={`${this.props.name}[filters][post_type][selection][]`}
+						name={_.uniqueId('quacker-type-selected-')}
 						value={this.state.post_types}
 						multi={true}
 						className={typeSelectClasses}
@@ -330,17 +401,15 @@ class PostQuacker extends Component {
 
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Select Content</label>
-					<ReactSelect
-						disabled={true}
-						name=""
-						className={typeSelectClasses}
-						placeholder="Choose a Post"
-						value=""
-						options={POSTS_SAMPLE}
-						onChange={this.handlePostSelectChange}
+					<ReactSelect.Async
+						disabled={this.state.post_types.length === 0}
+						value={this.state.search}
+						name="manual-selected-post"
+						loadOptions={this.getOptions}
+						isLoading={this.state.loading}
+						onChange={this.handlePostSearchChange}
 					/>
 				</div>
-
 				<div className={styles.panelFilterRow}>
 					<Button
 						text="Add to Module"
@@ -349,14 +418,16 @@ class PostQuacker extends Component {
 						handleClick={this.handleAddToModuleClick}
 					/>
 				</div>
-				<div className={styles.panelFilterRow}>
+				{!this.state.post &&<div className={styles.panelFilterRow}>
 					<div className={styles.blankPostContainer}>
 						<div><BlankPostUi /></div>
 					</div>
-				</div>
+				</div>}
+				{this.state.post &&
 				<div className={styles.panelFilterRow}>
-					<PostPreview title="Some Post Title" excerpt="Some excerpt" thumbnail="http://placekitten.com/200/200" onClick={this.handleRemovePostClick} />
-				</div>
+				<PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePostClick} />
+				</div>}
+
 			</div>
 		);
 	}
@@ -372,7 +443,7 @@ class PostQuacker extends Component {
 			editor: this.editor,
 			fid: this.fid,
 			editor_settings: 'slide_test-0000',
-		});
+		})
 	}
 
 	render() {
@@ -397,6 +468,8 @@ PostQuacker.propTypes = {
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.object,
+	post: PropTypes.object,
+	post_id: PropTypes.number
 };
 
 PostQuacker.defaultProps = {
@@ -406,6 +479,8 @@ PostQuacker.defaultProps = {
 	post_type: [],
 	strings: {},
 	default: {},
+	post: null,
+	post_id: 0,
 };
 
 export default PostQuacker;
