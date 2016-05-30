@@ -194,13 +194,43 @@ class MetaBox {
 		foreach ( $collection->panels() as $panel ) {
 			$panel->update_admin_cache( $cache );
 		}
-		$localization = array(
+		$localization = [
 			'delete_this_panel' => __( 'Are you sure you want to delete this?', 'modular-content' ),
-			'save_gallery' => __( 'Save Gallery', 'modular-content' ),
-			'untitled' => __( 'Untitled', 'modular-content' ),
-			'loading' => __( 'Loading...', 'modular-content' ),
-		);
-		include( Plugin::plugin_path('admin-views/meta-box-panels.php') );
+			'save_gallery'      => __( 'Save Gallery', 'modular-content' ),
+			'untitled'          => __( 'Untitled', 'modular-content' ),
+			'loading'           => __( 'Loading...', 'modular-content' ),
+		];
+
+		$meta_box_data = [
+			'blueprint'    => $blueprint,
+			'cache'        => $cache,
+			'localization' => $localization,
+			'panels'       => $collection->panels(),
+			'preview_url'  => $this->get_preview_link( $post ),
+		];
+
+		$meta_box_data = apply_filters( 'modular_content_metabox_data', $meta_box_data, $post );
+
+		include( Plugin::plugin_path( 'admin-views/meta-box-panels.php' ) );
+	}
+
+	/**
+	 * Get the URL to preview tha panels.
+	 *
+	 * @see post_preview()
+	 * @param \WP_Post $post
+	 * @return string
+	 */
+	private function get_preview_link( $post ) {
+		$query_args[ 'preview_id' ] = $post->ID;
+		$query_args[ 'preview_nonce' ] = wp_create_nonce( 'post_preview_' . $post->ID );
+		$query_args[ 'preview_panels' ] = 'true';
+
+		if ( isset( $_POST[ 'post_format' ] ) ) {
+			$query_args[ 'post_format' ] = empty( $_POST[ 'post_format' ] ) ? 'standard' : sanitize_key( $_POST[ 'post_format' ] );
+		}
+
+		return get_preview_post_link( $post, $query_args );
 	}
 
 	/**

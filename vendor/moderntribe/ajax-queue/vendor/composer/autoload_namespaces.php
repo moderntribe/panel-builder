@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AJAXQueue' => array($vendorDir . '/moderntribe/ajax-queue/src'),
+    'AJAXQueue' => array($baseDir . '/src'),
 );
