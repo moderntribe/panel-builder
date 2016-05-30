@@ -33,6 +33,8 @@ class TextArea extends Component {
 			return;
 		}
 
+		console.log( 'mounted' );
+
 		this.cacheDom();
 		this.initTinyMCE();
 	}
@@ -119,6 +121,8 @@ class TextArea extends Component {
 			return;
 		}
 
+		console.log( 'cleaning' );
+
 		RichtextEvents.destroy({
 			editor: this.editor,
 			fid: this.fid,
@@ -133,7 +137,7 @@ class TextArea extends Component {
 
 	render() {
 		const Editor = this.getTemplate();
-
+		console.log('rendering');
 		return (
 			<div className={styles.wrapper}>
 				<label className={styles.label}>{this.props.label}</label>

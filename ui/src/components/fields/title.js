@@ -4,9 +4,14 @@ import autobind from 'autobind-decorator';
 import styles from './title.pcss';
 
 class Title extends Component {
+	state = {
+		text: this.props.data.length ? this.props.data : this.props.default,
+	};
+
 	@autobind
-	handleChange() {
-		// code to connect to actions that execute on redux store
+	handleChange(e) {
+		const text = e.currentTarget.value;
+		this.setState({text});
 	}
 
 	render() {
@@ -14,7 +19,7 @@ class Title extends Component {
 			<div className={styles.field}>
 				<label className={styles.label}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
-					<input type="text" name={this.props.name} value="" size="40" onChange={this.handleChange} />
+					<input type="text" name={this.props.name} value={this.state.text} onChange={this.handleChange} />
 				</span>
 				<p className={styles.description}>{this.props.description}</p>
 			</div>
@@ -23,6 +28,7 @@ class Title extends Component {
 }
 
 Title.propTypes = {
+	data: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -31,6 +37,7 @@ Title.propTypes = {
 };
 
 Title.defaultProps = {
+	data: '',
 	label: '',
 	name: '',
 	description: '',

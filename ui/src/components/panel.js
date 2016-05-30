@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import autobind from 'autobind-decorator';
 
 import componentMap from './fields/component-map';
 
 import styles from './panel.pcss';
 
 class PanelContainer extends Component {
-	componentDidMount() {
-		// code
+	state = {
+		active: false,
+	};
+
+	@autobind
+	handleClick(){
+		this.setState({
+			active: !this.state.active,
+		});
 	}
 
 	render() {
-		const Fields = _.map(this.props.fields, (field) => {
+		const Fields = this.state.active ? _.map(this.props.fields, (field) => {
 			const Field = componentMap[field.type.replace(/\\/g, '')];
 			if (!Field) {
 				return null;
@@ -25,8 +33,12 @@ class PanelContainer extends Component {
 				[`input-type-${field.type.toLowerCase()}`]: true,
 			});
 
-			return <div className={classes} key={_.uniqueId('field-id-')}><Field {...field} /></div>;
-		});
+			return (
+				<div className={classes} key={_.uniqueId('field-id-')}>
+					<Field {...field} data={this.props.data[field.name]} />
+				</div>
+			);
+		}) : null;
 
 		const classes = classNames(
 			styles.panelRow,
@@ -35,6 +47,9 @@ class PanelContainer extends Component {
 
 		return (
 			<div className={classes}>
+				<div className="panel-row-header" onClick={this.handleClick}>
+					Panel Header Test
+				</div>
 				{Fields}
 			</div>
 		);
@@ -42,6 +57,7 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
+	data: React.PropTypes.object,
 	label: React.PropTypes.string,
 	type: React.PropTypes.string,
 	description: React.PropTypes.string,
@@ -50,6 +66,7 @@ PanelContainer.propTypes = {
 };
 
 PanelContainer.defaultProps = {
+	data: {},
 	label: '',
 	type: '',
 	description: '',

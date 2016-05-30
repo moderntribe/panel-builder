@@ -71,7 +71,7 @@ export const destroy = (opts = {}) => {
 	// merge options
 	Object.assign(options, opts);
 
-	if (options.editor) {
+	if (!options.editor) {
 		return;
 	}
 

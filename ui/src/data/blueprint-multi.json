@@ -1,0 +1,184 @@
+[
+  {
+    "type": "simple",
+    "label": "Simple Panel",
+    "description": "Clean and easy going.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "Text",
+        "label": "Text Input Label",
+        "name": "text_test",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Regular Textarea",
+        "name": "content",
+        "description": "This is the field of easy.",
+        "strings": [],
+        "default": "",
+        "richtext": false,
+        "media_buttons": false,
+        "editor_settings_reference": ""
+      }
+    ]
+  },
+  {
+    "type": "gallery",
+    "label": "Gallery Panel",
+    "description": "Inject some images yay!",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "ImageGallery",
+        "label": "Image Gallery",
+        "name": "gallery",
+        "description": "Gallery description goes here",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "Hidden",
+        "label": "Some Label",
+        "name": "secret",
+        "description": "A description",
+        "strings": [],
+        "default": "You can't see me"
+      }
+    ]
+  },
+  {
+    "type": "wysiwyg",
+    "label": "Wysiwyg",
+    "description": "A simple richtext editor panel.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "TextArea",
+        "label": "Yo Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "slide_test-0000"
+      }
+    ]
+  },
+  {
+    "type": "imagetext",
+    "label": "Image + Text",
+    "description": "An image upload and content area with layout.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "ImageSelect",
+        "label": "Select a style",
+        "name": "layout",
+        "description": "Some description here",
+        "strings": [],
+        "default": "standard",
+        "options": [
+          {
+            "src": "/content/uploads/test.png",
+            "label": "Even",
+            "value": "standard"
+          },
+          {
+            "src": "/content/uploads/test.png",
+            "label": "Left",
+            "value": "left"
+          },
+          {
+            "src": "/content/uploads/test.png",
+            "label": "Right",
+            "value": "right"
+          }
+        ]
+      },
+      {
+        "type": "Image",
+        "label": "Image Test",
+        "name": "image",
+        "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+        "strings": {
+          "button.remove": "Remove",
+          "button.select": "Select Files"
+        },
+        "default": "",
+        "size": "large"
+      },
+      {
+        "type": "TextArea",
+        "label": "Another Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "slide_test-0000"
+      },
+      {
+        "type": "Link",
+        "label": "Link",
+        "name": "link",
+        "description": "some description",
+        "strings": [],
+        "default": {
+          "url": "",
+          "target": "",
+          "label": ""
+        }
+      }
+    ]
+  }
+]
