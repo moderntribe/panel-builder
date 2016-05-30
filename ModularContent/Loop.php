@@ -260,5 +260,8 @@ class Loop {
 		return $template_file;
 	}
 
+	public function is_preview() {
+		return false;
+	}
 
 } 

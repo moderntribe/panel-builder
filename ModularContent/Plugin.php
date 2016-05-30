@@ -64,7 +64,12 @@ class Plugin {
 
 				$panels = PanelCollection::find_by_post_id( $current_post->ID );
 			}
-			$this->loop = new Loop($panels);
+
+			if ( empty( $_GET[ 'preview_panels' ] ) ) {
+				$this->loop = new Loop( $panels );
+			} else {
+				$this->loop = new Preview\Preview_Loop( $panels );
+			}
 		}
 		return $this->loop;
 	}
