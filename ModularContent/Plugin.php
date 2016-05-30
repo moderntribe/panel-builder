@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent;
+use ModularContent\Preview\Preview_Request_Handler;
 
 /**
  * Class Plugin
@@ -17,6 +18,7 @@ class Plugin {
 
 	private $registry = NULL;
 	private $metabox = NULL;
+	private $ajax_handler = NULL;
 	private $loop = NULL;
 	private $name = array(
 		'singular' => '',
@@ -30,6 +32,7 @@ class Plugin {
 		);
 		$this->registry = new TypeRegistry();
 		$this->metabox = new MetaBox();
+		$this->ajax_handler = new Ajax_Handler();
 	}
 
 	public function registry() {
@@ -38,6 +41,10 @@ class Plugin {
 
 	public function metabox() {
 		return $this->metabox;
+	}
+
+	public function ajax_handler() {
+		return $this->ajax_handler;
 	}
 
 	public function loop() {
@@ -57,15 +64,32 @@ class Plugin {
 
 				$panels = PanelCollection::find_by_post_id( $current_post->ID );
 			}
-			$this->loop = new Loop($panels);
+
+			if ( empty( $_GET[ 'preview_panels' ] ) ) {
+				$this->loop = new Loop( $panels );
+			} else {
+				$this->loop = new Preview\Preview_Loop( $panels );
+			}
 		}
 		return $this->loop;
 	}
 
+	public function set_loop( Loop $loop = null ) {
+		$this->loop = $loop;
+	}
+
 	private function setup() {
+		\AJAXQueue\Core::init();
 		\AttachmentHelper\Plugin::init();
+		$this->setup_ajax_handler();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
+	}
+
+	private function setup_ajax_handler() {
+		$this->ajax_handler()->hook();
+		$preview = new Preview_Request_Handler();
+		$preview->hook();
 	}
 
 	public function init_panels() {

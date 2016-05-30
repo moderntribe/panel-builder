@@ -98,3 +98,7 @@ function have_panels() {
 function rewind_panels() {
 	\ModularContent\Plugin::instance()->loop()->rewind();
 }
+
+function is_panel_preview() {
+	return \ModularContent\Plugin::instance()->loop()->is_preview();
+}

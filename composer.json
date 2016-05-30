@@ -14,10 +14,15 @@
     {
       "type": "vcs",
       "url": "git@github.com:moderntribe/attachment-helper.git"
+    },
+    {
+        "type": "vcs",
+        "url": "git@github.com:moderntribe/ajax-queue.git"
     }
   ],
   "require": {
-    "moderntribe/attachment-helper": "^1.0.0"
+    "moderntribe/attachment-helper": "^1.0.0",
+    "moderntribe/ajax-queue": "dev-master"
   },
   "require-dev": {
     "lucatume/wp-browser": "^1.10"

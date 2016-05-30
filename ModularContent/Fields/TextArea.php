@@ -44,7 +44,7 @@ class TextArea extends Field {
 		// the middle of a JS template
 		add_action( 'before_panel_meta_box', array( __CLASS__, 'enqueue_styles' ) );
 		if ( $this->media_buttons ) {
-			add_action( 'modular_content_metabox_js_init', [ __CLASS__, 'get_media_button_html_for_js' ] );
+			add_filter( 'modular_content_metabox_data', [ __CLASS__, 'get_media_button_html_for_js' ] );
 		}
 	}
 
@@ -72,11 +72,12 @@ class TextArea extends Field {
 		wp_print_styles('editor-buttons');
 	}
 
-	public static function get_media_button_html_for_js() {
+	public static function get_media_button_html_for_js( $data ) {
 		ob_start();
 		do_action( 'media_buttons', '%EDITOR_ID%' );
 		$html = ob_get_clean();
-		printf( "ModularContent.media_buttons_html = %s;", json_encode( $html ) );
+		$data[ 'media_buttons_html' ] = $html;
+		return $data;
 	}
 
 	protected function get_id( $uuid = '{{data.panel_id}}' ) {
