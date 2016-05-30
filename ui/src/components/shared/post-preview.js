@@ -11,7 +11,6 @@ import styles from './post-preview.pcss';
  */
 
 const PostPreview = (props) => {
-
 	// styles
 	const selectedPostClassses = classNames({
 		[styles.postSelect]: true,
@@ -36,7 +35,7 @@ const PostPreview = (props) => {
 	});
 
 	let Preview;
-	if (props.thumbnail){
+	if (props.thumbnail) {
 		Preview = (
 			<img src={props.thumbnail} role="presentation" />
 		);
@@ -51,22 +50,22 @@ const PostPreview = (props) => {
 				<h5 className={titleClasses}>{props.title}</h5>
 				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }}></div>
 			</div>
-			<div href="#" onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span class="dashicons dashicons-no-alt"></span></div>
+			<div href="#" onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt"></span></div>
 		</div>
 	);
-}
+};
 
 
 PostPreview.propTypes = {
 	title: PropTypes.string,
-	thummbail: PropTypes.string,
+	thumbnail: PropTypes.string,
 	excerpt: PropTypes.string,
 	onRemoveClick: PropTypes.func,
 };
 
 PostPreview.defaultProps = {
 	title: '',
-	thummbail: '',
+	thumbnail: '',
 	excerpt: '',
 	onRemoveClick: () => {},
 };

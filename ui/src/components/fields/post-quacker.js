@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import { wpMedia } from '../../globals/wp';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
@@ -12,9 +13,7 @@ import PostPreview from '../shared/post-preview';
 
 import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
-
-import LinkFieldset from '../shared/link-fieldset'
-
+import LinkFieldset from '../shared/link-fieldset';
 import ReactSelect from 'react-select-plus';
 
 import styles from './post-quacker.pcss';
@@ -76,20 +75,6 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Kick off the TinyMCE if called
-	 *
-	 * @method initTinyMCE
-	 */
-
-	initTinyMCE() {
-		RichtextEvents.init({
-			editor: this.editor,
-			fid: this.fid,
-			editor_settings: 'slide_test-0000',
-		});
-	}
-
-	/**
 	 * Cache the dom elements this component works on.
 	 *
 	 * @method cacheDom
@@ -106,20 +91,37 @@ class PostQuacker extends Component {
 	 */
 
 	cleanUp() {
-
 		RichtextEvents.destroy({
 			editor: this.editor,
 			fid: this.fid,
 		});
 	}
 
+	/**
+	 * Handler for Add to Module button
+	 *
+	 * @method handleAddToModuleClick
+	 */
+
 	handleAddToModuleClick() {
 		// add the selected post to this field
 	}
 
+	/**
+	 * Handler for Remove Post Click
+	 *
+	 * @method handleRemovePostClick
+	 */
+
 	handleRemovePostClick() {
 		// add the selected post to this field
 	}
+
+	/**
+	 * Handler for Add Media button
+	 *
+	 * @method handleAddMedia
+	 */
 
 	handleAddMedia() {
 		const frame = wpMedia({
@@ -137,7 +139,6 @@ class PostQuacker extends Component {
 		});
 
 		frame.on('select', () => {
-			console.log("frame",frame)
 			const attachment = frame.state().get('selection').first().toJSON();
 			this.setState({ image: attachment.sizes['large'].url });
 
@@ -154,27 +155,54 @@ class PostQuacker extends Component {
 	 */
 
 	handleRemoveMedia() {
-		this.setState({ image: '' });
+		this.setState({
+			image: '',
+		});
 	}
 
+	/**
+	 * Generic handler for changing text field
+	 *
+	 * @method handleTextChange
+	 */
+
 	handleTextChange(event) {
-		console.log("handleTextChange",event)
 		// code to connect to actions that execute on redux store
-		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
+		this.setState({
+			[event.currentTarget.name]: event.currentTarget.value,
+		});
 	}
 
 	handlePostTypeSelectChange() {
 		// code to connect to actions that execute on redux store
 	}
 
+	/**
+	 * Handler for post select change
+	 *
+	 * @method handlePostSelectChange
+	 */
+
 	handlePostSelectChange() {
 		// code to connect to actions that execute on redux store
 	}
+
+	/**
+	 * Handler for switching tabs
+	 *
+	 * @method switchTabs
+	 */
 
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
 		this.setState({ type });
 	}
+
+	/**
+	 * Constructing rich text editor template
+	 *
+	 * @method getEditorTemplate
+	 */
 
 	getEditorTemplate() {
 		return (<div
@@ -182,10 +210,15 @@ class PostQuacker extends Component {
 			ref={this.fid}
 			className="wp-core-ui wp-editor-wrap tmce-active"
 		>
-			<RichtextEditor fid={this.fid} name="content" buttons={this.props.media_buttons} value={this.state.content} onChange={this.handleTextChange} />
+			<RichtextEditor fid={this.fid} name="content" buttons={false} value={this.state.content} onChange={this.handleTextChange} />
 		</div>);
-
 	}
+
+	/**
+	 * Constructing the tab buttons
+	 *
+	 * @method getTabButtons
+	 */
 
 	getTabButtons() {
 		const manualButtonClasses = classNames({
@@ -215,6 +248,12 @@ class PostQuacker extends Component {
 			</div>
 		);
 	}
+
+	/**
+	 * Constructing the manu view template
+	 *
+	 * @method getManualTemplate
+	 */
 
 	getManualTemplate() {
 		const tabClasses = classNames({
@@ -247,11 +286,17 @@ class PostQuacker extends Component {
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<LinkFieldset label="Optional: Enter custom URL and target" value_target={this.state.link_target} value_url={this.state.link_url} value_label={this.state.link_label} />
+					<LinkFieldset label="Optional: Enter custom URL and target" valueTarget={this.state.link_target} valueUrl={this.state.link_url} valueLabel={this.state.link_label} />
 				</div>
 			</div>
 		);
 	}
+
+	/**
+	 * Constructing the selection view template
+	 *
+	 * @method getSelectionTemplate
+	 */
 
 	getSelectionTemplate() {
 		const tabClasses = classNames({
@@ -308,6 +353,20 @@ class PostQuacker extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	/**
+	 * Kick off the TinyMCE if called
+	 *
+	 * @method initTinyMCE
+	 */
+
+	initTinyMCE() {
+		RichtextEvents.init({
+			editor: this.editor,
+			fid: this.fid,
+			editor_settings: 'slide_test-0000',
+		});
 	}
 
 	render() {

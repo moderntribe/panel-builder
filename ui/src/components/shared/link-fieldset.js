@@ -48,7 +48,7 @@ const LinkFieldset = (props) => {
 				<input
 					type="text"
 					name="url"
-					value={props.value_url}
+					value={props.valueUrl}
 					placeholder="URL"
 					onChange={props.handleURLChange}
 				/>
@@ -57,7 +57,7 @@ const LinkFieldset = (props) => {
 				<input
 					type="text"
 					name="label"
-					value={props.value_label}
+					value={props.valueLabel}
 					placeholder="Label"
 					onChange={props.handleLabelChange}
 				/>
@@ -65,7 +65,7 @@ const LinkFieldset = (props) => {
 			<div className={targetClasses}>
 				<ReactSelect
 					name="target"
-					value={props.value_target}
+					value={props.valueTarget}
 					options={TARGET_OPTIONS}
 					clearable={false}
 					onChange={props.handleTargetChange}
@@ -74,7 +74,7 @@ const LinkFieldset = (props) => {
 			<p className={styles.description}>{props.description}</p>
 		</fieldset>
 	);
-}
+};
 
 LinkFieldset.propTypes = {
 	label: PropTypes.string,
@@ -83,17 +83,21 @@ LinkFieldset.propTypes = {
 	handleURLChange: PropTypes.func,
 	handleLabelChange: PropTypes.func,
 	handleTargetChange: PropTypes.func,
-	default: React.PropTypes.object,
+	valueUrl: PropTypes.string,
+	valueLabel: PropTypes.string,
+	valueTarget: PropTypes.string,
 };
 
 LinkFieldset.defaultProps = {
 	label: '',
 	description: '',
+	valueUrl: '',
+	valueLabel: '',
+	valueTarget: '',
 	handleURLChange: () => { },
 	handleLabelChange: () => { },
 	handleTargetChange: () => { },
 	strings: [],
-	default: {},
 };
 
 export default LinkFieldset;
