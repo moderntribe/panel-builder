@@ -38,6 +38,49 @@
     ]
   },
   {
+    "type": "posts",
+    "label": "Some Quacking Going On",
+    "description": "If it walks like a duck...",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Title",
+        "label": "Title",
+        "name": "title",
+        "description": "",
+        "strings": [],
+        "default": ""
+      },
+      {
+        "type": "PostQuacker",
+        "label": "Quacker",
+        "name": "quack",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Manual",
+          "tabs.selection": "Selection",
+          "button.remove": "Remove",
+          "button.select": "Select Files"
+        },
+        "default": {
+          "type": "selection",
+          "post_id": 0,
+          "title": "",
+          "content": "",
+          "image": 0,
+          "link": {
+            "url": "",
+            "target": "",
+            "label": ""
+          }
+        }
+      }
+    ]
+  },
+  {
     "type": "gallery",
     "label": "Gallery Panel",
     "description": "Inject some images yay!",

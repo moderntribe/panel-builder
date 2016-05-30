@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -19,7 +19,8 @@ class PanelContainer extends Component {
 		});
 	}
 
-	render() {
+	getFields(){
+		let FieldContainer = null;
 		const Fields = this.state.active ? _.map(this.props.fields, (field) => {
 			const Field = componentMap[field.type.replace(/\\/g, '')];
 			if (!Field) {
@@ -35,22 +36,45 @@ class PanelContainer extends Component {
 
 			return (
 				<div className={classes} key={_.uniqueId('field-id-')}>
-					<Field {...field} data={this.props.data[field.name]} />
+					<Field
+						{...field}
+						data={this.props.data[field.name]}
+					/>
 				</div>
 			);
 		}) : null;
 
-		const classes = classNames(
-			styles.panelRow,
-			`panel-type-${this.props.type}`
-		);
+		if (this.state.active) {
+			const fieldClasses = classNames({
+				[styles.panelFields]: true,
+				'panel-row-fields': true,
+			});
+			FieldContainer = (
+				<div className={fieldClasses}>
+					{Fields}
+				</div>
+			);
+		}
+
+		return FieldContainer;
+	}
+
+	render() {
+		const wrapperClasses = classNames({
+			[styles.panelRow]: true,
+			[`panel-type-${this.props.type}`]: true,
+		});
+		const headerClasses = classNames({
+			[styles.panelHeader]: true,
+			'panel-row-header': true,
+		});
 
 		return (
-			<div className={classes}>
-				<div className="panel-row-header" onClick={this.handleClick}>
-					Panel Header Test
+			<div className={wrapperClasses}>
+				<div className={headerClasses} onClick={this.handleClick}>
+					<h3>{this.props.label}</h3>
 				</div>
-				{Fields}
+				{this.getFields()}
 			</div>
 		);
 	}
@@ -63,6 +87,8 @@ PanelContainer.propTypes = {
 	description: React.PropTypes.string,
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
+	movePanel: PropTypes.func,
+	updatePanelData: PropTypes.func,
 };
 
 PanelContainer.defaultProps = {
@@ -72,6 +98,8 @@ PanelContainer.defaultProps = {
 	description: '',
 	icon: {},
 	fields: [],
+	movePanel: () => {},
+	updatePanelData: () => {},
 };
 
 export default PanelContainer;

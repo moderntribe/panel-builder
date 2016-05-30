@@ -5,7 +5,6 @@
 .panelRow {
 	composes: group from "../shared/helpers.pcss";
 	position: relative;
-	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 	margin-top: var(--panel-margin-vertical);
 	margin-bottom: var(--panel-margin-vertical);
 	border: thin solid var(--border-color);
@@ -53,6 +52,18 @@
 	> button.close:focus {
 		outline: none;
 	}
+}
+
+.panelHeader{
+	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	h3 {
+		margin:0;
+		font-size:14px;
+	}
+}
+
+.panelFields{
+	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 }
 
 .field{
