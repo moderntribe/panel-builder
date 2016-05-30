@@ -1,0 +1,15 @@
+{
+  "name": "moderntribe/ajax-queue",
+  "type": "project",
+  "description": "Group ajax calls",
+  "license": "Private",
+  "config": {
+    "vendor-dir": "vendor",
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-0": {
+      "AJAXQueue": "src/"
+    }
+  }
+}
