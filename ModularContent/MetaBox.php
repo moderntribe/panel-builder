@@ -169,9 +169,9 @@ class MetaBox {
 	/**
 	 * Save the meta boxes for this post type
 	 *
-	 * @param int $post_id The ID of the post being saved
-	 * @param array $post The post being saved
-	 * @return array
+	 * @param array $post_data The data to be saved
+	 * @param \WP_Post $post The post being saved
+	 * @return array $post_data with additional panel data
 	 */
 	public function maybe_filter_post_data( $post_data, $post ) {
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
@@ -243,42 +243,17 @@ class MetaBox {
 	 * @return mixed
 	 */
 	protected function filter_post_data( $post_data, $post, $submission ) {
-		$post_data['post_content_filtered'] = wp_slash($this->submission_to_json($submission));
+		$panels = isset( $submission[ 'panels' ] ) ? $submission[ 'panels' ] : [];
+		$cleaned = wp_slash( $panels ); // WP is going to unslash it in a moment
+		$post_data['post_content_filtered'] = $cleaned;
 		return $post_data;
-	}
-
-	public function submission_to_json( $submission ) {
-		$panel_ids = isset( $submission['panel_id'] ) ? $submission['panel_id'] : array();
-		if ( !is_array( $panel_ids ) ) {
-			$panel_ids = array();
-		}
-		$panels = array();
-		$registry = Plugin::instance()->registry();
-		foreach ( $panel_ids as $id ) {
-			if ( isset($submission[$id]) ) {
-				$type = $submission[$id]['type'];
-				$depth = $submission[$id]['depth'];
-				$data = $submission[$id];
-				$panel = new Panel( $registry->get($type), $data, $depth );
-				$data = $panel->prepare_data_for_save();
-				unset($data['type']);
-				unset($data['depth']);
-				$data = wp_unslash($data);
-				$panels[] = array('type' => $type, 'data' => $data, 'depth' => $depth);
-			}
-		}
-		$collection = PanelCollection::create_from_array( array('panels' => $panels) );
-
-		$collection = apply_filters( 'panel_submission_to_json_collection', $collection, $submission );
-
-		return \ModularContent\Util::json_encode($collection);
 	}
 
 	/**
 	 * Make sure this is a save_post where we actually want to update the meta
 	 *
 	 * @param array $post_data The updated data for the post that will go into the DB
-	 * @param array $post The post that is being saved
+	 * @param \WP_Post $post The post that is being saved
 	 * @param array $submission
 	 * @return bool
 	 */
@@ -306,20 +281,19 @@ class MetaBox {
 		return TRUE;
 	}
 
+	/**
+	 * If an autosave came in without the panels, store the autosave
+	 * with the last saved value.
+	 * @param array $post_data
+	 * @param \WP_Post $post
+	 * @param array $submission
+	 * @return array
+	 */
 	public function filter_autosave_data( $post_data, $post, $submission ) {
 		if ( empty($post_data['post_content_filtered']) ) {
 			$post_data['post_content_filtered'] = $post['post_content_filtered'];
-			return $post_data;
 		}
-		$deserialized = $this->deserialize_to_json($post_data['post_content_filtered']);
-		$post_data['post_content_filtered'] = wp_slash($this->submission_to_json($deserialized));
 		return $post_data;
-	}
-
-	public function deserialize_to_json( $data ) {
-		$array = array();
-		parse_str( $data, $array );
-		return $array;
 	}
 
 	public function build_video_preview( $url = '' ) {
