@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
+import LinkGroup from '../shared/link-group';
+
 import classNames from 'classnames';
 
 import styles from './link.pcss';
@@ -20,7 +22,7 @@ class Link extends Component {
 	state = {
 		url: this.props.default.url,
 		label: this.props.default.label,
-		target: this.props.default.target.length ? this.props.default.target : '_self',
+		target: (this.props.default && this.props.default.target) ? this.props.default.target : '_self',
 	};
 
 	@autobind
@@ -28,7 +30,6 @@ class Link extends Component {
 		// code to connect to actions that execute on redux store
 		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
 	}
-	
 	@autobind
 	handleSelectChange(data) {
 		// code to connect to actions that execute on redux store
@@ -37,52 +38,25 @@ class Link extends Component {
 	}
 
 	render() {
-		// styles
-		const targetClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-target': true,
-		});
-		const urlClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-url': true,
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
 		});
 		const labelClasses = classNames({
-			[styles.inputGeneric]: true,
-			'pllink-label': true,
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
 		});
 
 		return (
-			<div className={styles.panel}>
+			<div className={fieldStyles}>
 				<fieldset className={styles.fieldset}>
-					<legend className={styles.label}>{this.props.label}</legend>
-					<div className={urlClasses}>
-						<input
-							type="text"
-							name="url"
-							value={this.state.url}
-							placeholder="URL"
-							onChange={this.handleTextChange}
-						/>
-					</div>
-					<div className={labelClasses}>
-						<input
-							type="text"
-							name="label"
-							value={this.state.label}
-							placeholder="Label"
-							onChange={this.handleTextChange}
-						/>
-					</div>
-					<div className={targetClasses}>
-						<ReactSelect
-							name="target"
-							value={this.state.target}
-							options={TARGET_OPTIONS}
-							clearable={false}
-							onChange={this.handleSelectChange}
-						/>
-					</div>
-					<p className={styles.description}>{this.props.description}</p>
+					<legend className={labelClasses}>{this.props.label}</legend>
+					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleTextChange} handleURLChange={this.handleTextChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
+					<p className={descriptionStyles}>{this.props.description}</p>
 				</fieldset>
 			</div>
 		);

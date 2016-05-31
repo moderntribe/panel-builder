@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
+import classNames from 'classnames';
 import styles from './select.pcss';
 
 class Select extends Component {
 	state = {
 		value: this.props.default,
 	};
-	
 	@autobind
 	handleChange(data) {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
@@ -16,16 +16,28 @@ class Select extends Component {
 	}
 
 	render() {
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<ReactSelect
 					name={this.props.name}
 					value={this.state.value}
 					options={this.props.options}
 					onChange={this.handleChange}
 				/>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}

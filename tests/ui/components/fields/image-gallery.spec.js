@@ -11,12 +11,12 @@ describe('Image Gallery field', () => {
 
 	it('has a label', () => {
 		const wrapper = shallow(<ImageGallery />);
-		expect(wrapper.find('label.pnl-field-label')).to.have.length(1);
+		expect(wrapper.find('label.panel-field-label')).to.have.length(1);
 	});
 
 	it('has a description paragraph', () => {
 		const wrapper = shallow(<ImageGallery />);
-		expect(wrapper.find('p.pnl-field-description')).to.have.length(1);
+		expect(wrapper.find('p.panel-field-description')).to.have.length(1);
 	});
 
 	it('has a gallery field name', () => {

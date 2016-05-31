@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import MediaUploader from '../shared/media-uploader';
+import classNames from 'classnames';
 
 import { wpMedia } from '../../globals/wp';
 
@@ -34,7 +35,9 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			this.setState({ image: attachment.sizes[this.props.size].url });
+			if (attachment.sizes[this.props.size]) {
+				this.setState({ image: attachment.sizes[this.props.size].url });
+			}
 
 			// todo when hooking up store trigger action which updates ui/store with image selection
 		});
@@ -59,9 +62,22 @@ class Image extends Component {
 	 */
 
 	render() {
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
+
 		return (
-			<div className={styles.container}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<MediaUploader
 					label={this.props.label}
 					size={this.props.size}
@@ -70,7 +86,7 @@ class Image extends Component {
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
 				/>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}
