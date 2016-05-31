@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const Hidden = (props) => (
-	<div>
+	<div className="panel-field">
 		<input type="hidden" name={props.name} value={props.default} />
 	</div>
 );
