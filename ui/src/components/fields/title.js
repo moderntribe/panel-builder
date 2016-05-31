@@ -23,16 +23,25 @@ class Title extends Component {
 	render() {
 		const labelClasses = classNames({
 			'panel-input-label-title': true,
+			'panel-field-label': true,
 			[styles.label]: true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
 		});
 
 		return (
-			<div className={styles.field}>
+			<div className={fieldStyles}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={this.props.name} value={this.state.text} onChange={this.handleChange} />
 				</span>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}
