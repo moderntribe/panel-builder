@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
+import classNames from 'classnames';
 
 import styles from './title.pcss';
 
@@ -11,18 +12,23 @@ class Title extends Component {
 	@autobind
 	handleChange(e) {
 		const text = e.currentTarget.value;
-		this.setState({text});
+		this.setState({ text });
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: text,
-		})
+		});
 	}
 
 	render() {
+		const labelClasses = classNames({
+			'panel-input-label-title': true,
+			[styles.label]: true,
+		});
+
 		return (
 			<div className={styles.field}>
-				<label className={styles.label}>{this.props.label}</label>
+				<label className={labelClasses}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={this.props.name} value={this.state.text} onChange={this.handleChange} />
 				</span>
