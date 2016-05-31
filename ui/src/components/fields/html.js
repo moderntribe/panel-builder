@@ -12,9 +12,9 @@ const HTML = (props) => {
 		'panel-field': true,
 	});
 	return (
-	<div className={fieldStyles}>
-		<div className={descriptionStyles} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
-	</div>
+		<div className={fieldStyles}>
+			<div className={descriptionStyles} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
+		</div>
 	);
 };
 

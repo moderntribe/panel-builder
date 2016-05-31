@@ -12,8 +12,8 @@ class Radio extends Component {
 
 	render() {
 		const radioLabelClasses = classNames({
-			'plradio-label': true,
 			[styles.radioLabel]: true,
+			'plradio-label': true,
 		});
 
 		const Options = _.map(this.props.options, (option) =>
@@ -31,12 +31,24 @@ class Radio extends Component {
 				{option.label}
 			</label>
 		);
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				{Options}
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}

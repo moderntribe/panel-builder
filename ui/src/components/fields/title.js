@@ -22,9 +22,9 @@ class Title extends Component {
 
 	render() {
 		const labelClasses = classNames({
+			[styles.label]: true,
 			'panel-input-label-title': true,
 			'panel-field-label': true,
-			[styles.label]: true,
 		});
 		const descriptionStyles = classNames({
 			[styles.description]: true,

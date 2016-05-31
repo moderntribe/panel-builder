@@ -13,11 +13,9 @@ class Checkbox extends Component {
 	}
 
 	render() {
-
 		const labelClasses = classNames({
-			'panel-input-label-title': true,
-			'panel-field-label': true,
 			[styles.label]: true,
+			'panel-field-label': true,
 		});
 		const descriptionStyles = classNames({
 			[styles.description]: true,

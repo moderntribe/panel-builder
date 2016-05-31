@@ -34,13 +34,26 @@ class ImageSelect extends Component {
 			</label>
 		);
 
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
+
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<div>
 					{Options}
 				</div>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}

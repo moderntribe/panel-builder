@@ -28,7 +28,6 @@ class Link extends Component {
 		// code to connect to actions that execute on redux store
 		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
 	}
-	
 	@autobind
 	handleSelectChange(data) {
 		// code to connect to actions that execute on redux store
@@ -50,11 +49,23 @@ class Link extends Component {
 			[styles.inputGeneric]: true,
 			'pllink-label': true,
 		});
+		const fieldLabelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={styles.panel}>
+			<div className={fieldStyles}>
 				<fieldset className={styles.fieldset}>
-					<legend className={styles.label}>{this.props.label}</legend>
+					<legend className={fieldLabelClasses}>{this.props.label}</legend>
 					<div className={urlClasses}>
 						<input
 							type="text"
@@ -82,7 +93,7 @@ class Link extends Component {
 							onChange={this.handleSelectChange}
 						/>
 					</div>
-					<p className={styles.description}>{this.props.description}</p>
+					<p className={descriptionStyles}>{this.props.description}</p>
 				</fieldset>
 			</div>
 		);

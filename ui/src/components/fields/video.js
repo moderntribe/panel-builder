@@ -35,14 +35,26 @@ class Video extends Component {
 			'panel-input-field': true,
 			[styles.inputContainer]: true,
 		});
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={styles.field}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<span className={videoSpanStyles}>
 					<input type="text" className={videoInputStyles} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}
