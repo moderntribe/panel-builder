@@ -12,6 +12,11 @@ class Title extends Component {
 	handleChange(e) {
 		const text = e.currentTarget.value;
 		this.setState({text});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: text,
+		})
 	}
 
 	render() {
@@ -29,20 +34,24 @@ class Title extends Component {
 
 Title.propTypes = {
 	data: PropTypes.string,
+	panelIndex: PropTypes.number,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: PropTypes.string,
+	updatePanelData: PropTypes.func,
 };
 
 Title.defaultProps = {
 	data: '',
+	panelIndex: 0,
 	label: '',
 	name: '',
 	description: '',
 	strings: [],
 	default: '',
+	updatePanelData: () => {},
 };
 
 export default Title;

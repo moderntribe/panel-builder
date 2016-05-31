@@ -102,6 +102,9 @@ class MetaBox {
 	public function js_i18n() {
 
 		$js_i18n_array = [
+			'ui' => [
+				'btn_launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
+			],
 			'fields' => [
 				'image' => Image::js_i18n(),
 				'post_list' => Post_List::js_i18n(),

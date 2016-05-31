@@ -21,7 +21,7 @@ class ImageGallery extends Component {
 		};
 		this.frame = null;
 		this.state = {
-			attachments: [],
+			attachments: this.props.data,
 		};
 	}
 
@@ -205,6 +205,7 @@ class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
+	data: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -213,6 +214,7 @@ ImageGallery.propTypes = {
 };
 
 ImageGallery.defaultProps = {
+	data: [],
 	label: '',
 	name: '',
 	description: '',

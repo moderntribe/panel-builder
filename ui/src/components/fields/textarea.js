@@ -33,8 +33,6 @@ class TextArea extends Component {
 			return;
 		}
 
-		console.log( 'mounted' );
-
 		this.cacheDom();
 		this.initTinyMCE();
 	}
@@ -58,6 +56,7 @@ class TextArea extends Component {
 					id={this.fid}
 					ref={this.fid}
 					name={this.props.name}
+					value={this.props.data}
 					onChange={this.handleChange}
 				/>
 			);
@@ -68,7 +67,12 @@ class TextArea extends Component {
 					ref={this.fid}
 					className="wp-core-ui wp-editor-wrap tmce-active"
 				>
-					<RichtextEditor fid={this.fid} name={this.props.name} buttons={this.props.media_buttons} />
+					<RichtextEditor
+						data={this.props.data}
+						fid={this.fid}
+						name={this.props.name}
+						buttons={this.props.media_buttons}
+					/>
 				</div>
 			);
 		}
@@ -121,8 +125,6 @@ class TextArea extends Component {
 			return;
 		}
 
-		console.log( 'cleaning' );
-
 		RichtextEvents.destroy({
 			editor: this.editor,
 			fid: this.fid,
@@ -137,7 +139,7 @@ class TextArea extends Component {
 
 	render() {
 		const Editor = this.getTemplate();
-		console.log('rendering');
+
 		return (
 			<div className={styles.wrapper}>
 				<label className={styles.label}>{this.props.label}</label>
@@ -149,6 +151,7 @@ class TextArea extends Component {
 }
 
 TextArea.propTypes = {
+	data: React.PropTypes.string,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
@@ -160,6 +163,7 @@ TextArea.propTypes = {
 };
 
 TextArea.defaultProps = {
+	data: '',
 	label: '',
 	name: '',
 	description: '',

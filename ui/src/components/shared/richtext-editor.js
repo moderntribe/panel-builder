@@ -69,8 +69,10 @@ const RichtextEditor = (props) => {
 					className={`wysiwyg-${props.fid} wp-editor-area`}
 					rows="15"
 					cols="40"
+					value={props.data}
 					name={props.name}
 					id={props.fid}
+					onChange={props.onUpdate}
 				/>
 			</div>
 		</article>
@@ -78,15 +80,19 @@ const RichtextEditor = (props) => {
 };
 
 RichtextEditor.propTypes = {
+	data: PropTypes.string,
 	fid: PropTypes.string,
 	name: PropTypes.string,
 	buttons: PropTypes.bool,
+	onUpdate: PropTypes.func,
 };
 
 RichtextEditor.defaultProps = {
+	data: '',
 	fid: '',
 	name: '',
 	buttons: true,
+	onUpdate: () => {},
 };
 
 export default RichtextEditor;

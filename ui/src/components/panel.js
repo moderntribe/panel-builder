@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
+import Button from './shared/button';
 
 import componentMap from './fields/component-map';
 
@@ -17,6 +18,7 @@ class PanelContainer extends Component {
 		this.setState({
 			active: !this.state.active,
 		});
+		this.props.panelsActive(!this.state.active);
 	}
 
 	getFields(){
@@ -38,7 +40,9 @@ class PanelContainer extends Component {
 				<div className={classes} key={_.uniqueId('field-id-')}>
 					<Field
 						{...field}
+						panelIndex={this.props.index}
 						data={this.props.data[field.name]}
+						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
 			);
@@ -46,12 +50,24 @@ class PanelContainer extends Component {
 
 		if (this.state.active) {
 			const fieldClasses = classNames({
-				[styles.panelFields]: true,
+				[styles.fields]: true,
 				'panel-row-fields': true,
 			});
+			const fieldInnerClasses = classNames({
+				[styles.inner]: true,
+			});
+
 			FieldContainer = (
 				<div className={fieldClasses}>
-					{Fields}
+					<div className={fieldInnerClasses}>
+						<nav className={styles.back}>
+							<Button
+								text="Back to Panels"
+								handleClick={this.handleClick}
+							/>
+						</nav>
+						{Fields}
+					</div>
 				</div>
 			);
 		}
@@ -61,18 +77,26 @@ class PanelContainer extends Component {
 
 	render() {
 		const wrapperClasses = classNames({
-			[styles.panelRow]: true,
+			[styles.row]: true,
 			[`panel-type-${this.props.type}`]: true,
+			[`panel-depth-${this.props.depth}`]: true,
 		});
 		const headerClasses = classNames({
-			[styles.panelHeader]: true,
+			[styles.header]: true,
 			'panel-row-header': true,
+		});
+		const arrowClasses = classNames({
+			[styles.arrow]: true,
+			'panel-row-arrow': true,
+			'dashicons': true,
+			'dashicons-arrow-right-alt2': true,
 		});
 
 		return (
 			<div className={wrapperClasses}>
 				<div className={headerClasses} onClick={this.handleClick}>
 					<h3>{this.props.label}</h3>
+					<i className={arrowClasses} />
 				</div>
 				{this.getFields()}
 			</div>
@@ -82,22 +106,28 @@ class PanelContainer extends Component {
 
 PanelContainer.propTypes = {
 	data: React.PropTypes.object,
-	label: React.PropTypes.string,
+	depth: React.PropTypes.number,
+	index: React.PropTypes.number,
 	type: React.PropTypes.string,
+	label: React.PropTypes.string,
 	description: React.PropTypes.string,
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
+	panelsActive: PropTypes.func,
 	movePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 };
 
 PanelContainer.defaultProps = {
 	data: {},
-	label: '',
+	depth: 0,
+	index: 0,
 	type: '',
+	label: '',
 	description: '',
 	icon: {},
 	fields: [],
+	panelsActive: () => {},
 	movePanel: () => {},
 	updatePanelData: () => {},
 };
