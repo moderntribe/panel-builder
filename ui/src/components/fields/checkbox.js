@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import escape from 'escape-html';
+import classNames from 'classnames';
 
 import styles from './checkbox.pcss';
 
@@ -12,6 +13,21 @@ class Checkbox extends Component {
 	}
 
 	render() {
+
+		const labelClasses = classNames({
+			'panel-input-label-title': true,
+			'panel-field-label': true,
+			[styles.label]: true,
+		});
+		const descriptionStyles = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldStyles = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
+
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>
 				<label>
@@ -29,12 +45,12 @@ class Checkbox extends Component {
 		);
 
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldStyles}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<ul className={styles.list}>
 				{Options}
 				</ul>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionStyles}>{this.props.description}</p>
 			</div>
 		);
 	}
