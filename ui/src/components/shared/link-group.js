@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
-import styles from './link-fieldset.pcss';
+import styles from './link-group.pcss';
 
 const TARGET_OPTIONS = [
 	{
@@ -22,28 +22,23 @@ const TARGET_OPTIONS = [
  * @constructor
  */
 
-const LinkFieldset = (props) => {
+const LinkGroup= (props) => {
 	// styles
 	const targetClasses = classNames({
 		[styles.inputGeneric]: true,
-		'pllink-target': true,
+		'panel-group-link-target': true,
 	});
 	const urlClasses = classNames({
 		[styles.inputGeneric]: true,
-		'pllink-url': true,
+		'panel-group-url': true,
 	});
 	const labelClasses = classNames({
 		[styles.inputGeneric]: true,
-		'pllink-label': true,
-	});
-	const legendClasses = classNames({
-		[styles.label]: true,
-		'legend-label': true,
+		'panel-group-label': true,
 	});
 
 	return (
-		<fieldset className={styles.fieldset}>
-			<legend className={legendClasses}>{props.label}</legend>
+		<div>
 			<div className={urlClasses}>
 				<input
 					type="text"
@@ -71,14 +66,11 @@ const LinkFieldset = (props) => {
 					onChange={props.handleTargetChange}
 				/>
 			</div>
-			<p className={styles.description}>{props.description}</p>
-		</fieldset>
+		</div>
 	);
 };
 
-LinkFieldset.propTypes = {
-	label: PropTypes.string,
-	description: PropTypes.string,
+LinkGroup.propTypes = {
 	strings: PropTypes.array,
 	handleURLChange: PropTypes.func,
 	handleLabelChange: PropTypes.func,
@@ -88,9 +80,7 @@ LinkFieldset.propTypes = {
 	valueTarget: PropTypes.string,
 };
 
-LinkFieldset.defaultProps = {
-	label: '',
-	description: '',
+LinkGroup.defaultProps = {
 	valueUrl: '',
 	valueLabel: '',
 	valueTarget: '',
@@ -100,4 +90,4 @@ LinkFieldset.defaultProps = {
 	strings: [],
 };
 
-export default LinkFieldset;
+export default LinkGroup;

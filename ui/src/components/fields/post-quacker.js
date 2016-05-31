@@ -14,7 +14,7 @@ import PostPreview from '../shared/post-preview';
 
 import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
-import LinkFieldset from '../shared/link-fieldset';
+import LinkGroup from '../shared/link-group';
 import ReactSelect from 'react-select-plus';
 
 
@@ -148,7 +148,8 @@ class PostQuacker extends Component {
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<LinkFieldset label="Optional: Enter custom URL and target" valueTarget={this.state.link_target} valueUrl={this.state.link_url} valueLabel={this.state.link_label} />
+					<label className={styles.tabLabel}>Link</label>
+					<LinkGroup valueTarget={this.state.link_target} valueUrl={this.state.link_url} valueLabel={this.state.link_label} />
 				</div>
 			</div>
 		);
