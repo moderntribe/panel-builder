@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent\Fields;
+use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
 /**
@@ -150,5 +151,19 @@ class Image extends Field {
 				],
 			]
 		];
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed         $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		if ( $data ) {
+			$cache->add_image( $data, $this->size );
+		}
 	}
 }
