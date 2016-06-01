@@ -6,9 +6,19 @@ import _ from 'lodash';
 import styles from './image-select.pcss';
 
 class ImageSelect extends Component {
+	state = {
+		value: this.props.data.length ? this.props.data : this.props.default,
+	};
+
 	@autobind
-	handleChange() {
-		// code to connect to actions that execute on redux store
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		this.setState({ value });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	render() {
@@ -27,7 +37,7 @@ class ImageSelect extends Component {
 					name={this.props.name}
 					value={option.value}
 					onChange={this.handleChange}
-					checked={this.props.default === option.value}
+					checked={this.state.value === option.value}
 				/>
 				<div className={styles.optionImage}><img src={option.src} alt={option.label} /></div>
 				{option.label}
@@ -66,6 +76,9 @@ ImageSelect.propTypes = {
 	strings: React.PropTypes.array,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
+	data: React.PropTypes.string,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 ImageSelect.defaultProps = {
@@ -75,6 +88,9 @@ ImageSelect.defaultProps = {
 	strings: [],
 	default: '',
 	options: [],
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default ImageSelect;

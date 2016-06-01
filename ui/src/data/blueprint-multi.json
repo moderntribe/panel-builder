@@ -25,6 +25,14 @@
         "default": ""
       },
       {
+        "type": "Video",
+        "label": "Cat Video",
+        "name": "cat_video",
+        "description": "URL to a cute cate video on YouTube",
+        "strings": [],
+        "default": "default value"
+      },
+      {
         "type": "HTML",
         "label": "Need Help?",
         "name": "help",
@@ -47,7 +55,7 @@
       {
         "type": "ImageSelect",
         "label": "Select a style",
-        "name": "layout",
+        "name": "layout2",
         "description": "Some description here",
         "strings": [],
         "default": "cards",
@@ -327,17 +335,6 @@
         "size": "large"
       },
       {
-        "type": "TextArea",
-        "label": "Another Tinymce up in here.",
-        "name": "content",
-        "description": "This is the field of pain.",
-        "strings": [],
-        "default": "",
-        "richtext": true,
-        "media_buttons": true,
-        "editor_settings_reference": "slide_test-0000"
-      },
-      {
         "type": "Link",
         "label": "Link",
         "name": "link",
@@ -348,6 +345,17 @@
           "target": "",
           "label": ""
         }
+      },
+      {
+        "type": "TextArea",
+        "label": "Another Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "slide_test-0000"
       }
     ]
   },

@@ -5,9 +5,19 @@ import classNames from 'classnames';
 import styles from './radio.pcss';
 
 class Radio extends Component {
+	state = {
+		value: this.props.data.length ? this.props.data : this.props.default,
+	};
+
 	@autobind
-	handleChange() {
-		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		this.setState({ value });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	render() {
@@ -26,7 +36,7 @@ class Radio extends Component {
 					name={this.props.name}
 					value={option.value}
 					onChange={this.handleChange}
-					checked={this.props.default === option.value}
+					checked={this.state.value === option.value}
 				/>
 				{option.label}
 			</label>
@@ -61,6 +71,9 @@ Radio.propTypes = {
 	strings: React.PropTypes.array,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
+	data: React.PropTypes.string,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 Radio.defaultProps = {
@@ -70,6 +83,9 @@ Radio.defaultProps = {
 	strings: [],
 	default: '',
 	options: [],
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Radio;

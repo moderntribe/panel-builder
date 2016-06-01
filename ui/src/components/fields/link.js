@@ -8,21 +8,51 @@ import styles from './link.pcss';
 
 class Link extends Component {
 	state = {
-		url: this.props.default.url,
-		label: this.props.default.label,
-		target: (this.props.default && this.props.default.target) ? this.props.default.target : '_self',
+		url: this.props.data && this.props.data.url ? this.props.data.url : this.props.default.url,
+		label: this.props.data && this.props.data.label ? this.props.data.label : this.props.default.label,
+		target: this.props.data && this.props.data.target ? this.props.data.target : this.props.default.target,
 	};
 
-	@autobind
-	handleTextChange(event) {
-		// code to connect to actions that execute on redux store
-		this.setState({ [event.currentTarget.name]: event.currentTarget.value });
+	getValue() {
+		return {
+			url: this.state.url,
+			target: this.state.target,
+			label: this.state.label,
+		};
 	}
+
+	@autobind
+	handleURLChange(e) {
+		const url = e.currentTarget.value;
+		this.setState({ url });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
+	}
+
+	@autobind
+	handleLabelChange(e) {
+		const label = e.currentTarget.value;
+		this.setState({ label });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
+	}
+
 	@autobind
 	handleSelectChange(data) {
-		// code to connect to actions that execute on redux store
 		const target = data.value.length ? data.value : '_self';
-		this.setState({ target });
+		this.setState({ target }, () => {
+			this.props.updatePanelData({
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: this.getValue(),
+			});
+		});
 	}
 
 	render() {
@@ -43,7 +73,7 @@ class Link extends Component {
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleTextChange} handleURLChange={this.handleTextChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
+					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} handleTargetChange={this.handleSelectChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
@@ -57,6 +87,9 @@ Link.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: React.PropTypes.object,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Link.defaultProps = {
@@ -65,6 +98,9 @@ Link.defaultProps = {
 	description: '',
 	strings: [],
 	default: {},
+	data: {},
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Link;
