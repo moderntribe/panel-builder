@@ -63,6 +63,14 @@
           "label": "Visit the Tribe"
         }
       }
+    },
+    {
+      "type": "postspanel",
+      "depth": 0,
+      "data": {
+        "title": "The Big Old Posts Field",
+        "posts": []
+      }
     }
   ]
 }

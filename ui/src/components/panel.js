@@ -86,7 +86,7 @@ class PanelContainer extends Component {
 	}
 
 	handleHeights() {
-		if (!this.state.active){
+		if (!this.state.active) {
 			_.delay(() => {
 				const fields = this.el.querySelectorAll('.panel-row-fields');
 				fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;

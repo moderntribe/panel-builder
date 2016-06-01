@@ -305,5 +305,105 @@
         }
       }
     ]
+  },
+  {
+    "type": "postspanel",
+    "label": "Events Stream",
+    "description": "Select some posts.",
+    "icon": {
+      "active": "module-contentgrid.png",
+      "inactive": "module-contentgrid.png"
+    },
+    "fields": [
+      {
+        "type": "Post_List",
+        "label": "A Post_List field",
+        "name": "posts",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Select\/Create",
+          "tabs.dynamic": "Query",
+          "button.select_post": "Select a post",
+          "button.create_content": "Create content",
+          "button.remove_post": "Remove this post",
+          "label.content_type": "Content Type",
+          "label.choose_post": "Choose a Post",
+          "label.max_results": "Max Results",
+          "label.select_post_type": "Select Post Type",
+          "label.select_post_types": "Select Post Types",
+          "label.add_a_filter": "Add a Filter",
+          "label.taxonomy": "Taxonomy",
+          "label.relationship": "Relationship",
+          "label.date": "Date",
+          "label.title": "Title",
+          "label.content": "Content",
+          "label.link": "Link: http:\/\/example.com\/",
+          "label.thumbnail": "Thumbnail"
+        },
+        "default": {
+          "type": "manual",
+          "posts": [],
+          "filters": [],
+          "max": 0
+        },
+        "min": 3,
+        "max": 12,
+        "suggested": 6,
+        "show_max_control": true,
+        "post_type": [
+          {
+            "value": "post",
+            "label": "Posts"
+          },
+          {
+            "value": "menus",
+            "label": "Menus"
+          },
+          {
+            "value": "tribe_events",
+            "label": "Events"
+          }
+        ],
+        "filters": [
+          {
+            "label": "Taxonomy",
+            "options": [
+              {
+                "value": "post_tag",
+                "label": "Tags",
+                "post_type": [
+                  "post"
+                ]
+              }
+            ]
+          },
+          {
+            "value": "date",
+            "label": "Date",
+            "post_type": [
+              "post",
+              "page",
+              "attachment"
+            ]
+          }
+        ],
+        "taxonomies": {
+          "post_tag": [
+            {
+              "value": 6,
+              "label": "Fun Times"
+            },
+            {
+              "value": 7,
+              "label": "Maybe Better"
+            },
+            {
+              "value": 4,
+              "label": "Oh Boy"
+            }
+          ]
+        }
+      }
+    ]
   }
 ]

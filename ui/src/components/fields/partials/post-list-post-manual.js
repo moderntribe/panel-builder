@@ -34,7 +34,7 @@ class PostListPostManual extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			this.setState({ image: attachment.sizes.large.url });
+			this.setState({ image: attachment.sizes.medium.url });
 		});
 
 		frame.open();

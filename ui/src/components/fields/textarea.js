@@ -29,7 +29,7 @@ class TextArea extends Component {
 		this.editor = null;
 		this.state = {
 			text: this.props.data.length ? this.props.data : this.props.default,
-		}
+		};
 	}
 
 	componentDidMount() {
