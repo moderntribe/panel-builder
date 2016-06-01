@@ -4,14 +4,14 @@ import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags } from '../../
  * Initializes events for a tinymce instance. You need to pass and editor dom node, a unique id editor settings
  * reference. Call on componentDidMount.
  * @param opts
+ * @param callback get data back if you want ;)
  */
 
-export const init = (opts = {}) => {
+export const init = (opts = {}, callback) => {
 	const options = {
 		editor: null,
 		fid: '',
 		editor_settings: '',
-		callback: () => {},
 	};
 
 	// merge options

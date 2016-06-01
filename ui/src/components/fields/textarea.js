@@ -6,7 +6,7 @@
  * a WordPress visual editor.
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
@@ -27,6 +27,9 @@ class TextArea extends Component {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
 		this.editor = null;
+		this.state = {
+			text: this.props.data.length ? this.props.data : this.props.default,
+		}
 	}
 
 	componentDidMount() {
@@ -57,7 +60,7 @@ class TextArea extends Component {
 					id={this.fid}
 					ref={this.fid}
 					name={this.props.name}
-					value={this.props.data}
+					value={this.state.text}
 					onChange={this.handleChange}
 				/>
 			);
@@ -82,9 +85,15 @@ class TextArea extends Component {
 	}
 
 	@autobind
-	handleChange(e) {
-		// code to connect to actions that execute on redux store
-		console.log(e.currentTarget.value);
+	handleChange(data) {
+		const text = !this.props.richtext ? data.currentTarget.value : data;
+
+		this.setState({ text });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: text,
+		});
 	}
 
 	/**
@@ -102,7 +111,7 @@ class TextArea extends Component {
 			editor: this.editor,
 			fid: this.fid,
 			editor_settings: this.props.editor_settings_reference,
-		});
+		}, this.handleChange);
 	}
 
 	/**
@@ -163,19 +172,22 @@ class TextArea extends Component {
 }
 
 TextArea.propTypes = {
-	data: React.PropTypes.string,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.array,
-	default: React.PropTypes.string,
-	richtext: React.PropTypes.bool,
-	media_buttons: React.PropTypes.bool,
-	editor_settings_reference: React.PropTypes.string,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.array,
+	default: PropTypes.string,
+	richtext: PropTypes.bool,
+	media_buttons: PropTypes.bool,
+	editor_settings_reference: PropTypes.string,
+	updatePanelData: PropTypes.func,
 };
 
 TextArea.defaultProps = {
 	data: '',
+	panelIndex: 0,
 	label: '',
 	name: '',
 	description: '',
@@ -184,6 +196,7 @@ TextArea.defaultProps = {
 	richtext: false,
 	media_buttons: true,
 	editor_settings_reference: 'content',
+	updatePanelData: () => {},
 };
 
 export default TextArea;
