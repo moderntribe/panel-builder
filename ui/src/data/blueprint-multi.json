@@ -25,6 +25,14 @@
         "default": ""
       },
       {
+        "type": "Video",
+        "label": "Cat Video",
+        "name": "cat_video",
+        "description": "URL to a cute cate video on YouTube",
+        "strings": [],
+        "default": "default value"
+      },
+      {
         "type": "HTML",
         "label": "Need Help?",
         "name": "help",

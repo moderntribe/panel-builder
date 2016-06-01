@@ -4,20 +4,25 @@ import classNames from 'classnames';
 import styles from './video.pcss';
 
 class Video extends Component {
+
 	state = {
-		videoURL: '',
+		videoURL: this.props.data.length ? this.props.data : this.props.default,
 	};
 
 	/**
-	 * Handler for when a user types in the video input field
+	 * Handler for when a user types in the video input field. Calling panel update
 	 *
 	 * @method handleChange
 	 * @param {Object} event.
 	 */
 	@autobind
-	handleChange(event) {
-		this.setState({
-			videoURL: event.target.value,
+	handleChange(e) {
+		const videoURL = e.currentTarget.value;
+		this.setState({ videoURL });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: videoURL,
 		});
 	}
 
@@ -66,6 +71,9 @@ Video.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: PropTypes.string,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Video.defaultProps = {
@@ -74,6 +82,9 @@ Video.defaultProps = {
 	description: '',
 	strings: [],
 	default: '',
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Video;
