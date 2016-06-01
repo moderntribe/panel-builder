@@ -448,24 +448,24 @@ class PostQuacker extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 
 		return (
-			<fieldset className={fieldStyles}>
+			<fieldset className={fieldClasses}>
 				<legend className={labelClasses}>{this.props.label}</legend>
 				{this.getTabButtons()}
 				<div className={styles.tabWrapper}>
 					{this.getSelectionTemplate()}
 					{this.getManualTemplate()}
 				</div>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</fieldset>
 		);
 	}

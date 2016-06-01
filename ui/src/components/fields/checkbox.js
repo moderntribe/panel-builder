@@ -17,11 +17,11 @@ class Checkbox extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
@@ -43,12 +43,12 @@ class Checkbox extends Component {
 		);
 
 		return (
-			<div className={fieldStyles}>
+			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<ul className={styles.list}>
 				{Options}
 				</ul>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

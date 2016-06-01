@@ -26,7 +26,7 @@ class Link extends Component {
 	}
 
 	render() {
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
@@ -34,17 +34,17 @@ class Link extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
 
 		return (
-			<div className={fieldStyles}>
+			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
 					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleTextChange} handleURLChange={this.handleTextChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
-					<p className={descriptionStyles}>{this.props.description}</p>
+					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
 		);

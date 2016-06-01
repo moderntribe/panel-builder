@@ -174,23 +174,23 @@ class ImageGallery extends Component {
 			</div>
 		);
 
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
-		const labelStyles = classNames({
+		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 
 		// Edit Gallery button to be translated
 		return (
-			<div className={fieldStyles}>
-				<label className={labelStyles}>{this.props.label}</label>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
@@ -202,7 +202,7 @@ class ImageGallery extends Component {
 						{previewItems}
 					</div>
 				</div>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

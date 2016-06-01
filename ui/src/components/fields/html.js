@@ -3,17 +3,17 @@ import styles from './html.pcss';
 import classNames from 'classnames';
 
 const HTML = (props) => {
-	const descriptionStyles = classNames({
+	const descriptionClasses = classNames({
 		[styles.description]: true,
 		'panel-field-description': true,
 	});
-	const fieldStyles = classNames({
+	const fieldClasses = classNames({
 		[styles.field]: true,
 		'panel-field': true,
 	});
 	return (
-		<div className={fieldStyles}>
-			<div className={descriptionStyles} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
+		<div className={fieldClasses}>
+			<div className={descriptionClasses} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
 		</div>
 	);
 };

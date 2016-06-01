@@ -15,21 +15,21 @@ class Text extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 		return (
-			<div className={fieldStyles}>
+			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={this.props.name} value="" size="40" onChange={this.handleChange} />
 				</span>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

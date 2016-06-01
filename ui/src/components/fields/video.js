@@ -28,10 +28,10 @@ class Video extends Component {
 	 */
 
 	render() {
-		const videoInputStyles = classNames({
+		const videoInputClasses = classNames({
 			'video-url': true,
 		});
-		const videoSpanStyles = classNames({
+		const videoSpanClasses = classNames({
 			'panel-input-field': true,
 			[styles.inputContainer]: true,
 		});
@@ -39,22 +39,22 @@ class Video extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
-		const fieldStyles = classNames({
+		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 
 		return (
-			<div className={fieldStyles}>
+			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
-				<span className={videoSpanStyles}>
-					<input type="text" className={videoInputStyles} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
+				<span className={videoSpanClasses}>
+					<input type="text" className={videoInputClasses} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
