@@ -8,9 +8,9 @@ import styles from './link.pcss';
 
 class Link extends Component {
 	state = {
-		url: (this.props.data && this.props.data.url) ? this.props.data.url : this.props.default.url,
-		label: (this.props.data && this.props.data.label) ? this.props.data.label : this.props.default.label,
-		target: (this.props.data && this.props.data.target) ? this.props.data.target : this.props.default.target,
+		url: this.props.data && this.props.data.url ? this.props.data.url : this.props.default.url,
+		label: this.props.data && this.props.data.label ? this.props.data.label : this.props.default.label,
+		target: this.props.data && this.props.data.target ? this.props.data.target : this.props.default.target,
 	};
 
 	getValue() {

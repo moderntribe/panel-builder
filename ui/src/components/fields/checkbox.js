@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
-import escape from 'escape-html';
 import classNames from 'classnames';
 
 import styles from './checkbox.pcss';
@@ -15,7 +14,7 @@ class Checkbox extends Component {
 	handleChange(e) {
 		const key = e.currentTarget.value;
 		const data = _.cloneDeep(this.state.data);
-		data[key] = Boolean(this.state.data[key] === 1) ? 0 : 1;
+		data[key] = this.state.data[key] === 1 ? 0 : 1;
 		this.setState({
 			data,
 		});
@@ -45,7 +44,7 @@ class Checkbox extends Component {
 					<input
 						type="checkbox"
 						name={`${this.props.name}[]`}
-						value={escape(option.value)}
+						value={option.value}
 						className={styles.checkbox}
 						onChange={this.handleChange}
 						checked={this.state.data && this.state.data[option.value] === 1}
