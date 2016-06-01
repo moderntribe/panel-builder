@@ -6,6 +6,10 @@
       "data": {
         "title": "Simple Little Panel",
         "text_test": "Its a really easy going one.",
+        "partner": {
+          "peter":1,
+          "shane":1
+        },
         "content": "A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her. Here men from the planet Earth first set foot upon the Moon. July 1969 AD. We came in peace for all mankind."
       }
     },
