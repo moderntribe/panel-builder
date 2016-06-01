@@ -26,5 +26,4 @@ HTML.defaultProps = {
 	description: '',
 };
 
-
 export default HTML;

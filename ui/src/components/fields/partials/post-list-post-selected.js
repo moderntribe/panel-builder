@@ -9,17 +9,10 @@ import styles from './post-list-post-selected.pcss';
 
 class PostListPostSelected extends Component {
 	state = {
-		search_post_type: '',
-		selected_post: '',
+		searchPostType: '',
+		selectedPost: '',
 		loading: false,
 		search: '',
-	};
-
-	noResults = {
-		options: [{
-			value: 0,
-			label: 'No Results',
-		}],
 	};
 
 	getRequestParams(input) {
@@ -28,7 +21,7 @@ class PostListPostSelected extends Component {
 			s: input,
 			type: 'query-panel',
 			paged: 1,
-			post_type: this.state.search_post_type,
+			post_type: this.state.searchPostType,
 			field_name: 'items',
 		});
 	}
@@ -36,7 +29,7 @@ class PostListPostSelected extends Component {
 	@autobind
 	getOptions(input, callback) {
 		let data = this.noResults;
-		if (!this.state.search_post_type.length && !input.length) {
+		if (!this.state.searchPostType.length && !input.length) {
 			callback(null, data);
 			return;
 		}
@@ -45,7 +38,7 @@ class PostListPostSelected extends Component {
 			.get(`${window.ajaxurl}?${this.getRequestParams(input)}`)
 			.end((err, response) => {
 				this.setState({ loading: false });
-				if(response.body.posts.length){
+				if (response.body.posts.length) {
 					data = {
 						options: response.body.posts,
 					};
@@ -54,17 +47,24 @@ class PostListPostSelected extends Component {
 			});
 	}
 
+	noResults = {
+		options: [{
+			value: 0,
+			label: 'No Results',
+		}],
+	};
+
 	@autobind
-	handleChange(data){
-		const search_post_type = data ? data.value : '';
+	handleChange(data) {
+		const searchPostType = data ? data.value : '';
 		this.setState({
-			search_post_type,
+			searchPostType,
 			search: '',
 		});
 	}
 
 	@autobind
-	handleSearchChange(data){
+	handleSearchChange(data) {
 		const search = data ? data.value : '';
 		this.setState({ search });
 	}
@@ -74,13 +74,13 @@ class PostListPostSelected extends Component {
 			<article className={styles.wrapper}>
 				<ReactSelect
 					name={_.uniqueId('post-selected-')}
-					value={this.state.search_post_type}
+					value={this.state.searchPostType}
 					searchable={false}
 					options={this.props.post_type}
 					onChange={this.handleChange}
 				/>
 				<ReactSelect.Async
-					disabled={this.state.search_post_type.length === 0}
+					disabled={this.state.searchPostType.length === 0}
 					value={this.state.search}
 					name="manual-selected-post"
 					loadOptions={this.getOptions}
@@ -91,8 +91,6 @@ class PostListPostSelected extends Component {
 		);
 	}
 }
-
-
 
 PostListPostSelected.propTypes = {
 	name: PropTypes.string,

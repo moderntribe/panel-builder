@@ -1,22 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
-import ReactSelect from 'react-select-plus';
 import LinkGroup from '../shared/link-group';
 
 import classNames from 'classnames';
 
 import styles from './link.pcss';
-
-const TARGET_OPTIONS = [
-	{
-		value: '_self',
-		label: 'Stay in Window',
-	},
-	{
-		value: '_blank',
-		label: 'Open New Window',
-	},
-];
 
 class Link extends Component {
 	state = {

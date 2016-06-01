@@ -34,7 +34,7 @@ class PostListPostManual extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			this.setState({ image: attachment.sizes['large'].url });
+			this.setState({ image: attachment.sizes.large.url });
 		});
 
 		frame.open();
@@ -71,11 +71,11 @@ class PostListPostManual extends Component {
 					name="post_title"
 					placeholder={this.props.strings['label.title']}
 				/>
-					<textarea
-						className={contentClasses}
-						name="post_content"
-						placeholder={this.props.strings['label.content']}
-					/>
+				<textarea
+					className={contentClasses}
+					name="post_content"
+					placeholder={this.props.strings['label.content']}
+				/>
 				<input
 					type="url"
 					className={urlClasses}
@@ -94,5 +94,16 @@ class PostListPostManual extends Component {
 		);
 	}
 }
+
+
+PostListPostManual.propTypes = {
+	label: PropTypes.string,
+	strings: PropTypes.object,
+};
+
+PostListPostManual.defaultProps = {
+	label: '',
+	object: {},
+};
 
 export default PostListPostManual;

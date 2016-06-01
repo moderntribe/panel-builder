@@ -217,16 +217,125 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Handler for Remove Post Click
+	 * Handler to pass into react select for showing posts
 	 *
-	 * @method handleRemovePostClick
+	 * @method getOptions
 	 */
 	@autobind
-	handleRemovePostClick() {
-		// add the selected post to this field
+	getOptions(input, callback) {
+		let data = this.noResults;
+		if (!this.state.post_types.length && !input.length) {
+			callback(null, data);
+			return;
+		}
+		this.setState({ loading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
+		request.get(ajaxURL).end((err, response) => {
+			this.setState({ loading: false });
+			if (response.body.posts.length) {
+				data = {
+					options: response.body.posts,
+				};
+			}
+			callback(null, data);
+		});
+	}
+
+	/**
+	 * Get search params for posts limited by type
+	 *
+	 * @method updatePreview
+	 */
+	getSearchRequestParams(input) {
+		const types = [];
+		_.forEach(this.state.post_types, (type) => {
+			types.push(type.value);
+		});
+		return param({
+			action: 'posts-field-posts-search',
+			s: input,
+			type: 'query-panel',
+			paged: 1,
+			post_type: types,
+			field_name: 'items',
+		});
+	}
+
+	/**
+	 * Called to update the preview after a use selects a new post
+	 *
+	 * @method updatePreview
+	 */
+	updatePreview(id) {
+		const params = param({
+			action: 'posts-field-fetch-preview',
+			post_ids: [id],
+		});
+		request
+			.post(window.ajaxurl)
+			.send(params)
+			.end(this.handleUpdatePreview);
+	}
+
+	/**
+	 * Handler for Add to Module button
+	 *
+	 * @method handleAddToModuleClick
+	 */
+	@autobind
+	handleAddToModuleClick() {
+		if (this.state.post_id && this.state.post_id !== 0) {
+			this.updatePreview(this.state.post_id);
+		}
+	}
+
+	/**
+	 * Handler for after the preview is retrieved
+	 *
+	 * @method handleUpdatePreview
+	 */
+	@autobind
+	handleUpdatePreview(err, response) {
 		this.setState({
-			post: null,
-			post_id: 0,
+			post: response.body.data.posts[response.body.data.post_ids[0]],
+		});
+	}
+
+	/**
+	 * Handler for post select change
+	 *
+	 * @method handlePostSearchChange
+	 */
+	@autobind
+	handlePostSearchChange(data) {
+		const search = data ? data.value : '';
+		this.setState({
+			search,
+			post_id: data.value,
+		});
+	}
+
+	/**
+	 * Handler for when post type changes
+	 *
+	 * @method handlePostTypeChange
+	 */
+	@autobind
+	handlePostTypeChange(types) {
+		this.setState({
+			post_types: types,
+		});
+	}
+
+	/**
+	 * Generic handler for changing text field
+	 *
+	 * @method handleTextChange
+	 */
+	@autobind
+	handleTextChange(event) {
+		this.setState({
+			[event.currentTarget.name]: event.currentTarget.value,
 		});
 	}
 
@@ -273,125 +382,16 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Generic handler for changing text field
+	 * Handler for Remove Post Click
 	 *
-	 * @method handleTextChange
+	 * @method handleRemovePostClick
 	 */
 	@autobind
-	handleTextChange(event) {
+	handleRemovePostClick() {
+		// add the selected post to this field
 		this.setState({
-			[event.currentTarget.name]: event.currentTarget.value,
-		});
-	}
-
-	/**
-	 * Handler for when post type changes
-	 *
-	 * @method handlePostTypeChange
-	 */
-	@autobind
-	handlePostTypeChange(types) {
-		this.setState({
-			post_types: types,
-		});
-	}
-
-	/**
-	 * Handler for post select change
-	 *
-	 * @method handlePostSearchChange
-	 */
-	@autobind
-	handlePostSearchChange(data) {
-		const search = data ? data.value : '';
-		this.setState({
-			search,
-			post_id: data.value,
-		});
-	}
-
-	/**
-	 * Handler for after the preview is retrieved
-	 *
-	 * @method handleUpdatePreview
-	 */
-	@autobind
-	handleUpdatePreview(err, response) {
-		this.setState({
-			post: response.body.data.posts[response.body.data.post_ids[0]],
-		});
-	}
-
-	/**
-	 * Handler to pass into react select for showing posts
-	 *
-	 * @method getOptions
-	 */
-	@autobind
-	getOptions(input, callback) {
-		let data = this.noResults;
-		if (!this.state.post_types.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		this.setState({ loading: true });
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
-		request.get(ajaxURL).end((err, response) => {
-			this.setState({ loading: false });
-			if (response.body.posts.length) {
-				data = {
-					options: response.body.posts,
-				};
-			}
-			callback(null, data);
-		});
-	}
-
-	/**
-	 * Handler for Add to Module button
-	 *
-	 * @method handleAddToModuleClick
-	 */
-	@autobind
-	handleAddToModuleClick() {
-		if (this.state.post_id && this.state.post_id !== 0) {
-			this.updatePreview(this.state.post_id);
-		}
-	}
-
-	/**
-	 * Called to update the preview after a use selects a new post
-	 *
-	 * @method updatePreview
-	 */
-	updatePreview(id) {
-		const params = param({
-			action: 'posts-field-fetch-preview',
-			post_ids: [id],
-		});
-		request
-			.post(window.ajaxurl)
-			.send(params)
-			.end(this.handleUpdatePreview);
-	}
-
-	/**
-	 * Get search params for posts limited by type
-	 *
-	 * @method updatePreview
-	 */
-	getSearchRequestParams(input) {
-		const types = [];
-		_.forEach(this.state.post_types, (type) => {
-			types.push(type.value);
-		});
-		return param({
-			action: 'posts-field-posts-search',
-			s: input,
-			type: 'query-panel',
-			paged: 1,
-			post_type: types,
-			field_name: 'items',
+			post: null,
+			post_id: 0,
 		});
 	}
 

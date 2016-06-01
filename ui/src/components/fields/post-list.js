@@ -23,17 +23,6 @@ class PostList extends Component {
 		manual_add_count: this.props.min,
 	};
 
-	@autobind
-	handleChange() {
-		// code to connect to actions that execute on redux store
-	}
-
-	@autobind
-	switchTabs(e) {
-		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
-		this.setState({ type });
-	}
-
 	getTabButtons() {
 		const manualButtonClasses = classNames({
 			'pl-show-manual': true,
@@ -63,30 +52,6 @@ class PostList extends Component {
 		);
 	}
 
-	@autobind
-	addManualPost(e) {
-		let newState = {};
-		const type = e.currentTarget.classList.contains('type-manual') ? 'manual' : 'select';
-
-		if(this.state.manual_add_count > 1){
-			newState.manual_add_count = this.state.manual_add_count;
-			newState.manual_add_count--;
-		}
-
-		newState.manual_post_count = this.state.manual_post_count;
-		newState.manual_post_count++;
-
-		newState.manual_post_data = this.state.manual_post_data;
-		newState.manual_post_data.push({type});
-
-		this.setState(newState);
-	}
-
-	@autobind
-	handleManualSort(data){
-		console.log(data);
-	}
-
 	getManualNotification() {
 		let MaybeNotification = null;
 
@@ -107,23 +72,30 @@ class PostList extends Component {
 		return MaybeNotification;
 	}
 
-	getManualPosts(){
+	getManualPosts() {
 		let Posts = null;
 
-		if(this.state.manual_post_data.length){
+		if (this.state.manual_post_data.length) {
 			const Items = _.map(this.state.manual_post_data, (data, i) => {
-				return data.type === 'manual' ? (
-					<PostListPostManual
-						key={`manual-post-${i}`}
-						strings={this.props.strings}
-					/>
-				) : (
-					<PostListPostSelected
-						key={`select-post-${i}`}
-						strings={this.props.strings}
-						post_type={this.props.post_type}
-					/>
-				);
+				let Template;
+				if (data.type === 'manual') {
+					Template = (
+						<PostListPostManual
+							key={`manual-post-${i}`}
+							strings={this.props.strings}
+						/>
+					);
+				} else {
+					Template = (
+						<PostListPostSelected
+							key={`select-post-${i}`}
+							strings={this.props.strings}
+							post_type={this.props.post_type}
+						/>
+					);
+				}
+
+				return Template;
 			});
 			const options = {
 				onSort: (e) => {
@@ -136,7 +108,7 @@ class PostList extends Component {
 				>
 					{Items}
 				</Sortable>
-			)
+			);
 		}
 
 		return Posts;
@@ -155,7 +127,7 @@ class PostList extends Component {
 					strings={this.props.strings}
 				/>
 			);
-			if(this.state.manual_post_count){
+			if (this.state.manual_post_count) {
 				MaybeChooser = (
 					<div>
 						<h3>{POST_LIST_I18N.chooser_heading}</h3>
@@ -197,6 +169,41 @@ class PostList extends Component {
 				/>
 			</div>
 		);
+	}
+
+	@autobind
+	handleManualSort(data) {
+		console.log(data);
+	}
+
+	@autobind
+	addManualPost(e) {
+		const newState = {};
+		const type = e.currentTarget.classList.contains('type-manual') ? 'manual' : 'select';
+
+		if (this.state.manual_add_count > 1) {
+			newState.manual_add_count = this.state.manual_add_count;
+			newState.manual_add_count--;
+		}
+
+		newState.manual_post_count = this.state.manual_post_count;
+		newState.manual_post_count++;
+
+		newState.manual_post_data = this.state.manual_post_data;
+		newState.manual_post_data.push({ type });
+
+		this.setState(newState);
+	}
+
+	@autobind
+	switchTabs(e) {
+		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
+		this.setState({ type });
+	}
+
+	@autobind
+	handleChange() {
+		// code to connect to actions that execute on redux store
 	}
 
 	render() {

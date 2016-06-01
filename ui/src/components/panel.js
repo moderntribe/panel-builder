@@ -13,15 +13,7 @@ class PanelContainer extends Component {
 		active: false,
 	};
 
-	@autobind
-	handleClick(){
-		this.setState({
-			active: !this.state.active,
-		});
-		this.props.panelsActive(!this.state.active);
-	}
-
-	getFields(){
+	getFields() {
 		let FieldContainer = null;
 		const Fields = this.state.active ? _.map(this.props.fields, (field) => {
 			const Field = componentMap[field.type.replace(/\\/g, '')];
@@ -75,6 +67,14 @@ class PanelContainer extends Component {
 		return FieldContainer;
 	}
 
+	@autobind
+	handleClick() {
+		this.setState({
+			active: !this.state.active,
+		});
+		this.props.panelsActive(!this.state.active);
+	}
+
 	render() {
 		const wrapperClasses = classNames({
 			[styles.row]: true,
@@ -86,9 +86,9 @@ class PanelContainer extends Component {
 			'panel-row-header': true,
 		});
 		const arrowClasses = classNames({
+			dashicons: true,
 			[styles.arrow]: true,
 			'panel-row-arrow': true,
-			'dashicons': true,
 			'dashicons-arrow-right-alt2': true,
 		});
 
@@ -127,9 +127,12 @@ PanelContainer.defaultProps = {
 	description: '',
 	icon: {},
 	fields: [],
-	panelsActive: () => {},
-	movePanel: () => {},
-	updatePanelData: () => {},
+	panelsActive: () => {
+	},
+	movePanel: () => {
+	},
+	updatePanelData: () => {
+	},
 };
 
 export default PanelContainer;

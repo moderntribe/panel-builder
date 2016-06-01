@@ -20,43 +20,13 @@ class PanelCollection extends Component {
 		liveEdit: false,
 		editText: UI_I18N.btn_launch_edit,
 	};
-	heartbeat = () => {};
 
-
-	componentDidMount(){
+	componentDidMount() {
 		this.runDataHeartbeat();
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.heartbeat);
-	}
-
-	/**
-	 * We are saving the data in the redux store to a hidden input every second for wp to pickup on whenever saves/drafts occur.
-	 * Redux does a shallow compare so deep updates from fields on the nested panel data dont trigger a rerender, which is actually good.
-	 * But that means we wont get auto liveupdating of the value from props and have to setup our own "heartbeat" to do it.
-	 */
-	runDataHeartbeat() {
-		const dataInput = ReactDOM.findDOMNode(this.refs['data']);
-		let oldData = JSON.stringify(this.props.panels);
-		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify(this.props.panels);
-			if(oldData === newData){
-				return;
-			}
-			oldData = newData;
-			dataInput.value = newData;
-		}, 1000);
-	}
-
-	@autobind
-	panelsActive(active){
-		this.setState({active});
-	}
-
-	@autobind
-	swapEditMode(){
-		this.setState({liveEdit: !this.state.liveEdit});
 	}
 
 	getBar() {
@@ -65,11 +35,13 @@ class PanelCollection extends Component {
 
 	getIframe() {
 		return this.state.liveEdit ? (
-			<div className={styles.iframe}><iframe src={window.ModularContent.preview_url} /></div>
+			<div className={styles.iframe}>
+				<iframe src={window.ModularContent.preview_url} />
+			</div>
 		) : null;
 	}
 
-	getPanels(){
+	getPanels() {
 		return _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(blueprints, { type: panel.type });
 			return (
@@ -86,7 +58,37 @@ class PanelCollection extends Component {
 		});
 	}
 
-	render(){
+	@autobind
+	swapEditMode() {
+		this.setState({ liveEdit: !this.state.liveEdit });
+	}
+
+	@autobind
+	panelsActive(active) {
+		this.setState({ active });
+	}
+
+	/**
+	 * We are saving the data in the redux store to a hidden input every second for wp to pickup on whenever saves/drafts occur.
+	 * Redux does a shallow compare so deep updates from fields on the nested panel data dont trigger a rerender, which is actually good.
+	 * But that means we wont get auto liveupdating of the value from props and have to setup our own "heartbeat" to do it.
+	 */
+	runDataHeartbeat() {
+		const dataInput = ReactDOM.findDOMNode(this.refs.data);
+		let oldData = JSON.stringify(this.props.panels);
+		this.heartbeat = setInterval(() => {
+			const newData = JSON.stringify(this.props.panels);
+			if (oldData === newData) {
+				return;
+			}
+			oldData = newData;
+			dataInput.value = newData;
+		}, 1000);
+	}
+
+	heartbeat = () => {};
+
+	render() {
 		const collectionClasses = classNames({
 			[styles.main]: true,
 			[styles.active]: this.state.active,
@@ -108,7 +110,7 @@ class PanelCollection extends Component {
 				{this.getIframe()}
 				<input ref="data" type="hidden" name="panels" value={JSON.stringify(this.props.panels)} />
 			</div>
-		)
+		);
 	}
 }
 

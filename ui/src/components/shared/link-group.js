@@ -22,7 +22,7 @@ const TARGET_OPTIONS = [
  * @constructor
  */
 
-const LinkGroup= (props) => {
+const LinkGroup = (props) => {
 	// styles
 	const targetClasses = classNames({
 		[styles.inputGeneric]: true,

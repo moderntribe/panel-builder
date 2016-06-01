@@ -12,7 +12,6 @@ import { TEXTAREA_I18N } from '../../globals/i18n';
  */
 
 const RichtextEditor = (props) => {
-
 	/**
 	 * Sourced from window.ModularContent.media_buttons_html. This will contain the
 	 * enabled buttons html for this tinymce instance.

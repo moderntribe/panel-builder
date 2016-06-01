@@ -23,7 +23,7 @@ const PostListManualTypeChooser = (props) => (
 			classes="type-select"
 			handleClick={props.handleClick}
 		/>
-		<span className={styles.divider}/>
+		<span className={styles.divider} />
 		<Button
 			text={props.strings['button.create_content']}
 			primary={false}
