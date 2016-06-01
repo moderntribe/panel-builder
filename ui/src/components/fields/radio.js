@@ -6,7 +6,7 @@ import styles from './radio.pcss';
 
 class Radio extends Component {
 	state = {
-		value: this.props.data.length  ? this.props.data : this.props.default,
+		value: this.props.data.length ? this.props.data : this.props.default,
 	};
 
 	@autobind
@@ -16,7 +16,7 @@ class Radio extends Component {
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
-			value: value,
+			value,
 		});
 	}
 
