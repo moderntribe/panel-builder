@@ -61,6 +61,8 @@ const LinkGroup = (props) => {
 				<ReactSelect
 					name="target"
 					value={props.valueTarget}
+					searchable={false}
+					clearable={false}
 					options={TARGET_OPTIONS}
 					clearable={false}
 					onChange={props.handleTargetChange}

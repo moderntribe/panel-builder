@@ -335,17 +335,6 @@
         "size": "large"
       },
       {
-        "type": "TextArea",
-        "label": "Another Tinymce up in here.",
-        "name": "content",
-        "description": "This is the field of pain.",
-        "strings": [],
-        "default": "",
-        "richtext": true,
-        "media_buttons": true,
-        "editor_settings_reference": "slide_test-0000"
-      },
-      {
         "type": "Link",
         "label": "Link",
         "name": "link",
@@ -356,6 +345,17 @@
           "target": "",
           "label": ""
         }
+      },
+      {
+        "type": "TextArea",
+        "label": "Another Tinymce up in here.",
+        "name": "content",
+        "description": "This is the field of pain.",
+        "strings": [],
+        "default": "",
+        "richtext": true,
+        "media_buttons": true,
+        "editor_settings_reference": "slide_test-0000"
       }
     ]
   },
