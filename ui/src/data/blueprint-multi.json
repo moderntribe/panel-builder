@@ -101,6 +101,28 @@
         "default": ""
       },
       {
+        "type": "Select",
+        "label": "Proposed budget",
+        "name": "budget",
+        "description": "How much money do you have?",
+        "strings": [],
+        "default": "",
+        "options": [
+          {
+            "label": "Less than $100,000",
+            "value": "<100"
+          },
+          {
+            "label": "$100,000 - $200,000",
+            "value": "100-200"
+          },
+          {
+            "label": "More than $200,000",
+            "value": "200+"
+          }
+        ]
+      },
+      {
         "type": "PostQuacker",
         "label": "Quacker",
         "name": "quack",

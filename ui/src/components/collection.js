@@ -36,6 +36,7 @@ class PanelCollection extends Component {
 	getIframe() {
 		return this.state.liveEdit ? (
 			<div className={styles.iframe}>
+				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
 				<iframe src={window.ModularContent.preview_url} />
 			</div>
 		) : null;

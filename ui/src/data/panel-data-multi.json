@@ -24,19 +24,19 @@
         "gallery": [
           {
             "id": 12345,
-            "thumbnail": "http:\/\/griddle.tri.be\/?w=300&h=250"
+            "thumbnail": "https:\/\/placeholdit.imgix.net\/~text?txtsize=20&txt=150%C3%97150&w=150&h=150"
           },
           {
             "id": 12346,
-            "thumbnail": "http:\/\/griddle.tri.be\/?w=350&h=250"
+            "thumbnail": "https:\/\/placeholdit.imgix.net\/~text?txtsize=20&txt=150%C3%97150&w=150&h=150"
           },
           {
             "id": 12347,
-            "thumbnail": "http:\/\/griddle.tri.be\/?w=400&h=250"
+            "thumbnail": "https:\/\/placeholdit.imgix.net\/~text?txtsize=20&txt=150%C3%97150&w=150&h=150"
           },
           {
             "id": 12348,
-            "thumbnail": "http:\/\/griddle.tri.be\/?w=450&h=250"
+            "thumbnail": "https:\/\/placeholdit.imgix.net\/~text?txtsize=20&txt=150%C3%97150&w=150&h=150"
           }
         ]
       }

@@ -40,6 +40,22 @@
 	}
 }
 
+.loaderWrap{
+	position: absolute;
+	width: calc(100% - 380px);
+	height: calc(100% - 100px);;
+	top: 0;
+	left: 300px;
+}
+
+.loader{
+	composes: loader1 from "../shared/loaders.pcss";
+	position:absolute;
+	z-index:100000;
+	top:50%;
+	left:50%;
+}
+
 .iframe{
 	position:absolute;
 	width:100%;

@@ -7,7 +7,7 @@ import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags } from '../../
  * @param callback get data back if you want ;)
  */
 
-export const init = (opts = {}, callback) => {
+export const init = (opts = {}, callback = () => {}) => {
 	const options = {
 		editor: null,
 		fid: '',
