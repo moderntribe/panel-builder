@@ -50,6 +50,7 @@ class PanelCollection extends Component {
 					{...panel}
 					key={`panel-${i}`}
 					index={i}
+					liveEdit={this.state.liveEdit}
 					panelsActive={this.panelsActive}
 					movePanel={this.props.movePanel}
 					updatePanelData={this.props.updatePanelData}

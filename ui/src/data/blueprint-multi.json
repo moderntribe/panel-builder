@@ -25,6 +25,52 @@
         "default": ""
       },
       {
+        "type": "Checkbox",
+        "label": "Partner",
+        "name": "partner",
+        "description": "Who is the best karaoke singer at Modern Tribe?",
+        "strings": [],
+        "default": {
+          "reid": 1
+        },
+        "options": [
+          {
+            "label": "Peter",
+            "value": "peter"
+          },
+          {
+            "label": "Reid",
+            "value": "reid"
+          },
+          {
+            "label": "Shane",
+            "value": "shane"
+          }
+        ]
+      },
+      {
+        "type": "Radio",
+        "label": "Style",
+        "name": "layout",
+        "description": "A test description for this text input.",
+        "strings": [],
+        "default": "standard",
+        "options": [
+          {
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "label": "Cards",
+            "value": "cards"
+          },
+          {
+            "label": "Full",
+            "value": "full"
+          }
+        ]
+      },
+      {
         "type": "TextArea",
         "label": "Yo Regular Textarea",
         "name": "content",

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -9,9 +10,17 @@ import componentMap from './fields/component-map';
 import styles from './panel.pcss';
 
 class PanelContainer extends Component {
-	state = {
-		active: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			active: false,
+		};
+		this.el = null;
+	}
+
+	componentDidMount() {
+		this.el = ReactDOM.findDOMNode(this.refs.panel);
+	}
 
 	getFields() {
 		let FieldContainer = null;
@@ -43,6 +52,7 @@ class PanelContainer extends Component {
 		if (this.state.active) {
 			const fieldClasses = classNames({
 				[styles.fields]: true,
+				[styles.fieldsEdit]: this.props.liveEdit,
 				'panel-row-fields': true,
 			});
 			const fieldInnerClasses = classNames({
@@ -54,11 +64,19 @@ class PanelContainer extends Component {
 					<div className={fieldInnerClasses}>
 						<nav className={styles.back}>
 							<Button
-								text="Back to Panels"
+								classes={styles.backButton}
 								handleClick={this.handleClick}
 							/>
+							<h3>
+								<span className={styles.action}>
+									Editing
+								</span>
+								{this.props.label}
+							</h3>
 						</nav>
-						{Fields}
+						<div className={styles.fieldWrap}>
+							{Fields}
+						</div>
 					</div>
 				</div>
 			);
@@ -67,12 +85,25 @@ class PanelContainer extends Component {
 		return FieldContainer;
 	}
 
+	handleHeights() {
+		if (!this.state.active){
+			_.delay(() => {
+				const fields = this.el.querySelectorAll('.panel-row-fields');
+				fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;
+				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
+			}, 50);
+		} else {
+			this.el.parentNode.style.height = 'auto';
+		}
+	}
+
 	@autobind
 	handleClick() {
 		this.setState({
 			active: !this.state.active,
 		});
 		this.props.panelsActive(!this.state.active);
+		this.handleHeights();
 	}
 
 	render() {
@@ -93,7 +124,7 @@ class PanelContainer extends Component {
 		});
 
 		return (
-			<div className={wrapperClasses}>
+			<div ref="panel" className={wrapperClasses}>
 				<div className={headerClasses} onClick={this.handleClick}>
 					<h3>{this.props.label}</h3>
 					<i className={arrowClasses} />
@@ -113,6 +144,7 @@ PanelContainer.propTypes = {
 	description: React.PropTypes.string,
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
+	liveEdit: React.PropTypes.bool,
 	panelsActive: PropTypes.func,
 	movePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
@@ -127,12 +159,10 @@ PanelContainer.defaultProps = {
 	description: '',
 	icon: {},
 	fields: [],
-	panelsActive: () => {
-	},
-	movePanel: () => {
-	},
-	updatePanelData: () => {
-	},
+	liveEdit: false,
+	panelsActive: () => {},
+	movePanel: () => {},
+	updatePanelData: () => {},
 };
 
 export default PanelContainer;

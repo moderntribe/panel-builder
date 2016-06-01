@@ -11,6 +11,7 @@ export const init = (opts = {}) => {
 		editor: null,
 		fid: '',
 		editor_settings: '',
+		callback: () => {},
 	};
 
 	// merge options
@@ -25,7 +26,7 @@ export const init = (opts = {}) => {
 		if (editor.id === options.fid) {
 			editor.on('change keyup paste', () => {
 				// get us content on keyups, pastes and change for live update magic
-				console.log(editor.getContent());
+				callback(editor.getContent());
 			});
 		}
 	});
