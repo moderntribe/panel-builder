@@ -55,7 +55,7 @@
       {
         "type": "ImageSelect",
         "label": "Select a style",
-        "name": "layout",
+        "name": "layout2",
         "description": "Some description here",
         "strings": [],
         "default": "cards",
