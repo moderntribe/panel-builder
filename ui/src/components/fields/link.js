@@ -22,36 +22,34 @@ class Link extends Component {
 	}
 
 	@autobind
-	handleURLChange(e) {
-		const url = e.currentTarget.value;
-		this.setState({ url });
+	initiateUpdatePanelData() {
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: this.getValue(),
 		});
+	}
+
+	@autobind
+	handleURLChange(e) {
+		const url = e.currentTarget.value;
+		this.setState({ url });
+		this.initiateUpdatePanelData()
 	}
 
 	@autobind
 	handleLabelChange(e) {
 		const label = e.currentTarget.value;
 		this.setState({ label });
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
-		});
+		this.initiateUpdatePanelData()
 	}
 
 	@autobind
 	handleSelectChange(data) {
+		console.log("handleSelectChange data",data)
 		const target = data.value.length ? data.value : '_self';
 		this.setState({ target }, () => {
-			this.props.updatePanelData({
-				index: this.props.panelIndex,
-				name: this.props.name,
-				value: this.getValue(),
-			});
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -73,7 +71,7 @@ class Link extends Component {
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} handleTargetChange={this.handleSelectChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
+					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>

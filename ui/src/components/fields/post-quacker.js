@@ -11,41 +11,37 @@ import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import BlankPostUi from '../shared/blank-post-ui';
 import PostPreview from '../shared/post-preview';
-
-import RichtextEditor from '../shared/richtext-editor';
-import * as RichtextEvents from '../../util/dom/tinymce';
 import LinkGroup from '../shared/link-group';
-import ReactSelect from 'react-select-plus';
+import RichtextEditor from '../shared/richtext-editor';
 
+import * as RichtextEvents from '../../util/dom/tinymce';
+import ReactSelect from 'react-select-plus';
 
 import styles from './post-quacker.pcss';
 
 class PostQuacker extends Component {
+
+	state = {
+		type: this.props.data && this.props.data.type ? this.props.data.type : this.props.default.type,
+		image: this.props.data && this.props.data.image ? this.props.data.image : this.props.default.image,
+		title: this.props.data && this.props.data.title ? this.props.data.title : this.props.default.title,
+		content: this.props.data && this.props.data.content ? this.props.data.content : this.props.default.content,
+		post_types: [], // selected post types
+		link: this.props.data && this.props.data.link ? this.props.data.link : this.props.default.link,
+		search: '', // search field query string
+		loading: false,
+		post: null,  // displayed post in the preview
+		post_id: this.props.data && this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+	};
+
 	constructor(props) {
 		super(props);
-		this.state = {
-			type: this.props.default.type,
-			image: '',
-			title: '',
-			content: '',
-			post_types: [],
-			posts: [],
-			link_url: '',
-			link_label: '',
-			link_target: '_blank',
-			search: '',
-			loading: false,
-			post: null,
-			post_id: null,
-		};
-
 		this.noResults = {
 			options: [{
 				value: 0,
 				label: 'No Results',
 			}],
 		};
-
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
 	}
@@ -53,6 +49,10 @@ class PostQuacker extends Component {
 	componentDidMount() {
 		this.cacheDom();
 		this.initTinyMCE();
+		if (this.state.post_id && this.state.post_id !== 0) {
+			this.updatePreview(this.state.post_id);
+		}
+
 	}
 
 	componentWillUnmount() {
@@ -72,10 +72,15 @@ class PostQuacker extends Component {
 				ref={this.fid}
 				className="wp-core-ui wp-editor-wrap tmce-active"
 			>
-				<RichtextEditor fid={this.fid} name="content" buttons={false} value={this.state.content} onChange={this.handleTextChange} />
+				<RichtextEditor
+					fid={this.fid}
+					name="content"
+					buttons={false}
+					data={this.state.content} />
 			</div>
 		);
 	}
+
 
 	/**
 	 * Constructing the tab buttons
@@ -130,7 +135,7 @@ class PostQuacker extends Component {
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Title</label>
-					<input type="text" name="title" value={this.state.title} size="40" onChange={this.handleTextChange} />
+					<input type="text" name="title" value={this.state.title} size="40" onChange={this.handleTitleChange} />
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Image</label>
@@ -149,7 +154,7 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Link</label>
-					<LinkGroup valueTarget={this.state.link_target} valueUrl={this.state.link_url} valueLabel={this.state.link_label} />
+					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} />
 				</div>
 			</div>
 		);
@@ -188,7 +193,7 @@ class PostQuacker extends Component {
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>Select Content</label>
 					<ReactSelect.Async
-						disabled={this.state.post_types.length === 0}
+						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
@@ -301,6 +306,30 @@ class PostQuacker extends Component {
 		});
 	}
 
+	@autobind
+	handleURLChange(e) {
+		const url = e.currentTarget.value;
+		const link = _.cloneDeep(this.state.link);
+		link.url = url;
+		this.setState({ link }, this.initiateUpdatePanelData);
+	}
+
+	@autobind
+	handleLabelChange(e) {
+		const label = e.currentTarget.value;
+		const link = _.cloneDeep(this.state.link);
+		link.label = label;
+		this.setState({ link }, this.initiateUpdatePanelData);
+	}
+
+	@autobind
+	handleSelectChange(data) {
+		const target = data.value.length ? data.value : '_self';
+		const link = _.cloneDeep(this.state.link);
+		link.target = target;
+		this.setState({ link }, this.initiateUpdatePanelData);
+	}
+
 	/**
 	 * Handler for post select change
 	 *
@@ -312,7 +341,7 @@ class PostQuacker extends Component {
 		this.setState({
 			search,
 			post_id: data.value,
-		});
+		}, this.initiateUpdatePanelData );
 	}
 
 	/**
@@ -327,16 +356,36 @@ class PostQuacker extends Component {
 		});
 	}
 
+	getValue() {
+		return {
+			type: this.state.type,
+			title: this.state.title,
+			content: this.state.content,
+			image: this.state.image,
+			post_id: this.state.post_id,
+			link: this.state.link,
+		};
+	}
+
+	@autobind
+	handleRichtextChange(data) {
+		this.setState({
+			content: data,
+		}, this.initiateUpdatePanelData );
+	}
+
+
 	/**
 	 * Generic handler for changing text field
 	 *
-	 * @method handleTextChange
+	 * @method handleTitleChange
 	 */
 	@autobind
-	handleTextChange(event) {
+	handleTitleChange(event) {
+		const title = event.currentTarget.value;
 		this.setState({
-			[event.currentTarget.name]: event.currentTarget.value,
-		});
+			title,
+		}, this.initiateUpdatePanelData );
 	}
 
 	/**
@@ -360,9 +409,8 @@ class PostQuacker extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			if (attachment.sizes.full) {
-				this.setState({ image: attachment.sizes.full.url });
+				this.setState({ image: attachment.sizes.full.url}, this.initiateUpdatePanelData );
 			}
-
 			// todo when hooking up store trigger action which updates ui/store with image selection
 		});
 
@@ -370,15 +418,13 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Handles the removal of an image from state/store. Will be hooked up to redux soon.
+	 * Handles the removal of an image from state/store.
 	 *
 	 * @method handleRemoveMedia
 	 */
 	@autobind
 	handleRemoveMedia() {
-		this.setState({
-			image: '',
-		});
+		this.setState( {image: ''}, this.initiateUpdatePanelData );
 	}
 
 	/**
@@ -403,7 +449,18 @@ class PostQuacker extends Component {
 	@autobind
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
-		this.setState({ type });
+		this.setState({
+			type,
+		}, this.initiateUpdatePanelData );
+	}
+
+	@autobind
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue()
+		});
 	}
 
 	/**
@@ -439,8 +496,8 @@ class PostQuacker extends Component {
 		RichtextEvents.init({
 			editor: this.editor,
 			fid: this.fid,
-			editor_settings: 'slide_test-0000',
-		});
+			editor_settings: this.props.editor_settings_reference,
+		}, this.handleRichtextChange);
 	}
 
 	render() {
@@ -480,6 +537,10 @@ PostQuacker.propTypes = {
 	default: PropTypes.object,
 	post: PropTypes.object,
 	post_id: PropTypes.number,
+	editor_settings_reference: PropTypes.string,
+	data: React.PropTypes.object,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 PostQuacker.defaultProps = {
@@ -491,6 +552,10 @@ PostQuacker.defaultProps = {
 	default: {},
 	post: null,
 	post_id: 0,
+	editor_settings_reference: 'content',
+	data: {},
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default PostQuacker;
