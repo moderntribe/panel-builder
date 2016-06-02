@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
 
@@ -54,5 +55,23 @@ class ImageGallery extends Field {
 		$resources = apply_filters( 'panels_field_vars_for_api', $resources, $data, $this, $panel );
 
 		return $resources;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed         $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		$size = apply_filters( 'panels_image_gallery_field_size_for_admin', 'thumbnail', $this, $data );
+
+		if ( is_array( $data ) ) {
+			foreach ( $data as $image ) {
+				$cache->add_image( $image[ 'id' ], $size );
+			}
+		}
 	}
 }
