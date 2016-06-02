@@ -7,23 +7,9 @@ import styles from './image-gallery.pcss';
 import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
 class ImageGallery extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs ImageGallery
-	 */
-
-	constructor(props) {
-		super(props);
-
-		const fid = _.uniqueId('field-');
-		this.ids = {
-			plContainer: `image-gallery-${fid}`,
-		};
-		this.frame = null;
-		this.state = {
-			attachments: this.props.data,
-		};
-	}
+	state = {
+		gallery: this.props.data ? this.props.data : this.props.default,
+	};
 
 	/**
 	 * Sets up the selection to be used by WP media selector
@@ -67,7 +53,7 @@ class ImageGallery extends Component {
 	@autobind
 	handleFrameInsertClick() {
 		const models = this.frame.state().get('library');
-		const attachments = models.map((attachment) => {
+		const gallery = models.map((attachment) => {
 			const att = attachment.toJSON();
 			let thumbnail = '';
 			if (att.sizes.hasOwnProperty('thumbnail')) {
@@ -83,7 +69,12 @@ class ImageGallery extends Component {
 			};
 		});
 		this.setState({
-			attachments,
+			gallery
+		});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: gallery,
 		});
 		this.frame.close();
 		this.frame = null;
@@ -124,7 +115,7 @@ class ImageGallery extends Component {
 	 */
 
 	selectImages() {
-		const ids = _.map(this.state.attachments, (attachment) => attachment.id);
+		const ids = _.map(this.state.gallery, (attachment) => attachment.id);
 		// Set frame object:
 		this.frame = wpMedia({
 			frame: 'post',
@@ -166,7 +157,7 @@ class ImageGallery extends Component {
 	 */
 
 	render() {
-		const previewItems = _.map(this.state.attachments, (attachment, index) =>
+		const previewItems = _.map(this.state.gallery, (attachment, index) =>
 			<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
 				<input type="hidden" name={`${this.props.name}[${index}][id]`} value={attachment.id} />
 				<input type="hidden" name={`${this.props.name}[${index}][thumbnail]`} value={attachment.thumbnail} />
@@ -191,7 +182,7 @@ class ImageGallery extends Component {
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
-				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label="Gallery" data-name={escape(this.props.name)}>
+				<div data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
 						<button className="button button-large" onClick={this.handleMediaButtonClick}>
@@ -209,21 +200,25 @@ class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
-	data: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: PropTypes.string,
+	data: PropTypes.array,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 ImageGallery.defaultProps = {
-	data: [],
 	label: '',
 	name: '',
 	description: '',
 	strings: [],
 	default: '',
+	data: [],
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default ImageGallery;
