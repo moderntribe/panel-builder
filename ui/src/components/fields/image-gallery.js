@@ -69,7 +69,7 @@ class ImageGallery extends Component {
 			};
 		});
 		this.setState({
-			gallery
+			gallery,
 		});
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
