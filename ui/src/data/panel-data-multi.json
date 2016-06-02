@@ -19,7 +19,8 @@
       "data": {
         "title": "I am a Post Quacker, Hear me Roar",
         "quack": {
-          "type":"manual"
+          "type":"manual",
+          "image":6
         }
       }
     },

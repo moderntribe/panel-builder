@@ -19,21 +19,9 @@ import ReactSelect from 'react-select-plus';
 
 import styles from './post-quacker.pcss';
 
+import * as AdminCache from '../../util/data/admin-cache';
+
 class PostQuacker extends Component {
-
-	state = {
-		type: this.props.data && this.props.data.type ? this.props.data.type : this.props.default.type,
-		image: this.props.data && this.props.data.image ? this.props.data.image : this.props.default.image,
-		title: this.props.data && this.props.data.title ? this.props.data.title : this.props.default.title,
-		content: this.props.data && this.props.data.content ? this.props.data.content : this.props.default.content,
-		post_types: [], // selected post types
-		link: this.props.data && this.props.data.link ? this.props.data.link : this.props.default.link,
-		search: '', // search field query string
-		loading: false,
-		post: null,  // displayed post in the preview
-		post_id: this.props.data && this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
-	};
-
 	constructor(props) {
 		super(props);
 		this.noResults = {
@@ -42,17 +30,35 @@ class PostQuacker extends Component {
 				label: 'No Results',
 			}],
 		};
+		this.state = {
+			type: this.props.data && this.props.data.type ? this.props.data.type : this.props.default.type,
+			image: this.props.data && this.props.data.image ? this.props.data.image : this.props.default.image,
+			title: this.props.data && this.props.data.title ? this.props.data.title : this.props.default.title,
+			content: this.props.data && this.props.data.content ? this.props.data.content : this.props.default.content,
+			post_types: [], // selected post types
+			link: this.props.data && this.props.data.link ? this.props.data.link : this.props.default.link,
+			search: '', // search field query string
+			loading: false,
+			post: null,  // displayed post in the preview
+			post_id_staged: null,
+			post_id: this.props.data && this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+		};
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
+	}
+
+	componentWillMount() {
+		if (this.state.post_id && this.state.post_id !== 0) {
+			this.setState({
+				post_id_staged: this.state.post_id,
+			});
+			this.updatePreview(this.state.post_id);
+		}
 	}
 
 	componentDidMount() {
 		this.cacheDom();
 		this.initTinyMCE();
-		if (this.state.post_id && this.state.post_id !== 0) {
-			this.updatePreview(this.state.post_id);
-		}
-
 	}
 
 	componentWillUnmount() {
@@ -76,7 +82,8 @@ class PostQuacker extends Component {
 					fid={this.fid}
 					name="content"
 					buttons={false}
-					data={this.state.content} />
+					data={this.state.content}
+				/>
 			</div>
 		);
 	}
@@ -130,6 +137,11 @@ class PostQuacker extends Component {
 		});
 
 		const Editor = this.getEditorTemplate();
+		const image = AdminCache.getImageById(this.state.image);
+		let imagePath = '';
+		if (image) {
+			imagePath = image.full;
+		}
 
 		return (
 			<div className={tabClasses}>
@@ -142,7 +154,7 @@ class PostQuacker extends Component {
 					<MediaUploader
 						label="Image"
 						size="large"
-						file={this.state.image}
+						file={imagePath}
 						strings={this.props.strings}
 						handleAddMedia={this.handleAddMedia}
 						handleRemoveMedia={this.handleRemoveMedia}
@@ -267,43 +279,19 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Called to update the preview after a use selects a new post
+	 * Retrieves a snapshot of this fields persistent data
 	 *
-	 * @method updatePreview
+	 * @method getValue
 	 */
-	updatePreview(id) {
-		const params = param({
-			action: 'posts-field-fetch-preview',
-			post_ids: [id],
-		});
-		request
-			.post(window.ajaxurl)
-			.send(params)
-			.end(this.handleUpdatePreview);
-	}
-
-	/**
-	 * Handler for Add to Module button
-	 *
-	 * @method handleAddToModuleClick
-	 */
-	@autobind
-	handleAddToModuleClick() {
-		if (this.state.post_id && this.state.post_id !== 0) {
-			this.updatePreview(this.state.post_id);
-		}
-	}
-
-	/**
-	 * Handler for after the preview is retrieved
-	 *
-	 * @method handleUpdatePreview
-	 */
-	@autobind
-	handleUpdatePreview(err, response) {
-		this.setState({
-			post: response.body.data.posts[response.body.data.post_ids[0]],
-		});
+	getValue() {
+		return {
+			type: this.state.type,
+			title: this.state.title,
+			content: this.state.content,
+			image: this.state.image,
+			post_id: this.state.post_id,
+			link: this.state.link,
+		};
 	}
 
 	@autobind
@@ -323,7 +311,7 @@ class PostQuacker extends Component {
 	}
 
 	@autobind
-	handleSelectChange(data) {
+	handleTargetChange(data) {
 		const target = data.value.length ? data.value : '_self';
 		const link = _.cloneDeep(this.state.link);
 		link.target = target;
@@ -340,8 +328,9 @@ class PostQuacker extends Component {
 		const search = data ? data.value : '';
 		this.setState({
 			search,
-			post_id: data.value,
-		}, this.initiateUpdatePanelData );
+			post_id_staged: data.value,
+		});
+		this.initiateUpdatePanelData();
 	}
 
 	/**
@@ -356,22 +345,60 @@ class PostQuacker extends Component {
 		});
 	}
 
-	getValue() {
-		return {
-			type: this.state.type,
-			title: this.state.title,
-			content: this.state.content,
-			image: this.state.image,
-			post_id: this.state.post_id,
-			link: this.state.link,
-		};
+	/**
+	 * Handler for after the preview is retrieved
+	 *
+	 * @method handleUpdatePreview
+	 */
+	@autobind
+	handleUpdatePreview(err, response) {
+		const postId = this.state.post_id_staged;
+		this.setState({
+			post: response.body.data.posts[response.body.data.post_ids[0]],
+			post_id: postId,
+		});
+		this.initiateUpdatePanelData();
 	}
 
+	/**
+	 * Handler for Add to Module button
+	 *
+	 * @method handleAddToModuleClick
+	 */
+	@autobind
+	handleAddToModuleClick() {
+		if (this.state.post_id_staged && this.state.post_id_staged !== 0) {
+			this.updatePreview(this.state.post_id_staged);
+		}
+	}
+
+	/**
+	 * Called to update the preview after a use selects a new post
+	 *
+	 * @method updatePreview
+	 */
+	updatePreview(id) {
+		const params = param({
+			action: 'posts-field-fetch-preview',
+			post_ids: [id],
+		});
+		request
+			.post(window.ajaxurl)
+			.send(params)
+			.end(this.handleUpdatePreview);
+	}
+
+	/**
+	 * Handler for content field richtext
+	 *
+	 * @method handleRichtextChange
+	 */
 	@autobind
 	handleRichtextChange(data) {
 		this.setState({
 			content: data,
-		}, this.initiateUpdatePanelData );
+		});
+		this.initiateUpdatePanelData();
 	}
 
 
@@ -385,7 +412,8 @@ class PostQuacker extends Component {
 		const title = event.currentTarget.value;
 		this.setState({
 			title,
-		}, this.initiateUpdatePanelData );
+		});
+		this.initiateUpdatePanelData();
 	}
 
 	/**
@@ -408,12 +436,10 @@ class PostQuacker extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			if (attachment.sizes.full) {
-				this.setState({ image: attachment.sizes.full.url}, this.initiateUpdatePanelData );
-			}
-			// todo when hooking up store trigger action which updates ui/store with image selection
+			AdminCache.addImage(attachment);
+			this.setState({ image: attachment.id });
+			this.initiateUpdatePanelData();
 		});
-
 		frame.open();
 	}
 
@@ -424,7 +450,10 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleRemoveMedia() {
-		this.setState( {image: ''}, this.initiateUpdatePanelData );
+		this.setState({
+			image: 0,
+		});
+		this.initiateUpdatePanelData();
 	}
 
 	/**
@@ -439,6 +468,7 @@ class PostQuacker extends Component {
 			post: null,
 			post_id: 0,
 		});
+		this.initiateUpdatePanelData();
 	}
 
 	/**
@@ -451,15 +481,21 @@ class PostQuacker extends Component {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
 		this.setState({
 			type,
-		}, this.initiateUpdatePanelData );
+		});
+		this.initiateUpdatePanelData();
 	}
 
+	/**
+	 * Updating the panel data upstream
+	 *
+	 * @method initiateUpdatePanelData
+	 */
 	@autobind
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
-			value: this.getValue()
+			value: this.getValue(),
 		});
 	}
 
@@ -535,7 +571,6 @@ PostQuacker.propTypes = {
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.object,
-	post: PropTypes.object,
 	post_id: PropTypes.number,
 	editor_settings_reference: PropTypes.string,
 	data: React.PropTypes.object,
@@ -550,7 +585,6 @@ PostQuacker.defaultProps = {
 	post_type: [],
 	strings: {},
 	default: {},
-	post: null,
 	post_id: 0,
 	editor_settings_reference: 'content',
 	data: {},

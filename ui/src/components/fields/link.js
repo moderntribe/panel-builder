@@ -34,19 +34,18 @@ class Link extends Component {
 	handleURLChange(e) {
 		const url = e.currentTarget.value;
 		this.setState({ url });
-		this.initiateUpdatePanelData()
+		this.initiateUpdatePanelData();
 	}
 
 	@autobind
 	handleLabelChange(e) {
 		const label = e.currentTarget.value;
 		this.setState({ label });
-		this.initiateUpdatePanelData()
+		this.initiateUpdatePanelData();
 	}
 
 	@autobind
 	handleSelectChange(data) {
-		console.log("handleSelectChange data",data)
 		const target = data.value.length ? data.value : '_self';
 		this.setState({ target }, () => {
 			this.initiateUpdatePanelData();
