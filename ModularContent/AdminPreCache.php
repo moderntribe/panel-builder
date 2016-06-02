@@ -10,9 +10,10 @@ namespace ModularContent;
  * of ajax requests
  */
 class AdminPreCache implements \JsonSerializable {
-	private $posts = array();
-	private $terms = array();
-	private $data = array();
+	private $posts  = [ ];
+	private $terms  = [ ];
+	private $data   = [ ];
+	private $images = [ ];
 
 	public function add_post( $post_id ) {
 		$post = self::get_post_array( $post_id );
@@ -32,6 +33,13 @@ class AdminPreCache implements \JsonSerializable {
 		$this->data[ $key ] = $data;
 	}
 
+	public function add_image( $image_id, $size ) {
+		$image = wp_get_attachment_image_src( $image_id, $size );
+		if ( $image ) {
+			$this->images[ $image_id ][ $size ] = $image[ 0 ];
+		}
+	}
+
 	/**
 	 * (PHP 5 &gt;= 5.4.0)<br/>
 	 * Specify data which should be serialized to JSON
@@ -40,12 +48,13 @@ class AdminPreCache implements \JsonSerializable {
 	 * @return mixed data which can be serialized by <b>json_encode</b>,
 	 * which is a value of any type other than a resource.
 	 */
-	function jsonSerialize() {
-		return array(
-			'posts' => $this->posts,
-			'terms' => $this->terms,
-			'data' => $this->data,
-		);
+	public function jsonSerialize() {
+		return [
+			'posts'  => $this->posts,
+			'terms'  => $this->terms,
+			'images' => $this->images,
+			'data'   => $this->data,
+		];
 	}
 
 	/**
