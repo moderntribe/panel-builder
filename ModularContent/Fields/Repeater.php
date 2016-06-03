@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+
 use ModularContent\Panel;
 
 
@@ -22,8 +23,9 @@ use ModularContent\Panel;
  *
  */
 class Repeater extends Group {
-	protected $min = 0;
-	protected $max = 0;
+
+	protected $min              = 0;
+	protected $max              = 0;
 	protected $new_button_label = '';
 
 	/**
@@ -49,11 +51,11 @@ class Repeater extends Group {
 	 * $group->add_field( $email );
 	 */
 	public function __construct( $args = array() ) {
-		$this->defaults['min'] = $this->min;
-		$this->defaults['max'] = $this->max;
+		$this->defaults['min']              = $this->min;
+		$this->defaults['max']              = $this->max;
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
 		$this->defaults['strings']          = [
-			'label.row'  => __( 'Row', 'modular-content' ),
+			'label.row'        => __( 'Row', 'modular-content' ),
 			'label.row_delete' => __( 'Delete Row', 'modular-content' ),
 		];
 		parent::__construct( $args );
@@ -64,7 +66,7 @@ class Repeater extends Group {
 	 *
 	 */
 	public function add_field( Field $field ) {
-		$this->fields[$field->get_name()] = $field;
+		$this->fields[ $field->get_name() ] = $field;
 	}
 
 	/**
@@ -73,16 +75,18 @@ class Repeater extends Group {
 	 * @return Field|NULL
 	 */
 	public function get_field( $name ) {
-		foreach( $this->fields as $field ) {
-			if ( $field->get_name() == $name || $this->get_name().'.'.$field->get_name() == $name ) {
+		foreach ( $this->fields as $field ) {
+			if ( $field->get_name() == $name || $this->get_name() . '.' . $field->get_name() == $name ) {
 				return $field;
 			}
 		}
-		return NULL;
+
+		return null;
 	}
 
 	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-min="%d" data-max="%d">', $this->esc_class($this->name), esc_attr($this->name), $this->min, $this->max);
+		printf( '<fieldset class="panel-input input-name-%s panel-input-repeater" data-name="%s" data-min="%d" data-max="%d">', $this->esc_class( $this->name ),
+			esc_attr( $this->name ), $this->min, $this->max );
 	}
 
 	protected function get_default_value_js() {
@@ -93,12 +97,12 @@ class Repeater extends Group {
 		echo '<div class="repeater-field-container"></div>';
 		echo '<a href="#" class="panel-repeater-new-row icon-plus-sign"> ' . $this->new_button_label . '</a>';
 		add_action( 'after_panel_admin_template_inside', array( $this, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-repeater-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/repeater-field.js'), array('jquery'), FALSE, TRUE );
+		wp_enqueue_script( 'modular-content-repeater-field', \ModularContent\Plugin::plugin_url( 'assets/scripts/js/fields/repeater-field.js' ), array( 'jquery' ), false, true );
 	}
 
 	public function print_supporting_templates() {
 		?>
-		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e($this->name); ?>">
+		<script type="text/template" class="template" id="tmpl-repeater-<?php esc_attr_e( $this->name ); ?>">
 			<div class="panel-repeater-row">
 				<div class="panel-toggle repeater-toggle" data-target="panel-input">
 					<a class="move icon-reorder repeater-sort"></a>
@@ -126,20 +130,21 @@ class Repeater extends Group {
 	 *
 	 * @param mixed $data
 	 * @param Panel $panel
+	 *
 	 * @return array
 	 */
 	public function get_vars( $data, $panel ) {
 		$vars = array();
-		$data = (array)$data; // probably stored as an object with numeric properties
+		$data = (array) $data; // probably stored as an object with numeric properties
 		foreach ( $data as $instance ) {
 			$instance_vars = array();
 			foreach ( $this->fields as $field ) {
 				$name = $field->get_name();
-				if ( isset($instance[$name]) ) {
-					$instance_vars[$name] = $field->get_vars($instance[$name], $panel);
+				if ( isset( $instance[ $name ] ) ) {
+					$instance_vars[ $name ] = $field->get_vars( $instance[ $name ], $panel );
 				}
 			}
-			if ( !empty($instance_vars) ) {
+			if ( ! empty( $instance_vars ) ) {
 				$vars[] = $instance_vars;
 			}
 		}
@@ -183,12 +188,14 @@ class Repeater extends Group {
 	 * Ensure that the submitted array is keyless
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
 		if ( is_array( $data ) ) {
 			return array_values( $data );
 		}
+
 		return $data;
 	}
 }
