@@ -52,6 +52,8 @@ class Repeater extends Group {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
 		$this->defaults['new_button_label'] = __( 'New', 'panels' );
+		$this->defaults['row_title'] = __( 'Row', 'modular-content' );
+		$this->defaults['row_delete_text'] = __( 'Delete Row', 'modular-content' );
 		parent::__construct($args);
 	}
 
@@ -98,14 +100,14 @@ class Repeater extends Group {
 			<div class="panel-repeater-row">
 				<div class="panel-toggle repeater-toggle" data-target="panel-input">
 					<a class="move icon-reorder repeater-sort"></a>
-					<?php _e('Row', 'modular-content'); ?>
+					<?php echo $this->row_title; ?>
 				</div>
 				<?php
 				foreach ( $this->fields as $field ) {
 					$field->render();
 				}
 				?>
-				<a class="delete icon-remove"><?php _e('Delete Row', 'modular-content'); ?></a>
+				<a class="delete icon-remove"><?php echo $this->row_delete_text; ?></a>
 			</div>
 		</script>
 		<?php
