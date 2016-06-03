@@ -4,6 +4,7 @@
 namespace ModularContent;
 use ModularContent\Fields\Image;
 use ModularContent\Fields\Post_List;
+use ModularContent\Fields\PostQuacker;
 use ModularContent\Fields\TextArea;
 
 /**
@@ -109,6 +110,7 @@ class MetaBox {
 				'image' => Image::js_i18n(),
 				'post_list' => Post_List::js_i18n(),
 				'textarea' => TextArea::js_i18n(),
+				'quacker' => PostQuacker::js_i18n(),
 			]
 		];
 

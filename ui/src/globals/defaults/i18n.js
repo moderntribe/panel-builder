@@ -18,5 +18,18 @@ export const I18N_DEFAULTS = {
 			tab_visual: 'Visual',
 			tab_text: 'Text',
 		},
+		quacker: {
+			label_manual_title: 'Title',
+			label_manual_image: 'Image',
+			label_manual_content: 'Content',
+			label_manual_link: 'Link',
+			label_manual_image_label: 'Image',
+			label_selection_type: 'Select Type',
+			placeholder_selection_type: 'Select Post Type',
+			label_selection_post: 'Select Content',
+			placeholder_selection_post: 'Select...',
+			button_add_to_module: 'Add to module',
+			options_no_results: 'No Results',
+		},
 	},
 };

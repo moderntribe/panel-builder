@@ -16,10 +16,10 @@ import RichtextEditor from '../shared/richtext-editor';
 
 import * as RichtextEvents from '../../util/dom/tinymce';
 import ReactSelect from 'react-select-plus';
+import * as AdminCache from '../../util/data/admin-cache';
+import { QUACKER_I18N } from '../../globals/i18n';
 
 import styles from './post-quacker.pcss';
-
-import * as AdminCache from '../../util/data/admin-cache';
 
 class PostQuacker extends Component {
 	constructor(props) {
@@ -27,24 +27,25 @@ class PostQuacker extends Component {
 		this.noResults = {
 			options: [{
 				value: 0,
-				label: 'No Results',
+				label: this.props.strings.options_no_results ? this.props.strings.options_no_results : QUACKER_I18N.options_no_results,
 			}],
 		};
 		this.state = {
-			type: this.props.data && this.props.data.type ? this.props.data.type : this.props.default.type,
-			image: this.props.data && this.props.data.image ? this.props.data.image : this.props.default.image,
-			title: this.props.data && this.props.data.title ? this.props.data.title : this.props.default.title,
-			content: this.props.data && this.props.data.content ? this.props.data.content : this.props.default.content,
+			type: this.props.data.type ? this.props.data.type : this.props.default.type,
+			image: this.props.data.image ? this.props.data.image : this.props.default.image,
+			title: this.props.data.title ? this.props.data.title : this.props.default.title,
+			content: this.props.data.content ? this.props.data.content : this.props.default.content,
 			post_types: [], // selected post types
-			link: this.props.data && this.props.data.link ? this.props.data.link : this.props.default.link,
+			link: this.props.data.link ? this.props.data.link : this.props.default.link,
 			search: '', // search field query string
 			loading: false,
 			post: null,  // displayed post in the preview
 			post_id_staged: null,
-			post_id: this.props.data && this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+			post_id: this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
 		};
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
+		this.tid = _.uniqueId('quacker-field-title-');
 	}
 
 	componentWillMount() {
@@ -80,7 +81,7 @@ class PostQuacker extends Component {
 			>
 				<RichtextEditor
 					fid={this.fid}
-					name="content"
+					name={`${this.fid}-content`}
 					buttons={false}
 					data={this.state.content}
 				/>
@@ -143,17 +144,23 @@ class PostQuacker extends Component {
 			imagePath = image.full;
 		}
 
+		const labelTitleText = this.props.strings.label_manual_title ? this.props.strings.label_manual_title : QUACKER_I18N.label_manual_title;
+		const labelImageText = this.props.strings.label_manual_image ? this.props.strings.label_manual_image : QUACKER_I18N.label_manual_image;
+		const labelContentText = this.props.strings.label_manual_content ? this.props.strings.label_manual_content : QUACKER_I18N.label_manual_content;
+		const labelLinkText = this.props.strings.label_manual_link ? this.props.strings.label_manual_link : QUACKER_I18N.label_manual_link;
+		const labelImageLabelText = this.props.strings.label_manual_image_label ? this.props.strings.label_manual_image_label : QUACKER_I18N.label_manual_image_label;
+
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Title</label>
-					<input type="text" name="title" value={this.state.title} size="40" onChange={this.handleTitleChange} />
+					<label className={styles.tabLabel}>{labelTitleText}</label>
+					<input type="text" name={this.tid} value={this.state.title} size="40" onChange={this.handleTitleChange} />
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Image</label>
+					<label className={styles.tabLabel}>{labelImageText}</label>
 					<MediaUploader
-						label="Image"
-						size="large"
+						label={labelImageLabelText}
+						size={this.props.size}
 						file={imagePath}
 						strings={this.props.strings}
 						handleAddMedia={this.handleAddMedia}
@@ -161,11 +168,11 @@ class PostQuacker extends Component {
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Content</label>
+					<label className={styles.tabLabel}>{labelContentText}</label>
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Link</label>
+					<label className={styles.tabLabel}>{labelLinkText}</label>
 					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} />
 				</div>
 			</div>
@@ -188,34 +195,41 @@ class PostQuacker extends Component {
 			'term-select': true,
 		});
 
+		const labelTypeText = this.props.strings.label_selection_type ? this.props.strings.label_selection_type : QUACKER_I18N.label_selection_type;
+		const labelTypePlaceholderText = this.props.strings.placeholder_selection_type ? this.props.strings.placeholder_selection_type : QUACKER_I18N.placeholder_selection_type;
+		const labelContentText = this.props.strings.label_selection_post ? this.props.strings.label_selection_post : QUACKER_I18N.label_selection_post;
+		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
+		const labelAddToModule = this.props.strings.button_add_to_module ? this.props.strings.button_add_to_module : QUACKER_I18N.button_add_to_module;
+
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Content Type</label>
+					<label className={styles.tabLabel}>{labelTypeText}</label>
 					<ReactSelect
 						name={_.uniqueId('quacker-type-selected-')}
 						value={this.state.post_types}
 						multi
 						className={typeSelectClasses}
-						placeholder="Select Post Types"
+						placeholder={labelTypePlaceholderText}
 						options={this.props.post_type}
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>Select Content</label>
+					<label className={styles.tabLabel}>{labelContentText}</label>
 					<ReactSelect.Async
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
+						placeholder={labelContentPlaceholderText}
 						isLoading={this.state.loading}
 						onChange={this.handlePostSearchChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
 					<Button
-						text="Add to Module"
+						text={labelAddToModule}
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToModuleClick}
@@ -481,8 +495,7 @@ class PostQuacker extends Component {
 		const type = e.currentTarget.classList.contains('pq-show-manual') ? 'manual' : 'selection';
 		this.setState({
 			type,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -576,6 +589,7 @@ PostQuacker.propTypes = {
 	data: React.PropTypes.object,
 	panelIndex: React.PropTypes.number,
 	updatePanelData: React.PropTypes.func,
+	size: React.PropTypes.string,
 };
 
 PostQuacker.defaultProps = {
@@ -590,6 +604,7 @@ PostQuacker.defaultProps = {
 	data: {},
 	panelIndex: 0,
 	updatePanelData: () => {},
+	size: 'thumbnail',
 };
 
 export default PostQuacker;
