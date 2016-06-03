@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
 /**
@@ -203,5 +204,19 @@ class PostQuacker extends Field {
 			];
 		}
 		return $blueprint;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed         $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		if ( $data[ 'image' ] ) {
+			$cache->add_image( $data[ 'image' ], 'thumbnail' );
+		}
 	}
 }
