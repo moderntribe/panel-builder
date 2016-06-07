@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { wpMedia } from '../../../globals/wp';
 
 import MediaUploader from '../../shared/media-uploader';
+import Button from '../../shared/button';
 
 import styles from './post-list-post-manual.pcss';
 
@@ -50,6 +51,11 @@ class PostListPostManual extends Component {
 		this.setState({ image: '' });
 	}
 
+	@autobind
+	handleAddToPanelClick() {
+
+	}
+
 	render() {
 		const titleClasses = classNames({
 			[styles.postTitle]: true,
@@ -90,6 +96,15 @@ class PostListPostManual extends Component {
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
 				/>
+				<footer className={styles.footer}>
+					<Button
+						text="Add to Panel"
+						primary={false}
+						full={false}
+						handleClick={this.handleAddToPanelClick}
+					/>
+					<a className={styles.footerLink} href="#">Cancel</a>
+				</footer>
 			</article>
 		);
 	}
