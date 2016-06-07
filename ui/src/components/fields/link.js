@@ -8,9 +8,9 @@ import styles from './link.pcss';
 
 class Link extends Component {
 	state = {
-		url: this.props.data && this.props.data.url ? this.props.data.url : this.props.default.url,
-		label: this.props.data && this.props.data.label ? this.props.data.label : this.props.default.label,
-		target: this.props.data && this.props.data.target ? this.props.data.target : this.props.default.target,
+		url: this.props.data.url ? this.props.data.url : this.props.default.url,
+		label: this.props.data.label ? this.props.data.label : this.props.default.label,
+		target: this.props.data.target ? this.props.data.target : this.props.default.target,
 	};
 
 	getValue() {
@@ -22,36 +22,33 @@ class Link extends Component {
 	}
 
 	@autobind
-	handleURLChange(e) {
-		const url = e.currentTarget.value;
-		this.setState({ url });
+	initiateUpdatePanelData() {
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: this.getValue(),
 		});
+	}
+
+	@autobind
+	handleURLChange(e) {
+		const url = e.currentTarget.value;
+		this.setState({ url });
+		this.initiateUpdatePanelData();
 	}
 
 	@autobind
 	handleLabelChange(e) {
 		const label = e.currentTarget.value;
 		this.setState({ label });
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
-		});
+		this.initiateUpdatePanelData();
 	}
 
 	@autobind
 	handleSelectChange(data) {
 		const target = data.value.length ? data.value : '_self';
 		this.setState({ target }, () => {
-			this.props.updatePanelData({
-				index: this.props.panelIndex,
-				name: this.props.name,
-				value: this.getValue(),
-			});
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -73,7 +70,7 @@ class Link extends Component {
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} handleTargetChange={this.handleSelectChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
+					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>

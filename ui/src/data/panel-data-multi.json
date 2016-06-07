@@ -17,7 +17,11 @@
       "type": "posts",
       "depth": 0,
       "data": {
-        "title": "I am a Post Quacker, Hear me Roar"
+        "title": "I am a Post Quacker, Hear me Roar",
+        "quack": {
+          "type":"manual",
+          "image":6
+        }
       }
     },
     {
