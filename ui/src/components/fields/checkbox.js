@@ -1,30 +1,53 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import _ from 'lodash';
-import escape from 'escape-html';
+import classNames from 'classnames';
 
 import styles from './checkbox.pcss';
 
 class Checkbox extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
+	state = {
+		data: this.props.data ? this.props.data : this.props.default,
+	};
 
-	handleChange() {
-		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
+	@autobind
+	handleChange(e) {
+		const key = e.currentTarget.value;
+		const data = _.cloneDeep(this.state.data);
+		data[key] = this.state.data[key] === 1 ? 0 : 1;
+		this.setState({
+			data,
+		});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: data,
+		});
 	}
 
 	render() {
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>
 				<label>
 					<input
 						type="checkbox"
-						name={`${this.props.name}[${escape(option.value)}]`}
-						value="1"
+						name={`${this.props.name}[]`}
+						value={option.value}
 						className={styles.checkbox}
 						onChange={this.handleChange}
-						checked={this.props.default && this.props.default[option.value] === 1}
+						checked={this.state.data && this.state.data[option.value] === 1}
 					/>
 					{option.label}
 				</label>
@@ -32,12 +55,12 @@ class Checkbox extends Component {
 		);
 
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<ul className={styles.list}>
 				{Options}
 				</ul>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -50,6 +73,9 @@ Checkbox.propTypes = {
 	strings: React.PropTypes.array,
 	default: React.PropTypes.object,
 	options: React.PropTypes.array,
+	data: React.PropTypes.object,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 Checkbox.defaultProps = {
@@ -59,6 +85,9 @@ Checkbox.defaultProps = {
 	strings: [],
 	default: {},
 	options: [],
+	data: {},
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Checkbox;

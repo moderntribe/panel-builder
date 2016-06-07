@@ -48,6 +48,12 @@ class TextArea extends Field {
 		}
 	}
 
+	public static function js_i18n() {
+		return [
+			'tab_visual' => __( 'Visual', 'modular-content' ),
+			'tab_text' => __( 'Text', 'modular-content' ),
+		];
+	}
 
 	public function render_field() {
 		if ( $this->richtext ) {

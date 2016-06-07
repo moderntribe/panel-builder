@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import styles from './image-select.pcss';
 
 class ImageSelect extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
+	state = {
+		value: this.props.data.length ? this.props.data : this.props.default,
+	};
 
-	handleChange() {
-		// code to connect to actions that execute on redux store
+	@autobind
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		this.setState({ value });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	render() {
@@ -30,20 +37,33 @@ class ImageSelect extends Component {
 					name={this.props.name}
 					value={option.value}
 					onChange={this.handleChange}
-					checked={this.props.default === option.value}
+					checked={this.state.value === option.value}
 				/>
 				<div className={styles.optionImage}><img src={option.src} alt={option.label} /></div>
 				{option.label}
 			</label>
 		);
 
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
+
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<div>
 					{Options}
 				</div>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -56,6 +76,9 @@ ImageSelect.propTypes = {
 	strings: React.PropTypes.array,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
+	data: React.PropTypes.string,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 ImageSelect.defaultProps = {
@@ -65,6 +88,9 @@ ImageSelect.defaultProps = {
 	strings: [],
 	default: '',
 	options: [],
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default ImageSelect;

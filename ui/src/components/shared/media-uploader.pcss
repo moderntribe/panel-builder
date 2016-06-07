@@ -1,0 +1,23 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.currentUploadedFile{
+	display:none;
+	&.currentOpen{
+		display:block;
+		img {
+			width:100%;
+		}
+	}
+}
+
+.uploaderSection{
+	display:none;
+	&.uploaderOpen{
+		display:block;
+	}
+}
+
+.removeButtonContainer{
+	margin:5px 0 20px 0;
+}

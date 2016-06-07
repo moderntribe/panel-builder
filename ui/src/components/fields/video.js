@@ -1,31 +1,28 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import styles from './video.pcss';
 
 class Video extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs Video
-	 */
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			videoURL: '',
-		};
-		this.handleChange = this.handleChange.bind(this);
-	}
+	state = {
+		videoURL: this.props.data.length ? this.props.data : this.props.default,
+	};
 
 	/**
-	 * Handler for when a user types in the video input field
+	 * Handler for when a user types in the video input field. Calling panel update
 	 *
 	 * @method handleChange
 	 * @param {Object} event.
 	 */
-
-	handleChange(event) {
-		this.setState({
-			videoURL: event.target.value,
+	@autobind
+	handleChange(e) {
+		const videoURL = e.currentTarget.value;
+		this.setState({ videoURL });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: videoURL,
 		});
 	}
 
@@ -36,21 +33,33 @@ class Video extends Component {
 	 */
 
 	render() {
-		const videoInputStyles = classNames({
+		const videoInputClasses = classNames({
 			'video-url': true,
 		});
-		const videoSpanStyles = classNames({
+		const videoSpanClasses = classNames({
 			'panel-input-field': true,
 			[styles.inputContainer]: true,
 		});
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={styles.field}>
-				<label className={styles.label}>{this.props.label}</label>
-				<span className={videoSpanStyles}>
-					<input type="text" className={videoInputStyles} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
+				<span className={videoSpanClasses}>
+					<input type="text" className={videoInputClasses} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -62,6 +71,9 @@ Video.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: PropTypes.string,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Video.defaultProps = {
@@ -70,6 +82,9 @@ Video.defaultProps = {
 	description: '',
 	strings: [],
 	default: '',
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Video;

@@ -1,0 +1,46 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	margin-bottom: 1.5em;
+	clear: both;
+	h3{
+		color: var(--light-heading);
+		font-size: 13px;
+		margin: 0 0 var(--panel-margin-vertical) 0;
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
+.tabs{
+	composes: group from "../../shared/helpers.pcss";
+	button{
+		margin-right: 3px;
+		margin-bottom: -1px;
+		&.active{
+			border-bottom-color: #fff;
+			background: #fff;
+		}
+	}
+}
+
+.tabWrapper{
+
+}
+
+.tabContent{
+	padding: 20px 10px;
+	background: #fff;
+	border: 1px solid var(--tabs-border-color);
+	display:none;
+	&.active{
+		display:block;
+	}
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}

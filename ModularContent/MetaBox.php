@@ -3,6 +3,9 @@
 
 namespace ModularContent;
 use ModularContent\Fields\Image;
+use ModularContent\Fields\Post_List;
+use ModularContent\Fields\PostQuacker;
+use ModularContent\Fields\TextArea;
 
 /**
  * Class MetaBox
@@ -81,7 +84,7 @@ class MetaBox {
 		if ( empty( $data ) ) {
 			$data = [
 				'fields' => [
-					'image' => Image::js_config(),
+					
 				]
 			];
 			$data = apply_filters( 'panels_js_config', $data );
@@ -100,8 +103,14 @@ class MetaBox {
 	public function js_i18n() {
 
 		$js_i18n_array = [
+			'ui' => [
+				'btn_launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
+			],
 			'fields' => [
-
+				'image' => Image::js_i18n(),
+				'post_list' => Post_List::js_i18n(),
+				'textarea' => TextArea::js_i18n(),
+				'quacker' => PostQuacker::js_i18n(),
 			]
 		];
 
@@ -356,8 +365,8 @@ class MetaBox {
 
 			foreach ( $posts as $post ) {
 				$response['posts'][] = array(
-					'id' => $post->ID,
-					'text' => esc_html(get_the_title($post)),
+					'value' => $post->ID,
+					'label' => esc_html(get_the_title($post)),
 				);
 			}
 

@@ -5,3 +5,5 @@ export const FIELDS_CONFIG = CONFIG.fields || {};
 
 export const MODULAR_CONTENT = window.ModularContent || CONFIG_DEFAULTS;
 export const mediaButtonsHTML = MODULAR_CONTENT.media_buttons_html || null;
+
+export const ADMIN_CACHE = MODULAR_CONTENT.cache || {};

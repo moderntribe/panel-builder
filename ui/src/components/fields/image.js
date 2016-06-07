@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
+import MediaUploader from '../shared/media-uploader';
 import classNames from 'classnames';
 
 import { wpMedia } from '../../globals/wp';
@@ -6,59 +8,16 @@ import { wpMedia } from '../../globals/wp';
 import styles from './image.pcss';
 
 class Image extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs Image
-	 */
-
-	constructor(props) {
-		super(props);
-
-		// todo: move state to redux store
-		this.state = {
-			image: '',
-		};
-
-		this.handleAddMedia = this.handleAddMedia.bind(this);
-		this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
-	}
-
-	/**
-	 * Return element classes used by the render method. Uses classnames npm module for handling logic.
-	 *
-	 * @method getElementClasses
-	 */
-
-	getElementClasses() {
-		const container = classNames({ [styles.uploaderContainer]: true });
-		const label = classNames({ [styles.panelInputLabel]: true });
-		const description = classNames({ [styles.panelInputDescription]: true });
-		const current = classNames({
-			'current-image': true,
-			[styles.currentOpen]: this.state.image.length,
-			[styles.currentUploadedImage]: true,
-		});
-		const uploader = classNames({
-			'image-uploader': true,
-			[styles.uploaderOpen]: !this.state.image.length,
-			[styles.uploaderSection]: true,
-		});
-
-		return {
-			container,
-			label,
-			current,
-			uploader,
-			description,
-		};
-	}
+	state = {
+		image: '',
+	};
 
 	/**
 	 * Handles the media uploader open click. Will be hooked up to redux soon.
 	 *
 	 * @method handleAddMedia
 	 */
-
+	@autobind
 	handleAddMedia() {
 		const frame = wpMedia({
 			multiple: false,
@@ -76,7 +35,9 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			this.setState({ image: attachment.sizes[this.props.size].url });
+			if (attachment.sizes[this.props.size]) {
+				this.setState({ image: attachment.sizes[this.props.size].url });
+			}
 
 			// todo when hooking up store trigger action which updates ui/store with image selection
 		});
@@ -89,7 +50,7 @@ class Image extends Component {
 	 *
 	 * @method handleRemoveMedia
 	 */
-
+	@autobind
 	handleRemoveMedia() {
 		this.setState({ image: '' });
 	}
@@ -101,36 +62,31 @@ class Image extends Component {
 	 */
 
 	render() {
-		const classes = this.getElementClasses();
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={classes.container}>
-				<label className={classes.label}>{this.props.label}</label>
-				<div className={classes.current}>
-					<img onClick={this.handleAddMedia} src={this.state.image} role="presentation" />
-					<div className="wp-caption" onClick={this.handleAddMedia}></div>
-					<p className={styles.removeButtonContainer}>
-						<button
-							type="button"
-							className="button-secondary remove-image"
-							onClick={this.handleRemoveMedia}
-						>
-							{`${this.props.strings['button.remove']} ${this.props.label}`}
-						</button>
-					</p>
-				</div>
-				<div className={classes.uploader}>
-					<button
-						type="button"
-						className="button attachment_helper_library_button"
-						title={this.props.strings['button.select']}
-						data-size={this.props.size}
-						onClick={this.handleAddMedia}
-					>
-						<span>{this.props.strings['button.select']}</span>
-					</button>
-				</div>
-				<p className={classes.description}>{this.props.description}</p>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
+				<MediaUploader
+					label={this.props.label}
+					size={this.props.size}
+					file={this.state.image}
+					strings={this.props.strings}
+					handleAddMedia={this.handleAddMedia}
+					handleRemoveMedia={this.handleRemoveMedia}
+				/>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

@@ -53,6 +53,44 @@
         }
       },
       {
+        "type": "PostQuacker",
+        "label": "Quacker",
+        "name": "quack",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Manual",
+          "tabs.selection": "Selection",
+          "button.remove": "Remove",
+          "button.select": "Select Files"
+        },
+        "default": {
+          "type": "selection",
+          "post_id": 0,
+          "title": "",
+          "content": "",
+          "image": 0,
+          "link": {
+            "url": "",
+            "target": "",
+            "label": ""
+          }
+        },
+        "post_type": [
+          {
+            "value": "post",
+            "label": "Posts"
+          },
+          {
+            "value": "menus",
+            "label": "Menus"
+          },
+          {
+            "value": "tribe_events",
+            "label": "Events"
+          }
+        ]
+      },
+      {
         "type": "Video",
         "label": "Cat Video",
         "name": "cat_video",
@@ -115,17 +153,17 @@
         "default": "cards",
         "options": [
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Standard",
             "value": "standard"
           },
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Cards",
             "value": "cards"
           },
           {
-            "src": "http://panels.tribe.dev/content/uploads/test.png",
+            "src": "/content/uploads/test.png",
             "label": "Full",
             "value": "full"
           }
@@ -160,9 +198,7 @@
         "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
         "strings": {
           "button.remove": "Remove",
-          "button.select": "Select Files",
-          "drop.info": "Drop files here",
-          "drop.or": "or"
+          "button.select": "Select Files"
         },
         "default": "",
         "size": "large"
@@ -196,6 +232,95 @@
         "richtext": false,
         "media_buttons": false,
         "editor_settings_reference": ""
+      },
+      {
+        "type": "Post_List",
+        "label": "A Post_List field",
+        "name": "posts",
+        "description": "",
+        "strings": {
+          "tabs.manual": "Select\/Create",
+          "tabs.dynamic": "Query",
+          "button.select_post": "Select a post",
+          "button.create_content": "Create content",
+          "button.remove_post": "Remove this post",
+          "label.content_type": "Content Type",
+          "label.choose_post": "Choose a Post",
+          "label.max_results": "Max Results",
+          "label.select_post_type": "Select Post Type",
+          "label.select_post_types": "Select Post Types",
+          "label.add_a_filter": "Add a Filter",
+          "label.taxonomy": "Taxonomy",
+          "label.relationship": "Relationship",
+          "label.date": "Date",
+          "label.title": "Title",
+          "label.content": "Content",
+          "label.link": "Link: http:\/\/example.com\/",
+          "label.thumbnail": "Thumbnail"
+        },
+        "default": {
+          "type": "manual",
+          "posts": [],
+          "filters": [],
+          "max": 0
+        },
+        "min": 3,
+        "max": 12,
+        "suggested": 6,
+        "show_max_control": true,
+        "post_type": [
+          {
+            "value": "post",
+            "label": "Posts"
+          },
+          {
+            "value": "menus",
+            "label": "Menus"
+          },
+          {
+            "value": "tribe_events",
+            "label": "Events"
+          }
+        ],
+        "filters": [
+          {
+            "label": "Taxonomy",
+            "options": [
+              {
+                "value": "post_tag",
+                "label": "Tags",
+                "post_type": [
+                  "post"
+                ]
+              }
+            ]
+          },
+          {
+            "value": "date",
+            "label": "Date",
+            "post_type": [
+              "post",
+              "page",
+              "attachment"
+            ]
+          }
+        ],
+        "taxonomies": {
+          "post_tag": [
+            {
+              "value": 6,
+              "label": "Fun Times"
+            },
+            {
+              "value": 7,
+              "label": "Maybe Better"
+            },
+            {
+              "value": 4,
+              "label": "Oh Boy"
+            }
+          ]
+        }
       }
     ]
   }

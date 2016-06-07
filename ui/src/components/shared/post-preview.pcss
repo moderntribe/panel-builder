@@ -1,0 +1,52 @@
+@import '../../shared/colors.pcss';
+
+.postSelect{
+	position: relative;
+	background-color: var(--panel-bg-color-alt);
+	padding: 10px;
+	border: 1px solid var(--border-color);
+	min-height:80px;
+}
+
+.title{
+	font-size: 16px;
+	margin: 0 0 5px;
+}
+
+.excerpt{
+	font-size: 12px;
+	color: var(--description-text-color)
+}
+
+.thumbnail {
+	display: block;
+	float: right;
+	margin:0 0 10px 10px;
+	width: 60px;
+	height: 60px;
+	img {
+		width: 60px;
+		height: 60px;
+	}
+}
+
+.remove {
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-align: center;
+	line-height: 23px;
+	padding:0;
+	margin:0;
+	width: 23px;
+	color: var(--white);;
+	height: 23px;
+	text-decoration: none;
+	background-color: var(--color-danger);
+	border-radius: 50%;
+	display: block;
+	outline:0;
+	span{
+		line-height: 23px;
+	}
+}

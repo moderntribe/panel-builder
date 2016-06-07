@@ -1,0 +1,26 @@
+@import '../../../shared/colors.pcss';
+@import '../../../shared/spacing.pcss';
+
+.container {
+	margin-bottom: var(--panel-margin-vertical);
+	padding: 20px 10px;
+	position: relative;
+	border: 1px solid var(--border-color);
+	overflow: hidden;
+	text-align: center;
+	min-height: 123px;
+	button{
+		min-width:150px;
+		display: none;
+	}
+	&[data-index="0"]{
+		button{
+			display:inline-block;
+		}
+	}
+}
+
+.divider {
+	display: block;
+	height: 5px;
+}

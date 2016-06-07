@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './radio.pcss';
 
 class Radio extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-	}
+	state = {
+		value: this.props.data.length ? this.props.data : this.props.default,
+	};
 
-	handleChange() {
-		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
+	@autobind
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		this.setState({ value });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	render() {
 		const radioLabelClasses = classNames({
-			'plradio-label': true,
 			[styles.radioLabel]: true,
+			'plradio-label': true,
 		});
 
 		const Options = _.map(this.props.options, (option) =>
@@ -29,17 +36,29 @@ class Radio extends Component {
 					name={this.props.name}
 					value={option.value}
 					onChange={this.handleChange}
-					checked={this.props.default === option.value}
+					checked={this.state.value === option.value}
 				/>
 				{option.label}
 			</label>
 		);
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
 				{Options}
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -52,6 +71,9 @@ Radio.propTypes = {
 	strings: React.PropTypes.array,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
+	data: React.PropTypes.string,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 Radio.defaultProps = {
@@ -61,6 +83,9 @@ Radio.defaultProps = {
 	strings: [],
 	default: '',
 	options: [],
+	data: '',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Radio;

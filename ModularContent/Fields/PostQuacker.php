@@ -119,6 +119,21 @@ class PostQuacker extends Field {
 		return $vars;
 	}
 
+	public static function js_i18n() {
+		return [
+			'label_manual_title' => __( 'Title', 'modular-content' ),
+			'label_manual_image' => __( 'Image', 'modular-content' ),
+			'label_manual_content' => __( 'Content', 'modular-content' ),
+			'label_manual_link' => __( 'Link', 'modular-content' ),
+			'label_manual_image_label' => __( 'Image', 'modular-content' ),
+			'label_selection_type' => __( 'Select Type', 'modular-content' ),
+			'placeholder_selection_type' => __( 'Select Post Type', 'modular-content' ),
+			'label_selection_post' => __( 'Select Content', 'modular-content' ),
+			'placeholder_selection_post' => __( 'Select...', 'modular-content' ),
+			'button_add_to_module' => __( 'Add to Module', 'modular-content' ),
+		];
+	}
+
 	public function get_vars_for_api( $data, $panel ) {
 
 		if ( $data['type'] == 'manual' ) {

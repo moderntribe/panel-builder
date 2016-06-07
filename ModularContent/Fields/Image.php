@@ -42,6 +42,13 @@ class Image extends Field {
 		parent::__construct($args);
 	}
 
+	public static function js_i18n() {
+		return [
+			'button_default_add' => __( 'Add Image', 'modular-content' ),
+			'button_default_remove' => __( 'Remove', 'modular-content' ),
+		];
+	}
+
 
 	public function render_field() {
 

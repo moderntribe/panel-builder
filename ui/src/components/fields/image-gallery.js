@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import autobind from 'autobind-decorator';
 import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -6,28 +7,9 @@ import styles from './image-gallery.pcss';
 import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
 class ImageGallery extends Component {
-	/**
-	 * @param {props} props
-	 * @constructs ImageGallery
-	 */
-
-	constructor(props) {
-		super(props);
-
-		const fid = _.uniqueId('field-');
-		this.ids = {
-			plContainer: `image-gallery-${fid}`,
-		};
-		this.frame = null;
-		this.state = {
-			attachments: [],
-		};
-
-		this.handleMediaButtonClick = this.handleMediaButtonClick.bind(this);
-		this.overrideGalleryInsert = this.overrideGalleryInsert.bind(this);
-		this.handleFrameInsertClick = this.handleFrameInsertClick.bind(this);
-		this.hideGallerySidebar = this.hideGallerySidebar.bind(this);
-	}
+	state = {
+		gallery: this.props.data ? this.props.data : this.props.default,
+	};
 
 	/**
 	 * Sets up the selection to be used by WP media selector
@@ -68,10 +50,10 @@ class ImageGallery extends Component {
 	 *
 	 * @method handleFrameInsertClick
 	 */
-
+	@autobind
 	handleFrameInsertClick() {
 		const models = this.frame.state().get('library');
-		const attachments = models.map((attachment) => {
+		const gallery = models.map((attachment) => {
 			const att = attachment.toJSON();
 			let thumbnail = '';
 			if (att.sizes.hasOwnProperty('thumbnail')) {
@@ -87,7 +69,12 @@ class ImageGallery extends Component {
 			};
 		});
 		this.setState({
-			attachments,
+			gallery,
+		});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: gallery,
 		});
 		this.frame.close();
 		this.frame = null;
@@ -98,7 +85,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method overrideGalleryInsert
 	 */
-
+	@autobind
 	overrideGalleryInsert() {
 		this.frame.toolbar.get('view').set({
 			insert: {
@@ -114,7 +101,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method hideGallerySidebar
 	 */
-
+	@autobind
 	hideGallerySidebar() {
 		if (this.frame) {
 			this.frame.content.get('view').sidebar.unset('gallery'); // Hide Gallery Settings in sidebar
@@ -128,7 +115,7 @@ class ImageGallery extends Component {
 	 */
 
 	selectImages() {
-		const ids = _.map(this.state.attachments, (attachment) => attachment.id);
+		const ids = _.map(this.state.gallery, (attachment) => attachment.id);
 		// Set frame object:
 		this.frame = wpMedia({
 			frame: 'post',
@@ -157,7 +144,7 @@ class ImageGallery extends Component {
 	 *
 	 * @method handleMediaButtonClick
 	 */
-
+	@autobind
 	handleMediaButtonClick(event) {
 		this.selectImages();
 		event.preventDefault();
@@ -170,7 +157,7 @@ class ImageGallery extends Component {
 	 */
 
 	render() {
-		const previewItems = _.map(this.state.attachments, (attachment, index) =>
+		const previewItems = _.map(this.state.gallery, (attachment, index) =>
 			<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
 				<input type="hidden" name={`${this.props.name}[${index}][id]`} value={attachment.id} />
 				<input type="hidden" name={`${this.props.name}[${index}][thumbnail]`} value={attachment.thumbnail} />
@@ -178,20 +165,24 @@ class ImageGallery extends Component {
 			</div>
 		);
 
-		const descriptionStyles = classNames({
+		const descriptionClasses = classNames({
 			[styles.description]: true,
-			'pnl-field-description': true,
+			'panel-field-description': true,
 		});
-		const labelStyles = classNames({
+		const labelClasses = classNames({
 			[styles.label]: true,
-			'pnl-field-label': true,
+			'panel-field-label': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
 		});
 
 		// Edit Gallery button to be translated
 		return (
-			<div className={styles.field}>
-				<label className={labelStyles}>{this.props.label}</label>
-				<div ref={this.ids.plContainer} id={this.ids.plContainer} data-label="Gallery" data-name={escape(this.props.name)}>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
+				<div data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
 						<button className="button button-large" onClick={this.handleMediaButtonClick}>
@@ -202,7 +193,7 @@ class ImageGallery extends Component {
 						{previewItems}
 					</div>
 				</div>
-				<p className={descriptionStyles}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -214,6 +205,9 @@ ImageGallery.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.array,
 	default: PropTypes.string,
+	data: PropTypes.array,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 ImageGallery.defaultProps = {
@@ -222,6 +216,9 @@ ImageGallery.defaultProps = {
 	description: '',
 	strings: [],
 	default: '',
+	data: [],
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default ImageGallery;

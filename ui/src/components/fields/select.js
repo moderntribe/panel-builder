@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
+import classNames from 'classnames';
 import styles from './select.pcss';
 
 class Select extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-		this.state = {
-			value: this.props.default,
-		};
-	}
-
+	state = {
+		value: this.props.default,
+	};
+	@autobind
 	handleChange(data) {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 		const value = data ? data.value : this.props.default;
@@ -18,16 +16,28 @@ class Select extends Component {
 	}
 
 	render() {
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
+		});
+		const descriptionClasses = classNames({
+			[styles.description]: true,
+			'panel-field-description': true,
+		});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+		});
 		return (
-			<div className={styles.panel}>
-				<label className={styles.label}>{this.props.label}</label>
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
 				<ReactSelect
 					name={this.props.name}
 					value={this.state.value}
 					options={this.props.options}
 					onChange={this.handleChange}
 				/>
-				<p className={styles.description}>{this.props.description}</p>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

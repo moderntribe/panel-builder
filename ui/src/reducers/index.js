@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { items } from './items';
+import { panelData } from './panelData';
 
 const rootReducer = combineReducers({
-	items,
+	panelData,
 });
 
 export default rootReducer;
