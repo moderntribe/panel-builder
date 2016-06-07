@@ -22,6 +22,38 @@ class PanelContainer extends Component {
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
 	}
 
+	handleHeights() {
+		if (!this.state.active) {
+			this.updateHeight();
+		} else {
+			this.el.parentNode.style.height = 'auto';
+		}
+	}
+
+	updateHeight() {
+		_.delay(() => {
+			const fields = this.el.querySelectorAll('.panel-row-fields');
+			fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;
+			this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
+		}, 50);
+	}
+
+	@autobind
+	handleHeightChange() {
+		if (this.state.active) {
+			this.updateHeight();
+		}
+	}
+
+	@autobind
+	handleClick() {
+		this.setState({
+			active: !this.state.active,
+		});
+		this.props.panelsActive(!this.state.active);
+		this.handleHeights();
+	}
+
 	getFields() {
 		let FieldContainer = null;
 		const Fields = this.state.active ? _.map(this.props.fields, (field) => {
@@ -43,6 +75,7 @@ class PanelContainer extends Component {
 						{...field}
 						panelIndex={this.props.index}
 						data={this.props.data[field.name]}
+						updateHeights={this.handleHeightChange}
 						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
@@ -83,27 +116,6 @@ class PanelContainer extends Component {
 		}
 
 		return FieldContainer;
-	}
-
-	handleHeights() {
-		if (!this.state.active) {
-			_.delay(() => {
-				const fields = this.el.querySelectorAll('.panel-row-fields');
-				fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;
-				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
-			}, 50);
-		} else {
-			this.el.parentNode.style.height = 'auto';
-		}
-	}
-
-	@autobind
-	handleClick() {
-		this.setState({
-			active: !this.state.active,
-		});
-		this.props.panelsActive(!this.state.active);
-		this.handleHeights();
 	}
 
 	render() {

@@ -192,6 +192,8 @@ class PostList extends Component {
 		newState.manual_post_data = this.state.manual_post_data;
 		newState.manual_post_data.push({ type });
 
+		this.props.updateHeights();
+
 		this.setState(newState);
 	}
 
@@ -234,6 +236,7 @@ PostList.propTypes = {
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
 	taxonomies: PropTypes.object,
+	updateHeights: PropTypes.func,
 };
 
 PostList.defaultProps = {
@@ -249,6 +252,7 @@ PostList.defaultProps = {
 	post_type: [],
 	filters: [],
 	taxonomies: {},
+	updateHeights: () => {},
 };
 
 export default PostList;
