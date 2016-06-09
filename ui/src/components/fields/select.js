@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
@@ -6,13 +6,18 @@ import styles from './select.pcss';
 
 class Select extends Component {
 	state = {
-		value: this.props.default,
+		value: this.props.data.length ? this.props.data : this.props.default,
 	};
 	@autobind
 	handleChange(data) {
 		// code to connect to actions that execute on redux store, sending along e.currentTarget.value
 		const value = data ? data.value : this.props.default;
 		this.setState({ value });
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	render() {
@@ -44,21 +49,27 @@ class Select extends Component {
 }
 
 Select.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.array,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.array,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	updatePanelData: PropTypes.func,
 };
 
 Select.defaultProps = {
+	data: '',
+	panelIndex: 0,
 	label: '',
 	name: '',
 	description: '',
 	strings: [],
 	default: '',
 	options: [],
+	updatePanelData: () => {},
 };
 
 export default Select;

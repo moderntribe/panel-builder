@@ -1,0 +1,17 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	font-size: 18px;
+	margin-bottom: 18px;
+	padding-left: 0;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
