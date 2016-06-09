@@ -10,7 +10,7 @@ import param from 'jquery-param';
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import BlankPostUi from '../shared/blank-post-ui';
-import PostPreview from '../shared/post-preview';
+import PostPreviewContainer from './partials/post-preview-container';
 import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
 
@@ -52,8 +52,8 @@ class PostQuacker extends Component {
 		if (this.state.post_id && this.state.post_id !== 0) {
 			this.setState({
 				post_id_staged: this.state.post_id,
+				post_id: this.state.post_id,
 			});
-			this.updatePreview(this.state.post_id);
 		}
 	}
 
@@ -198,8 +198,21 @@ class PostQuacker extends Component {
 		const labelTypeText = this.props.strings.label_selection_type ? this.props.strings.label_selection_type : QUACKER_I18N.label_selection_type;
 		const labelTypePlaceholderText = this.props.strings.placeholder_selection_type ? this.props.strings.placeholder_selection_type : QUACKER_I18N.placeholder_selection_type;
 		const labelContentText = this.props.strings.label_selection_post ? this.props.strings.label_selection_post : QUACKER_I18N.label_selection_post;
-		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
+		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post ? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
 		const labelAddToModule = this.props.strings.button_add_to_module ? this.props.strings.button_add_to_module : QUACKER_I18N.button_add_to_module;
+
+		let Preview;
+		if (this.state.post_id && this.state.post_id !== 0) {
+			Preview = (<div className={styles.panelFilterRow}>
+				<PostPreviewContainer post_id={this.state.post_id} onRemoveClick={this.handleRemovePostClick} />
+			</div>);
+		} else {
+			Preview = (<div className={styles.panelFilterRow}>
+				<div className={styles.blankPostContainer}>
+					<div><BlankPostUi /></div>
+				</div>
+			</div>);
+		}
 
 		return (
 			<div className={tabClasses}>
@@ -235,14 +248,7 @@ class PostQuacker extends Component {
 						handleClick={this.handleAddToModuleClick}
 					/>
 				</div>
-				{!this.state.post && <div className={styles.panelFilterRow}>
-					<div className={styles.blankPostContainer}>
-						<div><BlankPostUi /></div>
-					</div>
-				</div>}
-				{this.state.post && <div className={styles.panelFilterRow}>
-					<PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePostClick} />
-				</div>}
+				{Preview}
 			</div>
 		);
 	}
@@ -275,7 +281,7 @@ class PostQuacker extends Component {
 	/**
 	 * Get search params for posts limited by type
 	 *
-	 * @method updatePreview
+	 * @method getSearchRequestParams
 	 */
 	getSearchRequestParams(input) {
 		const types = [];
@@ -360,21 +366,6 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Handler for after the preview is retrieved
-	 *
-	 * @method handleUpdatePreview
-	 */
-	@autobind
-	handleUpdatePreview(err, response) {
-		const postId = this.state.post_id_staged;
-		this.setState({
-			post: response.body.data.posts[response.body.data.post_ids[0]],
-			post_id: postId,
-		});
-		this.initiateUpdatePanelData();
-	}
-
-	/**
 	 * Handler for Add to Module button
 	 *
 	 * @method handleAddToModuleClick
@@ -382,24 +373,10 @@ class PostQuacker extends Component {
 	@autobind
 	handleAddToModuleClick() {
 		if (this.state.post_id_staged && this.state.post_id_staged !== 0) {
-			this.updatePreview(this.state.post_id_staged);
+			this.setState({
+				post_id: this.state.post_id_staged,
+			});
 		}
-	}
-
-	/**
-	 * Called to update the preview after a use selects a new post
-	 *
-	 * @method updatePreview
-	 */
-	updatePreview(id) {
-		const params = param({
-			action: 'posts-field-fetch-preview',
-			post_ids: [id],
-		});
-		request
-			.post(window.ajaxurl)
-			.send(params)
-			.end(this.handleUpdatePreview);
 	}
 
 	/**

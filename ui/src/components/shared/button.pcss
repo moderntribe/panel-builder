@@ -40,6 +40,22 @@
 	}
 }
 
+.tertiary {
+	composes: reset;
+	background-color: var(--button-tertiary-bg-color);
+	color: var(--button-tertiary-text-color);
+	font-weight:normal;
+	border: none;
+	&:hover,
+	&:focus {
+		background-color: var(--button-tertiary-bg-hover-color);
+		color: var(--button-tertiary-text-hover-color);
+	}
+	&:focus {
+		background-color: var(--button-tertiary-bg-focus-color);
+	}
+}
+
 .full {
 	display: block;
 	width: 100%;

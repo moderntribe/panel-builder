@@ -12,3 +12,15 @@ export function addImage(attachment) {
 export function getImageById(id) {
 	return ADMIN_CACHE.images[id];
 }
+
+export function addPost(post) {
+	if (!ADMIN_CACHE.posts) {
+		ADMIN_CACHE.posts = [];
+	}
+	ADMIN_CACHE.posts.push(post);
+}
+
+export function getPostById(id) {
+	return _.find(ADMIN_CACHE.posts, { ID: id });
+}
+

@@ -14,8 +14,9 @@ import styles from './button.pcss';
 const Button = (props) => {
 	const buttonClasses = classNames({
 		'panel-button': true,
-		[styles.primary]: props.primary,
-		[styles.secondary]: !props.primary,
+		[styles.primary]: props.view === 'primary' || props.primary,
+		[styles.secondary]: props.view === 'secondary' || !props.primary,
+		[styles.tertiary]: props.view === 'tertiary',
 		[styles.full]: props.full,
 		[styles.inline]: !props.full,
 		[props.classes]: props.classes.length,
@@ -41,6 +42,7 @@ Button.propTypes = {
 	classes: PropTypes.string,
 	type: PropTypes.string,
 	primary: PropTypes.bool,
+	view: PropTypes.oneOf(['primary', 'secondary', 'tertiary']),
 	full: PropTypes.bool,
 	handleClick: PropTypes.func,
 };
@@ -51,6 +53,7 @@ Button.defaultProps = {
 	classes: '',
 	type: 'button',
 	primary: true,
+	view: 'primary',
 	full: true,
 	handleClick: () => {},
 };
