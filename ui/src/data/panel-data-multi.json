@@ -29,6 +29,9 @@
       "depth": 0,
       "data": {
         "title": "Little old image gallery",
+        "settings": {
+          "gallery_layout": "right"
+        },
         "gallery": [
           {
             "id": 12345,

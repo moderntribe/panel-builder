@@ -198,7 +198,7 @@ class PostQuacker extends Component {
 		const labelTypeText = this.props.strings.label_selection_type ? this.props.strings.label_selection_type : QUACKER_I18N.label_selection_type;
 		const labelTypePlaceholderText = this.props.strings.placeholder_selection_type ? this.props.strings.placeholder_selection_type : QUACKER_I18N.placeholder_selection_type;
 		const labelContentText = this.props.strings.label_selection_post ? this.props.strings.label_selection_post : QUACKER_I18N.label_selection_post;
-		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
+		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post ? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
 		const labelAddToModule = this.props.strings.button_add_to_module ? this.props.strings.button_add_to_module : QUACKER_I18N.button_add_to_module;
 
 		return (
