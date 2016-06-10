@@ -5,13 +5,13 @@ import ReactSelect from 'react-select-plus';
 import Sortable from 'react-sortablejs';
 import _ from 'lodash';
 import request from 'superagent';
+import param from 'jquery-param';
 
 import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
 import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
-import PostPreview from '../shared/post-preview';
 import PostPreviewContainer from './partials/post-preview-container';
 
 import { POST_LIST_I18N } from '../../globals/i18n';
@@ -24,6 +24,8 @@ class PostList extends Component {
 		manual_post_data: [],
 		manual_post_count: 0,
 		manual_add_count: this.props.min,
+		query_posts: [],   // objects with label and value
+		post_types: [],
 	};
 
 	getTabButtons() {
@@ -195,6 +197,32 @@ class PostList extends Component {
 		);
 	}
 
+	getFilters() {
+		return (
+			<div>filters</div>
+		);
+	}
+
+	getFilteredPosts() {
+
+		console.log("getFilteredPosts", this.state.query_posts)
+		const posts = _.map(this.state.query_posts, (data, i) => {
+			return (
+				<PostPreviewContainer
+					key={`query-post-preview-${i}`}
+					post_id={data.value}
+				/>
+			);
+		});
+
+		return (
+			<div>
+				{posts}
+			</div>
+		);
+	}
+
+
 	getQueryTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -203,10 +231,27 @@ class PostList extends Component {
 
 		return (
 			<div className={tabClasses}>
-				<ReactSelect
-					options={this.props.filters}
-					onChange={this.handleChange}
-				/>
+				<div className={styles.row}>
+					<label className={styles.tabLabel}>{this.props.strings['label.content_type']}</label>
+					<ReactSelect
+						options={this.props.post_type}
+						placeholder="Select Post Types"
+						multi
+						value={this.state.post_types}
+						onChange={this.handlePostsChange}
+					/>
+				</div>
+
+				<div className={styles.row}>
+					<ReactSelect
+						options={this.props.filters}
+						onChange={this.handleChange}
+					/>
+				</div>
+
+				{this.getFilters()}
+				{this.getFilteredPosts()}
+
 			</div>
 		);
 	}
@@ -293,6 +338,55 @@ class PostList extends Component {
 	@autobind
 	handleChange() {
 		// code to connect to actions that execute on redux store
+	}
+
+	@autobind
+	handlePostsChange(types) {
+		console.log("handlePostsChange", types);
+		this.setState({
+			post_types: types,
+		},() => {
+			this.getNewPosts()
+		});
+	}
+
+	/**
+	 * Get search params for posts limited by type
+	 *
+	 * @method getSearchRequestParams
+	 */
+	getSearchRequestParams() {
+		const types = [];
+		_.forEach(this.state.post_types, (type) => {
+			types.push(type.value);
+		});
+		return param({
+			action: 'posts-field-posts-search',
+			s: '',
+			type: 'query-panel',
+			paged: 1,
+			post_type: types,
+			field_name: 'items',
+		});
+	}
+
+	getNewPosts(){
+		if (!this.state.post_types.length && !input.length) {
+			this.setState({
+				query_posts:[]
+			})
+			return;
+		}
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams()}`;
+		request.get(ajaxURL).end((err, response) => {
+			console.log("err",err);
+			console.log("response",response);
+			if (response.ok){
+				this.setState({
+					query_posts: response.body.posts
+				});
+			}
+		});
 	}
 
 	render() {
