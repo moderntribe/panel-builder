@@ -5,7 +5,7 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import Button from './shared/button';
 
-import componentMap from './fields/component-map';
+import FieldBuilder from './shared/field-builder';
 
 import styles from './panel.pcss';
 
@@ -56,31 +56,7 @@ class PanelContainer extends Component {
 
 	getFields() {
 		let FieldContainer = null;
-		const Fields = this.state.active ? _.map(this.props.fields, (field) => {
-			const Field = componentMap[field.type.replace(/\\/g, '')];
-			if (!Field) {
-				return null;
-			}
-
-			const classes = classNames({
-				[styles.field]: true,
-				'panel-input': true,
-				[`input-name-${field.name.toLowerCase()}`]: true,
-				[`input-type-${field.type.toLowerCase()}`]: true,
-			});
-
-			return (
-				<div className={classes} key={_.uniqueId('field-id-')}>
-					<Field
-						{...field}
-						panelIndex={this.props.index}
-						data={this.props.data[field.name]}
-						updateHeights={this.handleHeightChange}
-						updatePanelData={this.props.updatePanelData}
-					/>
-				</div>
-			);
-		}) : null;
+		const Fields = this.state.active ? <FieldBuilder {...this.props} /> : null;
 
 		if (this.state.active) {
 			const fieldClasses = classNames({

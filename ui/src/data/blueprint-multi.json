@@ -53,6 +53,28 @@
         "size": "large"
       },
       {
+        "type": "Select",
+        "label": "Test Select",
+        "name": "simple_select",
+        "description": "Select an Option",
+        "strings": [],
+        "default": "top",
+        "options": [
+          {
+            "label": "Top",
+            "value": "top"
+          },
+          {
+            "label": "Right",
+            "value": "right"
+          },
+          {
+            "label": "Center",
+            "value": "center"
+          }
+        ]
+      },
+      {
         "type": "ImageSelect",
         "label": "Select a style",
         "name": "layout2",
@@ -226,11 +248,67 @@
     "fields": [
       {
         "type": "Title",
-        "label": "Title",
+        "label": "Gallery Title",
         "name": "title",
         "description": "",
         "strings": [],
         "default": ""
+      },
+      {
+        "type": "Group",
+        "label": "Gallery Settings",
+        "name": "settings",
+        "description": "What to do",
+        "strings": [],
+        "default": [],
+        "fields": [
+          {
+            "type": "Select",
+            "label": "Gallery Layout",
+            "name": "gallery_layout",
+            "description": "Select a Layout",
+            "strings": [],
+            "default": "",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              },
+              {
+                "label": "Center",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "type": "Checkbox",
+            "label": "Features",
+            "name": "max",
+            "description": "Pick the features",
+            "strings": [],
+            "default": {
+              "reid": 1
+            },
+            "options": [
+              {
+                "label": "Boxed",
+                "value": "peter"
+              },
+              {
+                "label": "Masonry",
+                "value": "maso"
+              },
+              {
+                "label": "Infinite Load",
+                "value": "iload"
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "ImageGallery",

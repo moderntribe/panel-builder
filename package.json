@@ -24,7 +24,6 @@
     "classnames": "^2.2.5",
     "deep-assign": "^2.0.0",
     "jquery": "^2.2.0",
-    "jquery-param": "^0.2.0",
     "lodash": "^4.11.1",
     "lost": "^6.7.2",
     "react": "^15.0.1",
