@@ -13,6 +13,7 @@ import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from './partials/post-preview-container';
+import PostListQueryTagFilter from './partials/post-list-query-tag-filter';
 
 import { POST_LIST_I18N } from '../../globals/i18n';
 
@@ -26,6 +27,9 @@ class PostList extends Component {
 		manual_add_count: this.props.min,
 		query_posts: [],   // objects with label and value
 		post_types: [],
+		tag_filter_active: false,
+		date_filter_active: false,
+		filter_value: '',
 	};
 
 	getTabButtons() {
@@ -198,14 +202,18 @@ class PostList extends Component {
 	}
 
 	getFilters() {
+		const filterClasses = classNames({
+			[styles.filter]: true,
+			'query-filters': true,
+		});
 		return (
-			<div>filters</div>
+			<div className={filterClasses}>
+				{this.state.tag_filter_active && <PostListQueryTagFilter />}
+			</div>
 		);
 	}
 
 	getFilteredPosts() {
-
-		console.log("getFilteredPosts", this.state.query_posts)
 		const posts = _.map(this.state.query_posts, (data, i) => {
 			return (
 				<PostPreviewContainer
@@ -222,7 +230,6 @@ class PostList extends Component {
 		);
 	}
 
-
 	getQueryTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -235,6 +242,7 @@ class PostList extends Component {
 					<label className={styles.tabLabel}>{this.props.strings['label.content_type']}</label>
 					<ReactSelect
 						options={this.props.post_type}
+						name={_.uniqueId('post-list-type-')}
 						placeholder="Select Post Types"
 						multi
 						value={this.state.post_types}
@@ -245,7 +253,10 @@ class PostList extends Component {
 				<div className={styles.row}>
 					<ReactSelect
 						options={this.props.filters}
-						onChange={this.handleChange}
+						name={_.uniqueId('post-list-filter-')}
+						onChange={this.handleFilterChange}
+						value={this.state.filter_value}
+						placeholder="Add A Filter"
 					/>
 				</div>
 
@@ -341,8 +352,17 @@ class PostList extends Component {
 	}
 
 	@autobind
+	handleFilterChange(e) {
+		if (e.value === 'post_tag'){
+			this.setState({
+				filter_value: e.value,
+				tag_filter_active:true,
+			})
+		}
+	}
+
+	@autobind
 	handlePostsChange(types) {
-		console.log("handlePostsChange", types);
 		this.setState({
 			post_types: types,
 		},() => {
@@ -379,8 +399,6 @@ class PostList extends Component {
 		}
 		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams()}`;
 		request.get(ajaxURL).end((err, response) => {
-			console.log("err",err);
-			console.log("response",response);
 			if (response.ok){
 				this.setState({
 					query_posts: response.body.posts
