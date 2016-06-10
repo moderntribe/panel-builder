@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import request from 'superagent';
 
 import objectToParams from '../../../util/data/object-to-params';
+import Button from '../../shared/button';
 
 import styles from './post-list-post-selected.pcss';
 
@@ -13,6 +14,8 @@ class PostListPostSelected extends Component {
 		selectedPost: '',
 		loading: false,
 		search: '',
+		editableId: this.props.editableId,
+		method: 'select',
 	};
 
 	getRequestParams(input) {
@@ -69,6 +72,22 @@ class PostListPostSelected extends Component {
 		this.setState({ search });
 	}
 
+	@autobind
+	handleCancelClick(e) {
+		e.preventDefault();
+		this.props.handleCancelClick({
+			state: this.state,
+		});
+	}
+
+	@autobind
+	handleAddToPanelClick(e) {
+		e.preventDefault();
+		this.props.handleAddClick({
+			state: this.state,
+		});
+	}
+
 	render() {
 		return (
 			<article className={styles.wrapper}>
@@ -87,6 +106,20 @@ class PostListPostSelected extends Component {
 					isLoading={false}
 					onChange={this.handleSearchChange}
 				/>
+				<footer className={styles.footer}>
+					<Button
+						text="Add to Panel"
+						primary={false}
+						full={false}
+						handleClick={this.handleAddToPanelClick}
+					/>
+					<Button
+						text="Cancel"
+						handleClick={this.handleCancelClick}
+						full={false}
+						view="tertiary"
+					/>
+				</footer>
 			</article>
 		);
 	}
@@ -95,11 +128,17 @@ class PostListPostSelected extends Component {
 PostListPostSelected.propTypes = {
 	name: PropTypes.string,
 	post_type: PropTypes.array,
+	handleCancelClick: PropTypes.func,
+	handleAddClick: PropTypes.func,
+	editableId: PropTypes.string,
 };
 
 PostListPostSelected.defaultProps = {
 	name: '',
 	post_type: [],
+	handleCancelClick: () => {},
+	handleAddClick: () => {},
+	editableId: '',
 };
 
 export default PostListPostSelected;

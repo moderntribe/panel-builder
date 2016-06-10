@@ -7,3 +7,24 @@
 	border: 1px solid var(--border-color);
 	background: var(--panel-post-bg-color);
 }
+
+.footer {
+	margin:15px 0;
+
+	button{
+		float:right;
+		margin-right:10px;
+	}
+	button:first-of-type{
+		margin-right:0;
+	}
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
+.footerLink {
+	composes: standardLink from "../../../shared/fields.pcss";
+}

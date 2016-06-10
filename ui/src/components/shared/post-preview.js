@@ -40,7 +40,7 @@ const PostPreview = (props) => {
 				<h5 className={titleClasses}>{props.title}</h5>
 				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }}></div>
 			</div>
-			<div href="#" onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt"></span></div>
+			<div onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt"></span></div>
 		</div>
 	);
 };

@@ -4,12 +4,15 @@ import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import Sortable from 'react-sortablejs';
 import _ from 'lodash';
+import request from 'superagent';
 
 import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
 import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
+import PostPreview from '../shared/post-preview';
+import PostPreviewContainer from './partials/post-preview-container';
 
 import { POST_LIST_I18N } from '../../globals/i18n';
 
@@ -74,26 +77,63 @@ class PostList extends Component {
 
 	getManualPosts() {
 		let Posts = null;
-
 		if (this.state.manual_post_data.length) {
 			const Items = _.map(this.state.manual_post_data, (data, i) => {
 				let Template;
-				if (data.type === 'manual') {
-					Template = (
-						<PostListPostManual
-							key={`manual-post-${i}`}
-							strings={this.props.strings}
-						/>
-					);
+				if (data.isPreview){
+					// send only post id or send full post
+					if (data.method=='manual'){
+						const fakePost = {
+							post_title: data.post_title,
+							post_content: data.post_content,
+						};
+						Template = (
+							<PostPreviewContainer
+								key={`manual-post-preview-${i}`}
+								post={fakePost}
+								editableId={data.editableId}
+								onRemoveClick={this.handleRemovePostClick}
+							/>
+						);
+					} if (data.method=='select') {
+						Template = (
+							<PostPreviewContainer
+								key={`manual-post-preview-${i}`}
+								post_id={data.ID}
+								editableId={data.editableId}
+								onRemoveClick={this.handleRemovePostClick}
+							/>
+						);
+					}
+
 				} else {
-					Template = (
-						<PostListPostSelected
-							key={`select-post-${i}`}
-							strings={this.props.strings}
-							post_type={this.props.post_type}
-						/>
-					);
+					if (data.type === 'manual') {
+						Template = (
+							<PostListPostManual
+								key={data.editableId}
+								editableId={data.editableId}
+								strings={this.props.strings}
+								postTitle={data.postTitle}
+								postContent={data.postContent}
+								postUrl={data.postUrl}
+								handleCancelClick={this.handleCancelClick}
+								handleAddClick={this.handleAddClick}
+							/>
+						);
+					} else {
+						Template = (
+							<PostListPostSelected
+								key={data.editableId}
+								editableId={data.editableId}
+								strings={this.props.strings}
+								post_type={this.props.post_type}
+								handleCancelClick={this.handleCancelClick}
+								handleAddClick={this.handleAddClick}
+							/>
+						);
+					}
 				}
+
 
 				return Template;
 			});
@@ -171,15 +211,31 @@ class PostList extends Component {
 		);
 	}
 
+	removePostFromList(editableId) {
+		// looking for editableId
+		const newState = {};
+		newState.manual_post_count = this.state.manual_post_count;
+		newState.manual_post_count--;
+		if (this.state.manual_add_count < this.props.max) {
+			newState.manual_add_count = this.state.manual_add_count;
+			newState.manual_add_count++;
+		}
+		newState.manual_post_data = this.state.manual_post_data;
+		_.remove(newState.manual_post_data, function(n) {
+			return n.editableId == editableId;
+		});
+		this.setState(newState);
+	}
+
 	@autobind
 	handleManualSort(data) {
-		console.log(data);
 	}
 
 	@autobind
 	addManualPost(e) {
 		const newState = {};
 		const type = e.currentTarget.classList.contains('type-manual') ? 'manual' : 'select';
+		const editableId = _.uniqueId('post-editable-');
 
 		if (this.state.manual_add_count > 1) {
 			newState.manual_add_count = this.state.manual_add_count;
@@ -190,10 +246,41 @@ class PostList extends Component {
 		newState.manual_post_count++;
 
 		newState.manual_post_data = this.state.manual_post_data;
-		newState.manual_post_data.push({ type });
+		newState.manual_post_data.push({
+			type,
+			editableId,
+		});
 
 		this.props.updateHeights();
 
+		this.setState(newState);
+	}
+
+	@autobind
+	handleCancelClick(e) {
+		// looking for editableId
+		this.removePostFromList(e.state.editableId);
+	}
+
+	@autobind
+	handleRemovePostClick(e) {
+		this.removePostFromList(e.state.editableId)
+	}
+
+	@autobind
+	handleAddClick(e) {
+		const newState = {};
+		newState.manual_post_data = _.map(this.state.manual_post_data, (data, i) => {
+			if (data.editableId === e.state.editableId ){
+				data.post_title = e.state.postTitle;
+				data.post_content = e.state.postContent;
+				data.url = e.state.postUrl;
+				data.ID = e.state.search;
+				data.isPreview = true;
+				data.method = e.state.method;
+			}
+			return data;
+		});
 		this.setState(newState);
 	}
 

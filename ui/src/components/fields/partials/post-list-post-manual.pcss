@@ -30,18 +30,15 @@
 
 	button{
 		float:right;
+		margin-right:10px;
 	}
-	a{
-		float: right;
-		margin-right:5px;
+	button:first-of-type{
+		margin-right:0;
 	}
+
 	&:after{
 		content: '';
 		display: block;
 		clear: both;
 	}
-}
-
-.footerLink {
-	composes: standardLink from "../../../shared/fields.pcss";
 }

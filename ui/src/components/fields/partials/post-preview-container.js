@@ -13,6 +13,7 @@ class PostPreviewContainer extends Component {
 			loading: false,
 			post: this.props.post,
 			post_id: this.props.post_id,
+			editableId: this.props.editableId,
 		};
 	}
 
@@ -80,11 +81,19 @@ class PostPreviewContainer extends Component {
 		}
 	}
 
+	@autobind
+	handleRemovePreview(e) {
+		// editableId
+		this.props.onRemoveClick({
+			state:this.state,
+		});
+	}
+
 	render() {
 		return (
 			<div>
 				{this.state.loading && <div>loading...</div>}
-				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.props.onRemoveClick} />}
+				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePreview} />}
 			</div>
 		);
 	}
@@ -94,12 +103,14 @@ PostPreviewContainer.propTypes = {
 	post: PropTypes.object,
 	post_id: React.PropTypes.number,
 	onRemoveClick: React.PropTypes.func,
+	editableId: React.PropTypes.string,
 };
 
 PostPreviewContainer.defaultProps = {
 	post: null,
 	post_id: null,
 	onRemoveClick: () => {},
+	editableId: '',
 };
 
 export default PostPreviewContainer;

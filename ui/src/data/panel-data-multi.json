@@ -77,7 +77,59 @@
       "depth": 0,
       "data": {
         "title": "The Big Old Posts Field",
-        "posts": []
+        "posts": {
+          "type": "query",
+          "posts": [
+            {
+              "id": "",
+              "method": "manual",
+              "post_title": "test",
+              "post_content": "fgdfgfd",
+              "url": "dfhfdhdffhd",
+              "thumbnail_id": "13151"
+            },
+            {
+              "id": "1409",
+              "method": "select",
+              "post_title": "",
+              "post_content": "Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum…",
+              "url": "",
+              "thumbnail_id": "0"
+            },
+            {
+              "id": "",
+              "method": "manual",
+              "post_title": "dthdt",
+              "post_content": "",
+              "url": "",
+              "thumbnail_id": "0"
+            }
+          ],
+          "filters": {
+            "post_type": {
+              "selection": [
+                "tribe_events",
+                "person",
+                "section"
+              ]
+            },
+            "related_posts": {
+              "selection": "11579",
+              "lock": "1"
+            },
+            "post_tag": {
+              "lock": "1"
+            },
+            "date": {
+              "selection": {
+                "start": "2015-11-02",
+                "end": "2016-11-17"
+              },
+              "lock": "1"
+            }
+          },
+          "max": "10"
+        }
       }
     }
   ]
