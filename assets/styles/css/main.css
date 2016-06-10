@@ -76,7 +76,7 @@
   margin-top: 1em;
   font-size: 16px;
   font-weight: lighter;
-  color: #999999;
+  color: #999;
   text-decoration: none;
 }
 /* line 10, ../sass/modules/_add-new.scss */
@@ -170,7 +170,7 @@
   font-size: 1.5em;
   font-weight: bold;
   line-height: 1;
-  color: #111111;
+  color: #111;
   opacity: .7;
   padding: 0;
   cursor: pointer;
@@ -235,12 +235,12 @@
 
 /* line 20, ../sass/modules/_delete-panel.scss */
 .panel-row-editor > .delete-panel {
-  color: #888888;
+  color: #888;
 }
 
 /* line 24, ../sass/modules/_delete-panel.scss */
 .panel-row-editor > .delete-panel:hover {
-  color: #555555;
+  color: #555;
 }
 
 /* line 28, ../sass/modules/_delete-panel.scss */
@@ -257,7 +257,7 @@
 /* line 37, ../sass/modules/_delete-panel.scss */
 .panel-children-container .delete-panel:hover,
 .panel-repeater-row .delete:hover {
-  color: #b03234;
+  color: #B03234;
 }
 
 /* line 42, ../sass/modules/_delete-panel.scss */
@@ -285,7 +285,7 @@
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-top: 6.5px solid #777777;
+  border-top: 6.5px solid #777;
 }
 
 /* line 1, ../sass/panels/_panel-container.scss */
@@ -356,7 +356,7 @@
   width: 0;
   height: 0;
   border: 4.5px solid transparent;
-  border-bottom: 6.5px solid white;
+  border-bottom: 6.5px solid #fff;
 }
 /* line 59, ../sass/panels/_panel.scss */
 .panel-row > button.close:focus {
@@ -429,7 +429,7 @@
   margin-top: 0.2em;
   font-weight: lighter;
   font-style: italic;
-  color: #a8a8a8;
+  color: #A8A8A8;
 }
 
 /* line 55, ../sass/panels/_panel-header.scss */
@@ -465,7 +465,7 @@
   float: left;
   width: 290px;
   height: 100px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -480,17 +480,17 @@
 }
 /* line 34, ../sass/panels/_new-panel.scss */
 .new-panel-option .thumbnail:hover {
-  box-shadow: #21759b 0 0 6px;
+  box-shadow: #21759B 0 0 6px;
 }
 /* line 38, ../sass/panels/_new-panel.scss */
 .new-panel-option .panel-icon {
   float: left;
   height: 100px;
   width: 133px;
-  border-right: 1px solid #cccccc;
+  border-right: 1px solid #ccc;
   text-align: center;
   line-height: 100px;
-  background-color: #f9f9f9;
+  background-color: #F9F9F9;
   margin-right: 15px;
 }
 /* line 48, ../sass/panels/_new-panel.scss */
@@ -504,7 +504,7 @@
 /* line 57, ../sass/panels/_new-panel.scss */
 .new-panel-option .panel-title {
   display: block;
-  color: #21759b;
+  color: #21759B;
   font-weight: bold;
   font-size: 110%;
   margin-right: 15px;
@@ -550,14 +550,14 @@
 .panel-row-editor .panel-input-label {
   display: block;
   margin-bottom: 0.5em;
-  color: #444444;
+  color: #444;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
 }
 /* line 35, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-input-label {
-  color: #444444;
+  color: #444;
   padding: 0;
 }
 /* line 40, ../sass/panels/_panel-editor.scss */
@@ -614,22 +614,26 @@
   float: left;
 }
 /* line 85, ../sass/panels/_panel-editor.scss */
+.panel-row-editor .input-type-video .panel-input-description {
+  clear: left;
+}
+/* line 89, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview {
   width: 50%;
   float: right;
   text-align: right;
 }
-/* line 90, ../sass/panels/_panel-editor.scss */
+/* line 94, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .input-type-video .panel-input-preview img {
   max-width: 200px;
   max-height: 200px;
 }
-/* line 93, ../sass/panels/_panel-editor.scss */
+/* line 97, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-toggle,
 .panel-row-editor .panel-toggle,
 .panel-row-editor .panel-children-container > h4 {
-  background-color: #888888;
-  color: white;
+  background-color: #888;
+  color: #fff;
   font-weight: 400;
   font-size: 14px;
   line-height: 1;
@@ -640,7 +644,7 @@
   cursor: pointer;
   margin-bottom: 0;
 }
-/* line 107, ../sass/panels/_panel-editor.scss */
+/* line 111, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-toggle:after,
 .panel-row-editor .panel-toggle:after,
 .panel-row-editor .panel-children-container > h4:after {
@@ -660,38 +664,38 @@
   line-height: 0;
   width: 50px;
 }
-/* line 125, ../sass/panels/_panel-editor.scss */
+/* line 129, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-toggle:hover:after,
 .panel-row-editor .panel-toggle:hover:after,
 .panel-row-editor .panel-children-container > h4:hover:after {
-  color: white;
+  color: #fff;
 }
-/* line 130, ../sass/panels/_panel-editor.scss */
+/* line 134, ../sass/panels/_panel-editor.scss */
 .panel-row-editor legend.panel-toggle.is-closed:after,
 .panel-row-editor .panel-toggle.is-closed:after,
 .panel-row-editor .panel-children-container.is-closed > h4:after {
   content: '\f140';
 }
-/* line 135, ../sass/panels/_panel-editor.scss */
+/* line 139, ../sass/panels/_panel-editor.scss */
 .panel-row-editor .panel-input.input-type-title .panel-input-label,
 .panel-row-editor .panel-children-container > h4 {
   font-size: 14px;
 }
 
-/* line 141, ../sass/panels/_panel-editor.scss */
+/* line 145, ../sass/panels/_panel-editor.scss */
 .panel-row .input-name-title {
   margin: 0 -15px 25px;
   padding: 5px 15px 25px;
   border-bottom: 1px solid #dddddd;
 }
 
-/* line 147, ../sass/panels/_panel-editor.scss */
+/* line 151, ../sass/panels/_panel-editor.scss */
 .panel-children .panel-row .panel-row-editor > fieldset.panel-input > .panel-input-label {
   margin-bottom: .5em;
   font-size: 14px;
 }
 
-/* line 152, ../sass/panels/_panel-editor.scss */
+/* line 156, ../sass/panels/_panel-editor.scss */
 .panel-repeater-row .panel-toggle,
 .panel-row-editor .panel-children-container > h4 {
   width: auto;
@@ -699,7 +703,7 @@
   margin-right: -1px;
 }
 
-/* line 159, ../sass/panels/_panel-editor.scss */
+/* line 163, ../sass/panels/_panel-editor.scss */
 .panel-repeater-row .panel-toggle {
   padding-left: 38px;
 }
@@ -707,13 +711,13 @@
 /**
  * Editor fieldset
  */
-/* line 168, ../sass/panels/_panel-editor.scss */
+/* line 172, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link {
   border: none;
   padding: 0;
   overflow: hidden;
 }
-/* line 173, ../sass/panels/_panel-editor.scss */
+/* line 177, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .panel-input-field {
   float: left;
   width: 33%;
@@ -721,14 +725,14 @@
   min-width: 200px;
   margin-bottom: 1em;
 }
-/* line 181, ../sass/panels/_panel-editor.scss */
+/* line 185, ../sass/panels/_panel-editor.scss */
 .panel-row-editor fieldset.input-type-link .link-field-target {
   padding-right: 0;
   width: auto;
   min-width: 0;
 }
 
-/* line 190, ../sass/panels/_panel-editor.scss */
+/* line 194, ../sass/panels/_panel-editor.scss */
 .editing .panel-row-editor {
   border: thin solid #dddddd;
   border-bottom: 0;
@@ -775,7 +779,7 @@
 .panel-children-title {
   font-size: 18px;
   margin: 0 0 18px;
-  color: #444444;
+  color: #444;
   padding: 0;
 }
 
@@ -797,7 +801,7 @@
   width: 42px;
   height: 42px;
   padding: 2px;
-  background: white;
+  background: #fff;
   opacity: 0.4;
   border: solid 1px #d7d7d7;
   transition: all .1s ease-out;
@@ -827,13 +831,13 @@
 .panel-input-posts label, .panel-input-post-list label {
   display: block;
   margin-bottom: 0.4em;
-  color: #aaaaaa;
+  color: #aaa;
   font-weight: lighter;
 }
 /* line 14, ../sass/fields/_posts.scss */
 .panel-input-posts .description, .panel-input-post-list .description {
   margin-left: 1em;
-  color: #aaaaaa;
+  color: #aaa;
   font-weight: lighter;
   font-size: 85%;
   vertical-align: bottom;
@@ -890,7 +894,7 @@
   top: 0;
   right: 0;
   padding: 0.5em;
-  background-color: white;
+  background-color: #fff;
   text-decoration: none;
   display: none;
 }
@@ -900,7 +904,7 @@
 }
 /* line 79, ../sass/fields/_posts.scss */
 .panel-input-posts .selection .selected-post:hover, .panel-input-post-list .selection .selected-post:hover {
-  background-color: white;
+  background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 /* line 84, ../sass/fields/_posts.scss */
@@ -1001,7 +1005,7 @@
   display: inline-block;
   overflow: hidden;
   margin-left: 10px;
-  color: #999999;
+  color: #999;
   text-decoration: none;
   vertical-align: middle;
   float: right;
@@ -1110,7 +1114,7 @@
 }
 /* line 287, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty, .panel-input-post-list .selected-post.empty {
-  background-color: white;
+  background-color: #fff;
 }
 /* line 290, ../sass/fields/_posts.scss */
 .panel-input-posts .selected-post.empty:hover, .panel-input-post-list .selected-post.empty:hover {
@@ -1171,12 +1175,12 @@
   height: 30px;
   line-height: 30px;
   background: #2ea2cc;
-  color: white;
+  color: #fff;
 }
 /* line 339, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:hover, .panel-input-post-list .button-secondary:hover {
   background: #1e8cbe;
-  color: white;
+  color: #fff;
 }
 /* line 343, ../sass/fields/_posts.scss */
 .panel-input-posts .button-secondary:focus, .panel-input-posts .button-secondary:active, .panel-input-post-list .button-secondary:focus, .panel-input-post-list .button-secondary:active {
@@ -1245,7 +1249,7 @@
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 15px;
-  background-color: white;
+  background-color: #fff;
 }
 /* line 412, ../sass/fields/_posts.scss */
 .panels .ui-tabs-nav .ui-corner-top {
@@ -1255,7 +1259,7 @@
 .panels .ui-state-active,
 .panels .ui-widget-content .ui-state-active,
 .panels .ui-widget-header .ui-state-active {
-  background-color: white;
+  background-color: #fff;
   border-bottom-color: transparent;
 }
 /* line 422, ../sass/fields/_posts.scss */
@@ -1294,7 +1298,7 @@
 /* line 1, ../sass/fields/_repeater.scss */
 .panel-repeater-row {
   clear: both;
-  background: white;
+  background: #fff;
   border: 1px solid #dddddd;
   border-top: 0;
   margin: 0 0 15px;
@@ -1307,7 +1311,7 @@
 .panel-repeater-row .panel-input,
 .panel-repeater-row fieldset.input-type-link {
   padding: 0 15px;
-  background-color: white;
+  background-color: #fff;
   border-bottom: 0;
   margin-top: 20px;
 }
@@ -1346,7 +1350,7 @@
   margin-left: 0;
   overflow: hidden;
   vertical-align: middle;
-  color: #999999;
+  color: #999;
   text-decoration: none;
   line-height: 25px;
   cursor: pointer;
@@ -1354,12 +1358,12 @@
 
 /* line 55, ../sass/fields/_repeater.scss */
 .panel-input-repeater-row-controls .move:hover {
-  color: #333333;
+  color: #333;
 }
 
 /* line 59, ../sass/fields/_repeater.scss */
 .panels .move {
-  color: white;
+  color: #fff;
   position: absolute;
   height: 100%;
   width: 40px;
@@ -1380,7 +1384,7 @@
   margin-left: 10px;
   overflow: hidden;
   vertical-align: middle;
-  color: #999999;
+  color: #999;
   text-decoration: none;
   float: right;
   line-height: 25px;
@@ -1440,7 +1444,7 @@
   line-height: 43px;
   padding: 0 20px;
   background: #2ea2cc;
-  color: white;
+  color: #fff;
   text-decoration: none;
   vertical-align: top;
   display: inline-block;
@@ -1451,7 +1455,7 @@
 /* line 136, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:hover {
   background: #1e8cbe;
-  color: white;
+  color: #fff;
 }
 /* line 140, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:focus, .panel-repeater-new-row:active {
@@ -1461,7 +1465,7 @@
 }
 /* line 146, ../sass/fields/_repeater.scss */
 .panel-repeater-new-row:before {
-  color: white;
+  color: #fff;
   padding-right: 5px;
   vertical-align: top;
 }
@@ -1469,7 +1473,7 @@
 /* line 153, ../sass/fields/_repeater.scss */
 .panel-repeater-row .panel-input,
 .panel-repeater-row fieldset.input-type-link {
-  background-color: white;
+  background-color: #fff;
   border-bottom: 0 none;
   margin-top: 20px;
   padding: 0 15px;
@@ -1522,7 +1526,7 @@
 }
 /* line 15, ../sass/fields/_image-select.scss */
 .input-type-imageselect img {
-  background: #cccccc;
+  background: #ccc;
   opacity: 0.4;
   transition: all 0.1s ease-out;
   -webkit-backface-visibility: hidden;
@@ -1532,7 +1536,7 @@
 /* line 23, ../sass/fields/_image-select.scss */
 .input-type-imageselect input[type="radio"]:checked + img, .input-type-imageselect img:hover {
   opacity: 0.6;
-  background-color: white;
+  background-color: #fff;
   border: thin solid #d7d7d7;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
@@ -1550,7 +1554,7 @@
 }
 /* line 42, ../sass/fields/_image-select.scss */
 .input-type-imageselect input[type="radio"]:checked + .label-text, .input-type-imageselect input[type="radio"] + .label-text:hover {
-  background-color: white;
+  background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
   border-color: #d7d7d7;
 }
