@@ -31,5 +31,10 @@ export const I18N_DEFAULTS = {
 			button_add_to_module: 'Add to module',
 			options_no_results: 'No Results',
 		},
+		repeater: {
+			msg_max_rows: 'You have reached the %TYPE% limit of this field',
+			btn_new_default: 'Add Row',
+			btn_delete_default: 'Delete Row',
+		},
 	},
 };

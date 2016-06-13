@@ -14,6 +14,7 @@ import ImageGallery from '../fields/image-gallery';
 import PostQuacker from '../fields/post-quacker';
 import PostList from '../fields/post-list';
 import Group from '../fields/group';
+import Repeater from '../fields/repeater';
 
 export default {
 	Text,
@@ -32,4 +33,5 @@ export default {
 	PostQuacker,
 	Post_List: PostList,
 	Group,
+	Repeater,
 };

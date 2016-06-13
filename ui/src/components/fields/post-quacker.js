@@ -59,7 +59,10 @@ class PostQuacker extends Component {
 
 	componentDidMount() {
 		this.cacheDom();
-		this.initTinyMCE();
+		// delay for smooth animations, framerate killa
+		_.delay(() => {
+			this.initTinyMCE();
+		}, 100);
 	}
 
 	componentWillUnmount() {

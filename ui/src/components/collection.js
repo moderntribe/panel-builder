@@ -99,7 +99,7 @@ class PanelCollection extends Component {
 		});
 
 		return (
-			<div className={collectionClasses}>
+			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
 				{this.getBar()}
 				<div className={styles.sidebar}>
 					{this.getPanels()}

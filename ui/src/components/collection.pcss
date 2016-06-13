@@ -1,3 +1,5 @@
+@import '../shared/transitions.pcss';
+
 :root {
 	--fontSize: 1rem;
 }
@@ -10,7 +12,7 @@
 	.sidebar {
 		> button {
 			left:0;
-			transition: left 0.18s ease-in-out;
+			transition: var(--transition-accordion);
 			padding-top: 16px;
 			padding-bottom: 16px;
 		}
@@ -31,10 +33,10 @@
 	&.active{
 		.sidebar{
 			> div {
-				left:-100%;
+				transform:translate(-100%, 0);
 			}
 			> button {
-				left:-100%;
+				transform:translate(-100%, 0);
 			}
 		}
 	}

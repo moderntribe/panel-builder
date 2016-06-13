@@ -12,12 +12,29 @@ import styles from './button.pcss';
  */
 
 const Button = (props) => {
+	const getIcon = () => {
+		let Icon = null;
+		if (props.icon.length) {
+			const iconClasses = classNames({
+				dashicons: true,
+				[props.icon]: true,
+				[styles.icon]: true,
+			});
+			Icon = (
+				<i className={iconClasses} />
+			);
+		}
+
+		return Icon;
+	};
+
 	const buttonClasses = classNames({
 		'panel-button': true,
-		[styles.primary]: props.primary,
-		[styles.secondary]: !props.primary,
+		[styles.primary]: !props.bare && props.primary,
+		[styles.secondary]: !props.bare && !props.primary,
 		[styles.full]: props.full,
 		[styles.inline]: !props.full,
+		[styles.bare]: props.bare,
 		[props.classes]: props.classes.length,
 	});
 
@@ -30,6 +47,7 @@ const Button = (props) => {
 			className={buttonClasses}
 			onClick={props.handleClick}
 		>
+			{getIcon()}
 			<span>{props.text}</span>
 		</button>
 	);
@@ -38,20 +56,24 @@ const Button = (props) => {
 Button.propTypes = {
 	text: PropTypes.string,
 	title: PropTypes.string,
+	icon: PropTypes.string,
 	classes: PropTypes.string,
 	type: PropTypes.string,
 	primary: PropTypes.bool,
 	full: PropTypes.bool,
+	bare: PropTypes.bool,
 	handleClick: PropTypes.func,
 };
 
 Button.defaultProps = {
 	text: '',
 	title: '',
+	icon: '',
 	classes: '',
 	type: 'button',
 	primary: true,
 	full: true,
+	bare: false,
 	handleClick: () => {},
 };
 
