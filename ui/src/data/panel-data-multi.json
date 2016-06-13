@@ -10,6 +10,25 @@
           "peter":1,
           "shane":1
         },
+        "links": [
+          {
+            "title": "Happy Repeater Title",
+            "link": {
+              "url": "http:\/\/tri.be",
+              "target": "_blank",
+              "label": "Visit the Tribe"
+            },
+            "image": 546
+          },
+          {
+            "title": "Life is a Box Of Truffles",
+            "link": {
+              "url": "http:\/\/faction23.com",
+              "target": "_self",
+              "label": "Visit your home planet"
+            }
+          }
+        ],
         "content": "A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her. Here men from the planet Earth first set foot upon the Moon. July 1969 AD. We came in peace for all mankind."
       }
     },

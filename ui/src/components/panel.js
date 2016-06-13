@@ -3,17 +3,26 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
-import Button from './shared/button';
 
 import FieldBuilder from './shared/field-builder';
+import AccordionBack from './shared/accordion-back';
 
 import styles from './panel.pcss';
+
+/**
+ * Class Panel
+ *
+ * @package ModularContent
+ *
+ * An instance of a Panel
+ */
 
 class PanelContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			active: false,
+			hidden: false,
 		};
 		this.el = null;
 	}
@@ -22,9 +31,15 @@ class PanelContainer extends Component {
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
 	}
 
+	/**
+	 * Gets the fields for a panel bundled in a hidden accordion ui. Uses Fieldbuilder.
+	 *
+	 * @returns {*}
+	 */
+
 	getFields() {
 		let FieldContainer = null;
-		const Fields = this.state.active ? <FieldBuilder {...this.props} /> : null;
+		const Fields = this.state.active ? <FieldBuilder {...this.props} hidePanel={this.hideFields} /> : null;
 
 		if (this.state.active) {
 			const fieldClasses = classNames({
@@ -32,28 +47,16 @@ class PanelContainer extends Component {
 				[styles.fieldsEdit]: this.props.liveEdit,
 				'panel-row-fields': true,
 			});
-			const fieldInnerClasses = classNames({
-				[styles.inner]: true,
-			});
 
 			FieldContainer = (
-				<div className={fieldClasses}>
-					<div className={fieldInnerClasses}>
-						<nav className={styles.back}>
-							<Button
-								classes={styles.backButton}
-								handleClick={this.handleClick}
-							/>
-							<h3>
-								<span className={styles.action}>
-									Editing
-								</span>
-								{this.props.label}
-							</h3>
-						</nav>
-						<div className={styles.fieldWrap}>
-							{Fields}
-						</div>
+				<div ref="fields" className={fieldClasses} data-hidden="false" data-show-children="false">
+					<AccordionBack
+						title={this.props.data.title}
+						panelLabel={this.props.label}
+						handleClick={this.handleClick}
+					/>
+					<div className={styles.fieldWrap}>
+						{Fields}
 					</div>
 				</div>
 			);
@@ -61,6 +64,27 @@ class PanelContainer extends Component {
 
 		return FieldContainer;
 	}
+
+	/**
+	 * Hides the panel ui for cases where a nested ui such as a repeater wants to reveal itself.
+	 *
+	 * @param hidden
+	 */
+
+	@autobind
+	hideFields(hidden = false) {
+		const fieldWrap = ReactDOM.findDOMNode(this.refs.fields);
+		if (!fieldWrap) {
+			return;
+		}
+		fieldWrap.setAttribute('data-hidden', hidden);
+		fieldWrap.setAttribute('data-show-children', hidden);
+	}
+
+	/**
+	 * todo: Code to be refined, just handles the non live edit mode for now
+	 * discuss the future of this with kyle
+	 */
 
 	handleHeights() {
 		if (!this.state.active) {
@@ -73,6 +97,10 @@ class PanelContainer extends Component {
 			this.el.parentNode.style.height = 'auto';
 		}
 	}
+
+	/**
+	 * Shows/hides the panel field group with an animation
+	 */
 
 	@autobind
 	handleClick() {

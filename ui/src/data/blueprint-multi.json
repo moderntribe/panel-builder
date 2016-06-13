@@ -146,6 +146,54 @@
         ]
       },
       {
+        "type": "Repeater",
+        "label": "Links",
+        "name": "links",
+        "description": "",
+        "strings": {
+          "button.new": "Add a link"
+        },
+        "default": [],
+        "fields": [
+          {
+            "type": "Title",
+            "label": "Title",
+            "name": "title",
+            "description": "",
+            "strings": [],
+            "default": ""
+          },
+          {
+            "type": "Link",
+            "label": "Link",
+            "name": "link",
+            "description": "",
+            "strings": [],
+            "default": {
+              "url": "",
+              "target": "",
+              "label": ""
+            }
+          },
+          {
+            "type": "Image",
+            "label": "Image (optional)",
+            "name": "image",
+            "description": "",
+            "strings": {
+              "button.remove": "Remove",
+              "button.select": "Select Files",
+              "drop.info": "Drop files here",
+              "drop.or": "or"
+            },
+            "default": "",
+            "size": "thumbnail"
+          }
+        ],
+        "min": 3,
+        "max": 6
+      },
+      {
         "type": "TextArea",
         "label": "Yo Regular Textarea",
         "name": "content",

@@ -40,6 +40,11 @@
 	}
 }
 
+.bare {
+	composes: reset;
+	color: var(--button-bare-text-color);
+}
+
 .full {
 	display: block;
 	width: 100%;
@@ -52,7 +57,14 @@
 .inline {
 	display: inline-block;
 	width: auto;
-	padding: 10px;
+	padding: 10px 15px;
 	font-size: 13px;
 	font-weight: 600;
+}
+
+.icon {
+	position: relative;
+	font-size: 17px;
+	margin: 0 6px 0 -4px;
+	top: 1px;
 }

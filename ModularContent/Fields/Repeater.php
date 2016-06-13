@@ -198,6 +198,14 @@ class Repeater extends Group {
 		return $data;
 	}
 
+	public static function js_i18n() {
+		return [
+			'msg_max_rows' => __( 'You have reached the %TYPE% limit of this field', 'modular-content' ),
+			'btn_new_default' => __( 'Add Row', 'modular-content' ),
+			'btn_delete_default' => __( 'Delete Row', 'modular-content' ),
+		];
+	}
+
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
 		$blueprint['min'] = $this->min;

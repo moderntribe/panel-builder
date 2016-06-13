@@ -31,8 +31,10 @@ const FieldBuilder = (props) => {
 				<Field
 					{...field}
 					panelIndex={props.index}
+					panelLabel={props.label}
 					data={props.data[field.name]}
 					updatePanelData={props.updatePanelData}
+					hidePanel={props.hidePanel}
 				/>
 			</div>
 		);
@@ -47,16 +49,20 @@ const FieldBuilder = (props) => {
 
 FieldBuilder.propTypes = {
 	index: PropTypes.number,
+	label: PropTypes.string,
 	fields: PropTypes.array,
 	data: PropTypes.object,
 	updatePanelData: PropTypes.func,
+	hidePanel: PropTypes.func,
 };
 
 FieldBuilder.defaultProps = {
 	index: 0,
+	label: '',
 	fields: [],
 	data: {},
 	updatePanelData: () => {},
+	hidePanel: () => {},
 };
 
 export default FieldBuilder;

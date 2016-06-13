@@ -38,7 +38,11 @@ class TextArea extends Component {
 		}
 
 		this.cacheDom();
-		this.initTinyMCE();
+
+		// delay for smooth animations, framerate killa
+		_.delay(() => {
+			this.initTinyMCE();
+		}, 100);
 	}
 
 	componentWillUnmount() {
