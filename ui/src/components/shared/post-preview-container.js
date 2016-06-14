@@ -22,8 +22,9 @@ class PostPreviewContainer extends Component {
 			this.setState({
 				loading: false,
 			});
-		} else if (this.state.post_id && this.state.post_id !== 0) {
+		} else if (this.state.post_id) {
 			const post = AdminCache.getPostById(this.state.post_id);
+			console.log("cached post ",post );
 			if (post) {
 				this.setState({
 					post,
@@ -90,10 +91,12 @@ class PostPreviewContainer extends Component {
 	}
 
 	render() {
+		// account for no remove button
+		const removeHandler = this.props.onRemoveClick ? this.handleRemovePreview : null;
 		return (
 			<div>
 				{this.state.loading && <div>Loading...</div>}
-				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePreview} />}
+				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler} />}
 			</div>
 		);
 	}
@@ -109,7 +112,7 @@ PostPreviewContainer.propTypes = {
 PostPreviewContainer.defaultProps = {
 	post: null,
 	post_id: null,
-	onRemoveClick: () => {},
+	onRemoveClick: null,
 	editableId: '',
 };
 

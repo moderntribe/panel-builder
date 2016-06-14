@@ -19,7 +19,12 @@ export function addPost(post) {
 	ADMIN_CACHE.posts.push(post);
 }
 
+export function addPosts(postsObj) {
+	_.mapKeys(postsObj, (value) => {
+		ADMIN_CACHE.posts.push(value);
+	});
+}
+
 export function getPostById(id) {
 	return _.find(ADMIN_CACHE.posts, { ID: id });
 }
-

@@ -14,6 +14,7 @@ class PostListQueryTagFilter extends Component {
 	render() {
 		return (
 			<div className={styles.filter}>
+				<div className={styles.remove}><span className='dashicons dashicons-no-alt' onClick={this.props.onRemoveClick} /></div>
 				<label className={styles.label}>Tags</label>
 				<span className={styles.inputContainer}>
 					<input value={this.props.tag} onChange={this.props.onChangeTag} />

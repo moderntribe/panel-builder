@@ -5,13 +5,21 @@ import moment from 'moment';
 
 import styles from './post-list-query-date-filter.pcss';
 
+/**
+ * Component for query date filter
+ * Event return current state with moment date values
+ *
+ * @param props
+ * @returns {XML}
+ * @constructor
+ */
+
 class PostListQueryDateFilter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tag: '',
-			startDate:moment(),
-			endDate:moment().add(7, 'days'),
+			startDate:this.props.startDate,
+			endDate:this.props.endDate,
 		};
 	}
 
@@ -20,7 +28,7 @@ class PostListQueryDateFilter extends Component {
 		this.setState({
 			startDate: e,
 		}, () => {
-			this.props.onChangeTag({
+			this.props.onChangeDate({
 				state: this.state,
 			});
 		});
@@ -31,7 +39,7 @@ class PostListQueryDateFilter extends Component {
 		this.setState({
 			endDate: e,
 		}, () => {
-			this.props.onChangeTag({
+			this.props.onChangeDate({
 				state: this.state,
 			})
 		});
@@ -45,15 +53,11 @@ class PostListQueryDateFilter extends Component {
 				<span className={styles.inputContainer}>
 					<DatePicker
 						selected={this.state.startDate}
-						startDate={this.state.startDate}
-						endDate={this.state.endDate}
-						placeholder='Start Date'
+						placeholderText='Start Date'
 						onChange={this.handleChangeStart} />
 					<DatePicker
 						selected={this.state.endDate}
-						startDate={this.state.startDate}
-						endDate={this.state.endDate}
-						placeholder='End Date'
+						placeholderText='End Date'
 						onChange={this.handleChangeEnd} />
 				</span>
 			</div>
@@ -63,12 +67,16 @@ class PostListQueryDateFilter extends Component {
 
 PostListQueryDateFilter.propTypes = {
 	onRemoveClick: React.PropTypes.func,
-	onChangeTag: React.PropTypes.func,
+	onChangeDate: React.PropTypes.func,
+	startDate: React.PropTypes.object,
+	endDate: React.PropTypes.object,
 };
 
 PostListQueryDateFilter.defaultProps = {
 	onRemoveClick: () => {},
-	onChangeTag: () => {},
+	onChangeDate: () => {},
+	startDate: null,
+	endDate: null,
 };
 
 export default PostListQueryDateFilter;

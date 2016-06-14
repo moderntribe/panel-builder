@@ -15,6 +15,7 @@ import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
 import PostListQueryTagFilter from './partials/post-list-query-tag-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
+import * as AdminCache from '../../util/data/admin-cache';
 
 import { POST_LIST_I18N } from '../../globals/i18n';
 
@@ -26,10 +27,12 @@ class PostList extends Component {
 		manual_post_data: [],
 		manual_post_count: 0,
 		manual_add_count: this.props.min,
-		query_posts: [],   // objects with label and value
+		query_posts: {},   // post objects
 		post_types: [],
 		tag_filter_active: false,
 		date_filter_active: false,
+		startDate: null,
+		endDate: null,
 		filter_value: '',
 	};
 
@@ -210,21 +213,21 @@ class PostList extends Component {
 		return (
 			<div className={filterClasses}>
 				{this.state.tag_filter_active && <PostListQueryTagFilter onRemoveClick={this.onRemoveTagFilter} />}
-				{this.state.date_filter_active && <PostListQueryDateFilter onRemoveClick={this.onRemoveDateFilter} />}
+				{this.state.date_filter_active && <PostListQueryDateFilter onChangeDate={this.onChangeDate} onRemoveClick={this.onRemoveDateFilter} />}
 			</div>
 		);
 	}
 
 	getFilteredPosts() {
-		const posts = _.map(this.state.query_posts, (data, i) => {
+		const keys = _.keys(this.state.query_posts);
+		const posts = _.map(keys, (key, i) => {
 			return (
 				<PostPreviewContainer
-					key={`query-post-preview-${i}`}
-					post_id={data.value}
+					key={`query-post-preview-${key}`}
+					post={this.state.query_posts[key]}
 				/>
 			);
 		});
-
 		return (
 			<div>
 				{posts}
@@ -248,7 +251,7 @@ class PostList extends Component {
 						placeholder="Select Post Types"
 						multi
 						value={this.state.post_types}
-						onChange={this.handlePostsChange}
+						onChange={this.handlePostTypeChange}
 					/>
 				</div>
 
@@ -354,10 +357,26 @@ class PostList extends Component {
 	}
 
 	@autobind
+	onChangeDate(e) {
+		const startDate = e.state.startDate;
+		const endDate = e.state.endDate;
+		this.setState({
+			startDate,
+			endDate,
+		},() => {
+			this.getNewPosts()
+		});
+	}
+
+	@autobind
 	onRemoveDateFilter() {
 		this.setState({
 			filter_value: '',
 			date_filter_active:false,
+			startDate: null,
+			endDate: null,
+		},() => {
+			this.getNewPosts()
 		})
 	}
 
@@ -391,12 +410,21 @@ class PostList extends Component {
 	}
 
 	@autobind
-	handlePostsChange(types) {
-		this.setState({
-			post_types: types,
-		},() => {
-			this.getNewPosts()
-		});
+	handlePostTypeChange(types) {
+		if (types){
+			this.setState({
+				post_types: types,
+			},() => {
+				this.getNewPosts()
+			});
+		} else {
+			this.setState({
+				post_types: [],
+			},() => {
+				this.getNewPosts()
+			});
+		}
+
 	}
 
 	/**
@@ -418,22 +446,78 @@ class PostList extends Component {
 			field_name: 'items',
 		});
 	}
+	/*
+	 action:posts-field-fetch-preview
+	 filters[post_type][selection][]:post
+	 filters[post_type][lock]:true
+	 filters[date][selection][start]:2016-03-01
+	 filters[date][selection][end]:2016-06-10
+	 filters[date][lock]:true
+	 filters[post_tag][selection][]:4
+	 filters[post_tag][lock]:true
+	 max:4
+	 context:1
+	 */
+
+	/**
+	 * Get preview params for posts
+	 *
+	 * @method getSearchRequestParams
+	 */
+	getPreviewRequestParams() {
+		let filters = {};
+		const types = [];
+		_.forEach(this.state.post_types, (type) => {
+			types.push(type.value);
+		});
+		// post types
+		if (this.state.post_types.length){
+			filters.post_type = {
+				selection:types,
+				lock:true,
+			};
+		}
+		// add the date
+		if (this.state.startDate || this.state.endDate){
+			filters.date = {
+				lock: true,
+				selection: {},
+			};
+			// assumes these are moment dates
+			if (this.state.startDate){
+				filters.date.selection.start = this.state.startDate.format('YYYY-MM-DD');
+			}
+			if (this.state.endDate){
+				filters.date.selection.end = this.state.endDate.format('YYYY-MM-DD');
+			}
+		}
+		return param({
+			action: 'posts-field-fetch-preview',
+			filters,
+			max:this.props.max,
+			context:1,
+		});
+
+	}
 
 	getNewPosts(){
-		if (!this.state.post_types.length && !input.length) {
-			this.setState({
-				query_posts:[]
-			})
+		if (!this.state.post_types.length) {
 			return;
 		}
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams()}`;
-		request.get(ajaxURL).end((err, response) => {
-			if (response.ok){
-				this.setState({
-					query_posts: response.body.posts
-				});
-			}
-		});
+		const params = this.getPreviewRequestParams();
+		const ajaxURL = window.ajaxurl;
+		request.post(ajaxURL)
+			.send(params)
+			.end((err, response) => {
+				if (response.ok){
+					// is returned in posts object with key and values (post ID and post obj)
+					// add to cache
+					AdminCache.addPosts(response.body.data.posts);
+					this.setState({
+						query_posts: response.body.data.posts
+					});
+				}
+			});
 	}
 
 	render() {
