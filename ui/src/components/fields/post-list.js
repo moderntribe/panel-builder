@@ -12,8 +12,9 @@ import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
-import PostPreviewContainer from './partials/post-preview-container';
+import PostPreviewContainer from '../shared/post-preview-container';
 import PostListQueryTagFilter from './partials/post-list-query-tag-filter';
+import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 
 import { POST_LIST_I18N } from '../../globals/i18n';
 
@@ -208,7 +209,8 @@ class PostList extends Component {
 		});
 		return (
 			<div className={filterClasses}>
-				{this.state.tag_filter_active && <PostListQueryTagFilter />}
+				{this.state.tag_filter_active && <PostListQueryTagFilter onRemoveClick={this.onRemoveTagFilter} />}
+				{this.state.date_filter_active && <PostListQueryDateFilter onRemoveClick={this.onRemoveDateFilter} />}
 			</div>
 		);
 	}
@@ -352,12 +354,39 @@ class PostList extends Component {
 	}
 
 	@autobind
+	onRemoveDateFilter() {
+		this.setState({
+			filter_value: '',
+			date_filter_active:false,
+		})
+	}
+
+	@autobind
+	onRemoveTagFilter() {
+		this.setState({
+			filter_value: '',
+			tag_filter_active:false,
+		})
+	}
+
+	@autobind
 	handleFilterChange(e) {
-		if (e.value === 'post_tag'){
+		if (e && e.value){
+			if (e.value === 'post_tag'){
+				this.setState({
+					filter_value: e.value,
+					tag_filter_active:true,
+				});
+			} else if (e.value === 'date'){
+				this.setState({
+					filter_value: e.value,
+					date_filter_active:true,
+				})
+			}
+		} else {
 			this.setState({
-				filter_value: e.value,
-				tag_filter_active:true,
-			})
+				filter_value: false,
+			});
 		}
 	}
 

@@ -156,7 +156,7 @@ class PostListPostManual extends Component {
 						text="Cancel"
 						handleClick={this.handleCancelClick}
 						full={false}
-						view="tertiary"
+						bare={true}
 					/>
 				</footer>
 			</article>

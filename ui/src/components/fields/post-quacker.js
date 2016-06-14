@@ -10,7 +10,7 @@ import param from 'jquery-param';
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import BlankPostUi from '../shared/blank-post-ui';
-import PostPreviewContainer from './partials/post-preview-container';
+import PostPreviewContainer from '../shared/post-preview-container';
 import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
 

@@ -3,8 +3,8 @@ import autobind from 'autobind-decorator';
 import request from 'superagent';
 import param from 'jquery-param';
 
-import PostPreview from '../../shared/post-preview';
-import * as AdminCache from '../../../util/data/admin-cache';
+import PostPreview from './post-preview';
+import * as AdminCache from '../../util/data/admin-cache';
 
 class PostPreviewContainer extends Component {
 	constructor(props) {
@@ -92,7 +92,7 @@ class PostPreviewContainer extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.loading && <div>loading...</div>}
+				{this.state.loading && <div>Loading...</div>}
 				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePreview} />}
 			</div>
 		);
