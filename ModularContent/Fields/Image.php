@@ -36,8 +36,6 @@ class Image extends Field {
 		$this->defaults[ 'strings' ] = [
 			'button.remove' => __( 'Remove', 'modular-content' ),
 			'button.select' => __( 'Select Files', 'modular-content' ),
-			'drop.info'     => __( 'Drop files here', 'modular-content' ),
-			'drop.or'       => __( 'or', 'modular-content' ),
 		];
 		parent::__construct($args);
 	}
