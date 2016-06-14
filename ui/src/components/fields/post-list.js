@@ -33,6 +33,7 @@ class PostList extends Component {
 		date_filter_active: false,
 		startDate: null,
 		endDate: null,
+		post_tags: [],
 		filter_value: '',
 	};
 
@@ -212,7 +213,7 @@ class PostList extends Component {
 		});
 		return (
 			<div className={filterClasses}>
-				{this.state.tag_filter_active && <PostListQueryTagFilter onRemoveClick={this.onRemoveTagFilter} />}
+				{this.state.tag_filter_active && <PostListQueryTagFilter onChangeTag={this.onChangeTag} options={this.props.taxonomies.post_tag} onRemoveClick={this.onRemoveTagFilter} />}
 				{this.state.date_filter_active && <PostListQueryDateFilter onChangeDate={this.onChangeDate} onRemoveClick={this.onRemoveDateFilter} />}
 			</div>
 		);
@@ -313,7 +314,6 @@ class PostList extends Component {
 		});
 
 		this.props.updateHeights();
-
 		this.setState(newState);
 	}
 
@@ -325,13 +325,13 @@ class PostList extends Component {
 
 	@autobind
 	handleRemovePostClick(e) {
-		this.removePostFromList(e.state.editableId)
+		this.removePostFromList(e.state.editableId);
 	}
 
 	@autobind
 	handleAddClick(e) {
 		const newState = {};
-		newState.manual_post_data = _.map(this.state.manual_post_data, (data, i) => {
+		newState.manual_post_data = _.map(this.state.manual_post_data, (data) => {
 			if (data.editableId === e.state.editableId ){
 				data.post_title = e.state.postTitle;
 				data.post_content = e.state.postContent;
@@ -352,8 +352,13 @@ class PostList extends Component {
 	}
 
 	@autobind
-	handleChange() {
-		// code to connect to actions that execute on redux store
+	onChangeTag(e) {
+		const post_tags = e.state.tags;
+		this.setState({
+			post_tags,
+		},() => {
+			this.getNewPosts();
+		});
 	}
 
 	@autobind
@@ -364,7 +369,7 @@ class PostList extends Component {
 			startDate,
 			endDate,
 		},() => {
-			this.getNewPosts()
+			this.getNewPosts();
 		});
 	}
 
@@ -372,11 +377,11 @@ class PostList extends Component {
 	onRemoveDateFilter() {
 		this.setState({
 			filter_value: '',
-			date_filter_active:false,
+			date_filter_active: false,
 			startDate: null,
 			endDate: null,
 		},() => {
-			this.getNewPosts()
+			this.getNewPosts();
 		})
 	}
 
@@ -384,19 +389,22 @@ class PostList extends Component {
 	onRemoveTagFilter() {
 		this.setState({
 			filter_value: '',
-			tag_filter_active:false,
+			tag_filter_active: false,
+			post_tags: [],
+		},() => {
+			this.getNewPosts();
 		})
 	}
 
 	@autobind
 	handleFilterChange(e) {
 		if (e && e.value){
-			if (e.value === 'post_tag'){
+			if (e.value === 'post_tag') {
 				this.setState({
 					filter_value: e.value,
 					tag_filter_active:true,
 				});
-			} else if (e.value === 'date'){
+			} else if (e.value === 'date') {
 				this.setState({
 					filter_value: e.value,
 					date_filter_active:true,
@@ -415,16 +423,15 @@ class PostList extends Component {
 			this.setState({
 				post_types: types,
 			},() => {
-				this.getNewPosts()
+				this.getNewPosts();
 			});
 		} else {
 			this.setState({
 				post_types: [],
 			},() => {
-				this.getNewPosts()
+				this.getNewPosts();
 			});
 		}
-
 	}
 
 	/**
@@ -446,18 +453,6 @@ class PostList extends Component {
 			field_name: 'items',
 		});
 	}
-	/*
-	 action:posts-field-fetch-preview
-	 filters[post_type][selection][]:post
-	 filters[post_type][lock]:true
-	 filters[date][selection][start]:2016-03-01
-	 filters[date][selection][end]:2016-06-10
-	 filters[date][lock]:true
-	 filters[post_tag][selection][]:4
-	 filters[post_tag][lock]:true
-	 max:4
-	 context:1
-	 */
 
 	/**
 	 * Get preview params for posts
@@ -471,25 +466,34 @@ class PostList extends Component {
 			types.push(type.value);
 		});
 		// post types
-		if (this.state.post_types.length){
+		if (this.state.post_types.length) {
 			filters.post_type = {
 				selection:types,
 				lock:true,
 			};
 		}
 		// add the date
-		if (this.state.startDate || this.state.endDate){
+		if (this.state.startDate || this.state.endDate) {
 			filters.date = {
 				lock: true,
 				selection: {},
 			};
 			// assumes these are moment dates
-			if (this.state.startDate){
+			if (this.state.startDate) {
 				filters.date.selection.start = this.state.startDate.format('YYYY-MM-DD');
 			}
 			if (this.state.endDate){
 				filters.date.selection.end = this.state.endDate.format('YYYY-MM-DD');
 			}
+		}
+		// post tags post_tags
+		if (this.state.post_tags.length) {
+			// build simple array of post type ids
+			const selection = _.map(this.state.post_tags, 'value');
+			filters.post_tag = {
+				lock: true,
+				selection,
+			};
 		}
 		return param({
 			action: 'posts-field-fetch-preview',
@@ -509,12 +513,12 @@ class PostList extends Component {
 		request.post(ajaxURL)
 			.send(params)
 			.end((err, response) => {
-				if (response.ok){
+				if (response.ok) {
 					// is returned in posts object with key and values (post ID and post obj)
 					// add to cache
 					AdminCache.addPosts(response.body.data.posts);
 					this.setState({
-						query_posts: response.body.data.posts
+						query_posts: response.body.data.posts,
 					});
 				}
 			});

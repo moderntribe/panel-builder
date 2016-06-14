@@ -569,15 +569,15 @@
         "taxonomies": {
           "post_tag": [
             {
-              "value": 6,
+              "value": 1,
               "label": "Fun Times"
             },
             {
-              "value": 7,
+              "value": 2,
               "label": "Maybe Better"
             },
             {
-              "value": 4,
+              "value": 3,
               "label": "Oh Boy"
             }
           ]
