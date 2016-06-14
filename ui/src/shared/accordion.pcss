@@ -1,0 +1,63 @@
+@import './spacing.pcss';
+@import './colors.pcss';
+
+.header{
+	padding: var(--panel-padding-vertical) 30px var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	border: thin solid var(--border-color);
+	background-color: var(--panel-bg-color);
+	position: relative;
+	cursor: pointer;
+	h3 {
+		margin:0;
+		font-size:14px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}
+
+.arrow{
+	position:absolute;
+	right:10px;
+	top:15px;
+}
+
+.back{
+	border: 1px solid var(--border-color);
+	margin:0 0 15px 0;
+	h3 {
+		font-size: 20px;
+		font-weight: 200;
+		line-height: 26px;
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		margin:0;
+		padding:10px 15px 0 15px;
+		height:74px;
+	}
+}
+
+.action{
+	display:block;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+.backButton{
+	display:block;
+	float:left;
+	height: 74px;
+	background:#fff;
+	width: 48px;
+	border:0;
+	border-right: 1px solid var(--border-color);
+	&:before{
+		font: normal 20px/72px dashicons;
+		content: "\f341";
+		position: relative;
+		left: 0;
+		top:-9px;
+	}
+}

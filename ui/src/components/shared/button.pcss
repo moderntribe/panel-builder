@@ -40,20 +40,9 @@
 	}
 }
 
-.tertiary {
+.bare {
 	composes: reset;
-	background-color: var(--button-tertiary-bg-color);
-	color: var(--button-tertiary-text-color);
-	font-weight:normal;
-	border: none;
-	&:hover,
-	&:focus {
-		background-color: var(--button-tertiary-bg-hover-color);
-		color: var(--button-tertiary-text-hover-color);
-	}
-	&:focus {
-		background-color: var(--button-tertiary-bg-focus-color);
-	}
+	color: var(--button-bare-text-color);
 }
 
 .full {
@@ -68,7 +57,14 @@
 .inline {
 	display: inline-block;
 	width: auto;
-	padding: 10px;
+	padding: 10px 15px;
 	font-size: 13px;
 	font-weight: 600;
+}
+
+.icon {
+	position: relative;
+	font-size: 17px;
+	margin: 0 6px 0 -4px;
+	top: 1px;
 }

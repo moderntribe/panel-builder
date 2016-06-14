@@ -1,5 +1,7 @@
+@import '../shared/accordion.pcss';
 @import '../shared/spacing.pcss';
 @import '../shared/colors.pcss';
+@import '../shared/transitions.pcss';
 
 
 .row {
@@ -8,7 +10,7 @@
 	margin-top: var(--panel-margin-vertical);
 	margin-bottom: var(--panel-margin-vertical);
 	left:0;
-	transition:left 0.18s ease-in-out;
+	transition: var(--transition-accordion);
 	&.active{
 		left:-100%;
 	}
@@ -56,35 +58,29 @@
 }
 
 .arrow{
-	position:absolute;
-	right:10px;
-	top:15px;
+	composes: arrow from "../shared/accordion.pcss";
 }
 
 .header{
-	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
-	border: thin solid var(--border-color);
-	background-color: var(--panel-bg-color);
-	position: relative;
-	cursor: pointer;
-	h3 {
-		margin:0;
-		font-size:14px;
-	}
+	composes: header from "../shared/accordion.pcss";
 }
 
 .fields{
 	padding: 0;
 	width: 100%;
-	position:absolute;
+	position:fixed;
 	left:100%;
 	top:0;
-	.inner{
-
+	transition: var(--transition-accordion);
+	&[data-hidden="true"]{
+		transform: translate(-100%, 0);
 	}
 	&.fieldsEdit{
 		height:calc(100vh - 64px);
 		overflow-y: auto;
+		&[data-show-children="true"]{
+			overflow: visible;
+		}
 	}
 }
 
@@ -93,45 +89,13 @@
 }
 
 .back{
-	border: 1px solid var(--border-color);
-	margin:0 0 15px 0;
-	h3 {
-		font-size: 20px;
-		font-weight: 200;
-		line-height: 26px;
-		display: block;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		margin:0;
-		padding:10px 15px 0 15px;
-		height:74px;
-	}
+	composes: back from "../shared/accordion.pcss";
 }
 
 .action{
-	display:block;
-	font-size: 13px;
-	font-weight: 400;
+	composes: action from "../shared/accordion.pcss";
 }
 
 .backButton{
-	display:block;
-	float:left;
-	height: 74px;
-	background:#fff;
-	width: 48px;
-	border:0;
-	border-right: 1px solid var(--border-color);
-	&:before{
-		font: normal 20px/72px dashicons;
-		content: "\f341";
-		position: relative;
-		left: 0;
-		top:-9px;
-	}
-}
-
-.field{
-
+	composes: backButton from "../shared/accordion.pcss";
 }

@@ -7,3 +7,4 @@ export const IMAGE_I18N = FIELDS_I18N.image || {};
 export const QUACKER_I18N = FIELDS_I18N.quacker || {};
 export const POST_LIST_I18N = FIELDS_I18N.post_list || {};
 export const TEXTAREA_I18N = FIELDS_I18N.textarea || {};
+export const REPEATER_I18N = FIELDS_I18N.repeater || {};
