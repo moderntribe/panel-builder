@@ -109,7 +109,6 @@ class MetaBox {
 			],
 			'fields' => [
 				'post_list' => Post_List::js_i18n(),
-				'textarea'  => TextArea::js_i18n(),
 				'quacker'   => PostQuacker::js_i18n(),
 				'repeater'  => Repeater::js_i18n(),
 			]

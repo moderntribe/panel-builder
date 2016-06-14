@@ -95,9 +95,7 @@
                         "description": "",
                         "strings": {
                             "button.remove": "Remove",
-                            "button.select": "Select Files",
-                            "drop.info": "Drop files here",
-                            "drop.or": "or"
+                            "button.select": "Select Files"
                         },
                         "default": "",
                         "size": "thumbnail"
@@ -182,11 +180,11 @@
                     "post_tag": [
                         {
                             "value": 2,
-                            "label": "Term 14"
+                            "label": "Term 16"
                         },
                         {
                             "value": 3,
-                            "label": "Term 15"
+                            "label": "Term 17"
                         }
                     ]
                 }
@@ -302,7 +300,10 @@
                 "label": "Biography",
                 "name": "bio",
                 "description": "Provide a brief history of your life to date.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "false",
                 "media_buttons": true,
@@ -313,7 +314,10 @@
                 "label": "Content",
                 "name": "content",
                 "description": "Anything you would like to say. Really.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "true",
                 "media_buttons": true,
@@ -324,7 +328,10 @@
                 "label": "Discontent",
                 "name": "discontent",
                 "description": "Maybe don't say so much. Thanks.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "true",
                 "media_buttons": true,
@@ -398,7 +405,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -411,9 +421,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -522,7 +530,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -592,7 +603,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": false,
                 "media_buttons": true,
@@ -621,7 +635,10 @@
                         "label": "Column Text",
                         "name": "text",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "tab.visual": "Visual",
+                            "tab.text": "Text"
+                        },
                         "default": "",
                         "richtext": true,
                         "media_buttons": true,
@@ -723,7 +740,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -736,9 +756,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -847,7 +865,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -892,7 +913,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": false,
                 "media_buttons": true,
@@ -966,7 +990,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -979,9 +1006,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1090,7 +1115,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1165,7 +1193,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
@@ -1178,9 +1209,7 @@
                 "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                 "strings": {
                     "button.remove": "Remove",
-                    "button.select": "Select Files",
-                    "drop.info": "Drop files here",
-                    "drop.or": "or"
+                    "button.select": "Select Files"
                 },
                 "default": "",
                 "size": "medium"
@@ -1307,7 +1336,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1320,9 +1352,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1431,7 +1461,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1496,7 +1529,10 @@
                 "label": "Content",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
@@ -1570,11 +1606,11 @@
                     "post_tag": [
                         {
                             "value": 2,
-                            "label": "Term 14"
+                            "label": "Term 16"
                         },
                         {
                             "value": 3,
-                            "label": "Term 15"
+                            "label": "Term 17"
                         }
                     ]
                 }
@@ -1639,7 +1675,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1652,9 +1691,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1763,7 +1800,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1818,7 +1858,10 @@
                         "label": "Column",
                         "name": "column",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "tab.visual": "Visual",
+                            "tab.text": "Text"
+                        },
                         "default": "",
                         "richtext": true,
                         "media_buttons": true,
@@ -1888,7 +1931,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1901,9 +1947,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -2012,7 +2056,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -2112,7 +2159,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -2125,9 +2175,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -2236,7 +2284,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,

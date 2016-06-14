@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { IMAGE_I18N } from '../../globals/i18n';
-
 import Button from './button';
 
 import styles from './media-uploader.pcss';

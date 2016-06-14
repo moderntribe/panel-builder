@@ -27,8 +27,6 @@ class Image_Test extends WPTestCase {
 			'strings'     => [
 				'button.remove' => 'Remove',
 				'button.select' => 'Select Files',
-				'drop.info'     => 'Drop files here',
-				'drop.or'       => 'or',
 			],
 			'default'     => $default,
 			'size'        => 'thumbnail',
