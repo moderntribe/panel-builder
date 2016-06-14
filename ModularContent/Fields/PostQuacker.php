@@ -43,6 +43,26 @@ class PostQuacker extends Field {
 		],
 	];
 
+	public function __construct( $args ) {
+		$this->defaults[ 'strings' ] = [
+			'button.add_to_module'         => __( 'Add to Module', 'modular-content' ),
+			'button.remove'                => __( 'Remove', 'modular-content' ), // passed to Image
+			'button.select'                => __( 'Select Files', 'modular-content' ), // passed to Image
+			'label.manual_title'           => __( 'Title', 'modular-content' ),
+			'label.manual_image'           => __( 'Image', 'modular-content' ),
+			'label.manual_content'         => __( 'Content', 'modular-content' ),
+			'label.manual_link'            => __( 'Link', 'modular-content' ),
+			'label.select_post_type'       => __( 'Select Type', 'modular-content' ),
+			'label.select_post'            => __( 'Select Content', 'modular-content' ),
+			'no_results'                   => __( 'No Results', 'modular-content' ),
+			'placeholder.select_post_type' => __( 'Select Post Type', 'modular-content' ),
+			'placeholder.select_post'      => __( 'Select...', 'modular-content' ),
+			'tab.selection'                => __( 'Selection', 'modular-content' ),
+			'tab.manual'                   => __( 'Manual', 'modular-content' ),
+		];
+		parent::__construct( $args );
+	}
+
 	protected function render_opening_tag() {
 		printf('<fieldset class="panel-input input-type-postquacker input-name-%s">', $this->esc_class($this->name));
 	}
