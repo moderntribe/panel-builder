@@ -571,12 +571,16 @@
             "label": "Posts"
           },
           {
-            "value": "menus",
-            "label": "Menus"
+            "value": "page",
+            "label": "Pages"
           },
           {
-            "value": "tribe_events",
-            "label": "Events"
+            "value": "attachment",
+            "label": "Attachemnts"
+          },
+          {
+            "value": "menu",
+            "label": "Menu"
           }
         ],
         "filters": [

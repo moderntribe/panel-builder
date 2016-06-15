@@ -39,6 +39,7 @@ class PostList extends Component {
 		filterValue: '',
 	};
 
+
 	getTabButtons() {
 		const manualButtonClasses = classNames({
 			'pl-show-manual': true,
@@ -148,7 +149,6 @@ class PostList extends Component {
 					}
 				}
 
-
 				return Template;
 			});
 			const options = {
@@ -168,6 +168,12 @@ class PostList extends Component {
 		return Posts;
 	}
 
+
+	/**
+	 * Manual type chooser
+	 *
+	 * @method getManualTypeChooser
+	 */
 	getManualTypeChooser() {
 		let MaybeChooser = null;
 
@@ -194,6 +200,11 @@ class PostList extends Component {
 		return MaybeChooser;
 	}
 
+	/**
+	 * Tab for Manual
+	 *
+	 * @method getManualTemplate
+	 */
 	getManualTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -209,6 +220,11 @@ class PostList extends Component {
 		);
 	}
 
+	/**
+	 * Build out filters
+	 *
+	 * @method getFilters
+	 */
 	getFilters() {
 		const filterClasses = classNames({
 			[styles.filter]: true,
@@ -235,6 +251,11 @@ class PostList extends Component {
 		);
 	}
 
+	/**
+	 * Build out posts to display
+	 *
+	 * @method getFilteredPosts
+	 */
 	getFilteredPosts() {
 		const keys = _.keys(this.state.query_posts);
 		const posts = _.map(keys, (key, i) => {
@@ -252,6 +273,65 @@ class PostList extends Component {
 		);
 	}
 
+
+	/**
+	 * Builds the options for the filter select. Gets updated whenever post types changes
+	 * Handles several layers of filter removal
+	 * 1. top level containing array of post_type
+	 * 2. second level options containing array of post_type
+	 * 3. second level options containing post_type object with keys
+	 *
+	 * @method getFilterOptions
+	 */
+	getFilterOptions() {
+		let filters = _.cloneDeep(this.props.filters);
+		let postTypesFlat = _.map(this.state.post_types, (type) => {
+			return type.value;
+		});
+
+		// first level for date
+		filters = _.remove(filters, (filter) => {
+			if (!filter.post_type) {
+				return true;
+			} else {
+				const intersect = _.intersection(filter.post_type, postTypesFlat);
+				return intersect.length > 0;
+			}
+		});
+
+		// second level
+		filters.forEach((filter) => {
+			if (filter.options) {
+				// if array
+				if (filter.options.length){
+					// if array
+					let optionsFiltered = _.remove(filter.options, (option) => {
+						if (!option.post_type){
+							return true; // remove if no post_type
+						} else {
+							if (option.post_type.length){ // check against array
+								const intersect = _.intersection(option.post_type, postTypesFlat);
+								return intersect.length > 0;
+							} else { // check against object and keys
+								const keysIn = _.keysIn(option.post_type);
+								console.log("keysIn",keysIn);
+								const intersectKeys = _.intersection(keysIn, postTypesFlat);
+								return intersectKeys.length > 0;
+							}
+						}
+					});
+					filter.options = optionsFiltered;
+				}
+			}
+		});
+		return filters;
+	}
+
+	/**
+	 * Build the Query tab template
+	 *
+	 * @method getQueryTemplate
+	 */
 	getQueryTemplate() {
 		const tabClasses = classNames({
 			[styles.tabContent]: true,
@@ -274,7 +354,7 @@ class PostList extends Component {
 
 				<div className={styles.row}>
 					<ReactSelect
-						options={this.props.filters}
+						options={this.getFilterOptions()}
 						name={_.uniqueId('post-list-filter-')}
 						onChange={this.handleFilterChange}
 						value={this.state.filterValue}
@@ -410,6 +490,11 @@ class PostList extends Component {
 		})
 	}
 
+	/**
+	 * Handle date filter removal
+	 *
+	 * @method onRemoveDateFilter
+	 */
 	@autobind
 	onRemoveDateFilter() {
 		this.setState({
@@ -433,6 +518,11 @@ class PostList extends Component {
 		})
 	}
 
+	/**
+	 * Handle filter chamge
+	 *
+	 * @method handleFilterChange
+	 */
 	@autobind
 	handleFilterChange(e) {
 		if (e && e.value){
@@ -459,6 +549,11 @@ class PostList extends Component {
 		}
 	}
 
+	/**
+	 * Handle post type change
+	 *
+	 * @method handlePostTypeChange
+	 */
 	@autobind
 	handlePostTypeChange(types) {
 		if (types){
@@ -477,29 +572,9 @@ class PostList extends Component {
 	}
 
 	/**
-	 * Get search params for posts limited by type
+	 * Get preview params for posts.
 	 *
-	 * @method getSearchRequestParams
-	 */
-	getSearchRequestParams() {
-		const types = [];
-		_.forEach(this.state.post_types, (type) => {
-			types.push(type.value);
-		});
-		return param({
-			action: 'posts-field-posts-search',
-			s: '',
-			type: 'query-panel',
-			paged: 1,
-			post_type: types,
-			field_name: 'items',
-		});
-	}
-
-	/**
-	 * Get preview params for posts
-	 *
-	 * @method getSearchRequestParams
+	 * @method getPreviewRequestParams
 	 */
 	getPreviewRequestParams() {
 		let filters = {};
@@ -555,6 +630,11 @@ class PostList extends Component {
 
 	}
 
+	/**
+	 * Retrieve new posts. Add to cache
+	 *
+	 * @method getNewPosts
+	 */
 	getNewPosts(){
 		if (!this.state.post_types.length) {
 			return;

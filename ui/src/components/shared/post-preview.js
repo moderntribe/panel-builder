@@ -33,8 +33,6 @@ const PostPreview = (props) => {
 		'remove-selected-post': true,
 	});
 
-	console.log("props",props);
-
 	return (
 		<div className={selectedPostClassses}>
 			<div className="selected-post-preview">
