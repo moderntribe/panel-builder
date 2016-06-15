@@ -564,6 +564,15 @@
               "page",
               "attachment"
             ]
+          },
+          {
+            "value": "related_posts",
+            "label": "Related Posts",
+            "post_type": {
+              "page": "Page",
+              "post": "Post",
+              "product": "Product"
+            }
           }
         ],
         "taxonomies": {
