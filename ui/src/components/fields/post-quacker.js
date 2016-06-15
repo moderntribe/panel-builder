@@ -26,7 +26,7 @@ class PostQuacker extends Component {
 		this.noResults = {
 			options: [{
 				value: 0,
-				label: this.props.strings['no_results'],
+				label: this.props.strings.no_results,
 			}],
 		};
 		this.state = {
