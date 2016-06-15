@@ -553,6 +553,13 @@
                 "post_type": [
                   "post"
                 ]
+              },
+              {
+                "value": "category",
+                "label": "Category",
+                "post_type": [
+                  "page"
+                ]
               }
             ]
           },
@@ -566,13 +573,25 @@
             ]
           },
           {
-            "value": "related_posts",
-            "label": "Related Posts",
-            "post_type": {
-              "page": "Page",
-              "post": "Post",
-              "product": "Product"
-            }
+            "label": "Relationships",
+            "options": [
+              {
+                "value": "related_posts",
+                "label": "Related",
+                "post_type": {
+                  "page": "Page",
+                  "post": "Post"
+                }
+              },
+              {
+                "value": "related_things",
+                "label": "Related Posts",
+                "post_type": {
+                  "post": "Post",
+                  "product": "Product"
+                }
+              }
+            ]
           }
         ],
         "taxonomies": {
