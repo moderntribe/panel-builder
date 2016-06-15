@@ -115,7 +115,9 @@
                 "label": "Gallery",
                 "name": "gallery",
                 "description": "This is a gallery field",
-                "strings": {},
+                "strings": {
+                    "button.edit_gallery": "Edit Gallery"
+                },
                 "default": ""
             },
             {
@@ -972,7 +974,9 @@
                 "label": "Image Gallery",
                 "name": "gallery",
                 "description": "",
-                "strings": {},
+                "strings": {
+                    "button.edit_gallery": "Edit Gallery"
+                },
                 "default": ""
             }
         ],

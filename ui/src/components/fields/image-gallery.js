@@ -186,7 +186,7 @@ class ImageGallery extends Component {
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
 						<button className="button button-large" onClick={this.handleMediaButtonClick}>
-							Edit Gallery
+							{this.props.strings['button.edit_gallery']}
 						</button>
 					</p>
 					<div className={styles.galleryFieldSelection} onClick={this.handleMediaButtonClick}>

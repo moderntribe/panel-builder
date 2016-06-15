@@ -384,7 +384,9 @@
         "label": "Image Gallery",
         "name": "gallery",
         "description": "Gallery description goes here",
-        "strings": {},
+        "strings": {
+          "button.edit_gallery": "Edit Gallery"
+        },
         "default": ""
       },
       {
