@@ -57,6 +57,8 @@ class PostQuacker extends Field {
 			'no_results'                   => __( 'No Results', 'modular-content' ),
 			'placeholder.select_post_type' => __( 'Select Post Type', 'modular-content' ),
 			'placeholder.select_post'      => __( 'Select...', 'modular-content' ),
+			'placeholder.label'            => __( 'Label', 'modular-content' ), // passed to the Link
+			'placeholder.url'              => __( 'URL', 'modular-content' ), // passed to the Link
 			'tab.selection'                => __( 'Selection', 'modular-content' ),
 			'tab.manual'                   => __( 'Manual', 'modular-content' ),
 		];

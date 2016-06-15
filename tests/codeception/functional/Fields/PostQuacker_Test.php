@@ -35,6 +35,8 @@ class PostQuacker_Test extends WPTestCase {
 				'no_results'                   => 'No Results',
 				'placeholder.select_post_type' => 'Select Post Type',
 				'placeholder.select_post'      => 'Select...',
+				'placeholder.label'            => 'Label',
+				'placeholder.url'              => 'URL',
 				'tab.selection'                => 'Selection',
 				'tab.manual'                   => 'Manual',
 			],

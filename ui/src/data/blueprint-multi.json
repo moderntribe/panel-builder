@@ -171,7 +171,10 @@
             "label": "Link",
             "name": "link",
             "description": "",
-            "strings": {},
+            "strings": {
+              "placeholder.label": "Label",
+              "placeholder.url": "URL"
+            },
             "default": {
               "url": "",
               "target": "",
@@ -269,6 +272,8 @@
           "no_results": "No Results",
           "placeholder.select_post_type": "Select Post Type",
           "placeholder.select_post": "Select...",
+          "placeholder.label": "Label",
+          "placeholder.url": "URL",
           "tab.selection": "Selection",
           "tab.manual": "Manual"
         },
@@ -484,7 +489,10 @@
         "label": "Link",
         "name": "link",
         "description": "some description",
-        "strings": {},
+        "strings": {
+          "placeholder.label": "Label",
+          "placeholder.url": "URL"
+        },
         "default": {
           "url": "",
           "target": "",
