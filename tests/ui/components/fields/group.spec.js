@@ -3,9 +3,9 @@ import { shallow, mount } from 'enzyme';
 import Group from 'components/fields/group';
 
 describe('Group field', () => {
-	it('renders as a <fieldset>', () => {
+	it('renders as a <div>', () => {
 		const wrapper = shallow(<Group />);
-		expect(wrapper.type()).to.eql('fieldset');
+		expect(wrapper.type()).to.eql('div');
 	});
 
 	it('allows us to set props', () => {
