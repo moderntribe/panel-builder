@@ -2,6 +2,6 @@
 
 export const I18N_DEFAULTS = {
 	ui: {
-		"button.launch_edit": 'Edit in Live Preview',
+		'button.launch_edit': 'Edit in Live Preview',
 	},
 };

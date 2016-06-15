@@ -58,9 +58,9 @@ class PostList extends Component {
 			const requiredCount = this.props.min - this.state.manual_post_count;
 			const polyglot = new Polyglot();
 			polyglot.extend({
-				"min_posts_notice": this.props.strings[ 'notice.min_posts' ]
+				min_posts_notice: this.props.strings['notice.min_posts'],
 			});
-			const noticeText = polyglot.t( "min_posts_notice", { count: requiredCount, smart_count: requiredCount } );
+			const noticeText = polyglot.t('min_posts_notice', { count: requiredCount, smart_count: requiredCount });
 			MaybeNotification = (
 				<Notification
 					text={noticeText}

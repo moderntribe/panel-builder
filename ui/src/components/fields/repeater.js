@@ -112,10 +112,10 @@ class Repeater extends Component {
 	getHeader(data = {}, index) {
 		const polyglot = new Polyglot();
 		polyglot.extend({
-			"row_index": this.props.strings[ 'label.row_index' ]
+			row_index: this.props.strings['label.row_index'],
 		});
-		const row_index_label = polyglot.t( "row_index", { index: index + 1, smart_count: index + 1 } );
-		const title = data.title && data.title.length ? data.title : row_index_label;
+		const rowIndexLabel = polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
+		const title = data.title && data.title.length ? data.title : rowIndexLabel;
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
