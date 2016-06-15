@@ -85,7 +85,27 @@ class Blueprint_Builder implements \JsonSerializable{
 	}
 
 	public function jsonSerialize() {
-		return $this->get_blueprint();
+		$blueprint = $this->get_blueprint();
+		foreach ( $blueprint as $index => $panel ) {
+			$blueprint[ $index ] = $this->normalize_string_arrays( $panel );
+		}
+		return $blueprint;
+	}
+
+	private function normalize_string_arrays( $blueprint ) {
+		foreach ( $blueprint[ 'fields' ] as $index => $field ) {
+			$field[ 'strings' ] = (object)$field[ 'strings' ];
+			if ( isset( $field[ 'fields' ] ) ) {
+				$field = $this->normalize_string_arrays( $field );
+			}
+			if ( isset( $blueprint[ 'children' ][ 'types' ] ) ) {
+				foreach ( $blueprint[ 'children' ][ 'types' ] as $child_index => $child ) {
+					$blueprint[ 'children' ][ 'types' ][ $child_index ] = $this->normalize_string_arrays( $child );
+				}
+			}
+			$blueprint['fields'][ $index ] = $field;
+		}
+		return $blueprint;
 	}
 
 

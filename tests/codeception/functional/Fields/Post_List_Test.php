@@ -39,6 +39,9 @@ class Post_List_Test extends WPTestCase {
 				'button.select_post'      => 'Select a post',
 				'button.create_content'   => 'Create content',
 				'button.remove_post'      => 'Remove this post',
+				'button.remove'           => 'Remove',
+				'button.select'           => 'Select Files',
+				'label.add_another'       => 'Add Another',
 				'label.content_type'      => 'Content Type',
 				'label.choose_post'       => 'Choose a Post',
 				'label.max_results'       => 'Max Results',
@@ -52,6 +55,7 @@ class Post_List_Test extends WPTestCase {
 				'label.content'           => 'Content',
 				'label.link'              => 'Link: http://example.com/',
 				'label.thumbnail'         => 'Thumbnail',
+				'notice.min_posts'        => 'This field requires %{count} more item |||| This field requires %{count} more items',
 			],
 			'default'          => [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ],
 			'min'              => 5,
@@ -90,6 +94,9 @@ class Post_List_Test extends WPTestCase {
 				],
 			],
 		];
+
+		ksort( $expected['strings'] );
+		ksort( $blueprint['strings'] );
 
 		$this->assertEquals( $expected, $blueprint );
 	}

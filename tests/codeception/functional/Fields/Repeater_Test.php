@@ -40,7 +40,10 @@ class Repeater_Test extends WPTestCase {
 			'name'        => $name,
 			'description' => $description,
 			'strings'     => [
-				'button.new' => 'Add Another',
+				'button.new'      => 'Add Another',
+				'button.delete'   => 'Delete Row',
+				'label.row_index' => 'Row %{index} |||| Row %{index}',
+				'notice.max_rows' => 'You have reached the row limit of this field',
 			],
 			'default'     => [ ],
 			'fields'      => [

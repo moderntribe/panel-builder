@@ -65,6 +65,7 @@ class TextArea extends Component {
 					ref={this.fid}
 					name={this.props.name}
 					value={this.state.text}
+					strings={this.props.strings}
 					onChange={this.handleChange}
 				/>
 			);
@@ -80,6 +81,7 @@ class TextArea extends Component {
 						fid={this.fid}
 						name={this.props.name}
 						buttons={this.props.media_buttons}
+						strings={this.props.strings}
 					/>
 				</div>
 			);
@@ -181,7 +183,7 @@ TextArea.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	default: PropTypes.string,
 	richtext: PropTypes.bool,
 	media_buttons: PropTypes.bool,
@@ -195,7 +197,7 @@ TextArea.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	strings: [],
+	strings: {},
 	default: '',
 	richtext: false,
 	media_buttons: true,

@@ -23,6 +23,13 @@ use ModularContent\Panel;
  * get_panel_var() will return an array of attachment IDs
  */
 class ImageGallery extends Field {
+	public function __construct( $args ) {
+		$this->defaults['strings'] = [
+			'button.edit_gallery' => __( 'Edit Gallery', 'modular-content' ),
+		];
+		parent::__construct( $args );
+	}
+
 	public function render_field() {
 		wp_enqueue_script( 'modular-content-gallery-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/gallery-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
 		$input_name = $this->get_input_name();

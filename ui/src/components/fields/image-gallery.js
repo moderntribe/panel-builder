@@ -186,7 +186,7 @@ class ImageGallery extends Component {
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
 						<button className="button button-large" onClick={this.handleMediaButtonClick}>
-							Edit Gallery
+							{this.props.strings['button.edit_gallery']}
 						</button>
 					</p>
 					<div className={styles.galleryFieldSelection} onClick={this.handleMediaButtonClick}>
@@ -203,7 +203,7 @@ ImageGallery.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	default: PropTypes.string,
 	data: PropTypes.array,
 	panelIndex: PropTypes.number,
@@ -214,7 +214,7 @@ ImageGallery.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	strings: [],
+	strings: {},
 	default: '',
 	data: [],
 	panelIndex: 0,

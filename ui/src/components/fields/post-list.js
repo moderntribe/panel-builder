@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import Polyglot from 'node-polyglot';
 import ReactSelect from 'react-select-plus';
 import Sortable from 'react-sortablejs';
 import _ from 'lodash';
@@ -17,8 +18,6 @@ import PostListQueryTagFilter from './partials/post-list-query-tag-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
 import * as AdminCache from '../../util/data/admin-cache';
-
-import { POST_LIST_I18N } from '../../globals/i18n';
 
 import styles from './post-list.pcss';
 
@@ -73,11 +72,12 @@ class PostList extends Component {
 		let MaybeNotification = null;
 
 		if (this.state.manual_post_count < this.props.min) {
-			const minCount = this.props.min - this.state.manual_post_count;
-			const noticeTextString = this.props.min > 1 ?
-				POST_LIST_I18N.notification_min_posts_multiple :
-				POST_LIST_I18N.notification_min_posts_single;
-			const noticeText = noticeTextString.replace('%MIN_COUNT%', `${minCount}`);
+			const requiredCount = this.props.min - this.state.manual_post_count;
+			const polyglot = new Polyglot();
+			polyglot.extend({
+				min_posts_notice: this.props.strings['notice.min_posts'],
+			});
+			const noticeText = polyglot.t('min_posts_notice', { count: requiredCount, smart_count: requiredCount });
 			MaybeNotification = (
 				<Notification
 					text={noticeText}
@@ -184,7 +184,7 @@ class PostList extends Component {
 			if (this.state.manual_post_count) {
 				MaybeChooser = (
 					<div>
-						<h3>{POST_LIST_I18N.chooser_heading}</h3>
+						<h3>{this.props.strings['label.add_another']}</h3>
 						{MaybeChooser}
 					</div>
 				);

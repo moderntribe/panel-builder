@@ -27,6 +27,7 @@
     "jquery-param": "^0.2.0",
     "lodash": "^4.11.1",
     "lost": "^6.7.2",
+    "node-polyglot": "^2.0.0",
     "react": "^15.0.1",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.1",
