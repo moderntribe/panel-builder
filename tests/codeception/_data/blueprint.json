@@ -72,7 +72,10 @@
                 "name": "links",
                 "description": "",
                 "strings": {
-                    "button.new": "Add a link"
+                    "button.new": "Add a link",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -540,7 +543,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -637,7 +643,10 @@
                 "name": "columns",
                 "description": "",
                 "strings": {
-                    "button.new": "Add Content Block"
+                    "button.new": "Add Content Block",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -875,7 +884,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1125,7 +1137,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1471,7 +1486,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1814,7 +1832,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1872,7 +1893,10 @@
                 "name": "repeater",
                 "description": "",
                 "strings": {
-                    "button.new": "Add Column"
+                    "button.new": "Add Column",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -2070,7 +2094,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -2298,7 +2325,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [

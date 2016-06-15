@@ -108,7 +108,6 @@ class MetaBox {
 				'btn_launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
 			],
 			'fields' => [
-				'repeater'  => Repeater::js_i18n(),
 			]
 		];
 

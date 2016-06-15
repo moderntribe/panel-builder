@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import Polyglot from 'node-polyglot';
 import _ from 'lodash';
 
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
-
-import { REPEATER_I18N } from '../../globals/i18n';
 
 import styles from './repeater.pcss';
 
@@ -69,7 +68,7 @@ class Repeater extends Component {
 	getActiveRow() {
 		const rowData = this.props.data[this.state.activeIndex] ? this.props.data[this.state.activeIndex] : {};
 		const title = rowData.title && rowData.title.length ? rowData.title : `Row ${this.state.activeIndex + 1}`;
-		const deleteLabel = this.props.strings['button.delete'] ? this.props.strings['button.delete'] : REPEATER_I18N.btn_delete_default;
+		const deleteLabel = this.props.strings['button.delete'];
 		const fieldClasses = classNames({
 			[styles.fields]: true,
 			'panel-row-fields': true,
@@ -111,8 +110,12 @@ class Repeater extends Component {
 	 */
 
 	getHeader(data = {}, index) {
-		// todo: check with kyle and jonathan on how this will get set
-		const title = data.title && data.title.length ? data.title : `Row ${index + 1}`;
+		const polyglot = new Polyglot();
+		polyglot.extend({
+			"row_index": this.props.strings[ 'label.row_index' ]
+		});
+		const row_index_label = polyglot.t( "row_index", { index: index + 1, smart_count: index + 1 } );
+		const title = data.title && data.title.length ? data.title : row_index_label;
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
@@ -160,12 +163,11 @@ class Repeater extends Component {
 	getAddRow() {
 		let AddRow = null;
 		if (this.state.data.length < this.props.max) {
-			const text = this.props.strings['button.new'] ? this.props.strings['button.new'] : REPEATER_I18N.btn_new_default;
 			AddRow = (
 				<Button
 					icon="dashicons-plus-alt"
 					classes="repeater-add-row"
-					text={text}
+					text={this.props.strings['button.new']}
 					primary={false}
 					full={false}
 					handleClick={this.handleAddRow}
@@ -173,7 +175,7 @@ class Repeater extends Component {
 			);
 		} else {
 			// todo: replace 'row' with either item in strings or setting
-			AddRow = <p className={styles.maxMessage}>{REPEATER_I18N.msg_max_rows.replace('%TYPE%', 'row')}</p>;
+			AddRow = <p className={styles.maxMessage}>{this.props.strings['button.max_rows']}</p>;
 		}
 		return AddRow;
 	}
