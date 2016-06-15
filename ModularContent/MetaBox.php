@@ -108,8 +108,6 @@ class MetaBox {
 				'btn_launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
 			],
 			'fields' => [
-				'post_list' => Post_List::js_i18n(),
-				'quacker'   => PostQuacker::js_i18n(),
 				'repeater'  => Repeater::js_i18n(),
 			]
 		];

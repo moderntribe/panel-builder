@@ -519,11 +519,14 @@
         "name": "posts",
         "description": "",
         "strings": {
-          "tabs.manual": "Select\/Create",
-          "tabs.dynamic": "Query",
+          "button.create_content": "Add Link",
+          "tabs.manual": "Manual",
+          "tabs.dynamic": "Dynamic",
           "button.select_post": "Select a post",
-          "button.create_content": "Create content",
           "button.remove_post": "Remove this post",
+          "button.remove": "Remove",
+          "button.select": "Select Files",
+          "label.add_another": "Add Another",
           "label.content_type": "Content Type",
           "label.choose_post": "Choose a Post",
           "label.max_results": "Max Results",
@@ -536,7 +539,8 @@
           "label.title": "Title",
           "label.content": "Content",
           "label.link": "Link: http:\/\/example.com\/",
-          "label.thumbnail": "Thumbnail"
+          "label.thumbnail": "Thumbnail",
+          "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
         },
         "default": {
           "type": "manual",
