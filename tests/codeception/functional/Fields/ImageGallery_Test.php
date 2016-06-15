@@ -24,7 +24,9 @@ class ImageGallery_Test extends WPTestCase {
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
-			'strings'     => [ ],
+			'strings'     => [
+				'button.edit_gallery' => 'Edit Gallery',
+			],
 			'default'     => $default,
 		];
 

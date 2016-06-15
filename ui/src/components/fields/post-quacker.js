@@ -17,7 +17,6 @@ import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
 import ReactSelect from 'react-select-plus';
 import * as AdminCache from '../../util/data/admin-cache';
-import { QUACKER_I18N } from '../../globals/i18n';
 
 import styles from './post-quacker.pcss';
 
@@ -27,7 +26,7 @@ class PostQuacker extends Component {
 		this.noResults = {
 			options: [{
 				value: 0,
-				label: this.props.strings.options_no_results ? this.props.strings.options_no_results : QUACKER_I18N.options_no_results,
+				label: this.props.strings.no_results,
 			}],
 		};
 		this.state = {
@@ -114,13 +113,13 @@ class PostQuacker extends Component {
 			<div className={styles.tabs}>
 				<Button
 					classes={queryButtonClasses}
-					text={this.props.strings['tabs.selection']}
+					text={this.props.strings['tab.selection']}
 					full={false}
 					handleClick={this.switchTabs}
 				/>
 				<Button
 					classes={manualButtonClasses}
-					text={this.props.strings['tabs.manual']}
+					text={this.props.strings['tab.manual']}
 					full={false}
 					handleClick={this.switchTabs}
 				/>
@@ -147,22 +146,16 @@ class PostQuacker extends Component {
 			imagePath = image.full;
 		}
 
-		const labelTitleText = this.props.strings.label_manual_title ? this.props.strings.label_manual_title : QUACKER_I18N.label_manual_title;
-		const labelImageText = this.props.strings.label_manual_image ? this.props.strings.label_manual_image : QUACKER_I18N.label_manual_image;
-		const labelContentText = this.props.strings.label_manual_content ? this.props.strings.label_manual_content : QUACKER_I18N.label_manual_content;
-		const labelLinkText = this.props.strings.label_manual_link ? this.props.strings.label_manual_link : QUACKER_I18N.label_manual_link;
-		const labelImageLabelText = this.props.strings.label_manual_image_label ? this.props.strings.label_manual_image_label : QUACKER_I18N.label_manual_image_label;
-
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelTitleText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_title']}</label>
 					<input type="text" name={this.tid} value={this.state.title} size="40" onChange={this.handleTitleChange} />
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelImageText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_image']}</label>
 					<MediaUploader
-						label={labelImageLabelText}
+						label={this.props.strings['label.manual_image']}
 						size={this.props.size}
 						file={imagePath}
 						strings={this.props.strings}
@@ -171,12 +164,12 @@ class PostQuacker extends Component {
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelContentText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_content']}</label>
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelLinkText}</label>
-					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} />
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_link']}</label>
+					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} strings={this.props.strings} />
 				</div>
 			</div>
 		);
@@ -198,41 +191,35 @@ class PostQuacker extends Component {
 			'term-select': true,
 		});
 
-		const labelTypeText = this.props.strings.label_selection_type ? this.props.strings.label_selection_type : QUACKER_I18N.label_selection_type;
-		const labelTypePlaceholderText = this.props.strings.placeholder_selection_type ? this.props.strings.placeholder_selection_type : QUACKER_I18N.placeholder_selection_type;
-		const labelContentText = this.props.strings.label_selection_post ? this.props.strings.label_selection_post : QUACKER_I18N.label_selection_post;
-		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post ? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
-		const labelAddToModule = this.props.strings.button_add_to_module ? this.props.strings.button_add_to_module : QUACKER_I18N.button_add_to_module;
-
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelTypeText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.select_post_type']}</label>
 					<ReactSelect
 						name={_.uniqueId('quacker-type-selected-')}
 						value={this.state.post_types}
 						multi
 						className={typeSelectClasses}
-						placeholder={labelTypePlaceholderText}
+						placeholder={this.props.strings['placeholder.select_post_type']}
 						options={this.props.post_type}
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelContentText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.select_post']}</label>
 					<ReactSelect.Async
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
-						placeholder={labelContentPlaceholderText}
+						placeholder={this.props.strings['placeholder.select_post']}
 						isLoading={this.state.loading}
 						onChange={this.handlePostSearchChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
 					<Button
-						text={labelAddToModule}
+						text={this.props.strings['button.add_to_module']}
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToModuleClick}

@@ -44,7 +44,7 @@ const LinkGroup = (props) => {
 					type="text"
 					name="url"
 					value={props.valueUrl}
-					placeholder="URL"
+					placeholder={props.strings['placeholder.url']}
 					onChange={props.handleURLChange}
 				/>
 			</div>
@@ -53,7 +53,7 @@ const LinkGroup = (props) => {
 					type="text"
 					name="label"
 					value={props.valueLabel}
-					placeholder="Label"
+					placeholder={props.strings['placeholder.label']}
 					onChange={props.handleLabelChange}
 				/>
 			</div>
@@ -73,7 +73,7 @@ const LinkGroup = (props) => {
 };
 
 LinkGroup.propTypes = {
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	handleURLChange: PropTypes.func,
 	handleLabelChange: PropTypes.func,
 	handleTargetChange: PropTypes.func,
@@ -89,7 +89,7 @@ LinkGroup.defaultProps = {
 	handleURLChange: () => { },
 	handleLabelChange: () => { },
 	handleTargetChange: () => { },
-	strings: [],
+	strings: {},
 };
 
 export default LinkGroup;

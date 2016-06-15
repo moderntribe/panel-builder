@@ -13,7 +13,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -21,7 +21,7 @@
         "label": "Text Input Label",
         "name": "text_test",
         "description": "A test description for this text input.",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -29,7 +29,7 @@
         "label": "Cat Video",
         "name": "cat_video",
         "description": "URL to a cute cate video on YouTube",
-        "strings": [],
+        "strings": {},
         "default": "default value"
       },
       {
@@ -37,7 +37,7 @@
         "label": "Need Help?",
         "name": "help",
         "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -57,7 +57,7 @@
         "label": "Test Select",
         "name": "simple_select",
         "description": "Select an Option",
-        "strings": [],
+        "strings": {},
         "default": "top",
         "options": [
           {
@@ -79,7 +79,7 @@
         "label": "Select a style",
         "name": "layout2",
         "description": "Some description here",
-        "strings": [],
+        "strings": {},
         "default": "cards",
         "options": [
           {
@@ -104,7 +104,7 @@
         "label": "Partner",
         "name": "partner",
         "description": "Who is the best karaoke singer at Modern Tribe?",
-        "strings": [],
+        "strings": {},
         "default": {
           "reid": 1
         },
@@ -128,7 +128,7 @@
         "label": "Style",
         "name": "layout",
         "description": "A test description for this text input.",
-        "strings": [],
+        "strings": {},
         "default": "standard",
         "options": [
           {
@@ -151,7 +151,10 @@
         "name": "links",
         "description": "",
         "strings": {
-          "button.new": "Add a link"
+          "button.new": "Add a link",
+          "button.delete": "Delete Row",
+          "label.row_index": "Row %{index} |||| Row %{index}",
+          "notice.max_rows": "You have reached the row limit of this field"
         },
         "default": [],
         "fields": [
@@ -160,7 +163,7 @@
             "label": "Title",
             "name": "title",
             "description": "",
-            "strings": [],
+            "strings": {},
             "default": ""
           },
           {
@@ -168,7 +171,10 @@
             "label": "Link",
             "name": "link",
             "description": "",
-            "strings": [],
+            "strings": {
+              "placeholder.label": "Label",
+              "placeholder.url": "URL"
+            },
             "default": {
               "url": "",
               "target": "",
@@ -198,7 +204,10 @@
         "label": "Yo Regular Textarea",
         "name": "content",
         "description": "This is the field of easy.",
-        "strings": [],
+        "strings": {
+          "tab.visual": "Visual",
+          "tab.text": "Text"
+        },
         "default": "",
         "richtext": false,
         "media_buttons": false,
@@ -220,7 +229,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -228,7 +237,7 @@
         "label": "Proposed budget",
         "name": "budget",
         "description": "How much money do you have?",
-        "strings": [],
+        "strings": {},
         "default": "",
         "options": [
           {
@@ -251,10 +260,22 @@
         "name": "quack",
         "description": "Some description",
         "strings": {
-          "tabs.manual": "Manual",
-          "tabs.selection": "Selection",
+          "button.add_to_module": "Add to Module",
           "button.remove": "Remove",
-          "button.select": "Select Files"
+          "button.select": "Select Files",
+          "label.manual_title": "Title",
+          "label.manual_image": "Image",
+          "label.manual_content": "Content",
+          "label.manual_link": "Link",
+          "label.select_post_type": "Select Type",
+          "label.select_post": "Select Content",
+          "no_results": "No Results",
+          "placeholder.select_post_type": "Select Post Type",
+          "placeholder.select_post": "Select...",
+          "placeholder.label": "Label",
+          "placeholder.url": "URL",
+          "tab.selection": "Selection",
+          "tab.manual": "Manual"
         },
         "default": {
           "type": "selection",
@@ -299,7 +320,7 @@
         "label": "Gallery Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -307,7 +328,7 @@
         "label": "Gallery Settings",
         "name": "settings",
         "description": "What to do",
-        "strings": [],
+        "strings": {},
         "default": [],
         "fields": [
           {
@@ -315,7 +336,7 @@
             "label": "Gallery Layout",
             "name": "gallery_layout",
             "description": "Select a Layout",
-            "strings": [],
+            "strings": {},
             "default": "",
             "options": [
               {
@@ -337,7 +358,7 @@
             "label": "Features",
             "name": "max",
             "description": "Pick the features",
-            "strings": [],
+            "strings": {},
             "default": {
               "reid": 1
             },
@@ -363,7 +384,9 @@
         "label": "Image Gallery",
         "name": "gallery",
         "description": "Gallery description goes here",
-        "strings": [],
+        "strings": {
+          "button.edit_gallery": "Edit Gallery"
+        },
         "default": ""
       },
       {
@@ -371,7 +394,7 @@
         "label": "Some Label",
         "name": "secret",
         "description": "A description",
-        "strings": [],
+        "strings": {},
         "default": "You can't see me"
       }
     ]
@@ -390,7 +413,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -398,7 +421,10 @@
         "label": "Yo Tinymce up in here.",
         "name": "content",
         "description": "This is the field of pain.",
-        "strings": [],
+        "strings": {
+          "tab.visual": "Visual",
+          "tab.text": "Text"
+        },
         "default": "",
         "richtext": true,
         "media_buttons": true,
@@ -420,7 +446,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -428,7 +454,7 @@
         "label": "Select a style",
         "name": "layout",
         "description": "Some description here",
-        "strings": [],
+        "strings": {},
         "default": "standard",
         "options": [
           {
@@ -465,7 +491,10 @@
         "label": "Link",
         "name": "link",
         "description": "some description",
-        "strings": [],
+        "strings": {
+          "placeholder.label": "Label",
+          "placeholder.url": "URL"
+        },
         "default": {
           "url": "",
           "target": "",
@@ -477,7 +506,10 @@
         "label": "Another Tinymce up in here.",
         "name": "content",
         "description": "This is the field of pain.",
-        "strings": [],
+        "strings": {
+          "tab.visual": "Visual",
+          "tab.text": "Text"
+        },
         "default": "",
         "richtext": true,
         "media_buttons": true,
@@ -500,11 +532,14 @@
         "name": "posts",
         "description": "",
         "strings": {
-          "tabs.manual": "Select\/Create",
-          "tabs.dynamic": "Query",
+          "button.create_content": "Add Link",
+          "tabs.manual": "Manual",
+          "tabs.dynamic": "Dynamic",
           "button.select_post": "Select a post",
-          "button.create_content": "Create content",
           "button.remove_post": "Remove this post",
+          "button.remove": "Remove",
+          "button.select": "Select Files",
+          "label.add_another": "Add Another",
           "label.content_type": "Content Type",
           "label.choose_post": "Choose a Post",
           "label.max_results": "Max Results",
@@ -517,7 +552,8 @@
           "label.title": "Title",
           "label.content": "Content",
           "label.link": "Link: http:\/\/example.com\/",
-          "label.thumbnail": "Thumbnail"
+          "label.thumbnail": "Thumbnail",
+          "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
         },
         "default": {
           "type": "manual",

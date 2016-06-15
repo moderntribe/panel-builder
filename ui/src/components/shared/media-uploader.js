@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { IMAGE_I18N } from '../../globals/i18n';
-
 import Button from './button';
 
 import styles from './media-uploader.pcss';
@@ -39,16 +37,13 @@ const MediaUploader = (props) => {
 		[styles.uploaderSection]: true,
 	});
 
-	const removeText = props.strings['button.remove'] ? props.strings['button.remove'] : IMAGE_I18N.button_default_remove;
-	const addText = props.strings['button.select'] ? props.strings['button.select'] : IMAGE_I18N.button_default_add;
-
 	return (
 		<div>
 			<div className={currentClasses}>
 				{Preview}
 				<p className={styles.removeButtonContainer}>
 					<Button
-						text={`${removeText} ${props.label}`}
+						text={props.strings['button.remove']}
 						primary={false}
 						handleClick={props.handleRemoveMedia}
 					/>
@@ -56,7 +51,7 @@ const MediaUploader = (props) => {
 			</div>
 			<div className={uploaderClasses}>
 				<Button
-					text={addText}
+					text={props.strings['button.select']}
 					classes="attachment_helper_library_button"
 					handleClick={props.handleAddMedia}
 				/>

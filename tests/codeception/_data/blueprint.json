@@ -13,7 +13,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -21,7 +21,7 @@
                 "label": "Need Help?",
                 "name": "help",
                 "description": "<p>Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -29,7 +29,7 @@
                 "label": "Alignment",
                 "name": "alignment",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "left",
                 "options": [
                     {
@@ -47,7 +47,7 @@
                 "label": "Partner",
                 "name": "partner",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": {
                     "reid": 1
                 },
@@ -72,7 +72,10 @@
                 "name": "links",
                 "description": "",
                 "strings": {
-                    "button.new": "Add a link"
+                    "button.new": "Add a link",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -81,7 +84,10 @@
                         "label": "Link",
                         "name": "link",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "placeholder.label": "Label",
+                            "placeholder.url": "URL"
+                        },
                         "default": {
                             "url": "",
                             "target": "",
@@ -95,9 +101,7 @@
                         "description": "",
                         "strings": {
                             "button.remove": "Remove",
-                            "button.select": "Select Files",
-                            "drop.info": "Drop files here",
-                            "drop.or": "or"
+                            "button.select": "Select Files"
                         },
                         "default": "",
                         "size": "thumbnail"
@@ -111,7 +115,9 @@
                 "label": "Gallery",
                 "name": "gallery",
                 "description": "This is a gallery field",
-                "strings": [],
+                "strings": {
+                    "button.edit_gallery": "Edit Gallery"
+                },
                 "default": ""
             },
             {
@@ -125,6 +131,9 @@
                     "button.select_post": "Select a post",
                     "button.create_content": "Create content",
                     "button.remove_post": "Remove this post",
+                    "button.remove": "Remove",
+                    "button.select": "Select Files",
+                    "label.add_another": "Add Another",
                     "label.content_type": "Content Type",
                     "label.choose_post": "Choose a Post",
                     "label.max_results": "Max Results",
@@ -137,7 +146,8 @@
                     "label.title": "Title",
                     "label.content": "Content",
                     "label.link": "Link: http:\/\/example.com\/",
-                    "label.thumbnail": "Thumbnail"
+                    "label.thumbnail": "Thumbnail",
+                    "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
                 },
                 "default": {
                     "type": "manual",
@@ -182,11 +192,11 @@
                     "post_tag": [
                         {
                             "value": 2,
-                            "label": "Term 14"
+                            "label": "Term 16"
                         },
                         {
                             "value": 3,
-                            "label": "Term 15"
+                            "label": "Term 17"
                         }
                     ]
                 }
@@ -196,7 +206,24 @@
                 "label": "Quacker",
                 "name": "quack",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "button.add_to_module": "Add to Module",
+                    "button.remove": "Remove",
+                    "button.select": "Select Files",
+                    "label.manual_title": "Title",
+                    "label.manual_image": "Image",
+                    "label.manual_content": "Content",
+                    "label.manual_link": "Link",
+                    "label.select_post_type": "Select Type",
+                    "label.select_post": "Select Content",
+                    "no_results": "No Results",
+                    "placeholder.select_post_type": "Select Post Type",
+                    "placeholder.select_post": "Select...",
+                    "placeholder.label": "Label",
+                    "placeholder.url": "URL",
+                    "tab.selection": "Selection",
+                    "tab.manual": "Manual"
+                },
                 "default": {
                     "type": "manual",
                     "post_id": 0,
@@ -221,7 +248,7 @@
                 "label": "Proposed budget",
                 "name": "budget",
                 "description": "How much money do you have?",
-                "strings": [],
+                "strings": {},
                 "default": "",
                 "options": [
                     {
@@ -243,7 +270,7 @@
                 "label": "Your Name",
                 "name": "name",
                 "description": "What do people call you?",
-                "strings": [],
+                "strings": {},
                 "default": [],
                 "fields": [
                     {
@@ -251,7 +278,7 @@
                         "label": "First Name",
                         "name": "first_name",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     },
                     {
@@ -259,7 +286,7 @@
                         "label": "Last Name",
                         "name": "last_name",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     }
                 ]
@@ -269,7 +296,7 @@
                 "label": "",
                 "name": "secret",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "You can't see me"
             },
             {
@@ -277,7 +304,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "standard",
                 "options": [
                     {
@@ -302,7 +329,10 @@
                 "label": "Biography",
                 "name": "bio",
                 "description": "Provide a brief history of your life to date.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "false",
                 "media_buttons": true,
@@ -313,7 +343,10 @@
                 "label": "Content",
                 "name": "content",
                 "description": "Anything you would like to say. Really.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "true",
                 "media_buttons": true,
@@ -324,7 +357,10 @@
                 "label": "Discontent",
                 "name": "discontent",
                 "description": "Maybe don't say so much. Thanks.",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": "true",
                 "media_buttons": true,
@@ -335,7 +371,7 @@
                 "label": "Cat Video",
                 "name": "cat_video",
                 "description": "URL to a cute cate video on YouTube",
-                "strings": [],
+                "strings": {},
                 "default": ""
             }
         ],
@@ -360,7 +396,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -368,7 +404,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -398,7 +434,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -411,9 +450,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -423,7 +460,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -453,7 +490,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -465,7 +505,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -504,7 +544,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -513,7 +553,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -522,7 +565,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -559,7 +605,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -567,7 +613,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "standard",
                 "options": [
                     {
@@ -592,7 +638,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": false,
                 "media_buttons": true,
@@ -604,7 +653,10 @@
                 "name": "columns",
                 "description": "",
                 "strings": {
-                    "button.new": "Add Content Block"
+                    "button.new": "Add Content Block",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -613,7 +665,7 @@
                         "label": "Column Title",
                         "name": "title",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     },
                     {
@@ -621,7 +673,10 @@
                         "label": "Column Text",
                         "name": "text",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "tab.visual": "Visual",
+                            "tab.text": "Text"
+                        },
                         "default": "",
                         "richtext": true,
                         "media_buttons": true,
@@ -632,7 +687,10 @@
                         "label": "Call To Action Link",
                         "name": "cta",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "placeholder.label": "Label",
+                            "placeholder.url": "URL"
+                        },
                         "default": {
                             "url": "",
                             "target": "",
@@ -644,7 +702,7 @@
                         "label": "Call To Action Link Style",
                         "name": "cta_style",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": "text",
                         "options": [
                             {
@@ -685,7 +743,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -693,7 +751,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -723,7 +781,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -736,9 +797,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -748,7 +807,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -778,7 +837,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -790,7 +852,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -829,7 +891,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -838,7 +900,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -847,7 +912,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -884,7 +952,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -892,7 +960,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": false,
                 "media_buttons": true,
@@ -903,7 +974,9 @@
                 "label": "Image Gallery",
                 "name": "gallery",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "button.edit_gallery": "Edit Gallery"
+                },
                 "default": ""
             }
         ],
@@ -928,7 +1001,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -936,7 +1009,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -966,7 +1039,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -979,9 +1055,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -991,7 +1065,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1021,7 +1095,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1033,7 +1110,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1072,7 +1149,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1081,7 +1158,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1090,7 +1170,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1127,7 +1210,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1135,7 +1218,7 @@
                 "label": "Layout",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "image-right",
                 "options": [
                     {
@@ -1165,7 +1248,10 @@
                 "label": "Description",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
@@ -1178,9 +1264,7 @@
                 "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                 "strings": {
                     "button.remove": "Remove",
-                    "button.select": "Select Files",
-                    "drop.info": "Drop files here",
-                    "drop.or": "or"
+                    "button.select": "Select Files"
                 },
                 "default": "",
                 "size": "medium"
@@ -1190,7 +1274,7 @@
                 "label": "Image Overlay",
                 "name": "overlay",
                 "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                "strings": [],
+                "strings": {},
                 "default": "none",
                 "options": [
                     {
@@ -1220,7 +1304,10 @@
                 "label": "Call To Action Link",
                 "name": "cta",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "placeholder.label": "Label",
+                    "placeholder.url": "URL"
+                },
                 "default": {
                     "url": "",
                     "target": "",
@@ -1232,7 +1319,7 @@
                 "label": "Call To Action Link Style",
                 "name": "cta_style",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "text",
                 "options": [
                     {
@@ -1269,7 +1356,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1277,7 +1364,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1307,7 +1394,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1320,9 +1410,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1332,7 +1420,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1362,7 +1450,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1374,7 +1465,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1413,7 +1504,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1422,7 +1513,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1431,7 +1525,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1468,7 +1565,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1476,7 +1573,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "buttons",
                 "options": [
                     {
@@ -1496,7 +1593,10 @@
                 "label": "Content",
                 "name": "content",
                 "description": "",
-                "strings": [],
+                "strings": {
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
+                },
                 "default": "",
                 "richtext": true,
                 "media_buttons": true,
@@ -1513,6 +1613,9 @@
                     "tabs.dynamic": "Dynamic",
                     "button.select_post": "Select a post",
                     "button.remove_post": "Remove this post",
+                    "button.remove": "Remove",
+                    "button.select": "Select Files",
+                    "label.add_another": "Add Another",
                     "label.content_type": "Content Type",
                     "label.choose_post": "Choose a Post",
                     "label.max_results": "Max Results",
@@ -1525,7 +1628,8 @@
                     "label.title": "Title",
                     "label.content": "Content",
                     "label.link": "Link: http:\/\/example.com\/",
-                    "label.thumbnail": "Thumbnail"
+                    "label.thumbnail": "Thumbnail",
+                    "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
                 },
                 "default": {
                     "type": "manual",
@@ -1570,11 +1674,11 @@
                     "post_tag": [
                         {
                             "value": 2,
-                            "label": "Term 14"
+                            "label": "Term 16"
                         },
                         {
                             "value": 3,
-                            "label": "Term 15"
+                            "label": "Term 17"
                         }
                     ]
                 }
@@ -1601,7 +1705,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1609,7 +1713,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1639,7 +1743,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1652,9 +1759,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1664,7 +1769,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1694,7 +1799,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1706,7 +1814,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1745,7 +1853,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1754,7 +1862,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -1763,7 +1874,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -1800,7 +1914,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1809,7 +1923,10 @@
                 "name": "repeater",
                 "description": "",
                 "strings": {
-                    "button.new": "Add Column"
+                    "button.new": "Add Column",
+                    "button.delete": "Delete Row",
+                    "label.row_index": "Row %{index} |||| Row %{index}",
+                    "notice.max_rows": "You have reached the row limit of this field"
                 },
                 "default": [],
                 "fields": [
@@ -1818,7 +1935,10 @@
                         "label": "Column",
                         "name": "column",
                         "description": "",
-                        "strings": [],
+                        "strings": {
+                            "tab.visual": "Visual",
+                            "tab.text": "Text"
+                        },
                         "default": "",
                         "richtext": true,
                         "media_buttons": true,
@@ -1850,7 +1970,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1858,7 +1978,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1888,7 +2008,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -1901,9 +2024,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -1913,7 +2034,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1943,7 +2064,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1955,7 +2079,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1994,7 +2118,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -2003,7 +2127,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -2012,7 +2139,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,
@@ -2049,7 +2179,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             }
         ],
@@ -2074,7 +2204,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -2082,7 +2212,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -2112,7 +2242,10 @@
                             "label": "Description",
                             "name": "content",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "tab.visual": "Visual",
+                                "tab.text": "Text"
+                            },
                             "default": "",
                             "richtext": true,
                             "media_buttons": true,
@@ -2125,9 +2258,7 @@
                             "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
                             "strings": {
                                 "button.remove": "Remove",
-                                "button.select": "Select Files",
-                                "drop.info": "Drop files here",
-                                "drop.or": "or"
+                                "button.select": "Select Files"
                             },
                             "default": "",
                             "size": "medium"
@@ -2137,7 +2268,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -2167,7 +2298,10 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {
+                                "placeholder.label": "Label",
+                                "placeholder.url": "URL"
+                            },
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -2179,7 +2313,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -2218,7 +2352,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -2227,7 +2361,10 @@
                             "name": "repeater",
                             "description": "",
                             "strings": {
-                                "button.new": "Add Column"
+                                "button.new": "Add Column",
+                                "button.delete": "Delete Row",
+                                "label.row_index": "Row %{index} |||| Row %{index}",
+                                "notice.max_rows": "You have reached the row limit of this field"
                             },
                             "default": [],
                             "fields": [
@@ -2236,7 +2373,10 @@
                                     "label": "Column",
                                     "name": "column",
                                     "description": "",
-                                    "strings": [],
+                                    "strings": {
+                                        "tab.visual": "Visual",
+                                        "tab.text": "Text"
+                                    },
                                     "default": "",
                                     "richtext": true,
                                     "media_buttons": true,

@@ -25,7 +25,10 @@ class TextArea_Test extends WPTestCase {
 			'label'                     => $label,
 			'name'                      => $name,
 			'description'               => $description,
-			'strings'                   => [ ],
+			'strings'     => [
+				'tab.visual' => 'Visual',
+				'tab.text'   => 'Text',
+			],
 			'default'                   => $default,
 			'richtext'                  => false,
 			'media_buttons'             => true,
@@ -56,7 +59,10 @@ class TextArea_Test extends WPTestCase {
 			'label'         => $label,
 			'name'          => $name,
 			'description'   => $description,
-			'strings'       => [ ],
+			'strings'     => [
+				'tab.visual' => 'Visual',
+				'tab.text'   => 'Text',
+			],
 			'default'       => $default,
 			'richtext'      => true,
 			'media_buttons' => true,

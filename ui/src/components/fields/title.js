@@ -53,7 +53,7 @@ Title.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	default: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
@@ -64,7 +64,7 @@ Title.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	strings: [],
+	strings: {},
 	default: '',
 	updatePanelData: () => {},
 };

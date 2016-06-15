@@ -23,6 +23,13 @@ class Link extends Field {
 	protected $default = [ 'url' => '', 'target' => '', 'label' => '' ];
 
 
+	public function __construct( $args ) {
+		$this->defaults[ 'strings' ] = [
+			'placeholder.label' => __( 'Label', 'modular-content' ),
+			'placeholder.url'   => __( 'URL', 'modular-content' ),
+		];
+		parent::__construct( $args );
+	}
 
 	protected function render_opening_tag() {
 		printf('<fieldset class="panel-input input-type-link input-name-%s">', $this->esc_class($this->name));

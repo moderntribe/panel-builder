@@ -66,6 +66,9 @@ class Post_List extends Field {
 			'button.select_post'      => __( 'Select a post', 'modular-content' ),
 			'button.create_content'   => __( 'Create content', 'modular-content' ),
 			'button.remove_post'      => __( 'Remove this post', 'modular-content' ),
+			'button.remove'           => __( 'Remove', 'modular-content' ), // passed to Image
+			'button.select'           => __( 'Select Files', 'modular-content' ), // passed to Image
+			'label.add_another'       => __( 'Add Another', 'modular-content' ),
 			'label.content_type'      => __( 'Content Type', 'modular-content' ),
 			'label.choose_post'       => __( 'Choose a Post', 'modular-content' ),
 			'label.max_results'       => __( 'Max Results', 'modular-content' ),
@@ -79,6 +82,7 @@ class Post_List extends Field {
 			'label.content'           => __( 'Content', 'modular-content' ),
 			'label.link'              => __( 'Link: http://example.com/', 'modular-content' ),
 			'label.thumbnail'         => __( 'Thumbnail', 'modular-content' ),
+			'notice.min_posts'        => _x( 'This field requires %{count} more item |||| This field requires %{count} more items', 'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
 		];
 		$this->defaults[ 'hidden_fields' ] = [ ];
 		parent::__construct( $args );
@@ -106,14 +110,6 @@ class Post_List extends Field {
 		if ( !empty( $this->label ) ) {
 			printf( '<legend class="panel-input-label">%s</legend>', $this->label );
 		}
-	}
-
-	public static function js_i18n() {
-		return [
-			'chooser_heading' => __( 'Add Another', 'modular-content' ),
-			'notification_min_posts_single' => __( 'This field requires %MIN_COUNT% more item', 'modular-content' ),
-			'notification_min_posts_multiple' => __( 'This field requires %MIN_COUNT% more items', 'modular-content' ),
-		];
 	}
 
 	public function render_field() {

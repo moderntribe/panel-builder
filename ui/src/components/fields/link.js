@@ -70,7 +70,7 @@ class Link extends Component {
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} />
+					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} strings={this.props.strings} />
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
@@ -82,7 +82,7 @@ Link.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	default: React.PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
@@ -93,7 +93,7 @@ Link.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
-	strings: [],
+	strings: {},
 	default: {},
 	data: {},
 	panelIndex: 0,
