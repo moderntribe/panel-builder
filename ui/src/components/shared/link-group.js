@@ -73,7 +73,7 @@ const LinkGroup = (props) => {
 };
 
 LinkGroup.propTypes = {
-	strings: PropTypes.array,
+	strings: PropTypes.object,
 	handleURLChange: PropTypes.func,
 	handleLabelChange: PropTypes.func,
 	handleTargetChange: PropTypes.func,
@@ -89,7 +89,7 @@ LinkGroup.defaultProps = {
 	handleURLChange: () => { },
 	handleLabelChange: () => { },
 	handleTargetChange: () => { },
-	strings: [],
+	strings: {},
 };
 
 export default LinkGroup;

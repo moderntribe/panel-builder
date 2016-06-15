@@ -105,9 +105,7 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
-				'btn_launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
-			],
-			'fields' => [
+				'button.launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
 			]
 		];
 

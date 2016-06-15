@@ -174,7 +174,6 @@ class Repeater extends Component {
 				/>
 			);
 		} else {
-			// todo: replace 'row' with either item in strings or setting
 			AddRow = <p className={styles.maxMessage}>{this.props.strings['button.max_rows']}</p>;
 		}
 		return AddRow;

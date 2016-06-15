@@ -18,7 +18,7 @@ class PanelCollection extends Component {
 	state = {
 		active: false,
 		liveEdit: false,
-		editText: UI_I18N.btn_launch_edit,
+		editText: UI_I18N['button.launch_edit'],
 	};
 
 	componentDidMount() {

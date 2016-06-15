@@ -13,7 +13,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -21,7 +21,7 @@
                 "label": "Need Help?",
                 "name": "help",
                 "description": "<p>Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -29,7 +29,7 @@
                 "label": "Alignment",
                 "name": "alignment",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "left",
                 "options": [
                     {
@@ -47,7 +47,7 @@
                 "label": "Partner",
                 "name": "partner",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": {
                     "reid": 1
                 },
@@ -84,7 +84,7 @@
                         "label": "Link",
                         "name": "link",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": {
                             "url": "",
                             "target": "",
@@ -112,7 +112,7 @@
                 "label": "Gallery",
                 "name": "gallery",
                 "description": "This is a gallery field",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -241,7 +241,7 @@
                 "label": "Proposed budget",
                 "name": "budget",
                 "description": "How much money do you have?",
-                "strings": [],
+                "strings": {},
                 "default": "",
                 "options": [
                     {
@@ -263,7 +263,7 @@
                 "label": "Your Name",
                 "name": "name",
                 "description": "What do people call you?",
-                "strings": [],
+                "strings": {},
                 "default": [],
                 "fields": [
                     {
@@ -271,7 +271,7 @@
                         "label": "First Name",
                         "name": "first_name",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     },
                     {
@@ -279,7 +279,7 @@
                         "label": "Last Name",
                         "name": "last_name",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     }
                 ]
@@ -289,7 +289,7 @@
                 "label": "",
                 "name": "secret",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "You can't see me"
             },
             {
@@ -297,7 +297,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "standard",
                 "options": [
                     {
@@ -364,7 +364,7 @@
                 "label": "Cat Video",
                 "name": "cat_video",
                 "description": "URL to a cute cate video on YouTube",
-                "strings": [],
+                "strings": {},
                 "default": ""
             }
         ],
@@ -389,7 +389,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -397,7 +397,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -453,7 +453,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -483,7 +483,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -495,7 +495,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -534,7 +534,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -595,7 +595,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -603,7 +603,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "standard",
                 "options": [
                     {
@@ -655,7 +655,7 @@
                         "label": "Column Title",
                         "name": "title",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": ""
                     },
                     {
@@ -677,7 +677,7 @@
                         "label": "Call To Action Link",
                         "name": "cta",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": {
                             "url": "",
                             "target": "",
@@ -689,7 +689,7 @@
                         "label": "Call To Action Link Style",
                         "name": "cta_style",
                         "description": "",
-                        "strings": [],
+                        "strings": {},
                         "default": "text",
                         "options": [
                             {
@@ -730,7 +730,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -738,7 +738,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -794,7 +794,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -824,7 +824,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -836,7 +836,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -875,7 +875,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -936,7 +936,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -958,7 +958,7 @@
                 "label": "Image Gallery",
                 "name": "gallery",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             }
         ],
@@ -983,7 +983,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -991,7 +991,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1047,7 +1047,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1077,7 +1077,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1089,7 +1089,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1128,7 +1128,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1189,7 +1189,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1197,7 +1197,7 @@
                 "label": "Layout",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "image-right",
                 "options": [
                     {
@@ -1253,7 +1253,7 @@
                 "label": "Image Overlay",
                 "name": "overlay",
                 "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                "strings": [],
+                "strings": {},
                 "default": "none",
                 "options": [
                     {
@@ -1283,7 +1283,7 @@
                 "label": "Call To Action Link",
                 "name": "cta",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": {
                     "url": "",
                     "target": "",
@@ -1295,7 +1295,7 @@
                 "label": "Call To Action Link Style",
                 "name": "cta_style",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "text",
                 "options": [
                     {
@@ -1332,7 +1332,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1340,7 +1340,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1396,7 +1396,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1426,7 +1426,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1438,7 +1438,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1477,7 +1477,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1538,7 +1538,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1546,7 +1546,7 @@
                 "label": "Style",
                 "name": "layout",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": "buttons",
                 "options": [
                     {
@@ -1678,7 +1678,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1686,7 +1686,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -1742,7 +1742,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -1772,7 +1772,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -1784,7 +1784,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -1823,7 +1823,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1884,7 +1884,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             },
             {
@@ -1940,7 +1940,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -1948,7 +1948,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -2004,7 +2004,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -2034,7 +2034,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -2046,7 +2046,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -2085,7 +2085,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -2146,7 +2146,7 @@
                 "label": "Title",
                 "name": "title",
                 "description": "",
-                "strings": [],
+                "strings": {},
                 "default": ""
             }
         ],
@@ -2171,7 +2171,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {
@@ -2179,7 +2179,7 @@
                             "label": "Layout",
                             "name": "layout",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "image-right",
                             "options": [
                                 {
@@ -2235,7 +2235,7 @@
                             "label": "Image Overlay",
                             "name": "overlay",
                             "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                            "strings": [],
+                            "strings": {},
                             "default": "none",
                             "options": [
                                 {
@@ -2265,7 +2265,7 @@
                             "label": "Call To Action Link",
                             "name": "cta",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": {
                                 "url": "",
                                 "target": "",
@@ -2277,7 +2277,7 @@
                             "label": "Call To Action Link Style",
                             "name": "cta_style",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": "text",
                             "options": [
                                 {
@@ -2316,7 +2316,7 @@
                             "label": "Title",
                             "name": "title",
                             "description": "",
-                            "strings": [],
+                            "strings": {},
                             "default": ""
                         },
                         {

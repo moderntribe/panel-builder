@@ -13,7 +13,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -21,7 +21,7 @@
         "label": "Text Input Label",
         "name": "text_test",
         "description": "A test description for this text input.",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -29,7 +29,7 @@
         "label": "Cat Video",
         "name": "cat_video",
         "description": "URL to a cute cate video on YouTube",
-        "strings": [],
+        "strings": {},
         "default": "default value"
       },
       {
@@ -37,7 +37,7 @@
         "label": "Need Help?",
         "name": "help",
         "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -57,7 +57,7 @@
         "label": "Test Select",
         "name": "simple_select",
         "description": "Select an Option",
-        "strings": [],
+        "strings": {},
         "default": "top",
         "options": [
           {
@@ -79,7 +79,7 @@
         "label": "Select a style",
         "name": "layout2",
         "description": "Some description here",
-        "strings": [],
+        "strings": {},
         "default": "cards",
         "options": [
           {
@@ -104,7 +104,7 @@
         "label": "Partner",
         "name": "partner",
         "description": "Who is the best karaoke singer at Modern Tribe?",
-        "strings": [],
+        "strings": {},
         "default": {
           "reid": 1
         },
@@ -128,7 +128,7 @@
         "label": "Style",
         "name": "layout",
         "description": "A test description for this text input.",
-        "strings": [],
+        "strings": {},
         "default": "standard",
         "options": [
           {
@@ -163,7 +163,7 @@
             "label": "Title",
             "name": "title",
             "description": "",
-            "strings": [],
+            "strings": {},
             "default": ""
           },
           {
@@ -171,7 +171,7 @@
             "label": "Link",
             "name": "link",
             "description": "",
-            "strings": [],
+            "strings": {},
             "default": {
               "url": "",
               "target": "",
@@ -226,7 +226,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -234,7 +234,7 @@
         "label": "Proposed budget",
         "name": "budget",
         "description": "How much money do you have?",
-        "strings": [],
+        "strings": {},
         "default": "",
         "options": [
           {
@@ -315,7 +315,7 @@
         "label": "Gallery Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -323,7 +323,7 @@
         "label": "Gallery Settings",
         "name": "settings",
         "description": "What to do",
-        "strings": [],
+        "strings": {},
         "default": [],
         "fields": [
           {
@@ -331,7 +331,7 @@
             "label": "Gallery Layout",
             "name": "gallery_layout",
             "description": "Select a Layout",
-            "strings": [],
+            "strings": {},
             "default": "",
             "options": [
               {
@@ -353,7 +353,7 @@
             "label": "Features",
             "name": "max",
             "description": "Pick the features",
-            "strings": [],
+            "strings": {},
             "default": {
               "reid": 1
             },
@@ -379,7 +379,7 @@
         "label": "Image Gallery",
         "name": "gallery",
         "description": "Gallery description goes here",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -387,7 +387,7 @@
         "label": "Some Label",
         "name": "secret",
         "description": "A description",
-        "strings": [],
+        "strings": {},
         "default": "You can't see me"
       }
     ]
@@ -406,7 +406,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -439,7 +439,7 @@
         "label": "Title",
         "name": "title",
         "description": "",
-        "strings": [],
+        "strings": {},
         "default": ""
       },
       {
@@ -447,7 +447,7 @@
         "label": "Select a style",
         "name": "layout",
         "description": "Some description here",
-        "strings": [],
+        "strings": {},
         "default": "standard",
         "options": [
           {
@@ -484,7 +484,7 @@
         "label": "Link",
         "name": "link",
         "description": "some description",
-        "strings": [],
+        "strings": {},
         "default": {
           "url": "",
           "target": "",
