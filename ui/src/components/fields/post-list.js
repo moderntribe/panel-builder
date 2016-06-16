@@ -14,7 +14,7 @@ import PostListPostSelected from './partials/post-list-post-selected';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
-import PostListQueryTagFilter from './partials/post-list-query-tag-filter';
+import PostListQueryTaxonomyFilter from './partials/post-list-query-taxonomy-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
 import * as AdminCache from '../../util/data/admin-cache';
@@ -30,14 +30,8 @@ class PostList extends Component {
 		manual_post_count: 0,
 		manual_add_count: this.props.min,
 		query_posts: {},   // post objects
-		post_types: [],
-		tagsFilterActive: false,
-		dateFilterActive: false,
-		relatedPostsFilterActive: false,
-		dateFilterStartDate: null,
-		dateFilterEndDate: null,
-		relatedPostsFilterPostTypes: [],
-		tagsFilterPostTags: [],
+		postTypes: [],
+		filters: [],
 		filterValue: '',
 	};
 
@@ -178,7 +172,6 @@ class PostList extends Component {
 	 */
 	getManualTypeChooser() {
 		let MaybeChooser = null;
-
 		if (this.state.manual_post_count < this.props.max) {
 			MaybeChooser = _.times(this.state.manual_add_count, (i) =>
 				<PostListManualTypeChooser
@@ -198,7 +191,6 @@ class PostList extends Component {
 				);
 			}
 		}
-
 		return MaybeChooser;
 	}
 
@@ -232,23 +224,34 @@ class PostList extends Component {
 			[styles.filter]: true,
 			'query-filters': true,
 		});
-		let RelatedFilter;
-		if (this.state.relatedPostsFilterActive ){
-			const postType = _.find(this.props.filters, { 'value': 'related_posts'}).post_type; // { "page": "Page"...}
-			const keys = _.keysIn(postType); // ["page", "posts"...]
-			const postTypesArray = _.map(keys, (key) => {
-				return {
-					value: key,
-					label: postType[key],
-				};
-			}); // array of value and labels for select
-			RelatedFilter = (<PostListQueryRelatedFilter postTypes={postTypesArray} onChangeRelatedPosts={this.onChangeRelatedPosts} onRemoveClick={this.onRemoveRelatedPostsFilter} />);
-		}
+
+		// map filter data to individual filters
+		let Filters = _.map(this.state.filters, (filter) => {
+			if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Date){
+				return (
+					<PostListQueryDateFilter key={filter.filterID} filterID={filter.filterID} label={filter.label} onChangeDate={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
+				);
+			} else if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Taxonomy) {
+				const taxonomy = this.props.taxonomies[filter.value];
+				return (
+					<PostListQueryTaxonomyFilter key={filter.filterID} filterID={filter.filterID} label={filter.label} onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy} onRemoveClick={this.onRemoveFilter} />
+				);
+			} else if (filter.filter_type===POST_LIST_CONFIG.FILTERS.P2P) {
+				const postTypesArray = _.map(filter.post_type, (key, value) => {
+					return {
+						value: value,
+						label: key,
+					};
+				});
+				return (
+					<PostListQueryRelatedFilter key={filter.filterID} filterID={filter.filterID} postTypes={postTypesArray} label={filter.label} onChangeRelatedPosts={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
+				);
+			}
+		});
+
 		return (
 			<div className={filterClasses}>
-				{this.state.tagsFilterActive && <PostListQueryTagFilter onChangeTag={this.onChangeTag} options={this.props.taxonomies.post_tag} onRemoveClick={this.onRemoveTagFilter} />}
-				{this.state.dateFilterActive && <PostListQueryDateFilter onChangeDate={this.onChangeDate} onRemoveClick={this.onRemoveDateFilter} />}
-				{RelatedFilter}
+				{Filters}
 			</div>
 		);
 	}
@@ -286,9 +289,8 @@ class PostList extends Component {
 	 * @method getFilterOptions
 	 */
 	getFilterOptions() {
-		console.log("getFilterOptions", this.props.filters);
 		let filters = _.cloneDeep(this.props.filters);
-		let postTypesFlat = _.map(this.state.post_types, (type) => {
+		let postTypesFlat = _.map(this.state.postTypes, (type) => {
 			return type.value;
 		});
 
@@ -317,7 +319,6 @@ class PostList extends Component {
 								return intersect.length > 0;
 							} else { // check against object and keys
 								const keysIn = _.keysIn(option.post_type);
-								console.log("keysIn",keysIn);
 								const intersectKeys = _.intersection(keysIn, postTypesFlat);
 								return intersectKeys.length > 0;
 							}
@@ -350,7 +351,7 @@ class PostList extends Component {
 						name={_.uniqueId('post-list-type-')}
 						placeholder="Select Post Types"
 						multi
-						value={this.state.post_types}
+						value={this.state.postTypes}
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
@@ -451,46 +452,18 @@ class PostList extends Component {
 	}
 
 	@autobind
-	onChangeTag(e) {
-		const tagsFilterPostTags = e.state.tags;
+	onChangeFilterGeneric(e) {
+		let filters = this.state.filters;
+		filters.forEach((filter) => {
+			if (filter.filterID == e.filterID){
+				filter.selection = e.selection;
+			}
+		});
 		this.setState({
-			tagsFilterPostTags,
+			filters
 		},() => {
 			this.getNewPosts();
 		});
-	}
-
-	@autobind
-	onChangeDate(e) {
-		const dateFilterStartDate = e.state.startDate;
-		const dateFilterEndDate = e.state.endDate;
-		this.setState({
-			dateFilterStartDate,
-			dateFilterEndDate,
-		},() => {
-			this.getNewPosts();
-		});
-	}
-
-	@autobind
-	onChangeRelatedPosts(e) {
-		const relatedPostsFilterPostTypes = e.state.postTypes;
-		this.setState({
-			relatedPostsFilterPostTypes
-		},() => {
-			this.getNewPosts();
-		});
-	}
-
-	@autobind
-	onRemoveRelatedPostsFilter(e) {
-		this.setState({
-			filterValue: '',
-			relatedPostsFilterActive: false,
-			relatedPostsFilterPostTypes: [],
-		},() => {
-			this.getNewPosts();
-		})
 	}
 
 	/**
@@ -499,27 +472,19 @@ class PostList extends Component {
 	 * @method onRemoveDateFilter
 	 */
 	@autobind
-	onRemoveDateFilter() {
+	onRemoveFilter(e) {
+		let filters = _.cloneDeep(this.state.filters);
+		_.remove(filters, (filter) => {
+			return filter.filterID === e.filterID;
+		});
 		this.setState({
 			filterValue: '',
-			dateFilterActive: false,
-			dateFilterStartDate: null,
-			dateFilterEndDate: null,
+			filters,
 		},() => {
 			this.getNewPosts();
-		})
+		});
 	}
 
-	@autobind
-	onRemoveTagFilter() {
-		this.setState({
-			filterValue: '',
-			tagsFilterActive: false,
-			tagsFilterPostTags: [],
-		},() => {
-			this.getNewPosts();
-		})
-	}
 
 	/**
 	 * Handle filter chamge
@@ -528,26 +493,14 @@ class PostList extends Component {
 	 */
 	@autobind
 	handleFilterChange(e) {
+		// add new filter of the new type
 		if (e && e.value){
-			if (e.value === 'post_tag') {
-				this.setState({
-					filterValue: e.value,
-					tagsFilterActive:true,
-				});
-			} else if (e.value === 'date') {
-				this.setState({
-					filterValue: e.value,
-					dateFilterActive:true,
-				})
-			} else if (e.value === 'related_posts') {
-				this.setState({
-					filterValue: e.value,
-					relatedPostsFilterActive:true,
-				});
-			}
-		} else {
+			const filterID = _.uniqueId('filter-id-');
+			let filters = _.cloneDeep(this.state.filters);
+			filters.push(_.assignIn(e, {filterID}));
 			this.setState({
-				filterValue: '',
+				filterValue: e.value,
+				filters,
 			});
 		}
 	}
@@ -561,13 +514,13 @@ class PostList extends Component {
 	handlePostTypeChange(types) {
 		if (types){
 			this.setState({
-				post_types: types,
+				postTypes: types,
 			},() => {
 				this.getNewPosts();
 			});
 		} else {
 			this.setState({
-				post_types: [],
+				postTypes: [],
 			},() => {
 				this.getNewPosts();
 			});
@@ -582,48 +535,24 @@ class PostList extends Component {
 	getPreviewRequestParams() {
 		let filters = {};
 		const types = [];
-		_.forEach(this.state.post_types, (type) => {
+		_.forEach(this.state.postTypes, (type) => {
 			types.push(type.value);
 		});
 		// post types
-		if (this.state.post_types.length) {
+		if (this.state.postTypes.length) {
 			filters.post_type = {
 				selection:types,
 				lock:true,
 			};
 		}
-		// add the date
-		if (this.state.dateFilterStartDate || this.state.dateFilterEndDate) {
-			filters.date = {
+		// filters
+		this.state.filters.forEach((filter) => {
+			filters[filter.value] = {
 				lock: true,
-				selection: {},
-			};
-			// assumes these are moment dates
-			if (this.state.dateFilterStartDate) {
-				filters.date.selection.start = this.state.dateFilterStartDate.format('YYYY-MM-DD');
+				selection: filter.selection,
 			}
-			if (this.state.dateFilterEndDate){
-				filters.date.selection.end = this.state.dateFilterEndDate.format('YYYY-MM-DD');
-			}
-		}
-		// post tags tagsFilterPostTags
-		if (this.state.tagsFilterPostTags.length) {
-			// build simple array of post type ids
-			const selection = _.map(this.state.tagsFilterPostTags, 'value');
-			filters.post_tag = {
-				lock: true,
-				selection,
-			};
-		}
-		// related posts filter
-		if (this.state.relatedPostsFilterPostTypes.length) {
-			// build simple array of post type ids
-			const selection = _.map(this.state.relatedPostsFilterPostTypes, 'value');
-			filters.related_posts = {
-				lock: true,
-				selection,
-			};
-		}
+		});
+
 		return param({
 			action: 'posts-field-fetch-preview',
 			filters,
@@ -639,7 +568,7 @@ class PostList extends Component {
 	 * @method getNewPosts
 	 */
 	getNewPosts(){
-		if (!this.state.post_types.length) {
+		if (!this.state.postTypes.length) {
 			return;
 		}
 		const params = this.getPreviewRequestParams();
@@ -647,7 +576,7 @@ class PostList extends Component {
 		request.post(ajaxURL)
 			.send(params)
 			.end((err, response) => {
-				if (response.ok) {
+				if (response && response.ok) {
 					// is returned in posts object with key and values (post ID and post obj)
 					// add to cache
 					AdminCache.addPosts(response.body.data.posts);

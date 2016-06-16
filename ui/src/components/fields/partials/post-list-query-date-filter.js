@@ -23,14 +23,26 @@ class PostListQueryDateFilter extends Component {
 		};
 	}
 
+	broadcastDataChange() {
+		const start = this.state.startDate ? this.state.startDate.format('YYYY-MM-DD') : null;
+		const end = this.state.endDate ? this.state.endDate.format('YYYY-MM-DD') : null;
+		const selection = {
+			start,
+			end,
+		}
+		this.props.onChangeDate({
+			state: this.state,
+			filterID: this.props.filterID,
+			selection,
+		})
+	}
+
 	@autobind
 	handleChangeStart(e) {
 		this.setState({
 			startDate: e,
 		}, () => {
-			this.props.onChangeDate({
-				state: this.state,
-			});
+			this.broadcastDataChange();
 		});
 	}
 
@@ -39,17 +51,23 @@ class PostListQueryDateFilter extends Component {
 		this.setState({
 			endDate: e,
 		}, () => {
-			this.props.onChangeDate({
-				state: this.state,
-			})
+			this.broadcastDataChange();
 		});
+	}
+
+	@autobind
+	handleRemove(e) {
+		this.props.onRemoveClick({
+			state: this.state,
+			filterID: this.props.filterID,
+		})
 	}
 
 	render() {
 		return (
 			<div className={styles.filter}>
-				<div className={styles.remove}><span className='dashicons dashicons-no-alt' onClick={this.props.onRemoveClick} /></div>
-				<label className={styles.label}>Date</label>
+				<div className={styles.remove}><span className='dashicons dashicons-no-alt' onClick={this.handleRemove} /></div>
+				<label className={styles.label}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<DatePicker
 						selected={this.state.startDate}
@@ -70,6 +88,8 @@ PostListQueryDateFilter.propTypes = {
 	onChangeDate: React.PropTypes.func,
 	startDate: React.PropTypes.object,
 	endDate: React.PropTypes.object,
+	filterID: React.PropTypes.string,
+	label: React.PropTypes.string,
 };
 
 PostListQueryDateFilter.defaultProps = {
@@ -77,6 +97,8 @@ PostListQueryDateFilter.defaultProps = {
 	onChangeDate: () => {},
 	startDate: null,
 	endDate: null,
+	filterID: '',
+	label: ','
 };
 
 export default PostListQueryDateFilter;

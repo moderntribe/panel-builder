@@ -18,6 +18,13 @@ class PostListPostSelected extends Component {
 		method: 'select',
 	};
 
+	noResults = {
+		options: [{
+			value: 0,
+			label: 'No Results',
+		}],
+	};
+
 	getRequestParams(input) {
 		return objectToParams({
 			action: 'posts-field-posts-search',
@@ -49,13 +56,6 @@ class PostListPostSelected extends Component {
 				callback(null, data);
 			});
 	}
-
-	noResults = {
-		options: [{
-			value: 0,
-			label: 'No Results',
-		}],
-	};
 
 	@autobind
 	handleChange(data) {

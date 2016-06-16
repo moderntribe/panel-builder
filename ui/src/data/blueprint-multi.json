@@ -590,6 +590,7 @@
               {
                 "value": "post_tag",
                 "label": "Tags",
+                "filter_type": "taxonomy",
                 "post_type": [
                   "post"
                 ]
@@ -597,6 +598,7 @@
               {
                 "value": "category",
                 "label": "Category",
+                "filter_type": "taxonomy",
                 "post_type": [
                   "page"
                 ]
@@ -606,6 +608,7 @@
           {
             "value": "date",
             "label": "Date",
+            "filter_type": "date",
             "post_type": [
               "post",
               "page",
@@ -618,6 +621,7 @@
               {
                 "value": "related_posts",
                 "label": "Related",
+                "filter_type": "p2p",
                 "post_type": {
                   "page": "Page",
                   "post": "Post"
@@ -626,6 +630,7 @@
               {
                 "value": "related_things",
                 "label": "Related Posts",
+                "filter_type": "p2p",
                 "post_type": {
                   "post": "Post",
                   "product": "Product"
@@ -635,6 +640,20 @@
           }
         ],
         "taxonomies": {
+          "category": [
+            {
+              "value": 8,
+              "label": "Aquatic"
+            },
+            {
+              "value": 9,
+              "label": "Terrestrial"
+            },
+            {
+              "value": 10,
+              "label": "Airborn"
+            }
+          ],
           "post_tag": [
             {
               "value": 1,
