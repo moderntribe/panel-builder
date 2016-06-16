@@ -172,6 +172,7 @@
                             {
                                 "value": "post_tag",
                                 "label": "Tags",
+                                "filter_type": "taxonomy",
                                 "post_type": [
                                     "post"
                                 ]
@@ -181,6 +182,7 @@
                     {
                         "value": "date",
                         "label": "Date",
+                        "filter_type": "date",
                         "post_type": [
                             "post",
                             "page",
@@ -1654,6 +1656,7 @@
                             {
                                 "value": "post_tag",
                                 "label": "Tags",
+                                "filter_type": "taxonomy",
                                 "post_type": [
                                     "post"
                                 ]
@@ -1663,6 +1666,7 @@
                     {
                         "value": "date",
                         "label": "Date",
+                        "filter_type": "date",
                         "post_type": [
                             "post",
                             "page",
