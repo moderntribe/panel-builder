@@ -21,6 +21,8 @@ import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './post-list.pcss';
 
+import { POST_LIST_CONFIG } from '../../globals/config';
+
 class PostList extends Component {
 	state = {
 		type: this.props.default.type,
@@ -284,6 +286,7 @@ class PostList extends Component {
 	 * @method getFilterOptions
 	 */
 	getFilterOptions() {
+		console.log("getFilterOptions", this.props.filters);
 		let filters = _.cloneDeep(this.props.filters);
 		let postTypesFlat = _.map(this.state.post_types, (type) => {
 			return type.value;

@@ -25,6 +25,13 @@ export const CONFIG_DEFAULTS = {
 				},
 			},
 		},
+		post_list: {
+			FILTERS: {
+				Date: 'date',
+				Taxonomy: 'taxonomy',
+				P2P: 'p2p',
+			},
+		},
 	},
 };
 
