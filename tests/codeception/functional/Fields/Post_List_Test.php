@@ -73,16 +73,18 @@ class Post_List_Test extends WPTestCase {
 					'label'   => 'Taxonomy',
 					'options' => [
 						[
-							'value'     => 'post_tag',
-							'label'     => 'Tags',
-							'post_type' => [ 'post' ],
+							'value'       => 'post_tag',
+							'label'       => 'Tags',
+							'filter_type' => 'taxonomy',
+							'post_type'   => [ 'post' ],
 						],
 					],
 				],
 				[
-					'value'     => 'date',
-					'label'     => 'Date',
-					'post_type' => [ 'post', 'page', 'attachment' ],
+					'value'       => 'date',
+					'label'       => 'Date',
+					'filter_type' => 'date',
+					'post_type'   => [ 'post', 'page', 'attachment' ],
 				],
 			],
 			'taxonomies'       => [

@@ -593,9 +593,10 @@ class Post_List extends Field {
 		foreach ( $this->taxonomy_options() as $tax ) {
 			$taxonomy = get_taxonomy( $tax );
 			$taxonomy_options[] = [
-				'value'     => $tax,
-				'label'     => $taxonomy->label,
-				'post_type' => Util::get_post_types_for_taxonomy( $tax ),
+				'value'       => $tax,
+				'label'       => $taxonomy->label,
+				'filter_type' => 'taxonomy',
+				'post_type'   => Util::get_post_types_for_taxonomy( $tax ),
 			];
 		}
 		if ( !empty( $taxonomy_options ) ) {
@@ -609,9 +610,10 @@ class Post_List extends Field {
 		foreach ( $this->p2p_options() as $relationship_id => $relationship ) {
 			$post_types_for_p2p = \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship );
 			$p2p_options[] = [
-				'value'     => $relationship_id,
-				'label'     => Util::get_p2p_relationship_label( $relationship ),
-				'post_type' => $post_types_for_p2p,
+				'value'       => $relationship_id,
+				'label'       => Util::get_p2p_relationship_label( $relationship ),
+				'filter_type' => 'p2p',
+				'post_type'   => $post_types_for_p2p,
 			];
 		}
 		if ( !empty( $p2p_options ) ) {
@@ -622,9 +624,10 @@ class Post_List extends Field {
 		}
 
 		$blueprint[ 'filters' ][] = [
-			'value'     => 'date',
-			'label'     => $this->get_string( 'label.date' ),
-			'post_type' => Util::get_post_types_for_date(),
+			'value'       => 'date',
+			'label'       => $this->get_string( 'label.date' ),
+			'filter_type' => 'date',
+			'post_type'   => Util::get_post_types_for_date(),
 		];
 
 		$blueprint[ 'taxonomies' ] = [ ];
