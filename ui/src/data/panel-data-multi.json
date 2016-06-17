@@ -105,13 +105,13 @@
             {
               "id": "",
               "method": "manual",
-              "post_title": "test",
-              "post_content": "fgdfgfd",
+              "post_title": "Test Title One",
+              "post_content": "Some content",
               "url": "dfhfdhdffhd",
               "thumbnail_id": "13151"
             },
             {
-              "id": "1409",
+              "id": "1",
               "method": "select",
               "post_title": "",
               "post_content": "Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum…",
@@ -121,8 +121,8 @@
             {
               "id": "",
               "method": "manual",
-              "post_title": "dthdt",
-              "post_content": "",
+              "post_title": "Text Title 2",
+              "post_content": "Another content",
               "url": "",
               "thumbnail_id": "0"
             }
@@ -130,22 +130,22 @@
           "filters": {
             "post_type": {
               "selection": [
-                "tribe_events",
-                "person",
-                "section"
+                "page",
+                "post"
               ]
             },
-            "related_posts": {
-              "selection": "11579",
+            "xrelated_posts": {
+              "selection": "1",
               "lock": "1"
             },
-            "post_tag": {
+            "xpost_tag": {
+              "selection": "2",
               "lock": "1"
             },
             "date": {
               "selection": {
-                "start": "2015-11-02",
-                "end": "2016-11-17"
+                "start": "2016-05-28",
+                "end": "2016-06-17"
               },
               "lock": "1"
             }

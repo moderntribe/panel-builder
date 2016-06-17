@@ -3,6 +3,8 @@ import autobind from 'autobind-decorator';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
+import { POST_LIST_CONFIG } from '../../../globals/config';
+
 import styles from './post-list-query-date-filter.pcss';
 
 /**
@@ -18,14 +20,14 @@ class PostListQueryDateFilter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			startDate:this.props.startDate,
-			endDate:this.props.endDate,
+			startDate: this.props.selection ? moment(this.props.selection.start,POST_LIST_CONFIG.date_format) : null,
+			endDate: this.props.selection ? moment(this.props.selection.end,POST_LIST_CONFIG.date_format) : null,
 		};
 	}
 
 	broadcastDataChange() {
-		const start = this.state.startDate ? this.state.startDate.format('YYYY-MM-DD') : null;
-		const end = this.state.endDate ? this.state.endDate.format('YYYY-MM-DD') : null;
+		const start = this.state.startDate ? this.state.startDate.format(POST_LIST_CONFIG.date_format) : null;
+		const end = this.state.endDate ? this.state.endDate.format(POST_LIST_CONFIG.date_format) : null;
 		const selection = {
 			start,
 			end,
@@ -86,8 +88,7 @@ class PostListQueryDateFilter extends Component {
 PostListQueryDateFilter.propTypes = {
 	onRemoveClick: React.PropTypes.func,
 	onChangeDate: React.PropTypes.func,
-	startDate: React.PropTypes.object,
-	endDate: React.PropTypes.object,
+	selection: React.PropTypes.object,
 	filterID: React.PropTypes.string,
 	label: React.PropTypes.string,
 };
@@ -95,8 +96,7 @@ PostListQueryDateFilter.propTypes = {
 PostListQueryDateFilter.defaultProps = {
 	onRemoveClick: () => {},
 	onChangeDate: () => {},
-	startDate: null,
-	endDate: null,
+	selection: null,
 	filterID: '',
 	label: ','
 };

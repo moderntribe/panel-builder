@@ -32,6 +32,10 @@ const PostPreview = (props) => {
 		[styles.remove]: true,
 		'remove-selected-post': true,
 	});
+	const editClassses = classNames({
+		[styles.edit]: true,
+		'edit-selected-post': true,
+	});
 
 	return (
 		<div className={selectedPostClassses}>
@@ -41,6 +45,7 @@ const PostPreview = (props) => {
 				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }}></div>
 			</div>
 			{ props.onRemoveClick && <div onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt"></span></div> }
+			{ props.onEditClick && <div onClick={props.onEditClick} className={editClassses} title="Edit This Post"><span className="dashicons dashicons-edit"></span></div> }
 		</div>
 	);
 };
@@ -51,6 +56,7 @@ PostPreview.propTypes = {
 	thumbnail: PropTypes.string,
 	excerpt: PropTypes.string,
 	onRemoveClick: PropTypes.func,
+	onEditClick: PropTypes.func,
 };
 
 PostPreview.defaultProps = {
@@ -58,6 +64,7 @@ PostPreview.defaultProps = {
 	thumbnail: '',
 	excerpt: '',
 	onRemoveClick: null,
+	onEditClick: null,
 };
 
 export default PostPreview;

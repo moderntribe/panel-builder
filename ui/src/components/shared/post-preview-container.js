@@ -24,7 +24,6 @@ class PostPreviewContainer extends Component {
 			});
 		} else if (this.state.post_id) {
 			const post = AdminCache.getPostById(this.state.post_id);
-			console.log("cached post ",post );
 			if (post) {
 				this.setState({
 					post,
@@ -77,7 +76,15 @@ class PostPreviewContainer extends Component {
 				this.setState({
 					post,
 					loading: false,
+				}, () => {
+					if (this.props.onGetPostDetails){
+						this.props.onGetPostDetails({
+							state: this.state,
+							editableId: this.state.editableId,
+						});
+					}
 				});
+
 			}
 		}
 	}
@@ -87,16 +94,27 @@ class PostPreviewContainer extends Component {
 		// editableId
 		this.props.onRemoveClick({
 			state:this.state,
+			editableId: this.state.editableId,
+		});
+	}
+
+	@autobind
+	handleEditPreview(e) {
+		// editableId
+		this.props.onEditClick({
+			state:this.state,
+			editableId: this.state.editableId,
 		});
 	}
 
 	render() {
 		// account for no remove button
 		const removeHandler = this.props.onRemoveClick ? this.handleRemovePreview : null;
+		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
 		return (
 			<div>
 				{this.state.loading && <div>Loading...</div>}
-				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler} />}
+				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler} onEditClick={editHandler} />}
 			</div>
 		);
 	}
@@ -104,15 +122,19 @@ class PostPreviewContainer extends Component {
 
 PostPreviewContainer.propTypes = {
 	post: PropTypes.object,
-	post_id: React.PropTypes.number,
+	post_id: React.PropTypes.string,
 	onRemoveClick: React.PropTypes.func,
+	onEditClick: React.PropTypes.func,
 	editableId: React.PropTypes.string,
+	onGetPostDetails: React.PropTypes.func,
 };
 
 PostPreviewContainer.defaultProps = {
 	post: null,
 	post_id: null,
 	onRemoveClick: null,
+	onEditClick: null,
+	onGetPostDetails: null,
 	editableId: '',
 };
 

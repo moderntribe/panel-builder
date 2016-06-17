@@ -75,6 +75,7 @@ PostListQueryTaxonomyFilter.propTypes = {
 	options: React.PropTypes.array,
 	filterID: React.PropTypes.string,
 	label: React.PropTypes.string,
+	selection: React.PropTypes.string,
 };
 
 PostListQueryTaxonomyFilter.defaultProps = {
@@ -83,6 +84,7 @@ PostListQueryTaxonomyFilter.defaultProps = {
 	options: [],
 	filterID: '',
 	label: '',
+	selection: '',
 };
 
 export default PostListQueryTaxonomyFilter;

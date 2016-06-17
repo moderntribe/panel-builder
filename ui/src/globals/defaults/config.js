@@ -31,6 +31,11 @@ export const CONFIG_DEFAULTS = {
 				Taxonomy: 'taxonomy',
 				P2P: 'p2p',
 			},
+			POST_METHODS: {
+				Manual: 'manual',
+				Select: 'select',
+			},
+			date_format: 'YYYY-MM-DD',
 		},
 	},
 };

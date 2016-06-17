@@ -24,17 +24,135 @@ import styles from './post-list.pcss';
 import { POST_LIST_CONFIG } from '../../globals/config';
 
 class PostList extends Component {
-	state = {
-		type: this.props.default.type,
-		manual_post_data: [],
-		manual_post_count: 0,
-		manual_add_count: this.props.min,
-		query_posts: {},   // post objects
-		postTypes: [],
-		filters: [],
-		filterValue: '',
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			type: this.props.data.type ? this.props.data.type : this.props.default.type,
+			manualPostData: this.props.data.posts ? this.prepIncomingPosts(this.props.data.posts) : [],
+			queryPosts: {},   // filtered lists... coming from ajax call not props.data
+			postTypes: this.prepIncomingPostTypes(),
+			filters: this.prepIncomingFilters(),
+			filterValue: '',
+		};
+	}
 
+	componentWillMount() {
+		if (this.state.filters.length){
+			this.getNewPosts();
+		}
+	}
+
+	/**
+	 *  Prepares the filters to use as a state variable.
+	 *
+	 * @method prepIncomingFilters
+	 */
+	prepIncomingFilters() {
+		let filters = [];
+		const filterKeys = _.keys(this.props.data.filters);
+		filterKeys.forEach((filterKey) => {
+			if (filterKey !== 'post_type') {
+				const filterProps = this.getPropFilterByKey(filterKey);
+				const filterData = this.props.data.filters[filterKey];
+				if (filterProps && filterData){
+					filters.push({
+						filter_type: filterProps.filter_type,
+						filterID: _.uniqueId('post-list-filter'),
+						selection: filterData.selection,
+						post_type: filterProps.post_type,
+						value: filterProps.value,
+						label: filterProps.label,
+					});
+				} else {
+					console.log("No filter was found for that filter key :" + filterKey);
+				}
+			}
+		});
+		return filters;
+	}
+
+	/**
+	 *  Get the filter details from the property based on a key.
+	 *
+	 * @method getPropFilterByKey
+	 */
+	getPropFilterByKey(filterKey) {
+		for (const filter of this.props.filters) {
+			if (filter.value){
+				if (filter.value === filterKey){
+					return filter;
+				}
+			} else if (filter.options) {
+				for (const option of filter.options) {
+					if (option.value === filterKey){
+						return option;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *  Prepare the post types for the state. Build array of post type label/value
+	 *
+	 * @method prepIncomingPostTypes
+	 */
+	prepIncomingPostTypes() {
+		let postTypes = [];
+		if (this.props.data.filters && this.props.data.filters.post_type){
+			const arrTypes = this.props.data.filters.post_type.selection;
+			this.props.post_type.forEach((postType) => {
+				arrTypes.forEach((type) => {
+					if (postType.value === type){
+						postTypes.push(postType);
+					}
+				});
+			});
+		}
+		return postTypes;
+	}
+
+	/**
+	 *  Adds editableID and isPreview to incoming data so we can manage it in react
+	 *
+	 * @method prepIncomingPosts
+	 */
+	prepIncomingPosts(posts) {
+		posts.forEach((post) => {
+			post.editableId = _.uniqueId('post-editable-');
+			post.isPreview = true;
+		});
+		return posts;
+	}
+
+	/**
+	 *  Maps real wp post data to the data format we're using for BE post
+	 *
+	 * @method mapWPPostToDataPost
+	 */
+	mapWPPostToDataPost(wpPost) {
+		return {
+			post_title: wpPost.post_title,
+			post_content: wpPost.post_excerpt,
+			url: wpPost.permalink,
+			id: wpPost.ID.toString(),
+		}
+	}
+
+	/**
+	 *  Maps our post data to WP post format
+	 *
+	 * @method mapDataPostToWPPost
+	 */
+	mapDataPostToWPPost(post) {
+		return {
+			post_title: post.post_title,
+			post_excerpt: post.post_content,
+			permalink: post.url,
+			ID: parseInt(post.id),
+		}
+	}
 
 	getTabButtons() {
 		const manualButtonClasses = classNames({
@@ -67,9 +185,8 @@ class PostList extends Component {
 
 	getManualNotification() {
 		let MaybeNotification = null;
-
-		if (this.state.manual_post_count < this.props.min) {
-			const requiredCount = this.props.min - this.state.manual_post_count;
+		if (this.state.manualPostData.length < this.props.min) {
+			const requiredCount = this.props.min - this.state.manualPostData.length;
 			const polyglot = new Polyglot();
 			polyglot.extend({
 				min_posts_notice: this.props.strings['notice.min_posts'],
@@ -86,65 +203,67 @@ class PostList extends Component {
 		return MaybeNotification;
 	}
 
+	/**
+	 *  Prints out the list of post in either preview format or edit format
+	 *
+	 * @method getManualPosts
+	 */
 	getManualPosts() {
 		let Posts = null;
-		if (this.state.manual_post_data.length) {
-			const Items = _.map(this.state.manual_post_data, (data, i) => {
+		if (this.state.manualPostData.length) {
+			const Items = _.map(this.state.manualPostData, (data, i) => {
 				let Template;
 				if (data.isPreview){
 					// send only post id or send full post
-					if (data.method=='manual'){
-						const fakePost = {
-							post_title: data.post_title,
-							post_content: data.post_content,
-						};
+					if (data.method===POST_LIST_CONFIG.POST_METHODS.Manual){
+						const post = this.mapDataPostToWPPost(data);
 						Template = (
 							<PostPreviewContainer
-								key={`manual-post-preview-${i}`}
-								post={fakePost}
+								key={_.uniqueId('manual-post-preview-')}
+								post={post}
 								editableId={data.editableId}
 								onRemoveClick={this.handleRemovePostClick}
+								onEditClick={this.handleEditPostClick}
 							/>
 						);
-					} if (data.method=='select') {
+					} if (data.method===POST_LIST_CONFIG.POST_METHODS.Select) {
 						Template = (
 							<PostPreviewContainer
-								key={`manual-post-preview-${i}`}
-								post_id={data.ID}
+								key={_.uniqueId('manual-post-preview-')}
+								post_id={data.id}
 								editableId={data.editableId}
 								onRemoveClick={this.handleRemovePostClick}
+								onGetPostDetails={this.handleGetPostDetails}
 							/>
 						);
 					}
-
 				} else {
-					if (data.type === 'manual') {
+					if (data.method===POST_LIST_CONFIG.POST_METHODS.Manual) {
 						Template = (
 							<PostListPostManual
-								key={data.editableId}
+								key={_.uniqueId('manual-post-edit-')}
 								editableId={data.editableId}
 								strings={this.props.strings}
-								postTitle={data.postTitle}
-								postContent={data.postContent}
-								postUrl={data.postUrl}
+								postTitle={data.post_title}
+								postContent={data.post_content}
+								postUrl={data.url}
 								handleCancelClick={this.handleCancelClick}
-								handleAddClick={this.handleAddClick}
+								handleAddClick={this.handleAddUpdateClick}
 							/>
 						);
-					} else {
+					} else if (data.method===POST_LIST_CONFIG.POST_METHODS.Select) {
 						Template = (
 							<PostListPostSelected
-								key={data.editableId}
+								key={_.uniqueId('manual-post-edit-')}
 								editableId={data.editableId}
 								strings={this.props.strings}
 								post_type={this.props.post_type}
 								handleCancelClick={this.handleCancelClick}
-								handleAddClick={this.handleAddClick}
+								handleAddClick={this.handleAddUpdateClick}
 							/>
 						);
 					}
 				}
-
 				return Template;
 			});
 			const options = {
@@ -166,30 +285,35 @@ class PostList extends Component {
 
 
 	/**
-	 * Manual type chooser
+	 * Add extra empty items if less than min
 	 *
 	 * @method getManualTypeChooser
 	 */
 	getManualTypeChooser() {
 		let MaybeChooser = null;
-		if (this.state.manual_post_count < this.props.max) {
-			MaybeChooser = _.times(this.state.manual_add_count, (i) =>
+		// Shows the empties if less than min
+		if (this.state.manualPostData.length < this.props.min) {
+			const remaining = this.props.min - this.state.manualPostData.length
+			MaybeChooser = _.times(remaining, (i) =>
 				<PostListManualTypeChooser
-					key={`add-manual-post-${i}`}
+					key={_.uniqueId('add-manual-post-')}
 					index={i}
-					showHeading={this.state.manual_post_count !== 0}
+					showHeading={this.state.manualPostData.length !== 0}
 					handleClick={this.addManualPost}
 					strings={this.props.strings}
 				/>
 			);
-			if (this.state.manual_post_count) {
-				MaybeChooser = (
-					<div>
-						<h3>{this.props.strings['label.add_another']}</h3>
-						{MaybeChooser}
-					</div>
-				);
-			}
+		} else if (this.state.manualPostData.length < this.props.max ) {
+			// shows one empty if more than min but less than max
+			MaybeChooser = (<div>
+				<PostListManualTypeChooser
+				key={_.uniqueId('add-manual-post-')}
+				index={0}
+				showHeading={this.state.manualPostData.length !== 0}
+				handleClick={this.addManualPost}
+				strings={this.props.strings}
+			/>
+			</div>);
 		}
 		return MaybeChooser;
 	}
@@ -229,7 +353,7 @@ class PostList extends Component {
 		let Filters = _.map(this.state.filters, (filter) => {
 			if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Date){
 				return (
-					<PostListQueryDateFilter key={filter.filterID} filterID={filter.filterID} label={filter.label} onChangeDate={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
+					<PostListQueryDateFilter key={filter.filterID} filterID={filter.filterID} selection={filter.selection} label={filter.label} onChangeDate={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
 				);
 			} else if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Taxonomy) {
 				const taxonomy = this.props.taxonomies[filter.value];
@@ -262,12 +386,12 @@ class PostList extends Component {
 	 * @method getFilteredPosts
 	 */
 	getFilteredPosts() {
-		const keys = _.keys(this.state.query_posts);
+		const keys = _.keys(this.state.queryPosts);
 		const posts = _.map(keys, (key, i) => {
 			return (
 				<PostPreviewContainer
-					key={`query-post-preview-${key}`}
-					post={this.state.query_posts[key]}
+					key={_.uniqueId('query-post-preview-')}
+					post={this.state.queryPosts[key]}
 				/>
 			);
 		});
@@ -373,17 +497,29 @@ class PostList extends Component {
 		);
 	}
 
+	editPostFromList(editableId) {
+		// flag specific item as in preview state
+		let manualPostData = _.cloneDeep(this.state.manualPostData);
+		manualPostData.forEach((post) => {
+			if (editableId === post.editableId){
+				post.isPreview = false;
+			}
+		});
+		this.setState({
+			manualPostData,
+		});
+	}
+
+	/**
+	 * Remove a post from the manual post list based on an editable ID
+	 *
+	 * @method removePostFromList
+	 */
 	removePostFromList(editableId) {
 		// looking for editableId
 		const newState = {};
-		newState.manual_post_count = this.state.manual_post_count;
-		newState.manual_post_count--;
-		if (this.state.manual_add_count < this.props.max) {
-			newState.manual_add_count = this.state.manual_add_count;
-			newState.manual_add_count++;
-		}
-		newState.manual_post_data = this.state.manual_post_data;
-		_.remove(newState.manual_post_data, function(n) {
+		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
+		_.remove(newState.manualPostData, function(n) {
 			return n.editableId == editableId;
 		});
 		this.setState(newState);
@@ -393,28 +529,38 @@ class PostList extends Component {
 	handleManualSort(data) {
 	}
 
+	/**
+	 * Adds edit post item to the list. Either manual or select
+	 *
+	 * @method addManualPost
+	 */
 	@autobind
 	addManualPost(e) {
 		const newState = {};
-		const type = e.currentTarget.classList.contains('type-manual') ? 'manual' : 'select';
+		const method = e.currentTarget.classList.contains('type-manual') ? POST_LIST_CONFIG.POST_METHODS.Manual : POST_LIST_CONFIG.POST_METHODS.Select;
 		const editableId = _.uniqueId('post-editable-');
-
-		if (this.state.manual_add_count > 1) {
-			newState.manual_add_count = this.state.manual_add_count;
-			newState.manual_add_count--;
-		}
-
-		newState.manual_post_count = this.state.manual_post_count;
-		newState.manual_post_count++;
-
-		newState.manual_post_data = this.state.manual_post_data;
-		newState.manual_post_data.push({
-			type,
+		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
+		newState.manualPostData.push({
+			method,
 			editableId,
 		});
-
-		this.props.updateHeights();
 		this.setState(newState);
+	}
+
+	/**
+	 * After post preview retrieves details
+	 *
+	 * @method handleGetPostDetails
+	 */
+	@autobind
+	handleGetPostDetails(e) {
+		const newPost = this.mapWPPostToDataPost(e.state.post);
+		// update date related to this.
+		this.state.manualPostData.forEach((post) => {
+			if (post.editableId == e.editableId){
+				post = _.extend(post, newPost)
+			}
+		});
 	}
 
 	@autobind
@@ -425,32 +571,57 @@ class PostList extends Component {
 
 	@autobind
 	handleRemovePostClick(e) {
-		this.removePostFromList(e.state.editableId);
+		this.removePostFromList(e.editableId);
 	}
 
 	@autobind
-	handleAddClick(e) {
+	handleEditPostClick(e) {
+		this.editPostFromList(e.state.editableId);
+	}
+
+	/**
+	 * Add item in edit mode to the list.
+	 *
+	 * @method handleAddUpdateClick
+	 */
+	@autobind
+	handleAddUpdateClick(e) {
 		const newState = {};
-		newState.manual_post_data = _.map(this.state.manual_post_data, (data) => {
+		newState.manualPostData = _.map(this.state.manualPostData, (data) => {
 			if (data.editableId === e.state.editableId ){
-				data.post_title = e.state.postTitle;
-				data.post_content = e.state.postContent;
-				data.url = e.state.postUrl;
-				data.ID = e.state.search;
+				// adding either a manual item or a select
+				if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual){
+					data.post_title = e.state.postTitle;
+					data.post_content = e.state.postContent;
+					data.url = e.state.postUrl;
+					data.id = '';
+				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select){
+					// only have id at this point... uses preview to retrieve the post data
+					data.id = e.state.search;
+				}
 				data.isPreview = true;
-				data.method = e.state.method;
 			}
 			return data;
 		});
 		this.setState(newState);
 	}
 
+	/**
+	 * Switch handle handler
+	 *
+	 * @method switchTabs
+	 */
 	@autobind
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
 		this.setState({ type });
 	}
 
+	/**
+	 * Update filter in state from date, related content or taxonomy filter
+	 *
+	 * @method onChangeFilterGeneric
+	 */
 	@autobind
 	onChangeFilterGeneric(e) {
 		let filters = this.state.filters;
@@ -577,11 +748,9 @@ class PostList extends Component {
 			.send(params)
 			.end((err, response) => {
 				if (response && response.ok) {
-					// is returned in posts object with key and values (post ID and post obj)
-					// add to cache
 					AdminCache.addPosts(response.body.data.posts);
 					this.setState({
-						query_posts: response.body.data.posts,
+						queryPosts: response.body.data.posts,
 					});
 				}
 			});
@@ -611,6 +780,7 @@ PostList.propTypes = {
 	min: PropTypes.number,
 	max: PropTypes.number,
 	suggested: PropTypes.number,
+	data: PropTypes.object,
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
@@ -627,6 +797,7 @@ PostList.defaultProps = {
 	min: 1,
 	max: 12,
 	suggested: 6,
+	data: {},
 	show_max_control: false,
 	post_type: [],
 	filters: [],

@@ -31,7 +31,7 @@
 	}
 }
 
-.remove {
+.postControl {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -51,4 +51,16 @@
 	span{
 		line-height: 23px;
 	}
+}
+
+.edit {
+	composes: postControl;
+	top: 0;
+	right: 27px;
+}
+
+.remove {
+	composes: postControl;
+	top: 0;
+	right: 0;
 }
