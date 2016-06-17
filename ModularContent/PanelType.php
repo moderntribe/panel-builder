@@ -33,6 +33,9 @@ class PanelType {
 	protected $inactive_icon = '';
 
 	/** @var string */
+	protected $thumbnail = '';
+
+	/** @var string */
 	protected $description = '';
 
 	/** @var PanelViewFinder */
@@ -168,47 +171,44 @@ class PanelType {
 	/**
 	 * Set the icon to display with this panel type.
 	 *
-	 * The "active" state is shown when the panel is open
-	 * for editing.
-	 *
-	 * The "inactive" state is shown at all other times.
-	 *
 	 * @param string $icon The URL to the image file
-	 * @param string $state One of: 'both', 'active', or 'inactive'
 	 *
+	 * @deprecated
+	 * @see PanelType::set_thumbnail()
 	 * @return void
 	 */
-	public function set_icon( $icon, $state = 'both' ) {
-		switch ( $state ) {
-			case 'active':
-				$this->active_icon = $icon;
-				break;
-			case 'inactive':
-				$this->inactive_icon = $icon;
-				break;
-			case 'both':
-			default:
-				$this->active_icon = $icon;
-				$this->inactive_icon = $icon;
-				break;
-		}
+	public function set_icon( $icon ) {
+		_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '3.0', 'PanelType::set_thumbnail' );
+		$this->set_thumbnail( $icon );
 	}
 
 	/**
 	 * Get the URL for the image file
-	 *
-	 * @param string $state
-	 *
+	 * @deprecated
+	 * @see PanelType::get_thumbnail()
 	 * @return string
 	 */
-	public function get_icon( $state = 'inactive' ) {
-		switch ( $state ) {
-			case 'active':
-				return $this->active_icon ? $this->active_icon : $this->inactive_icon;
-			case 'inactive':
-			default:
-				return $this->inactive_icon ? $this->inactive_icon : $this->active_icon;
-		}
+	public function get_icon() {
+		_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '3.0', 'PanelType::get_thumbnail' );
+		return $this->get_thumbnail();
+	}
+
+	/**
+	 * Set the thumbnail to display in the panel picker
+	 *
+	 * @param string $thumbnail_url
+	 * @return void
+	 */
+	public function set_thumbnail( $thumbnail_url ) {
+		$this->thumbnail = $thumbnail_url;
+	}
+
+	/**
+	 * Get the URL for the thumbnail image file
+	 * @return string
+	 */
+	public function get_thumbnail() {
+		return $this->thumbnail;
 	}
 
 	/**
