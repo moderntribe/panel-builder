@@ -571,12 +571,16 @@
             "label": "Posts"
           },
           {
-            "value": "menus",
-            "label": "Menus"
+            "value": "page",
+            "label": "Pages"
           },
           {
-            "value": "tribe_events",
-            "label": "Events"
+            "value": "attachment",
+            "label": "Attachemnts"
+          },
+          {
+            "value": "menu",
+            "label": "Menu"
           }
         ],
         "filters": [
@@ -586,8 +590,17 @@
               {
                 "value": "post_tag",
                 "label": "Tags",
+                "filter_type": "taxonomy",
                 "post_type": [
                   "post"
+                ]
+              },
+              {
+                "value": "category",
+                "label": "Category",
+                "filter_type": "taxonomy",
+                "post_type": [
+                  "page"
                 ]
               }
             ]
@@ -595,25 +608,63 @@
           {
             "value": "date",
             "label": "Date",
+            "filter_type": "date",
             "post_type": [
               "post",
               "page",
               "attachment"
             ]
+          },
+          {
+            "label": "Relationships",
+            "options": [
+              {
+                "value": "related_posts",
+                "label": "Related",
+                "filter_type": "p2p",
+                "post_type": {
+                  "page": "Page",
+                  "post": "Post"
+                }
+              },
+              {
+                "value": "related_things",
+                "label": "Related Posts",
+                "filter_type": "p2p",
+                "post_type": {
+                  "post": "Post",
+                  "product": "Product"
+                }
+              }
+            ]
           }
         ],
         "taxonomies": {
+          "category": [
+            {
+              "value": 8,
+              "label": "Aquatic"
+            },
+            {
+              "value": 9,
+              "label": "Terrestrial"
+            },
+            {
+              "value": 10,
+              "label": "Airborn"
+            }
+          ],
           "post_tag": [
             {
-              "value": 6,
+              "value": 1,
               "label": "Fun Times"
             },
             {
-              "value": 7,
+              "value": 2,
               "label": "Maybe Better"
             },
             {
-              "value": 4,
+              "value": 3,
               "label": "Oh Boy"
             }
           ]

@@ -2,13 +2,32 @@ import _ from 'lodash';
 import { ADMIN_CACHE } from '../../globals/config';
 
 export function addImage(attachment) {
-	const sizes = {};
-	_.forIn(attachment.sizes, (value, key) => {
-		sizes[key] = value.url;
-	});
-	ADMIN_CACHE.images[attachment.id.toString()] = sizes;
+	if (!ADMIN_CACHE.images) {
+		ADMIN_CACHE.images = [];
+	}
+	ADMIN_CACHE.images.push(attachment);
 }
 
 export function getImageById(id) {
-	return ADMIN_CACHE.images[id];
+	return _.find(ADMIN_CACHE.images, { id: id });
+}
+
+export function addPost(post) {
+	if (!ADMIN_CACHE.posts) {
+		ADMIN_CACHE.posts = [];
+	}
+	const postInCache = _.find(ADMIN_CACHE.posts, { ID: post.ID });
+	if (!postInCache) {
+		ADMIN_CACHE.posts.push(post);
+	}
+}
+
+export function addPosts(postsObj) {
+	_.mapKeys(postsObj, (value) => {
+		ADMIN_CACHE.posts.push(value);
+	});
+}
+
+export function getPostById(id) {
+	return _.find(ADMIN_CACHE.posts, { ID: id });
 }

@@ -99,7 +99,59 @@
       "depth": 0,
       "data": {
         "title": "The Big Old Posts Field",
-        "posts": []
+        "posts": {
+          "type": "query",
+          "posts": [
+            {
+              "id": "",
+              "method": "manual",
+              "post_title": "Test Title One",
+              "post_content": "Some content",
+              "url": "dfhfdhdffhd",
+              "thumbnail_id": "13151"
+            },
+            {
+              "id": "1",
+              "method": "select",
+              "post_title": "",
+              "post_content": "Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum…",
+              "url": "",
+              "thumbnail_id": "0"
+            },
+            {
+              "id": "",
+              "method": "manual",
+              "post_title": "Text Title 2",
+              "post_content": "Another content",
+              "url": "",
+              "thumbnail_id": "0"
+            }
+          ],
+          "filters": {
+            "post_type": {
+              "selection": [
+                "page",
+                "post"
+              ]
+            },
+            "xrelated_posts": {
+              "selection": "1",
+              "lock": "1"
+            },
+            "xpost_tag": {
+              "selection": "2",
+              "lock": "1"
+            },
+            "date": {
+              "selection": {
+                "start": "2016-05-28",
+                "end": "2016-06-17"
+              },
+              "lock": "1"
+            }
+          },
+          "max": "10"
+        }
       }
     }
   ]

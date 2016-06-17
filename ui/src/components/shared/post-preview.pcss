@@ -6,6 +6,7 @@
 	padding: 10px;
 	border: 1px solid var(--border-color);
 	min-height:80px;
+	margin-bottom:10px;
 }
 
 .title{
@@ -30,7 +31,7 @@
 	}
 }
 
-.remove {
+.postControl {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -46,7 +47,20 @@
 	border-radius: 50%;
 	display: block;
 	outline:0;
+	cursor: pointer;
 	span{
 		line-height: 23px;
 	}
+}
+
+.edit {
+	composes: postControl;
+	top: 0;
+	right: 27px;
+}
+
+.remove {
+	composes: postControl;
+	top: 0;
+	right: 0;
 }
