@@ -42,6 +42,29 @@ class PostList extends Component {
 		}
 	}
 
+	getValue() {
+		let filters = {};
+		for (const filter of this.state.filters) {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			}
+		}
+		return {
+			filters: filters,
+			type: this.state.type,
+			posts: this.state.manualPostData,
+		};
+	}
+
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
+	}
+
 	/**
 	 *  Prepares the filters to use as a state variable.
 	 *
@@ -522,7 +545,9 @@ class PostList extends Component {
 		_.remove(newState.manualPostData, function(n) {
 			return n.editableId == editableId;
 		});
-		this.setState(newState);
+			this.setState(newState, ()=> {
+				this.initiateUpdatePanelData();
+			});
 	}
 
 	@autobind
@@ -603,7 +628,9 @@ class PostList extends Component {
 			}
 			return data;
 		});
-		this.setState(newState);
+		this.setState(newState, ()=> {
+			this.initiateUpdatePanelData();
+		});
 	}
 
 	/**
@@ -614,7 +641,11 @@ class PostList extends Component {
 	@autobind
 	switchTabs(e) {
 		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
-		this.setState({ type });
+		this.setState({
+			type
+		}, ()=> {
+			this.initiateUpdatePanelData();
+		});
 	}
 
 	/**
@@ -780,12 +811,13 @@ PostList.propTypes = {
 	min: PropTypes.number,
 	max: PropTypes.number,
 	suggested: PropTypes.number,
-	data: PropTypes.object,
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
 	taxonomies: PropTypes.object,
-	updateHeights: PropTypes.func,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 PostList.defaultProps = {
@@ -797,12 +829,13 @@ PostList.defaultProps = {
 	min: 1,
 	max: 12,
 	suggested: 6,
-	data: {},
 	show_max_control: false,
 	post_type: [],
 	filters: [],
 	taxonomies: {},
-	updateHeights: () => {},
+	data: {},
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default PostList;

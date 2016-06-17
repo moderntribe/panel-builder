@@ -23,7 +23,7 @@ class PostPreviewContainer extends Component {
 				loading: false,
 			});
 		} else if (this.state.post_id) {
-			const post = AdminCache.getPostById(this.state.post_id);
+			const post = AdminCache.getPostById(parseInt(this.state.post_id));
 			if (post) {
 				this.setState({
 					post,

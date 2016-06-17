@@ -16,7 +16,10 @@ export function addPost(post) {
 	if (!ADMIN_CACHE.posts) {
 		ADMIN_CACHE.posts = [];
 	}
-	ADMIN_CACHE.posts.push(post);
+	const postInCache = _.find(ADMIN_CACHE.posts, { ID: post.ID });
+	if (!postInCache) {
+		ADMIN_CACHE.posts.push(post);
+	}
 }
 
 export function addPosts(postsObj) {
