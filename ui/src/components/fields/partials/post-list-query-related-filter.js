@@ -12,12 +12,6 @@ class PostListQueryRelatedFilter extends Component {
 		postId: null,
 		post: '',
 	};
-	noResults = {
-		options: [{
-			value: 0,
-			label: "No Results",
-		}],
-	};
 
 	/**
 	 * Get search params for posts limited by type
@@ -62,9 +56,16 @@ class PostListQueryRelatedFilter extends Component {
 		});
 	}
 
+	noResults = {
+		options: [{
+			value: 0,
+			label: 'No Results',
+		}],
+	};
+
 	@autobind
 	handleTypeChange(postTypes) {
-		if (postTypes){
+		if (postTypes) {
 			this.setState({
 				postTypes,
 			});
@@ -80,7 +81,7 @@ class PostListQueryRelatedFilter extends Component {
 	handlePostChange(data) {
 		const post = data ? data.value : '';
 		this.setState({
-			post
+			post,
 		}, () => {
 			const selection = post;
 			this.props.onChangeRelatedPosts({
@@ -92,17 +93,17 @@ class PostListQueryRelatedFilter extends Component {
 	}
 
 	@autobind
-	handleRemove(e) {
+	handleRemove() {
 		this.props.onRemoveClick({
 			state: this.state,
 			filterID: this.props.filterID,
-		})
+		});
 	}
 
 	render() {
 		return (
 			<div className={styles.filter}>
-				<div className={styles.remove}><span className='dashicons dashicons-no-alt' onClick={this.handleRemove} /></div>
+				<div className={styles.remove}><span className="dashicons dashicons-no-alt" onClick={this.handleRemove} /></div>
 				<label className={styles.label}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<ReactSelect
@@ -115,7 +116,7 @@ class PostListQueryRelatedFilter extends Component {
 					/>
 					<ReactSelect.Async
 						value={this.state.post}
-						disabled={this.state.postTypes.length==0}
+						disabled={this.state.postTypes.length === 0}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
 						placeholder="Get Related Post"
@@ -128,11 +129,11 @@ class PostListQueryRelatedFilter extends Component {
 }
 
 PostListQueryRelatedFilter.propTypes = {
-	onRemoveClick: React.PropTypes.func,
-	onChangeRelatedPosts: React.PropTypes.func,
-	postTypes: React.PropTypes.array,
-	filterID: React.PropTypes.string,
-	label: React.PropTypes.string,
+	onRemoveClick: PropTypes.func,
+	onChangeRelatedPosts: PropTypes.func,
+	postTypes: PropTypes.array,
+	filterID: PropTypes.string,
+	label: PropTypes.string,
 };
 
 PostListQueryRelatedFilter.defaultProps = {

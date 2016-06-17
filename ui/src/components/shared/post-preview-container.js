@@ -23,7 +23,7 @@ class PostPreviewContainer extends Component {
 				loading: false,
 			});
 		} else if (this.state.post_id) {
-			const post = AdminCache.getPostById(parseInt(this.state.post_id));
+			const post = AdminCache.getPostById(parseInt(this.state.post_id, 10));
 			if (post) {
 				this.setState({
 					post,
@@ -77,32 +77,31 @@ class PostPreviewContainer extends Component {
 					post,
 					loading: false,
 				}, () => {
-					if (this.props.onGetPostDetails){
+					if (this.props.onGetPostDetails) {
 						this.props.onGetPostDetails({
 							state: this.state,
 							editableId: this.state.editableId,
 						});
 					}
 				});
-
 			}
 		}
 	}
 
 	@autobind
-	handleRemovePreview(e) {
+	handleRemovePreview() {
 		// editableId
 		this.props.onRemoveClick({
-			state:this.state,
+			state: this.state,
 			editableId: this.state.editableId,
 		});
 	}
 
 	@autobind
-	handleEditPreview(e) {
+	handleEditPreview() {
 		// editableId
 		this.props.onEditClick({
-			state:this.state,
+			state: this.state,
 			editableId: this.state.editableId,
 		});
 	}
@@ -114,7 +113,13 @@ class PostPreviewContainer extends Component {
 		return (
 			<div>
 				{this.state.loading && <div>Loading...</div>}
-				{this.state.post && <PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler} onEditClick={editHandler} />}
+				{this.state.post &&
+					<PostPreview
+						title={this.state.post.post_title} excerpt={this.state.post.post_excerpt}
+						thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler}
+						onEditClick={editHandler}
+					/>
+				}
 			</div>
 		);
 	}

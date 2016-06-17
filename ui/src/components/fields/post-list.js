@@ -11,12 +11,12 @@ import param from 'jquery-param';
 import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
 import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
-import Button from '../shared/button';
-import Notification from '../shared/notification';
-import PostPreviewContainer from '../shared/post-preview-container';
 import PostListQueryTaxonomyFilter from './partials/post-list-query-taxonomy-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
+import Button from '../shared/button';
+import Notification from '../shared/notification';
+import PostPreviewContainer from '../shared/post-preview-container';
 import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './post-list.pcss';
@@ -37,61 +37,61 @@ class PostList extends Component {
 	}
 
 	componentWillMount() {
-		if (this.state.filters.length){
+		if (this.state.filters.length) {
 			this.getNewPosts();
 		}
 	}
 
-	getValue() {
-		let filters = {};
-		for (const filter of this.state.filters) {
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
+	/**
+	 * Update filter in state from date, related content or taxonomy filter
+	 *
+	 * @method onChangeFilterGeneric
+	 */
+	@autobind
+	onChangeFilterGeneric(e) {
+		const filters = this.state.filters;
+		filters.forEach((filter) => {
+			if (filter.filterID === e.filterID) {
+				filter.selection = e.selection; // eslint-disable-line no-param-reassign
 			}
-		}
-		return {
-			filters: filters,
-			type: this.state.type,
-			posts: this.state.manualPostData,
-		};
-	}
-
-	initiateUpdatePanelData() {
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
+		});
+		this.setState({
+			filters,
+		}, () => {
+			this.getNewPosts();
 		});
 	}
 
 	/**
-	 *  Prepares the filters to use as a state variable.
+	 * Handle date filter removal
 	 *
-	 * @method prepIncomingFilters
+	 * @method onRemoveDateFilter
 	 */
-	prepIncomingFilters() {
-		let filters = [];
-		const filterKeys = _.keys(this.props.data.filters);
-		filterKeys.forEach((filterKey) => {
-			if (filterKey !== 'post_type') {
-				const filterProps = this.getPropFilterByKey(filterKey);
-				const filterData = this.props.data.filters[filterKey];
-				if (filterProps && filterData){
-					filters.push({
-						filter_type: filterProps.filter_type,
-						filterID: _.uniqueId('post-list-filter'),
-						selection: filterData.selection,
-						post_type: filterProps.post_type,
-						value: filterProps.value,
-						label: filterProps.label,
-					});
-				} else {
-					console.log("No filter was found for that filter key :" + filterKey);
-				}
-			}
+	@autobind
+	onRemoveFilter(e) {
+		const filters = _.cloneDeep(this.state.filters);
+		_.remove(filters, (filter) => filter.filterID === e.filterID);
+		this.setState({
+			filterValue: '',
+			filters,
+		}, () => {
+			this.getNewPosts();
 		});
-		return filters;
+	}
+
+	getValue() {
+		const filters = {};
+		for (const filter of this.state.filters) {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		}
+		return {
+			filters,
+			type: this.state.type,
+			posts: this.state.manualPostData,
+		};
 	}
 
 	/**
@@ -101,80 +101,19 @@ class PostList extends Component {
 	 */
 	getPropFilterByKey(filterKey) {
 		for (const filter of this.props.filters) {
-			if (filter.value){
-				if (filter.value === filterKey){
+			if (filter.value) {
+				if (filter.value === filterKey) {
 					return filter;
 				}
 			} else if (filter.options) {
 				for (const option of filter.options) {
-					if (option.value === filterKey){
+					if (option.value === filterKey) {
 						return option;
 					}
 				}
 			}
 		}
 		return null;
-	}
-
-	/**
-	 *  Prepare the post types for the state. Build array of post type label/value
-	 *
-	 * @method prepIncomingPostTypes
-	 */
-	prepIncomingPostTypes() {
-		let postTypes = [];
-		if (this.props.data.filters && this.props.data.filters.post_type){
-			const arrTypes = this.props.data.filters.post_type.selection;
-			this.props.post_type.forEach((postType) => {
-				arrTypes.forEach((type) => {
-					if (postType.value === type){
-						postTypes.push(postType);
-					}
-				});
-			});
-		}
-		return postTypes;
-	}
-
-	/**
-	 *  Adds editableID and isPreview to incoming data so we can manage it in react
-	 *
-	 * @method prepIncomingPosts
-	 */
-	prepIncomingPosts(posts) {
-		posts.forEach((post) => {
-			post.editableId = _.uniqueId('post-editable-');
-			post.isPreview = true;
-		});
-		return posts;
-	}
-
-	/**
-	 *  Maps real wp post data to the data format we're using for BE post
-	 *
-	 * @method mapWPPostToDataPost
-	 */
-	mapWPPostToDataPost(wpPost) {
-		return {
-			post_title: wpPost.post_title,
-			post_content: wpPost.post_excerpt,
-			url: wpPost.permalink,
-			id: wpPost.ID.toString(),
-		}
-	}
-
-	/**
-	 *  Maps our post data to WP post format
-	 *
-	 * @method mapDataPostToWPPost
-	 */
-	mapDataPostToWPPost(post) {
-		return {
-			post_title: post.post_title,
-			post_excerpt: post.post_content,
-			permalink: post.url,
-			ID: parseInt(post.id),
-		}
 	}
 
 	getTabButtons() {
@@ -234,11 +173,11 @@ class PostList extends Component {
 	getManualPosts() {
 		let Posts = null;
 		if (this.state.manualPostData.length) {
-			const Items = _.map(this.state.manualPostData, (data, i) => {
+			const Items = _.map(this.state.manualPostData, (data) => {
 				let Template;
-				if (data.isPreview){
+				if (data.isPreview) {
 					// send only post id or send full post
-					if (data.method===POST_LIST_CONFIG.POST_METHODS.Manual){
+					if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
 						const post = this.mapDataPostToWPPost(data);
 						Template = (
 							<PostPreviewContainer
@@ -249,7 +188,8 @@ class PostList extends Component {
 								onEditClick={this.handleEditPostClick}
 							/>
 						);
-					} if (data.method===POST_LIST_CONFIG.POST_METHODS.Select) {
+					}
+					if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
 						Template = (
 							<PostPreviewContainer
 								key={_.uniqueId('manual-post-preview-')}
@@ -261,7 +201,7 @@ class PostList extends Component {
 						);
 					}
 				} else {
-					if (data.method===POST_LIST_CONFIG.POST_METHODS.Manual) {
+					if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
 						Template = (
 							<PostListPostManual
 								key={_.uniqueId('manual-post-edit-')}
@@ -274,7 +214,7 @@ class PostList extends Component {
 								handleAddClick={this.handleAddUpdateClick}
 							/>
 						);
-					} else if (data.method===POST_LIST_CONFIG.POST_METHODS.Select) {
+					} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
 						Template = (
 							<PostListPostSelected
 								key={_.uniqueId('manual-post-edit-')}
@@ -306,7 +246,6 @@ class PostList extends Component {
 		return Posts;
 	}
 
-
 	/**
 	 * Add extra empty items if less than min
 	 *
@@ -316,7 +255,7 @@ class PostList extends Component {
 		let MaybeChooser = null;
 		// Shows the empties if less than min
 		if (this.state.manualPostData.length < this.props.min) {
-			const remaining = this.props.min - this.state.manualPostData.length
+			const remaining = this.props.min - this.state.manualPostData.length;
 			MaybeChooser = _.times(remaining, (i) =>
 				<PostListManualTypeChooser
 					key={_.uniqueId('add-manual-post-')}
@@ -326,17 +265,18 @@ class PostList extends Component {
 					strings={this.props.strings}
 				/>
 			);
-		} else if (this.state.manualPostData.length < this.props.max ) {
+		} else if (this.state.manualPostData.length < this.props.max) {
 			// shows one empty if more than min but less than max
-			MaybeChooser = (<div>
-				<PostListManualTypeChooser
-				key={_.uniqueId('add-manual-post-')}
-				index={0}
-				showHeading={this.state.manualPostData.length !== 0}
-				handleClick={this.addManualPost}
-				strings={this.props.strings}
-			/>
-			</div>);
+			MaybeChooser = (
+				<div>
+					<PostListManualTypeChooser
+						key={_.uniqueId('add-manual-post-')}
+						index={0}
+						showHeading={this.state.manualPostData.length !== 0}
+						handleClick={this.addManualPost}
+						strings={this.props.strings}
+					/>
+				</div>);
 		}
 		return MaybeChooser;
 	}
@@ -374,26 +314,41 @@ class PostList extends Component {
 
 		// map filter data to individual filters
 		let Filters = _.map(this.state.filters, (filter) => {
-			if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Date){
-				return (
-					<PostListQueryDateFilter key={filter.filterID} filterID={filter.filterID} selection={filter.selection} label={filter.label} onChangeDate={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
+			let Template;
+			if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Date) {
+				Template = (
+					<PostListQueryDateFilter
+						key={filter.filterID} filterID={filter.filterID}
+						selection={filter.selection} label={filter.label}
+						onChangeDate={this.onChangeFilterGeneric}
+						onRemoveClick={this.onRemoveFilter}
+					/>
 				);
-			} else if (filter.filter_type===POST_LIST_CONFIG.FILTERS.Taxonomy) {
+			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Taxonomy) {
 				const taxonomy = this.props.taxonomies[filter.value];
-				return (
-					<PostListQueryTaxonomyFilter key={filter.filterID} filterID={filter.filterID} label={filter.label} onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy} onRemoveClick={this.onRemoveFilter} />
+				Template = (
+					<PostListQueryTaxonomyFilter
+						key={filter.filterID} filterID={filter.filterID} label={filter.label}
+						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
+						onRemoveClick={this.onRemoveFilter}
+					/>
 				);
-			} else if (filter.filter_type===POST_LIST_CONFIG.FILTERS.P2P) {
-				const postTypesArray = _.map(filter.post_type, (key, value) => {
-					return {
-						value: value,
-						label: key,
-					};
-				});
-				return (
-					<PostListQueryRelatedFilter key={filter.filterID} filterID={filter.filterID} postTypes={postTypesArray} label={filter.label} onChangeRelatedPosts={this.onChangeFilterGeneric} onRemoveClick={this.onRemoveFilter} />
+			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.P2P) {
+				const postTypesArray = _.map(filter.post_type, (key, value) => ({
+					value,
+					label: key,
+				}));
+				Template = (
+					<PostListQueryRelatedFilter
+						key={filter.filterID} filterID={filter.filterID}
+						postTypes={postTypesArray} label={filter.label}
+						onChangeRelatedPosts={this.onChangeFilterGeneric}
+						onRemoveClick={this.onRemoveFilter}
+					/>
 				);
 			}
+
+			return Template;
 		});
 
 		return (
@@ -410,21 +365,18 @@ class PostList extends Component {
 	 */
 	getFilteredPosts() {
 		const keys = _.keys(this.state.queryPosts);
-		const posts = _.map(keys, (key, i) => {
-			return (
-				<PostPreviewContainer
-					key={_.uniqueId('query-post-preview-')}
-					post={this.state.queryPosts[key]}
-				/>
-			);
-		});
+		const posts = _.map(keys, (key) =>
+			<PostPreviewContainer
+				key={_.uniqueId('query-post-preview-')}
+				post={this.state.queryPosts[key]}
+			/>
+		);
 		return (
 			<div>
 				{posts}
 			</div>
 		);
 	}
-
 
 	/**
 	 * Builds the options for the filter select. Gets updated whenever post types changes
@@ -437,41 +389,41 @@ class PostList extends Component {
 	 */
 	getFilterOptions() {
 		let filters = _.cloneDeep(this.props.filters);
-		let postTypesFlat = _.map(this.state.postTypes, (type) => {
-			return type.value;
-		});
+		const postTypesFlat = _.map(this.state.postTypes, (type) => type.value);
 
 		// first level for date
 		filters = _.remove(filters, (filter) => {
-			if (!filter.post_type) {
-				return true;
-			} else {
+			let check = true;
+			if (filter.post_type) {
 				const intersect = _.intersection(filter.post_type, postTypesFlat);
-				return intersect.length > 0;
+				check = intersect.length > 0;
 			}
+
+			return check;
 		});
 
 		// second level
 		filters.forEach((filter) => {
 			if (filter.options) {
 				// if array
-				if (filter.options.length){
+				if (filter.options.length) {
 					// if array
-					let optionsFiltered = _.remove(filter.options, (option) => {
-						if (!option.post_type){
-							return true; // remove if no post_type
+					filter.options = _.remove(filter.options, (option) => { // eslint-disable-line no-param-reassign
+						let check;
+						if (!option.post_type) {
+							check = true; // remove if no post_type
 						} else {
-							if (option.post_type.length){ // check against array
+							if (option.post_type.length) { // check against array
 								const intersect = _.intersection(option.post_type, postTypesFlat);
-								return intersect.length > 0;
+								check = intersect.length > 0;
 							} else { // check against object and keys
 								const keysIn = _.keysIn(option.post_type);
 								const intersectKeys = _.intersection(keysIn, postTypesFlat);
-								return intersectKeys.length > 0;
+								check = intersectKeys.length > 0;
 							}
 						}
+						return check;
 					});
-					filter.options = optionsFiltered;
 				}
 			}
 		});
@@ -520,71 +472,145 @@ class PostList extends Component {
 		);
 	}
 
-	editPostFromList(editableId) {
-		// flag specific item as in preview state
-		let manualPostData = _.cloneDeep(this.state.manualPostData);
-		manualPostData.forEach((post) => {
-			if (editableId === post.editableId){
-				post.isPreview = false;
-			}
+	/**
+	 * Get preview params for posts.
+	 *
+	 * @method getPreviewRequestParams
+	 */
+	getPreviewRequestParams() {
+		const filters = {};
+		const types = [];
+		_.forEach(this.state.postTypes, (type) => {
+			types.push(type.value);
 		});
-		this.setState({
-			manualPostData,
+		// post types
+		if (this.state.postTypes.length) {
+			filters.post_type = {
+				selection: types,
+				lock: true,
+			};
+		}
+		// filters
+		this.state.filters.forEach((filter) => {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		});
+
+		return param({
+			action: 'posts-field-fetch-preview',
+			filters,
+			max: this.props.max,
+			context: 1,
 		});
 	}
 
 	/**
-	 * Remove a post from the manual post list based on an editable ID
+	 * Retrieve new posts. Add to cache
 	 *
-	 * @method removePostFromList
+	 * @method getNewPosts
 	 */
-	removePostFromList(editableId) {
-		// looking for editableId
-		const newState = {};
-		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
-		_.remove(newState.manualPostData, function(n) {
-			return n.editableId == editableId;
-		});
-			this.setState(newState, ()=> {
-				this.initiateUpdatePanelData();
+	getNewPosts() {
+		if (!this.state.postTypes.length) {
+			return;
+		}
+		const params = this.getPreviewRequestParams();
+		const ajaxURL = window.ajaxurl;
+		request.post(ajaxURL)
+			.send(params)
+			.end((err, response) => {
+				if (response && response.ok) {
+					AdminCache.addPosts(response.body.data.posts);
+					this.setState({
+						queryPosts: response.body.data.posts,
+					});
+				}
 			});
 	}
 
+	/**
+	 * Handle post type change
+	 *
+	 * @method handlePostTypeChange
+	 */
 	@autobind
-	handleManualSort(data) {
+	handlePostTypeChange(types) {
+		if (types) {
+			this.setState({
+				postTypes: types,
+			}, () => {
+				this.getNewPosts();
+			});
+		} else {
+			this.setState({
+				postTypes: [],
+			}, () => {
+				this.getNewPosts();
+			});
+		}
 	}
 
 	/**
-	 * Adds edit post item to the list. Either manual or select
+	 * Handle filter change
 	 *
-	 * @method addManualPost
+	 * @method handleFilterChange
 	 */
 	@autobind
-	addManualPost(e) {
-		const newState = {};
-		const method = e.currentTarget.classList.contains('type-manual') ? POST_LIST_CONFIG.POST_METHODS.Manual : POST_LIST_CONFIG.POST_METHODS.Select;
-		const editableId = _.uniqueId('post-editable-');
-		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
-		newState.manualPostData.push({
-			method,
-			editableId,
+	handleFilterChange(e) {
+		// add new filter of the new type
+		if (e && e.value) {
+			const filterID = _.uniqueId('filter-id-');
+			const filters = _.cloneDeep(this.state.filters);
+			filters.push(_.assignIn(e, { filterID }));
+			this.setState({
+				filterValue: e.value,
+				filters,
+			});
+		}
+	}
+
+	/**
+	 * Switch handle handler
+	 *
+	 * @method switchTabs
+	 */
+	@autobind
+	switchTabs(e) {
+		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
+		this.setState({
+			type,
+		}, () => {
+			this.initiateUpdatePanelData();
 		});
-		this.setState(newState);
 	}
 
 	/**
-	 * After post preview retrieves details
+	 * Add item in edit mode to the list.
 	 *
-	 * @method handleGetPostDetails
+	 * @method handleAddUpdateClick
 	 */
 	@autobind
-	handleGetPostDetails(e) {
-		const newPost = this.mapWPPostToDataPost(e.state.post);
-		// update date related to this.
-		this.state.manualPostData.forEach((post) => {
-			if (post.editableId == e.editableId){
-				post = _.extend(post, newPost)
+	handleAddUpdateClick(e) {
+		const newState = {};
+		newState.manualPostData = _.map(this.state.manualPostData, (data) => {
+			if (data.editableId === e.state.editableId) {
+				// adding either a manual item or a select
+				if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
+					data.post_title = e.state.postTitle; // eslint-disable-line no-param-reassign
+					data.post_content = e.state.postContent; // eslint-disable-line no-param-reassign
+					data.url = e.state.postUrl; // eslint-disable-line no-param-reassign
+					data.id = ''; // eslint-disable-line no-param-reassign
+				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
+					// only have id at this point... uses preview to retrieve the post data
+					data.id = e.state.search; // eslint-disable-line no-param-reassign
+				}
+				data.isPreview = true; // eslint-disable-line no-param-reassign
 			}
+			return data;
+		});
+		this.setState(newState, () => {
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -605,186 +631,168 @@ class PostList extends Component {
 	}
 
 	/**
-	 * Add item in edit mode to the list.
+	 * After post preview retrieves details
 	 *
-	 * @method handleAddUpdateClick
+	 * @method handleGetPostDetails
 	 */
 	@autobind
-	handleAddUpdateClick(e) {
+	handleGetPostDetails(e) {
+		const newPost = this.mapWPPostToDataPost(e.state.post);
+		// update date related to this.
+		this.state.manualPostData.forEach((post) => {
+			if (post.editableId === e.editableId) {
+				post = _.extend(post, newPost); // eslint-disable-line no-param-reassign
+			}
+		});
+	}
+
+	/**
+	 * Adds edit post item to the list. Either manual or select
+	 *
+	 * @method addManualPost
+	 */
+	@autobind
+	addManualPost(e) {
 		const newState = {};
-		newState.manualPostData = _.map(this.state.manualPostData, (data) => {
-			if (data.editableId === e.state.editableId ){
-				// adding either a manual item or a select
-				if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual){
-					data.post_title = e.state.postTitle;
-					data.post_content = e.state.postContent;
-					data.url = e.state.postUrl;
-					data.id = '';
-				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select){
-					// only have id at this point... uses preview to retrieve the post data
-					data.id = e.state.search;
-				}
-				data.isPreview = true;
-			}
-			return data;
+		const method = e.currentTarget.classList.contains('type-manual') ? POST_LIST_CONFIG.POST_METHODS.Manual : POST_LIST_CONFIG.POST_METHODS.Select;
+		const editableId = _.uniqueId('post-editable-');
+		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
+		newState.manualPostData.push({
+			method,
+			editableId,
 		});
-		this.setState(newState, ()=> {
+		this.setState(newState);
+	}
+
+	@autobind
+	handleManualSort() {
+		// temp
+	}
+
+	/**
+	 * Remove a post from the manual post list based on an editable ID
+	 *
+	 * @method removePostFromList
+	 */
+	removePostFromList(editableId) {
+		// looking for editableId
+		const newState = {};
+		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
+		_.remove(newState.manualPostData, (n) => n.editableId === editableId);
+		this.setState(newState, () => {
 			this.initiateUpdatePanelData();
 		});
 	}
 
-	/**
-	 * Switch handle handler
-	 *
-	 * @method switchTabs
-	 */
-	@autobind
-	switchTabs(e) {
-		const type = e.currentTarget.classList.contains('pl-show-manual') ? 'manual' : 'query';
-		this.setState({
-			type
-		}, ()=> {
-			this.initiateUpdatePanelData();
-		});
-	}
-
-	/**
-	 * Update filter in state from date, related content or taxonomy filter
-	 *
-	 * @method onChangeFilterGeneric
-	 */
-	@autobind
-	onChangeFilterGeneric(e) {
-		let filters = this.state.filters;
-		filters.forEach((filter) => {
-			if (filter.filterID == e.filterID){
-				filter.selection = e.selection;
+	editPostFromList(editableId) {
+		// flag specific item as in preview state
+		const manualPostData = _.cloneDeep(this.state.manualPostData);
+		manualPostData.forEach((post) => {
+			if (editableId === post.editableId) {
+				post.isPreview = false; // eslint-disable-line no-param-reassign
 			}
 		});
 		this.setState({
-			filters
-		},() => {
-			this.getNewPosts();
+			manualPostData,
 		});
 	}
 
 	/**
-	 * Handle date filter removal
+	 *  Maps our post data to WP post format
 	 *
-	 * @method onRemoveDateFilter
+	 * @method mapDataPostToWPPost
 	 */
-	@autobind
-	onRemoveFilter(e) {
-		let filters = _.cloneDeep(this.state.filters);
-		_.remove(filters, (filter) => {
-			return filter.filterID === e.filterID;
-		});
-		this.setState({
-			filterValue: '',
-			filters,
-		},() => {
-			this.getNewPosts();
-		});
+	mapDataPostToWPPost(post) {
+		return {
+			post_title: post.post_title,
+			post_excerpt: post.post_content,
+			permalink: post.url,
+			ID: parseInt(post.id, 10),
+		};
 	}
 
+	/**
+	 *  Maps real wp post data to the data format we're using for BE post
+	 *
+	 * @method mapWPPostToDataPost
+	 */
+	mapWPPostToDataPost(wpPost) {
+		return {
+			post_title: wpPost.post_title,
+			post_content: wpPost.post_excerpt,
+			url: wpPost.permalink,
+			id: wpPost.ID.toString(),
+		};
+	}
 
 	/**
-	 * Handle filter chamge
+	 *  Adds editableID and isPreview to incoming data so we can manage it in react
 	 *
-	 * @method handleFilterChange
+	 * @method prepIncomingPosts
 	 */
-	@autobind
-	handleFilterChange(e) {
-		// add new filter of the new type
-		if (e && e.value){
-			const filterID = _.uniqueId('filter-id-');
-			let filters = _.cloneDeep(this.state.filters);
-			filters.push(_.assignIn(e, {filterID}));
-			this.setState({
-				filterValue: e.value,
-				filters,
+	prepIncomingPosts(posts) {
+		posts.forEach((post) => {
+			post.editableId = _.uniqueId('post-editable-');  // eslint-disable-line no-param-reassign
+			post.isPreview = true;  // eslint-disable-line no-param-reassign
+		});
+		return posts;
+	}
+
+	/**
+	 *  Prepare the post types for the state. Build array of post type label/value
+	 *
+	 * @method prepIncomingPostTypes
+	 */
+	prepIncomingPostTypes() {
+		const postTypes = [];
+		if (this.props.data.filters && this.props.data.filters.post_type) {
+			const arrTypes = this.props.data.filters.post_type.selection;
+			this.props.post_type.forEach((postType) => {
+				arrTypes.forEach((type) => {
+					if (postType.value === type) {
+						postTypes.push(postType);
+					}
+				});
 			});
 		}
+		return postTypes;
 	}
 
 	/**
-	 * Handle post type change
+	 *  Prepares the filters to use as a state variable.
 	 *
-	 * @method handlePostTypeChange
+	 * @method prepIncomingFilters
 	 */
-	@autobind
-	handlePostTypeChange(types) {
-		if (types){
-			this.setState({
-				postTypes: types,
-			},() => {
-				this.getNewPosts();
-			});
-		} else {
-			this.setState({
-				postTypes: [],
-			},() => {
-				this.getNewPosts();
-			});
-		}
-	}
-
-	/**
-	 * Get preview params for posts.
-	 *
-	 * @method getPreviewRequestParams
-	 */
-	getPreviewRequestParams() {
-		let filters = {};
-		const types = [];
-		_.forEach(this.state.postTypes, (type) => {
-			types.push(type.value);
-		});
-		// post types
-		if (this.state.postTypes.length) {
-			filters.post_type = {
-				selection:types,
-				lock:true,
-			};
-		}
-		// filters
-		this.state.filters.forEach((filter) => {
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
-			}
-		});
-
-		return param({
-			action: 'posts-field-fetch-preview',
-			filters,
-			max:this.props.max,
-			context:1,
-		});
-
-	}
-
-	/**
-	 * Retrieve new posts. Add to cache
-	 *
-	 * @method getNewPosts
-	 */
-	getNewPosts(){
-		if (!this.state.postTypes.length) {
-			return;
-		}
-		const params = this.getPreviewRequestParams();
-		const ajaxURL = window.ajaxurl;
-		request.post(ajaxURL)
-			.send(params)
-			.end((err, response) => {
-				if (response && response.ok) {
-					AdminCache.addPosts(response.body.data.posts);
-					this.setState({
-						queryPosts: response.body.data.posts,
+	prepIncomingFilters() {
+		const filters = [];
+		const filterKeys = _.keys(this.props.data.filters);
+		filterKeys.forEach((filterKey) => {
+			if (filterKey !== 'post_type') {
+				const filterProps = this.getPropFilterByKey(filterKey);
+				const filterData = this.props.data.filters[filterKey];
+				if (filterProps && filterData) {
+					filters.push({
+						filter_type: filterProps.filter_type,
+						filterID: _.uniqueId('post-list-filter'),
+						selection: filterData.selection,
+						post_type: filterProps.post_type,
+						value: filterProps.value,
+						label: filterProps.label,
 					});
+				} else {
+					console.log(`No filter was found for that filter key :${filterKey}`);
 				}
-			});
+			}
+		});
+		return filters;
+	}
+
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
 	}
 
 	render() {
@@ -835,7 +843,8 @@ PostList.defaultProps = {
 	taxonomies: {},
 	data: {},
 	panelIndex: 0,
-	updatePanelData: () => {},
+	updatePanelData: () => {
+	},
 };
 
 export default PostList;

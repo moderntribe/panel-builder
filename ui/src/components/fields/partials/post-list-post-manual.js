@@ -82,21 +82,21 @@ class PostListPostManual extends Component {
 	handleTitleChange(e) {
 		this.setState({
 			postTitle: e.currentTarget.value,
-		})
+		});
 	}
 
 	@autobind
 	handleContentChange(e) {
 		this.setState({
 			postContent: e.currentTarget.value,
-		})
+		});
 	}
 
 	@autobind
 	handleUrlChange(e) {
 		this.setState({
 			postUrl: e.currentTarget.value,
-		})
+		});
 	}
 
 	render() {
@@ -156,7 +156,7 @@ class PostListPostManual extends Component {
 						text="Cancel"
 						handleClick={this.handleCancelClick}
 						full={false}
-						bare={true}
+						bare
 					/>
 				</footer>
 			</article>

@@ -13,45 +13,43 @@ class PostListQueryTaxonomyFilter extends Component {
 	}
 
 	broadcastDataChange() {
-		const selection = _.map(this.state.tags, (tag) => {
-			return tag.value;
-		});
+		const selection = _.map(this.state.tags, (tag) => tag.value);
 		this.props.onChangeTaxonomy({
 			state: this.state,
 			filterID: this.props.filterID,
 			selection,
-		})
+		});
 	}
 
 	@autobind
 	handleTaxonomyChange(tags) {
-		if (tags){
+		if (tags) {
 			this.setState({
 				tags,
-			},() => {
+			}, () => {
 				this.broadcastDataChange();
 			});
 		} else {
 			this.setState({
 				tags: [],
-			},() => {
+			}, () => {
 				this.broadcastDataChange();
 			});
 		}
 	}
 
 	@autobind
-	handleRemove(e) {
+	handleRemove() {
 		this.props.onRemoveClick({
 			state: this.state,
 			filterID: this.props.filterID,
-		})
+		});
 	}
 
 	render() {
 		return (
 			<div className={styles.filter}>
-				<div className={styles.remove}><span className='dashicons dashicons-no-alt' onClick={this.handleRemove} /></div>
+				<div className={styles.remove}><span className="dashicons dashicons-no-alt" onClick={this.handleRemove} /></div>
 				<label className={styles.label}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
 					<ReactSelect
@@ -70,12 +68,12 @@ class PostListQueryTaxonomyFilter extends Component {
 }
 
 PostListQueryTaxonomyFilter.propTypes = {
-	onRemoveClick: React.PropTypes.func,
-	onChangeTaxonomy: React.PropTypes.func,
-	options: React.PropTypes.array,
-	filterID: React.PropTypes.string,
-	label: React.PropTypes.string,
-	selection: React.PropTypes.string,
+	onRemoveClick: PropTypes.func,
+	onChangeTaxonomy: PropTypes.func,
+	options: PropTypes.array,
+	filterID: PropTypes.string,
+	label: PropTypes.string,
+	selection: PropTypes.string,
 };
 
 PostListQueryTaxonomyFilter.defaultProps = {
