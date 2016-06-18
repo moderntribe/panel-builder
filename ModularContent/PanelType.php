@@ -24,15 +24,6 @@ class PanelType {
 	protected $label = '';
 
 	/** @var string */
-	protected $icon = '';
-
-	/** @var string */
-	protected $active_icon = '';
-
-	/** @var string */
-	protected $inactive_icon = '';
-
-	/** @var string */
 	protected $thumbnail = '';
 
 	/** @var string */
