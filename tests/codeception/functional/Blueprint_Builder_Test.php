@@ -29,8 +29,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$type = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
-		$type->set_icon( 'active_icon.png', 'active' );
-		$type->set_icon( 'inactive_icon.png', 'inactive' );
+		$type->set_thumbnail( 'active_icon.png' );
 		$type->set_max_children( 6 );
 		$registry->register( $type );
 
@@ -42,10 +41,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 				'type'        => 'test_type',
 				'label'       => 'Test Panel',
 				'description' => 'A test panel',
-				'icon'        => [
-					'active'   => 'active_icon.png',
-					'inactive' => 'inactive_icon.png',
-				],
+				'thumbnail'   => 'active_icon.png',
 				'fields'      => [
 					[
 						'type'        => 'Title',
@@ -75,16 +71,14 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$type = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
-		$type->set_icon( 'active_icon.png', 'active' );
-		$type->set_icon( 'inactive_icon.png', 'inactive' );
+		$type->set_thumbnail( 'active_icon.png' );
 		$type->set_max_children( 6 );
 		$registry->register( $type );
 
 		$child = new PanelType( 'test_child' );
 		$child->set_label( 'Test Child' );
 		$child->set_description( 'A child panel' );
-		$child->set_icon( 'active_child.png', 'active' );
-		$child->set_icon( 'inactive_child.png', 'inactive' );
+		$child->set_thumbnail( 'active_child.png' );
 		$child->set_max_depth( 2 );
 		$child->set_context( 'test_type', true );
 		$registry->register( $child );
@@ -97,10 +91,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 				'type'        => 'test_type',
 				'label'       => 'Test Panel',
 				'description' => 'A test panel',
-				'icon'        => [
-					'active'   => 'active_icon.png',
-					'inactive' => 'inactive_icon.png',
-				],
+				'thumbnail'   => 'active_icon.png',
 				'fields'      => [
 					[
 						'type'        => 'Title',
@@ -122,10 +113,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 							'type'        => 'test_child',
 							'label'       => 'Test Child',
 							'description' => 'A child panel',
-							'icon'        => [
-								'active'   => 'active_child.png',
-								'inactive' => 'inactive_child.png',
-							],
+							'thumbnail'   => 'active_child.png',
 							'fields'      => [
 								[
 									'type'        => 'Title',
@@ -160,16 +148,14 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$type = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
-		$type->set_icon( 'active_icon.png', 'active' );
-		$type->set_icon( 'inactive_icon.png', 'inactive' );
+		$type->set_thumbnail( 'active_icon.png' );
 		$type->set_max_children( 6 );
 		$registry->register( $type );
 
 		$child = new PanelType( 'test_child' );
 		$child->set_label( 'Test Child' );
 		$child->set_description( 'A child panel' );
-		$child->set_icon( 'active_child.png', 'active' );
-		$child->set_icon( 'inactive_child.png', 'inactive' );
+		$child->set_thumbnail( 'active_child.png' );
 		$child->set_max_depth( 2 );
 		$child->set_context( 'test_type', false );
 		$child->set_context( 'test_child', false );
@@ -188,8 +174,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$type = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
-		$type->set_icon( 'active_icon.png', 'active' );
-		$type->set_icon( 'inactive_icon.png', 'inactive' );
+		$type->set_thumbnail( 'active_icon.png' );
 		$type->set_max_children( 6 );
 		$type->set_max_depth( 6 );
 		$registry->register( $type );
@@ -280,7 +265,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel = new PanelType( 'kitchensink' );
 		$panel->set_label( 'Kitchen Sink' );
 		$panel->set_description( 'At least one of every kind of field' );
-		$panel->set_icon( 'module-kitchensink.png' );
+		$panel->set_thumbnail( 'module-kitchensink.png' );
 
 		$panel->add_field( new HTML( [
 			'name'        => 'help',
@@ -433,8 +418,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel = new PanelType( 'contentgrid' );
 		$panel->set_label( 'Content Grid' );
 		$panel->set_description( 'A grid of content with 2 layouts.' );
-		$panel->set_icon( 'module-contentgrid.png', 'inactive' );
-		$panel->set_icon( 'module-contentgrid.png', 'active' );
+		$panel->set_thumbnail( 'module-contentgrid.png' );
 
 		// Panel Style
 		$panel->add_field( new Fields\ImageSelect( [
@@ -536,8 +520,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel = new PanelType( 'gallery' );
 		$panel->set_label( 'Gallery' );
 		$panel->set_description( 'An image gallery slider.' );
-		$panel->set_icon( 'module-gallery.png', 'inactive' );
-		$panel->set_icon( 'module-gallery.png', 'active' );
+		$panel->set_thumbnail( 'module-gallery.png' );
 
 		// Panel Description
 		$panel->add_field( new Fields\TextArea( [
@@ -586,8 +569,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$panel->set_label( 'Image+Text' );
 		$panel->set_description( 'An image and text with several layout options.' );
-		$panel->set_icon( 'module-imagetext.png', 'inactive' );
-		$panel->set_icon( 'module-imagetext.png', 'active' );
+		$panel->set_thumbnail( 'module-imagetext.png' );
 		$panel->set_max_depth( 2 );
 
 		// Panel Layout
@@ -676,8 +658,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$panel->set_label( 'MicroNav' );
 		$panel->set_description( 'Display a set of links and related content.' );
-		$panel->set_icon( 'module-micronav.png', 'inactive' );
-		$panel->set_icon( 'module-micronav.png', 'active' );
+		$panel->set_thumbnail( 'module-micronav.png' );
 
 		// Panel Layout
 		$panel->add_field( new ImageSelect( [
@@ -733,8 +714,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$panel->set_label( 'WYSIWYG Editor' );
 		$panel->set_description( 'Displays custom content' );
-		$panel->set_icon( 'module-wysiwyg.png', 'inactive' );
-		$panel->set_icon( 'module-wysiwyg.png', 'active' );
+		$panel->set_thumbnail( 'module-wysiwyg.png' );
 		$panel->set_max_depth( 2 );
 
 		// Field: Editor Columns
@@ -777,8 +757,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$panel->set_label( 'Tab Group' );
 		$panel->set_description( 'Displays a group of panels as tabs' );
-		$panel->set_icon( 'module-tabgroup.png', 'inactive' );
-		$panel->set_icon( 'module-tabgroup.png', 'active' );
+		$panel->set_thumbnail( 'module-tabgroup.png' );
 		$panel->set_max_children( 6 );
 
 		$registry->register( $panel );

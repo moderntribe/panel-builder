@@ -3,10 +3,7 @@
         "type": "kitchensink",
         "label": "Kitchen Sink",
         "description": "At least one of every kind of field",
-        "icon": {
-            "active": "module-kitchensink.png",
-            "inactive": "module-kitchensink.png"
-        },
+        "thumbnail": "module-kitchensink.png",
         "fields": [
             {
                 "type": "Title",
@@ -388,10 +385,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -536,10 +530,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -597,10 +588,7 @@
         "type": "contentgrid",
         "label": "Content Grid",
         "description": "A grid of content with 2 layouts.",
-        "icon": {
-            "active": "module-contentgrid.png",
-            "inactive": "module-contentgrid.png"
-        },
+        "thumbnail": "module-contentgrid.png",
         "fields": [
             {
                 "type": "Title",
@@ -735,10 +723,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -883,10 +868,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -944,10 +926,7 @@
         "type": "gallery",
         "label": "Gallery",
         "description": "An image gallery slider.",
-        "icon": {
-            "active": "module-gallery.png",
-            "inactive": "module-gallery.png"
-        },
+        "thumbnail": "module-gallery.png",
         "fields": [
             {
                 "type": "Title",
@@ -993,10 +972,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1141,10 +1117,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1202,10 +1175,7 @@
         "type": "imagetext",
         "label": "Image+Text",
         "description": "An image and text with several layout options.",
-        "icon": {
-            "active": "module-imagetext.png",
-            "inactive": "module-imagetext.png"
-        },
+        "thumbnail": "module-imagetext.png",
         "fields": [
             {
                 "type": "Title",
@@ -1348,10 +1318,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1496,10 +1463,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1557,10 +1521,7 @@
         "type": "micronav",
         "label": "MicroNav",
         "description": "Display a set of links and related content.",
-        "icon": {
-            "active": "module-micronav.png",
-            "inactive": "module-micronav.png"
-        },
+        "thumbnail": "module-micronav.png",
         "fields": [
             {
                 "type": "Title",
@@ -1699,10 +1660,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1847,10 +1805,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -1908,10 +1863,7 @@
         "type": "wysiwyg",
         "label": "WYSIWYG Editor",
         "description": "Displays custom content",
-        "icon": {
-            "active": "module-wysiwyg.png",
-            "inactive": "module-wysiwyg.png"
-        },
+        "thumbnail": "module-wysiwyg.png",
         "fields": [
             {
                 "type": "Title",
@@ -1964,10 +1916,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -2112,10 +2061,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -2173,10 +2119,7 @@
         "type": "tabgroup",
         "label": "Tab Group",
         "description": "Displays a group of panels as tabs",
-        "icon": {
-            "active": "module-tabgroup.png",
-            "inactive": "module-tabgroup.png"
-        },
+        "thumbnail": "module-tabgroup.png",
         "fields": [
             {
                 "type": "Title",
@@ -2198,10 +2141,7 @@
                     "type": "imagetext",
                     "label": "Image+Text",
                     "description": "An image and text with several layout options.",
-                    "icon": {
-                        "active": "module-imagetext.png",
-                        "inactive": "module-imagetext.png"
-                    },
+                    "thumbnail": "module-imagetext.png",
                     "fields": [
                         {
                             "type": "Title",
@@ -2346,10 +2286,7 @@
                     "type": "wysiwyg",
                     "label": "WYSIWYG Editor",
                     "description": "Displays custom content",
-                    "icon": {
-                        "active": "module-wysiwyg.png",
-                        "inactive": "module-wysiwyg.png"
-                    },
+                    "thumbnail": "module-wysiwyg.png",
                     "fields": [
                         {
                             "type": "Title",

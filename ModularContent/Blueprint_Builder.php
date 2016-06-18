@@ -36,10 +36,7 @@ class Blueprint_Builder implements \JsonSerializable{
 		$blueprint[ 'type' ] = $type->get_id();
 		$blueprint[ 'label' ] = $type->get_label();
 		$blueprint[ 'description' ] = $type->get_description();
-		$blueprint[ 'icon' ] = [
-			'active'   => $type->get_icon( 'active' ),
-			'inactive' => $type->get_icon( 'inactive' ),
-		];
+		$blueprint[ 'thumbnail' ] = $type->get_thumbnail();
 		$blueprint[ 'fields' ] = $this->get_fields( $type );
 		$blueprint[ 'children' ] = [
 			'max'   => $type->get_max_children(),
