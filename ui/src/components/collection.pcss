@@ -1,4 +1,5 @@
 @import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
 
 :root {
 	--fontSize: 1rem;
@@ -10,7 +11,7 @@
 	position:relative;
 	background:#fff;
 	.sidebar {
-		> button {
+		> button:not(.editButton) {
 			left:0;
 			transition: var(--transition-accordion);
 			padding-top: 16px;
@@ -26,8 +27,11 @@
 		height:100%;
 		.sidebar{
 			width:300px;
-			position:relative;
+			position:fixed;
 			z-index:100001;
+			border-right: 1px solid var(--border-color);
+			height: calc(100% - 50px) !important;
+			overflow-y: auto;
 		}
 	}
 	&.active{
@@ -40,6 +44,10 @@
 			}
 		}
 	}
+}
+
+.editButton {
+	composes: line from "../shared/buttons.pcss";
 }
 
 .loaderWrap{
@@ -65,11 +73,28 @@
 	top:0;
 	left:0;
 	padding-left:305px;
+	background: var(--picker-bg);
 	iframe{
 		width:100%;
 		height:100%;
 		position:relative;
+		margin: 0 auto;
 		z-index:100003;
+		display: block;
+		&.iframeFull{
+
+		}
+		&.iframeTablet{
+			width: 768px;
+		}
+		&.iframeMobile{
+			width: 320px;
+		}
+		&.iframeMobile,
+		&.iframeTablet {
+			border-right: 1px solid var(--border-color);
+			border-left: 1px solid var(--border-color);
+		}
 	}
 }
 

@@ -1,0 +1,15 @@
+.container {
+	lost-center: 1900px;
+	padding-top: 5px;
+}
+
+.button{
+	composes: line from "../shared/buttons.pcss";
+}
+
+[data-live-edit="true"]{
+	.container {
+		display: block;
+		padding:10px;
+	}
+}

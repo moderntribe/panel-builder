@@ -105,7 +105,11 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
+				'heading.no_title' => __( 'No Title', 'modular-content' ),
+				'heading.editing_panels' => __( 'Editing Panels', 'modular-content' ),
 				'button.launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
+				'button.add_new' => __( 'Add a new panel', 'modular-content' ),
+				'button.cancel_add_new' => __( 'Go back to panel editor', 'modular-content' ),
 			]
 		];
 
@@ -214,6 +218,7 @@ class MetaBox {
 		];
 
 		$meta_box_data = apply_filters( 'modular_content_metabox_data', $meta_box_data, $post );
+		$json_encoded_panels = Util::json_encode( $collection );
 
 		include( Plugin::plugin_path( 'admin-views/meta-box-panels.php' ) );
 	}
@@ -248,8 +253,8 @@ class MetaBox {
 	 */
 	protected function filter_post_data( $post_data, $post, $submission ) {
 		$panels = isset( $submission[ 'panels' ] ) ? $submission[ 'panels' ] : [];
-		$cleaned = wp_slash( $panels ); // WP is going to unslash it in a moment
-		$post_data['post_content_filtered'] = $cleaned;
+		// the json string will come in slashed. WP is going to unslash it in a moment
+		$post_data['post_content_filtered'] = $panels;
 		return $post_data;
 	}
 
@@ -270,10 +275,6 @@ class MetaBox {
 		// make sure the submission is for the correct post (or a revision)
 		if ( ! isset( $submission['post_ID'] ) || ( $submission['post_ID'] != $post['ID'] && $post['post_parent'] != $submission['post_ID'] ) ) {
 			return false;
-		}
-
-		if ( empty( $submission[ self::PANELS_LOADED_FLAG ] ) ) {
-			return FALSE;
 		}
 
 		// don't do anything on auto-draft, bulk edit, or quick edit
