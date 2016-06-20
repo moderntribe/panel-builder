@@ -5,18 +5,21 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel } from '../actions/panels';
 import { UI_I18N } from '../globals/i18n';
+import { MODULAR_CONTENT, BLUEPRINTS } from '../globals/config';
 
 import Panel from './panel';
 import Button from './shared/button';
 import EditBar from './collection-edit-bar';
+import Picker from './picker';
 import blueprints from '../data/blueprint-multi.json';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		pickerActive: false,
 		liveEdit: false,
 		editText: UI_I18N['button.launch_edit'],
 	};
@@ -37,14 +40,14 @@ class PanelCollection extends Component {
 		return this.state.liveEdit ? (
 			<div className={styles.iframe}>
 				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe src={window.ModularContent.preview_url} />
+				<iframe src={MODULAR_CONTENT.preview_url} />
 			</div>
 		) : null;
 	}
 
 	getPanels() {
-		return _.map(this.props.panels, (panel, i) => {
-			const blueprint = _.find(blueprints, { type: panel.type });
+		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
+			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
 			return (
 				<Panel
 					{...blueprint}
@@ -57,7 +60,7 @@ class PanelCollection extends Component {
 					updatePanelData={this.props.updatePanelData}
 				/>
 			);
-		});
+		}) : null;
 	}
 
 	@autobind
@@ -90,6 +93,28 @@ class PanelCollection extends Component {
 
 	heartbeat = () => {};
 
+	@autobind
+	togglePicker(pickerActive) {
+		this.setState({ pickerActive });
+	}
+
+	renderEditLaunch() {
+		let EditLaunch = null;
+		if (!this.state.liveEdit) {
+			EditLaunch = (
+				<Button
+					text={UI_I18N['button.launch_edit']}
+					handleClick={this.swapEditMode}
+					icon="dashicons-welcome-view-site"
+					bare
+					classes={styles.editButton}
+				/>
+			);
+		}
+
+		return EditLaunch;
+	}
+
 	render() {
 		const collectionClasses = classNames({
 			[styles.main]: true,
@@ -103,14 +128,14 @@ class PanelCollection extends Component {
 				{this.getBar()}
 				<div className={styles.sidebar}>
 					{this.getPanels()}
-					<Button
-						text={this.state.editText}
-						primary={false}
-						handleClick={this.swapEditMode}
+					<Picker
+						handlePickerUpdate={this.togglePicker}
+					    handleAddPanel={this.props.addNewPanel}
 					/>
+					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}
-				<input ref="data" type="hidden" name="panels" value={JSON.stringify(this.props.panels)} />
+				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify(this.props.panels)} />
 			</div>
 		);
 	}
@@ -121,18 +146,21 @@ const mapStateToProps = (state) => ({ panels: state.panelData.panels });
 const mapDispatchToProps = (dispatch) => ({
 	movePanel: (data) => dispatch(movePanel(data)),
 	updatePanelData: (data) => dispatch(updatePanelData(data)),
+	addNewPanel: (data) => dispatch(addNewPanel(data)),
 });
 
 PanelCollection.propTypes = {
 	panels: PropTypes.array,
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
+	addNewPanel: PropTypes.func.isRequired,
 };
 
 PanelCollection.defaultProps = {
 	panels: [],
 	movePanel: () => {},
 	updatePanelData: () => {},
+	addNewPanel: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PanelCollection);

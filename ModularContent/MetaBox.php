@@ -106,6 +106,8 @@ class MetaBox {
 		$js_i18n_array = [
 			'ui' => [
 				'button.launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
+				'button.add_new' => __( 'Add a new panel', 'modular-content' ),
+				'button.cancel_add_new' => __( 'Go back to panel editor', 'modular-content' ),
 			]
 		];
 

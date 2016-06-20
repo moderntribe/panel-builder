@@ -1,5 +1,6 @@
 export const MOVE_PANEL = 'MOVE_PANEL';
 export const UPDATE_PANEL_DATA = 'UPDATE_PANEL_DATA';
+export const ADD_PANEL = 'ADD_PANEL';
 
 function movePanelInData(data) {
 	return {
@@ -23,3 +24,13 @@ export function updatePanelData(data) {
 	return dispatch => dispatch(updatePanel(data));
 }
 
+function addPanel(data) {
+	return {
+		type: ADD_PANEL,
+		data,
+	};
+}
+
+export function addNewPanel(data) {
+	return dispatch => dispatch(addPanel(data));
+}

@@ -1,10 +1,17 @@
 import {
+	ADD_PANEL,
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
 } from '../actions/panels';
 
+import { PANELS } from '../globals/config';
+
 // import update from 'react/lib/update';
-import initialData from '../data/panel-data-multi.json';
+// import initialData from '../data/panel-data-multi.json';
+
+const initialData = {
+	panels: PANELS,
+};
 
 // when needing deep update can do like yo:
 // let newState = update(state, {
@@ -19,12 +26,21 @@ import initialData from '../data/panel-data-multi.json';
 
 /* eslint-disable */
 export function panelData(state = initialData, action) {
+	const newState = state;
 	switch (action.type) {
+	case ADD_PANEL:
+		newState.panels.push({
+			type: action.data.type,
+			depth: 0,
+			data: {},
+		});
+
+		return newState;
+
 	case MOVE_PANEL:
 		return state;
 
 	case UPDATE_PANEL_DATA:
-		let newState = state;
 		if (action.data.parent) {
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
 		} else {

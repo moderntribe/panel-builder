@@ -1,0 +1,42 @@
+@import '../../shared/colors.pcss';
+@import '../../shared/spacing.pcss';
+@import '../../shared/transitions.pcss';
+@import '../../shared/mq.pcss';
+
+.container {
+	padding: 17px;
+	background: var(--picker-bg);
+	border: 1px solid var(--picker-border);
+	cursor: pointer;
+	h4 {
+		margin: 0 0 10px;
+		color: var(--picker-label);
+		font-size: 15px;
+		font-weight: 600;
+	}
+	p {
+		color: var(--picker-description);
+		font-size: 12px;
+	}
+	figure {
+		padding: 0;
+		margin: 0;
+		border: 1px solid var(--picker-border);
+		img {
+			width: 100%;
+			display: block;
+		}
+	}
+	@media (--viewport-medium) {
+		lost-column: 1/2 0 0;
+	}
+	@media (--viewport-full) {
+		lost-column: 1/3 0 0;
+	}
+}
+
+[data-live-edit="true"]{
+	.container {
+		lost-column: 1/1 0 0;
+	}
+}

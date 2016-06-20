@@ -10,7 +10,7 @@
 	position:relative;
 	background:#fff;
 	.sidebar {
-		> button {
+		> button:not(.editButton) {
 			left:0;
 			transition: var(--transition-accordion);
 			padding-top: 16px;
@@ -40,6 +40,10 @@
 			}
 		}
 	}
+}
+
+.editButton {
+	composes: line from "../shared/buttons.pcss";
 }
 
 .loaderWrap{
