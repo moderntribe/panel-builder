@@ -117,7 +117,6 @@ class PostListPostSelected extends Component {
 						text="Cancel"
 						handleClick={this.handleCancelClick}
 						full={false}
-						view="tertiary"
 					/>
 				</footer>
 			</article>
