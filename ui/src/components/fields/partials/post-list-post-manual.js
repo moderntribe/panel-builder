@@ -39,7 +39,6 @@ class PostListPostManual extends Component {
 		});
 
 		frame.on('open', () => {
-			const selection = frame.state().get('selection');
 		});
 
 		frame.on('select', () => {

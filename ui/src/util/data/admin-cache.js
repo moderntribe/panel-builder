@@ -5,11 +5,14 @@ export function addImage(attachment) {
 	if (!ADMIN_CACHE.images) {
 		ADMIN_CACHE.images = [];
 	}
-	ADMIN_CACHE.images.push(attachment);
+	const imageInCache = _.find(ADMIN_CACHE.images, { id: attachment.id });
+	if (!imageInCache) {
+		ADMIN_CACHE.images.push(attachment);
+	}
 }
 
 export function getImageById(id) {
-	return _.find(ADMIN_CACHE.images, { id: id });
+	return _.find(ADMIN_CACHE.images, { id });
 }
 
 export function addPost(post) {

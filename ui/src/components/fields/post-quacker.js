@@ -75,16 +75,22 @@ class PostQuacker extends Component {
 	 */
 
 	getEditorTemplate() {
+		const editorClasses = classNames({
+			'wp-core-ui': true,
+			'wp-editor-wrap': true,
+			'tmce-active': true,
+		});
 		return (
 			<div
 				id={`wp-${this.fid}-wrap`}
 				ref={this.fid}
-				className="wp-core-ui wp-editor-wrap tmce-active"
+				className={editorClasses}
 			>
 				<RichtextEditor
 					fid={this.fid}
 					name={`${this.fid}-content`}
 					buttons={false}
+					strings={this.props.strings}
 					data={this.state.content}
 				/>
 			</div>
@@ -142,8 +148,10 @@ class PostQuacker extends Component {
 		const Editor = this.getEditorTemplate();
 		const image = AdminCache.getImageById(this.state.image);
 		let imagePath = '';
+
 		if (image) {
-			imagePath = image.full;
+			const firstSize = _.values(image.sizes)[0];
+			imagePath = firstSize.url;
 		}
 
 		return (
