@@ -75,11 +75,16 @@ class PostQuacker extends Component {
 	 */
 
 	getEditorTemplate() {
+		const editorClasses = classNames({
+			'wp-core-ui': true,
+			'wp-editor-wrap': true,
+			'tmce-active': true,
+		});
 		return (
 			<div
 				id={`wp-${this.fid}-wrap`}
 				ref={this.fid}
-				className="wp-core-ui wp-editor-wrap tmce-active"
+				className={editorClasses}
 			>
 				<RichtextEditor
 					fid={this.fid}
