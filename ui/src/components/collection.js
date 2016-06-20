@@ -80,9 +80,9 @@ class PanelCollection extends Component {
 	 */
 	runDataHeartbeat() {
 		const dataInput = ReactDOM.findDOMNode(this.refs.data);
-		let oldData = JSON.stringify(this.props.panels);
+		let oldData = JSON.stringify(JSON.stringify({ panels: this.props.panels }));
 		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify(this.props.panels);
+			const newData = JSON.stringify(JSON.stringify({ panels: this.props.panels }));
 			if (oldData === newData) {
 				return;
 			}
@@ -135,7 +135,7 @@ class PanelCollection extends Component {
 					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}
-				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify(this.props.panels)} />
+				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
 			</div>
 		);
 	}
