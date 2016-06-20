@@ -89,8 +89,9 @@ class PanelContainer extends Component {
 	handleHeights() {
 		if (!this.state.active) {
 			_.delay(() => {
+				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
-				fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;
+				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
 				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
 			}, 50);
 		} else {

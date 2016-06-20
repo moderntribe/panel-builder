@@ -13,7 +13,6 @@ import Panel from './panel';
 import Button from './shared/button';
 import EditBar from './collection-edit-bar';
 import Picker from './picker';
-import blueprints from '../data/blueprint-multi.json';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
@@ -54,6 +53,7 @@ class PanelCollection extends Component {
 					{...panel}
 					key={`panel-${i}`}
 					index={i}
+					panelCount={this.props.panels.length}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.panelsActive}
 					movePanel={this.props.movePanel}
@@ -130,7 +130,7 @@ class PanelCollection extends Component {
 					{this.getPanels()}
 					<Picker
 						handlePickerUpdate={this.togglePicker}
-					    handleAddPanel={this.props.addNewPanel}
+						handleAddPanel={this.props.addNewPanel}
 					/>
 					{this.renderEditLaunch()}
 				</div>

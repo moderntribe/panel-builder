@@ -4,6 +4,7 @@
 @import '../../shared/mq.pcss';
 
 @lost flexbox flex;
+@lost gutter 10px;
 
 .container {
 	padding: 17px;
@@ -30,15 +31,19 @@
 		}
 	}
 	@media (--viewport-medium) {
-		lost-column: 1/2 0 0;
+		lost-column: 1/2;
+		margin-bottom: 10px;
 	}
 	@media (--viewport-large) {
-		lost-column: 1/3 0 0;
+		lost-column: 1/3;
 	}
 }
 
 [data-live-edit="true"]{
 	.container {
-		lost-column: 1/1 0 0;
+		display: block;
+		flex: none;
+		width: 100%;
+		float:none;
 	}
 }

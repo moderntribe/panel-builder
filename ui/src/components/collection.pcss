@@ -1,4 +1,5 @@
 @import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
 
 :root {
 	--fontSize: 1rem;
@@ -28,6 +29,9 @@
 			width:300px;
 			position:relative;
 			z-index:100001;
+			border-right: 1px solid var(--border-color);
+			height: calc(100% - 50px) !important;
+			overflow-y: auto;
 		}
 	}
 	&.active{
