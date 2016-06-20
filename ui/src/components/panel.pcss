@@ -57,8 +57,19 @@
 	}
 }
 
+.noTitle{
+	font-weight: 400;
+	font-style: italic;
+}
+
+.type {
+	font-size: 12px;
+	color: var(--panel-type-heading);
+}
+
 .arrow{
 	composes: arrow from "../shared/accordion.pcss";
+	top: 22px;
 }
 
 .header{
@@ -86,7 +97,7 @@
 		transform: translate(-100%, 0);
 	}
 	&.fieldsEdit{
-		height:calc(100vh - 64px);
+		height:calc(100vh - 50px);
 		overflow-y: auto;
 		&[data-show-children="true"]{
 			overflow: visible;

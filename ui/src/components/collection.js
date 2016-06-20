@@ -20,6 +20,7 @@ class PanelCollection extends Component {
 		active: false,
 		pickerActive: false,
 		liveEdit: false,
+		mode: 'full',
 		editText: UI_I18N['button.launch_edit'],
 	};
 
@@ -32,14 +33,26 @@ class PanelCollection extends Component {
 	}
 
 	getBar() {
-		return this.state.liveEdit ? <EditBar /> : null;
+		return this.state.liveEdit ? (
+			<EditBar
+				handleCancelClick={this.swapEditMode}
+				handleResizeClick={this.swapResizeMode}
+			/>
+		) : null;
 	}
 
 	getIframe() {
+		const iframeClasses = classNames({
+			[styles.iframeFull]: this.state.mode === 'full',
+			[styles.iframeTablet]: this.state.mode === 'tablet',
+			[styles.iframeMobile]: this.state.mode === 'mobile',
+			'panel-preview-iframe': true,
+		});
+		
 		return this.state.liveEdit ? (
 			<div className={styles.iframe}>
 				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe src={MODULAR_CONTENT.preview_url} />
+				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
 			</div>
 		) : null;
 	}
@@ -66,6 +79,11 @@ class PanelCollection extends Component {
 	@autobind
 	swapEditMode() {
 		this.setState({ liveEdit: !this.state.liveEdit });
+	}
+	
+	@autobind
+	swapResizeMode(mode) {
+		this.setState({ mode });
 	}
 
 	@autobind
