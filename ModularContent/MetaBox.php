@@ -251,16 +251,8 @@ class MetaBox {
 	 */
 	protected function filter_post_data( $post_data, $post, $submission ) {
 		$panels = isset( $submission[ 'panels' ] ) ? $submission[ 'panels' ] : [];
-		if ( is_string( $panels ) ) {
-			// the json string will come in slashed
-			$panels = json_decode( wp_unslash( $panels ), true );
-		}
-		if ( is_array( $panels ) && !isset( $panels[ 'panels' ] ) ) {
-			$panels = [ 'panels' => $panels ];
-		}
-		$json = Util::json_encode( $panels );
-		$json = wp_slash( $json ); // WP is going to unslash it in a moment
-		$post_data['post_content_filtered'] = $json;
+		// the json string will come in slashed. WP is going to unslash it in a moment
+		$post_data['post_content_filtered'] = $panels;
 		return $post_data;
 	}
 
