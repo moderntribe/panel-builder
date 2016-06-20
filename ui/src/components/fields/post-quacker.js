@@ -148,8 +148,10 @@ class PostQuacker extends Component {
 		const Editor = this.getEditorTemplate();
 		const image = AdminCache.getImageById(this.state.image);
 		let imagePath = '';
+
 		if (image) {
-			imagePath = image.full;
+			const firstSize = _.values(image.sizes)[0];
+			imagePath = firstSize.url;
 		}
 
 		return (
