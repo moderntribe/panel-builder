@@ -12,7 +12,7 @@ export function addImage(attachment) {
 }
 
 export function getImageById(id) {
-	return _.find(ADMIN_CACHE.images, { id: id });
+	return _.find(ADMIN_CACHE.images, { id });
 }
 
 export function addPost(post) {
