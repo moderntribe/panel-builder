@@ -85,6 +85,7 @@ class PostQuacker extends Component {
 					fid={this.fid}
 					name={`${this.fid}-content`}
 					buttons={false}
+					strings={this.props.strings}
 					data={this.state.content}
 				/>
 			</div>

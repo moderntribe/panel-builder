@@ -61,6 +61,8 @@ class PostQuacker extends Field {
 			'placeholder.url'              => __( 'URL', 'modular-content' ), // passed to the Link
 			'tab.selection'                => __( 'Selection', 'modular-content' ),
 			'tab.manual'                   => __( 'Manual', 'modular-content' ),
+			'tab.visual' 				   => __( 'Visual', 'modular-content' ),
+			'tab.text'   				   => __( 'Text', 'modular-content' ),
 		];
 		parent::__construct( $args );
 	}
