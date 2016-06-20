@@ -80,9 +80,9 @@ class PanelCollection extends Component {
 	 */
 	runDataHeartbeat() {
 		const dataInput = ReactDOM.findDOMNode(this.refs.data);
-		let oldData = JSON.stringify(JSON.stringify({ panels: this.props.panels }));
+		let oldData = JSON.stringify({ panels: this.props.panels });
 		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify(JSON.stringify({ panels: this.props.panels }));
+			const newData = JSON.stringify({ panels: this.props.panels });
 			if (oldData === newData) {
 				return;
 			}
