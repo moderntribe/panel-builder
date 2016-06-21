@@ -84,7 +84,7 @@ describe('Checkbox field', () => {
 		const wrapper = mount(<Checkbox description="This is a test description" name="layout" label="Some test label" options={OPTIONS1} default={DEFAULT1} />);
 		expect(wrapper.find('ul').find('li')).to.have.length(3);
 		expect(wrapper.find('ul li').first().find('input[type="checkbox"]')).to.have.length(1);
-		expect(wrapper.find('ul li').first().find('input[type="checkbox"]').props().value).to.equal('1');
+		expect(wrapper.find('ul li').first().find('input[type="checkbox"]').props().value).to.equal('standard');
 		expect(wrapper.find('ul li').first().find('label').text()).to.eql('Standard');
 	});
 
