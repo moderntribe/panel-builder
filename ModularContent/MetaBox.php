@@ -105,11 +105,16 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
-				'heading.no_title' => __( 'No Title', 'modular-content' ),
-				'heading.editing_panels' => __( 'Editing Panels', 'modular-content' ),
-				'button.launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
-				'button.add_new' => __( 'Add a new panel', 'modular-content' ),
-				'button.cancel_add_new' => __( 'Go back to panel editor', 'modular-content' ),
+				'heading.no_title'        => __( 'No Title', 'modular-content' ),
+				'heading.editing_panels'  => __( 'Editing Panels', 'modular-content' ),
+				'button.launch_edit'      => __( 'Edit in Live Preview', 'modular-content' ),
+				'button.add_new'          => __( 'Add a new panel', 'modular-content' ),
+				'button.cancel_add_new'   => __( 'Go back to panel editor', 'modular-content' ),
+
+				// panel sets
+				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
+				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
+				'message.template_saved'  => __( 'Panel Set Saved Successfully', 'modular-content' ),
 			]
 		];
 

@@ -9,6 +9,8 @@ class Initializer {
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		add_action( 'admin_init', [ $this, 'register_capabilities' ] );
 		add_action( 'admin_init', [ $this, 'register_meta_boxes' ] );
+		add_action( 'admin_init', [ $this, 'register_template_data' ] );
+		add_action( 'admin_init', [ $this, 'register_template_saver' ] );
 	}
 
 	public function register_post_type() {
@@ -62,5 +64,15 @@ class Initializer {
 			'priority' => 'low',
 		]);
 		$preview_image->hook();
+	}
+
+	public function register_template_data() {
+		$picker = new Template_Data();
+		$picker->hook();
+	}
+
+	public function register_template_saver() {
+		$saver = new Template_Saver();
+		$saver->hook();
 	}
 }

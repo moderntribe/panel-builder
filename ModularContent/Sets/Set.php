@@ -28,8 +28,8 @@ class Set implements \JsonSerializable {
 		return array(
 			'id' => $this->post_id,
 			'label' => $this->get_label(),
-			'thumbnail' => $this->get_thumbnail_html(),
-			'preview' => $this->get_preview_image_html( 'panel-set-preview' ),
+			'thumbnail' => $this->get_thumbnail_src(),
+			'preview' => $this->get_preview_image_src( 'panel-set-preview' ),
 			'template' => $this->get_template(),
 			'description' => $this->get_description(),
 		);
@@ -45,13 +45,23 @@ class Set implements \JsonSerializable {
 	 * @param string $size
 	 * @return string
 	 */
-	public function get_thumbnail_html( $size = 'thumbnail' ) {
+	public function get_thumbnail_src( $size = 'thumbnail' ) {
+		$thumbnail_id = 0;
 		if ( $this->post_id ) {
-			return get_the_post_thumbnail( $this->post_id, $size );
-		} else {
-			$image_url = plugins_url( 'assets/make-your-own-panel-icon.png', __DIR__ );
-			return sprintf( '<img src="%s" alt="" />', esc_url( $image_url ) );
+			$thumbnail_id = get_post_thumbnail_id( $this->post_id );
 		}
+
+		$src = \ModularContent\Plugin::plugin_url( 'assets/images/make-your-own-panel-icon.png' );
+
+		if ( $thumbnail_id ) {
+			$image = wp_get_attachment_image_src( $thumbnail_id, $size );
+			if ( $image ) {
+				$src = $image[0];
+			}
+		}
+
+		$src = apply_filters( 'panel_set_thumbnail_image', $src, $this->post_id );
+		return $src;
 	}
 
 	public function get_preview_image_id() {
@@ -62,8 +72,16 @@ class Set implements \JsonSerializable {
 		update_post_meta( $this->post_id, self::META_KEY_PREVIEW_IMAGE_ID, $image_id );
 	}
 
-	public function get_preview_image_html( $size = 'thumbnail' ) {
-		return $this->post_id ? wp_get_attachment_image( $this->get_preview_image_id(), $size ) : '';
+	public function get_preview_image_src( $size = 'thumbnail' ) {
+		$image_id = $this->get_preview_image_id();
+		$src = '';
+		if ( $image_id ) {
+			$image = wp_get_attachment_image_src( $image_id, $size );
+			if ( $image ) {
+				$src = $image[0];
+			}
+		}
+		return apply_filters( 'panel_set_preview_image', $src, $this->post_id );
 	}
 
 	/**
@@ -119,38 +137,17 @@ class Set implements \JsonSerializable {
 	 * @return string
 	 */
 	public function get_description() {
-		$description = '<h2>'.$this->get_label().'</h2>';
+		return $this->get_excerpt();
+	}
+
+	public function get_excerpt() {
 		if ( $this->post_id ) {
 			$post = get_post( $this->post_id );
 			$excerpt = $post->post_excerpt;
 		} else {
 			$excerpt = '';
 		}
-		if ( $excerpt ) {
-			$description .= '<div class="panel-set-excerpt">'.$excerpt.'</div>';
-		}
-		$template = $this->get_template();
-		$description .= '<div class="panel-set-details"><h5>'.__('Panels:', 'tribe').'</h5>'.$this->panel_set_to_list( $template->panels() ).'</div>';
-		return $description;
-	}
-
-	/**
-	 * @param \ModularContent\Panel[] $panels
-	 *
-	 * @return string
-	 */
-	private function panel_set_to_list( $panels ) {
-		$html = '';
-		if ( empty( $panels ) ) {
-			return '<p>'.__('There are currently no panels saved for this panel set.', 'tribe').'</p>';
-		}
-		foreach ( $panels as $panel ) {
-			$html .= sprintf('<p class="depth-%d">', $panel->get_depth());
-			$type = $panel->get_type_object();
-			$html .= $type->get_label();
-			$html .= '</p>';
-		}
-		return $html;
+		return apply_filters( 'panel_set_excerpt', $excerpt, $this->post_id );
 	}
 
 } 
