@@ -26,13 +26,6 @@ class Image extends Component {
 			},
 		});
 
-		frame.on('open', () => {
-			const selection = frame.state().get('selection');
-			console.log(selection);
-
-			// todo when hooking up store and have current image load selection
-		});
-
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			if (attachment.sizes[this.props.size]) {

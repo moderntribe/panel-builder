@@ -212,6 +212,7 @@ class PostList extends Component {
 								strings={this.props.strings}
 								postTitle={data.post_title}
 								postContent={data.post_content}
+								imageId={parseInt(data.thumbnail_id)}
 								postUrl={data.url}
 								handleCancelClick={this.handleCancelClick}
 								handleAddClick={this.handleAddUpdateClick}
@@ -630,6 +631,11 @@ class PostList extends Component {
 					data.post_title = e.state.postTitle; // eslint-disable-line no-param-reassign
 					data.post_content = e.state.postContent; // eslint-disable-line no-param-reassign
 					data.url = e.state.postUrl; // eslint-disable-line no-param-reassign
+					if(e.state.imageId) {
+						data.thumbnail_id = e.state.imageId.toString(); // eslint-disable-line no-param-reassign
+					} else {
+						data.thumbnail_id = '';
+					}
 					data.id = ''; // eslint-disable-line no-param-reassign
 				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
 					// only have id at this point... uses preview to retrieve the post data
@@ -737,6 +743,7 @@ class PostList extends Component {
 			post_title: post.post_title,
 			post_excerpt: post.post_content,
 			permalink: post.url,
+			thumbnail_id: post.thumbnail_id,
 			ID: parseInt(post.id, 10),
 		};
 	}

@@ -15,7 +15,7 @@ class PostListPostManual extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: '',
+			imageId: this.props.imageId,
 			postTitle: this.props.postTitle,
 			postContent: this.props.postContent,
 			postUrl: this.props.postUrl,
@@ -44,8 +44,7 @@ class PostListPostManual extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			AdminCache.addImage(attachment);
-			const firstSize = _.values(attachment.sizes)[0];
-			this.setState({ image: firstSize.url });
+			this.setState({ imageId: attachment.id });
 		});
 
 		frame.open();
@@ -58,7 +57,7 @@ class PostListPostManual extends Component {
 	 */
 	@autobind
 	handleRemoveMedia() {
-		this.setState({ image: '' });
+		this.setState({ imageId: null });
 	}
 
 	@autobind
@@ -111,6 +110,16 @@ class PostListPostManual extends Component {
 			[styles.url]: true,
 		});
 
+		// get image from image cache
+		let imgPath = '';
+		if(this.state.imageId) {
+			const image = AdminCache.getImageById(this.state.imageId);
+			if(image) {
+				const firstSize = _.values(image.sizes)[0];
+				imgPath = firstSize.url;
+			}
+		}
+
 		return (
 			<article className={styles.wrapper}>
 				<input
@@ -139,7 +148,7 @@ class PostListPostManual extends Component {
 				<MediaUploader
 					label={this.props.label}
 					size="large"
-					file={this.state.image}
+					file={imgPath}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
@@ -165,6 +174,7 @@ class PostListPostManual extends Component {
 
 
 PostListPostManual.propTypes = {
+	imageId: PropTypes.number,
 	postTitle: PropTypes.string,
 	postContent: PropTypes.string,
 	postUrl: PropTypes.string,
@@ -176,6 +186,7 @@ PostListPostManual.propTypes = {
 };
 
 PostListPostManual.defaultProps = {
+	imageId: null,
 	postTitle: '',
 	postContent: '',
 	postUrl: '',
