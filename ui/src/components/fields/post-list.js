@@ -14,6 +14,7 @@ import PostListPostSelected from './partials/post-list-post-selected';
 import PostListQueryTaxonomyFilter from './partials/post-list-query-taxonomy-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
+import PostListMaxChooser from './partials/post-list-max-chooser';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
@@ -33,6 +34,7 @@ class PostList extends Component {
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
 			filterValue: '',
+			max: this.props.data.max ? parseInt(this.props.data.max): this.props.suggested,		// assume a string
 		};
 	}
 
@@ -91,6 +93,7 @@ class PostList extends Component {
 			filters,
 			type: this.state.type,
 			posts: this.state.manualPostData,
+			max : this.state.max.toString(),
 		};
 	}
 
@@ -444,7 +447,7 @@ class PostList extends Component {
 		return (
 			<div className={tabClasses}>
 				<div className={styles.row}>
-					<label className={styles.tabLabel}>{this.props.strings['label.content_type']}</label>
+					<label className={styles.label}>{this.props.strings['label.content_type']}</label>
 					<ReactSelect
 						options={this.props.post_type}
 						name={_.uniqueId('post-list-type-')}
@@ -456,6 +459,17 @@ class PostList extends Component {
 				</div>
 
 				<div className={styles.row}>
+					<PostListMaxChooser
+						label="Max"
+						onChange={this.handleMaxChange}
+						min={this.props.min}
+						max={this.props.max}
+						maxSelected={this.state.max}
+					/>
+				</div>
+
+				<div className={styles.row}>
+					<label className={styles.label}>{this.props.strings['label.filters']}</label>
 					<ReactSelect
 						options={this.getFilterOptions()}
 						name={_.uniqueId('post-list-filter-')}
@@ -566,6 +580,18 @@ class PostList extends Component {
 			this.setState({
 				filterValue: e.value,
 				filters,
+			});
+		}
+	}
+
+	@autobind
+	handleMaxChange(e) {
+		const max = e.value;
+		if (max) {
+			this.setState({
+				max
+			}, () => {
+				this.initiateUpdatePanelData();
 			});
 		}
 	}
