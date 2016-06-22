@@ -362,18 +362,24 @@ class PostList extends Component {
 	}
 
 	/**
-	 * Build out posts to display
+	 * Build out posts to display limit by the max number fo posts
 	 *
 	 * @method getFilteredPosts
 	 */
 	getFilteredPosts() {
 		const keys = _.keys(this.state.queryPosts);
-		const posts = _.map(keys, (key) =>
-			<PostPreviewContainer
-				key={_.uniqueId('query-post-preview-')}
-				post={this.state.queryPosts[key]}
-			/>
-		);
+		const posts = _.map(keys, (key, index) => {
+			if (index < this.state.max) {
+				return (
+					<PostPreviewContainer
+						key={_.uniqueId('query-post-preview-')}
+						post={this.state.queryPosts[key]}
+					/>
+				);
+			} else {
+				return null;
+			}
+		});
 		return (
 			<div>
 				{posts}
@@ -443,7 +449,6 @@ class PostList extends Component {
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'query',
 		});
-
 		return (
 			<div className={tabClasses}>
 				<div className={styles.row}>
@@ -457,7 +462,7 @@ class PostList extends Component {
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
-
+				{this.props.show_max_control &&
 				<div className={styles.row}>
 					<PostListMaxChooser
 						label="Max"
@@ -466,8 +471,7 @@ class PostList extends Component {
 						max={this.props.max}
 						maxSelected={this.state.max}
 					/>
-				</div>
-
+				</div>}
 				<div className={styles.row}>
 					<label className={styles.label}>{this.props.strings['label.filters']}</label>
 					<ReactSelect
