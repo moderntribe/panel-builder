@@ -465,8 +465,8 @@ class PostList extends Component {
 				{this.props.show_max_control &&
 				<div className={styles.row}>
 					<PostListMaxChooser
-						label="Max"
 						onChange={this.handleMaxChange}
+						strings={this.props.strings}
 						min={this.props.min}
 						max={this.props.max}
 						maxSelected={this.state.max}

@@ -6,7 +6,6 @@ import _ from 'lodash';
 import styles from './post-list-max-chooser.pcss';
 
 class PostListMaxChooser extends Component {
-
 	@autobind
 	handleMaxChange(value) {
 		this.props.onChange(value);
@@ -26,12 +25,13 @@ class PostListMaxChooser extends Component {
 	render() {
 		return (
 			<div>
-				<label className={styles.label}>{this.props.label}</label>
+				<label className={styles.label}>{this.props.strings['label.max_results']}</label>
 				<span className={styles.inputContainer}>
 					<ReactSelect
 						value={this.props.maxSelected}
 						options={this.getOptions()}
 						onChange={this.handleMaxChange}
+						clearable={false}
 					/>
 				</span>
 		</div>
@@ -44,11 +44,9 @@ PostListMaxChooser.propTypes = {
 	min: PropTypes.number,
 	maxSelected: PropTypes.number,
 	onChange: PropTypes.func,
-	label: PropTypes.string,
 };
 
 PostListMaxChooser.defaultProps = {
-	label: "Max",
 	max: 10,
 	min: 1,
 	maxSelected: 5,
