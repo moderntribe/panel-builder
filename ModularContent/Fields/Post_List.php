@@ -560,7 +560,7 @@ class Post_List extends Field {
 		return $query;
 	}
 
-	protected function get_p2p_filtered_ids( $connection_id, $post_ids ) {
+	protected static function get_p2p_filtered_ids( $connection_id, $post_ids ) {
 		$connected = get_posts( [
 			'suppress_filters' => false,
 			'connected_type'   => $connection_id,

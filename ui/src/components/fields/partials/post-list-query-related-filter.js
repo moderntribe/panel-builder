@@ -4,14 +4,34 @@ import ReactSelect from 'react-select-plus';
 import request from 'superagent';
 import param from 'jquery-param';
 
+import * as AdminCache from '../../../util/data/admin-cache';
+
 import styles from './post-list-query-related-filter.pcss';
 
 class PostListQueryRelatedFilter extends Component {
 	state = {
 		postTypes: [],
-		postId: null,
-		post: '',
+		post: this.props.selection ? parseInt(this.props.selection) : '',
+		isSavedSelection: Boolean(this.props.selection),
 	};
+	noResults = {
+		options: [{
+			value: 0,
+			label: 'No Results',
+		}],
+	};
+
+	componentWillMount() {
+		if (this.state.isSavedSelection){
+			const cachedPost = AdminCache.getPostById(parseInt(this.props.selection));
+			if (cachedPost){
+				this.noResults.options.push({
+					value: cachedPost.ID,
+					label: cachedPost.post_title,
+				});
+			}
+		}
+	}
 
 	/**
 	 * Get search params for posts limited by type
@@ -56,13 +76,6 @@ class PostListQueryRelatedFilter extends Component {
 		});
 	}
 
-	noResults = {
-		options: [{
-			value: 0,
-			label: 'No Results',
-		}],
-	};
-
 	@autobind
 	handleTypeChange(postTypes) {
 		if (postTypes) {
@@ -83,11 +96,10 @@ class PostListQueryRelatedFilter extends Component {
 		this.setState({
 			post,
 		}, () => {
-			const selection = post;
 			this.props.onChangeRelatedPosts({
 				state: this.state,
 				filterID: this.props.filterID,
-				selection,
+				selection: post.toString(),
 			});
 		});
 	}
@@ -116,7 +128,6 @@ class PostListQueryRelatedFilter extends Component {
 					/>
 					<ReactSelect.Async
 						value={this.state.post}
-						disabled={this.state.postTypes.length === 0}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
 						placeholder="Get Related Post"
@@ -134,6 +145,7 @@ PostListQueryRelatedFilter.propTypes = {
 	postTypes: PropTypes.array,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
+	selection: PropTypes.string,
 };
 
 PostListQueryRelatedFilter.defaultProps = {
@@ -142,6 +154,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	postTypes: [],
 	filterID: '',
 	label: '',
+	selection: null,
 };
 
 export default PostListQueryRelatedFilter;

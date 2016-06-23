@@ -134,7 +134,7 @@
                 "post"
               ]
             },
-            "xrelated_posts": {
+            "related_posts": {
               "selection": "1",
               "lock": "1"
             },

@@ -334,6 +334,7 @@ class PostList extends Component {
 					<PostListQueryRelatedFilter
 						key={filter.filterID} filterID={filter.filterID}
 						postTypes={postTypesArray} label={filter.label}
+						selection={filter.selection}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
 					/>
