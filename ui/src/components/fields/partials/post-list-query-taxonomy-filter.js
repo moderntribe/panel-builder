@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
+import _ from 'lodash';
 
 import styles from './post-list-query-taxonomy-filter.pcss';
 
@@ -8,8 +9,21 @@ class PostListQueryTaxonomyFilter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tags: [],
+			tags: this.getInitialTags(),
 		};
+	}
+
+	getInitialTags() {
+		let tags = [];
+		if (this.props.selection.length){
+			this.props.selection.forEach((selection) => {
+				const nxtOption = _.find(this.props.options, { value: parseInt(selection) });
+				if (nxtOption){
+					tags.push(nxtOption);
+				}
+			})
+		}
+		return tags;
 	}
 
 	broadcastDataChange() {
@@ -54,13 +68,12 @@ class PostListQueryTaxonomyFilter extends Component {
 				<span className={styles.inputContainer}>
 					<ReactSelect
 						value={this.state.tags}
-						name="query-taxonomy"
+						name={_.uniqueId("query-taxonomy")}
 						multi
 						options={this.props.options}
 						placeholder=""
 						onChange={this.handleTaxonomyChange}
 					/>
-
 				</span>
 			</div>
 		);
@@ -73,7 +86,7 @@ PostListQueryTaxonomyFilter.propTypes = {
 	options: PropTypes.array,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
-	selection: PropTypes.string,
+	selection: PropTypes.array,
 };
 
 PostListQueryTaxonomyFilter.defaultProps = {
@@ -82,7 +95,7 @@ PostListQueryTaxonomyFilter.defaultProps = {
 	options: [],
 	filterID: '',
 	label: '',
-	selection: '',
+	selection: [],
 };
 
 export default PostListQueryTaxonomyFilter;

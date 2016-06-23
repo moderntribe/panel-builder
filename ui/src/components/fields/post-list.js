@@ -322,7 +322,7 @@ class PostList extends Component {
 					<PostListQueryTaxonomyFilter
 						key={filter.filterID} filterID={filter.filterID} label={filter.label}
 						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
-						onRemoveClick={this.onRemoveFilter}
+						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
 					/>
 				);
 			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.P2P) {
