@@ -25,6 +25,7 @@ import styles from './post-list.pcss';
 import { POST_LIST_CONFIG } from '../../globals/config';
 
 class PostList extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -36,10 +37,11 @@ class PostList extends Component {
 			filterValue: '',
 			max: this.props.data.max ? parseInt(this.props.data.max): this.props.suggested,		// assume a string
 		};
+
 	}
 
 	componentWillMount() {
-		if (this.state.filters.length) {
+		if (this.state.filters.length || this.state.postTypes.length) {
 			this.getNewPosts();
 		}
 	}
@@ -61,6 +63,7 @@ class PostList extends Component {
 			filters,
 		}, () => {
 			this.getNewPosts();
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -78,23 +81,8 @@ class PostList extends Component {
 			filters,
 		}, () => {
 			this.getNewPosts();
+			this.initiateUpdatePanelData();
 		});
-	}
-
-	getValue() {
-		const filters = {};
-		for (const filter of this.state.filters) {
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
-			};
-		}
-		return {
-			filters,
-			type: this.state.type,
-			posts: this.state.manualPostData,
-			max : this.state.max.toString(),
-		};
 	}
 
 	/**
@@ -560,12 +548,14 @@ class PostList extends Component {
 				postTypes: types,
 			}, () => {
 				this.getNewPosts();
+				this.initiateUpdatePanelData();
 			});
 		} else {
 			this.setState({
 				postTypes: [],
 			}, () => {
 				this.getNewPosts();
+				this.initiateUpdatePanelData();
 			});
 		}
 	}
@@ -585,6 +575,8 @@ class PostList extends Component {
 			this.setState({
 				filterValue: e.value,
 				filters,
+			}, ()=> {
+				this.initiateUpdatePanelData();
 			});
 		}
 	}
@@ -730,6 +722,8 @@ class PostList extends Component {
 		});
 		this.setState({
 			manualPostData,
+		}, () => {
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -822,6 +816,33 @@ class PostList extends Component {
 			}
 		});
 		return filters;
+	}
+
+	getValue() {
+		const filters = {};
+		// add the post types
+		if (this.state.postTypes.length) {
+			const selection = _.map(this.state.postTypes, (postType) => {
+				return postType.value;
+			})
+			filters.post_type = {
+				selection,
+			};
+		}
+		// add other filters
+		for (const filter of this.state.filters) {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		}
+		const newValue = {
+			filters,
+			type: this.state.type,
+			posts: this.state.manualPostData,
+			max : this.state.max.toString(),
+		};
+		return newValue;
 	}
 
 	initiateUpdatePanelData() {
