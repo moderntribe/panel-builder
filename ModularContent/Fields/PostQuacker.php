@@ -239,6 +239,9 @@ class PostQuacker extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
+		if ( $data[ 'post_id' ] ) {
+			$cache->add_post( $data[ 'post_id' ] );
+		}
 		if ( $data[ 'image' ] ) {
 			$cache->add_image( $data[ 'image' ], 'thumbnail' );
 		}

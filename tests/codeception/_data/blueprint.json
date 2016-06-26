@@ -221,7 +221,9 @@
                     "placeholder.label": "Label",
                     "placeholder.url": "URL",
                     "tab.selection": "Selection",
-                    "tab.manual": "Manual"
+                    "tab.manual": "Manual",
+                    "tab.visual": "Visual",
+                    "tab.text": "Text"
                 },
                 "default": {
                     "type": "manual",
