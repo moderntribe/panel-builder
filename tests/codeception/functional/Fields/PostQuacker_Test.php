@@ -39,6 +39,8 @@ class PostQuacker_Test extends WPTestCase {
 				'placeholder.url'              => 'URL',
 				'tab.selection'                => 'Selection',
 				'tab.manual'                   => 'Manual',
+				'tab.visual'                   => 'Visual',
+				'tab.text'                     => 'Text',
 			],
 			'default'     => [
 				'type'    => 'manual',
