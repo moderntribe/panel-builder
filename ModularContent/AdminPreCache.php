@@ -20,6 +20,10 @@ class AdminPreCache implements \JsonSerializable {
 		if ( $post ) {
 			$this->posts[ $post_id ] = $post;
 		}
+		$thumbnail_id = get_post_thumbnail_id( $post_id );
+		if ( $thumbnail_id ) {
+			$this->add_image( $thumbnail_id, 'thumbnail' );
+		}
 	}
 
 	public function add_term( $term_id, $taxonomy ) {
