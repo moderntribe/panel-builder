@@ -40,6 +40,15 @@ class AdminPreCache implements \JsonSerializable {
 		}
 	}
 
+	public function get_cache() {
+		return [
+			'posts'  => $this->posts,
+			'terms'  => $this->terms,
+			'images' => $this->images,
+			'data'   => $this->data,
+		];
+	}
+
 	/**
 	 * (PHP 5 &gt;= 5.4.0)<br/>
 	 * Specify data which should be serialized to JSON
@@ -49,12 +58,7 @@ class AdminPreCache implements \JsonSerializable {
 	 * which is a value of any type other than a resource.
 	 */
 	public function jsonSerialize() {
-		return [
-			'posts'  => $this->posts,
-			'terms'  => $this->terms,
-			'images' => $this->images,
-			'data'   => $this->data,
-		];
+		return $this->get_cache();
 	}
 
 	/**
