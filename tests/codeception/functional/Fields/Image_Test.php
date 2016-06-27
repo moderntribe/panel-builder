@@ -3,6 +3,7 @@
 namespace ModularContent\Fields;
 
 use Codeception\TestCase\WPTestCase;
+use ModularContent\AdminPreCache;
 
 class Image_Test extends WPTestCase {
 	public function test_blueprint() {
@@ -33,5 +34,22 @@ class Image_Test extends WPTestCase {
 		];
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_precache() {
+		$file_path = codecept_data_dir( '300x250.png' );
+		$size = 'thumbnail';
+		$attachment = $this->factory()->attachment->create_upload_object( $file_path );
+		$cache = new AdminPreCache();
+		$field = new Image( [
+			'label'       => __FUNCTION__,
+			'name'        => __FUNCTION__,
+			'description' => __FUNCTION__,
+			'size'        => $size,
+		] );
+		$field->precache( $attachment, $cache );
+		$output = $cache->get_cache();
+		$this->assertCount( 1, $output[ 'images' ] );
+		$this->assertNotEmpty( $output[ 'images' ][ $attachment ][ $size ] );
 	}
 }
