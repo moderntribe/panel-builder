@@ -1,7 +1,10 @@
 // this is the config object supplied by wp to js. i simulate defaults here for what i need in here for the karma tests.
 
 export const CONFIG_DEFAULTS = {
-	blueprint: [],
+	blueprint: {
+		types: [],
+		categories: [],
+	},
 	cache: {},
 	media_buttons_html: '',
 	panels: [],
