@@ -1559,6 +1559,11 @@
   border-color: #d7d7d7;
 }
 
+/* line 2, ../sass/fields/_link.scss */
+.input-type-link .panel-input-description {
+  clear: left;
+}
+
 /**
  * Base
  */
