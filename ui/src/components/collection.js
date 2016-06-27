@@ -13,11 +13,13 @@ import Panel from './panel';
 import Button from './shared/button';
 import EditBar from './collection-edit-bar';
 import Picker from './picker';
+import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		paneSetPickerActive: false,
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
@@ -116,6 +118,11 @@ class PanelCollection extends Component {
 		this.setState({ pickerActive });
 	}
 
+	renderPanelSetPicker() {
+
+
+	}
+
 	renderEditLaunch() {
 		let EditLaunch = null;
 		if (!this.state.liveEdit) {
@@ -150,6 +157,7 @@ class PanelCollection extends Component {
 						handlePickerUpdate={this.togglePicker}
 						handleAddPanel={this.props.addNewPanel}
 					/>
+					<PanelSetsPicker />
 					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}

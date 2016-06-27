@@ -1,0 +1,51 @@
+@import '../shared/colors.pcss';
+
+
+.container {
+	lost-flex-container: row;
+	padding-top: 5px;
+}
+
+.h3 {
+	color: var(--panel-small-header);
+	font-size:18px;
+	text-transform: uppercase;
+	display: block;
+	width:100%;
+	text-align: center;
+
+	&:not(:first-of-type):before {
+		content: "";
+		position: relative;
+		display: block;
+		height: 1px;
+		border-bottom: 1px solid var(--border-color);
+		margin:10px 0 30px;
+		width: 100%;
+	}
+}
+
+.createIcon {
+	width:75px;
+	height:75px;
+	margin:0 auto 10px;
+	display: block;
+	background: url('../img/panel-sets/new-page-icon.png');
+}
+
+.createHeader {
+	font-size:22px;
+	width:100%;
+	text-align: center;
+}
+
+.newPage {
+	position: relative;
+	background-color: var(--panel-bg-color-alt);
+	padding: 20px;
+	border: 1px solid var(--border-color);
+	min-height:80px;
+	margin-bottom:10px;
+	display:block;
+	width:100%;
+}
