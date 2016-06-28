@@ -4,10 +4,10 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 
 import Button from './shared/button';
-import PanelPreview from './shared/panel-preview';
+import PanelSetPreview from './shared/panel-set-preview';
 
 import { UI_I18N } from '../globals/i18n';
-import { BLUEPRINTS } from '../globals/config';
+import { TEMPLATES } from '../globals/config';
 
 import styles from './panel-sets-picker.pcss';
 
@@ -25,15 +25,27 @@ class PanelSetsPicker extends Component {
 		return (
 			<div className={styles.newPage}>
 				<div className={styles.createIcon}></div>
-				<h2 className={styles.createHeader}>Create Page From Scratch</h2>
+				<h3 className={styles.createHeader}>Create Page From Scratch</h3>
 			</div>
 		);
 	}
 
+	@autobind
+	handleAddPanelSet(type) {
+		console.log("handleAddPanelSet")
+	}
+
 	renderPanelSets() {
+		const panels = _.map(TEMPLATES, (template, i) =>
+			<PanelSetPreview
+				key={`panel-preview-${i}`}
+				{...template}
+				handleAddPanelSet={this.handleAddPanelSet}
+			/>
+		);
 		return (
-			<div>
-				list of panel sets
+			<div className={styles.container}>
+				{panels}
 			</div>
 		);
 	}
@@ -45,9 +57,9 @@ class PanelSetsPicker extends Component {
 
 		return (
 			<div className={wrapperClasses}>
-				<h3 className={styles.h3}>Start a New Page</h3>
+				<h3 className={styles.actionHeader}>Start a New Page</h3>
 				{this.renderStartPageFromScratch()}
-				<h3 className={styles.h3}>Or Start from a Page Set</h3>
+				<h3 className={styles.actionHeader}>Or Start from a Page Set</h3>
 				{this.renderPanelSets()}
 			</div>
 		);

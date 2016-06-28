@@ -148,16 +148,18 @@ class PanelCollection extends Component {
 			'panel-collection': true,
 		});
 
+		const showPanelSet = this.props.panels.length==0;
+
 		return (
 			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
 				{this.getBar()}
 				<div className={styles.sidebar}>
 					{this.getPanels()}
-					<Picker
+					{!showPanelSet && <Picker
 						handlePickerUpdate={this.togglePicker}
 						handleAddPanel={this.props.addNewPanel}
-					/>
-					<PanelSetsPicker />
+					/>}
+					{showPanelSet && <PanelSetsPicker />}
 					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}

@@ -4,11 +4,19 @@
 .container {
 	lost-flex-container: row;
 	padding-top: 5px;
+	width: 100%;
 }
 
-.h3 {
+[data-live-edit="true"]{
+	.container {
+		display: block;
+		padding:10px;
+	}
+}
+
+.actionHeader {
 	color: var(--panel-small-header);
-	font-size:18px;
+	font-size:15px;
 	text-transform: uppercase;
 	display: block;
 	width:100%;
@@ -30,19 +38,21 @@
 	height:75px;
 	margin:0 auto 10px;
 	display: block;
-	background: url('../img/panel-sets/new-page-icon.png');
 }
 
 .createHeader {
-	font-size:22px;
-	width:100%;
+	font-weight: 500;
+	font-size: 18px;
+	color: #33383c;
+	width: 100%;
 	text-align: center;
+	margin-bottom:10px;
 }
 
 .newPage {
 	position: relative;
-	background-color: var(--panel-bg-color-alt);
-	padding: 20px;
+	background-color: var(--panel-bg-color);
+	padding: 16px;
 	border: 1px solid var(--border-color);
 	min-height:80px;
 	margin-bottom:10px;
