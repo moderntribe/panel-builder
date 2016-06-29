@@ -3,6 +3,7 @@
 namespace ModularContent\Fields;
 
 use Codeception\TestCase\WPTestCase;
+use ModularContent\AdminPreCache;
 
 class Post_List_Test extends WPTestCase {
 	public function test_blueprint() {
@@ -97,9 +98,45 @@ class Post_List_Test extends WPTestCase {
 			],
 		];
 
-		ksort( $expected['strings'] );
-		ksort( $blueprint['strings'] );
+		ksort( $expected[ 'strings' ] );
+		ksort( $blueprint[ 'strings' ] );
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_precache() {
+		$post_id = $this->factory()->post->create();
+		$file_path = codecept_data_dir( '300x250.png' );
+		$size = 'thumbnail';
+		$attachment_id = $this->factory()->attachment->create_upload_object( $file_path, $post_id );
+		$another_attachment_id = $this->factory()->attachment->create_upload_object( $file_path, $post_id );
+		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
+
+		$cache = new AdminPreCache();
+		$field = new Post_List( [
+			'label'       => __FUNCTION__,
+			'name'        => __FUNCTION__,
+			'description' => __FUNCTION__,
+		] );
+		$data = [
+			'type'  => 'manual',
+			'posts' => [
+				[
+					'id' => $post_id,
+				],
+				[
+					'id'    => 0,
+					'title' => __FUNCTION__,
+					'image' => $another_attachment_id,
+				],
+			],
+		];
+		$field->precache( $data, $cache );
+		$output = $cache->get_cache();
+		$this->assertCount( 1, $output[ 'posts' ] );
+		$this->assertEquals( get_the_title( $post_id ), $output[ 'posts' ][ $post_id ][ 'post_title' ] );
+		$this->assertCount( 2, $output[ 'images' ] );
+		$this->assertNotEmpty( $output[ 'images' ][ $attachment_id ][ $size ] );
+		$this->assertNotEmpty( $output[ 'images' ][ $another_attachment_id ][ $size ] );
 	}
 }
