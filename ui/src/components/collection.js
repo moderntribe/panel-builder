@@ -14,16 +14,19 @@ import Button from './shared/button';
 import EditBar from './collection-edit-bar';
 import Picker from './picker';
 import PanelSetsPicker from './panel-sets-picker';
+import PanelSetThumbnail from './shared/panel-set-thumbnail'
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		paneSetPickerActive: false,
+		paneSetPickerActive: this.props.panels.length==0,
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
 		editText: UI_I18N['button.launch_edit'],
+		panelSetThumbnailActive: false,
+		panelSetThumbnail: null,
 	};
 
 	componentDidMount() {
@@ -118,9 +121,33 @@ class PanelCollection extends Component {
 		this.setState({ pickerActive });
 	}
 
-	renderPanelSetPicker() {
+	@autobind
+	showPanelSetThumbnail (panelSetThumbnail) {
+		if (panelSetThumbnail && panelSetThumbnail !== ''){
+			this.setState({
+				panelSetThumbnailActive: true,
+				panelSetThumbnail
+			});
+		}
+	}
+	@autobind
+	hidePanelSetThumbnail () {
+		this.setState({
+			panelSetThumbnailActive: false
+		});
+	}
 
+	@autobind
+	handleAddPanelSet (data) {
+		console.log("[ PanelCollection ] handleAddPanelSet",data)
+	}
 
+	@autobind
+	handleStartNewPage () {
+		console.log("[ PanelCollection ] handleStartNewPage");
+		this.setState({
+			paneSetPickerActive: false,
+		});
 	}
 
 	renderEditLaunch() {
@@ -148,22 +175,26 @@ class PanelCollection extends Component {
 			'panel-collection': true,
 		});
 
-		const showPanelSet = this.props.panels.length==0;
-
 		return (
 			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
 				{this.getBar()}
 				<div className={styles.sidebar}>
 					{this.getPanels()}
-					{!showPanelSet && <Picker
+					{!this.state.paneSetPickerActive && <Picker
 						handlePickerUpdate={this.togglePicker}
 						handleAddPanel={this.props.addNewPanel}
 					/>}
-					{showPanelSet && <PanelSetsPicker />}
+					{this.state.paneSetPickerActive && <PanelSetsPicker
+						handleShowPanelSetThumbnail={this.showPanelSetThumbnail}
+						handleHidePanelSetThumbnail={this.hidePanelSetThumbnail}
+						handleAddPanelSet={this.handleAddPanelSet}
+						handleStartNewPage={this.handleStartNewPage}
+					/>}
 					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}
 				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
+				<PanelSetThumbnail thumbnail={this.state.panelSetThumbnail} active={this.state.panelSetThumbnailActive} liveEdit={this.state.liveEdit}/>
 			</div>
 		);
 	}

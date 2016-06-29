@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
 
-import Button from './shared/button';
 import PanelSetPreview from './shared/panel-set-preview';
 
 import { UI_I18N } from '../globals/i18n';
@@ -23,7 +22,7 @@ class PanelSetsPicker extends Component {
 
 	renderStartPageFromScratch() {
 		return (
-			<div className={styles.newPage}>
+			<div className={styles.newPage} onClick={this.props.handleStartNewPage}>
 				<div className={styles.createIcon}></div>
 				<h3 className={styles.createHeader}>Create Page From Scratch</h3>
 			</div>
@@ -31,8 +30,8 @@ class PanelSetsPicker extends Component {
 	}
 
 	@autobind
-	handleAddPanelSet(type) {
-		console.log("handleAddPanelSet")
+	handleAddPanelSet(panelSet) {
+		this.props.handleAddPanelSet(panelSet);
 	}
 
 	renderPanelSets() {
@@ -41,6 +40,8 @@ class PanelSetsPicker extends Component {
 				key={`panel-preview-${i}`}
 				{...template}
 				handleAddPanelSet={this.handleAddPanelSet}
+				handleOnMouseover={this.props.handleShowPanelSetThumbnail}
+				handleOnMouseout={this.props.handleHidePanelSetThumbnail}
 			/>
 		);
 		return (
@@ -69,13 +70,19 @@ class PanelSetsPicker extends Component {
 PanelSetsPicker.propTypes = {
 	data: PropTypes.object,
 	handlePickerUpdate: PropTypes.func,
-	handleAddPanel: PropTypes.func,
+	handleAddPanelSet: PropTypes.func,
+	handleStartNewPage: PropTypes.func,
+	handleShowPanelSetThumbnail: PropTypes.func,
+	handleHidePanelSetThumbnail: PropTypes.func,
 };
 
 PanelSetsPicker.defaultProps = {
 	data: {},
 	handlePickerUpdate: () => {},
-	handleAddPanel: () => {},
+	handleAddPanelSet: () => {},
+	handleStartNewPage: () => {},
+	handleShowPanelSetThumbnail: () => {},
+	handleHidePanelSetThumbnail: () => {},
 };
 
 export default PanelSetsPicker;
