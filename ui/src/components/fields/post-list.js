@@ -251,6 +251,7 @@ class PostList extends Component {
 								key={_.uniqueId('manual-post-edit-')}
 								editableId={data.editableId}
 								strings={this.props.strings}
+								hiddenFields={this.props.hidden_fields}
 								postTitle={data.post_title}
 								postContent={data.post_content}
 								imageId={parseInt(data.thumbnail_id, 10)}
@@ -934,6 +935,7 @@ PostList.propTypes = {
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
+	hidden_fields: PropTypes.array,
 	taxonomies: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
@@ -952,6 +954,7 @@ PostList.defaultProps = {
 	show_max_control: false,
 	post_type: [],
 	filters: [],
+	hidden_fields: [],
 	taxonomies: {},
 	data: {},
 	panelIndex: 0,

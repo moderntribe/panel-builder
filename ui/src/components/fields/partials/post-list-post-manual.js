@@ -60,6 +60,11 @@ class PostListPostManual extends Component {
 		this.setState({ imageId: null });
 	}
 
+	/**
+	 * Handles add to the panel click
+	 *
+	 * @method handleAddToPanelClick
+	 */
 	@autobind
 	handleAddToPanelClick(e) {
 		e.preventDefault();
@@ -68,6 +73,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles cancel click
+	 *
+	 * @method handleCancelClick
+	 */
 	@autobind
 	handleCancelClick(e) {
 		e.preventDefault();
@@ -76,6 +86,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles title change
+	 *
+	 * @method handleTitleChange
+	 */
 	@autobind
 	handleTitleChange(e) {
 		this.setState({
@@ -83,6 +98,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles content change
+	 *
+	 * @method handleContentChange
+	 */
 	@autobind
 	handleContentChange(e) {
 		this.setState({
@@ -90,11 +110,25 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles url change
+	 *
+	 * @method handleUrlChange
+	 */
 	@autobind
 	handleUrlChange(e) {
 		this.setState({
 			postUrl: e.currentTarget.value,
 		});
+	}
+
+	/**
+	 * Check if a field is supposed to be hidden
+	 *
+	 * @method isFieldHidden
+	 */
+	isFieldHidden(fieldName) {
+		return _.indexOf(this.props.hiddenFields, fieldName) !== -1;
 	}
 
 	render() {
@@ -121,38 +155,39 @@ class PostListPostManual extends Component {
 		}
 
 		return (
+			// possible hidden fields post_content, post_title, url, and thumbnail_id
 			<article className={styles.wrapper}>
-				<input
+				{!this.isFieldHidden('post_title') && <input
 					type="text"
 					className={titleClasses}
 					onChange={this.handleTitleChange}
 					name="post_title"
 					value={this.state.postTitle}
 					placeholder={this.props.strings['label.title']}
-				/>
-				<textarea
+				/>}
+				{!this.isFieldHidden('post_content') && <textarea
 					className={contentClasses}
 					onChange={this.handleContentChange}
 					name="post_content"
 					value={this.state.postContent}
 					placeholder={this.props.strings['label.content']}
-				/>
-				<input
+				/>}
+				{!this.isFieldHidden('url') && <input
 					type="url"
 					className={urlClasses}
 					onChange={this.handleUrlChange}
 					name="url"
 					value={this.state.postUrl}
 					placeholder={this.props.strings['label.link']}
-				/>
-				<MediaUploader
+				/>}
+				{!this.isFieldHidden('thumbnail_id') && <MediaUploader
 					label={this.props.label}
 					size="large"
 					file={imgPath}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
-				/>
+				/>}
 				<footer className={styles.footer}>
 					<Button
 						text="Add to Panel"
@@ -179,6 +214,7 @@ PostListPostManual.propTypes = {
 	postContent: PropTypes.string,
 	postUrl: PropTypes.string,
 	label: PropTypes.string,
+	hiddenFields: PropTypes.array,
 	strings: PropTypes.object,
 	editableId: PropTypes.string,
 	handleCancelClick: PropTypes.func,
@@ -191,6 +227,7 @@ PostListPostManual.defaultProps = {
 	postContent: '',
 	postUrl: '',
 	label: '',
+	hiddenFields: [],
 	editableId: '',
 	handleCancelClick: () => {},
 	handleAddClick: () => {},
