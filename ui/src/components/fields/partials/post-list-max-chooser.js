@@ -6,11 +6,22 @@ import _ from 'lodash';
 import styles from './post-list-max-chooser.pcss';
 
 class PostListMaxChooser extends Component {
+	/**
+	 *  Handler when max select is changed
+	 *
+	 * @method handleMaxChange
+	 */
 	@autobind
 	handleMaxChange(value) {
 		this.props.onChange(value);
 	}
 
+	/**
+	 *  Options for the max selected dropdown
+	 *  Fills with range based on min and max
+	 *
+	 * @method getOptions
+	 */
 	getOptions() {
 		let options = [];
 		for (let m=this.props.min; m<=this.props.max; m++) {

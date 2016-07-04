@@ -107,6 +107,11 @@ class PostList extends Component {
 		return null;
 	}
 
+	/**
+	 * Render the tab buttons
+	 *
+	 * @method getTabButtons
+	 */
 	getTabButtons() {
 		const manualButtonClasses = classNames({
 			'pl-show-manual': true,
@@ -136,6 +141,11 @@ class PostList extends Component {
 		);
 	}
 
+	/**
+	 * Render the notification saying if the minimum post number has been met. Works for manual posts only
+	 *
+	 * @method getManualNotification
+	 */
 	getManualNotification() {
 		let MaybeNotification = null;
 		if (this.state.manualPostData.length < this.props.min) {
@@ -582,6 +592,11 @@ class PostList extends Component {
 		}
 	}
 
+	/**
+	 * Handle Max Select field change
+	 *
+	 * @method handleMaxChange
+	 */
 	@autobind
 	handleMaxChange(e) {
 		const max = e.value;
@@ -643,17 +658,32 @@ class PostList extends Component {
 		});
 	}
 
+	/**
+	 * Handles cancel click on PostListPostManual and PostListPostSelected
+	 *
+	 * @method handleCancelClick
+	 */
 	@autobind
 	handleCancelClick(e) {
 		// looking for editableId
 		this.removePostFromList(e.state.editableId);
 	}
 
+	/**
+	 * Handles remove click on post preview
+	 *
+	 * @method handleRemovePostClick
+	 */
 	@autobind
 	handleRemovePostClick(e) {
 		this.removePostFromList(e.editableId);
 	}
 
+	/**
+	 * Handles edit click on post preview
+	 *
+	 * @method handleEditPostClick
+	 */
 	@autobind
 	handleEditPostClick(e) {
 		this.editPostFromList(e.state.editableId);
@@ -693,9 +723,18 @@ class PostList extends Component {
 		this.setState(newState);
 	}
 
+	/**
+	 * Reorders the data and initiates a data update call
+	 *
+	 * @method handleManualSort
+	 */
 	@autobind
-	handleManualSort() {
-		// temp
+	handleManualSort(e) {
+		let newState = _.cloneDeep(this.state);
+		newState.manualPostData.splice(e.newIndex, 0, newState.manualPostData.splice(e.oldIndex, 1)[0]);
+		this.setState(newState, () => {
+			this.initiateUpdatePanelData();
+		});
 	}
 
 	/**
@@ -812,13 +851,19 @@ class PostList extends Component {
 						label: filterProps.label,
 					});
 				} else {
-					console.log(`No filter was found for that filter key :${filterKey}`);
+					console.warn(`No filter was found for that filter key :${filterKey}`);
 				}
 			}
 		});
 		return filters;
 	}
 
+	/**
+	 *  Extracting value before calling panel data update
+	 *  Post type, filters, posts, max, etc
+	 *
+	 * @method getValue
+	 */
 	getValue() {
 		const filters = {};
 		// add the post types
@@ -846,6 +891,11 @@ class PostList extends Component {
 		return newValue;
 	}
 
+	/**
+	 *  Initiates the panel data update callback
+	 *
+	 * @method initiateUpdatePanelData
+	 */
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
 			index: this.props.panelIndex,

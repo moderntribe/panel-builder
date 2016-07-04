@@ -13,6 +13,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		};
 	}
 
+	/**
+	 *  fills tags state var based on default selection data
+	 *
+	 * @method getInitialTags
+	 */
 	getInitialTags() {
 		let tags = [];
 		if (this.props.selection.length){
@@ -26,6 +31,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		return tags;
 	}
 
+	/**
+	 *  Callback for data change
+	 *
+	 * @method broadcastDataChange
+	 */
 	broadcastDataChange() {
 		const selection = _.map(this.state.tags, (tag) => tag.value);
 		this.props.onChangeTaxonomy({
@@ -35,6 +45,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handler for taxonomy change
+	 *
+	 * @method handleTaxonomyChange
+	 */
 	@autobind
 	handleTaxonomyChange(tags) {
 		if (tags) {
@@ -52,6 +67,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		}
 	}
 
+	/**
+	 *  Handler for remove filter click
+	 *
+	 * @method handleRemove
+	 */
 	@autobind
 	handleRemove() {
 		this.props.onRemoveClick({

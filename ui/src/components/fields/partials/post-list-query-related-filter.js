@@ -76,6 +76,11 @@ class PostListQueryRelatedFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handler for type change
+	 *
+	 * @method handleTypeChange
+	 */
 	@autobind
 	handleTypeChange(postTypes) {
 		if (postTypes) {
@@ -104,6 +109,11 @@ class PostListQueryRelatedFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handler for remove filter click
+	 *
+	 * @method handleRemove
+	 */
 	@autobind
 	handleRemove() {
 		this.props.onRemoveClick({

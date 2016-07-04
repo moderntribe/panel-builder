@@ -9,7 +9,6 @@ import * as AdminCache from '../../util/data/admin-cache';
 
 class PostPreviewContainer extends Component {
 	constructor(props) {
-		console.log("PostPreviewContainer")
 		super(props);
 		this.state = {
 			loading: false,
@@ -43,9 +42,15 @@ class PostPreviewContainer extends Component {
 		}
 	}
 
+	/**
+	 * Retrieve thumbnail html from image
+	 * Grabs the first thumbnail size
+	 * TODO if thumbnails can be any dimension we may need this to set as part of blueprint
+	 *
+	 * @method getThumbnailHTMLFromImage
+	 */
 	getThumbnailHTMLFromImage(image) {
 		const firstSize = _.values(image.sizes)[0];
-		// get first thumbnail that is square
 		const imgPath = firstSize.url;
 		const html = `<img src="${imgPath}" />`;
 		return html
