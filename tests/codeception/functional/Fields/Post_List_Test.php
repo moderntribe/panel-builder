@@ -21,6 +21,7 @@ class Post_List_Test extends WPTestCase {
 			'max'              => 18,
 			'suggested'        => 8,
 			'show_max_control' => true,
+			'hidden_fields'    => [ 'post_content' ],
 			'strings'          => [
 				'tabs.manual'  => 'Select',
 				'tabs.dynamic' => 'Query',
@@ -63,6 +64,7 @@ class Post_List_Test extends WPTestCase {
 			'max'              => 18,
 			'suggested'        => 8,
 			'show_max_control' => true,
+			'hidden_fields'    => [ 'post_content' ],
 			'post_type'        => [
 				[
 					'value' => 'post',

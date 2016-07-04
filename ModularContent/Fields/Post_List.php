@@ -581,6 +581,7 @@ class Post_List extends Field {
 		$blueprint[ 'max' ] = $this->max;
 		$blueprint[ 'suggested' ] = $this->suggested;
 		$blueprint[ 'show_max_control' ] = $this->show_max_control;
+		$blueprint[ 'hidden_fields' ] = $this->hidden_fields;
 		$blueprint[ 'post_type' ] = [ ];
 		foreach ( $this->post_type_options() as $pto ) {
 			if ( !is_object( $pto ) ) {
