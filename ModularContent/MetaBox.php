@@ -106,15 +106,17 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
-				'heading.no_title' => __( 'No Title', 'modular-content' ),
+				'heading.no_title'       => __( 'No Title', 'modular-content' ),
 				'heading.editing_panels' => __( 'Editing Panels', 'modular-content' ),
-				'button.launch_edit' => __( 'Edit in Live Preview', 'modular-content' ),
-				'button.add_new' => __( 'Add a new panel', 'modular-content' ),
-				'button.cancel_add_new' => __( 'Go back to panel editor', 'modular-content' ),
-			]
+				'button.launch_edit'     => __( 'Edit in Live Preview', 'modular-content' ),
+				'button.add_new'         => __( 'Add a new panel', 'modular-content' ),
+				'button.cancel_add_new'  => __( 'Go back to panel editor', 'modular-content' ),
+				'tab.content'            => _x( 'Content', 'tab name', 'modular-content' ),
+				'tab.settings'           => _x( 'Settings', 'tab name', 'modular-content' ),
+			],
 		];
 
-		return $js_i18n_array;
+		return apply_filters( 'modular_content_js_i18n', $js_i18n_array );
 
 	}
 

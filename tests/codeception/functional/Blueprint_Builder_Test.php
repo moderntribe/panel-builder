@@ -38,11 +38,11 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$expected = [
 			[
-				'type'        => 'test_type',
-				'label'       => 'Test Panel',
-				'description' => 'A test panel',
-				'thumbnail'   => 'active_icon.png',
-				'fields'      => [
+				'type'            => 'test_type',
+				'label'           => 'Test Panel',
+				'description'     => 'A test panel',
+				'thumbnail'       => 'active_icon.png',
+				'fields'          => [
 					[
 						'type'        => 'Title',
 						'label'       => 'Title',
@@ -52,7 +52,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 						'default'     => '',
 					],
 				],
-				'children'    => [
+				'settings_fields' => [ ],
+				'children'        => [
 					'max'   => 6,
 					'label' => [
 						'singular' => 'Module',
@@ -64,6 +65,34 @@ class Blueprint_Builder_Test extends WPTestCase {
 		];
 
 		$this->assertEquals( $expected, $blueprint[ 'types' ] );
+	}
+
+	public function test_settings_field_blueprint() {
+		$registry = new TypeRegistry();
+		$type = new PanelType( 'test_type' );
+		$type->set_label( 'Test Panel' );
+		$type->set_description( 'A test panel' );
+		$type->set_thumbnail( 'active_icon.png' );
+		$type->set_max_children( 6 );
+
+		$type->add_settings_field( new Radio( [
+			'label'       => 'Layout',
+			'name'        => 'layout',
+			'description' => 'Which layout should this panel use?',
+			'default'     => 'horizontal',
+			'options'     => [
+				'horizontal',
+				'vertical',
+			],
+		] ) );
+
+		$registry->register( $type );
+
+		$builder = new Blueprint_Builder( $registry );
+		$blueprint = $builder->get_blueprint();
+
+		$this->assertCount( 2, $blueprint[ 'types' ][ 0 ][ 'fields' ] ); // title field and layout field
+		$this->assertEqualSets( [ 'layout' ], $blueprint[ 'types' ][ 0 ][ 'settings_fields' ] );
 	}
 
 	public function test_nested_blueprint() {
@@ -88,11 +117,11 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$expected = [
 			[
-				'type'        => 'test_type',
-				'label'       => 'Test Panel',
-				'description' => 'A test panel',
-				'thumbnail'   => 'active_icon.png',
-				'fields'      => [
+				'type'            => 'test_type',
+				'label'           => 'Test Panel',
+				'description'     => 'A test panel',
+				'thumbnail'       => 'active_icon.png',
+				'fields'          => [
 					[
 						'type'        => 'Title',
 						'label'       => 'Title',
@@ -102,7 +131,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 						'default'     => '',
 					],
 				],
-				'children'    => [
+				'settings_fields' => [ ],
+				'children'        => [
 					'max'   => 6,
 					'label' => [
 						'singular' => 'Module',
@@ -110,11 +140,11 @@ class Blueprint_Builder_Test extends WPTestCase {
 					],
 					'types' => [
 						[
-							'type'        => 'test_child',
-							'label'       => 'Test Child',
-							'description' => 'A child panel',
-							'thumbnail'   => 'active_child.png',
-							'fields'      => [
+							'type'            => 'test_child',
+							'label'           => 'Test Child',
+							'description'     => 'A child panel',
+							'thumbnail'       => 'active_child.png',
+							'fields'          => [
 								[
 									'type'        => 'Title',
 									'label'       => 'Title',
@@ -124,7 +154,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 									'default'     => '',
 								],
 							],
-							'children'    => [
+							'settings_fields' => [ ],
+							'children'        => [
 								'max'   => 0,
 								'label' => [
 									'singular' => 'Module',
@@ -405,7 +436,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		] ) );
 
 		// Panel Style
-		$panel->add_field( new ImageSelect( [
+		$panel->add_settings_field( new ImageSelect( [
 			'name'    => 'layout',
 			'label'   => 'Style',
 			'options' => [
@@ -458,7 +489,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_thumbnail( 'module-contentgrid.png' );
 
 		// Panel Style
-		$panel->add_field( new Fields\ImageSelect( [
+		$panel->add_settings_field( new Fields\ImageSelect( [
 			'name'    => 'layout',
 			'label'   => 'Style',
 			'options' => [
@@ -610,7 +641,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_max_depth( 2 );
 
 		// Panel Layout
-		$panel->add_field( new ImageSelect( [
+		$panel->add_settings_field( new ImageSelect( [
 			'name'    => 'layout',
 			'label'   => 'Layout',
 			'options' => [
@@ -638,7 +669,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		] ) );
 
 		// Image Overlay
-		$panel->add_field( new ImageSelect( [
+		$panel->add_settings_field( new ImageSelect( [
 			'name'        => 'overlay',
 			'label'       => 'Image Overlay',
 			'description' => 'Apply a color over the image to improve text visibility. Only applies to Boxed/Hero layouts.',
@@ -658,7 +689,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		] ) );
 
 		// CTA Link Style
-		$panel->add_field( new ImageSelect( [
+		$panel->add_settings_field( new ImageSelect( [
 			'name'    => 'cta_style',
 			'label'   => 'Call To Action Link Style',
 			'options' => [
@@ -698,7 +729,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$panel->set_thumbnail( 'module-micronav.png' );
 
 		// Panel Layout
-		$panel->add_field( new ImageSelect( [
+		$panel->add_settings_field( new ImageSelect( [
 			'name'    => 'layout',
 			'label'   => 'Style',
 			'options' => [

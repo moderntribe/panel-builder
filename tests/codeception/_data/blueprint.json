@@ -378,6 +378,9 @@
                     "default": ""
                 }
             ],
+            "settings_fields": [
+                "layout"
+            ],
             "children": {
                 "max": 0,
                 "label": {
@@ -521,6 +524,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -576,6 +584,7 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
@@ -716,254 +725,8 @@
                     "max": 4
                 }
             ],
-            "children": {
-                "max": 0,
-                "label": {
-                    "singular": "Module",
-                    "plural": "Modules"
-                },
-                "types": [
-                    {
-                        "type": "imagetext",
-                        "label": "Image+Text",
-                        "description": "An image and text with several layout options.",
-                        "thumbnail": "module-imagetext.png",
-                        "fields": [
-                            {
-                                "type": "Title",
-                                "label": "Title",
-                                "name": "title",
-                                "description": "",
-                                "strings": {},
-                                "default": ""
-                            },
-                            {
-                                "type": "ImageSelect",
-                                "label": "Layout",
-                                "name": "layout",
-                                "description": "",
-                                "strings": {},
-                                "default": "image-right",
-                                "options": [
-                                    {
-                                        "src": "module-imagetext-right.png",
-                                        "label": "",
-                                        "value": "image-right"
-                                    },
-                                    {
-                                        "src": "module-imagetext-left.png",
-                                        "label": "",
-                                        "value": "image-left"
-                                    },
-                                    {
-                                        "src": "module-imagetext-boxed.png",
-                                        "label": "",
-                                        "value": "boxed"
-                                    },
-                                    {
-                                        "src": "module-imagetext-hero.png",
-                                        "label": "",
-                                        "value": "hero"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "TextArea",
-                                "label": "Description",
-                                "name": "content",
-                                "description": "",
-                                "strings": {
-                                    "tab.visual": "Visual",
-                                    "tab.text": "Text"
-                                },
-                                "default": "",
-                                "richtext": true,
-                                "media_buttons": true,
-                                "editor_settings_reference": "content-0006"
-                            },
-                            {
-                                "type": "Image",
-                                "label": "Image",
-                                "name": "image",
-                                "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-                                "strings": {
-                                    "button.remove": "Remove",
-                                    "button.select": "Select Files"
-                                },
-                                "default": "",
-                                "size": "medium"
-                            },
-                            {
-                                "type": "ImageSelect",
-                                "label": "Image Overlay",
-                                "name": "overlay",
-                                "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
-                                "strings": {},
-                                "default": "none",
-                                "options": [
-                                    {
-                                        "src": "module-imagetext-none.png",
-                                        "label": "",
-                                        "value": "none"
-                                    },
-                                    {
-                                        "src": "module-imagetext-tint.png",
-                                        "label": "",
-                                        "value": "tint"
-                                    },
-                                    {
-                                        "src": "module-imagetext-blue.png",
-                                        "label": "",
-                                        "value": "primary"
-                                    },
-                                    {
-                                        "src": "module-imagetext-orange.png",
-                                        "label": "",
-                                        "value": "secondary"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "Link",
-                                "label": "Call To Action Link",
-                                "name": "cta",
-                                "description": "",
-                                "strings": {
-                                    "placeholder.label": "Label",
-                                    "placeholder.url": "URL"
-                                },
-                                "default": {
-                                    "url": "",
-                                    "target": "",
-                                    "label": ""
-                                }
-                            },
-                            {
-                                "type": "ImageSelect",
-                                "label": "Call To Action Link Style",
-                                "name": "cta_style",
-                                "description": "",
-                                "strings": {},
-                                "default": "text",
-                                "options": [
-                                    {
-                                        "src": "link-style-text.png",
-                                        "label": "",
-                                        "value": "text"
-                                    },
-                                    {
-                                        "src": "link-style-button.png",
-                                        "label": "",
-                                        "value": "button"
-                                    }
-                                ]
-                            }
-                        ],
-                        "children": {
-                            "max": 0,
-                            "label": {
-                                "singular": "Module",
-                                "plural": "Modules"
-                            },
-                            "types": []
-                        }
-                    },
-                    {
-                        "type": "wysiwyg",
-                        "label": "WYSIWYG Editor",
-                        "description": "Displays custom content",
-                        "thumbnail": "module-wysiwyg.png",
-                        "fields": [
-                            {
-                                "type": "Title",
-                                "label": "Title",
-                                "name": "title",
-                                "description": "",
-                                "strings": {},
-                                "default": ""
-                            },
-                            {
-                                "type": "Repeater",
-                                "label": "Columns",
-                                "name": "repeater",
-                                "description": "",
-                                "strings": {
-                                    "button.new": "Add Column",
-                                    "button.delete": "Delete Row",
-                                    "label.row_index": "Row %{index} |||| Row %{index}",
-                                    "notice.max_rows": "You have reached the row limit of this field"
-                                },
-                                "default": [],
-                                "fields": [
-                                    {
-                                        "type": "TextArea",
-                                        "label": "Column",
-                                        "name": "column",
-                                        "description": "",
-                                        "strings": {
-                                            "tab.visual": "Visual",
-                                            "tab.text": "Text"
-                                        },
-                                        "default": "",
-                                        "richtext": true,
-                                        "media_buttons": true,
-                                        "editor_settings_reference": "column-0008"
-                                    }
-                                ],
-                                "min": 1,
-                                "max": 3
-                            }
-                        ],
-                        "children": {
-                            "max": 0,
-                            "label": {
-                                "singular": "Module",
-                                "plural": "Modules"
-                            },
-                            "types": []
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "type": "gallery",
-            "label": "Gallery",
-            "description": "An image gallery slider.",
-            "thumbnail": "module-gallery.png",
-            "fields": [
-                {
-                    "type": "Title",
-                    "label": "Title",
-                    "name": "title",
-                    "description": "",
-                    "strings": {},
-                    "default": ""
-                },
-                {
-                    "type": "TextArea",
-                    "label": "Description",
-                    "name": "content",
-                    "description": "",
-                    "strings": {
-                        "tab.visual": "Visual",
-                        "tab.text": "Text"
-                    },
-                    "default": "",
-                    "richtext": false,
-                    "media_buttons": true,
-                    "editor_settings_reference": ""
-                },
-                {
-                    "type": "ImageGallery",
-                    "label": "Image Gallery",
-                    "name": "gallery",
-                    "description": "",
-                    "strings": {
-                        "button.edit_gallery": "Edit Gallery"
-                    },
-                    "default": ""
-                }
+            "settings_fields": [
+                "layout"
             ],
             "children": {
                 "max": 0,
@@ -1108,6 +871,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1163,6 +931,263 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
+                        "children": {
+                            "max": 0,
+                            "label": {
+                                "singular": "Module",
+                                "plural": "Modules"
+                            },
+                            "types": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "gallery",
+            "label": "Gallery",
+            "description": "An image gallery slider.",
+            "thumbnail": "module-gallery.png",
+            "fields": [
+                {
+                    "type": "Title",
+                    "label": "Title",
+                    "name": "title",
+                    "description": "",
+                    "strings": {},
+                    "default": ""
+                },
+                {
+                    "type": "TextArea",
+                    "label": "Description",
+                    "name": "content",
+                    "description": "",
+                    "strings": {
+                        "tab.visual": "Visual",
+                        "tab.text": "Text"
+                    },
+                    "default": "",
+                    "richtext": false,
+                    "media_buttons": true,
+                    "editor_settings_reference": ""
+                },
+                {
+                    "type": "ImageGallery",
+                    "label": "Image Gallery",
+                    "name": "gallery",
+                    "description": "",
+                    "strings": {
+                        "button.edit_gallery": "Edit Gallery"
+                    },
+                    "default": ""
+                }
+            ],
+            "settings_fields": [],
+            "children": {
+                "max": 0,
+                "label": {
+                    "singular": "Module",
+                    "plural": "Modules"
+                },
+                "types": [
+                    {
+                        "type": "imagetext",
+                        "label": "Image+Text",
+                        "description": "An image and text with several layout options.",
+                        "thumbnail": "module-imagetext.png",
+                        "fields": [
+                            {
+                                "type": "Title",
+                                "label": "Title",
+                                "name": "title",
+                                "description": "",
+                                "strings": {},
+                                "default": ""
+                            },
+                            {
+                                "type": "ImageSelect",
+                                "label": "Layout",
+                                "name": "layout",
+                                "description": "",
+                                "strings": {},
+                                "default": "image-right",
+                                "options": [
+                                    {
+                                        "src": "module-imagetext-right.png",
+                                        "label": "",
+                                        "value": "image-right"
+                                    },
+                                    {
+                                        "src": "module-imagetext-left.png",
+                                        "label": "",
+                                        "value": "image-left"
+                                    },
+                                    {
+                                        "src": "module-imagetext-boxed.png",
+                                        "label": "",
+                                        "value": "boxed"
+                                    },
+                                    {
+                                        "src": "module-imagetext-hero.png",
+                                        "label": "",
+                                        "value": "hero"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "TextArea",
+                                "label": "Description",
+                                "name": "content",
+                                "description": "",
+                                "strings": {
+                                    "tab.visual": "Visual",
+                                    "tab.text": "Text"
+                                },
+                                "default": "",
+                                "richtext": true,
+                                "media_buttons": true,
+                                "editor_settings_reference": "content-0006"
+                            },
+                            {
+                                "type": "Image",
+                                "label": "Image",
+                                "name": "image",
+                                "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+                                "strings": {
+                                    "button.remove": "Remove",
+                                    "button.select": "Select Files"
+                                },
+                                "default": "",
+                                "size": "medium"
+                            },
+                            {
+                                "type": "ImageSelect",
+                                "label": "Image Overlay",
+                                "name": "overlay",
+                                "description": "Apply a color over the image to improve text visibility. Only applies to Boxed\/Hero layouts.",
+                                "strings": {},
+                                "default": "none",
+                                "options": [
+                                    {
+                                        "src": "module-imagetext-none.png",
+                                        "label": "",
+                                        "value": "none"
+                                    },
+                                    {
+                                        "src": "module-imagetext-tint.png",
+                                        "label": "",
+                                        "value": "tint"
+                                    },
+                                    {
+                                        "src": "module-imagetext-blue.png",
+                                        "label": "",
+                                        "value": "primary"
+                                    },
+                                    {
+                                        "src": "module-imagetext-orange.png",
+                                        "label": "",
+                                        "value": "secondary"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "Link",
+                                "label": "Call To Action Link",
+                                "name": "cta",
+                                "description": "",
+                                "strings": {
+                                    "placeholder.label": "Label",
+                                    "placeholder.url": "URL"
+                                },
+                                "default": {
+                                    "url": "",
+                                    "target": "",
+                                    "label": ""
+                                }
+                            },
+                            {
+                                "type": "ImageSelect",
+                                "label": "Call To Action Link Style",
+                                "name": "cta_style",
+                                "description": "",
+                                "strings": {},
+                                "default": "text",
+                                "options": [
+                                    {
+                                        "src": "link-style-text.png",
+                                        "label": "",
+                                        "value": "text"
+                                    },
+                                    {
+                                        "src": "link-style-button.png",
+                                        "label": "",
+                                        "value": "button"
+                                    }
+                                ]
+                            }
+                        ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
+                        "children": {
+                            "max": 0,
+                            "label": {
+                                "singular": "Module",
+                                "plural": "Modules"
+                            },
+                            "types": []
+                        }
+                    },
+                    {
+                        "type": "wysiwyg",
+                        "label": "WYSIWYG Editor",
+                        "description": "Displays custom content",
+                        "thumbnail": "module-wysiwyg.png",
+                        "fields": [
+                            {
+                                "type": "Title",
+                                "label": "Title",
+                                "name": "title",
+                                "description": "",
+                                "strings": {},
+                                "default": ""
+                            },
+                            {
+                                "type": "Repeater",
+                                "label": "Columns",
+                                "name": "repeater",
+                                "description": "",
+                                "strings": {
+                                    "button.new": "Add Column",
+                                    "button.delete": "Delete Row",
+                                    "label.row_index": "Row %{index} |||| Row %{index}",
+                                    "notice.max_rows": "You have reached the row limit of this field"
+                                },
+                                "default": [],
+                                "fields": [
+                                    {
+                                        "type": "TextArea",
+                                        "label": "Column",
+                                        "name": "column",
+                                        "description": "",
+                                        "strings": {
+                                            "tab.visual": "Visual",
+                                            "tab.text": "Text"
+                                        },
+                                        "default": "",
+                                        "richtext": true,
+                                        "media_buttons": true,
+                                        "editor_settings_reference": "column-0008"
+                                    }
+                                ],
+                                "min": 1,
+                                "max": 3
+                            }
+                        ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1311,6 +1336,11 @@
                     ]
                 }
             ],
+            "settings_fields": [
+                "layout",
+                "overlay",
+                "cta_style"
+            ],
             "children": {
                 "max": 0,
                 "label": {
@@ -1454,6 +1484,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1509,6 +1544,7 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1657,6 +1693,9 @@
                     }
                 }
             ],
+            "settings_fields": [
+                "layout"
+            ],
             "children": {
                 "max": 0,
                 "label": {
@@ -1800,6 +1839,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1855,6 +1899,7 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
@@ -1913,6 +1958,7 @@
                     "max": 3
                 }
             ],
+            "settings_fields": [],
             "children": {
                 "max": 0,
                 "label": {
@@ -2056,6 +2102,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -2111,6 +2162,7 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
@@ -2138,6 +2190,7 @@
                     "default": ""
                 }
             ],
+            "settings_fields": [],
             "children": {
                 "max": 6,
                 "label": {
@@ -2281,6 +2334,11 @@
                                 ]
                             }
                         ],
+                        "settings_fields": [
+                            "layout",
+                            "overlay",
+                            "cta_style"
+                        ],
                         "children": {
                             "max": 0,
                             "label": {
@@ -2336,6 +2394,7 @@
                                 "max": 3
                             }
                         ],
+                        "settings_fields": [],
                         "children": {
                             "max": 0,
                             "label": {
