@@ -17,7 +17,7 @@ class PostListQueryRelatedFilter extends Component {
 	noResults = {
 		options: [{
 			value: 0,
-			label: 'No Results',
+			label: this.props.strings['label.relationship-no-results'],
 		}],
 	};
 

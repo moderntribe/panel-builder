@@ -80,6 +80,7 @@ class Post_List extends Field {
 			'label.relationship'      						=> __( 'Relationship', 'modular-content' ),
 			'label.relationship-post-type-placeholder'      => __( 'Select a Post Type', 'modular-content' ),
 			'label.relationship-post-select-placeholder'   	=> __( 'Select a Related Post', 'modular-content' ),
+			'label.relationship-no-results'					=> __( 'No Results', 'modular-content' ),
 			'label.date'              						=> __( 'Date', 'modular-content' ),
 			'label.date-start-date-placeholder'      		=> __( 'Start Date', 'modular-content' ),
 			'label.date-end-date-placeholder'   			=> __( 'End Date', 'modular-content' ),
