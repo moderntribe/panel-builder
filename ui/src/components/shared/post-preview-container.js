@@ -53,7 +53,7 @@ class PostPreviewContainer extends Component {
 		const firstSize = _.values(image.sizes)[0];
 		const imgPath = firstSize.url;
 		const html = `<img src="${imgPath}" />`;
-		return html
+		return html;
 	}
 
 	/**
@@ -127,12 +127,12 @@ class PostPreviewContainer extends Component {
 		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
 
 		// get thumbnail html either as direct thumbnail_html or from the ID and fake it
-		let thumbnailHTML='';
+		let thumbnailHTML = '';
 		if (this.state.post) {
-			if (this.state.post.thumbnail_html){
+			if (this.state.post.thumbnail_html) {
 				thumbnailHTML = this.state.post.thumbnail_html;
 			} else if (this.state.post.thumbnail_id) {
-				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id));
+				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
 				if (image) {
 					thumbnailHTML = this.getThumbnailHTMLFromImage(image);
 				}
@@ -144,8 +144,10 @@ class PostPreviewContainer extends Component {
 				{this.state.loading && <div>Loading...</div>}
 				{this.state.post &&
 					<PostPreview
-						title={this.state.post.post_title} excerpt={this.state.post.post_excerpt}
-						thumbnail={thumbnailHTML} onRemoveClick={removeHandler}
+						title={this.state.post.post_title}
+						excerpt={this.state.post.post_excerpt}
+						thumbnail={thumbnailHTML}
+						onRemoveClick={removeHandler}
 						onEditClick={editHandler}
 					/>
 				}

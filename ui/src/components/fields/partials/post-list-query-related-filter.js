@@ -11,7 +11,7 @@ import styles from './post-list-query-related-filter.pcss';
 class PostListQueryRelatedFilter extends Component {
 	state = {
 		postTypes: [],
-		post: this.props.selection ? parseInt(this.props.selection) : '',
+		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
 		isSavedSelection: Boolean(this.props.selection),
 	};
 	noResults = {
@@ -22,9 +22,9 @@ class PostListQueryRelatedFilter extends Component {
 	};
 
 	componentWillMount() {
-		if (this.state.isSavedSelection){
-			const cachedPost = AdminCache.getPostById(parseInt(this.props.selection));
-			if (cachedPost){
+		if (this.state.isSavedSelection) {
+			const cachedPost = AdminCache.getPostById(parseInt(this.props.selection, 10));
+			if (cachedPost) {
 				this.noResults.options.push({
 					value: cachedPost.ID,
 					label: cachedPost.post_title,

@@ -19,14 +19,14 @@ class PostListQueryTaxonomyFilter extends Component {
 	 * @method getInitialTags
 	 */
 	getInitialTags() {
-		let tags = [];
-		if (this.props.selection.length){
+		const tags = [];
+		if (this.props.selection.length) {
 			this.props.selection.forEach((selection) => {
-				const nxtOption = _.find(this.props.options, { value: parseInt(selection) });
-				if (nxtOption){
+				const nxtOption = _.find(this.props.options, { value: parseInt(selection, 10) });
+				if (nxtOption) {
 					tags.push(nxtOption);
 				}
-			})
+			});
 		}
 		return tags;
 	}
@@ -88,7 +88,7 @@ class PostListQueryTaxonomyFilter extends Component {
 				<span className={styles.inputContainer}>
 					<ReactSelect
 						value={this.state.tags}
-						name={_.uniqueId("query-taxonomy")}
+						name={_.uniqueId('query-taxonomy')}
 						multi
 						options={this.props.options}
 						placeholder={this.props.strings['label.taxonomy-placeholder']}

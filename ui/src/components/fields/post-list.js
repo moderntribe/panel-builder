@@ -35,15 +35,58 @@ class PostList extends Component {
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
 			filterValue: '',
-			max: this.props.data.max ? parseInt(this.props.data.max): this.props.suggested,		// assume a string
+			max: this.props.data.max ? parseInt(this.props.data.max, 10) : this.props.suggested,		// assume a string
 		};
-
 	}
 
 	componentWillMount() {
 		if (this.state.filters.length || this.state.postTypes.length) {
 			this.getNewPosts();
 		}
+	}
+
+	/**
+	 *  Extracting value before calling panel data update
+	 *  Post type, filters, posts, max, etc
+	 *
+	 * @method getValue
+	 */
+	getValue() {
+		const filters = {};
+		// add the post types
+		if (this.state.postTypes.length) {
+			const selection = _.map(this.state.postTypes, (postType) => postType.value);
+			filters.post_type = {
+				selection,
+			};
+		}
+		// add other filters
+		for (const filter of this.state.filters) {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		}
+		const newValue = {
+			filters,
+			type: this.state.type,
+			posts: this.state.manualPostData,
+			max: this.state.max.toString(),
+		};
+		return newValue;
+	}
+
+	/**
+	 *  Initiates the panel data update callback
+	 *
+	 * @method initiateUpdatePanelData
+	 */
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
 	}
 
 	/**
@@ -210,7 +253,7 @@ class PostList extends Component {
 								strings={this.props.strings}
 								postTitle={data.post_title}
 								postContent={data.post_content}
-								imageId={parseInt(data.thumbnail_id)}
+								imageId={parseInt(data.thumbnail_id, 10)}
 								postUrl={data.url}
 								handleCancelClick={this.handleCancelClick}
 								handleAddClick={this.handleAddUpdateClick}
@@ -385,8 +428,6 @@ class PostList extends Component {
 						post={this.state.queryPosts[key]}
 					/>
 				);
-			} else {
-				return null;
 			}
 		});
 		return (
@@ -416,7 +457,6 @@ class PostList extends Component {
 				const intersect = _.intersection(filter.post_type, postTypesFlat);
 				check = intersect.length > 0;
 			}
-
 			return check;
 		});
 
@@ -472,15 +512,15 @@ class PostList extends Component {
 					/>
 				</div>
 				{this.props.show_max_control &&
-				<div className={styles.row}>
-					<PostListMaxChooser
-						onChange={this.handleMaxChange}
-						strings={this.props.strings}
-						min={this.props.min}
-						max={this.props.max}
-						maxSelected={this.state.max}
-					/>
-				</div>}
+					<div className={styles.row}>
+						<PostListMaxChooser
+							onChange={this.handleMaxChange}
+							strings={this.props.strings}
+							min={this.props.min}
+							max={this.props.max}
+							maxSelected={this.state.max}
+						/>
+					</div>}
 				<div className={styles.row}>
 					<label className={styles.label}>{this.props.strings['label.filters']}</label>
 					<ReactSelect
@@ -557,30 +597,6 @@ class PostList extends Component {
 	}
 
 	/**
-	 * Handle post type change
-	 *
-	 * @method handlePostTypeChange
-	 */
-	@autobind
-	handlePostTypeChange(types) {
-		if (types) {
-			this.setState({
-				postTypes: types,
-			}, () => {
-				this.getNewPosts();
-				this.initiateUpdatePanelData();
-			});
-		} else {
-			this.setState({
-				postTypes: [],
-			}, () => {
-				this.getNewPosts();
-				this.initiateUpdatePanelData();
-			});
-		}
-	}
-
-	/**
 	 * Handle filter change
 	 *
 	 * @method handleFilterChange
@@ -595,7 +611,7 @@ class PostList extends Component {
 			this.setState({
 				filterValue: e.value,
 				filters,
-			}, ()=> {
+			}, () => {
 				this.initiateUpdatePanelData();
 			});
 		}
@@ -611,7 +627,7 @@ class PostList extends Component {
 		const max = e.value;
 		if (max) {
 			this.setState({
-				max
+				max,
 			}, () => {
 				this.initiateUpdatePanelData();
 			});
@@ -648,10 +664,10 @@ class PostList extends Component {
 					data.post_title = e.state.postTitle; // eslint-disable-line no-param-reassign
 					data.post_content = e.state.postContent; // eslint-disable-line no-param-reassign
 					data.url = e.state.postUrl; // eslint-disable-line no-param-reassign
-					if(e.state.imageId) {
+					if (e.state.imageId) {
 						data.thumbnail_id = e.state.imageId.toString(); // eslint-disable-line no-param-reassign
 					} else {
-						data.thumbnail_id = '';
+						data.thumbnail_id = ''; // eslint-disable-line no-param-reassign
 					}
 					data.id = ''; // eslint-disable-line no-param-reassign
 				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
@@ -739,7 +755,7 @@ class PostList extends Component {
 	 */
 	@autobind
 	handleManualSort(e) {
-		let newState = _.cloneDeep(this.state);
+		const newState = _.cloneDeep(this.state);
 		newState.manualPostData.splice(e.newIndex, 0, newState.manualPostData.splice(e.oldIndex, 1)[0]);
 		this.setState(newState, () => {
 			this.initiateUpdatePanelData();
@@ -868,49 +884,27 @@ class PostList extends Component {
 	}
 
 	/**
-	 *  Extracting value before calling panel data update
-	 *  Post type, filters, posts, max, etc
+	 * Handle post type change
 	 *
-	 * @method getValue
+	 * @method handlePostTypeChange
 	 */
-	getValue() {
-		const filters = {};
-		// add the post types
-		if (this.state.postTypes.length) {
-			const selection = _.map(this.state.postTypes, (postType) => {
-				return postType.value;
-			})
-			filters.post_type = {
-				selection,
-			};
+	@autobind
+	handlePostTypeChange(types) {
+		if (types) {
+			this.setState({
+				postTypes: types,
+			}, () => {
+				this.getNewPosts();
+				this.initiateUpdatePanelData();
+			});
+		} else {
+			this.setState({
+				postTypes: [],
+			}, () => {
+				this.getNewPosts();
+				this.initiateUpdatePanelData();
+			});
 		}
-		// add other filters
-		for (const filter of this.state.filters) {
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
-			};
-		}
-		const newValue = {
-			filters,
-			type: this.state.type,
-			posts: this.state.manualPostData,
-			max : this.state.max.toString(),
-		};
-		return newValue;
-	}
-
-	/**
-	 *  Initiates the panel data update callback
-	 *
-	 * @method initiateUpdatePanelData
-	 */
-	initiateUpdatePanelData() {
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
-		});
 	}
 
 	render() {

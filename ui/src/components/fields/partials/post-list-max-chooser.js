@@ -1,11 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
-import _ from 'lodash';
 
 import styles from './post-list-max-chooser.pcss';
 
 class PostListMaxChooser extends Component {
+	/**
+	 *  Options for the max selected dropdown
+	 *  Fills with range based on min and max
+	 *
+	 * @method getOptions
+	 */
+	getOptions() {
+		const options = [];
+		for (let m=this.props.min; m <= this.props.max; m++) {
+			options.push({
+				label: m,
+				value: m,
+			});
+		}
+		return options;
+	}
+
 	/**
 	 *  Handler when max select is changed
 	 *
@@ -14,23 +30,6 @@ class PostListMaxChooser extends Component {
 	@autobind
 	handleMaxChange(value) {
 		this.props.onChange(value);
-	}
-
-	/**
-	 *  Options for the max selected dropdown
-	 *  Fills with range based on min and max
-	 *
-	 * @method getOptions
-	 */
-	getOptions() {
-		let options = [];
-		for (let m=this.props.min; m<=this.props.max; m++) {
-			options.push({
-				label: m,
-				value: m,
-			});
-		}
-		return options;
 	}
 
 	render() {
@@ -45,8 +44,8 @@ class PostListMaxChooser extends Component {
 						clearable={false}
 					/>
 				</span>
-		</div>
-	);
+			</div>
+		);
 	}
 }
 
@@ -55,6 +54,7 @@ PostListMaxChooser.propTypes = {
 	min: PropTypes.number,
 	maxSelected: PropTypes.number,
 	onChange: PropTypes.func,
+	strings: React.PropTypes.object,
 };
 
 PostListMaxChooser.defaultProps = {
@@ -62,6 +62,7 @@ PostListMaxChooser.defaultProps = {
 	min: 1,
 	maxSelected: 5,
 	onChange: () => {},
+	strings: {},
 };
 
 export default PostListMaxChooser;
