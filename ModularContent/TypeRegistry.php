@@ -17,6 +17,8 @@ class TypeRegistry {
 
 	private $post_type_map = array();
 
+	private $categories = array();
+
 	/**
 	 * Register a panel type.
 	 *
@@ -114,5 +116,56 @@ class TypeRegistry {
 			}
 		}
 		return array_unique($types);
+	}
+
+	/**
+	 * @return array An array of registered categories
+	 */
+	public function registered_categories() {
+		uasort( $this->categories, function( $a, $b ) {
+			if ( $a[ 'weight' ] == $b[ 'weight' ] ) {
+				return 0;
+			}
+			return ( $a[ 'weight' ] < $b[ 'weight' ] ) ? -1 : 1;
+		} );
+		return $this->categories;
+	}
+
+	/**
+	 * @param string $identifier
+	 * @param string $label
+	 * @param string $description
+	 * @param int    $weight
+	 */
+	public function add_category( $identifier, $label, $description = '', $weight = 0 ) {
+		$this->categories[ $identifier ] = [
+			'category'    => $identifier,
+			'label'       => $label,
+			'description' => $description,
+			'weight'      => $weight,
+			'types'       => [ ],
+		];
+	}
+
+	/**
+	 * @param string $identifier
+	 * @return void
+	 */
+	public function remove_category( $identifier ) {
+		unset( $this->categories[ $identifier ] );
+	}
+
+	/**
+	 * Add the panel type to a category.
+	 * Types can appear in multiple categories.
+	 *
+	 * @param string $type_id
+	 * @param string $category_id
+	 * @return void
+	 */
+	public function categorize( $type_id, $category_id ) {
+		if ( isset( $this->categories[ $category_id ] ) && isset( $this->types[ $type_id ] ) ) {
+			$this->categories[ $category_id ][ 'types' ][] = $type_id;
+		}
 	}
 } 

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel } from '../actions/panels';
 import { UI_I18N } from '../globals/i18n';
-import { MODULAR_CONTENT, BLUEPRINTS } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES } from '../globals/config';
 
 import Panel from './panel';
 import Button from './shared/button';
@@ -59,7 +59,7 @@ class PanelCollection extends Component {
 
 	getPanels() {
 		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
-			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
+			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
 			return (
 				<Panel
 					{...blueprint}

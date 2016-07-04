@@ -7,7 +7,7 @@ import Button from './shared/button';
 import PanelPreview from './shared/panel-preview';
 
 import { UI_I18N } from '../globals/i18n';
-import { BLUEPRINTS } from '../globals/config';
+import { BLUEPRINT_TYPES } from '../globals/config';
 
 import styles from './picker.pcss';
 
@@ -43,7 +43,7 @@ class Picker extends Component {
 	}
 
 	renderPicks() {
-		return this.state.active ? _.map(BLUEPRINTS, (blueprint, i) =>
+		return this.state.active ? _.map(BLUEPRINT_TYPES, (blueprint, i) =>
 			<PanelPreview
 				key={`panel-preview-${i}`}
 				{...blueprint}

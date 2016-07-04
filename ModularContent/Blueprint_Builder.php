@@ -4,25 +4,29 @@
 namespace ModularContent;
 
 
-class Blueprint_Builder implements \JsonSerializable{
+class Blueprint_Builder implements \JsonSerializable {
 	/** @var TypeRegistry */
 	private $registry;
 
 	/** @var PanelType[] */
-	private $registered_panels = [];
+	private $registered_panels = [ ];
 
 	public function __construct( TypeRegistry $registry ) {
 		$this->registry = $registry;
 	}
 
 	public function get_blueprint( $for_post_type = null ) {
-		$blueprint = [ ];
+		$blueprint = [
+			'types'      => [ ],
+			'categories' => array_values( $this->registry->registered_categories() ),
+		];
 		$this->registered_panels = $this->registry->registered_panels( $for_post_type );
 		foreach ( $this->registered_panels as $type ) {
 			if ( $this->is_top_level( $type ) ) {
-				$blueprint[] = $this->single_panel_type_blueprint( $type );
+				$blueprint[ 'types' ][] = $this->single_panel_type_blueprint( $type );
 			}
 		}
+		
 		return $blueprint;
 	}
 
@@ -51,15 +55,15 @@ class Blueprint_Builder implements \JsonSerializable{
 	}
 
 	private function get_fields( PanelType $type ) {
-		$fields = [];
-		foreach( $type->all_fields() as $field ) {
+		$fields = [ ];
+		foreach ( $type->all_fields() as $field ) {
 			$fields[] = $field->get_blueprint();
 		}
 		return $fields;
 	}
 
 	private function get_child_types( PanelType $parent, $depth ) {
-		$children = [];
+		$children = [ ];
 		$parent_id = $parent->get_id();
 		foreach ( $this->registered_panels as $type ) {
 			$max_depth = $type->get_max_depth();
@@ -83,8 +87,8 @@ class Blueprint_Builder implements \JsonSerializable{
 
 	public function jsonSerialize() {
 		$blueprint = $this->get_blueprint();
-		foreach ( $blueprint as $index => $panel ) {
-			$blueprint[ $index ] = $this->normalize_string_arrays( $panel );
+		foreach ( $blueprint[ 'types' ] as $index => $panel ) {
+			$blueprint[ 'types' ][ $index ] = $this->normalize_string_arrays( $panel );
 		}
 		return $blueprint;
 	}
@@ -100,7 +104,7 @@ class Blueprint_Builder implements \JsonSerializable{
 					$blueprint[ 'children' ][ 'types' ][ $child_index ] = $this->normalize_string_arrays( $child );
 				}
 			}
-			$blueprint['fields'][ $index ] = $field;
+			$blueprint[ 'fields' ][ $index ] = $field;
 		}
 		return $blueprint;
 	}
