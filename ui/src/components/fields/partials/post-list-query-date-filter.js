@@ -93,12 +93,12 @@ class PostListQueryDateFilter extends Component {
 				<span className={styles.inputContainer}>
 					<DatePicker
 						selected={this.state.startDate}
-						placeholderText="Start Date"
+						placeholderText={this.props.strings['label.date-start-date-placeholder']}
 						onChange={this.handleChangeStart}
 					/>
 					<DatePicker
 						selected={this.state.endDate}
-						placeholderText="End Date"
+						placeholderText={this.props.strings['label.date-end-date-placeholder']}
 						onChange={this.handleChangeEnd}
 					/>
 				</span>
@@ -113,6 +113,7 @@ PostListQueryDateFilter.propTypes = {
 	selection: PropTypes.object,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryDateFilter.defaultProps = {
@@ -121,6 +122,7 @@ PostListQueryDateFilter.defaultProps = {
 	selection: null,
 	filterID: '',
 	label: ',',
+	strings: {},
 };
 
 export default PostListQueryDateFilter;

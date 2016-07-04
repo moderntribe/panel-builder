@@ -309,8 +309,8 @@ class PostList extends Component {
 	 * @method getFilters
 	 */
 	getFilters() {
-		const filterClasses = classNames({
-			[styles.filter]: true,
+		const filtersClasses = classNames({
+			[styles.filters]: true,
 			'query-filters': true,
 		});
 
@@ -320,19 +320,25 @@ class PostList extends Component {
 			if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Date) {
 				Template = (
 					<PostListQueryDateFilter
-						key={filter.filterID} filterID={filter.filterID}
-						selection={filter.selection} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						selection={filter.selection}
+						label={filter.label}
 						onChangeDate={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						strings={this.props.strings}
 					/>
 				);
 			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Taxonomy) {
 				const taxonomy = this.props.taxonomies[filter.value];
 				Template = (
 					<PostListQueryTaxonomyFilter
-						key={filter.filterID} filterID={filter.filterID} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						label={filter.label}
 						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
 						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
+						strings={this.props.strings}
 					/>
 				);
 			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.P2P) {
@@ -342,11 +348,14 @@ class PostList extends Component {
 				}));
 				Template = (
 					<PostListQueryRelatedFilter
-						key={filter.filterID} filterID={filter.filterID}
-						postTypes={postTypesArray} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						postTypes={postTypesArray}
+						label={filter.label}
 						selection={filter.selection}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						strings={this.props.strings}
 					/>
 				);
 			}
@@ -355,7 +364,7 @@ class PostList extends Component {
 		});
 
 		return (
-			<div className={filterClasses}>
+			<div className={filtersClasses}>
 				{Filters}
 			</div>
 		);

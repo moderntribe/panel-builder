@@ -133,14 +133,14 @@ class PostListQueryRelatedFilter extends Component {
 						name="query-related-post-type"
 						multi
 						options={this.props.postTypes}
-						placeholder="Post Type"
+						placeholder={this.props.strings['label.relationship-post-type-placeholder']}
 						onChange={this.handleTypeChange}
 					/>
 					<ReactSelect.Async
 						value={this.state.post}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
-						placeholder="Get Related Post"
+						placeholder={this.props.strings['label.relationship-post-select-placeholder']}
 						onChange={this.handlePostChange}
 					/>
 				</span>
@@ -156,6 +156,7 @@ PostListQueryRelatedFilter.propTypes = {
 	filterID: PropTypes.string,
 	label: PropTypes.string,
 	selection: PropTypes.string,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryRelatedFilter.defaultProps = {
@@ -165,6 +166,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	filterID: '',
 	label: '',
 	selection: null,
+	strings: {},
 };
 
 export default PostListQueryRelatedFilter;

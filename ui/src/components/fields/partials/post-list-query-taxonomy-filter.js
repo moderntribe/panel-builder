@@ -91,7 +91,7 @@ class PostListQueryTaxonomyFilter extends Component {
 						name={_.uniqueId("query-taxonomy")}
 						multi
 						options={this.props.options}
-						placeholder=""
+						placeholder={this.props.strings['label.taxonomy-placeholder']}
 						onChange={this.handleTaxonomyChange}
 					/>
 				</span>
@@ -107,6 +107,7 @@ PostListQueryTaxonomyFilter.propTypes = {
 	filterID: PropTypes.string,
 	label: PropTypes.string,
 	selection: PropTypes.array,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryTaxonomyFilter.defaultProps = {
@@ -116,6 +117,7 @@ PostListQueryTaxonomyFilter.defaultProps = {
 	filterID: '',
 	label: '',
 	selection: [],
+	strings: {},
 };
 
 export default PostListQueryTaxonomyFilter;
