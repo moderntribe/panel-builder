@@ -146,9 +146,9 @@ class PostListPostManual extends Component {
 
 		// get image from image cache
 		let imgPath = '';
-		if(this.state.imageId) {
+		if (this.state.imageId) {
 			const image = AdminCache.getImageById(this.state.imageId);
-			if(image) {
+			if (image) {
 				const firstSize = _.values(image.sizes)[0];
 				imgPath = firstSize.url;
 			}

@@ -1,3 +1,1 @@
-export default function (obj) {
-	return Object.keys(obj).map(k => `${k}=${encodeURIComponent(obj[k])}`).join('&');
-}
+export default (obj) => Object.keys(obj).map(k => `${k}=${encodeURIComponent(obj[k])}`).join('&');

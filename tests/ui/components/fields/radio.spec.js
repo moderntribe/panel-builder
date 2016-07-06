@@ -1,3 +1,5 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Radio from 'components/fields/radio';
@@ -5,32 +7,32 @@ import Radio from 'components/fields/radio';
 // test data
 const OPTIONS1 = [
 	{
-		"label": "Standard",
-		"value": "standard"
+		label: 'Standard',
+		value: 'standard',
 	},
 	{
-		"label": "Cards",
-		"value": "cards"
+		label: 'Cards',
+		value: 'cards',
 	},
 	{
-		"label": "Full",
-		"value": "full"
-	}
-]
+		label: 'Full',
+		value: 'full',
+	},
+];
+
 const OPTIONS2 = [
 	{
-		"label": "Orange",
-		"value": "1"
+		label: 'Orange',
+		value: '1',
 	},
 	{
-		"label": "Raspberry",
-		"value": "2"
-	}
-]
+		label: 'Raspberry',
+		value: '2',
+	},
+];
 
 
 describe('Radio field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Radio />);
 		expect(wrapper.type()).to.eql('div');
@@ -64,15 +66,13 @@ describe('Radio field', () => {
 		expect(wrapper.props().options).to.equal(OPTIONS1);
 		wrapper.setProps({ options: OPTIONS2 });
 		expect(wrapper.props().options).to.equal(OPTIONS2);
-
 	});
 
 	it('allows us to properly formatted radio options', () => {
 		const wrapper = mount(<Radio description="This is a test description" label="Some test label" options={OPTIONS1} />);
 		expect(wrapper.find('label.plradio-label')).to.have.length(3);
 		expect(wrapper.find('label.plradio-label').first().find('input')).to.have.length(1);
-		expect(wrapper.find('label.plradio-label').first().find('input').props().value).to.equal('standard')
-		expect(wrapper.find('label.plradio-label').first().text()).to.eql("Standard");
+		expect(wrapper.find('label.plradio-label').first().find('input').props().value).to.equal('standard');
+		expect(wrapper.find('label.plradio-label').first().text()).to.eql('Standard');
 	});
-
 });

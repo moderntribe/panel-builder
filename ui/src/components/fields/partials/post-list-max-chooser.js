@@ -13,7 +13,7 @@ class PostListMaxChooser extends Component {
 	 */
 	getOptions() {
 		const options = [];
-		for (let m=this.props.min; m <= this.props.max; m++) {
+		for (let m = this.props.min; m <= this.props.max; m++) {
 			options.push({
 				label: m,
 				value: m,

@@ -2,7 +2,10 @@
 
 export const CONFIG_DEFAULTS = {
 	blueprint: [],
-	cache: {},
+	cache: {
+		images: {},
+		posts: {},
+	},
 	media_buttons_html: '',
 	panels: [],
 	preview_url: '',

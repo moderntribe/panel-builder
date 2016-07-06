@@ -7,6 +7,7 @@ export const MODULAR_CONTENT = window.ModularContent || CONFIG_DEFAULTS;
 export const BLUEPRINTS = MODULAR_CONTENT.blueprint;
 export const ADMIN_CACHE = MODULAR_CONTENT.cache;
 export const PANELS = MODULAR_CONTENT.panels;
+export const TEMPLATES = MODULAR_CONTENT.templates;
 
 export const mediaButtonsHTML = MODULAR_CONTENT.media_buttons_html;
 export const previewUrl = MODULAR_CONTENT.preview_url;

@@ -1,3 +1,5 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow } from 'enzyme';
 import Image from 'components/fields/image';
