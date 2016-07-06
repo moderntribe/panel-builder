@@ -1,6 +1,7 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-// noinspection Eslint
 import ImageSelect from 'components/fields/image-select';
 
 // test data

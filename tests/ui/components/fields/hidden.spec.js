@@ -1,5 +1,7 @@
+/* global expect b:true */
+
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import Hidden from 'components/fields/hidden';
 
 describe('Hidden field', () => {
