@@ -65,6 +65,7 @@ class PanelCollection extends Component {
 	getPanels() {
 		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
+			console.log(panel);
 			return (
 				<Panel
 					{...blueprint}
@@ -194,7 +195,11 @@ class PanelCollection extends Component {
 				</div>
 				{this.getIframe()}
 				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
-				<PanelSetThumbnail thumbnail={this.state.panelSetThumbnail} active={this.state.panelSetThumbnailActive} liveEdit={this.state.liveEdit} />
+				<PanelSetThumbnail
+					thumbnail={this.state.panelSetThumbnail}
+					active={this.state.panelSetThumbnailActive}
+					liveEdit={this.state.liveEdit}
+				/>
 			</div>
 		);
 	}

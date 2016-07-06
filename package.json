@@ -88,6 +88,7 @@
     "postcss-functions": "^2.1.0",
     "postcss-import": "^8.1.0",
     "postcss-inline-comment": "^2.0.0",
+    "postcss-inline-svg": "^2.0.1",
     "postcss-loader": "^0.8.2",
     "postcss-mixins": "^4.0.1",
     "postcss-nested": "^1.0.0",
