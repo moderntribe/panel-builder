@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
+import _ from 'lodash';
 
 import styles from './post-list-query-taxonomy-filter.pcss';
 
@@ -8,10 +9,33 @@ class PostListQueryTaxonomyFilter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tags: [],
+			tags: this.getInitialTags(),
 		};
 	}
 
+	/**
+	 *  fills tags state var based on default selection data
+	 *
+	 * @method getInitialTags
+	 */
+	getInitialTags() {
+		const tags = [];
+		if (this.props.selection.length) {
+			this.props.selection.forEach((selection) => {
+				const nxtOption = _.find(this.props.options, { value: parseInt(selection, 10) });
+				if (nxtOption) {
+					tags.push(nxtOption);
+				}
+			});
+		}
+		return tags;
+	}
+
+	/**
+	 *  Callback for data change
+	 *
+	 * @method broadcastDataChange
+	 */
 	broadcastDataChange() {
 		const selection = _.map(this.state.tags, (tag) => tag.value);
 		this.props.onChangeTaxonomy({
@@ -21,6 +45,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handler for taxonomy change
+	 *
+	 * @method handleTaxonomyChange
+	 */
 	@autobind
 	handleTaxonomyChange(tags) {
 		if (tags) {
@@ -38,6 +67,11 @@ class PostListQueryTaxonomyFilter extends Component {
 		}
 	}
 
+	/**
+	 *  Handler for remove filter click
+	 *
+	 * @method handleRemove
+	 */
 	@autobind
 	handleRemove() {
 		this.props.onRemoveClick({
@@ -54,13 +88,12 @@ class PostListQueryTaxonomyFilter extends Component {
 				<span className={styles.inputContainer}>
 					<ReactSelect
 						value={this.state.tags}
-						name="query-taxonomy"
+						name={_.uniqueId('query-taxonomy')}
 						multi
 						options={this.props.options}
-						placeholder=""
+						placeholder={this.props.strings['label.taxonomy-placeholder']}
 						onChange={this.handleTaxonomyChange}
 					/>
-
 				</span>
 			</div>
 		);
@@ -73,7 +106,8 @@ PostListQueryTaxonomyFilter.propTypes = {
 	options: PropTypes.array,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
-	selection: PropTypes.string,
+	selection: PropTypes.array,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryTaxonomyFilter.defaultProps = {
@@ -82,7 +116,8 @@ PostListQueryTaxonomyFilter.defaultProps = {
 	options: [],
 	filterID: '',
 	label: '',
-	selection: '',
+	selection: [],
+	strings: {},
 };
 
 export default PostListQueryTaxonomyFilter;

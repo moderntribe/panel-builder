@@ -25,6 +25,11 @@ class PostListQueryDateFilter extends Component {
 		};
 	}
 
+	/**
+	 *  Initiates data update callback
+	 *
+	 * @method broadcastDataChange
+	 */
 	broadcastDataChange() {
 		const start = this.state.startDate ? this.state.startDate.format(POST_LIST_CONFIG.date_format) : null;
 		const end = this.state.endDate ? this.state.endDate.format(POST_LIST_CONFIG.date_format) : null;
@@ -39,6 +44,11 @@ class PostListQueryDateFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handle start date change
+	 *
+	 * @method handleChangeStart
+	 */
 	@autobind
 	handleChangeStart(e) {
 		this.setState({
@@ -48,6 +58,11 @@ class PostListQueryDateFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handle end date change
+	 *
+	 * @method handleChangeEnd
+	 */
 	@autobind
 	handleChangeEnd(e) {
 		this.setState({
@@ -57,6 +72,11 @@ class PostListQueryDateFilter extends Component {
 		});
 	}
 
+	/**
+	 *  Handler for remove filter click
+	 *
+	 * @method handleRemove
+	 */
 	@autobind
 	handleRemove() {
 		this.props.onRemoveClick({
@@ -73,12 +93,12 @@ class PostListQueryDateFilter extends Component {
 				<span className={styles.inputContainer}>
 					<DatePicker
 						selected={this.state.startDate}
-						placeholderText="Start Date"
+						placeholderText={this.props.strings['label.date-start-date-placeholder']}
 						onChange={this.handleChangeStart}
 					/>
 					<DatePicker
 						selected={this.state.endDate}
-						placeholderText="End Date"
+						placeholderText={this.props.strings['label.date-end-date-placeholder']}
 						onChange={this.handleChangeEnd}
 					/>
 				</span>
@@ -93,6 +113,7 @@ PostListQueryDateFilter.propTypes = {
 	selection: PropTypes.object,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryDateFilter.defaultProps = {
@@ -101,6 +122,7 @@ PostListQueryDateFilter.defaultProps = {
 	selection: null,
 	filterID: '',
 	label: ',',
+	strings: {},
 };
 
 export default PostListQueryDateFilter;

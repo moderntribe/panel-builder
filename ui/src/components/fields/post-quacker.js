@@ -153,7 +153,10 @@ class PostQuacker extends Component {
 			const firstSize = _.values(image.sizes)[0];
 			imagePath = firstSize.url;
 		}
-
+		let link = this.state.link;
+		if (!link){
+			link = {};
+		}
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
@@ -177,7 +180,7 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>{this.props.strings['label.manual_link']}</label>
-					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} strings={this.props.strings} />
+					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={link.target} valueUrl={link.url} valueLabel={link.label} strings={this.props.strings} />
 				</div>
 			</div>
 		);
@@ -537,7 +540,6 @@ class PostQuacker extends Component {
 			[styles.field]: true,
 			'panel-field': true,
 		});
-
 		return (
 			<fieldset className={fieldClasses}>
 				<legend className={labelClasses}>{this.props.label}</legend>

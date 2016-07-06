@@ -134,12 +134,14 @@
                 "post"
               ]
             },
-            "xrelated_posts": {
+            "related_posts": {
               "selection": "1",
               "lock": "1"
             },
-            "xpost_tag": {
-              "selection": "2",
+            "post_tag": {
+              "selection": [
+                "2"
+              ],
               "lock": "1"
             },
             "date": {

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import request from 'superagent';
 import param from 'jquery-param';
+import _ from 'lodash';
 
 import PostPreview from './post-preview';
 import * as AdminCache from '../../util/data/admin-cache';
@@ -39,6 +40,20 @@ class PostPreviewContainer extends Component {
 		if (this.postRequest) {
 			this.postRequest.abort();
 		}
+	}
+
+	/**
+	 * Retrieve thumbnail html from image
+	 * Grabs the first thumbnail size
+	 * TODO if thumbnails can be any dimension we may need this to set as part of blueprint
+	 *
+	 * @method getThumbnailHTMLFromImage
+	 */
+	getThumbnailHTMLFromImage(image) {
+		const firstSize = _.values(image.sizes)[0];
+		const imgPath = firstSize.url;
+		const html = `<img src="${imgPath}" />`;
+		return html;
 	}
 
 	/**
@@ -110,13 +125,29 @@ class PostPreviewContainer extends Component {
 		// account for no remove button
 		const removeHandler = this.props.onRemoveClick ? this.handleRemovePreview : null;
 		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
+
+		// get thumbnail html either as direct thumbnail_html or from the ID and fake it
+		let thumbnailHTML = '';
+		if (this.state.post) {
+			if (this.state.post.thumbnail_html) {
+				thumbnailHTML = this.state.post.thumbnail_html;
+			} else if (this.state.post.thumbnail_id) {
+				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
+				if (image) {
+					thumbnailHTML = this.getThumbnailHTMLFromImage(image);
+				}
+			}
+		}
+
 		return (
 			<div>
 				{this.state.loading && <div>Loading...</div>}
 				{this.state.post &&
 					<PostPreview
-						title={this.state.post.post_title} excerpt={this.state.post.post_excerpt}
-						thumbnail={this.state.post.thumbnail_html} onRemoveClick={removeHandler}
+						title={this.state.post.post_title}
+						excerpt={this.state.post.post_excerpt}
+						thumbnail={thumbnailHTML}
+						onRemoveClick={removeHandler}
 						onEditClick={editHandler}
 					/>
 				}
@@ -128,6 +159,7 @@ class PostPreviewContainer extends Component {
 PostPreviewContainer.propTypes = {
 	post: PropTypes.object,
 	post_id: React.PropTypes.string,
+	thumbnailId: React.PropTypes.number,
 	onRemoveClick: React.PropTypes.func,
 	onEditClick: React.PropTypes.func,
 	editableId: React.PropTypes.string,
@@ -137,6 +169,7 @@ PostPreviewContainer.propTypes = {
 PostPreviewContainer.defaultProps = {
 	post: null,
 	post_id: null,
+	thumbnailId: null,
 	onRemoveClick: null,
 	onEditClick: null,
 	onGetPostDetails: null,
