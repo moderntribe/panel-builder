@@ -1,9 +1,10 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Video from 'components/fields/video';
 
 describe('Video field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Video />);
 		expect(wrapper.type()).to.eql('div');
@@ -38,5 +39,4 @@ describe('Video field', () => {
 		const wrapper = shallow(<Video />);
 		expect(wrapper.find('p')).to.have.length(1);
 	});
-
 });

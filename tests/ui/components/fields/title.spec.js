@@ -1,9 +1,10 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Title from 'components/fields/title';
 
 describe('Title field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Title />);
 		expect(wrapper.type()).to.eql('div');
@@ -30,5 +31,4 @@ describe('Title field', () => {
 		const wrapper = shallow(<Title />);
 		expect(wrapper.find('p')).to.have.length(1);
 	});
-
 });
