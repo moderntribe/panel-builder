@@ -46,50 +46,6 @@ class PostList extends Component {
 	}
 
 	/**
-	 *  Extracting value before calling panel data update
-	 *  Post type, filters, posts, max, etc
-	 *
-	 * @method getValue
-	 */
-	getValue() {
-		const filters = {};
-		// add the post types
-		if (this.state.postTypes.length) {
-			const selection = _.map(this.state.postTypes, (postType) => postType.value);
-			filters.post_type = {
-				selection,
-			};
-		}
-		// add other filters
-		for (const filter of this.state.filters) {
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
-			};
-		}
-		const newValue = {
-			filters,
-			type: this.state.type,
-			posts: this.state.manualPostData,
-			max: this.state.max.toString(),
-		};
-		return newValue;
-	}
-
-	/**
-	 *  Initiates the panel data update callback
-	 *
-	 * @method initiateUpdatePanelData
-	 */
-	initiateUpdatePanelData() {
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
-		});
-	}
-
-	/**
 	 * Update filter in state from date, related content or taxonomy filter
 	 *
 	 * @method onChangeFilterGeneric
@@ -126,6 +82,37 @@ class PostList extends Component {
 			this.getNewPosts();
 			this.initiateUpdatePanelData();
 		});
+	}
+
+	/**
+	 *  Extracting value before calling panel data update
+	 *  Post type, filters, posts, max, etc
+	 *
+	 * @method getValue
+	 */
+	getValue() {
+		const filters = {};
+		// add the post types
+		if (this.state.postTypes.length) {
+			const selection = _.map(this.state.postTypes, (postType) => postType.value);
+			filters.post_type = {
+				selection,
+			};
+		}
+		// add other filters
+		for (const filter of this.state.filters) {
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		}
+		const newValue = {
+			filters,
+			type: this.state.type,
+			posts: this.state.manualPostData,
+			max: this.state.max.toString(),
+		};
+		return newValue;
 	}
 
 	/**
@@ -422,14 +409,17 @@ class PostList extends Component {
 	getFilteredPosts() {
 		const keys = _.keys(this.state.queryPosts);
 		const posts = _.map(keys, (key, index) => {
+			let Container = null;
 			if (index < this.state.max) {
-				return (
+				Container = (
 					<PostPreviewContainer
 						key={_.uniqueId('query-post-preview-')}
 						post={this.state.queryPosts[key]}
 					/>
 				);
 			}
+
+			return Container;
 		});
 		return (
 			<div>
@@ -595,6 +585,19 @@ class PostList extends Component {
 					});
 				}
 			});
+	}
+
+	/**
+	 *  Initiates the panel data update callback
+	 *
+	 * @method initiateUpdatePanelData
+	 */
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
 	}
 
 	/**

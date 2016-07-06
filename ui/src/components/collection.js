@@ -14,13 +14,13 @@ import Button from './shared/button';
 import EditBar from './collection-edit-bar';
 import Picker from './picker';
 import PanelSetsPicker from './panel-sets-picker';
-import PanelSetThumbnail from './shared/panel-set-thumbnail'
+import PanelSetThumbnail from './shared/panel-set-thumbnail';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		paneSetPickerActive: this.props.panels.length==0,
+		paneSetPickerActive: this.props.panels.length === 0,
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
@@ -53,7 +53,7 @@ class PanelCollection extends Component {
 			[styles.iframeMobile]: this.state.mode === 'mobile',
 			'panel-preview-iframe': true,
 		});
-		
+
 		return this.state.liveEdit ? (
 			<div className={styles.iframe}>
 				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
@@ -85,7 +85,7 @@ class PanelCollection extends Component {
 	swapEditMode() {
 		this.setState({ liveEdit: !this.state.liveEdit });
 	}
-	
+
 	@autobind
 	swapResizeMode(mode) {
 		this.setState({ mode });
@@ -122,29 +122,29 @@ class PanelCollection extends Component {
 	}
 
 	@autobind
-	showPanelSetThumbnail (panelSetThumbnail) {
-		if (panelSetThumbnail && panelSetThumbnail !== ''){
+	showPanelSetThumbnail(panelSetThumbnail) {
+		if (panelSetThumbnail && panelSetThumbnail !== '') {
 			this.setState({
 				panelSetThumbnailActive: true,
-				panelSetThumbnail
+				panelSetThumbnail,
 			});
 		}
 	}
 	@autobind
-	hidePanelSetThumbnail () {
+	hidePanelSetThumbnail() {
 		this.setState({
-			panelSetThumbnailActive: false
+			panelSetThumbnailActive: false,
 		});
 	}
 
 	@autobind
-	handleAddPanelSet (data) {
-		console.log("[ PanelCollection ] handleAddPanelSet",data)
+	handleAddPanelSet(data) {
+		console.log('[ PanelCollection ] handleAddPanelSet', data);
 	}
 
 	@autobind
-	handleStartNewPage () {
-		console.log("[ PanelCollection ] handleStartNewPage");
+	handleStartNewPage() {
+		console.log('[ PanelCollection ] handleStartNewPage');
 		this.setState({
 			paneSetPickerActive: false,
 		});
@@ -194,7 +194,7 @@ class PanelCollection extends Component {
 				</div>
 				{this.getIframe()}
 				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
-				<PanelSetThumbnail thumbnail={this.state.panelSetThumbnail} active={this.state.panelSetThumbnailActive} liveEdit={this.state.liveEdit}/>
+				<PanelSetThumbnail thumbnail={this.state.panelSetThumbnail} active={this.state.panelSetThumbnailActive} liveEdit={this.state.liveEdit} />
 			</div>
 		);
 	}

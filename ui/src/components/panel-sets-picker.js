@@ -5,7 +5,6 @@ import autobind from 'autobind-decorator';
 
 import PanelSetPreview from './shared/panel-set-preview';
 
-import { UI_I18N } from '../globals/i18n';
 import { TEMPLATES } from '../globals/config';
 
 import styles from './panel-sets-picker.pcss';
@@ -20,6 +19,11 @@ import styles from './panel-sets-picker.pcss';
 
 class PanelSetsPicker extends Component {
 
+	@autobind
+	handleAddPanelSet(panelSet) {
+		this.props.handleAddPanelSet(panelSet);
+	}
+
 	renderStartPageFromScratch() {
 		return (
 			<div className={styles.newPage} onClick={this.props.handleStartNewPage}>
@@ -27,11 +31,6 @@ class PanelSetsPicker extends Component {
 				<h3 className={styles.createHeader}>Create Page From Scratch</h3>
 			</div>
 		);
-	}
-
-	@autobind
-	handleAddPanelSet(panelSet) {
-		this.props.handleAddPanelSet(panelSet);
 	}
 
 	renderPanelSets() {
