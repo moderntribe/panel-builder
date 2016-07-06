@@ -5,20 +5,23 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel } from '../actions/panels';
 import { UI_I18N } from '../globals/i18n';
+import { MODULAR_CONTENT, BLUEPRINTS } from '../globals/config';
 
 import Panel from './panel';
 import Button from './shared/button';
 import EditBar from './collection-edit-bar';
-import blueprints from '../data/blueprint-multi.json';
+import Picker from './picker';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		pickerActive: false,
 		liveEdit: false,
-		editText: UI_I18N.btn_launch_edit,
+		mode: 'full',
+		editText: UI_I18N['button.launch_edit'],
 	};
 
 	componentDidMount() {
@@ -30,39 +33,57 @@ class PanelCollection extends Component {
 	}
 
 	getBar() {
-		return this.state.liveEdit ? <EditBar /> : null;
+		return this.state.liveEdit ? (
+			<EditBar
+				handleCancelClick={this.swapEditMode}
+				handleResizeClick={this.swapResizeMode}
+			/>
+		) : null;
 	}
 
 	getIframe() {
+		const iframeClasses = classNames({
+			[styles.iframeFull]: this.state.mode === 'full',
+			[styles.iframeTablet]: this.state.mode === 'tablet',
+			[styles.iframeMobile]: this.state.mode === 'mobile',
+			'panel-preview-iframe': true,
+		});
+		
 		return this.state.liveEdit ? (
 			<div className={styles.iframe}>
 				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe src={window.ModularContent.preview_url} />
+				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
 			</div>
 		) : null;
 	}
 
 	getPanels() {
-		return _.map(this.props.panels, (panel, i) => {
-			const blueprint = _.find(blueprints, { type: panel.type });
+		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
+			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
 			return (
 				<Panel
 					{...blueprint}
 					{...panel}
 					key={`panel-${i}`}
 					index={i}
+					panelCount={this.props.panels.length}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.panelsActive}
 					movePanel={this.props.movePanel}
 					updatePanelData={this.props.updatePanelData}
 				/>
 			);
-		});
+		}) : null;
 	}
 
 	@autobind
 	swapEditMode() {
 		this.setState({ liveEdit: !this.state.liveEdit });
+	}
+	
+	@autobind
+	swapResizeMode(mode) {
+		this.setState({ mode });
 	}
 
 	@autobind
@@ -77,9 +98,9 @@ class PanelCollection extends Component {
 	 */
 	runDataHeartbeat() {
 		const dataInput = ReactDOM.findDOMNode(this.refs.data);
-		let oldData = JSON.stringify(this.props.panels);
+		let oldData = JSON.stringify({ panels: this.props.panels });
 		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify(this.props.panels);
+			const newData = JSON.stringify({ panels: this.props.panels });
 			if (oldData === newData) {
 				return;
 			}
@@ -89,6 +110,28 @@ class PanelCollection extends Component {
 	}
 
 	heartbeat = () => {};
+
+	@autobind
+	togglePicker(pickerActive) {
+		this.setState({ pickerActive });
+	}
+
+	renderEditLaunch() {
+		let EditLaunch = null;
+		if (!this.state.liveEdit) {
+			EditLaunch = (
+				<Button
+					text={UI_I18N['button.launch_edit']}
+					handleClick={this.swapEditMode}
+					icon="dashicons-welcome-view-site"
+					bare
+					classes={styles.editButton}
+				/>
+			);
+		}
+
+		return EditLaunch;
+	}
 
 	render() {
 		const collectionClasses = classNames({
@@ -103,14 +146,14 @@ class PanelCollection extends Component {
 				{this.getBar()}
 				<div className={styles.sidebar}>
 					{this.getPanels()}
-					<Button
-						text={this.state.editText}
-						primary={false}
-						handleClick={this.swapEditMode}
+					<Picker
+						handlePickerUpdate={this.togglePicker}
+						handleAddPanel={this.props.addNewPanel}
 					/>
+					{this.renderEditLaunch()}
 				</div>
 				{this.getIframe()}
-				<input ref="data" type="hidden" name="panels" value={JSON.stringify(this.props.panels)} />
+				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
 			</div>
 		);
 	}
@@ -121,18 +164,21 @@ const mapStateToProps = (state) => ({ panels: state.panelData.panels });
 const mapDispatchToProps = (dispatch) => ({
 	movePanel: (data) => dispatch(movePanel(data)),
 	updatePanelData: (data) => dispatch(updatePanelData(data)),
+	addNewPanel: (data) => dispatch(addNewPanel(data)),
 });
 
 PanelCollection.propTypes = {
 	panels: PropTypes.array,
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
+	addNewPanel: PropTypes.func.isRequired,
 };
 
 PanelCollection.defaultProps = {
 	panels: [],
 	movePanel: () => {},
 	updatePanelData: () => {},
+	addNewPanel: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PanelCollection);

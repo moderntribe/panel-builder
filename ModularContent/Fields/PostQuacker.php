@@ -43,6 +43,30 @@ class PostQuacker extends Field {
 		],
 	];
 
+	public function __construct( $args ) {
+		$this->defaults[ 'strings' ] = [
+			'button.add_to_module'         => __( 'Add to Module', 'modular-content' ),
+			'button.remove'                => __( 'Remove', 'modular-content' ), // passed to Image
+			'button.select'                => __( 'Select Files', 'modular-content' ), // passed to Image
+			'label.manual_title'           => __( 'Title', 'modular-content' ),
+			'label.manual_image'           => __( 'Image', 'modular-content' ),
+			'label.manual_content'         => __( 'Content', 'modular-content' ),
+			'label.manual_link'            => __( 'Link', 'modular-content' ),
+			'label.select_post_type'       => __( 'Select Type', 'modular-content' ),
+			'label.select_post'            => __( 'Select Content', 'modular-content' ),
+			'no_results'                   => __( 'No Results', 'modular-content' ),
+			'placeholder.select_post_type' => __( 'Select Post Type', 'modular-content' ),
+			'placeholder.select_post'      => __( 'Select...', 'modular-content' ),
+			'placeholder.label'            => __( 'Label', 'modular-content' ), // passed to the Link
+			'placeholder.url'              => __( 'URL', 'modular-content' ), // passed to the Link
+			'tab.selection'                => __( 'Selection', 'modular-content' ),
+			'tab.manual'                   => __( 'Manual', 'modular-content' ),
+			'tab.visual' 				   => __( 'Visual', 'modular-content' ),
+			'tab.text'   				   => __( 'Text', 'modular-content' ),
+		];
+		parent::__construct( $args );
+	}
+
 	protected function render_opening_tag() {
 		printf('<fieldset class="panel-input input-type-postquacker input-name-%s">', $this->esc_class($this->name));
 	}
@@ -117,21 +141,6 @@ class PostQuacker extends Field {
 		$vars = apply_filters( 'panels_field_vars', $vars, $this, $panel );
 
 		return $vars;
-	}
-
-	public static function js_i18n() {
-		return [
-			'label_manual_title' => __( 'Title', 'modular-content' ),
-			'label_manual_image' => __( 'Image', 'modular-content' ),
-			'label_manual_content' => __( 'Content', 'modular-content' ),
-			'label_manual_link' => __( 'Link', 'modular-content' ),
-			'label_manual_image_label' => __( 'Image', 'modular-content' ),
-			'label_selection_type' => __( 'Select Type', 'modular-content' ),
-			'placeholder_selection_type' => __( 'Select Post Type', 'modular-content' ),
-			'label_selection_post' => __( 'Select Content', 'modular-content' ),
-			'placeholder_selection_post' => __( 'Select...', 'modular-content' ),
-			'button_add_to_module' => __( 'Add to Module', 'modular-content' ),
-		];
 	}
 
 	public function get_vars_for_api( $data, $panel ) {
@@ -230,6 +239,9 @@ class PostQuacker extends Field {
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
+		if ( $data[ 'post_id' ] ) {
+			$cache->add_post( $data[ 'post_id' ] );
+		}
 		if ( $data[ 'image' ] ) {
 			$cache->add_image( $data[ 'image' ], 'thumbnail' );
 		}

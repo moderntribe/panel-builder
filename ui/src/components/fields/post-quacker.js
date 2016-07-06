@@ -10,14 +10,13 @@ import param from 'jquery-param';
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import BlankPostUi from '../shared/blank-post-ui';
-import PostPreview from '../shared/post-preview';
+import PostPreviewContainer from '../shared/post-preview-container';
 import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
 
 import * as RichtextEvents from '../../util/dom/tinymce';
 import ReactSelect from 'react-select-plus';
 import * as AdminCache from '../../util/data/admin-cache';
-import { QUACKER_I18N } from '../../globals/i18n';
 
 import styles from './post-quacker.pcss';
 
@@ -27,7 +26,7 @@ class PostQuacker extends Component {
 		this.noResults = {
 			options: [{
 				value: 0,
-				label: this.props.strings.options_no_results ? this.props.strings.options_no_results : QUACKER_I18N.options_no_results,
+				label: this.props.strings.no_results,
 			}],
 		};
 		this.state = {
@@ -52,8 +51,8 @@ class PostQuacker extends Component {
 		if (this.state.post_id && this.state.post_id !== 0) {
 			this.setState({
 				post_id_staged: this.state.post_id,
+				post_id: this.state.post_id,
 			});
-			this.updatePreview(this.state.post_id);
 		}
 	}
 
@@ -76,16 +75,22 @@ class PostQuacker extends Component {
 	 */
 
 	getEditorTemplate() {
+		const editorClasses = classNames({
+			'wp-core-ui': true,
+			'wp-editor-wrap': true,
+			'tmce-active': true,
+		});
 		return (
 			<div
 				id={`wp-${this.fid}-wrap`}
 				ref={this.fid}
-				className="wp-core-ui wp-editor-wrap tmce-active"
+				className={editorClasses}
 			>
 				<RichtextEditor
 					fid={this.fid}
 					name={`${this.fid}-content`}
 					buttons={false}
+					strings={this.props.strings}
 					data={this.state.content}
 				/>
 			</div>
@@ -114,13 +119,13 @@ class PostQuacker extends Component {
 			<div className={styles.tabs}>
 				<Button
 					classes={queryButtonClasses}
-					text={this.props.strings['tabs.selection']}
+					text={this.props.strings['tab.selection']}
 					full={false}
 					handleClick={this.switchTabs}
 				/>
 				<Button
 					classes={manualButtonClasses}
-					text={this.props.strings['tabs.manual']}
+					text={this.props.strings['tab.manual']}
 					full={false}
 					handleClick={this.switchTabs}
 				/>
@@ -143,26 +148,25 @@ class PostQuacker extends Component {
 		const Editor = this.getEditorTemplate();
 		const image = AdminCache.getImageById(this.state.image);
 		let imagePath = '';
+
 		if (image) {
-			imagePath = image.full;
+			const firstSize = _.values(image.sizes)[0];
+			imagePath = firstSize.url;
 		}
-
-		const labelTitleText = this.props.strings.label_manual_title ? this.props.strings.label_manual_title : QUACKER_I18N.label_manual_title;
-		const labelImageText = this.props.strings.label_manual_image ? this.props.strings.label_manual_image : QUACKER_I18N.label_manual_image;
-		const labelContentText = this.props.strings.label_manual_content ? this.props.strings.label_manual_content : QUACKER_I18N.label_manual_content;
-		const labelLinkText = this.props.strings.label_manual_link ? this.props.strings.label_manual_link : QUACKER_I18N.label_manual_link;
-		const labelImageLabelText = this.props.strings.label_manual_image_label ? this.props.strings.label_manual_image_label : QUACKER_I18N.label_manual_image_label;
-
+		let link = this.state.link;
+		if (!link){
+			link = {};
+		}
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelTitleText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_title']}</label>
 					<input type="text" name={this.tid} value={this.state.title} size="40" onChange={this.handleTitleChange} />
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelImageText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_image']}</label>
 					<MediaUploader
-						label={labelImageLabelText}
+						label={this.props.strings['label.manual_image']}
 						size={this.props.size}
 						file={imagePath}
 						strings={this.props.strings}
@@ -171,12 +175,12 @@ class PostQuacker extends Component {
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelContentText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_content']}</label>
 					{Editor}
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelLinkText}</label>
-					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={this.state.link.target} valueUrl={this.state.link.url} valueLabel={this.state.link.label} />
+					<label className={styles.tabLabel}>{this.props.strings['label.manual_link']}</label>
+					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={link.target} valueUrl={link.url} valueLabel={link.label} strings={this.props.strings} />
 				</div>
 			</div>
 		);
@@ -198,54 +202,54 @@ class PostQuacker extends Component {
 			'term-select': true,
 		});
 
-		const labelTypeText = this.props.strings.label_selection_type ? this.props.strings.label_selection_type : QUACKER_I18N.label_selection_type;
-		const labelTypePlaceholderText = this.props.strings.placeholder_selection_type ? this.props.strings.placeholder_selection_type : QUACKER_I18N.placeholder_selection_type;
-		const labelContentText = this.props.strings.label_selection_post ? this.props.strings.label_selection_post : QUACKER_I18N.label_selection_post;
-		const labelContentPlaceholderText = this.props.strings.placeholder_selection_post ? this.props.strings.placeholder : QUACKER_I18N.placeholder_selection_type;
-		const labelAddToModule = this.props.strings.button_add_to_module ? this.props.strings.button_add_to_module : QUACKER_I18N.button_add_to_module;
+		let Preview;
+		if (this.state.post_id && this.state.post_id !== 0) {
+			Preview = (<div className={styles.panelFilterRow}>
+				<PostPreviewContainer post_id={this.state.post_id} onRemoveClick={this.handleRemovePostClick} />
+			</div>);
+		} else {
+			Preview = (<div className={styles.panelFilterRow}>
+				<div className={styles.blankPostContainer}>
+					<div><BlankPostUi /></div>
+				</div>
+			</div>);
+		}
 
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelTypeText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.select_post_type']}</label>
 					<ReactSelect
 						name={_.uniqueId('quacker-type-selected-')}
 						value={this.state.post_types}
 						multi
 						className={typeSelectClasses}
-						placeholder={labelTypePlaceholderText}
+						placeholder={this.props.strings['placeholder.select_post_type']}
 						options={this.props.post_type}
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
-					<label className={styles.tabLabel}>{labelContentText}</label>
+					<label className={styles.tabLabel}>{this.props.strings['label.select_post']}</label>
 					<ReactSelect.Async
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
 						loadOptions={this.getOptions}
-						placeholder={labelContentPlaceholderText}
+						placeholder={this.props.strings['placeholder.select_post']}
 						isLoading={this.state.loading}
 						onChange={this.handlePostSearchChange}
 					/>
 				</div>
 				<div className={styles.panelFilterRow}>
 					<Button
-						text={labelAddToModule}
+						text={this.props.strings['button.add_to_module']}
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToModuleClick}
 					/>
 				</div>
-				{!this.state.post && <div className={styles.panelFilterRow}>
-					<div className={styles.blankPostContainer}>
-						<div><BlankPostUi /></div>
-					</div>
-				</div>}
-				{this.state.post && <div className={styles.panelFilterRow}>
-					<PostPreview title={this.state.post.post_title} excerpt={this.state.post.post_excerpt} thumbnail={this.state.post.thumbnail_html} onRemoveClick={this.handleRemovePostClick} />
-				</div>}
+				{Preview}
 			</div>
 		);
 	}
@@ -278,7 +282,7 @@ class PostQuacker extends Component {
 	/**
 	 * Get search params for posts limited by type
 	 *
-	 * @method updatePreview
+	 * @method getSearchRequestParams
 	 */
 	getSearchRequestParams(input) {
 		const types = [];
@@ -363,21 +367,6 @@ class PostQuacker extends Component {
 	}
 
 	/**
-	 * Handler for after the preview is retrieved
-	 *
-	 * @method handleUpdatePreview
-	 */
-	@autobind
-	handleUpdatePreview(err, response) {
-		const postId = this.state.post_id_staged;
-		this.setState({
-			post: response.body.data.posts[response.body.data.post_ids[0]],
-			post_id: postId,
-		});
-		this.initiateUpdatePanelData();
-	}
-
-	/**
 	 * Handler for Add to Module button
 	 *
 	 * @method handleAddToModuleClick
@@ -385,24 +374,10 @@ class PostQuacker extends Component {
 	@autobind
 	handleAddToModuleClick() {
 		if (this.state.post_id_staged && this.state.post_id_staged !== 0) {
-			this.updatePreview(this.state.post_id_staged);
+			this.setState({
+				post_id: this.state.post_id_staged,
+			});
 		}
-	}
-
-	/**
-	 * Called to update the preview after a use selects a new post
-	 *
-	 * @method updatePreview
-	 */
-	updatePreview(id) {
-		const params = param({
-			action: 'posts-field-fetch-preview',
-			post_ids: [id],
-		});
-		request
-			.post(window.ajaxurl)
-			.send(params)
-			.end(this.handleUpdatePreview);
 	}
 
 	/**
@@ -565,7 +540,6 @@ class PostQuacker extends Component {
 			[styles.field]: true,
 			'panel-field': true,
 		});
-
 		return (
 			<fieldset className={fieldClasses}>
 				<legend className={labelClasses}>{this.props.label}</legend>

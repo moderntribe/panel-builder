@@ -24,7 +24,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 	}?>
 	>
 	<div class="thumbnail">
-		<span class="panel-icon"><img src="<?php echo esc_url($this->get_icon()); ?>" alt="<?php esc_attr_e($this->get_label()); ?>" /></span>
+		<span class="panel-icon"><img src="<?php echo esc_url($this->get_thumbnail()); ?>" alt="<?php esc_attr_e($this->get_label()); ?>" /></span>
 		<span class="panel-title"><?php esc_html_e($this->get_label()); ?></span>
 		<span class="panel-description"><?php esc_html_e($this->get_description()); ?></span>
 	</div>
@@ -35,7 +35,7 @@ $singular = \ModularContent\Plugin::instance()->get_label();
 
 				<div class="media">
 					<div class="pull-left">
-						<img class="media-object" src="<?php echo esc_url($this->get_icon()); ?>" data-default="<?php echo esc_url($this->get_icon()); ?>" data-alt="<?php echo esc_url($this->get_icon('active')); ?>" width="106" height="63">
+						<img class="media-object" src="<?php echo esc_url($this->get_thumbnail()); ?>" data-default="<?php echo esc_url($this->get_icon()); ?>" data-alt="<?php echo esc_url($this->get_icon('active')); ?>" width="106" height="63">
 					</div>
 					<div class="media-body">
 						<h3 class="media-heading panel-title" title="<?php printf(__('Edit %s', 'modular-content'), $singular); ?>">{{data.panel_title}}</h3>

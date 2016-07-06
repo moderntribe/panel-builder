@@ -1,5 +1,6 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
@@ -7,9 +8,46 @@
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
-	font-size: 18px;
-	margin-bottom: 18px;
 	padding-left: 0;
+}
+
+.arrow{
+	composes: arrow from "../../shared/accordion.pcss";
+}
+
+.header{
+	composes: header from "../../shared/accordion.pcss";
+	margin-bottom: var(--panel-margin-vertical);
+}
+
+.back{
+	composes: back from "../../shared/accordion.pcss";
+}
+
+.action{
+	composes: action from "../../shared/accordion.pcss";
+}
+
+.backButton{
+	composes: backButton from "../../shared/accordion.pcss";
+}
+
+.fields{
+	padding: 0;
+	width: 100%;
+	position:absolute;
+	left:100%;
+	top:0;
+	> div {
+		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	}
+}
+
+[data-live-edit="true"]{
+	.fields{
+		height:calc(100vh - 50px);
+		overflow-y: auto;
+	}
 }
 
 .description {

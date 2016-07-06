@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 import { mediaButtonsHTML } from '../../globals/config';
-import { TEXTAREA_I18N } from '../../globals/i18n';
 
 /**
  * Stateless component for tinymce instance used throughout ui.
@@ -42,7 +41,7 @@ const RichtextEditor = (props) => {
 						className="wp-switch-editor switch-tmce"
 						data-wp-editor-id={props.fid}
 					>
-						{TEXTAREA_I18N.tab_visual}
+						{props.strings['tab.visual']}
 					</button>
 					<button
 						type="button"
@@ -50,7 +49,7 @@ const RichtextEditor = (props) => {
 						className="wp-switch-editor switch-html"
 						data-wp-editor-id={props.fid}
 					>
-						{TEXTAREA_I18N.tab_text}
+						{props.strings['tab.text']}
 					</button>
 				</div>
 			</div>
@@ -83,6 +82,7 @@ RichtextEditor.propTypes = {
 	fid: PropTypes.string,
 	name: PropTypes.string,
 	buttons: PropTypes.bool,
+	strings: PropTypes.object,
 	onUpdate: PropTypes.func,
 };
 
@@ -91,6 +91,7 @@ RichtextEditor.defaultProps = {
 	fid: '',
 	name: '',
 	buttons: true,
+	strings: {},
 	onUpdate: () => {},
 };
 

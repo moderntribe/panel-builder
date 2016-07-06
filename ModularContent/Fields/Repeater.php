@@ -43,7 +43,6 @@ class Repeater extends Group {
 	 *   'label' => __('Contacts'),
 	 *   'name' => 'contacts',
 	 *   'max' => 5,
-	 *   'new_button_label' => __( 'Add a Contact' ),
 	 * ) );
 	 * $group->add_field( $name );
 	 * $group->add_field( $email );
@@ -52,7 +51,10 @@ class Repeater extends Group {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
 		$this->defaults[ 'strings' ] = [
-			'button.new' => __( 'New', 'modular-content' ),
+			'button.new' => __( 'Add Row', 'modular-content' ),
+			'button.delete' => __( 'Delete Row', 'modular-content' ),
+			'label.row_index' => _x( 'Row %{index} |||| Row %{index}', 'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
+			'notice.max_rows' => __( 'You have reached the row limit of this field', 'modular-content' ),
 		];
 
 		// backwards compat
@@ -196,14 +198,6 @@ class Repeater extends Group {
 			return array_values( $data );
 		}
 		return $data;
-	}
-
-	public static function js_i18n() {
-		return [
-			'msg_max_rows' => __( 'You have reached the %TYPE% limit of this field', 'modular-content' ),
-			'btn_new_default' => __( 'Add Row', 'modular-content' ),
-			'btn_delete_default' => __( 'Delete Row', 'modular-content' ),
-		];
 	}
 
 	public function get_blueprint() {

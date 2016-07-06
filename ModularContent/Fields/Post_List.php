@@ -61,24 +61,34 @@ class Post_List extends Field {
 		$this->defaults[ 'suggested' ] = $this->suggested;
 		$this->defaults[ 'show_max_control' ] = $this->show_max_control;
 		$this->defaults[ 'strings' ] = [
-			'tabs.manual'             => __( 'Manual', 'modular-content' ),
-			'tabs.dynamic'            => __( 'Dynamic', 'modular-content' ),
-			'button.select_post'      => __( 'Select a post', 'modular-content' ),
-			'button.create_content'   => __( 'Create content', 'modular-content' ),
-			'button.remove_post'      => __( 'Remove this post', 'modular-content' ),
-			'label.content_type'      => __( 'Content Type', 'modular-content' ),
-			'label.choose_post'       => __( 'Choose a Post', 'modular-content' ),
-			'label.max_results'       => __( 'Max Results', 'modular-content' ),
-			'label.select_post_type'  => __( 'Select Post Type', 'modular-content' ),
-			'label.select_post_types' => __( 'Select Post Types', 'modular-content' ),
-			'label.add_a_filter'      => __( 'Add a Filter', 'modular-content' ),
-			'label.taxonomy'          => __( 'Taxonomy', 'modular-content' ),
-			'label.relationship'      => __( 'Relationship', 'modular-content' ),
-			'label.date'              => __( 'Date', 'modular-content' ),
-			'label.title'             => __( 'Title', 'modular-content' ),
-			'label.content'           => __( 'Content', 'modular-content' ),
-			'label.link'              => __( 'Link: http://example.com/', 'modular-content' ),
-			'label.thumbnail'         => __( 'Thumbnail', 'modular-content' ),
+			'tabs.manual'             						=> __( 'Manual', 'modular-content' ),
+			'tabs.dynamic'            						=> __( 'Dynamic', 'modular-content' ),
+			'button.select_post'     		 				=> __( 'Select a post', 'modular-content' ),
+			'button.create_content'   						=> __( 'Create content', 'modular-content' ),
+			'button.remove_post'      						=> __( 'Remove this post', 'modular-content' ),
+			'button.remove'           						=> __( 'Remove', 'modular-content' ), // passed to Image
+			'button.select'           						=> __( 'Select Files', 'modular-content' ), // passed to Image
+			'label.add_another'       						=> __( 'Add Another', 'modular-content' ),
+			'label.content_type'      						=> __( 'Content Type', 'modular-content' ),
+			'label.choose_post'       						=> __( 'Choose a Post', 'modular-content' ),
+			'label.max_results'      	 					=> __( 'Max Results', 'modular-content' ),
+			'label.select_post_type'  						=> __( 'Select Post Type', 'modular-content' ),
+			'label.select_post_types' 						=> __( 'Select Post Types', 'modular-content' ),
+			'label.add_a_filter'      						=> __( 'Add a Filter', 'modular-content' ),
+			'label.taxonomy'          						=> __( 'Taxonomy', 'modular-content' ),
+			'label.taxonomy-placeholder'					=> __( 'Select Term', 'modular-content' ),
+			'label.relationship'      						=> __( 'Relationship', 'modular-content' ),
+			'label.relationship-post-type-placeholder'      => __( 'Select a Post Type', 'modular-content' ),
+			'label.relationship-post-select-placeholder'   	=> __( 'Select a Related Post', 'modular-content' ),
+			'label.relationship-no-results'					=> __( 'No Results', 'modular-content' ),
+			'label.date'              						=> __( 'Date', 'modular-content' ),
+			'label.date-start-date-placeholder'      		=> __( 'Start Date', 'modular-content' ),
+			'label.date-end-date-placeholder'   			=> __( 'End Date', 'modular-content' ),
+			'label.title'             						=> __( 'Title', 'modular-content' ),
+			'label.content'           						=> __( 'Content', 'modular-content' ),
+			'label.link'              						=> __( 'Link: http://example.com/', 'modular-content' ),
+			'label.thumbnail'         						=> __( 'Thumbnail', 'modular-content' ),
+			'notice.min_posts'        						=> _x( 'This field requires %{count} more item |||| This field requires %{count} more items', 'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
 		];
 		$this->defaults[ 'hidden_fields' ] = [ ];
 		parent::__construct( $args );
@@ -106,14 +116,6 @@ class Post_List extends Field {
 		if ( !empty( $this->label ) ) {
 			printf( '<legend class="panel-input-label">%s</legend>', $this->label );
 		}
-	}
-
-	public static function js_i18n() {
-		return [
-			'chooser_heading' => __( 'Add Another', 'modular-content' ),
-			'notification_min_posts_single' => __( 'This field requires %MIN_COUNT% more item', 'modular-content' ),
-			'notification_min_posts_multiple' => __( 'This field requires %MIN_COUNT% more items', 'modular-content' ),
-		];
 	}
 
 	public function render_field() {
@@ -255,6 +257,9 @@ class Post_List extends Field {
 			foreach ( $data[ 'posts' ] as $post_data ) {
 				if ( !empty( $post_data[ 'id' ] ) ) {
 					$cache->add_post( $post_data[ 'id' ] );
+				}
+				if ( !empty( $post_data[ 'image' ] ) ) {
+					$cache->add_image( $post_data[ 'image' ], 'thumbnail' );
 				}
 			}
 		}
@@ -564,7 +569,7 @@ class Post_List extends Field {
 		return $query;
 	}
 
-	protected function get_p2p_filtered_ids( $connection_id, $post_ids ) {
+	protected static function get_p2p_filtered_ids( $connection_id, $post_ids ) {
 		$connected = get_posts( [
 			'suppress_filters' => false,
 			'connected_type'   => $connection_id,
@@ -582,6 +587,7 @@ class Post_List extends Field {
 		$blueprint[ 'max' ] = $this->max;
 		$blueprint[ 'suggested' ] = $this->suggested;
 		$blueprint[ 'show_max_control' ] = $this->show_max_control;
+		$blueprint[ 'hidden_fields' ] = $this->hidden_fields;
 		$blueprint[ 'post_type' ] = [ ];
 		foreach ( $this->post_type_options() as $pto ) {
 			if ( !is_object( $pto ) ) {
@@ -597,9 +603,10 @@ class Post_List extends Field {
 		foreach ( $this->taxonomy_options() as $tax ) {
 			$taxonomy = get_taxonomy( $tax );
 			$taxonomy_options[] = [
-				'value'     => $tax,
-				'label'     => $taxonomy->label,
-				'post_type' => Util::get_post_types_for_taxonomy( $tax ),
+				'value'       => $tax,
+				'label'       => $taxonomy->label,
+				'filter_type' => 'taxonomy',
+				'post_type'   => Util::get_post_types_for_taxonomy( $tax ),
 			];
 		}
 		if ( !empty( $taxonomy_options ) ) {
@@ -613,9 +620,10 @@ class Post_List extends Field {
 		foreach ( $this->p2p_options() as $relationship_id => $relationship ) {
 			$post_types_for_p2p = \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship );
 			$p2p_options[] = [
-				'value'     => $relationship_id,
-				'label'     => Util::get_p2p_relationship_label( $relationship ),
-				'post_type' => $post_types_for_p2p,
+				'value'       => $relationship_id,
+				'label'       => Util::get_p2p_relationship_label( $relationship ),
+				'filter_type' => 'p2p',
+				'post_type'   => $post_types_for_p2p,
 			];
 		}
 		if ( !empty( $p2p_options ) ) {
@@ -626,9 +634,10 @@ class Post_List extends Field {
 		}
 
 		$blueprint[ 'filters' ][] = [
-			'value'     => 'date',
-			'label'     => $this->get_string( 'label.date' ),
-			'post_type' => Util::get_post_types_for_date(),
+			'value'       => 'date',
+			'label'       => $this->get_string( 'label.date' ),
+			'filter_type' => 'date',
+			'post_type'   => Util::get_post_types_for_date(),
 		];
 
 		$blueprint[ 'taxonomies' ] = [ ];

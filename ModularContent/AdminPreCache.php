@@ -20,6 +20,10 @@ class AdminPreCache implements \JsonSerializable {
 		if ( $post ) {
 			$this->posts[ $post_id ] = $post;
 		}
+		$thumbnail_id = get_post_thumbnail_id( $post_id );
+		if ( $thumbnail_id ) {
+			$this->add_image( $thumbnail_id, 'thumbnail' );
+		}
 	}
 
 	public function add_term( $term_id, $taxonomy ) {
@@ -40,6 +44,15 @@ class AdminPreCache implements \JsonSerializable {
 		}
 	}
 
+	public function get_cache() {
+		return [
+			'posts'  => (object)$this->posts,
+			'terms'  => (object)$this->terms,
+			'images' => (object)$this->images,
+			'data'   => (object)$this->data,
+		];
+	}
+
 	/**
 	 * (PHP 5 &gt;= 5.4.0)<br/>
 	 * Specify data which should be serialized to JSON
@@ -49,12 +62,7 @@ class AdminPreCache implements \JsonSerializable {
 	 * which is a value of any type other than a resource.
 	 */
 	public function jsonSerialize() {
-		return [
-			'posts'  => $this->posts,
-			'terms'  => $this->terms,
-			'images' => $this->images,
-			'data'   => $this->data,
-		];
+		return $this->get_cache();
 	}
 
 	/**

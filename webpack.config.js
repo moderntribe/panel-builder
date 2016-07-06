@@ -19,7 +19,7 @@ var plugins = [
 		jQuery: 'jquery',
 		$: 'jquery',
 	}),
-	new ExtractTextPlugin('ui/dist/master.css', {
+	new ExtractTextPlugin('master.css', {
 		allChunks: true,
 	}),
 ];
@@ -30,7 +30,7 @@ if (DEBUG) {
 } else {
 	plugins.push(new webpack.DefinePlugin({
 		'process.env': {
-			NODE_ENV: JSON.stringify('production')
+			NODE_ENV: JSON.stringify('production'),
 		},
 	}));
 	cssloader = ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader');
@@ -51,9 +51,9 @@ module.exports = {
 		fallback: path.join(__dirname, 'node_modules'),
 	},
 	output: {
-		path: path.join(__dirname, '/'),
-		filename: 'ui/dist/master.js',
-		publicPath: 'http://localhost:3000/'
+		path: DEBUG ? path.join(__dirname, '/') : path.join(__dirname, '/ui/dist/'),
+		filename: DEBUG ? 'ui/dist/master.js' : 'master.js',
+		publicPath: DEBUG ? 'http://localhost:3000/' : '',
 	},
 	plugins: plugins,
 	module: {
@@ -72,19 +72,23 @@ module.exports = {
 				loaders: ['json-loader'],
 			},
 			{
+				test: /\.(png|jpg|jpeg)$/,
+				loader: 'url-loader?limit=100000&name=./img/[name]__[hash:base64:5].[ext]',
+			},
+			{
 				test: /\.pcss$/,
 				loader: cssloader,
 			},
-		]
+		],
 	},
 	postcss: [
 		require('postcss-inline-comment'),
 		require('postcss-import'),
 		require('postcss-custom-media'),
-		require('lost'),
 		require('postcss-quantity-queries'),
 		require('postcss-aspect-ratio'),
 		require('postcss-cssnext')({ browsers: ['last 3 versions', 'ie 10'] }),
 		require('postcss-nested'),
+		require('lost'),
 	],
 };

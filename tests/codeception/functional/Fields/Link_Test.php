@@ -22,7 +22,10 @@ class Link_Test extends WPTestCase {
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
-			'strings'     => [ ],
+			'strings'     => [
+				'placeholder.label' => 'Label',
+				'placeholder.url'   => 'URL',
+			],
 			'default'     => [
 				'url'    => '',
 				'target' => '',

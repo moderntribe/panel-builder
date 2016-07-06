@@ -7,6 +7,8 @@ import autobind from 'autobind-decorator';
 import FieldBuilder from './shared/field-builder';
 import AccordionBack from './shared/accordion-back';
 
+import { UI_I18N } from '../globals/i18n';
+
 import styles from './panel.pcss';
 
 /**
@@ -89,8 +91,9 @@ class PanelContainer extends Component {
 	handleHeights() {
 		if (!this.state.active) {
 			_.delay(() => {
+				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
-				fields[0].style.marginTop = `-${this.el.offsetTop - 12}px`;
+				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
 				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
 			}, 50);
 		} else {
@@ -109,6 +112,21 @@ class PanelContainer extends Component {
 		});
 		this.props.panelsActive(!this.state.active);
 		this.handleHeights();
+	}
+
+	renderTitle() {
+		let Title = null;
+		if (this.props.data.title && this.props.data.title.length) {
+			Title = (
+				<h3>{this.props.data.title}</h3>
+			);
+		} else {
+			Title = (
+				<h3 className={styles.noTitle}>{UI_I18N['heading.no_title']}</h3>
+			);
+		}
+
+		return Title;
 	}
 
 	render() {
@@ -131,7 +149,8 @@ class PanelContainer extends Component {
 		return (
 			<div ref="panel" className={wrapperClasses}>
 				<div className={headerClasses} onClick={this.handleClick}>
-					<h3>{this.props.label}</h3>
+					{this.renderTitle()}
+					<span className={styles.type}>{this.props.label}</span>
 					<i className={arrowClasses} />
 				</div>
 				{this.getFields()}

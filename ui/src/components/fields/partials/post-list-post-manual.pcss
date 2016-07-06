@@ -1,5 +1,6 @@
 @import '../../../shared/colors.pcss';
 @import '../../../shared/spacing.pcss';
+@import '../../../shared/fields.pcss';
 
 .wrapper{
 	padding:5px;
@@ -22,4 +23,22 @@
 .url{
 	composes: full from "../../../shared/inputs.pcss";
 	margin-bottom:5px;
+}
+
+.footer {
+	margin:15px 0;
+
+	button{
+		float:right;
+		margin-right:10px;
+	}
+	button:first-of-type{
+		margin-right:0;
+	}
+
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
 }

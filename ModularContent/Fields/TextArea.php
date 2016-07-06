@@ -36,6 +36,11 @@ class TextArea extends Field {
 		$this->defaults['richtext'] = $this->richtext;
 		$this->defaults['media_buttons'] = $this->media_buttons;
 		$this->defaults['editor_settings'] = $this->editor_settings;
+
+		$this->defaults[ 'strings' ] = [
+			'tab.visual' => __( 'Visual', 'modular-content' ),
+			'tab.text'   => __( 'Text', 'modular-content' ),
+		];
 		parent::__construct($args);
 		$this->index = sprintf('%04d', self::$global_index++);
 
@@ -46,13 +51,6 @@ class TextArea extends Field {
 		if ( $this->media_buttons ) {
 			add_filter( 'modular_content_metabox_data', [ __CLASS__, 'get_media_button_html_for_js' ] );
 		}
-	}
-
-	public static function js_i18n() {
-		return [
-			'tab_visual' => __( 'Visual', 'modular-content' ),
-			'tab_text' => __( 'Text', 'modular-content' ),
-		];
 	}
 
 	public function render_field() {
