@@ -37,7 +37,7 @@
     color: #333;
     cursor: default;
     display: table;
-    height: 42px;
+    height: 37px;
     outline: none;
     overflow: hidden;
     position: relative;
@@ -69,7 +69,7 @@
     bottom: 0;
     color: #aaa;
     left: 0;
-    line-height: 40px;
+    line-height: 35px;
     padding-left: 10px;
     padding-right: 10px;
     position: absolute;

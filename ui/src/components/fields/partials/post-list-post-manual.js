@@ -15,7 +15,7 @@ class PostListPostManual extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: '',
+			imageId: this.props.imageId,
 			postTitle: this.props.postTitle,
 			postContent: this.props.postContent,
 			postUrl: this.props.postUrl,
@@ -44,8 +44,7 @@ class PostListPostManual extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			AdminCache.addImage(attachment);
-			const firstSize = _.values(attachment.sizes)[0];
-			this.setState({ image: firstSize.url });
+			this.setState({ imageId: attachment.id });
 		});
 
 		frame.open();
@@ -58,9 +57,14 @@ class PostListPostManual extends Component {
 	 */
 	@autobind
 	handleRemoveMedia() {
-		this.setState({ image: '' });
+		this.setState({ imageId: null });
 	}
 
+	/**
+	 * Handles add to the panel click
+	 *
+	 * @method handleAddToPanelClick
+	 */
 	@autobind
 	handleAddToPanelClick(e) {
 		e.preventDefault();
@@ -69,6 +73,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles cancel click
+	 *
+	 * @method handleCancelClick
+	 */
 	@autobind
 	handleCancelClick(e) {
 		e.preventDefault();
@@ -77,6 +86,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles title change
+	 *
+	 * @method handleTitleChange
+	 */
 	@autobind
 	handleTitleChange(e) {
 		this.setState({
@@ -84,6 +98,11 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles content change
+	 *
+	 * @method handleContentChange
+	 */
 	@autobind
 	handleContentChange(e) {
 		this.setState({
@@ -91,11 +110,25 @@ class PostListPostManual extends Component {
 		});
 	}
 
+	/**
+	 * Handles url change
+	 *
+	 * @method handleUrlChange
+	 */
 	@autobind
 	handleUrlChange(e) {
 		this.setState({
 			postUrl: e.currentTarget.value,
 		});
+	}
+
+	/**
+	 * Check if a field is supposed to be hidden
+	 *
+	 * @method isFieldHidden
+	 */
+	isFieldHidden(fieldName) {
+		return _.indexOf(this.props.hiddenFields, fieldName) !== -1;
 	}
 
 	render() {
@@ -111,39 +144,50 @@ class PostListPostManual extends Component {
 			[styles.url]: true,
 		});
 
+		// get image from image cache
+		let imgPath = '';
+		if(this.state.imageId) {
+			const image = AdminCache.getImageById(this.state.imageId);
+			if(image) {
+				const firstSize = _.values(image.sizes)[0];
+				imgPath = firstSize.url;
+			}
+		}
+
 		return (
+			// possible hidden fields post_content, post_title, url, and thumbnail_id
 			<article className={styles.wrapper}>
-				<input
+				{!this.isFieldHidden('post_title') && <input
 					type="text"
 					className={titleClasses}
 					onChange={this.handleTitleChange}
 					name="post_title"
 					value={this.state.postTitle}
 					placeholder={this.props.strings['label.title']}
-				/>
-				<textarea
+				/>}
+				{!this.isFieldHidden('post_content') && <textarea
 					className={contentClasses}
 					onChange={this.handleContentChange}
 					name="post_content"
 					value={this.state.postContent}
 					placeholder={this.props.strings['label.content']}
-				/>
-				<input
+				/>}
+				{!this.isFieldHidden('url') && <input
 					type="url"
 					className={urlClasses}
 					onChange={this.handleUrlChange}
 					name="url"
 					value={this.state.postUrl}
 					placeholder={this.props.strings['label.link']}
-				/>
-				<MediaUploader
+				/>}
+				{!this.isFieldHidden('thumbnail_id') && <MediaUploader
 					label={this.props.label}
 					size="large"
-					file={this.state.image}
+					file={imgPath}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
-				/>
+				/>}
 				<footer className={styles.footer}>
 					<Button
 						text="Add to Panel"
@@ -165,10 +209,12 @@ class PostListPostManual extends Component {
 
 
 PostListPostManual.propTypes = {
+	imageId: PropTypes.number,
 	postTitle: PropTypes.string,
 	postContent: PropTypes.string,
 	postUrl: PropTypes.string,
 	label: PropTypes.string,
+	hiddenFields: PropTypes.array,
 	strings: PropTypes.object,
 	editableId: PropTypes.string,
 	handleCancelClick: PropTypes.func,
@@ -176,10 +222,12 @@ PostListPostManual.propTypes = {
 };
 
 PostListPostManual.defaultProps = {
+	imageId: null,
 	postTitle: '',
 	postContent: '',
 	postUrl: '',
 	label: '',
+	hiddenFields: [],
 	editableId: '',
 	handleCancelClick: () => {},
 	handleAddClick: () => {},
