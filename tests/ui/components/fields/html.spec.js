@@ -3,8 +3,6 @@ import { shallow, mount } from 'enzyme';
 import HTML from 'components/fields/html';
 
 describe('HTML field', () => {
-
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<HTML />);
 		expect(wrapper.type()).to.eql('div');
@@ -16,5 +14,4 @@ describe('HTML field', () => {
 		wrapper.setProps({ description: 'Change props for test' });
 		expect(wrapper.props().description).to.equal('Change props for test');
 	});
-
 });
