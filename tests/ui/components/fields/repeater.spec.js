@@ -1,9 +1,10 @@
+/* global expect, sinon b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Repeater from 'components/fields/repeater';
 
 describe('Repeater field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Repeater />);
 		expect(wrapper.type()).to.eql('div');
@@ -30,6 +31,4 @@ describe('Repeater field', () => {
 		wrapper.find('.repeater-add-row').simulate('click');
 		expect(wrapper.state().data.length).to.equal(5);
 	});
-
 });
-

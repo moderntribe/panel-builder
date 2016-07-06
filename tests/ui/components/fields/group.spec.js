@@ -1,3 +1,5 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Group from 'components/fields/group';
@@ -14,5 +16,4 @@ describe('Group field', () => {
 		wrapper.setProps({ description: 'Change props for test' });
 		expect(wrapper.props().description).to.equal('Change props for test');
 	});
-
 });

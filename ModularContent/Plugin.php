@@ -82,6 +82,7 @@ class Plugin {
 		\AJAXQueue\Core::init();
 		\AttachmentHelper\Plugin::init();
 		$this->setup_ajax_handler();
+		$this->init_panel_sets();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
 	}
@@ -90,6 +91,11 @@ class Plugin {
 		$this->ajax_handler()->hook();
 		$preview = new Preview_Request_Handler();
 		$preview->hook();
+	}
+
+	private function init_panel_sets() {
+		$initializer = new Sets\Initializer();
+		$initializer->hook();
 	}
 
 	public function init_panels() {

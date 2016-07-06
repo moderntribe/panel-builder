@@ -1,9 +1,10 @@
+/* global expect b:true */
+
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import TextArea from 'components/fields/textarea';
 
 describe('TextArea field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<TextArea />);
 		expect(wrapper.type()).to.eql('div');
@@ -23,5 +24,4 @@ describe('TextArea field', () => {
 		const wrapper = shallow(<TextArea />);
 		expect(wrapper.find('textarea')).to.have.length(1);
 	});
-
 });

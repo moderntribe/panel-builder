@@ -153,10 +153,8 @@ class PostQuacker extends Component {
 			const firstSize = _.values(image.sizes)[0];
 			imagePath = firstSize.url;
 		}
-		let link = this.state.link;
-		if (!link){
-			link = {};
-		}
+		const link = this.state.link || {};
+
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>

@@ -1,11 +1,12 @@
+/* global expect b:true */
+
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import Link from 'components/fields/link';
 import LinkGroup from 'components/shared/link-group';
 
 
 describe('Link field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Link />);
 		expect(wrapper.type()).to.eql('div');
@@ -25,6 +26,4 @@ describe('Link field', () => {
 		const wrapper = shallow(<Link />);
 		expect(wrapper.find('fieldset').childAt(1).type()).to.equal(LinkGroup);
 	});
-
 });
-

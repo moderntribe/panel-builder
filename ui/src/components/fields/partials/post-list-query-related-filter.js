@@ -14,7 +14,8 @@ class PostListQueryRelatedFilter extends Component {
 		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
 		isSavedSelection: Boolean(this.props.selection),
 	};
-	noResults = {
+
+	noResults = { // eslint-disable-line
 		options: [{
 			value: 0,
 			label: this.props.strings['label.relationship-no-results'],

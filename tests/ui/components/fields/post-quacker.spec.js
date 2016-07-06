@@ -1,9 +1,10 @@
+/* global expect b:true */
+
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import PostQuacker from 'components/fields/post-quacker';
 
 describe('PostQuacker field', () => {
-
 	it('renders as a <fieldset>', () => {
 		const wrapper = shallow(<PostQuacker />);
 		expect(wrapper.type()).to.eql('fieldset');
@@ -18,5 +19,4 @@ describe('PostQuacker field', () => {
 		const wrapper = shallow(<PostQuacker />);
 		expect(wrapper.find('p')).to.have.length(1);
 	});
-
 });
