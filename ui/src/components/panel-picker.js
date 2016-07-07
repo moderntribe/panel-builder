@@ -9,7 +9,7 @@ import PanelPreview from './shared/panel-preview';
 import { UI_I18N } from '../globals/i18n';
 import { BLUEPRINTS } from '../globals/config';
 
-import styles from './picker.pcss';
+import styles from './panel-picker.pcss';
 
 /**
  * Class Picker

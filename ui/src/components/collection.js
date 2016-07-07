@@ -12,7 +12,7 @@ import { MODULAR_CONTENT, BLUEPRINTS, TEMPLATES } from '../globals/config';
 import Panel from './panel';
 import Button from './shared/button';
 import EditBar from './collection-edit-bar';
-import Picker from './picker';
+import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
 
@@ -23,7 +23,6 @@ class PanelCollection extends Component {
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
-		editText: UI_I18N['button.launch_edit'],
 	};
 
 	componentWillMount() {
@@ -98,7 +97,6 @@ class PanelCollection extends Component {
 
 	@autobind
 	handleStartNewPage() {
-		console.log('[ PanelCollection ] handleStartNewPage');
 		this.setState({
 			panelSetPickerActive: false,
 			pickerActive: true,
@@ -149,21 +147,47 @@ class PanelCollection extends Component {
 		}) : null;
 	}
 
-	renderEditLaunch() {
-		let EditLaunch = null;
-		if (!this.state.liveEdit) {
-			EditLaunch = (
-				<Button
-					text={UI_I18N['button.launch_edit']}
-					handleClick={this.swapEditMode}
-					icon="dashicons-welcome-view-site"
-					bare
-					classes={styles.editButton}
-				/>
-			);
-		}
+	renderPicker() {
+		return !this.state.panelSetPickerActive ? (
+			<Picker
+				activate={this.state.pickerActive}
+				handlePickerUpdate={this.togglePicker}
+				handleAddPanel={this.props.addNewPanel}
+			/>
+		) : null;
+	}
 
-		return EditLaunch;
+	renderPanelSetPicker() {
+		return this.state.panelSetPickerActive ? (
+			<PanelSetsPicker
+				handleAddPanelSet={this.handleAddPanelSet}
+				handleStartNewPage={this.handleStartNewPage}
+			/>
+		) : null;
+	}
+
+	renderEditLaunch() {
+		return !this.state.liveEdit ? (
+			<Button
+				text={UI_I18N['button.launch_edit']}
+				handleClick={this.swapEditMode}
+				icon="dashicons-welcome-view-site"
+				bare
+				classes={styles.editButton}
+			/>
+		) : null;
+	}
+
+	renderDataStorageInput() {
+		return (
+			<input
+				ref="data"
+				type="hidden"
+				name="panels"
+				id="panels"
+				value={JSON.stringify({ panels: this.props.panels })}
+			/>
+		);
 	}
 
 	render() {
@@ -176,23 +200,20 @@ class PanelCollection extends Component {
 		});
 
 		return (
-			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
+			<div
+				className={collectionClasses}
+				data-live-edit={this.state.liveEdit}
+				data-live-active={this.state.active}
+			>
 				{this.renderBar()}
 				<div className={styles.sidebar}>
 					{this.renderPanels()}
-					{!this.state.panelSetPickerActive && <Picker
-						activate={this.state.pickerActive}
-						handlePickerUpdate={this.togglePicker}
-						handleAddPanel={this.props.addNewPanel}
-					/>}
-					{this.state.panelSetPickerActive && <PanelSetsPicker
-						handleAddPanelSet={this.handleAddPanelSet}
-						handleStartNewPage={this.handleStartNewPage}
-					/>}
+					{this.renderPicker()}
+					{this.renderPanelSetPicker()}
 					{this.renderEditLaunch()}
 				</div>
 				{this.renderIframe()}
-				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
+				{this.renderDataStorageInput()}
 			</div>
 		);
 	}
