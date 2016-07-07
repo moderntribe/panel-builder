@@ -13,14 +13,6 @@ import styles from './panel-set-preview.pcss';
  */
 
 class PanelSetPreview extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			thumbnails: (this.props.thumbnail) ? [this.props.thumbnail] : [],
-			focused: true,
-		};
-	}
-
 	@autobind
 	handleOnMouseover() {
 		this.props.togglePreview(this.props.preview);
@@ -34,7 +26,6 @@ class PanelSetPreview extends Component {
 	render() {
 		const containerClasses = classNames({
 			[styles.container]: true,
-			[styles.containerActive]: this.state.focused,
 		});
 
 		return (

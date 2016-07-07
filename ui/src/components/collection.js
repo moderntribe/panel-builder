@@ -84,6 +84,7 @@ class PanelCollection extends Component {
 		console.log('[ PanelCollection ] handleStartNewPage');
 		this.setState({
 			panelSetPickerActive: false,
+			pickerActive: true,
 		});
 	}
 
@@ -163,6 +164,7 @@ class PanelCollection extends Component {
 				<div className={styles.sidebar}>
 					{this.renderPanels()}
 					{!this.state.panelSetPickerActive && <Picker
+						activate={this.state.pickerActive}
 						handlePickerUpdate={this.togglePicker}
 						handleAddPanel={this.props.addNewPanel}
 					/>}

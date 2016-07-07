@@ -42,7 +42,7 @@ class PanelSetsPicker extends Component {
 	}
 
 	renderPanelSets() {
-		const panels = _.map(TEMPLATES, (template, i) =>
+		const PanelSetPreviews = _.map(TEMPLATES, (template, i) =>
 			<PanelSetPreview
 				key={`panel-preview-${i}`}
 				{...template}
@@ -53,7 +53,7 @@ class PanelSetsPicker extends Component {
 		
 		return (
 			<div className={styles.container}>
-				{panels}
+				{PanelSetPreviews}
 			</div>
 		);
 	}
@@ -61,7 +61,7 @@ class PanelSetsPicker extends Component {
 	renderActivePreview() {
 		return this.state.preview ? (
 			<div className={styles.preview}>
-				<img src={this.state.preview} />
+				<img src={this.state.preview} role="presentation" />
 			</div>
 		) : null;
 	}
