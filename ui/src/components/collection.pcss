@@ -53,6 +53,9 @@
 
 .editButton {
 	composes: line from "../shared/buttons.pcss";
+	[class*="post-type-panel-set"] & {
+		display: none;
+	}
 }
 
 .loaderWrap{
