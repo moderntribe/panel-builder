@@ -5,7 +5,7 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel, addNewPanel } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
 import { UI_I18N } from '../globals/i18n';
 import { MODULAR_CONTENT, BLUEPRINTS } from '../globals/config';
 
@@ -75,8 +75,11 @@ class PanelCollection extends Component {
 	}
 
 	@autobind
-	handleAddPanelSet(data) {
-		console.log('[ PanelCollection ] handleAddPanelSet', data);
+	handleAddPanelSet(data = {}) {
+		this.setState({
+			panelSetPickerActive: false,
+		});
+		this.props.addNewPanelSet(data);
 	}
 
 	@autobind
@@ -187,6 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
 	movePanel: (data) => dispatch(movePanel(data)),
 	updatePanelData: (data) => dispatch(updatePanelData(data)),
 	addNewPanel: (data) => dispatch(addNewPanel(data)),
+	addNewPanelSet: (data) => dispatch(addNewPanelSet(data)),
 });
 
 PanelCollection.propTypes = {
@@ -194,6 +198,7 @@ PanelCollection.propTypes = {
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
 	addNewPanel: PropTypes.func.isRequired,
+	addNewPanelSet: PropTypes.func.isRequired,
 };
 
 PanelCollection.defaultProps = {
@@ -201,6 +206,7 @@ PanelCollection.defaultProps = {
 	movePanel: () => {},
 	updatePanelData: () => {},
 	addNewPanel: () => {},
+	addNewPanelSet: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PanelCollection);

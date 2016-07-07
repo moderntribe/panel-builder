@@ -23,11 +23,6 @@ class PanelSetsPicker extends Component {
 	};
 
 	@autobind
-	handleAddPanelSet(panelSet) {
-		this.props.handleAddPanelSet(panelSet);
-	}
-
-	@autobind
 	togglePreview(preview = '') {
 		this.setState({ preview });
 	}
@@ -48,7 +43,7 @@ class PanelSetsPicker extends Component {
 					key={`panel-preview-${i}`}
 					{...template}
 					togglePreview={this.togglePreview}
-					handleAddPanelSet={this.handleAddPanelSet}
+					handleAddPanelSet={this.props.handleAddPanelSet}
 				/>
 			) : null;
 		});

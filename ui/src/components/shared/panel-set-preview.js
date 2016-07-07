@@ -15,6 +15,11 @@ import styles from './panel-set-preview.pcss';
 
 class PanelSetPreview extends Component {
 	@autobind
+	addSet() {
+		this.props.handleAddPanelSet(this.props.template.panels);
+	}
+
+	@autobind
 	handleOnMouseover() {
 		this.props.togglePreview(this.props.preview);
 	}
@@ -32,7 +37,7 @@ class PanelSetPreview extends Component {
 		return (
 			<article
 				className={containerClasses}
-				onClick={this.props.handleAddPanelSet}
+				onClick={this.addSet}
 				onMouseOver={this.handleOnMouseover}
 				onMouseOut={this.handleOnMouseout}
 			>
@@ -56,6 +61,7 @@ PanelSetPreview.propTypes = {
 	label: PropTypes.string,
 	description: PropTypes.string,
 	thumbnail: PropTypes.string,
+	template: PropTypes.object,
 	preview: PropTypes.string,
 	handleAddPanelSet: PropTypes.func,
 	togglePreview: PropTypes.func,
@@ -65,6 +71,7 @@ PanelSetPreview.defaultProps = {
 	label: '',
 	description: '',
 	thumbnail: '',
+	template: {},
 	preview: '',
 	handleAddPanelSet: () => {},
 	togglePreview: () => {},
