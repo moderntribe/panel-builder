@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
 import { UI_I18N } from '../globals/i18n';
-import { MODULAR_CONTENT, BLUEPRINTS } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINTS, TEMPLATES } from '../globals/config';
 
 import Panel from './panel';
 import Button from './shared/button';
@@ -19,12 +19,22 @@ import styles from './collection.pcss';
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		panelSetPickerActive: this.props.panels.length === 0,
+		panelSetPickerActive: false,
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
 		editText: UI_I18N['button.launch_edit'],
 	};
+
+	componentWillMount() {
+		if (!this.shouldActivatePanelSets()) {
+			return;
+		}
+
+		this.setState({
+			panelSetPickerActive: true,
+		});
+	}
 
 	componentDidMount() {
 		this.runDataHeartbeat();
@@ -47,6 +57,10 @@ class PanelCollection extends Component {
 	@autobind
 	panelsActive(active) {
 		this.setState({ active });
+	}
+
+	shouldActivatePanelSets() {
+		return TEMPLATES && TEMPLATES.length && !this.props.panels.length;
 	}
 
 	/**
