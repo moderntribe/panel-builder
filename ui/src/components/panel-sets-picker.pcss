@@ -5,11 +5,37 @@
 	padding-top: 5px;
 	width: 100%;
 }
+.inner {
+	width: 100%;
+}
+
+.preview {
+	display: none;
+}
 
 [data-live-edit="true"] {
 	.container {
 		display: block;
+		padding: 0;
+	}
+	.inner {
 		padding: 10px;
+		height: calc(100vh - 50px);
+		overflow-y: auto;
+	}
+	.preview {
+		display: block;
+		width: 300px;
+		height: calc(100vh - 50px);
+		position: fixed;
+		overflow: hidden;
+		top: 50px;
+		left: 300px;
+		background: var(--picker-bg);
+		border-right: 1px solid var(--picker-border);
+		img {
+			width: 100%;
+		}
 	}
 }
 

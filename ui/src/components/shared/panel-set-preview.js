@@ -23,26 +23,12 @@ class PanelSetPreview extends Component {
 
 	@autobind
 	handleOnMouseover() {
-		this.setState({
-			focused: true,
-		});
-		this.props.handleOnMouseover(this.props.preview);
+		this.props.togglePreview(this.props.preview);
 	}
 
 	@autobind
 	handleOnMouseout() {
-		this.setState({
-			focused: false,
-		});
-		this.props.handleOnMouseout();
-	}
-
-	renderPreview() {
-		return this.props.preview ? (
-			<div className={styles.preview}>
-				<img src={this.props.preview} alt={this.props.label} />
-			</div>
-		) : null;
+		this.props.togglePreview();
 	}
 
 	render() {
@@ -64,7 +50,6 @@ class PanelSetPreview extends Component {
 					<div className={styles.thumbnailTop}><i /><i /><i /><b /></div>
 					<figure><img src={this.props.thumbnail} alt={this.props.label} /></figure>
 				</div>
-				{this.renderPreview()}
 			</article>
 		);
 	}
@@ -76,8 +61,7 @@ PanelSetPreview.propTypes = {
 	thumbnail: PropTypes.string,
 	preview: PropTypes.string,
 	handleAddPanelSet: PropTypes.func,
-	handleOnMouseover: PropTypes.func,
-	handleOnMouseout: PropTypes.func,
+	togglePreview: PropTypes.func,
 };
 
 PanelSetPreview.defaultProps = {
@@ -86,8 +70,7 @@ PanelSetPreview.defaultProps = {
 	thumbnail: '',
 	preview: '',
 	handleAddPanelSet: () => {},
-	handleOnMouseover: () => {},
-	handleOnMouseout: () => {},
+	togglePreview: () => {},
 };
 
 export default PanelSetPreview;

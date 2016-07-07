@@ -14,19 +14,16 @@ import Button from './shared/button';
 import EditBar from './collection-edit-bar';
 import Picker from './picker';
 import PanelSetsPicker from './panel-sets-picker';
-import PanelSetThumbnail from './shared/panel-set-thumbnail';
 import styles from './collection.pcss';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		paneSetPickerActive: this.props.panels.length === 0,
+		panelSetPickerActive: this.props.panels.length === 0,
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
 		editText: UI_I18N['button.launch_edit'],
-		panelSetThumbnailActive: false,
-		panelSetThumbnail: null,
 	};
 
 	componentDidMount() {
@@ -35,51 +32,6 @@ class PanelCollection extends Component {
 
 	componentWillUnmount() {
 		clearInterval(this.heartbeat);
-	}
-
-	getBar() {
-		return this.state.liveEdit ? (
-			<EditBar
-				handleCancelClick={this.swapEditMode}
-				handleResizeClick={this.swapResizeMode}
-			/>
-		) : null;
-	}
-
-	getIframe() {
-		const iframeClasses = classNames({
-			[styles.iframeFull]: this.state.mode === 'full',
-			[styles.iframeTablet]: this.state.mode === 'tablet',
-			[styles.iframeMobile]: this.state.mode === 'mobile',
-			'panel-preview-iframe': true,
-		});
-
-		return this.state.liveEdit ? (
-			<div className={styles.iframe}>
-				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
-			</div>
-		) : null;
-	}
-
-	getPanels() {
-		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
-			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
-			console.log(panel);
-			return (
-				<Panel
-					{...blueprint}
-					{...panel}
-					key={`panel-${i}`}
-					index={i}
-					panelCount={this.props.panels.length}
-					liveEdit={this.state.liveEdit}
-					panelsActive={this.panelsActive}
-					movePanel={this.props.movePanel}
-					updatePanelData={this.props.updatePanelData}
-				/>
-			);
-		}) : null;
 	}
 
 	@autobind
@@ -123,22 +75,6 @@ class PanelCollection extends Component {
 	}
 
 	@autobind
-	showPanelSetThumbnail(panelSetThumbnail) {
-		if (panelSetThumbnail && panelSetThumbnail !== '') {
-			this.setState({
-				panelSetThumbnailActive: true,
-				panelSetThumbnail,
-			});
-		}
-	}
-	@autobind
-	hidePanelSetThumbnail() {
-		this.setState({
-			panelSetThumbnailActive: false,
-		});
-	}
-
-	@autobind
 	handleAddPanelSet(data) {
 		console.log('[ PanelCollection ] handleAddPanelSet', data);
 	}
@@ -147,8 +83,52 @@ class PanelCollection extends Component {
 	handleStartNewPage() {
 		console.log('[ PanelCollection ] handleStartNewPage');
 		this.setState({
-			paneSetPickerActive: false,
+			panelSetPickerActive: false,
 		});
+	}
+
+	renderBar() {
+		return this.state.liveEdit ? (
+			<EditBar
+				handleCancelClick={this.swapEditMode}
+				handleResizeClick={this.swapResizeMode}
+			/>
+		) : null;
+	}
+
+	renderIframe() {
+		const iframeClasses = classNames({
+			[styles.iframeFull]: this.state.mode === 'full',
+			[styles.iframeTablet]: this.state.mode === 'tablet',
+			[styles.iframeMobile]: this.state.mode === 'mobile',
+			'panel-preview-iframe': true,
+		});
+
+		return this.state.liveEdit ? (
+			<div className={styles.iframe}>
+				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
+				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
+			</div>
+		) : null;
+	}
+
+	renderPanels() {
+		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
+			const blueprint = _.find(BLUEPRINTS, { type: panel.type });
+			return (
+				<Panel
+					{...blueprint}
+					{...panel}
+					key={`panel-${i}`}
+					index={i}
+					panelCount={this.props.panels.length}
+					liveEdit={this.state.liveEdit}
+					panelsActive={this.panelsActive}
+					movePanel={this.props.movePanel}
+					updatePanelData={this.props.updatePanelData}
+				/>
+			);
+		}) : null;
 	}
 
 	renderEditLaunch() {
@@ -173,33 +153,27 @@ class PanelCollection extends Component {
 			[styles.main]: true,
 			[styles.active]: this.state.active,
 			[styles.editMode]: this.state.liveEdit,
+			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
 		});
 
 		return (
 			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
-				{this.getBar()}
+				{this.renderBar()}
 				<div className={styles.sidebar}>
-					{this.getPanels()}
-					{!this.state.paneSetPickerActive && <Picker
+					{this.renderPanels()}
+					{!this.state.panelSetPickerActive && <Picker
 						handlePickerUpdate={this.togglePicker}
 						handleAddPanel={this.props.addNewPanel}
 					/>}
-					{this.state.paneSetPickerActive && <PanelSetsPicker
-						handleShowPanelSetThumbnail={this.showPanelSetThumbnail}
-						handleHidePanelSetThumbnail={this.hidePanelSetThumbnail}
+					{this.state.panelSetPickerActive && <PanelSetsPicker
 						handleAddPanelSet={this.handleAddPanelSet}
 						handleStartNewPage={this.handleStartNewPage}
 					/>}
 					{this.renderEditLaunch()}
 				</div>
-				{this.getIframe()}
+				{this.renderIframe()}
 				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
-				<PanelSetThumbnail
-					thumbnail={this.state.panelSetThumbnail}
-					active={this.state.panelSetThumbnailActive}
-					liveEdit={this.state.liveEdit}
-				/>
 			</div>
 		);
 	}

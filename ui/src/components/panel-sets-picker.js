@@ -18,10 +18,18 @@ import styles from './panel-sets-picker.pcss';
  */
 
 class PanelSetsPicker extends Component {
+	state = {
+		preview: '',
+	};
 
 	@autobind
 	handleAddPanelSet(panelSet) {
 		this.props.handleAddPanelSet(panelSet);
+	}
+
+	@autobind
+	togglePreview(preview = '') {
+		this.setState({ preview });
 	}
 
 	renderStartPageFromScratch() {
@@ -38,11 +46,11 @@ class PanelSetsPicker extends Component {
 			<PanelSetPreview
 				key={`panel-preview-${i}`}
 				{...template}
+				togglePreview={this.togglePreview}
 				handleAddPanelSet={this.handleAddPanelSet}
-				handleOnMouseover={this.props.handleShowPanelSetThumbnail}
-				handleOnMouseout={this.props.handleHidePanelSetThumbnail}
 			/>
 		);
+		
 		return (
 			<div className={styles.container}>
 				{panels}
@@ -50,17 +58,24 @@ class PanelSetsPicker extends Component {
 		);
 	}
 
-	render() {
-		const wrapperClasses = classNames({
-			[styles.container]: true,
-		});
+	renderActivePreview() {
+		return this.state.preview ? (
+			<div className={styles.preview}>
+				<img src={this.state.preview} />
+			</div>
+		) : null;
+	}
 
+	render() {
 		return (
-			<div className={wrapperClasses}>
-				<h3 className={styles.actionHeader}>Start a New Page</h3>
-				{this.renderStartPageFromScratch()}
-				<h3 className={styles.actionHeader}>Or Start from a Page Set</h3>
-				{this.renderPanelSets()}
+			<div className={styles.container}>
+				<div className={styles.inner}>
+					<h3 className={styles.actionHeader}>Start a New Page</h3>
+					{this.renderStartPageFromScratch()}
+					<h3 className={styles.actionHeader}>Or Start from a Page Set</h3>
+					{this.renderPanelSets()}
+				</div>
+				{this.renderActivePreview()}
 			</div>
 		);
 	}
@@ -71,8 +86,6 @@ PanelSetsPicker.propTypes = {
 	handlePickerUpdate: PropTypes.func,
 	handleAddPanelSet: PropTypes.func,
 	handleStartNewPage: PropTypes.func,
-	handleShowPanelSetThumbnail: PropTypes.func,
-	handleHidePanelSetThumbnail: PropTypes.func,
 };
 
 PanelSetsPicker.defaultProps = {
@@ -80,8 +93,6 @@ PanelSetsPicker.defaultProps = {
 	handlePickerUpdate: () => {},
 	handleAddPanelSet: () => {},
 	handleStartNewPage: () => {},
-	handleShowPanelSetThumbnail: () => {},
-	handleHidePanelSetThumbnail: () => {},
 };
 
 export default PanelSetsPicker;
