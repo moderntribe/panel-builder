@@ -113,6 +113,7 @@ class MetaBox {
 				'button.cancel_add_new'   => __( 'Go back to panel editor', 'modular-content' ),
 
 				// panel sets
+				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),
 				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
 				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
 				'message.template_saved'  => __( 'Panel Set Saved Successfully', 'modular-content' ),

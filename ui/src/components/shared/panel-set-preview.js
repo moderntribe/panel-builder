@@ -1,6 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import { UI_I18N } from '../../globals/i18n';
+
+import Button from './button';
 
 import styles from './panel-set-preview.pcss';
 
@@ -39,7 +42,12 @@ class PanelSetPreview extends Component {
 				<p>{this.props.description}</p>
 				<div className={styles.thumbnailFrame}>
 					<div className={styles.thumbnailTop}><i /><i /><i /><b /></div>
-					<figure><img src={this.props.thumbnail} alt={this.props.label} /></figure>
+					<figure>
+						<img src={this.props.thumbnail} alt={this.props.label} />
+						<figcaption className={styles.select}>
+							<div><span>{UI_I18N['button.select_set']}</span></div>
+						</figcaption>
+					</figure>
 				</div>
 			</article>
 		);
