@@ -39,9 +39,6 @@ class Template_Data {
 				$templates[] = $set;
 			}
 		}
-		if ( !empty( $templates ) ) {
-			array_unshift( $templates, new Set( 0 ) );
-		}
 		return $templates;
 	}
 } 
