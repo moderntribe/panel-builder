@@ -1,0 +1,51 @@
+@import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
+
+.wrapper {
+	composes: group from "../shared/helpers.pcss";
+	padding-top: 5px;
+	&.liveEdit {
+		text-align: center;
+	}
+}
+
+.heading {
+	text-transform: uppercase;
+	font-size: 14px;
+	color: var(--light-heading);
+	padding: 10px 15px 10px 0;
+	font-weight: 600;
+	display: inline-block;
+	.liveEdit & {
+		display: block;
+		padding: 10px 0 0 0;
+		font-size: 12px;
+	}
+}
+
+.saveSet {
+	float: right;
+	i {
+		font-size: 24px;
+		top: -6px;
+		.liveEdit & {
+			font-size: 18px;
+			top: -3px;
+			margin-right: 2px;
+		}
+	}
+	.liveEdit & {
+		font-size: 12px;
+		float: none;
+		padding-top: 3px;
+	}
+}
+
+.editButton {
+	float: right;
+	i {
+		font-size: 24px;
+		top: -3px;
+		margin-right: 10px;
+	}
+}

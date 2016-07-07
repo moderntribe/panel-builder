@@ -6,11 +6,10 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
-import { UI_I18N } from '../globals/i18n';
 import { MODULAR_CONTENT, BLUEPRINTS, TEMPLATES } from '../globals/config';
 
 import Panel from './panel';
-import Button from './shared/button';
+import Header from './collection-header';
 import EditBar from './collection-edit-bar';
 import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
@@ -166,18 +165,6 @@ class PanelCollection extends Component {
 		) : null;
 	}
 
-	renderEditLaunch() {
-		return !this.state.liveEdit ? (
-			<Button
-				text={UI_I18N['button.launch_edit']}
-				handleClick={this.swapEditMode}
-				icon="dashicons-welcome-view-site"
-				bare
-				classes={styles.editButton}
-			/>
-		) : null;
-	}
-
 	renderDataStorageInput() {
 		return (
 			<input
@@ -207,10 +194,14 @@ class PanelCollection extends Component {
 			>
 				{this.renderBar()}
 				<div className={styles.sidebar}>
+					<Header
+						{...this.state}
+						count={this.props.panels.length}
+						handleLiveEditClick={this.swapEditMode}
+					/>
 					{this.renderPanels()}
 					{this.renderPicker()}
 					{this.renderPanelSetPicker()}
-					{this.renderEditLaunch()}
 				</div>
 				{this.renderIframe()}
 				{this.renderDataStorageInput()}
