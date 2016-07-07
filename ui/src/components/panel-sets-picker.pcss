@@ -1,25 +1,24 @@
 @import '../shared/colors.pcss';
 
-
 .container {
 	lost-flex-container: row;
 	padding-top: 5px;
 	width: 100%;
 }
 
-[data-live-edit="true"]{
+[data-live-edit="true"] {
 	.container {
 		display: block;
-		padding:10px;
+		padding: 10px;
 	}
 }
 
 .actionHeader {
 	color: var(--panel-small-header);
-	font-size:15px;
+	font-size: 15px;
 	text-transform: uppercase;
 	display: block;
-	width:100%;
+	width: 100%;
 	text-align: center;
 
 	&:not(:first-of-type):before {
@@ -28,17 +27,17 @@
 		display: block;
 		height: 1px;
 		border-bottom: 1px solid var(--border-color);
-		margin:10px 0 30px;
+		margin: 10px 0 30px;
 		width: 100%;
 	}
 }
 
 .createIcon {
-	width:75px;
-	height:75px;
-	margin:0 auto 10px;
+	width: 75px;
+	height: 75px;
+	margin: 0 auto 10px;
 	display: block;
-	background-image: url('../img/panel-sets/new-page-icon.png')
+	background-image: svg-load('../img/icons/magic-wand.svg');
 }
 
 .createHeader {
@@ -47,7 +46,7 @@
 	color: #33383c;
 	width: 100%;
 	text-align: center;
-	margin-bottom:10px;
+	margin-bottom: 10px;
 }
 
 .newPage {
@@ -55,10 +54,10 @@
 	background-color: var(--panel-bg-color);
 	padding: 16px;
 	border: 1px solid var(--border-color);
-	min-height:80px;
-	margin-bottom:10px;
-	display:block;
-	width:100%;
+	min-height: 80px;
+	margin-bottom: 10px;
+	display: block;
+	width: 100%;
 	cursor: pointer;
 	cursor: hand;
 }

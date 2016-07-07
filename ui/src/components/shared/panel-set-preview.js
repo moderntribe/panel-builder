@@ -37,8 +37,15 @@ class PanelSetPreview extends Component {
 		this.props.handleOnMouseout();
 	}
 
+	renderPreview() {
+		return this.props.preview ? (
+			<div className={styles.preview}>
+				<img src={this.props.preview} alt={this.props.label} />
+			</div>
+		) : null;
+	}
+
 	render() {
-		const addPanel = () => this.props.handleAddPanelSet();
 		const containerClasses = classNames({
 			[styles.container]: true,
 			[styles.containerActive]: this.state.focused,
@@ -47,7 +54,7 @@ class PanelSetPreview extends Component {
 		return (
 			<article
 				className={containerClasses}
-				onClick={addPanel}
+				onClick={this.props.handleAddPanelSet}
 				onMouseOver={this.handleOnMouseover}
 				onMouseOut={this.handleOnMouseout}
 			>
@@ -57,9 +64,7 @@ class PanelSetPreview extends Component {
 					<div className={styles.thumbnailTop}><i /><i /><i /><b /></div>
 					<figure><img src={this.props.thumbnail} alt={this.props.label} /></figure>
 				</div>
-				<div className={styles.preview}>
-					<img src={this.props.preview} alt={this.props.label} />
-				</div>
+				{this.renderPreview()}
 			</article>
 		);
 	}
