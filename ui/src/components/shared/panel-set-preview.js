@@ -3,8 +3,6 @@ import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import { UI_I18N } from '../../globals/i18n';
 
-import Button from './button';
-
 import styles from './panel-set-preview.pcss';
 
 /**
