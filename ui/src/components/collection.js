@@ -20,7 +20,10 @@ import * as ajax from '../util/ajax';
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		panelSetModalIsOpen: false,
+		panelSetSaveError: false,
 		panelSetPickerActive: false,
+		panelSetPickerEditLink: '',
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
@@ -63,11 +66,27 @@ class PanelCollection extends Component {
 	savePanelSet() {
 		ajax.savePanelSet(this.props.panels)
 			.done((data) => {
-				console.log(data);
+				this.setState({
+					panelSetModalIsOpen: true,
+					panelSetPickerEditLink: data.edit_url,
+					panelSetSaveError: false,
+				});
 			})
-			.fail((error) => {
-				console.log(error);
+			.fail(() => {
+				this.setState({
+					panelSetModalIsOpen: true,
+					panelSetPickerEditLink: '',
+					panelSetSaveError: true,
+				});
 			});
+	}
+
+	@autobind
+	closePanelSetModal() {
+		this.setState({
+			panelSetModalIsOpen: false,
+			panelSetSaveError: false,
+		});
 	}
 
 	shouldActivatePanelSets() {
@@ -212,6 +231,7 @@ class PanelCollection extends Component {
 						count={this.props.panels.length}
 						handleSavePanelSet={this.savePanelSet}
 						handleLiveEditClick={this.swapEditMode}
+						closeModal={this.closePanelSetModal}
 					/>
 					{this.renderPanels()}
 					{this.renderPicker()}

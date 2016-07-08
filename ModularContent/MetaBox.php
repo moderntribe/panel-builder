@@ -120,7 +120,8 @@ class MetaBox {
 				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),
 				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
 				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
-				'message.template_saved'  => __( 'Panel Set Saved Successfully', 'modular-content' ),
+				'message.template_saved'  => __( 'Panel Set saved successfully', 'modular-content' ),
+				'message.template_error'  => __( 'There was an error saving the Panel Set', 'modular-content' ),
 			]
 		];
 
