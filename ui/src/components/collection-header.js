@@ -19,7 +19,7 @@ import styles from './collection-header.pcss';
 
 const CollectionHeader = (props) => {
 	// render logic
-	const shouldRender = () => !props.panelSetPickerActive && !props.pickerActive && !props.active;
+	const shouldRender = () => !props.active;
 	const shouldRenderLiveEdit = () => !props.liveEdit;
 	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length;
 	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length;
@@ -140,7 +140,9 @@ const CollectionHeader = (props) => {
 	// render
 	return shouldRender() ? (
 		<header className={wrapperClasses}>
-			<span className={styles.heading}>{UI_I18N['heading.active_panels']}</span>
+			{!props.panelSetPickerActive && !props.pickerActive &&
+				<span className={styles.heading}>{UI_I18N['heading.active_panels']}</span>
+			}
 			{renderLaunchLiveEdit()}
 			{renderSavePanelSet()}
 			{renderEditPanelSet()}
