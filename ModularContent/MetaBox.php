@@ -122,6 +122,9 @@ class MetaBox {
 				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
 				'message.template_saved'  => __( 'Panel Set saved successfully', 'modular-content' ),
 				'message.template_error'  => __( 'There was an error saving the Panel Set', 'modular-content' ),
+				'heading.start_new_page'  => __( 'Start a New Page', 'modular-content' ),
+				'heading.start_from_set'  => __( 'Or Start from a Page Set', 'modular-content' ),
+				'heading.start_from_scr'  => __( 'Create Page From Scratch', 'modular-content' ),
 			]
 		];
 

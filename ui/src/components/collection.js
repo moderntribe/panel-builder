@@ -47,6 +47,19 @@ class PanelCollection extends Component {
 		clearInterval(this.heartbeat);
 	}
 
+	componentWillUpdate(nextProps, nextState) {
+		this.handleModalOpenUi(nextState);
+	}
+
+	handleModalOpenUi(nextState) {
+		const wpWrap = document.getElementById('wpwrap');
+		if (nextState.panelSetModalIsOpen) {
+			wpWrap.classList.add(styles.modalBlur);
+		} else {
+			wpWrap.classList.remove(styles.modalBlur);
+		}
+	}
+
 	@autobind
 	swapEditMode() {
 		this.setState({ liveEdit: !this.state.liveEdit });
@@ -64,7 +77,7 @@ class PanelCollection extends Component {
 
 	@autobind
 	savePanelSet() {
-		ajax.savePanelSet(this.props.panels)
+		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
 			.done((data) => {
 				this.setState({
 					panelSetModalIsOpen: true,

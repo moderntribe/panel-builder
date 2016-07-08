@@ -41,6 +41,39 @@
 	}
 }
 
+.editSet {
+	float: right;
+	text-decoration: none;
+	display: inline-block;
+	width: auto;
+	padding-right: 10px;
+	line-height: 30px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--link-color);
+	outline: 0;
+	&:focus {
+		box-shadow: none;
+	}
+	i {
+		position: relative;
+		font-size: 24px;
+		top: 4px;
+		margin-right: 6px;
+		.liveEdit & {
+			font-size: 18px;
+			top: 2px;
+			margin-right: 4px;
+		}
+	}
+	.liveEdit & {
+		font-size: 12px;
+		float: none;
+		padding-top: 3px;
+		line-height: 1;
+	}
+}
+
 .editButton {
 	float: right;
 	i {
@@ -62,4 +95,59 @@
 
 .modal {
 	z-index: 1000001;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 200px;
+	max-width: 100%;
+	background: rgba(255,255,255,0.9);
+	border-radius: 5px;
+	position: absolute;
+	margin: -100px 0 0 -200px;
+	text-align: center;
+}
+
+.modalError {
+	 span {
+		 color: var(--color-danger);
+	 }
+}
+
+.modalSuccess {
+	span {
+		color: var(--color-success);
+	}
+}
+
+.modalOuter {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.modalInner {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+	width: 100%;
+	span {
+		font-size: 100px;
+		height: 100px;
+		width: 100px;
+	}
+	p {
+		font-weight: 600;
+		color: var(--picker-description);
+		font-size: 14px;
+	}
+}
+
+.closeModal {
+	position: absolute;
+	right: -39px;
+	top: -33px;
+	color: white;
+	i {
+		font-size: 24px;
+	}
 }

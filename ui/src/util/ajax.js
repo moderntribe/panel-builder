@@ -6,7 +6,7 @@ const getTitle = () => {
 	return title ? title.value : '';
 };
 
-export const savePanelSet = (panels = {}) => {
+export const savePanelSet = (panels = '') => {
 	const data = {
 		action: TEMPLATE_SAVER.params.action,
 		nonce: TEMPLATE_SAVER.params.nonce,

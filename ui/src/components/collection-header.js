@@ -61,7 +61,7 @@ const CollectionHeader = (props) => {
 		let EditSet;
 		if (canEditPanelSet()) {
 			EditSet = (
-				<a href={props.panelSetPickerEditLink} target="_blank">
+				<a href={props.panelSetPickerEditLink} className={styles.editSet} target="_blank">
 					<i className="icon-edit" />
 					{UI_I18N['button.edit_template']}
 				</a>
@@ -91,13 +91,29 @@ const CollectionHeader = (props) => {
 
 	const modalContent = () => {
 		let Content;
+		const modalClasses = classNames({
+			[styles.modalError]: props.panelSetSaveError,
+			[styles.modalSuccess]: !props.panelSetSaveError,
+			[styles.modalOuter]: true,
+		});
+
 		if (props.panelSetSaveError) {
 			Content = (
-				<div>Error</div>
+				<div className={modalClasses}>
+					<div className={styles.modalInner}>
+						<span className="dashicons dashicons-no" />
+						<p>{UI_I18N['message.template_error']}</p>
+					</div>
+				</div>
 			);
 		} else {
 			Content = (
-				<div>Success</div>
+				<div className={modalClasses}>
+					<div className={styles.modalInner}>
+						<span className="dashicons dashicons-yes" />
+						<p>{UI_I18N['message.template_saved']}</p>
+					</div>
+				</div>
 			);
 		}
 		return Content;
@@ -108,10 +124,15 @@ const CollectionHeader = (props) => {
 			isOpen={props.panelSetModalIsOpen}
 			onRequestClose={props.closeModal}
 			className={styles.modal}
-		    overlayClassName={styles.overlay}
+			overlayClassName={styles.overlay}
 		>
-			<h2>Hello</h2>
-			<button onClick={props.closeModal}>close</button>
+			<Button
+				handleClick={props.closeModal}
+				bare
+				full={false}
+				icon="dashicons dashicons-no"
+				classes={styles.closeModal}
+			/>
 			{modalContent()}
 		</Modal>
 	);
