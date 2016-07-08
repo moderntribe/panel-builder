@@ -12,10 +12,5 @@ export const TEMPLATE_SAVER = MODULAR_CONTENT.template_saver;
 
 export const mediaButtonsHTML = MODULAR_CONTENT.media_buttons_html;
 export const previewUrl = MODULAR_CONTENT.preview_url;
-export const AJAXURL = window.ajaxurl || '';
 
 export const POST_LIST_CONFIG = CONFIG_DEFAULTS.fields.post_list;
-
-export const AJAX_ACTIONS = {
-	createPanelSet: 'panel-set-create',
-};

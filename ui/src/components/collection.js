@@ -43,12 +43,12 @@ class PanelCollection extends Component {
 		this.runDataHeartbeat();
 	}
 
-	componentWillUnmount() {
-		clearInterval(this.heartbeat);
-	}
-
 	componentWillUpdate(nextProps, nextState) {
 		this.handleModalOpenUi(nextState);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.heartbeat);
 	}
 
 	handleModalOpenUi(nextState) {

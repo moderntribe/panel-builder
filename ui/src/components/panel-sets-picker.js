@@ -37,16 +37,14 @@ class PanelSetsPicker extends Component {
 	}
 
 	renderPanelSets() {
-		const PanelSetPreviews = _.map(TEMPLATES, (template, i) => {
-			return template.id ? (
-				<PanelSetPreview
-					key={`panel-preview-${i}`}
-					{...template}
-					togglePreview={this.togglePreview}
-					handleAddPanelSet={this.props.handleAddPanelSet}
-				/>
-			) : null;
-		});
+		const PanelSetPreviews = _.map(TEMPLATES, (template, i) =>
+			<PanelSetPreview
+				key={`panel-preview-${i}`}
+				{...template}
+				togglePreview={this.togglePreview}
+				handleAddPanelSet={this.props.handleAddPanelSet}
+			/>
+		);
 
 		return (
 			<div className={styles.container}>
