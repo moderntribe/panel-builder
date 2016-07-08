@@ -42,7 +42,7 @@ const CollectionHeader = (props) => {
 			SaveSet = (
 				<Button
 					text={UI_I18N['button.save_as_template']}
-					handleClick={props.handleLiveEditClick}
+					handleClick={props.handleSavePanelSet}
 					bare
 					full={false}
 					icon="icon-save"
@@ -83,6 +83,7 @@ const CollectionHeader = (props) => {
 };
 
 CollectionHeader.propTypes = {
+	handleSavePanelSet: PropTypes.func,
 	handleLiveEditClick: PropTypes.func,
 	active: PropTypes.bool,
 	count: PropTypes.number,
@@ -92,6 +93,7 @@ CollectionHeader.propTypes = {
 };
 
 CollectionHeader.defaultProps = {
+	handleSavePanelSet: () => {},
 	handleLiveEditClick: () => {},
 	active: false,
 	count: 0,

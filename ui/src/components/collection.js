@@ -15,6 +15,8 @@ import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
 
+import * as ajax from '../util/ajax';
+
 class PanelCollection extends Component {
 	state = {
 		active: false,
@@ -55,6 +57,17 @@ class PanelCollection extends Component {
 	@autobind
 	panelsActive(active) {
 		this.setState({ active });
+	}
+
+	@autobind
+	savePanelSet() {
+		ajax.savePanelSet(this.props.panels)
+			.done((data) => {
+				console.log(data);
+			})
+			.fail((error) => {
+				console.log(error);
+			});
 	}
 
 	shouldActivatePanelSets() {
@@ -197,6 +210,7 @@ class PanelCollection extends Component {
 					<Header
 						{...this.state}
 						count={this.props.panels.length}
+						handleSavePanelSet={this.savePanelSet}
 						handleLiveEditClick={this.swapEditMode}
 					/>
 					{this.renderPanels()}

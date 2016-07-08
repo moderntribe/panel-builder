@@ -50,7 +50,7 @@ class Template_Saver {
 	}
 
 	private function create_panel_set( $request ) {
-		if ( empty( $request[ 'title' ] ) || empty( $request[ 'state' ] ) ) {
+		if ( empty( $request[ 'title' ] ) || empty( $request[ 'panels' ] ) ) {
 			return 0;
 		}
 		$post_data = [
