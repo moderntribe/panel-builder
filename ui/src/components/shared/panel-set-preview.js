@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import { UI_I18N } from '../../globals/i18n';
 
 import styles from './panel-set-preview.pcss';
 
@@ -13,41 +14,30 @@ import styles from './panel-set-preview.pcss';
  */
 
 class PanelSetPreview extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			thumbnails: (this.props.thumbnail) ? [this.props.thumbnail] : [],
-			focused: true,
-		};
+	@autobind
+	addSet() {
+		this.props.handleAddPanelSet(this.props.template.panels);
 	}
 
 	@autobind
 	handleOnMouseover() {
-		this.setState({
-			focused: true,
-		});
-		this.props.handleOnMouseover(this.props.preview);
+		this.props.togglePreview(this.props.preview);
 	}
 
 	@autobind
 	handleOnMouseout() {
-		this.setState({
-			focused: false,
-		});
-		this.props.handleOnMouseout();
+		this.props.togglePreview();
 	}
 
 	render() {
-		const addPanel = () => this.props.handleAddPanelSet();
 		const containerClasses = classNames({
 			[styles.container]: true,
-			[styles.containerActive]: this.state.focused,
 		});
 
 		return (
 			<article
 				className={containerClasses}
-				onClick={addPanel}
+				onClick={this.addSet}
 				onMouseOver={this.handleOnMouseover}
 				onMouseOut={this.handleOnMouseout}
 			>
@@ -55,10 +45,12 @@ class PanelSetPreview extends Component {
 				<p>{this.props.description}</p>
 				<div className={styles.thumbnailFrame}>
 					<div className={styles.thumbnailTop}><i /><i /><i /><b /></div>
-					<figure><img src={this.props.thumbnail} alt={this.props.label} /></figure>
-				</div>
-				<div className={styles.preview}>
-					<img src={this.props.preview} alt={this.props.label} />
+					<figure>
+						<img src={this.props.thumbnail} alt={this.props.label} />
+						<figcaption className={styles.select}>
+							<div><span>{UI_I18N['button.select_set']}</span></div>
+						</figcaption>
+					</figure>
 				</div>
 			</article>
 		);
@@ -69,20 +61,20 @@ PanelSetPreview.propTypes = {
 	label: PropTypes.string,
 	description: PropTypes.string,
 	thumbnail: PropTypes.string,
+	template: PropTypes.object,
 	preview: PropTypes.string,
 	handleAddPanelSet: PropTypes.func,
-	handleOnMouseover: PropTypes.func,
-	handleOnMouseout: PropTypes.func,
+	togglePreview: PropTypes.func,
 };
 
 PanelSetPreview.defaultProps = {
 	label: '',
 	description: '',
 	thumbnail: '',
+	template: {},
 	preview: '',
 	handleAddPanelSet: () => {},
-	handleOnMouseover: () => {},
-	handleOnMouseout: () => {},
+	togglePreview: () => {},
 };
 
 export default PanelSetPreview;

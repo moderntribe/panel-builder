@@ -8,6 +8,7 @@ export const BLUEPRINTS = MODULAR_CONTENT.blueprint;
 export const ADMIN_CACHE = MODULAR_CONTENT.cache;
 export const PANELS = MODULAR_CONTENT.panels;
 export const TEMPLATES = MODULAR_CONTENT.templates;
+export const TEMPLATE_SAVER = MODULAR_CONTENT.template_saver;
 
 export const mediaButtonsHTML = MODULAR_CONTENT.media_buttons_html;
 export const previewUrl = MODULAR_CONTENT.preview_url;

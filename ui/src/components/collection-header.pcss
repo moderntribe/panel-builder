@@ -1,0 +1,153 @@
+@import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
+
+.wrapper {
+	composes: group from "../shared/helpers.pcss";
+	padding-top: 5px;
+	&.liveEdit {
+		text-align: center;
+	}
+}
+
+.heading {
+	text-transform: uppercase;
+	font-size: 14px;
+	color: var(--light-heading);
+	padding: 10px 15px 10px 0;
+	font-weight: 600;
+	display: inline-block;
+	.liveEdit & {
+		display: block;
+		padding: 10px 0 0 0;
+		font-size: 12px;
+	}
+}
+
+.saveSet {
+	float: right;
+	i {
+		font-size: 24px;
+		top: -6px;
+		.liveEdit & {
+			font-size: 18px;
+			top: -3px;
+			margin-right: 2px;
+		}
+	}
+	.liveEdit & {
+		font-size: 12px;
+		float: none;
+		padding-top: 3px;
+	}
+}
+
+.editSet {
+	float: right;
+	text-decoration: none;
+	display: inline-block;
+	width: auto;
+	padding-right: 10px;
+	line-height: 30px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--link-color);
+	outline: 0;
+	&:focus {
+		box-shadow: none;
+	}
+	i {
+		position: relative;
+		font-size: 24px;
+		top: 4px;
+		margin-right: 6px;
+		.liveEdit & {
+			font-size: 18px;
+			top: 2px;
+			margin-right: 4px;
+		}
+	}
+	.liveEdit & {
+		font-size: 12px;
+		float: none;
+		padding-top: 3px;
+		line-height: 1;
+	}
+}
+
+.editButton {
+	float: right;
+	i {
+		font-size: 24px;
+		top: -3px;
+		margin-right: 10px;
+	}
+}
+
+.overlay {
+	z-index: 1000000;
+	background: rgba(0,0,0,0.4);
+	position: fixed;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal {
+	z-index: 1000001;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 200px;
+	max-width: 100%;
+	background: rgba(255,255,255,0.9);
+	border-radius: 5px;
+	position: absolute;
+	margin: -100px 0 0 -200px;
+	text-align: center;
+}
+
+.modalError {
+	 span {
+		 color: var(--color-danger);
+	 }
+}
+
+.modalSuccess {
+	span {
+		color: var(--color-success);
+	}
+}
+
+.modalOuter {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.modalInner {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+	width: 100%;
+	span {
+		font-size: 100px;
+		height: 100px;
+		width: 100px;
+	}
+	p {
+		font-weight: 600;
+		color: var(--picker-description);
+		font-size: 14px;
+	}
+}
+
+.closeModal {
+	position: absolute;
+	right: -39px;
+	top: -33px;
+	color: white;
+	i {
+		font-size: 24px;
+	}
+}

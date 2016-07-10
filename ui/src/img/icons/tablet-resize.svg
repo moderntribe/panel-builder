@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Tablet" class="cls-1" d="M722.987,79H711a2,2,0,0,0-2,2V97a2.005,2.005,0,0,0,2,2h11.986a2,2,0,0,0,2-2V81A2,2,0,0,0,722.987,79Zm-5.993,19a1.025,1.025,0,1,1,1.248-1A1.146,1.146,0,0,1,716.994,98Zm5.993-3H711V81h11.986V95Z" transform="translate(-709 -79)"/>
+</svg>
