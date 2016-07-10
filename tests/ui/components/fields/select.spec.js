@@ -1,3 +1,5 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Select from 'components/fields/select';
@@ -29,7 +31,6 @@ const OPTIONS2 = [
 ];
 
 describe('Select field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Select />);
 		expect(wrapper.type()).to.eql('div');
@@ -71,7 +72,5 @@ describe('Select field', () => {
 		expect(wrapper.props().options).to.equal(OPTIONS1);
 		wrapper.setProps({ options: OPTIONS2 });
 		expect(wrapper.props().options).to.equal(OPTIONS2);
-
 	});
-	
 });

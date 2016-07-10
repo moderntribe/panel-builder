@@ -1,9 +1,10 @@
+/* global expect b:true */
+
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ImageGallery from 'components/fields/image-gallery';
 
 describe('Image Gallery field', () => {
-
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<ImageGallery />);
 		expect(wrapper.type()).to.eql('div');
@@ -38,7 +39,5 @@ describe('Image Gallery field', () => {
 		expect(wrapper.props().label).to.equal('Some test label');
 		wrapper.setProps({ label: 'Change label for test' });
 		expect(wrapper.props().label).to.equal('Change label for test');
-
 	});
-
 });

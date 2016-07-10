@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import {
 	ADD_PANEL,
+	ADD_PANEL_SET,
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
 } from '../actions/panels';
@@ -33,6 +35,13 @@ export function panelData(state = initialData, action) {
 			type: action.data.type,
 			depth: 0,
 			data: {},
+		});
+
+		return newState;
+
+	case ADD_PANEL_SET:
+		_.forEach(action.data, (panel) => {
+			newState.panels.push(panel);
 		});
 
 		return newState;

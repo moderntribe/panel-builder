@@ -9,7 +9,7 @@ import PanelPreview from './shared/panel-preview';
 import { UI_I18N } from '../globals/i18n';
 import { BLUEPRINT_TYPES } from '../globals/config';
 
-import styles from './picker.pcss';
+import styles from './panel-picker.pcss';
 
 /**
  * Class Picker
@@ -20,10 +20,6 @@ import styles from './picker.pcss';
  */
 
 class Picker extends Component {
-	state = {
-		active: false,
-	};
-
 	@autobind
 	handleAddPanel(type) {
 		this.props.handleAddPanel({ type });
@@ -32,18 +28,16 @@ class Picker extends Component {
 
 	@autobind
 	handleCancelPicker() {
-		this.setState({ active: false });
 		this.props.handlePickerUpdate(false);
 	}
 
 	@autobind
 	handleSpawnPicker() {
-		this.setState({ active: true });
 		this.props.handlePickerUpdate(true);
 	}
 
 	renderPicks() {
-		return this.state.active ? _.map(BLUEPRINT_TYPES, (blueprint, i) =>
+		return this.props.activate ? _.map(BLUEPRINT_TYPES, (blueprint, i) =>
 			<PanelPreview
 				key={`panel-preview-${i}`}
 				{...blueprint}
@@ -53,7 +47,7 @@ class Picker extends Component {
 	}
 
 	renderCancelButton() {
-		return this.state.active ? (
+		return this.props.activate ? (
 			<Button
 				icon="dashicons-dismiss"
 				text={UI_I18N['button.cancel_add_new']}
@@ -65,7 +59,7 @@ class Picker extends Component {
 	}
 
 	renderPickButton() {
-		return !this.state.active ? (
+		return !this.props.activate ? (
 			<Button
 				icon="dashicons-plus-alt"
 				text={UI_I18N['button.add_new']}
@@ -93,12 +87,14 @@ class Picker extends Component {
 }
 
 Picker.propTypes = {
+	activate: PropTypes.bool,
 	data: PropTypes.object,
 	handlePickerUpdate: PropTypes.func,
 	handleAddPanel: PropTypes.func,
 };
 
 Picker.defaultProps = {
+	activate: false,
 	data: {},
 	handlePickerUpdate: () => {},
 	handleAddPanel: () => {},

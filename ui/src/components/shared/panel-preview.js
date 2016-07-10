@@ -24,7 +24,7 @@ const PanelPreview = (props) => {
 		>
 			<h4>{props.label}</h4>
 			<p>{props.description}</p>
-			<figure><img src={props.thumbnail} alt={props.label}/></figure>
+			<figure><img src={props.thumbnail} alt={props.label} /></figure>
 		</article>
 	);
 };

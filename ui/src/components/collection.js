@@ -5,82 +5,66 @@ import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel, addNewPanel } from '../actions/panels';
-import { UI_I18N } from '../globals/i18n';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES } from '../globals/config';
+import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
 
 import Panel from './panel';
-import Button from './shared/button';
+import Header from './collection-header';
 import EditBar from './collection-edit-bar';
-import Picker from './picker';
+import Picker from './panel-picker';
+import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
+
+import * as ajax from '../util/ajax';
 
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		panelSetModalIsOpen: false,
+		panelSetSaveError: false,
+		panelSetPickerActive: false,
+		panelSetPickerEditLink: '',
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
-		editText: UI_I18N['button.launch_edit'],
 	};
+
+	componentWillMount() {
+		if (!this.shouldActivatePanelSets()) {
+			return;
+		}
+
+		this.setState({
+			panelSetPickerActive: true,
+		});
+	}
 
 	componentDidMount() {
 		this.runDataHeartbeat();
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+		this.handleModalOpenUi(nextState);
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.heartbeat);
 	}
 
-	getBar() {
-		return this.state.liveEdit ? (
-			<EditBar
-				handleCancelClick={this.swapEditMode}
-				handleResizeClick={this.swapResizeMode}
-			/>
-		) : null;
-	}
-
-	getIframe() {
-		const iframeClasses = classNames({
-			[styles.iframeFull]: this.state.mode === 'full',
-			[styles.iframeTablet]: this.state.mode === 'tablet',
-			[styles.iframeMobile]: this.state.mode === 'mobile',
-			'panel-preview-iframe': true,
-		});
-		
-		return this.state.liveEdit ? (
-			<div className={styles.iframe}>
-				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
-			</div>
-		) : null;
-	}
-
-	getPanels() {
-		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
-			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
-			return (
-				<Panel
-					{...blueprint}
-					{...panel}
-					key={`panel-${i}`}
-					index={i}
-					panelCount={this.props.panels.length}
-					liveEdit={this.state.liveEdit}
-					panelsActive={this.panelsActive}
-					movePanel={this.props.movePanel}
-					updatePanelData={this.props.updatePanelData}
-				/>
-			);
-		}) : null;
+	handleModalOpenUi(nextState) {
+		const wpWrap = document.getElementById('wpwrap');
+		if (nextState.panelSetModalIsOpen) {
+			wpWrap.classList.add(styles.modalBlur);
+		} else {
+			wpWrap.classList.remove(styles.modalBlur);
+		}
 	}
 
 	@autobind
 	swapEditMode() {
 		this.setState({ liveEdit: !this.state.liveEdit });
 	}
-	
+
 	@autobind
 	swapResizeMode(mode) {
 		this.setState({ mode });
@@ -89,6 +73,37 @@ class PanelCollection extends Component {
 	@autobind
 	panelsActive(active) {
 		this.setState({ active });
+	}
+
+	@autobind
+	savePanelSet() {
+		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
+			.done((data) => {
+				this.setState({
+					panelSetModalIsOpen: true,
+					panelSetPickerEditLink: data.edit_url,
+					panelSetSaveError: false,
+				});
+			})
+			.fail(() => {
+				this.setState({
+					panelSetModalIsOpen: true,
+					panelSetPickerEditLink: '',
+					panelSetSaveError: true,
+				});
+			});
+	}
+
+	@autobind
+	closePanelSetModal() {
+		this.setState({
+			panelSetModalIsOpen: false,
+			panelSetSaveError: false,
+		});
+	}
+
+	shouldActivatePanelSets() {
+		return TEMPLATES && TEMPLATES.length && !this.props.panels.length;
 	}
 
 	/**
@@ -116,21 +131,95 @@ class PanelCollection extends Component {
 		this.setState({ pickerActive });
 	}
 
-	renderEditLaunch() {
-		let EditLaunch = null;
-		if (!this.state.liveEdit) {
-			EditLaunch = (
-				<Button
-					text={UI_I18N['button.launch_edit']}
-					handleClick={this.swapEditMode}
-					icon="dashicons-welcome-view-site"
-					bare
-					classes={styles.editButton}
+	@autobind
+	handleAddPanelSet(data = {}) {
+		this.setState({
+			panelSetPickerActive: false,
+		});
+		this.props.addNewPanelSet(data);
+	}
+
+	@autobind
+	handleStartNewPage() {
+		this.setState({
+			panelSetPickerActive: false,
+			pickerActive: true,
+		});
+	}
+
+	renderBar() {
+		return this.state.liveEdit ? (
+			<EditBar
+				handleCancelClick={this.swapEditMode}
+				handleResizeClick={this.swapResizeMode}
+			/>
+		) : null;
+	}
+
+	renderIframe() {
+		const iframeClasses = classNames({
+			[styles.iframeFull]: this.state.mode === 'full',
+			[styles.iframeTablet]: this.state.mode === 'tablet',
+			[styles.iframeMobile]: this.state.mode === 'mobile',
+			'panel-preview-iframe': true,
+		});
+
+		return this.state.liveEdit ? (
+			<div className={styles.iframe}>
+				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
+				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
+			</div>
+		) : null;
+	}
+
+	renderPanels() {
+		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
+			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
+			return (
+				<Panel
+					{...blueprint}
+					{...panel}
+					key={`panel-${i}`}
+					index={i}
+					panelCount={this.props.panels.length}
+					liveEdit={this.state.liveEdit}
+					panelsActive={this.panelsActive}
+					movePanel={this.props.movePanel}
+					updatePanelData={this.props.updatePanelData}
 				/>
 			);
-		}
+		}) : null;
+	}
 
-		return EditLaunch;
+	renderPicker() {
+		return !this.state.panelSetPickerActive ? (
+			<Picker
+				activate={this.state.pickerActive}
+				handlePickerUpdate={this.togglePicker}
+				handleAddPanel={this.props.addNewPanel}
+			/>
+		) : null;
+	}
+
+	renderPanelSetPicker() {
+		return this.state.panelSetPickerActive ? (
+			<PanelSetsPicker
+				handleAddPanelSet={this.handleAddPanelSet}
+				handleStartNewPage={this.handleStartNewPage}
+			/>
+		) : null;
+	}
+
+	renderDataStorageInput() {
+		return (
+			<input
+				ref="data"
+				type="hidden"
+				name="panels"
+				id="panels"
+				value={JSON.stringify({ panels: this.props.panels })}
+			/>
+		);
 	}
 
 	render() {
@@ -138,22 +227,31 @@ class PanelCollection extends Component {
 			[styles.main]: true,
 			[styles.active]: this.state.active,
 			[styles.editMode]: this.state.liveEdit,
+			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
 		});
 
 		return (
-			<div className={collectionClasses} data-live-edit={this.state.liveEdit} data-live-active={this.state.active}>
-				{this.getBar()}
+			<div
+				className={collectionClasses}
+				data-live-edit={this.state.liveEdit}
+				data-live-active={this.state.active}
+			>
+				{this.renderBar()}
 				<div className={styles.sidebar}>
-					{this.getPanels()}
-					<Picker
-						handlePickerUpdate={this.togglePicker}
-						handleAddPanel={this.props.addNewPanel}
+					<Header
+						{...this.state}
+						count={this.props.panels.length}
+						handleSavePanelSet={this.savePanelSet}
+						handleLiveEditClick={this.swapEditMode}
+						closeModal={this.closePanelSetModal}
 					/>
-					{this.renderEditLaunch()}
+					{this.renderPanels()}
+					{this.renderPicker()}
+					{this.renderPanelSetPicker()}
 				</div>
-				{this.getIframe()}
-				<input ref="data" type="hidden" name="panels" id="panels" value={JSON.stringify({ panels: this.props.panels })} />
+				{this.renderIframe()}
+				{this.renderDataStorageInput()}
 			</div>
 		);
 	}
@@ -165,6 +263,7 @@ const mapDispatchToProps = (dispatch) => ({
 	movePanel: (data) => dispatch(movePanel(data)),
 	updatePanelData: (data) => dispatch(updatePanelData(data)),
 	addNewPanel: (data) => dispatch(addNewPanel(data)),
+	addNewPanelSet: (data) => dispatch(addNewPanelSet(data)),
 });
 
 PanelCollection.propTypes = {
@@ -172,6 +271,7 @@ PanelCollection.propTypes = {
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
 	addNewPanel: PropTypes.func.isRequired,
+	addNewPanelSet: PropTypes.func.isRequired,
 };
 
 PanelCollection.defaultProps = {
@@ -179,6 +279,7 @@ PanelCollection.defaultProps = {
 	movePanel: () => {},
 	updatePanelData: () => {},
 	addNewPanel: () => {},
+	addNewPanelSet: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PanelCollection);

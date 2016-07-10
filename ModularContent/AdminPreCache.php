@@ -46,10 +46,10 @@ class AdminPreCache implements \JsonSerializable {
 
 	public function get_cache() {
 		return [
-			'posts'  => $this->posts,
-			'terms'  => $this->terms,
-			'images' => $this->images,
-			'data'   => $this->data,
+			'posts'  => (object)$this->posts,
+			'terms'  => (object)$this->terms,
+			'images' => (object)$this->images,
+			'data'   => (object)$this->data,
 		];
 	}
 

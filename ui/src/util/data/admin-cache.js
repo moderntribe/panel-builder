@@ -1,36 +1,20 @@
 import _ from 'lodash';
 import { ADMIN_CACHE } from '../../globals/config';
 
-export function addImage(attachment) {
-	if (!ADMIN_CACHE.images) {
-		ADMIN_CACHE.images = [];
-	}
-	const imageInCache = _.find(ADMIN_CACHE.images, { id: attachment.id });
-	if (!imageInCache) {
-		ADMIN_CACHE.images.push(attachment);
-	}
-}
+ADMIN_CACHE.images = ADMIN_CACHE.images || {};
+ADMIN_CACHE.posts = ADMIN_CACHE.posts || {};
 
-export function getImageById(id) {
-	return _.find(ADMIN_CACHE.images, { id });
-}
+export const addImage = (attachment = 0) => {
+	ADMIN_CACHE.images[attachment.id.toString()] = attachment;
+};
 
-export function addPost(post) {
-	if (!ADMIN_CACHE.posts) {
-		ADMIN_CACHE.posts = [];
-	}
-	const postInCache = _.find(ADMIN_CACHE.posts, { ID: post.ID });
-	if (!postInCache) {
-		ADMIN_CACHE.posts.push(post);
-	}
-}
+export const addPost = (post = 0) => {
+	ADMIN_CACHE.posts[post.ID.toString()] = post;
+};
 
-export function addPosts(postsObj) {
-	_.mapKeys(postsObj, (value) => {
-		ADMIN_CACHE.posts.push(value);
-	});
-}
+export const addPosts = (postsObj = {}) => {
+	ADMIN_CACHE.posts = _.extend(ADMIN_CACHE.posts, postsObj);
+};
 
-export function getPostById(id) {
-	return _.find(ADMIN_CACHE.posts, { ID: id });
-}
+export const getImageById = (id = 0) => ADMIN_CACHE.images[id.toString()];
+export const getPostById = (id = 0) => ADMIN_CACHE.posts[id.toString()];

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './post-preview.pcss';
 
 /**
- * Stateless component for links
+ * Stateless component for Post Preview. Simple display of Thumbnail, Title, Excert with optional edit and cancel buttons
  *
  * @param props
  * @returns {XML}

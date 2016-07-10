@@ -39,18 +39,6 @@ class EditBar extends Component {
 		target.appendChild(publish);
 	}
 
-	lockBody() {
-		const html = document.getElementsByTagName('html')[0];
-		html.style.overflow = 'hidden';
-		html.style.height = '100%';
-	}
-
-	unLockBody() {
-		const html = document.getElementsByTagName('html')[0];
-		html.style.overflow = 'auto';
-		html.style.height = 'auto';
-	}
-
 	@autobind
 	setSizeFull() {
 		this.props.handleResizeClick('full');
@@ -64,6 +52,18 @@ class EditBar extends Component {
 	@autobind
 	setSizeMobile() {
 		this.props.handleResizeClick('mobile');
+	}
+
+	lockBody() {
+		const html = document.getElementsByTagName('html')[0];
+		html.style.overflow = 'hidden';
+		html.style.height = '100%';
+	}
+
+	unLockBody() {
+		const html = document.getElementsByTagName('html')[0];
+		html.style.overflow = 'auto';
+		html.style.height = 'auto';
 	}
 
 	renderTitle() {
@@ -88,8 +88,8 @@ class EditBar extends Component {
 					<nav className={styles.cancel}>
 						<Button
 							bare
-						    icon="dashicons-no-alt"
-						    handleClick={this.props.handleCancelClick}
+							icon="dashicons-no-alt"
+							handleClick={this.props.handleCancelClick}
 						/>
 					</nav>
 					<div className={styles.title}>
@@ -113,7 +113,7 @@ class EditBar extends Component {
 						bare
 						icon="dashicons-smartphone"
 						handleClick={this.setSizeMobile}
-					    classes={styles.mobile}
+						classes={styles.mobile}
 					/>
 				</div>
 				<div ref="right" className={styles.right} />

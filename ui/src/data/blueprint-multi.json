@@ -566,6 +566,9 @@
           "max": 12,
           "suggested": 6,
           "show_max_control": true,
+          "hidden_fields": [
+            "post_content"
+          ],
           "post_type": [
             {
               "value": "post",

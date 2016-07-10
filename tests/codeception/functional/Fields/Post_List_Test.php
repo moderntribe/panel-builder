@@ -36,28 +36,34 @@ class Post_List_Test extends WPTestCase {
 			'name'             => $name,
 			'description'      => $description,
 			'strings'          => [
-				'tabs.manual'             => 'Select',
-				'tabs.dynamic'            => 'Query',
-				'button.select_post'      => 'Select a post',
-				'button.create_content'   => 'Create content',
-				'button.remove_post'      => 'Remove this post',
-				'button.remove'           => 'Remove',
-				'button.select'           => 'Select Files',
-				'label.add_another'       => 'Add Another',
-				'label.content_type'      => 'Content Type',
-				'label.choose_post'       => 'Choose a Post',
-				'label.max_results'       => 'Max Results',
-				'label.select_post_type'  => 'Select Post Type',
-				'label.select_post_types' => 'Select Post Types',
-				'label.add_a_filter'      => 'Add a Filter',
-				'label.taxonomy'          => 'Taxonomy',
-				'label.relationship'      => 'Relationship',
-				'label.date'              => 'Date',
-				'label.title'             => 'Title',
-				'label.content'           => 'Content',
-				'label.link'              => 'Link: http://example.com/',
-				'label.thumbnail'         => 'Thumbnail',
-				'notice.min_posts'        => 'This field requires %{count} more item |||| This field requires %{count} more items',
+				'tabs.manual'                                => 'Select',
+				'tabs.dynamic'                               => 'Query',
+				'button.select_post'                         => 'Select a post',
+				'button.create_content'                      => 'Create content',
+				'button.remove_post'                         => 'Remove this post',
+				'button.remove'                              => 'Remove',
+				'button.select'                              => 'Select Files',
+				'label.add_another'                          => 'Add Another',
+				'label.content_type'                         => 'Content Type',
+				'label.choose_post'                          => 'Choose a Post',
+				'label.max_results'                          => 'Max Results',
+				'label.select_post_type'                     => 'Select Post Type',
+				'label.select_post_types'                    => 'Select Post Types',
+				'label.add_a_filter'                         => 'Add a Filter',
+				'label.taxonomy'                             => 'Taxonomy',
+				'label.taxonomy-placeholder'                 => 'Select Term',
+				'label.relationship'                         => 'Relationship',
+				'label.relationship-no-results'              => 'No Results',
+				'label.relationship-post-select-placeholder' => 'Select a Related Post',
+				'label.relationship-post-type-placeholder'   => 'Select a Post Type',
+				'label.date'                                 => 'Date',
+				'label.date-end-date-placeholder'            => 'End Date',
+				'label.date-start-date-placeholder'          => 'Start Date',
+				'label.title'                                => 'Title',
+				'label.content'                              => 'Content',
+				'label.link'                                 => 'Link: http://example.com/',
+				'label.thumbnail'                            => 'Thumbnail',
+				'notice.min_posts'                           => 'This field requires %{count} more item |||| This field requires %{count} more items',
 			],
 			'default'          => [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ],
 			'min'              => 5,
@@ -135,10 +141,12 @@ class Post_List_Test extends WPTestCase {
 		];
 		$field->precache( $data, $cache );
 		$output = $cache->get_cache();
-		$this->assertCount( 1, $output[ 'posts' ] );
-		$this->assertEquals( get_the_title( $post_id ), $output[ 'posts' ][ $post_id ][ 'post_title' ] );
-		$this->assertCount( 2, $output[ 'images' ] );
-		$this->assertNotEmpty( $output[ 'images' ][ $attachment_id ][ $size ] );
-		$this->assertNotEmpty( $output[ 'images' ][ $another_attachment_id ][ $size ] );
+		$posts = (array) $output[ 'posts' ];
+		$images = (array) $output[ 'images' ];
+		$this->assertCount( 1, $posts );
+		$this->assertEquals( get_the_title( $post_id ), $posts[ $post_id ][ 'post_title' ] );
+		$this->assertCount( 2, $images );
+		$this->assertNotEmpty( $images[ $attachment_id ][ $size ] );
+		$this->assertNotEmpty( $images[ $another_attachment_id ][ $size ] );
 	}
 }

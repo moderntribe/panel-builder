@@ -14,6 +14,7 @@ import PostListPostSelected from './partials/post-list-post-selected';
 import PostListQueryTaxonomyFilter from './partials/post-list-query-taxonomy-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
+import PostListMaxChooser from './partials/post-list-max-chooser';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
@@ -24,6 +25,7 @@ import styles from './post-list.pcss';
 import { POST_LIST_CONFIG } from '../../globals/config';
 
 class PostList extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -33,11 +35,12 @@ class PostList extends Component {
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
 			filterValue: '',
+			max: this.props.data.max ? parseInt(this.props.data.max, 10) : this.props.suggested,		// assume a string
 		};
 	}
 
 	componentWillMount() {
-		if (this.state.filters.length) {
+		if (this.state.filters.length || this.state.postTypes.length) {
 			this.getNewPosts();
 		}
 	}
@@ -59,6 +62,7 @@ class PostList extends Component {
 			filters,
 		}, () => {
 			this.getNewPosts();
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -76,22 +80,39 @@ class PostList extends Component {
 			filters,
 		}, () => {
 			this.getNewPosts();
+			this.initiateUpdatePanelData();
 		});
 	}
 
+	/**
+	 *  Extracting value before calling panel data update
+	 *  Post type, filters, posts, max, etc
+	 *
+	 * @method getValue
+	 */
 	getValue() {
 		const filters = {};
+		// add the post types
+		if (this.state.postTypes.length) {
+			const selection = _.map(this.state.postTypes, (postType) => postType.value);
+			filters.post_type = {
+				selection,
+			};
+		}
+		// add other filters
 		for (const filter of this.state.filters) {
 			filters[filter.value] = {
 				lock: true,
 				selection: filter.selection,
 			};
 		}
-		return {
+		const newValue = {
 			filters,
 			type: this.state.type,
 			posts: this.state.manualPostData,
+			max: this.state.max.toString(),
 		};
+		return newValue;
 	}
 
 	/**
@@ -116,6 +137,11 @@ class PostList extends Component {
 		return null;
 	}
 
+	/**
+	 * Render the tab buttons
+	 *
+	 * @method getTabButtons
+	 */
 	getTabButtons() {
 		const manualButtonClasses = classNames({
 			'pl-show-manual': true,
@@ -145,6 +171,11 @@ class PostList extends Component {
 		);
 	}
 
+	/**
+	 * Render the notification saying if the minimum post number has been met. Works for manual posts only
+	 *
+	 * @method getManualNotification
+	 */
 	getManualNotification() {
 		let MaybeNotification = null;
 		if (this.state.manualPostData.length < this.props.min) {
@@ -207,8 +238,10 @@ class PostList extends Component {
 								key={_.uniqueId('manual-post-edit-')}
 								editableId={data.editableId}
 								strings={this.props.strings}
+								hiddenFields={this.props.hidden_fields}
 								postTitle={data.post_title}
 								postContent={data.post_content}
+								imageId={parseInt(data.thumbnail_id, 10)}
 								postUrl={data.url}
 								handleCancelClick={this.handleCancelClick}
 								handleAddClick={this.handleAddUpdateClick}
@@ -307,8 +340,8 @@ class PostList extends Component {
 	 * @method getFilters
 	 */
 	getFilters() {
-		const filterClasses = classNames({
-			[styles.filter]: true,
+		const filtersClasses = classNames({
+			[styles.filters]: true,
 			'query-filters': true,
 		});
 
@@ -318,19 +351,25 @@ class PostList extends Component {
 			if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Date) {
 				Template = (
 					<PostListQueryDateFilter
-						key={filter.filterID} filterID={filter.filterID}
-						selection={filter.selection} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						selection={filter.selection}
+						label={filter.label}
 						onChangeDate={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						strings={this.props.strings}
 					/>
 				);
 			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Taxonomy) {
 				const taxonomy = this.props.taxonomies[filter.value];
 				Template = (
 					<PostListQueryTaxonomyFilter
-						key={filter.filterID} filterID={filter.filterID} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						label={filter.label}
 						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
-						onRemoveClick={this.onRemoveFilter}
+						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
+						strings={this.props.strings}
 					/>
 				);
 			} else if (filter.filter_type === POST_LIST_CONFIG.FILTERS.P2P) {
@@ -340,10 +379,14 @@ class PostList extends Component {
 				}));
 				Template = (
 					<PostListQueryRelatedFilter
-						key={filter.filterID} filterID={filter.filterID}
-						postTypes={postTypesArray} label={filter.label}
+						key={filter.filterID}
+						filterID={filter.filterID}
+						postTypes={postTypesArray}
+						label={filter.label}
+						selection={filter.selection}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						strings={this.props.strings}
 					/>
 				);
 			}
@@ -352,25 +395,32 @@ class PostList extends Component {
 		});
 
 		return (
-			<div className={filterClasses}>
+			<div className={filtersClasses}>
 				{Filters}
 			</div>
 		);
 	}
 
 	/**
-	 * Build out posts to display
+	 * Build out posts to display limit by the max number fo posts
 	 *
 	 * @method getFilteredPosts
 	 */
 	getFilteredPosts() {
 		const keys = _.keys(this.state.queryPosts);
-		const posts = _.map(keys, (key) =>
-			<PostPreviewContainer
-				key={_.uniqueId('query-post-preview-')}
-				post={this.state.queryPosts[key]}
-			/>
-		);
+		const posts = _.map(keys, (key, index) => {
+			let Container = null;
+			if (index < this.state.max) {
+				Container = (
+					<PostPreviewContainer
+						key={_.uniqueId('query-post-preview-')}
+						post={this.state.queryPosts[key]}
+					/>
+				);
+			}
+
+			return Container;
+		});
 		return (
 			<div>
 				{posts}
@@ -398,7 +448,6 @@ class PostList extends Component {
 				const intersect = _.intersection(filter.post_type, postTypesFlat);
 				check = intersect.length > 0;
 			}
-
 			return check;
 		});
 
@@ -440,11 +489,10 @@ class PostList extends Component {
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'query',
 		});
-
 		return (
 			<div className={tabClasses}>
 				<div className={styles.row}>
-					<label className={styles.tabLabel}>{this.props.strings['label.content_type']}</label>
+					<label className={styles.label}>{this.props.strings['label.content_type']}</label>
 					<ReactSelect
 						options={this.props.post_type}
 						name={_.uniqueId('post-list-type-')}
@@ -454,8 +502,18 @@ class PostList extends Component {
 						onChange={this.handlePostTypeChange}
 					/>
 				</div>
-
+				{this.props.show_max_control &&
+					<div className={styles.row}>
+						<PostListMaxChooser
+							onChange={this.handleMaxChange}
+							strings={this.props.strings}
+							min={this.props.min}
+							max={this.props.max}
+							maxSelected={this.state.max}
+						/>
+					</div>}
 				<div className={styles.row}>
+					<label className={styles.label}>{this.props.strings['label.filters']}</label>
 					<ReactSelect
 						options={this.getFilterOptions()}
 						name={_.uniqueId('post-list-filter-')}
@@ -530,25 +588,16 @@ class PostList extends Component {
 	}
 
 	/**
-	 * Handle post type change
+	 *  Initiates the panel data update callback
 	 *
-	 * @method handlePostTypeChange
+	 * @method initiateUpdatePanelData
 	 */
-	@autobind
-	handlePostTypeChange(types) {
-		if (types) {
-			this.setState({
-				postTypes: types,
-			}, () => {
-				this.getNewPosts();
-			});
-		} else {
-			this.setState({
-				postTypes: [],
-			}, () => {
-				this.getNewPosts();
-			});
-		}
+	initiateUpdatePanelData() {
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.getValue(),
+		});
 	}
 
 	/**
@@ -566,6 +615,25 @@ class PostList extends Component {
 			this.setState({
 				filterValue: e.value,
 				filters,
+			}, () => {
+				this.initiateUpdatePanelData();
+			});
+		}
+	}
+
+	/**
+	 * Handle Max Select field change
+	 *
+	 * @method handleMaxChange
+	 */
+	@autobind
+	handleMaxChange(e) {
+		const max = e.value;
+		if (max) {
+			this.setState({
+				max,
+			}, () => {
+				this.initiateUpdatePanelData();
 			});
 		}
 	}
@@ -600,6 +668,11 @@ class PostList extends Component {
 					data.post_title = e.state.postTitle; // eslint-disable-line no-param-reassign
 					data.post_content = e.state.postContent; // eslint-disable-line no-param-reassign
 					data.url = e.state.postUrl; // eslint-disable-line no-param-reassign
+					if (e.state.imageId) {
+						data.thumbnail_id = e.state.imageId.toString(); // eslint-disable-line no-param-reassign
+					} else {
+						data.thumbnail_id = ''; // eslint-disable-line no-param-reassign
+					}
 					data.id = ''; // eslint-disable-line no-param-reassign
 				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
 					// only have id at this point... uses preview to retrieve the post data
@@ -614,17 +687,32 @@ class PostList extends Component {
 		});
 	}
 
+	/**
+	 * Handles cancel click on PostListPostManual and PostListPostSelected
+	 *
+	 * @method handleCancelClick
+	 */
 	@autobind
 	handleCancelClick(e) {
 		// looking for editableId
 		this.removePostFromList(e.state.editableId);
 	}
 
+	/**
+	 * Handles remove click on post preview
+	 *
+	 * @method handleRemovePostClick
+	 */
 	@autobind
 	handleRemovePostClick(e) {
 		this.removePostFromList(e.editableId);
 	}
 
+	/**
+	 * Handles edit click on post preview
+	 *
+	 * @method handleEditPostClick
+	 */
 	@autobind
 	handleEditPostClick(e) {
 		this.editPostFromList(e.state.editableId);
@@ -664,9 +752,18 @@ class PostList extends Component {
 		this.setState(newState);
 	}
 
+	/**
+	 * Reorders the data and initiates a data update call
+	 *
+	 * @method handleManualSort
+	 */
 	@autobind
-	handleManualSort() {
-		// temp
+	handleManualSort(e) {
+		const newState = _.cloneDeep(this.state);
+		newState.manualPostData.splice(e.newIndex, 0, newState.manualPostData.splice(e.oldIndex, 1)[0]);
+		this.setState(newState, () => {
+			this.initiateUpdatePanelData();
+		});
 	}
 
 	/**
@@ -694,6 +791,8 @@ class PostList extends Component {
 		});
 		this.setState({
 			manualPostData,
+		}, () => {
+			this.initiateUpdatePanelData();
 		});
 	}
 
@@ -707,6 +806,7 @@ class PostList extends Component {
 			post_title: post.post_title,
 			post_excerpt: post.post_content,
 			permalink: post.url,
+			thumbnail_id: post.thumbnail_id,
 			ID: parseInt(post.id, 10),
 		};
 	}
@@ -780,19 +880,35 @@ class PostList extends Component {
 						label: filterProps.label,
 					});
 				} else {
-					console.log(`No filter was found for that filter key :${filterKey}`);
+					console.warn(`No filter was found for that filter key :${filterKey}`);
 				}
 			}
 		});
 		return filters;
 	}
 
-	initiateUpdatePanelData() {
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: this.getValue(),
-		});
+	/**
+	 * Handle post type change
+	 *
+	 * @method handlePostTypeChange
+	 */
+	@autobind
+	handlePostTypeChange(types) {
+		if (types) {
+			this.setState({
+				postTypes: types,
+			}, () => {
+				this.getNewPosts();
+				this.initiateUpdatePanelData();
+			});
+		} else {
+			this.setState({
+				postTypes: [],
+			}, () => {
+				this.getNewPosts();
+				this.initiateUpdatePanelData();
+			});
+		}
 	}
 
 	render() {
@@ -822,6 +938,7 @@ PostList.propTypes = {
 	show_max_control: PropTypes.bool,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
+	hidden_fields: PropTypes.array,
 	taxonomies: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
@@ -840,6 +957,7 @@ PostList.defaultProps = {
 	show_max_control: false,
 	post_type: [],
 	filters: [],
+	hidden_fields: [],
 	taxonomies: {},
 	data: {},
 	panelIndex: 0,

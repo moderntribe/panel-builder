@@ -5,7 +5,10 @@ export const CONFIG_DEFAULTS = {
 		types: [],
 		categories: [],
 	},
-	cache: {},
+	cache: {
+		images: {},
+		posts: {},
+	},
 	media_buttons_html: '',
 	panels: [],
 	preview_url: '',
