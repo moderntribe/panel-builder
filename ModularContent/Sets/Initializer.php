@@ -7,6 +7,7 @@ namespace ModularContent\Sets;
 class Initializer {
 	public function hook() {
 		add_action( 'init', [ $this, 'register_post_type' ] );
+		add_action( 'init', [ $this, 'register_image_sizes' ] );
 		add_action( 'admin_init', [ $this, 'register_capabilities' ] );
 		add_action( 'admin_init', [ $this, 'register_meta_boxes' ] );
 		add_action( 'admin_init', [ $this, 'register_template_data' ] );
@@ -18,6 +19,11 @@ class Initializer {
 		$configuration->register_post_type();
 		add_filter( 'post_updated_messages', [ $configuration, 'post_updated_messages' ], 10, 1 );
 		add_filter( 'bulk_post_updated_messages', [ $configuration, 'bulk_edit_messages' ], 10, 2 );
+	}
+
+	public function register_image_sizes() {
+		add_image_size( Set::IMAGE_SIZE_THUMBNAIL, 600, 800, false );
+		add_image_size( Set::IMAGE_SIZE_PREVIEW, 500, 3000, false );
 	}
 
 	public function register_capabilities() {

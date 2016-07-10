@@ -1,678 +1,703 @@
-[
-  {
-    "type": "simple",
-    "label": "Simple Panel",
-    "description": "Clean and easy going.",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
-    },
-    "fields": [
-      {
-        "type": "Title",
-        "label": "Title",
-        "name": "title",
-        "description": "",
-        "strings": {},
-        "default": ""
+{
+  "types": [
+    {
+      "type": "simple",
+      "label": "Simple Panel",
+      "description": "Clean and easy going.",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
       },
-      {
-        "type": "Text",
-        "label": "Text Input Label",
-        "name": "text_test",
-        "description": "A test description for this text input.",
-        "strings": {},
-        "default": ""
-      },
-      {
-        "type": "Video",
-        "label": "Cat Video",
-        "name": "cat_video",
-        "description": "URL to a cute cate video on YouTube",
-        "strings": {},
-        "default": "default value"
-      },
-      {
-        "type": "HTML",
-        "label": "Need Help?",
-        "name": "help",
-        "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
-        "strings": {},
-        "default": ""
-      },
-      {
-        "type": "Image",
-        "label": "Image Test",
-        "name": "image",
-        "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-        "strings": {
-          "button.remove": "Remove",
-          "button.select": "Select Files"
+      "fields": [
+        {
+          "type": "Title",
+          "label": "Title",
+          "name": "title",
+          "description": "",
+          "strings": {},
+          "default": ""
         },
-        "default": "",
-        "size": "large"
-      },
-      {
-        "type": "Select",
-        "label": "Test Select",
-        "name": "simple_select",
-        "description": "Select an Option",
-        "strings": {},
-        "default": "top",
-        "options": [
-          {
-            "label": "Top",
-            "value": "top"
-          },
-          {
-            "label": "Right",
-            "value": "right"
-          },
-          {
-            "label": "Center",
-            "value": "center"
-          }
-        ]
-      },
-      {
-        "type": "ImageSelect",
-        "label": "Select a style",
-        "name": "layout2",
-        "description": "Some description here",
-        "strings": {},
-        "default": "cards",
-        "options": [
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Standard",
-            "value": "standard"
-          },
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Cards",
-            "value": "cards"
-          },
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Full",
-            "value": "full"
-          }
-        ]
-      },
-      {
-        "type": "Checkbox",
-        "label": "Partner",
-        "name": "partner",
-        "description": "Who is the best karaoke singer at Modern Tribe?",
-        "strings": {},
-        "default": {
-          "reid": 1
+        {
+          "type": "Text",
+          "label": "Text Input Label",
+          "name": "text_test",
+          "description": "A test description for this text input.",
+          "strings": {},
+          "default": ""
         },
-        "options": [
-          {
-            "label": "Peter",
-            "value": "peter"
-          },
-          {
-            "label": "Reid",
-            "value": "reid"
-          },
-          {
-            "label": "Shane",
-            "value": "shane"
-          }
-        ]
-      },
-      {
-        "type": "Radio",
-        "label": "Style",
-        "name": "layout",
-        "description": "A test description for this text input.",
-        "strings": {},
-        "default": "standard",
-        "options": [
-          {
-            "label": "Standard",
-            "value": "standard"
-          },
-          {
-            "label": "Cards",
-            "value": "cards"
-          },
-          {
-            "label": "Full",
-            "value": "full"
-          }
-        ]
-      },
-      {
-        "type": "Repeater",
-        "label": "Links",
-        "name": "links",
-        "description": "",
-        "strings": {
-          "button.new": "Add a link",
-          "button.delete": "Delete Row",
-          "label.row_index": "Row %{index} |||| Row %{index}",
-          "notice.max_rows": "You have reached the row limit of this field"
+        {
+          "type": "Video",
+          "label": "Cat Video",
+          "name": "cat_video",
+          "description": "URL to a cute cate video on YouTube",
+          "strings": {},
+          "default": "default value"
         },
-        "default": [],
-        "fields": [
-          {
-            "type": "Title",
-            "label": "Title",
-            "name": "title",
-            "description": "",
-            "strings": {},
-            "default": ""
+        {
+          "type": "HTML",
+          "label": "Need Help?",
+          "name": "help",
+          "description": "<p>This is the body of the HTML field. It accepts <em>arbitrary</em>, <strong>unfiltered</strong> HTML. Check out the <a href=\"https:\/\/github.com\/moderntribe\/panel-builder\/blob\/master\/readme.md\">Readme<\/a>.<\/p>",
+          "strings": {},
+          "default": ""
+        },
+        {
+          "type": "Image",
+          "label": "Image Test",
+          "name": "image",
+          "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+          "strings": {
+            "button.remove": "Remove",
+            "button.select": "Select Files"
           },
-          {
-            "type": "Link",
-            "label": "Link",
-            "name": "link",
-            "description": "",
-            "strings": {
-              "placeholder.label": "Label",
-              "placeholder.url": "URL"
+          "default": "",
+          "size": "large"
+        },
+        {
+          "type": "Select",
+          "label": "Test Select",
+          "name": "simple_select",
+          "description": "Select an Option",
+          "strings": {},
+          "default": "top",
+          "options": [
+            {
+              "label": "Top",
+              "value": "top"
             },
-            "default": {
+            {
+              "label": "Right",
+              "value": "right"
+            },
+            {
+              "label": "Center",
+              "value": "center"
+            }
+          ]
+        },
+        {
+          "type": "ImageSelect",
+          "label": "Select a style",
+          "name": "layout2",
+          "description": "Some description here",
+          "strings": {},
+          "default": "cards",
+          "options": [
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Standard",
+              "value": "standard"
+            },
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Cards",
+              "value": "cards"
+            },
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Full",
+              "value": "full"
+            }
+          ]
+        },
+        {
+          "type": "Checkbox",
+          "label": "Partner",
+          "name": "partner",
+          "description": "Who is the best karaoke singer at Modern Tribe?",
+          "strings": {},
+          "default": {
+            "reid": 1
+          },
+          "options": [
+            {
+              "label": "Peter",
+              "value": "peter"
+            },
+            {
+              "label": "Reid",
+              "value": "reid"
+            },
+            {
+              "label": "Shane",
+              "value": "shane"
+            }
+          ]
+        },
+        {
+          "type": "Radio",
+          "label": "Style",
+          "name": "layout",
+          "description": "A test description for this text input.",
+          "strings": {},
+          "default": "standard",
+          "options": [
+            {
+              "label": "Standard",
+              "value": "standard"
+            },
+            {
+              "label": "Cards",
+              "value": "cards"
+            },
+            {
+              "label": "Full",
+              "value": "full"
+            }
+          ]
+        },
+        {
+          "type": "Repeater",
+          "label": "Links",
+          "name": "links",
+          "description": "",
+          "strings": {
+            "button.new": "Add a link",
+            "button.delete": "Delete Row",
+            "label.row_index": "Row %{index} |||| Row %{index}",
+            "notice.max_rows": "You have reached the row limit of this field"
+          },
+          "default": [],
+          "fields": [
+            {
+              "type": "Title",
+              "label": "Title",
+              "name": "title",
+              "description": "",
+              "strings": {},
+              "default": ""
+            },
+            {
+              "type": "Link",
+              "label": "Link",
+              "name": "link",
+              "description": "",
+              "strings": {
+                "placeholder.label": "Label",
+                "placeholder.url": "URL"
+              },
+              "default": {
+                "url": "",
+                "target": "",
+                "label": ""
+              }
+            },
+            {
+              "type": "Image",
+              "label": "Image (optional)",
+              "name": "image",
+              "description": "",
+              "strings": {
+                "button.remove": "Remove",
+                "button.select": "Select Files",
+                "drop.info": "Drop files here",
+                "drop.or": "or"
+              },
+              "default": "",
+              "size": "thumbnail"
+            }
+          ],
+          "min": 3,
+          "max": 6
+        },
+        {
+          "type": "TextArea",
+          "label": "Yo Regular Textarea",
+          "name": "content",
+          "description": "This is the field of easy.",
+          "strings": {
+            "tab.visual": "Visual",
+            "tab.text": "Text"
+          },
+          "default": "",
+          "richtext": false,
+          "media_buttons": false,
+          "editor_settings_reference": ""
+        }
+      ]
+    },
+    {
+      "type": "posts",
+      "label": "Some Quacking Going On",
+      "description": "If it walks like a duck...",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
+      },
+      "fields": [
+        {
+          "type": "Title",
+          "label": "Title",
+          "name": "title",
+          "description": "",
+          "strings": {},
+          "default": ""
+        },
+        {
+          "type": "Select",
+          "label": "Proposed budget",
+          "name": "budget",
+          "description": "How much money do you have?",
+          "strings": {},
+          "default": "",
+          "options": [
+            {
+              "label": "Less than $100,000",
+              "value": "<100"
+            },
+            {
+              "label": "$100,000 - $200,000",
+              "value": "100-200"
+            },
+            {
+              "label": "More than $200,000",
+              "value": "200+"
+            }
+          ]
+        },
+        {
+          "type": "PostQuacker",
+          "label": "Quacker",
+          "name": "quack",
+          "description": "Some description",
+          "strings": {
+            "button.add_to_module": "Add to Module",
+            "button.remove": "Remove",
+            "button.select": "Select Files",
+            "label.manual_title": "Title",
+            "label.manual_image": "Image",
+            "label.manual_content": "Content",
+            "label.manual_link": "Link",
+            "label.select_post_type": "Select Type",
+            "label.select_post": "Select Content",
+            "no_results": "No Results",
+            "placeholder.select_post_type": "Select Post Type",
+            "placeholder.select_post": "Select...",
+            "placeholder.label": "Label",
+            "placeholder.url": "URL",
+            "tab.selection": "Selection",
+            "tab.manual": "Manual"
+          },
+          "default": {
+            "type": "selection",
+            "post_id": 0,
+            "title": "",
+            "content": "",
+            "image": 0,
+            "link": {
               "url": "",
               "target": "",
               "label": ""
             }
           },
-          {
-            "type": "Image",
-            "label": "Image (optional)",
-            "name": "image",
-            "description": "",
-            "strings": {
-              "button.remove": "Remove",
-              "button.select": "Select Files",
-              "drop.info": "Drop files here",
-              "drop.or": "or"
+          "post_type": [
+            {
+              "value": "post",
+              "label": "Posts"
             },
-            "default": "",
-            "size": "thumbnail"
-          }
-        ],
-        "min": 3,
-        "max": 6
-      },
-      {
-        "type": "TextArea",
-        "label": "Yo Regular Textarea",
-        "name": "content",
-        "description": "This is the field of easy.",
-        "strings": {
-          "tab.visual": "Visual",
-          "tab.text": "Text"
-        },
-        "default": "",
-        "richtext": false,
-        "media_buttons": false,
-        "editor_settings_reference": ""
-      }
-    ]
-  },
-  {
-    "type": "posts",
-    "label": "Some Quacking Going On",
-    "description": "If it walks like a duck...",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
+            {
+              "value": "menus",
+              "label": "Menus"
+            },
+            {
+              "value": "tribe_events",
+              "label": "Events"
+            }
+          ]
+        }
+      ]
     },
-    "fields": [
-      {
-        "type": "Title",
-        "label": "Title",
-        "name": "title",
-        "description": "",
-        "strings": {},
-        "default": ""
+    {
+      "type": "gallery",
+      "label": "Gallery Panel",
+      "description": "Inject some images yay!",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
       },
-      {
-        "type": "Select",
-        "label": "Proposed budget",
-        "name": "budget",
-        "description": "How much money do you have?",
-        "strings": {},
-        "default": "",
-        "options": [
-          {
-            "label": "Less than $100,000",
-            "value": "<100"
-          },
-          {
-            "label": "$100,000 - $200,000",
-            "value": "100-200"
-          },
-          {
-            "label": "More than $200,000",
-            "value": "200+"
-          }
-        ]
-      },
-      {
-        "type": "PostQuacker",
-        "label": "Quacker",
-        "name": "quack",
-        "description": "Some description",
-        "strings": {
-          "button.add_to_module": "Add to Module",
-          "button.remove": "Remove",
-          "button.select": "Select Files",
-          "label.manual_title": "Title",
-          "label.manual_image": "Image",
-          "label.manual_content": "Content",
-          "label.manual_link": "Link",
-          "label.select_post_type": "Select Type",
-          "label.select_post": "Select Content",
-          "no_results": "No Results",
-          "placeholder.select_post_type": "Select Post Type",
-          "placeholder.select_post": "Select...",
-          "placeholder.label": "Label",
-          "placeholder.url": "URL",
-          "tab.selection": "Selection",
-          "tab.manual": "Manual"
+      "fields": [
+        {
+          "type": "Title",
+          "label": "Gallery Title",
+          "name": "title",
+          "description": "",
+          "strings": {},
+          "default": ""
         },
-        "default": {
-          "type": "selection",
-          "post_id": 0,
-          "title": "",
-          "content": "",
-          "image": 0,
-          "link": {
+        {
+          "type": "Group",
+          "label": "Gallery Settings",
+          "name": "settings",
+          "description": "What to do",
+          "strings": {},
+          "default": [],
+          "fields": [
+            {
+              "type": "Select",
+              "label": "Gallery Layout",
+              "name": "gallery_layout",
+              "description": "Select a Layout",
+              "strings": {},
+              "default": "",
+              "options": [
+                {
+                  "label": "Left",
+                  "value": "left"
+                },
+                {
+                  "label": "Right",
+                  "value": "right"
+                },
+                {
+                  "label": "Center",
+                  "value": "center"
+                }
+              ]
+            },
+            {
+              "type": "Checkbox",
+              "label": "Features",
+              "name": "max",
+              "description": "Pick the features",
+              "strings": {},
+              "default": {
+                "reid": 1
+              },
+              "options": [
+                {
+                  "label": "Boxed",
+                  "value": "peter"
+                },
+                {
+                  "label": "Masonry",
+                  "value": "maso"
+                },
+                {
+                  "label": "Infinite Load",
+                  "value": "iload"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ImageGallery",
+          "label": "Image Gallery",
+          "name": "gallery",
+          "description": "Gallery description goes here",
+          "strings": {
+            "button.edit_gallery": "Edit Gallery"
+          },
+          "default": ""
+        },
+        {
+          "type": "Hidden",
+          "label": "Some Label",
+          "name": "secret",
+          "description": "A description",
+          "strings": {},
+          "default": "You can't see me"
+        }
+      ]
+    },
+    {
+      "type": "wysiwyg",
+      "label": "Wysiwyg",
+      "description": "A simple richtext editor panel.",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
+      },
+      "fields": [
+        {
+          "type": "Title",
+          "label": "Title",
+          "name": "title",
+          "description": "",
+          "strings": {},
+          "default": ""
+        },
+        {
+          "type": "TextArea",
+          "label": "Yo Tinymce up in here.",
+          "name": "content",
+          "description": "This is the field of pain.",
+          "strings": {
+            "tab.visual": "Visual",
+            "tab.text": "Text"
+          },
+          "default": "",
+          "richtext": true,
+          "media_buttons": true,
+          "editor_settings_reference": "slide_test-0000"
+        }
+      ]
+    },
+    {
+      "type": "imagetext",
+      "label": "Image + Text",
+      "description": "An image upload and content area with layout.",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
+      },
+      "fields": [
+        {
+          "type": "Title",
+          "label": "Title",
+          "name": "title",
+          "description": "",
+          "strings": {},
+          "default": ""
+        },
+        {
+          "type": "ImageSelect",
+          "label": "Select a style",
+          "name": "layout",
+          "description": "Some description here",
+          "strings": {},
+          "default": "standard",
+          "options": [
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Even",
+              "value": "standard"
+            },
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Left",
+              "value": "left"
+            },
+            {
+              "src": "/content/uploads/test.png",
+              "label": "Right",
+              "value": "right"
+            }
+          ]
+        },
+        {
+          "type": "Image",
+          "label": "Image Test",
+          "name": "image",
+          "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
+          "strings": {
+            "button.remove": "Remove",
+            "button.select": "Select Files"
+          },
+          "default": "",
+          "size": "large"
+        },
+        {
+          "type": "Link",
+          "label": "Link",
+          "name": "link",
+          "description": "some description",
+          "strings": {
+            "placeholder.label": "Label",
+            "placeholder.url": "URL"
+          },
+          "default": {
             "url": "",
             "target": "",
             "label": ""
           }
         },
-        "post_type": [
-          {
-            "value": "post",
-            "label": "Posts"
+        {
+          "type": "TextArea",
+          "label": "Another Tinymce up in here.",
+          "name": "content",
+          "description": "This is the field of pain.",
+          "strings": {
+            "tab.visual": "Visual",
+            "tab.text": "Text"
           },
-          {
-            "value": "menus",
-            "label": "Menus"
-          },
-          {
-            "value": "tribe_events",
-            "label": "Events"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "gallery",
-    "label": "Gallery Panel",
-    "description": "Inject some images yay!",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
-    },
-    "fields": [
-      {
-        "type": "Title",
-        "label": "Gallery Title",
-        "name": "title",
-        "description": "",
-        "strings": {},
-        "default": ""
-      },
-      {
-        "type": "Group",
-        "label": "Gallery Settings",
-        "name": "settings",
-        "description": "What to do",
-        "strings": {},
-        "default": [],
-        "fields": [
-          {
-            "type": "Select",
-            "label": "Gallery Layout",
-            "name": "gallery_layout",
-            "description": "Select a Layout",
-            "strings": {},
-            "default": "",
-            "options": [
-              {
-                "label": "Left",
-                "value": "left"
-              },
-              {
-                "label": "Right",
-                "value": "right"
-              },
-              {
-                "label": "Center",
-                "value": "center"
-              }
-            ]
-          },
-          {
-            "type": "Checkbox",
-            "label": "Features",
-            "name": "max",
-            "description": "Pick the features",
-            "strings": {},
-            "default": {
-              "reid": 1
-            },
-            "options": [
-              {
-                "label": "Boxed",
-                "value": "peter"
-              },
-              {
-                "label": "Masonry",
-                "value": "maso"
-              },
-              {
-                "label": "Infinite Load",
-                "value": "iload"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "ImageGallery",
-        "label": "Image Gallery",
-        "name": "gallery",
-        "description": "Gallery description goes here",
-        "strings": {
-          "button.edit_gallery": "Edit Gallery"
-        },
-        "default": ""
-      },
-      {
-        "type": "Hidden",
-        "label": "Some Label",
-        "name": "secret",
-        "description": "A description",
-        "strings": {},
-        "default": "You can't see me"
-      }
-    ]
-  },
-  {
-    "type": "wysiwyg",
-    "label": "Wysiwyg",
-    "description": "A simple richtext editor panel.",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
-    },
-    "fields": [
-      {
-        "type": "Title",
-        "label": "Title",
-        "name": "title",
-        "description": "",
-        "strings": {},
-        "default": ""
-      },
-      {
-        "type": "TextArea",
-        "label": "Yo Tinymce up in here.",
-        "name": "content",
-        "description": "This is the field of pain.",
-        "strings": {
-          "tab.visual": "Visual",
-          "tab.text": "Text"
-        },
-        "default": "",
-        "richtext": true,
-        "media_buttons": true,
-        "editor_settings_reference": "slide_test-0000"
-      }
-    ]
-  },
-  {
-    "type": "imagetext",
-    "label": "Image + Text",
-    "description": "An image upload and content area with layout.",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
-    },
-    "fields": [
-      {
-        "type": "Title",
-        "label": "Title",
-        "name": "title",
-        "description": "",
-        "strings": {},
-        "default": ""
-      },
-      {
-        "type": "ImageSelect",
-        "label": "Select a style",
-        "name": "layout",
-        "description": "Some description here",
-        "strings": {},
-        "default": "standard",
-        "options": [
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Even",
-            "value": "standard"
-          },
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Left",
-            "value": "left"
-          },
-          {
-            "src": "/content/uploads/test.png",
-            "label": "Right",
-            "value": "right"
-          }
-        ]
-      },
-      {
-        "type": "Image",
-        "label": "Image Test",
-        "name": "image",
-        "description": "Optimal image sizes: 1500 x 1125 for Left\/Right Aligned layouts; 1500 x 844 for Boxed\/Hero layouts.",
-        "strings": {
-          "button.remove": "Remove",
-          "button.select": "Select Files"
-        },
-        "default": "",
-        "size": "large"
-      },
-      {
-        "type": "Link",
-        "label": "Link",
-        "name": "link",
-        "description": "some description",
-        "strings": {
-          "placeholder.label": "Label",
-          "placeholder.url": "URL"
-        },
-        "default": {
-          "url": "",
-          "target": "",
-          "label": ""
+          "default": "",
+          "richtext": true,
+          "media_buttons": true,
+          "editor_settings_reference": "slide_test-0000"
         }
-      },
-      {
-        "type": "TextArea",
-        "label": "Another Tinymce up in here.",
-        "name": "content",
-        "description": "This is the field of pain.",
-        "strings": {
-          "tab.visual": "Visual",
-          "tab.text": "Text"
-        },
-        "default": "",
-        "richtext": true,
-        "media_buttons": true,
-        "editor_settings_reference": "slide_test-0000"
-      }
-    ]
-  },
-  {
-    "type": "postspanel",
-    "label": "Events Stream",
-    "description": "Select some posts.",
-    "icon": {
-      "active": "module-contentgrid.png",
-      "inactive": "module-contentgrid.png"
+      ]
     },
-    "fields": [
-      {
-        "type": "Post_List",
-        "label": "A Post_List field",
-        "name": "posts",
-        "description": "",
-        "strings": {
-          "button.create_content": "Add Link",
-          "tabs.manual": "Manual",
-          "tabs.dynamic": "Dynamic",
-          "button.select_post": "Select a post",
-          "button.remove_post": "Remove this post",
-          "button.remove": "Remove",
-          "button.select": "Select Files",
-          "label.add_another": "Add Another",
-          "label.content_type": "Content Type",
-          "label.choose_post": "Choose a Post",
-          "label.max_results": "Max Results",
-          "label.select_post_type": "Select Post Type",
-          "label.select_post_types": "Select Post Types",
-          "label.add_a_filter": "Add a Filter",
-          "label.taxonomy": "Taxonomy",
-          "label.relationship": "Relationship",
-          "label.date": "Date",
-          "label.title": "Title",
-          "label.content": "Content",
-          "label.link": "Link: http:\/\/example.com\/",
-          "label.thumbnail": "Thumbnail",
-          "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
-        },
-        "default": {
-          "type": "manual",
-          "posts": [],
-          "filters": [],
-          "max": 0
-        },
-        "min": 3,
-        "max": 12,
-        "suggested": 6,
-        "show_max_control": true,
-        "hidden_fields": [
-          "post_content"
-        ],
-        "post_type": [
-          {
-            "value": "post",
-            "label": "Posts"
+    {
+      "type": "postspanel",
+      "label": "Events Stream",
+      "description": "Select some posts.",
+      "icon": {
+        "active": "module-contentgrid.png",
+        "inactive": "module-contentgrid.png"
+      },
+      "fields": [
+        {
+          "type": "Post_List",
+          "label": "A Post_List field",
+          "name": "posts",
+          "description": "",
+          "strings": {
+            "button.create_content": "Add Link",
+            "tabs.manual": "Manual",
+            "tabs.dynamic": "Dynamic",
+            "button.select_post": "Select a post",
+            "button.remove_post": "Remove this post",
+            "button.remove": "Remove",
+            "button.select": "Select Files",
+            "label.add_another": "Add Another",
+            "label.content_type": "Content Type",
+            "label.choose_post": "Choose a Post",
+            "label.max_results": "Max Results",
+            "label.select_post_type": "Select Post Type",
+            "label.select_post_types": "Select Post Types",
+            "label.add_a_filter": "Add a Filter",
+            "label.taxonomy": "Taxonomy",
+            "label.relationship": "Relationship",
+            "label.date": "Date",
+            "label.title": "Title",
+            "label.content": "Content",
+            "label.link": "Link: http:\/\/example.com\/",
+            "label.thumbnail": "Thumbnail",
+            "notice.min_posts": "This field requires %{count} more item |||| This field requires %{count} more items"
           },
-          {
-            "value": "page",
-            "label": "Pages"
+          "default": {
+            "type": "manual",
+            "posts": [],
+            "filters": [],
+            "max": 0
           },
-          {
-            "value": "attachment",
-            "label": "Attachemnts"
-          },
-          {
-            "value": "menu",
-            "label": "Menu"
-          }
-        ],
-        "filters": [
-          {
-            "label": "Taxonomy",
-            "options": [
-              {
-                "value": "post_tag",
-                "label": "Tags",
-                "filter_type": "taxonomy",
-                "post_type": [
-                  "post"
-                ]
-              },
-              {
-                "value": "category",
-                "label": "Category",
-                "filter_type": "taxonomy",
-                "post_type": [
-                  "page"
-                ]
-              }
-            ]
-          },
-          {
-            "value": "date",
-            "label": "Date",
-            "filter_type": "date",
-            "post_type": [
-              "post",
-              "page",
-              "attachment"
-            ]
-          },
-          {
-            "label": "Relationships",
-            "options": [
-              {
-                "value": "related_posts",
-                "label": "Related",
-                "filter_type": "p2p",
-                "post_type": {
-                  "page": "Page",
-                  "post": "Post"
-                }
-              },
-              {
-                "value": "related_things",
-                "label": "Related Posts",
-                "filter_type": "p2p",
-                "post_type": {
-                  "post": "Post",
-                  "product": "Product"
-                }
-              }
-            ]
-          }
-        ],
-        "taxonomies": {
-          "category": [
+          "min": 3,
+          "max": 12,
+          "suggested": 6,
+          "show_max_control": true,
+          "hidden_fields": [
+            "post_content"
+          ],
+          "post_type": [
             {
-              "value": 8,
-              "label": "Aquatic"
+              "value": "post",
+              "label": "Posts"
             },
             {
-              "value": 9,
-              "label": "Terrestrial"
+              "value": "page",
+              "label": "Pages"
             },
             {
-              "value": 10,
-              "label": "Airborn"
+              "value": "attachment",
+              "label": "Attachemnts"
+            },
+            {
+              "value": "menu",
+              "label": "Menu"
             }
           ],
-          "post_tag": [
+          "filters": [
             {
-              "value": 1,
-              "label": "Fun Times"
+              "label": "Taxonomy",
+              "options": [
+                {
+                  "value": "post_tag",
+                  "label": "Tags",
+                  "filter_type": "taxonomy",
+                  "post_type": [
+                    "post"
+                  ]
+                },
+                {
+                  "value": "category",
+                  "label": "Category",
+                  "filter_type": "taxonomy",
+                  "post_type": [
+                    "page"
+                  ]
+                }
+              ]
             },
             {
-              "value": 2,
-              "label": "Maybe Better"
+              "value": "date",
+              "label": "Date",
+              "filter_type": "date",
+              "post_type": [
+                "post",
+                "page",
+                "attachment"
+              ]
             },
             {
-              "value": 3,
-              "label": "Oh Boy"
+              "label": "Relationships",
+              "options": [
+                {
+                  "value": "related_posts",
+                  "label": "Related",
+                  "filter_type": "p2p",
+                  "post_type": {
+                    "page": "Page",
+                    "post": "Post"
+                  }
+                },
+                {
+                  "value": "related_things",
+                  "label": "Related Posts",
+                  "filter_type": "p2p",
+                  "post_type": {
+                    "post": "Post",
+                    "product": "Product"
+                  }
+                }
+              ]
             }
-          ]
+          ],
+          "taxonomies": {
+            "category": [
+              {
+                "value": 8,
+                "label": "Aquatic"
+              },
+              {
+                "value": 9,
+                "label": "Terrestrial"
+              },
+              {
+                "value": 10,
+                "label": "Airborn"
+              }
+            ],
+            "post_tag": [
+              {
+                "value": 1,
+                "label": "Fun Times"
+              },
+              {
+                "value": 2,
+                "label": "Maybe Better"
+              },
+              {
+                "value": 3,
+                "label": "Oh Boy"
+              }
+            ]
+          }
         }
-      }
-    ]
-  }
-]
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "category": "blue",
+      "label": "Blue Panels",
+      "description": "These panels render with a blue theme",
+      "weight": 0,
+      "types": [
+        "simple",
+        "gallery",
+        "imagetext"
+      ]
+    },
+    {
+      "category": "yellow",
+      "label": "Yellow Panels",
+      "description": "These panels render with a yellow-ish theme",
+      "weight": 0,
+      "types": [
+        "simple",
+        "wysiwyg"
+      ]
+    }
+  ]
+}

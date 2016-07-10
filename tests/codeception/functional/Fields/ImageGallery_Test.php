@@ -46,7 +46,8 @@ class ImageGallery_Test extends WPTestCase {
 		] );
 		$field->precache( [ [ 'id' => $attachment_id ] ], $cache );
 		$output = $cache->get_cache();
-		$this->assertCount( 1, $output[ 'images' ] );
-		$this->assertNotEmpty( $output[ 'images' ][ $attachment_id ][ $size ] );
+		$images = (array) $output[ 'images' ];
+		$this->assertCount( 1, $images );
+		$this->assertNotEmpty( $images[ $attachment_id ][ $size ] );
 	}
 }

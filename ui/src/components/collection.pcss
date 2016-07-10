@@ -33,6 +33,11 @@
 			height: calc(100% - 50px) !important;
 			overflow-y: auto;
 		}
+		&.setsActive {
+			.sidebar{
+				overflow: visible;
+			}
+		}
 	}
 	&.active{
 		.sidebar{
@@ -48,6 +53,9 @@
 
 .editButton {
 	composes: line from "../shared/buttons.pcss";
+	[class*="post-type-panel-set"] & {
+		display: none;
+	}
 }
 
 .loaderWrap{
@@ -70,6 +78,7 @@
 	position:absolute;
 	width:100%;
 	height:100%;
+	z-index: 100000;
 	top:0;
 	left:0;
 	padding-left:305px;
@@ -96,6 +105,10 @@
 			border-left: 1px solid var(--border-color);
 		}
 	}
+}
+
+.modalBlur {
+	filter: blur(3px);
 }
 
 h1 {

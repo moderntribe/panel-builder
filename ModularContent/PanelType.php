@@ -35,6 +35,9 @@ class PanelType {
 	/** @var Field[] */
 	protected $fields = array();
 
+	/** @var array */
+	protected $settings_fields = array();
+
 	/** @var int */
 	protected $max_depth = 1;
 
@@ -113,6 +116,35 @@ class PanelType {
 	 */
 	public function all_fields() {
 		return $this->fields;
+	}
+
+	/**
+	 * Add a field to the Settings tab of the panel type
+	 *
+	 * @param Field $field
+	 * @return void
+	 */
+	public function add_settings_field( Field $field ) {
+		$this->add_field( $field );
+		$this->settings_fields[] = $field->get_name();
+	}
+
+	/**
+	 * @return array The names of all registered settings fields
+	 */
+	public function get_settings_field_names() {
+		return $this->settings_fields;
+	}
+
+	/**
+	 * Determine if the field with the given name should
+	 * be displayed in the Settings tab
+	 *
+	 * @param string $field_name
+	 * @return bool
+	 */
+	public function is_settings_field( $field_name ) {
+		return in_array( $field_name, $this->settings_fields );
 	}
 
 	/**

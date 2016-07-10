@@ -2,13 +2,16 @@
 
 
 namespace ModularContent\Sets;
+
 use ModularContent\PanelCollection;
 
 class Set implements \JsonSerializable {
-	const POST_TYPE = 'panel-set';
-	const EDIT_CAP = 'edit_panel-sets';
-	const META_KEY_POST_TYPES = '_panel_set_post_type';
+	const POST_TYPE                 = 'panel-set';
+	const EDIT_CAP                  = 'edit_panel-sets';
+	const META_KEY_POST_TYPES       = '_panel_set_post_type';
 	const META_KEY_PREVIEW_IMAGE_ID = '_panel_set_preview_image';
+	const IMAGE_SIZE_THUMBNAIL      = 'panel-set-thumbnail';
+	const IMAGE_SIZE_PREVIEW        = 'panel-set-preview';
 
 	private $post_id = '';
 
@@ -25,18 +28,18 @@ class Set implements \JsonSerializable {
 	 * which is a value of any type other than a resource.
 	 */
 	public function jsonSerialize() {
-		return array(
-			'id' => $this->post_id,
-			'label' => $this->get_label(),
-			'thumbnail' => $this->get_thumbnail_src(),
-			'preview' => $this->get_preview_image_src( 'panel-set-preview' ),
-			'template' => $this->get_template(),
+		return [
+			'id'          => $this->post_id,
+			'label'       => $this->get_label(),
+			'thumbnail'   => $this->get_thumbnail_src(),
+			'preview'     => $this->get_preview_image_src( self::IMAGE_SIZE_PREVIEW ),
+			'template'    => $this->get_template(),
 			'description' => $this->get_description(),
-		);
+		];
 	}
 
 	public function get_label() {
-		return $this->post_id ? get_the_title( $this->post_id ) : __('Make Your Own', 'tribe');
+		return $this->post_id ? get_the_title( $this->post_id ) : __( 'Make Your Own', 'tribe' );
 	}
 
 	/**
@@ -45,7 +48,7 @@ class Set implements \JsonSerializable {
 	 * @param string $size
 	 * @return string
 	 */
-	public function get_thumbnail_src( $size = 'thumbnail' ) {
+	public function get_thumbnail_src( $size = self::IMAGE_SIZE_THUMBNAIL ) {
 		$thumbnail_id = 0;
 		if ( $this->post_id ) {
 			$thumbnail_id = get_post_thumbnail_id( $this->post_id );
@@ -56,7 +59,7 @@ class Set implements \JsonSerializable {
 		if ( $thumbnail_id ) {
 			$image = wp_get_attachment_image_src( $thumbnail_id, $size );
 			if ( $image ) {
-				$src = $image[0];
+				$src = $image[ 0 ];
 			}
 		}
 
@@ -72,13 +75,13 @@ class Set implements \JsonSerializable {
 		update_post_meta( $this->post_id, self::META_KEY_PREVIEW_IMAGE_ID, $image_id );
 	}
 
-	public function get_preview_image_src( $size = 'thumbnail' ) {
+	public function get_preview_image_src( $size = self::IMAGE_SIZE_PREVIEW ) {
 		$image_id = $this->get_preview_image_id();
 		$src = '';
 		if ( $image_id ) {
 			$image = wp_get_attachment_image_src( $image_id, $size );
 			if ( $image ) {
-				$src = $image[0];
+				$src = $image[ 0 ];
 			}
 		}
 		return apply_filters( 'panel_set_preview_image', $src, $this->post_id );
@@ -95,7 +98,7 @@ class Set implements \JsonSerializable {
 	 * @return array The post types this Set can be applied to
 	 */
 	public function get_post_types() {
-		return get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, FALSE );
+		return get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, false );
 	}
 
 	/**
@@ -123,12 +126,12 @@ class Set implements \JsonSerializable {
 	public function supports_post_type( $post_type ) {
 		$supported = $this->get_post_types();
 		if ( empty( $supported ) ) {
-			return TRUE; // supports all types
+			return true; // supports all types
 		}
 		if ( in_array( $post_type, $supported ) ) {
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
