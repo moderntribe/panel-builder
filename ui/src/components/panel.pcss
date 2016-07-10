@@ -14,10 +14,12 @@
 	&.active{
 		left:-100%;
 	}
+	.header {
+		transition: var(--transition-button-primary);
+	}
 	&:not(.editing) {
-		&:hover {
-			/* add darken( , 2%) */
-			background-color: var(--panel-bg-color);
+		.header:hover {
+			background-color: var(--panel-post-bg-color);
 		}
 	}
 
