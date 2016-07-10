@@ -21,8 +21,8 @@ const CollectionHeader = (props) => {
 	// render logic
 	const shouldRender = () => !props.active;
 	const shouldRenderLiveEdit = () => !props.liveEdit;
-	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length;
-	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length;
+	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length && !props.pickerActive;
+	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length && !props.pickerActive;
 
 	// dynamic classes
 	const wrapperClasses = classNames({
