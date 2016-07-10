@@ -80,6 +80,7 @@ class Repeater extends Component {
 					title={title}
 					panelLabel={this.props.panelLabel}
 					handleClick={this.handleBackClick}
+					handleExpanderClick={this.props.handleExpanderClick}
 				/>
 				<FieldBuilder
 					fields={this.props.fields}
@@ -299,6 +300,7 @@ Repeater.propTypes = {
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 	min: PropTypes.number,
 	max: PropTypes.number,
 };
@@ -314,6 +316,7 @@ Repeater.defaultProps = {
 	name: '',
 	default: [],
 	updatePanelData: () => {},
+	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	min: 1,
 	max: 12,

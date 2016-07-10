@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import Modal from 'react-modal';
 
+import Expander from './shared/expander';
 import Button from './shared/button';
 
 import { UI_I18N } from '../globals/i18n';
@@ -21,6 +22,7 @@ const CollectionHeader = (props) => {
 	// render logic
 	const shouldRender = () => !props.active;
 	const shouldRenderLiveEdit = () => !props.liveEdit;
+	const shouldRenderExpander = () => props.liveEdit;
 	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length && !props.pickerActive;
 	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length && !props.pickerActive;
 
@@ -28,6 +30,7 @@ const CollectionHeader = (props) => {
 	const wrapperClasses = classNames({
 		[styles.wrapper]: true,
 		[styles.liveEdit]: props.liveEdit,
+		[styles.setsActive]: props.panelSetPickerActive,
 	});
 
 	const panelSetClasses = classNames({
@@ -137,15 +140,23 @@ const CollectionHeader = (props) => {
 		</Modal>
 	);
 
+	const renderExpander = () => { //eslint-disable-line
+		return shouldRenderExpander() ? <Expander handleClick={props.handleExpanderClick} /> : null;
+	};
+
 	// render
 	return shouldRender() ? (
 		<header className={wrapperClasses}>
 			{!props.panelSetPickerActive && !props.pickerActive &&
 				<span className={styles.heading}>{UI_I18N['heading.active_panels']}</span>
 			}
+			{props.pickerActive &&
+				<span className={styles.heading}>{UI_I18N['heading.choose_panel']}</span>
+			}
 			{renderLaunchLiveEdit()}
 			{renderSavePanelSet()}
 			{renderEditPanelSet()}
+			{renderExpander()}
 			{renderModal()}
 		</header>
 	) : null;
@@ -154,6 +165,7 @@ const CollectionHeader = (props) => {
 CollectionHeader.propTypes = {
 	handleSavePanelSet: PropTypes.func,
 	handleLiveEditClick: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 	closeModal: PropTypes.func,
 	active: PropTypes.bool,
 	count: PropTypes.number,
@@ -168,6 +180,7 @@ CollectionHeader.propTypes = {
 CollectionHeader.defaultProps = {
 	handleSavePanelSet: () => {},
 	handleLiveEditClick: () => {},
+	handleExpanderClick: () => {},
 	closeModal: () => {},
 	active: false,
 	count: 0,

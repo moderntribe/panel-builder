@@ -34,6 +34,7 @@ const FieldBuilder = (props) => {
 					panelLabel={props.label}
 					data={props.data[field.name]}
 					updatePanelData={props.updatePanelData}
+					handleExpanderClick={props.handleExpanderClick}
 					hidePanel={props.hidePanel}
 				/>
 			</div>
@@ -54,6 +55,7 @@ FieldBuilder.propTypes = {
 	data: PropTypes.object,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 };
 
 FieldBuilder.defaultProps = {
@@ -63,6 +65,7 @@ FieldBuilder.defaultProps = {
 	data: {},
 	updatePanelData: () => {},
 	hidePanel: () => {},
+	handleExpanderClick: () => {},
 };
 
 export default FieldBuilder;

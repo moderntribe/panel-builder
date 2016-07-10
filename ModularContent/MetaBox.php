@@ -117,6 +117,7 @@ class MetaBox {
 
 				// collection header
 				'heading.active_panels'   => __( 'Active Panels', 'modular-content' ),
+				'heading.choose_panel'    => __( 'Choose a Panel', 'modular-content' ),
 
 				// panel sets
 				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),

@@ -40,6 +40,7 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
+		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
 		this.runDataHeartbeat();
 	}
 
@@ -72,6 +73,10 @@ class PanelCollection extends Component {
 
 	@autobind
 	panelsActive(active) {
+		// reset the sidebar to top when animating in children
+		if (active) {
+			this.sidebar.scrollTop = 0;
+		}
 		this.setState({ active });
 	}
 
@@ -100,6 +105,11 @@ class PanelCollection extends Component {
 			panelSetModalIsOpen: false,
 			panelSetSaveError: false,
 		});
+	}
+
+	@autobind
+	toggleLiveEditWidth() {
+		this.sidebar.classList.toggle(styles.expanded)
 	}
 
 	shouldActivatePanelSets() {
@@ -156,6 +166,19 @@ class PanelCollection extends Component {
 		) : null;
 	}
 
+	renderHeader() {
+		return (
+			<Header
+				{...this.state}
+				count={this.props.panels.length}
+				handleSavePanelSet={this.savePanelSet}
+				handleLiveEditClick={this.swapEditMode}
+				handleExpanderClick={this.toggleLiveEditWidth}
+				closeModal={this.closePanelSetModal}
+			/>
+		);
+	}
+
 	renderIframe() {
 		const iframeClasses = classNames({
 			[styles.iframeFull]: this.state.mode === 'full',
@@ -186,6 +209,7 @@ class PanelCollection extends Component {
 					panelsActive={this.panelsActive}
 					movePanel={this.props.movePanel}
 					updatePanelData={this.props.updatePanelData}
+					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
 			);
 		}) : null;
@@ -227,6 +251,7 @@ class PanelCollection extends Component {
 			[styles.main]: true,
 			[styles.active]: this.state.active,
 			[styles.editMode]: this.state.liveEdit,
+			[styles.expanded]: this.state.sidebarExpanded,
 			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
 		});
@@ -236,16 +261,12 @@ class PanelCollection extends Component {
 				className={collectionClasses}
 				data-live-edit={this.state.liveEdit}
 				data-live-active={this.state.active}
+				data-picker-active={this.state.pickerActive}
+				data-sets-active={this.state.panelSetPickerActive}
 			>
 				{this.renderBar()}
-				<div className={styles.sidebar}>
-					<Header
-						{...this.state}
-						count={this.props.panels.length}
-						handleSavePanelSet={this.savePanelSet}
-						handleLiveEditClick={this.swapEditMode}
-						closeModal={this.closePanelSetModal}
-					/>
+				<div ref="sidebar" className={styles.sidebar}>
+					{this.renderHeader()}
 					{this.renderPanels()}
 					{this.renderPicker()}
 					{this.renderPanelSetPicker()}

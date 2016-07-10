@@ -12,7 +12,8 @@
 	background:#fff;
 	.sidebar {
 		background: #fff;
-		> button:not(.editButton) {
+		transition: var(--transition-sidebar);
+		> button:not(.editButton):not([class*="expander__link"]) {
 			left:0;
 			transition: var(--transition-accordion);
 			padding-top: 16px;
@@ -33,6 +34,11 @@
 			border-right: 1px solid var(--border-color);
 			height: calc(100% - 50px) !important;
 			overflow-y: auto;
+			overflow-x: hidden;
+			max-width: 100%;
+			&.expanded{
+				width:760px;
+			}
 		}
 		&.setsActive {
 			.sidebar{

@@ -18,7 +18,7 @@
 	display: inline-block;
 	.liveEdit & {
 		display: block;
-		padding: 10px 0 0 0;
+		padding: 40px 0 0 0;
 		font-size: 12px;
 	}
 }
@@ -149,5 +149,38 @@
 	color: white;
 	i {
 		font-size: 24px;
+	}
+}
+
+@svg-load expandArrow url('../img/icons/expand-arrow.svg') {
+	path {
+		fill: var(--button-bare-text-color);
+	}
+}
+
+@svg-load expandArrowHover url('../img/icons/expand-arrow.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
+.expander {
+	display: none;
+	position: absolute;
+	right: 7px;
+	top: 7px;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	background: svg-inline(expandArrow) 50% 50% no-repeat;
+	background-size: contain;
+	&:hover {
+		background: svg-inline(expandArrowHover) 50% 50% no-repeat;
+	}
+	.liveEdit & {
+		display: block;
+	}
+	.setsActive & {
+		display: none;
 	}
 }

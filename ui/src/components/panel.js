@@ -56,6 +56,7 @@ class PanelContainer extends Component {
 						title={this.props.data.title}
 						panelLabel={this.props.label}
 						handleClick={this.handleClick}
+						handleExpanderClick={this.props.handleExpanderClick}
 					/>
 					<div className={styles.fieldWrap}>
 						{Fields}
@@ -172,6 +173,7 @@ PanelContainer.propTypes = {
 	panelsActive: PropTypes.func,
 	movePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 };
 
 PanelContainer.defaultProps = {
@@ -187,6 +189,7 @@ PanelContainer.defaultProps = {
 	panelsActive: () => {},
 	movePanel: () => {},
 	updatePanelData: () => {},
+	handleExpanderClick: () => {},
 };
 
 export default PanelContainer;
