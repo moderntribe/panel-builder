@@ -106,6 +106,9 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
+				// Live edit bar
+				'heading.resizer'         => __( 'Resize', 'modular-content' ),
+
 				// collection
 				'heading.no_title'        => __( 'No Title', 'modular-content' ),
 				'heading.editing_panels'  => __( 'Editing Panels', 'modular-content' ),

@@ -68,7 +68,7 @@ class EditBar extends Component {
 
 	renderTitle() {
 		const titleEl = document.getElementById('title');
-		const pageTitle = { __html: titleEl ? titleEl.value : UI_I18N['heading.no_title'] };
+		const pageTitle = { __html: titleEl && titleEl.value.length ? titleEl.value : UI_I18N['heading.no_title'] };
 		return (
 			<h4>
 				<span className={styles.editing}>{UI_I18N['heading.editing_panels']}:</span>
@@ -97,21 +97,19 @@ class EditBar extends Component {
 					</div>
 				</div>
 				<div className={styles.resizer}>
+					<span className={styles.resizerHeading}>{UI_I18N['heading.resizer']}:</span>
 					<Button
 						bare
-						icon="dashicons-laptop"
 						handleClick={this.setSizeFull}
 						classes={styles.desktop}
 					/>
 					<Button
 						bare
-						icon="dashicons-tablet"
 						handleClick={this.setSizeTablet}
 						classes={styles.tablet}
 					/>
 					<Button
 						bare
-						icon="dashicons-smartphone"
 						handleClick={this.setSizeMobile}
 						classes={styles.mobile}
 					/>
