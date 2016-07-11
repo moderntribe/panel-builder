@@ -40,8 +40,12 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
+		this.title = document.getElementById('title');
+		this.titleText = this.title.value;
+		this.triggeredSave = false;
 		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
-		this.runDataHeartbeat();
+
+		this.bindEvents();
 	}
 
 	componentWillUpdate(nextProps, nextState) {
@@ -49,7 +53,21 @@ class PanelCollection extends Component {
 	}
 
 	componentWillUnmount() {
+		this.unBindEvents();
+	}
+
+	bindEvents() {
+		this.runDataHeartbeat();
+		this.runWpHeartbeat();
+		$(document).on('before-autosave.panel-autosave', (e, postdata) => this.autosaveDrafts(e, postdata));
+		$(document).on('after-autosave.panel-autosave', (e, response) => this.handleAutosaveSuccess(e, response));
+	}
+
+	unBindEvents() {
 		clearInterval(this.heartbeat);
+		clearInterval(this.wpheartbeat);
+		$(document).off('before-autosave.panel-autosave', (e, postdata) => this.autosaveDrafts(e, postdata));
+		$(document).off('after-autosave.panel-autosave', (e, response) => this.handleAutosaveSuccess(e, response));
 	}
 
 	handleModalOpenUi(nextState) {
@@ -61,9 +79,30 @@ class PanelCollection extends Component {
 		}
 	}
 
+	autosaveDrafts(e, postdata) {
+		if (this.triggeredSave && postdata.post_title) {
+			postdata.post_title = this.titleText; // eslint-disable-line
+			this.triggeredSave = false;
+		}
+		postdata.post_content_filtered = JSON.stringify({ panels: this.props.panels }); // eslint-disable-line
+	}
+
+	handleAutosaveSuccess() {
+		if (this.triggerLiveEdit) {
+			this.triggerLiveEdit = false;
+			this.setState({ liveEdit: true });
+		}
+	}
+
 	@autobind
 	swapEditMode() {
-		this.setState({ liveEdit: !this.state.liveEdit });
+		if (this.state.liveEdit) {
+			this.setState({ liveEdit: false });
+		} else {
+			// todo: loader and also confirm its needed. if not directly load live edit
+			this.triggerLiveEdit = true;
+			this.triggerAutosave();
+		}
 	}
 
 	@autobind
@@ -109,11 +148,20 @@ class PanelCollection extends Component {
 
 	@autobind
 	toggleLiveEditWidth() {
-		this.sidebar.classList.toggle(styles.expanded)
+		this.sidebar.classList.toggle(styles.expanded);
 	}
 
 	shouldActivatePanelSets() {
 		return TEMPLATES && TEMPLATES.length && !this.props.panels.length;
+	}
+
+	triggerAutosave() {
+		const timestamp = new Date().getTime();
+		this.titleText = this.title.value;
+		this.title.value = `${this.titleText}${timestamp}`;
+		this.triggeredSave = true;
+		window.wp.autosave.server.triggerSave();
+		this.title.value = this.titleText;
 	}
 
 	/**
@@ -134,7 +182,20 @@ class PanelCollection extends Component {
 		}, 1000);
 	}
 
+	runWpHeartbeat() {
+		let oldData = JSON.stringify({ panels: this.props.panels });
+		this.wpheartbeat = setInterval(() => {
+			const newData = JSON.stringify({ panels: this.props.panels });
+			if (oldData === newData) {
+				return;
+			}
+			this.triggerAutosave();
+			oldData = newData;
+		}, window.wp.heartbeat.interval());
+	}
+
 	heartbeat = () => {};
+	wpheartbeat = () => {};
 
 	@autobind
 	togglePicker(pickerActive) {
