@@ -191,7 +191,7 @@ class PanelCollection extends Component {
 			}
 			this.triggerAutosave();
 			oldData = newData;
-		}, window.wp.heartbeat.interval());
+		}, window.wp.heartbeat.interval() * 1000);
 	}
 
 	heartbeat = () => {};
