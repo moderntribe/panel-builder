@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
+import Loader from './loader';
+
 import styles from './button.pcss';
 
 /**
@@ -12,9 +14,20 @@ import styles from './button.pcss';
  */
 
 const Button = (props) => {
+	const getLoader = () => {
+		let Load = null;
+		if (props.useLoader && props.showLoader) {
+			Load = (
+				<Loader active width={20} />
+			);
+		}
+
+		return Load;
+	};
+
 	const getIcon = () => {
 		let Icon = null;
-		if (props.icon.length) {
+		if (props.icon.length && !props.showLoader) {
 			const iconClasses = classNames({
 				dashicons: true,
 				[props.icon]: true,
@@ -35,6 +48,7 @@ const Button = (props) => {
 		[styles.full]: props.full,
 		[styles.inline]: !props.full,
 		[styles.bare]: props.bare,
+		[styles.loading]: props.showLoader,
 		[props.classes]: props.classes.length,
 	});
 
@@ -46,7 +60,9 @@ const Button = (props) => {
 			title={title}
 			className={buttonClasses}
 			onClick={props.handleClick}
+			data-loading={props.showLoader}
 		>
+			{getLoader()}
 			{getIcon()}
 			<span>{props.text}</span>
 		</button>
@@ -63,6 +79,8 @@ Button.propTypes = {
 	full: PropTypes.bool,
 	bare: PropTypes.bool,
 	handleClick: PropTypes.func,
+	useLoader: PropTypes.bool,
+	showLoader: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -75,6 +93,8 @@ Button.defaultProps = {
 	full: true,
 	bare: false,
 	handleClick: () => {},
+	useLoader: false,
+	showLoader: false,
 };
 
 export default Button;

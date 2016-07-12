@@ -12,6 +12,9 @@
 
 $zebra = ( $index % 2 == 0 ) ? 'odd' : 'even';
 ?>
-<div class="panel panel-type-<?php esc_attr_e($panel->get('type')); ?> panel-<?php echo $zebra; ?>">
+<div
+	class="panel panel-type-<?php esc_attr_e($panel->get('type')); ?> panel-<?php echo $zebra; ?>"
+    data-type="<?php esc_attr_e($panel->get('type')); ?>"
+>
 	<?php echo $html; ?>
 </div>

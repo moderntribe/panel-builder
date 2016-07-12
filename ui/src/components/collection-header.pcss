@@ -1,6 +1,12 @@
 @import '../shared/transitions.pcss';
 @import '../shared/colors.pcss';
 
+@svg-load preview url('../img/icons/preview.svg') {
+	path {
+		fill: #fff;
+	}
+}
+
 .wrapper {
 	composes: group from "../shared/helpers.pcss";
 	padding-top: 5px;
@@ -76,10 +82,15 @@
 
 .editButton {
 	float: right;
+	padding-left: 43px;
 	i {
-		font-size: 24px;
-		top: -3px;
-		margin-right: 10px;
+		position: absolute;
+		width: 24px;
+		height: 24px;
+		top: 7px;
+		left: 10px;
+		margin: 0;
+		background: svg-inline(preview) 50% 50% no-repeat;
 	}
 }
 

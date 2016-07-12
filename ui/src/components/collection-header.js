@@ -83,8 +83,10 @@ const CollectionHeader = (props) => {
 					handleClick={props.handleLiveEditClick}
 					primary={false}
 					full={false}
-					icon="dashicons-visibility"
 					classes={liveEditClasses}
+					icon="yes"
+					useLoader
+					showLoader={props.triggerLiveEdit}
 				/>
 			);
 		}
@@ -175,6 +177,7 @@ CollectionHeader.propTypes = {
 	panelSetPickerActive: PropTypes.bool,
 	pickerActive: PropTypes.bool,
 	liveEdit: PropTypes.bool,
+	triggerLiveEdit: PropTypes.bool,
 };
 
 CollectionHeader.defaultProps = {
@@ -190,6 +193,7 @@ CollectionHeader.defaultProps = {
 	panelSetPickerActive: false,
 	pickerActive: false,
 	liveEdit: false,
+	triggerLiveEdit: false,
 };
 
 export default CollectionHeader;

@@ -29,6 +29,7 @@ class PanelCollection extends Component {
 		pickerActive: false,
 		liveEdit: false,
 		mode: 'full',
+		triggerLiveEdit: false,
 	};
 
 	componentWillMount() {
@@ -79,9 +80,11 @@ class PanelCollection extends Component {
 
 	@autobind
 	handleAutosaveSuccess() {
-		if (this.triggerLiveEdit) {
-			this.triggerLiveEdit = false;
-			this.setState({ liveEdit: true });
+		if (this.state.triggerLiveEdit) {
+			this.setState({
+				liveEdit: true,
+				triggerLiveEdit: false,
+			});
 		}
 	}
 
@@ -91,7 +94,7 @@ class PanelCollection extends Component {
 			this.setState({ liveEdit: false });
 		} else {
 			if (MODULAR_CONTENT.needs_save) {
-				this.triggerLiveEdit = true;
+				this.setState({ triggerLiveEdit: true });
 				heartbeat.triggerAutosave();
 			} else {
 				this.setState({ liveEdit: true });
@@ -213,13 +216,6 @@ class PanelCollection extends Component {
 	}
 
 	renderIframe() {
-		const iframeClasses = classNames({
-			[styles.iframeFull]: this.state.mode === 'full',
-			[styles.iframeTablet]: this.state.mode === 'tablet',
-			[styles.iframeMobile]: this.state.mode === 'mobile',
-			'panel-preview-iframe': true,
-		});
-
 		return this.state.liveEdit ? (
 			<CollectionPreview {...this.state} panels={this.props.panels} />
 		) : null;

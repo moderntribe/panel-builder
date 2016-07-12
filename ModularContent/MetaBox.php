@@ -85,6 +85,7 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
+				'css_file' => Plugin::plugin_url('ui/dist/master.css'),
 				'fields' => [
 					
 				]

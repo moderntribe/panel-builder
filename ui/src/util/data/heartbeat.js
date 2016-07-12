@@ -2,7 +2,6 @@ import { MODULAR_CONTENT } from '../../globals/config';
 import { wpHeartbeat, wpAutosave } from '../../globals/wp';
 
 const title = document.getElementById('title');
-let oldData = '';
 let titleText = title.value;
 let settings = {};
 let triggeredSave = false;
@@ -52,9 +51,8 @@ export const init = (opts = {}) => {
 		rate: wpHeartbeat ? wpHeartbeat.interval() * 1000 : 60000,
 		namespace: 'panel-autosave',
 		success: () => {},
-
 	}, opts);
-	oldData = MODULAR_CONTENT.autosave;
+
 	bindEvents();
 	runHeartbeat();
 };
