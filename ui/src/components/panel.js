@@ -9,6 +9,8 @@ import AccordionBack from './shared/accordion-back';
 
 import { UI_I18N } from '../globals/i18n';
 
+import { trigger } from '../util/events';
+
 import styles from './panel.pcss';
 
 /**
@@ -113,6 +115,15 @@ class PanelContainer extends Component {
 		});
 		this.props.panelsActive(!this.state.active);
 		this.handleHeights();
+		trigger({
+			event: 'modern_tribe/panel_toggled',
+			native: false,
+			data: {
+				active: !this.state.active,
+				index: this.props.index,
+				depth: this.props.depth,
+			},
+		});
 	}
 
 	renderTitle() {

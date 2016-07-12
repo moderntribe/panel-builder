@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import zenscroll from 'zenscroll';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -32,6 +33,23 @@ class CollectionPreview extends Component {
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
+
+		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
+	}
+
+	deactivatePanel(panel) {
+		panel.classList.remove(styles.active);
+	}
+
+	deactivatePanels() {
+		_.forEach(this.panelPreviews, (panel) => this.deactivatePanel(panel));
+	}
+
+	scrollToPanel(index) {
+		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
+		this.iframeScroller.center(target, 500, 0, () => {
+			target.classList.add(styles.active);
+		});
 	}
 
 	handlePanelUpClick(e) {
@@ -44,6 +62,16 @@ class CollectionPreview extends Component {
 
 	handlePanelDeleteClick(e) {
 
+	}
+
+	@autobind
+	handlePanelToggled(e) {
+		if (e.detail.depth === 0) {
+			this.deactivatePanels();
+		}
+		if (e.detail.active) {
+			this.scrollToPanel(e.detail.index);
+		}
 	}
 
 	createMask(type) {
@@ -110,6 +138,7 @@ class CollectionPreview extends Component {
 		if (!this.panelCollection) {
 			return;
 		}
+		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);
 		this.panelPreviews = this.panelCollection.querySelectorAll('.panel');
 		this.injectCSS();
 		this.bindIframeEvents();
