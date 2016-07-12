@@ -1,5 +1,6 @@
 @import '../shared/transitions.pcss';
 @import '../shared/colors.pcss';
+@import '../shared/mq.pcss';
 
 .loaderWrap{
 	position: absolute;
@@ -68,8 +69,132 @@
 	opacity: 0;
 	transition: var(--transition-iframe-mask);
 	border: 2px solid var(--picker-border-selected);
-	background: var(--picker-selected-bg);
+	background: var(--iframe-selected-bg);
 	&:hover {
 		opacity: 1;
+	}
+}
+
+.maskHeader {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: #fff;
+	@media (--viewport-medium) {
+		height: 50px;
+		padding: 0;
+		text-align: left;
+	}
+}
+
+.maskLabel {
+	background: var(--picker-border-selected);
+	display: block;
+	padding: 10px;
+	margin-bottom: 10px;
+	@media (--viewport-medium) {
+		position: absolute;
+		padding: 4px 10px;
+		top: 0;
+		margin-bottom: 0;
+		left: 0;
+	}
+}
+
+@svg-load upArrow url('../img/icons/panel-up-arrow.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load upArrowHover url('../img/icons/panel-up-arrow.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load downArrow url('../img/icons/panel-down-arrow.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load downArrowHover url('../img/icons/panel-down-arrow.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load delete url('../img/icons/delete.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load deleteHover url('../img/icons/delete.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+.maskButton {
+	display: inline-block;
+	margin: 0 4px;
+	border: 0;
+	padding: 0;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: var(--live-edit-background);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 12px auto;
+	@media (--viewport-medium) {
+		position: absolute;
+		top: 6px;
+		margin: 0;
+	}
+	&:hover {
+		background-color: var(--live-edit-background);
+		background-size: 12px auto;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+	}
+}
+
+.maskButtonUp {
+	background-image: svg-inline(upArrow);
+	@media (--viewport-medium) {
+		right: 74px;
+	}
+	&:hover {
+		background-image: svg-inline(upArrowHover);
+	}
+}
+
+.maskButtonDown {
+	background-image: svg-inline(downArrow);
+	@media (--viewport-medium) {
+		right: 40px;
+	}
+	&:hover {
+		background-image: svg-inline(downArrowHover);
+	}
+}
+
+.maskButtonDelete {
+	background-image: svg-inline(delete);
+	background-size: 10px auto;
+	@media (--viewport-medium) {
+		right: 6px;
+	}
+	&:hover {
+		background-image: svg-inline(deleteHover);
+		background-size: 10px auto;
 	}
 }

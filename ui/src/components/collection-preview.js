@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import Loader from './shared/loader';
 
-import { MODULAR_CONTENT, CSS_FILE } from '../globals/config';
+import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
 
 import styles from './collection-preview.pcss';
 
@@ -29,22 +29,58 @@ class CollectionPreview extends Component {
 
 	bindIframeEvents() {
 		$(this.iframe.document.body.querySelectorAll('.panel-collection')[0])
-			.on('click', `.${styles.mask}`, (e) => this.handleMaskClick(e));
+			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
+			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
+			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
 	}
 
-	handleMaskClick(e) {
-		console.log(e);
+	handlePanelUpClick(e) {
+
 	}
 
-	createMask() {
+	handlePanelDownClick(e) {
+
+	}
+
+	handlePanelDeleteClick(e) {
+
+	}
+
+	createMask(type) {
 		const mask = this.iframe.document.createElement('div');
+		const header = this.iframe.document.createElement('header');
+		const label = this.iframe.document.createElement('span');
+		const buttonUp = this.iframe.document.createElement('button');
+		const buttonDown = this.iframe.document.createElement('button');
+		const buttonDelete = this.iframe.document.createElement('button');
+
+		if (type) {
+			label.innerHTML = _.find(BLUEPRINT_TYPES, { type }).label;
+			label.classList.add(styles.maskLabel);
+		}
+
+		buttonUp.classList.add(styles.maskButtonUp);
+		buttonDown.classList.add(styles.maskButtonDown);
+		buttonDelete.classList.add(styles.maskButtonDelete);
+		buttonUp.classList.add(styles.maskButton);
+		buttonDown.classList.add(styles.maskButton);
+		buttonDelete.classList.add(styles.maskButton);
+		header.classList.add(styles.maskHeader);
 		mask.classList.add(styles.mask);
+
+		header.appendChild(label);
+		header.appendChild(buttonUp);
+		header.appendChild(buttonDown);
+		header.appendChild(buttonDelete);
+		mask.appendChild(header);
+
 		return mask;
 	}
 
-	configurePanel(panel) {
+	configurePanel(panel, i) {
 		panel.classList.add(styles.panel);
-		panel.appendChild(this.createMask());
+		panel.setAttribute('data-index', i);
+		panel.appendChild(this.createMask(panel.getAttribute('data-type')));
 	}
 
 	injectCSS() {
@@ -56,7 +92,7 @@ class CollectionPreview extends Component {
 	}
 
 	injectPreviewMasks() {
-		_.forEach(this.panelPreviews, (panel) => this.configurePanel(panel));
+		_.forEach(this.panelPreviews, (panel, i) => this.configurePanel(panel, i));
 	}
 
 	revealIframe() {
