@@ -11,11 +11,13 @@ import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
 import Panel from './panel';
 import Header from './collection-header';
 import EditBar from './collection-edit-bar';
+import CollectionPreview from './collection-preview';
 import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
 
 import * as ajax from '../util/ajax';
+import * as heartbeat from '../util/data/heartbeat';
 
 class PanelCollection extends Component {
 	state = {
@@ -40,11 +42,7 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
-		this.title = document.getElementById('title');
-		this.titleText = this.title.value;
-		this.triggeredSave = false;
 		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
-
 		this.bindEvents();
 	}
 
@@ -54,20 +52,20 @@ class PanelCollection extends Component {
 
 	componentWillUnmount() {
 		this.unBindEvents();
+		heartbeat.destroy();
 	}
 
 	bindEvents() {
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: this.props.panels });
+		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
-		this.runWpHeartbeat();
-		$(document).on('before-autosave.panel-autosave', (e, postdata) => this.autosaveDrafts(e, postdata));
-		$(document).on('after-autosave.panel-autosave', (e, response) => this.handleAutosaveSuccess(e, response));
+		heartbeat.init({
+			success: this.handleAutosaveSuccess,
+		});
 	}
 
 	unBindEvents() {
 		clearInterval(this.heartbeat);
-		clearInterval(this.wpheartbeat);
-		$(document).off('before-autosave.panel-autosave', (e, postdata) => this.autosaveDrafts(e, postdata));
-		$(document).off('after-autosave.panel-autosave', (e, response) => this.handleAutosaveSuccess(e, response));
 	}
 
 	handleModalOpenUi(nextState) {
@@ -79,14 +77,7 @@ class PanelCollection extends Component {
 		}
 	}
 
-	autosaveDrafts(e, postdata) {
-		if (this.triggeredSave && postdata.post_title) {
-			postdata.post_title = this.titleText; // eslint-disable-line
-			this.triggeredSave = false;
-		}
-		postdata.post_content_filtered = JSON.stringify({ panels: this.props.panels }); // eslint-disable-line
-	}
-
+	@autobind
 	handleAutosaveSuccess() {
 		if (this.triggerLiveEdit) {
 			this.triggerLiveEdit = false;
@@ -99,9 +90,12 @@ class PanelCollection extends Component {
 		if (this.state.liveEdit) {
 			this.setState({ liveEdit: false });
 		} else {
-			// todo: loader and also confirm its needed. if not directly load live edit
-			this.triggerLiveEdit = true;
-			this.triggerAutosave();
+			if (MODULAR_CONTENT.needs_save) {
+				this.triggerLiveEdit = true;
+				heartbeat.triggerAutosave();
+			} else {
+				this.setState({ liveEdit: true });
+			}
 		}
 	}
 
@@ -155,15 +149,6 @@ class PanelCollection extends Component {
 		return TEMPLATES && TEMPLATES.length && !this.props.panels.length;
 	}
 
-	triggerAutosave() {
-		const timestamp = new Date().getTime();
-		this.titleText = this.title.value;
-		this.title.value = `${this.titleText}${timestamp}`;
-		this.triggeredSave = true;
-		window.wp.autosave.server.triggerSave();
-		this.title.value = this.titleText;
-	}
-
 	/**
 	 * We are saving the data in the redux store to a hidden input every second for wp to pickup on whenever saves/drafts occur.
 	 * Redux does a shallow compare so deep updates from fields on the nested panel data dont trigger a rerender, which is actually good.
@@ -171,31 +156,18 @@ class PanelCollection extends Component {
 	 */
 	runDataHeartbeat() {
 		const dataInput = ReactDOM.findDOMNode(this.refs.data);
-		let oldData = JSON.stringify({ panels: this.props.panels });
 		this.heartbeat = setInterval(() => {
 			const newData = JSON.stringify({ panels: this.props.panels });
-			if (oldData === newData) {
+			if (MODULAR_CONTENT.autosave === newData) {
 				return;
 			}
-			oldData = newData;
+			MODULAR_CONTENT.needs_save = true;
+			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
 		}, 1000);
 	}
 
-	runWpHeartbeat() {
-		let oldData = JSON.stringify({ panels: this.props.panels });
-		this.wpheartbeat = setInterval(() => {
-			const newData = JSON.stringify({ panels: this.props.panels });
-			if (oldData === newData) {
-				return;
-			}
-			this.triggerAutosave();
-			oldData = newData;
-		}, window.wp.heartbeat.interval() * 1000);
-	}
-
 	heartbeat = () => {};
-	wpheartbeat = () => {};
 
 	@autobind
 	togglePicker(pickerActive) {
@@ -249,10 +221,7 @@ class PanelCollection extends Component {
 		});
 
 		return this.state.liveEdit ? (
-			<div className={styles.iframe}>
-				<div className={styles.loaderWrap}><i className={styles.loader} /></div>
-				<iframe className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
-			</div>
+			<CollectionPreview {...this.state} panels={this.props.panels} />
 		) : null;
 	}
 
