@@ -39,7 +39,7 @@ class CollectionPreview extends Component {
 	bindIframeEvents() {
 		$(this.panelCollection)
 			.off('click')
-			.on('click', `.${styles.maskTrigger}`, (e) => this.handlePanelTriggerClick(e))
+			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
@@ -64,7 +64,11 @@ class CollectionPreview extends Component {
 	}
 
 	handlePanelTriggerClick(e) {
-		const panel = e.currentTarget.parentNode.parentNode;
+		if (!e.target.classList.contains(styles.mask) && !e.target.classList.contains(styles.maskAdd)) {
+			return;
+		}
+
+		const panel = e.currentTarget.parentNode;
 		if (panel.classList.contains(styles.active)) {
 			return;
 		}
@@ -128,7 +132,12 @@ class CollectionPreview extends Component {
 					<button class="${styles.maskButton} ${styles.maskButtonDown}"></button>
 					<button class="${styles.maskButton} ${styles.maskButtonDelete}"></button>
 				</header>
-				<div class="${styles.maskTrigger}"></div>
+				<div class="${styles.maskTop} ${styles.maskAdd}">
+					<button class="${styles.maskButtonAdd} ${styles.addPanelAbove}"></button>
+				</div>
+				<div class="${styles.maskBottom} ${styles.maskAdd}">
+					<button class="${styles.maskButtonAdd} ${styles.addPanelBelow}"></button>
+				</div>
 			</div>
 		`;
 	}
