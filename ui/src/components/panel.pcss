@@ -88,6 +88,23 @@
 	}
 }
 
+[data-live-edit="false"] {
+	.fields {
+		position:relative;
+	}
+}
+
+[data-live-active="true"][data-live-edit="false"] {
+	.row:not(.panelActive) {
+		display: none;
+	}
+	.panelActive {
+		.header {
+			display: none;
+		}
+	}
+}
+
 .fields{
 	padding: 0;
 	width: 100%;

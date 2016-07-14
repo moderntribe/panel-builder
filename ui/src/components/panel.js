@@ -163,6 +163,7 @@ class PanelContainer extends Component {
 	render() {
 		const wrapperClasses = classNames({
 			[styles.row]: true,
+			[styles.panelActive]: this.state.active,
 			[`panel-type-${this.props.type}`]: true,
 			[`panel-depth-${this.props.depth}`]: true,
 		});

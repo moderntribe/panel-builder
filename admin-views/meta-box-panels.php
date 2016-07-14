@@ -8,10 +8,6 @@
 ?>
 <?php do_action( 'before_panel_meta_box' ); ?>
 <div class="panels" data-depth="0">
-	<script>
-		var ModularContent = <?php echo \ModularContent\Util::json_encode( $meta_box_data ); ?>;
-		<?php do_action( 'modular_content_metabox_js_init' ); ?>
-	</script>
 	<div id="modular-content-app">
 		<div class="loader__loader___3LN5p">
 			<svg class="loader__circular___1Gd65" viewBox="25 25 50 50">
@@ -20,5 +16,9 @@
 		</div>
 		<input id="panels_fallback_data" type="hidden" name="panels" value="<?php echo esc_attr( $json_encoded_panels ); ?>" />
 	</div>
+	<script>
+		var ModularContent = <?php echo \ModularContent\Util::json_encode( $meta_box_data ); ?>;
+		<?php do_action( 'modular_content_metabox_js_init' ); ?>
+	</script>
 </div>
 <?php do_action( 'after_panel_meta_box' ); ?>

@@ -697,6 +697,10 @@
     min-height: 500px;
 }
 
+#modular-content-app.loaded {
+    min-height: inherit;
+}
+
 .loader__loader___3LN5p {
     position: absolute;
     width: 100px;
