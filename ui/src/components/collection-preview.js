@@ -9,6 +9,8 @@ import Loader from './shared/loader';
 
 import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
 
+import { trigger } from '../util/events';
+
 import styles from './collection-preview.pcss';
 
 class CollectionPreview extends Component {
@@ -30,6 +32,7 @@ class CollectionPreview extends Component {
 
 	bindIframeEvents() {
 		$(this.iframe.document.body.querySelectorAll('.panel-collection')[0])
+			.on('click', `.${styles.maskTrigger}`, (e) => this.handlePanelTriggerClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
@@ -49,6 +52,28 @@ class CollectionPreview extends Component {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
 		this.iframeScroller.center(target, 500, 0, () => {
 			target.classList.add(styles.active);
+		});
+	}
+
+	handlePanelTriggerClick(e) {
+		const panel = e.currentTarget.parentNode.parentNode;
+		if (panel.classList.contains(styles.active)) {
+			return;
+		}
+
+		const index = parseInt(panel.getAttribute('data-index'), 10);
+		if (isNaN(index)) {
+			return;
+		}
+
+		this.deactivatePanels();
+		panel.classList.add(styles.active);
+		trigger({
+			event: 'modern_tribe/panel_activated',
+			native: false,
+			data: {
+				index,
+			},
 		});
 	}
 
@@ -83,6 +108,7 @@ class CollectionPreview extends Component {
 					<button class="${styles.maskButton} ${styles.maskButtonDown}"></button>
 					<button class="${styles.maskButton} ${styles.maskButtonDelete}"></button>
 				</header>
+				<div class="${styles.maskTrigger}"></div>
 			</div>
 		`;
 	}
@@ -155,12 +181,14 @@ CollectionPreview.propTypes = {
 	panels: PropTypes.array,
 	mode: PropTypes.string,
 	liveEdit: PropTypes.bool,
+	panelsActivate: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
 	panels: [],
 	mode: 'full',
 	liveEdit: false,
+	panelsActivate: () => {},
 };
 
 export default CollectionPreview;

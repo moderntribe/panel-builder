@@ -33,6 +33,11 @@ class PanelContainer extends Component {
 
 	componentDidMount() {
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
+		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 	}
 
 	/**
@@ -92,7 +97,7 @@ class PanelContainer extends Component {
 	 */
 
 	handleHeights() {
-		if (!this.state.active) {
+		if (this.state.active) {
 			_.delay(() => {
 				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
@@ -110,11 +115,8 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleClick() {
-		this.setState({
-			active: !this.state.active,
-		});
-		this.props.panelsActive(!this.state.active);
-		this.handleHeights();
+		this.setState({ active: !this.state.active }, () => { this.handleHeights(); });
+		this.props.panelsActivate(!this.state.active);
 		trigger({
 			event: 'modern_tribe/panel_toggled',
 			native: false,
@@ -124,6 +126,23 @@ class PanelContainer extends Component {
 				depth: this.props.depth,
 			},
 		});
+	}
+
+	@autobind
+	maybeActivate(e) {
+		if (e.detail.index !== this.props.index) {
+			this.setState({ active: false });
+			return;
+		}
+
+		if (this.props.panelsActive) {
+			this.props.panelsActivate(false);
+		}
+
+		_.delay(() => {
+			this.props.panelsActivate(true);
+			this.setState({ active: true }, () => { this.handleHeights(); });
+		}, 300);
 	}
 
 	renderTitle() {
@@ -181,7 +200,8 @@ PanelContainer.propTypes = {
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
 	liveEdit: React.PropTypes.bool,
-	panelsActive: PropTypes.func,
+	panelsActive: React.PropTypes.bool,
+	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
@@ -197,7 +217,8 @@ PanelContainer.defaultProps = {
 	icon: {},
 	fields: [],
 	liveEdit: false,
-	panelsActive: () => {},
+	panelsActive: false,
+	panelsActivate: () => {},
 	movePanel: () => {},
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},

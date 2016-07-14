@@ -108,7 +108,7 @@ class PanelCollection extends Component {
 	}
 
 	@autobind
-	panelsActive(active) {
+	panelsActivate(active) {
 		// reset the sidebar to top when animating in children
 		if (active) {
 			this.sidebar.scrollTop = 0;
@@ -217,7 +217,11 @@ class PanelCollection extends Component {
 
 	renderIframe() {
 		return this.state.liveEdit ? (
-			<CollectionPreview {...this.state} panels={this.props.panels} />
+			<CollectionPreview
+				{...this.state}
+				panels={this.props.panels}
+				panelsActivate={this.panelsActivate}
+			/>
 		) : null;
 	}
 
@@ -232,7 +236,8 @@ class PanelCollection extends Component {
 					index={i}
 					panelCount={this.props.panels.length}
 					liveEdit={this.state.liveEdit}
-					panelsActive={this.panelsActive}
+					panelsActive={this.state.active}
+					panelsActivate={this.panelsActivate}
 					movePanel={this.props.movePanel}
 					updatePanelData={this.props.updatePanelData}
 					handleExpanderClick={this.toggleLiveEditWidth}
