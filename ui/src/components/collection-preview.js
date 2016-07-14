@@ -10,6 +10,7 @@ import Loader from './shared/loader';
 import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
 
 import { trigger } from '../util/events';
+import * as ajax from '../util/ajax';
 
 import styles from './collection-preview.pcss';
 
@@ -78,7 +79,23 @@ class CollectionPreview extends Component {
 	}
 
 	handlePanelUpClick(e) {
-
+		const panels = [
+			{
+				type: 'wysiwyg',
+				depth: 0,
+				data: {
+					title: "My title",
+				},
+			},
+		];
+		ajax.getPanelHTML(panels)
+			.done((data) => {
+				console.log(data);
+			})
+			.fail((err, message) => {
+				console.log(`Error: ${err}`);
+				console.log(message);
+			});
 	}
 
 	handlePanelDownClick(e) {
