@@ -27,18 +27,25 @@ class CollectionPreview extends Component {
 		this.bindEvents();
 	}
 
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
+		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
+	}
+
 	bindEvents() {
 		this.iframe.addEventListener('load', this.intializeIframeScripts);
 	}
 
 	bindIframeEvents() {
-		$(this.iframe.document.body.querySelectorAll('.panel-collection')[0])
+		$(this.panelCollection)
+			.off('click')
 			.on('click', `.${styles.maskTrigger}`, (e) => this.handlePanelTriggerClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
 
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
+		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 	}
 
 	deactivatePanel(panel) {
@@ -46,7 +53,7 @@ class CollectionPreview extends Component {
 	}
 
 	deactivatePanels() {
-		_.forEach(this.panelPreviews, (panel) => this.deactivatePanel(panel));
+		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel) => this.deactivatePanel(panel));
 	}
 
 	scrollToPanel(index) {
@@ -78,24 +85,20 @@ class CollectionPreview extends Component {
 		});
 	}
 
-	handlePanelUpClick(e) {
-		const panels = [
-			{
-				type: 'wysiwyg',
-				depth: 0,
-				data: {
-					title: "My title",
-				},
-			},
-		];
-		ajax.getPanelHTML(panels)
+	@autobind
+	handlePanelsAdded(e) {
+		ajax.getPanelHTML(e.detail)
 			.done((data) => {
-				console.log(data);
+				this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
+				this.updateNewPanels();
 			})
-			.fail((err, message) => {
-				console.log(`Error: ${err}`);
-				console.log(message);
+			.fail((err) => {
+				console.log(err);
 			});
+	}
+
+	handlePanelUpClick(e) {
+
 	}
 
 	handlePanelDownClick(e) {
@@ -130,6 +133,14 @@ class CollectionPreview extends Component {
 		`;
 	}
 
+	updateNewPanels() {
+		let oldPanels = this.panelCollection.querySelectorAll(`.${styles.panel}`).length;
+		_.forEach(this.panelCollection.querySelectorAll(`.panel:not(.${styles.panel})`), (panel) => {
+			this.configurePanel(panel, oldPanels);
+			oldPanels++;
+		});
+	}
+
 	configurePanel(panel, i) {
 		panel.classList.add(styles.panel);
 		panel.setAttribute('data-index', i);
@@ -145,7 +156,7 @@ class CollectionPreview extends Component {
 	}
 
 	injectPreviewMasks() {
-		_.forEach(this.panelPreviews, (panel, i) => this.configurePanel(panel, i));
+		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel, i) => this.configurePanel(panel, i));
 	}
 
 	revealIframe() {
@@ -164,7 +175,6 @@ class CollectionPreview extends Component {
 			return;
 		}
 		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);
-		this.panelPreviews = this.panelCollection.querySelectorAll('.panel');
 		this.injectCSS();
 		this.bindIframeEvents();
 		_.delay(() => {

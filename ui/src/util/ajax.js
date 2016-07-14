@@ -21,10 +21,11 @@ export const savePanelSet = (panels = '') => {
 
 export const getPanelHTML = (panels = []) => {
 	const request = {
-		action: 'panel_preview',
-		post_id,
-		panels,
+		data: {
+			post_id,
+			panels,
+		},
 	};
 
-	return wpAjax.send({ request });
+	return wpAjax.send('panel_preview', request);
 };

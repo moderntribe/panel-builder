@@ -18,6 +18,7 @@ import styles from './collection.pcss';
 
 import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
+import * as events from '../util/events';
 
 class PanelCollection extends Component {
 	state = {
@@ -178,11 +179,34 @@ class PanelCollection extends Component {
 	}
 
 	@autobind
+	handleAddPanel(panel) {
+		const data = [
+			{
+				type: panel.type,
+				depth: 0,
+				data: {},
+			},
+		];
+
+		this.props.addNewPanel(panel);
+		events.trigger({
+			event: 'modern_tribe/panels_added',
+			native: false,
+			data,
+		});
+	}
+
+	@autobind
 	handleAddPanelSet(data = {}) {
 		this.setState({
 			panelSetPickerActive: false,
 		});
 		this.props.addNewPanelSet(data);
+		events.trigger({
+			event: 'modern_tribe/panels_added',
+			native: false,
+			data,
+		});
 	}
 
 	@autobind
@@ -251,7 +275,7 @@ class PanelCollection extends Component {
 			<Picker
 				activate={this.state.pickerActive}
 				handlePickerUpdate={this.togglePicker}
-				handleAddPanel={this.props.addNewPanel}
+				handleAddPanel={this.handleAddPanel}
 			/>
 		) : null;
 	}
