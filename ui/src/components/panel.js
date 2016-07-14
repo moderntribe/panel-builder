@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
+import zenscroll from 'zenscroll';
 
 import FieldBuilder from './shared/field-builder';
 import AccordionBack from './shared/accordion-back';
@@ -12,6 +13,8 @@ import { UI_I18N } from '../globals/i18n';
 import { trigger } from '../util/events';
 
 import styles from './panel.pcss';
+
+const container = document.getElementById('modular-content');
 
 /**
  * Class Panel
@@ -98,6 +101,9 @@ class PanelContainer extends Component {
 
 	handleHeights() {
 		if (this.state.active) {
+			if (!this.props.liveEdit) {
+				zenscroll.to(container, 100);
+			}
 			_.delay(() => {
 				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
@@ -106,6 +112,9 @@ class PanelContainer extends Component {
 			}, 50);
 		} else {
 			this.el.parentNode.style.height = 'auto';
+			if (!this.props.liveEdit) {
+				zenscroll.to(container, 100);
+			}
 		}
 	}
 
