@@ -75,40 +75,22 @@ class CollectionPreview extends Component {
 	}
 
 	createMask(type) {
-		const mask = this.iframe.document.createElement('div');
-		const header = this.iframe.document.createElement('header');
-		const label = this.iframe.document.createElement('span');
-		const buttonUp = this.iframe.document.createElement('button');
-		const buttonDown = this.iframe.document.createElement('button');
-		const buttonDelete = this.iframe.document.createElement('button');
-
-		if (type) {
-			label.innerHTML = _.find(BLUEPRINT_TYPES, { type }).label;
-			label.classList.add(styles.maskLabel);
-		}
-
-		buttonUp.classList.add(styles.maskButtonUp);
-		buttonDown.classList.add(styles.maskButtonDown);
-		buttonDelete.classList.add(styles.maskButtonDelete);
-		buttonUp.classList.add(styles.maskButton);
-		buttonDown.classList.add(styles.maskButton);
-		buttonDelete.classList.add(styles.maskButton);
-		header.classList.add(styles.maskHeader);
-		mask.classList.add(styles.mask);
-
-		header.appendChild(label);
-		header.appendChild(buttonUp);
-		header.appendChild(buttonDown);
-		header.appendChild(buttonDelete);
-		mask.appendChild(header);
-
-		return mask;
+		return `
+			<div class="${styles.mask}">
+				<header class="${styles.maskHeader}">
+					<span class="${styles.maskLabel}">${_.find(BLUEPRINT_TYPES, { type }).label}</span>
+					<button class="${styles.maskButton} ${styles.maskButtonUp}"></button>
+					<button class="${styles.maskButton} ${styles.maskButtonDown}"></button>
+					<button class="${styles.maskButton} ${styles.maskButtonDelete}"></button>
+				</header>
+			</div>
+		`;
 	}
 
 	configurePanel(panel, i) {
 		panel.classList.add(styles.panel);
 		panel.setAttribute('data-index', i);
-		panel.appendChild(this.createMask(panel.getAttribute('data-type')));
+		panel.insertAdjacentHTML('beforeend', this.createMask(panel.getAttribute('data-type')));
 	}
 
 	injectCSS() {
