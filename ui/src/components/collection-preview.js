@@ -32,6 +32,7 @@ class CollectionPreview extends Component {
 	componentWillUnmount() {
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
+		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 	}
 
 	bindEvents() {
@@ -49,6 +50,7 @@ class CollectionPreview extends Component {
 
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
+		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 	}
 
 	deactivatePanel(panel) {
@@ -91,6 +93,19 @@ class CollectionPreview extends Component {
 			},
 		});
 		this.iframeScroller.center(panel, 500, 0);
+	}
+
+	@autobind
+	cancelPickerInjection() {
+		if (!this.panelCollection.classList.contains(styles.placeholderActive)){
+			return;
+		}
+
+		const placeholder = this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0];
+		this.panelCollection.classList.remove(styles.placeholderActive);
+		if (placeholder) {
+			placeholder.parentNode.removeChild(placeholder);
+		}
 	}
 
 	handlePanelTriggerClick(e) {

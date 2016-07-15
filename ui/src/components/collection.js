@@ -93,7 +93,10 @@ class PanelCollection extends Component {
 	@autobind
 	swapEditMode() {
 		if (this.state.liveEdit) {
-			this.setState({ liveEdit: false });
+			this.setState({
+				liveEdit: false,
+				injectionIndex: -1,
+			});
 		} else {
 			if (MODULAR_CONTENT.needs_save) {
 				this.setState({ triggerLiveEdit: true });
@@ -199,11 +202,13 @@ class PanelCollection extends Component {
 	togglePicker(pickerActive) {
 		if (pickerActive) {
 			this.setState({ pickerActive });
+			events.trigger({ event: 'modern_tribe/picker_opened', native: false });
 		} else {
 			this.setState({
 				pickerActive,
 				injectionIndex: -1,
 			});
+			events.trigger({ event: 'modern_tribe/picker_closed', native: false });
 		}
 	}
 
