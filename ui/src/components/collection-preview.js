@@ -8,9 +8,11 @@ import classNames from 'classnames';
 import Loader from './shared/loader';
 
 import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
+import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
+import * as domTools from '../util/dom/tools';
 
 import styles from './collection-preview.pcss';
 
@@ -40,6 +42,7 @@ class CollectionPreview extends Component {
 		$(this.panelCollection)
 			.off('click')
 			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
+			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
@@ -61,6 +64,14 @@ class CollectionPreview extends Component {
 		this.iframeScroller.center(target, 500, 0, () => {
 			target.classList.add(styles.active);
 		});
+	}
+
+	createPlaceholder() {
+		return `
+			<div class="${styles.placeholder}">
+				<span class="${styles.placeholderMessage}">${UI_I18N['message.panel_placeholder']}</span>
+			</div>
+		`;
 	}
 
 	handlePanelTriggerClick(e) {
@@ -87,6 +98,18 @@ class CollectionPreview extends Component {
 				index,
 			},
 		});
+	}
+
+	handlePanelAddClick(e) {
+		const panel = domTools.closest(e.currentTarget, `.${styles.panel}`);
+		const placeholder = this.createPlaceholder();
+		const index = parseInt(panel.getAttribute('data-index'), 10);
+		const position = e.target.classList.contains(styles.addPanelAbove) ? 'beforebegin' : 'afterend';
+
+		panel.insertAdjacentHTML(position, placeholder);
+		this.iframeScroller.center(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0], 500, 0);
+		this.panelCollection.classList.add(styles.placeholderActive);
+		this.props.spawnPickerAtIndex(index, position);
 	}
 
 	@autobind
@@ -218,6 +241,7 @@ CollectionPreview.propTypes = {
 	mode: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	panelsActivate: PropTypes.func,
+	spawnPickerAtIndex: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
@@ -225,6 +249,7 @@ CollectionPreview.defaultProps = {
 	mode: 'full',
 	liveEdit: false,
 	panelsActivate: () => {},
+	spawnPickerAtIndex: () => {},
 };
 
 export default CollectionPreview;
