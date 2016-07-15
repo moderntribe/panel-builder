@@ -7,11 +7,13 @@ import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
 import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
+import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
 import Header from './collection-header';
 import EditBar from './collection-edit-bar';
 import CollectionPreview from './collection-preview';
+import Dialog from './panel-dialog';
 import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
 import styles from './collection.pcss';
@@ -23,7 +25,6 @@ import * as events from '../util/events';
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		panelSetModalIsOpen: false,
 		panelSetSaveError: false,
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
@@ -49,10 +50,6 @@ class PanelCollection extends Component {
 		this.bindEvents();
 	}
 
-	componentWillUpdate(nextProps, nextState) {
-		this.handleModalOpenUi(nextState);
-	}
-
 	componentWillUnmount() {
 		this.unBindEvents();
 		heartbeat.destroy();
@@ -69,15 +66,6 @@ class PanelCollection extends Component {
 
 	unBindEvents() {
 		clearInterval(this.heartbeat);
-	}
-
-	handleModalOpenUi(nextState) {
-		const wpWrap = document.getElementById('wpwrap');
-		if (nextState.panelSetModalIsOpen) {
-			wpWrap.classList.add(styles.modalBlur);
-		} else {
-			wpWrap.classList.remove(styles.modalBlur);
-		}
 	}
 
 	@autobind
@@ -147,26 +135,26 @@ class PanelCollection extends Component {
 		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
 			.done((data) => {
 				this.setState({
-					panelSetModalIsOpen: true,
 					panelSetPickerEditLink: data.edit_url,
-					panelSetSaveError: false,
+				});
+				events.trigger({
+					event: 'modern_tribe/open_dialog',
+					native: false,
+					data: {
+						heading: UI_I18N['message.template_saved'],
+					},
 				});
 			})
 			.fail(() => {
-				this.setState({
-					panelSetModalIsOpen: true,
-					panelSetPickerEditLink: '',
-					panelSetSaveError: true,
+				events.trigger({
+					event: 'modern_tribe/open_dialog',
+					native: false,
+					data: {
+						type: 'error',
+						heading: UI_I18N['message.template_error'],
+					},
 				});
 			});
-	}
-
-	@autobind
-	closePanelSetModal() {
-		this.setState({
-			panelSetModalIsOpen: false,
-			panelSetSaveError: false,
-		});
 	}
 
 	@autobind
@@ -224,11 +212,7 @@ class PanelCollection extends Component {
 		};
 
 		this.props.addNewPanel(data);
-		events.trigger({
-			event: 'modern_tribe/panels_added',
-			native: false,
-			data,
-		});
+		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
 	}
 
 	@autobind
@@ -243,11 +227,7 @@ class PanelCollection extends Component {
 		});
 		this.props.addNewPanelSet(data);
 
-		events.trigger({
-			event: 'modern_tribe/panels_added',
-			native: false,
-			data: renderData,
-		});
+		events.trigger({ event: 'modern_tribe/panels_added', native: false, data: renderData });
 	}
 
 	@autobind
@@ -275,7 +255,6 @@ class PanelCollection extends Component {
 				handleSavePanelSet={this.savePanelSet}
 				handleLiveEditClick={this.swapEditMode}
 				handleExpanderClick={this.toggleLiveEditWidth}
-				closeModal={this.closePanelSetModal}
 			/>
 		);
 	}
@@ -370,6 +349,7 @@ class PanelCollection extends Component {
 				</div>
 				{this.renderIframe()}
 				{this.renderDataStorageInput()}
+				<Dialog />
 			</div>
 		);
 	}

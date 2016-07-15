@@ -1,0 +1,121 @@
+@import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
+
+@svg-load errorIcon url('../img/icons/error.svg') {
+	path {
+		fill: var(--dialog-error);
+	}
+}
+
+@svg-load infoIcon url('../img/icons/info-modal.svg') {
+	path {
+		fill: var(--dialog-info);
+	}
+}
+
+@svg-load successIcon url('../img/icons/success.svg') {
+	path {
+		fill: var(--dialog-success);
+	}
+	polygon {
+		fill: var(--dialog-success);
+	}
+}
+
+.overlay {
+	z-index: 1000000;
+	background: rgba(0,0,0,0.4);
+	position: fixed;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal {
+	z-index: 1000001;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height:250px;
+	max-width: 95%;
+	background: rgba(255,255,255,0.9);
+	border-radius: 3px;
+	position: absolute;
+	margin: -125px 0 0 -250px;
+	text-align: center;
+	h4 {
+		font-size: 20px;
+		font-weight: bold;
+	}
+}
+
+.icon {
+	display: block;
+	height: 100px;
+	width: 100px;
+	background-size: contain;
+	margin: 0 auto;
+}
+
+.error {
+	.icon {
+		background: svg-inline(errorIcon) 50% 50% no-repeat;
+	}
+	h4 {
+		color: var(--dialog-error);
+	}
+}
+
+.success {
+	.icon {
+		background: svg-inline(successIcon) 50% 50% no-repeat;
+	}
+	h4 {
+		color: var(--dialog-success);
+	}
+}
+
+.confirm {
+	.icon {
+		background: svg-inline(infoIcon) 50% 50% no-repeat;
+	}
+	h4 {
+		color: var(--dialog-info);
+	}
+}
+
+.outer {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.inner {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+	width: 100%;
+	p {
+		font-weight: 600;
+		color: var(--picker-description);
+		font-size: 14px;
+	}
+}
+
+.close {
+	position: absolute;
+	right: -39px;
+	top: -33px;
+	color: var(--picker-border);
+	i {
+		font-size: 24px;
+	}
+	&:hover {
+		color: #fff;
+	}
+}
+
+.blur {
+	filter: blur(3px);
+}

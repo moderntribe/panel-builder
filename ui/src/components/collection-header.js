@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import Modal from 'react-modal';
 
 import Expander from './shared/expander';
 import Button from './shared/button';
@@ -94,54 +93,6 @@ const CollectionHeader = (props) => {
 		return LiveEdit;
 	};
 
-	const modalContent = () => {
-		let Content;
-		const modalClasses = classNames({
-			[styles.modalError]: props.panelSetSaveError,
-			[styles.modalSuccess]: !props.panelSetSaveError,
-			[styles.modalOuter]: true,
-		});
-
-		if (props.panelSetSaveError) {
-			Content = (
-				<div className={modalClasses}>
-					<div className={styles.modalInner}>
-						<span className="dashicons dashicons-no" />
-						<p>{UI_I18N['message.template_error']}</p>
-					</div>
-				</div>
-			);
-		} else {
-			Content = (
-				<div className={modalClasses}>
-					<div className={styles.modalInner}>
-						<span className="dashicons dashicons-yes" />
-						<p>{UI_I18N['message.template_saved']}</p>
-					</div>
-				</div>
-			);
-		}
-		return Content;
-	};
-
-	const renderModal = () => (
-		<Modal
-			isOpen={props.panelSetModalIsOpen}
-			onRequestClose={props.closeModal}
-			className={styles.modal}
-			overlayClassName={styles.overlay}
-		>
-			<Button
-				handleClick={props.closeModal}
-				bare
-				full={false}
-				icon="dashicons dashicons-no"
-				classes={styles.closeModal}
-			/>
-			{modalContent()}
-		</Modal>
-	);
-
 	const renderExpander = () => { //eslint-disable-line
 		return shouldRenderExpander() ? <Expander handleClick={props.handleExpanderClick} /> : null;
 	};
@@ -159,7 +110,6 @@ const CollectionHeader = (props) => {
 			{renderSavePanelSet()}
 			{renderEditPanelSet()}
 			{renderExpander()}
-			{renderModal()}
 		</header>
 	) : null;
 };
@@ -168,11 +118,8 @@ CollectionHeader.propTypes = {
 	handleSavePanelSet: PropTypes.func,
 	handleLiveEditClick: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
-	closeModal: PropTypes.func,
 	active: PropTypes.bool,
 	count: PropTypes.number,
-	panelSetSaveError: PropTypes.bool,
-	panelSetModalIsOpen: PropTypes.bool,
 	panelSetPickerEditLink: PropTypes.string,
 	panelSetPickerActive: PropTypes.bool,
 	pickerActive: PropTypes.bool,
@@ -184,11 +131,8 @@ CollectionHeader.defaultProps = {
 	handleSavePanelSet: () => {},
 	handleLiveEditClick: () => {},
 	handleExpanderClick: () => {},
-	closeModal: () => {},
 	active: false,
 	count: 0,
-	panelSetSaveError: false,
-	panelSetModalIsOpen: false,
 	panelSetPickerEditLink: '',
 	panelSetPickerActive: false,
 	pickerActive: false,
