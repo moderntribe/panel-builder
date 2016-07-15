@@ -31,6 +31,7 @@ class PanelCollection extends Component {
 		liveEdit: false,
 		mode: 'full',
 		triggerLiveEdit: false,
+		injectionIndex: -1,
 	};
 
 	componentWillMount() {
@@ -117,6 +118,27 @@ class PanelCollection extends Component {
 		this.setState({ active });
 	}
 
+	/**
+	 * This function is only called in live edit mode when a panel is desired at a particular injection point, not
+	 * at the end of the collection.
+	 *
+	 * @param index the index in the collection to inject a selected panel at
+	 * @param position before or after injectionIndex
+	 */
+
+	@autobind
+	activatePicker(index, position) {
+		let injectionIndex = position === 'beforebegin' ? index : index + 1;
+		if (injectionIndex < 0) {
+			injectionIndex = 0;
+		}
+		this.setState({
+			panelSetPickerActive: false,
+			pickerActive: true,
+			injectionIndex,
+		});
+	}
+
 	@autobind
 	savePanelSet() {
 		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
@@ -175,20 +197,28 @@ class PanelCollection extends Component {
 
 	@autobind
 	togglePicker(pickerActive) {
-		this.setState({ pickerActive });
+		if (pickerActive) {
+			this.setState({ pickerActive });
+		} else {
+			this.setState({
+				pickerActive,
+				injectionIndex: -1,
+			});
+		}
 	}
 
 	@autobind
 	handleAddPanel(panel) {
-		const data = [
-			{
+		const data = {
+			index: this.state.injectionIndex,
+			panels: [{
 				type: panel.type,
 				depth: 0,
 				data: {},
-			},
-		];
+			}],
+		};
 
-		this.props.addNewPanel(panel);
+		this.props.addNewPanel(data);
 		events.trigger({
 			event: 'modern_tribe/panels_added',
 			native: false,
@@ -198,14 +228,20 @@ class PanelCollection extends Component {
 
 	@autobind
 	handleAddPanelSet(data = {}) {
+		const renderData = {
+			index: this.state.injectionIndex,
+			panels: data,
+		};
+
 		this.setState({
 			panelSetPickerActive: false,
 		});
 		this.props.addNewPanelSet(data);
+
 		events.trigger({
 			event: 'modern_tribe/panels_added',
 			native: false,
-			data,
+			data: renderData,
 		});
 	}
 
@@ -245,6 +281,7 @@ class PanelCollection extends Component {
 				{...this.state}
 				panels={this.props.panels}
 				panelsActivate={this.panelsActivate}
+				spawnPickerAtIndex={this.activatePicker}
 			/>
 		) : null;
 	}

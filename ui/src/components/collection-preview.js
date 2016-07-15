@@ -74,6 +74,25 @@ class CollectionPreview extends Component {
 		`;
 	}
 
+	injectPanelAtPlaceholder(panels, index) {
+		const placeholder = this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0];
+		placeholder.insertAdjacentHTML('beforebegin', panels);
+		placeholder.parentNode.removeChild(placeholder);
+		this.panelCollection.classList.remove(styles.placeholderActive);
+		this.injectPreviewMasks();
+		this.deactivatePanels();
+		const panel = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${index}"]`)[0];
+		panel.classList.add(styles.active);
+		trigger({
+			event: 'modern_tribe/panel_activated',
+			native: false,
+			data: {
+				index,
+			},
+		});
+		this.iframeScroller.center(panel, 500, 0);
+	}
+
 	handlePanelTriggerClick(e) {
 		if (!e.target.classList.contains(styles.mask) && !e.target.classList.contains(styles.maskAdd)) {
 			return;
@@ -109,15 +128,22 @@ class CollectionPreview extends Component {
 		panel.insertAdjacentHTML(position, placeholder);
 		this.iframeScroller.center(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0], 500, 0);
 		this.panelCollection.classList.add(styles.placeholderActive);
-		this.props.spawnPickerAtIndex(index, position);
+		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		_.delay(() => {
+			this.props.spawnPickerAtIndex(index, position);
+		}, 150);
 	}
 
 	@autobind
 	handlePanelsAdded(e) {
-		ajax.getPanelHTML(e.detail)
+		ajax.getPanelHTML(e.detail.panels)
 			.done((data) => {
-				this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
-				this.updateNewPanels();
+				if (e.detail.index === -1) {
+					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
+					this.updateNewPanels();
+				} else {
+					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
+				}
 			})
 			.fail((err) => {
 				console.log(err);
@@ -174,8 +200,11 @@ class CollectionPreview extends Component {
 	}
 
 	configurePanel(panel, i) {
-		panel.classList.add(styles.panel);
 		panel.setAttribute('data-index', i);
+		if (panel.classList.contains(styles.panel)) {
+			return;
+		}
+		panel.classList.add(styles.panel);
 		panel.insertAdjacentHTML('beforeend', this.createMask(panel.getAttribute('data-type')));
 	}
 

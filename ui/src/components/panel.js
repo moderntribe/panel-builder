@@ -37,10 +37,12 @@ class PanelContainer extends Component {
 	componentDidMount() {
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
+		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
+		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 	}
 
 	/**
@@ -152,6 +154,16 @@ class PanelContainer extends Component {
 			this.props.panelsActivate(true);
 			this.setState({ active: true }, () => { this.handleHeights(); });
 		}, 300);
+	}
+
+	@autobind
+	maybeDeActivate() {
+		if (!this.state.active) {
+			return;
+		}
+
+		this.setState({ active: false });
+		this.props.panelsActivate(false);
 	}
 
 	renderTitle() {

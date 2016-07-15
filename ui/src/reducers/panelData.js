@@ -31,11 +31,11 @@ export function panelData(state = initialData, action) {
 	const newState = state;
 	switch (action.type) {
 	case ADD_PANEL:
-		newState.panels.push({
-			type: action.data.type,
-			depth: 0,
-			data: {},
-		});
+		if (action.data.index === -1) {
+			newState.panels.push(action.data.panels[0]);
+		} else {
+			newState.panels.splice(action.data.index, 0, action.data.panels[0]);
+		}
 
 		return newState;
 
