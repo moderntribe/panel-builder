@@ -252,9 +252,9 @@ class PanelCollection extends Component {
 	handleSortEnd() {
 		this.sidebar.classList.remove(styles.sorting);
 	}
-	
+
 	handleSort(e) {
-		console.log(e);
+		this.props.movePanel(e);
 	}
 
 	renderBar() {

@@ -7,9 +7,7 @@ import {
 } from '../actions/panels';
 
 import { PANELS } from '../globals/config';
-
-// import update from 'react/lib/update';
-// import initialData from '../data/panel-data-multi.json';
+import arrayMove from '../util/data/array-move';
 
 const initialData = {
 	panels: PANELS,
@@ -47,7 +45,8 @@ export function panelData(state = initialData, action) {
 		return newState;
 
 	case MOVE_PANEL:
-		return state;
+		newState.panels = arrayMove(newState.panels, action.data.oldIndex, action.data.newIndex);
+		return newState;
 
 	case UPDATE_PANEL_DATA:
 		if (action.data.parent) {
