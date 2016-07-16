@@ -39,7 +39,7 @@ class Title extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
-					<input type="text" name={this.props.name} value={this.state.text} onChange={this.handleChange} />
+					<input type="text" name={`modular-content-${this.props.name}`} value={this.state.text} onChange={this.handleChange} />
 				</span>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>

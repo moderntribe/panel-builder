@@ -34,7 +34,7 @@ class ImageSelect extends Component {
 			>
 				<input
 					type="radio"
-					name={this.props.name}
+					name={`modular-content-${this.props.name}`}
 					value={option.value}
 					onChange={this.handleChange}
 					checked={this.state.value === option.value}
