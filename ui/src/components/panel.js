@@ -200,7 +200,7 @@ class PanelContainer extends Component {
 		});
 
 		return (
-			<div ref="panel" className={wrapperClasses}>
+			<div ref="panel" className={wrapperClasses} data-panel>
 				<div className={headerClasses} onClick={this.handleClick}>
 					{this.renderTitle()}
 					<span className={styles.type}>{this.props.label}</span>

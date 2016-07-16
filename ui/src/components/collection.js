@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
+import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
@@ -244,6 +245,18 @@ class PanelCollection extends Component {
 		});
 	}
 
+	handleSortStart() {
+		this.sidebar.classList.add(styles.sorting);
+	}
+
+	handleSortEnd() {
+		this.sidebar.classList.remove(styles.sorting);
+	}
+	
+	handleSort(e) {
+		console.log(e);
+	}
+
 	renderBar() {
 		return this.state.liveEdit ? (
 			<EditBar
@@ -277,7 +290,21 @@ class PanelCollection extends Component {
 	}
 
 	renderPanels() {
-		return !this.state.pickerActive ? _.map(this.props.panels, (panel, i) => {
+		if (this.state.pickerActive || this.state.panelSetPickerActive) {
+			return null;
+		}
+
+		const sortOptions = {
+			animation: 150,
+			ghostClass: styles.sortGhost,
+			onStart: () => this.handleSortStart(),
+			onEnd: () => this.handleSortEnd(),
+			onSort: (e) => {
+				this.handleSort(e);
+			},
+		};
+
+		const Panels = _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
 			return (
 				<Panel
@@ -294,7 +321,15 @@ class PanelCollection extends Component {
 					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
 			);
-		}) : null;
+		});
+
+		return (
+			<Sortable
+				options={sortOptions}
+			>
+				{Panels}
+			</Sortable>
+		);
 	}
 
 	renderPicker() {

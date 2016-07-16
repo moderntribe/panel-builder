@@ -6,7 +6,6 @@
 
 .row {
 	composes: group from "../shared/helpers.pcss";
-	position: relative;
 	margin-top: var(--panel-margin-vertical);
 	margin-bottom: var(--panel-margin-vertical);
 	left:0;
@@ -20,37 +19,6 @@
 	&:not(.editing) {
 		.header:hover {
 			background-color: var(--panel-post-bg-color);
-		}
-	}
-
-	&.ui-sortable-helper {
-		transform: scale(1.02);
-		box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-		z-index: 999999 !important; /* wtf */
-	}
-
-	&.ui-sortable-placeholder {
-		border: thin dashed var(--border-color);
-		visibility: visible;
-	}
-
-	> .close {
-		position: absolute;
-		top: 0;
-		right: 0;
-		height: 30px;
-		width: 34px;
-	}
-
-	&.editing {
-		padding: 0;
-	}
-
-	&.editing > .close {
-		height: 32px;
-		z-index: 999;
-		.caret {
-			/* @include triangle(up, 9px, var(--white)); */
 		}
 	}
 
