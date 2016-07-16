@@ -60,7 +60,7 @@ class ImageSelect extends Component {
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
-				<div>
+				<div className={styles.container}>
 					{Options}
 				</div>
 				<p className={descriptionClasses}>{this.props.description}</p>

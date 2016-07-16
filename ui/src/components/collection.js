@@ -159,7 +159,13 @@ class PanelCollection extends Component {
 
 	@autobind
 	toggleLiveEditWidth() {
-		this.sidebar.classList.toggle(styles.expanded);
+		if (this.sidebar.classList.contains(styles.expanded)) {
+			this.sidebar.classList.remove(styles.expanded);
+			this.sidebar.setAttribute('data-expanded', 'false');
+		} else {
+			this.sidebar.classList.add(styles.expanded);
+			this.sidebar.setAttribute('data-expanded', 'true');
+		}
 	}
 
 	shouldActivatePanelSets() {
@@ -327,7 +333,6 @@ class PanelCollection extends Component {
 			[styles.main]: true,
 			[styles.active]: this.state.active,
 			[styles.editMode]: this.state.liveEdit,
-			[styles.expanded]: this.state.sidebarExpanded,
 			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
 		});
@@ -341,7 +346,7 @@ class PanelCollection extends Component {
 				data-sets-active={this.state.panelSetPickerActive}
 			>
 				{this.renderBar()}
-				<div ref="sidebar" className={styles.sidebar}>
+				<div ref="sidebar" className={styles.sidebar} data-expanded="false">
 					{this.renderHeader()}
 					{this.renderPanels()}
 					{this.renderPicker()}
