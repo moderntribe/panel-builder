@@ -286,6 +286,7 @@ class CollectionPreview extends Component {
 			return;
 		}
 		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);
+		this.panelCollection.id = 'panel-collection-preview';
 		this.injectCSS();
 		this.bindIframeEvents();
 		_.delay(() => {
