@@ -248,6 +248,12 @@ class PanelCollection extends Component {
 		});
 	}
 
+	@autobind
+	handleDataUpdate(data = {}) {
+		events.trigger({ event: 'modern_tribe/panel_updated', native: false, data });
+		this.props.updatePanelData(data);
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -287,6 +293,7 @@ class PanelCollection extends Component {
 		return this.state.liveEdit ? (
 			<CollectionPreview
 				{...this.state}
+				panels={this.props.panels}
 				panelsActivate={this.panelsActivate}
 				spawnPickerAtIndex={this.activatePicker}
 			/>
@@ -321,7 +328,7 @@ class PanelCollection extends Component {
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
 					movePanel={this.props.movePanel}
-					updatePanelData={this.props.updatePanelData}
+					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
 			);
