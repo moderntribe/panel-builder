@@ -22,6 +22,7 @@ class CollectionPreview extends Component {
 		this.state = {
 			loading: true,
 		};
+		this.saving = false;
 	}
 
 	componentDidMount() {
@@ -32,7 +33,8 @@ class CollectionPreview extends Component {
 	componentWillUnmount() {
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
-		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
+		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
+		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
@@ -53,7 +55,8 @@ class CollectionPreview extends Component {
 
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
-		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
+		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
+		document.addEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
@@ -139,16 +142,15 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelUpdated(e) {
-		if (!this.activePanelNode || this.props.saving) {
+		if (!this.activePanelNode || this.saving) {
 			return;
 		}
 
-		const livetextField = this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0];
-		if (livetextField) {
-			livetextField.innerHTML = e.detail.value;
+		if (this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0]) {
 			return;
 		}
 
+		this.saving = true;
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
@@ -159,7 +161,22 @@ class CollectionPreview extends Component {
 			.fail(() => {
 				this.activePanelNode.classList.remove(styles.loadingPanel);
 			})
-			.always(() => this.props.panelsSaving(false));
+			.always(() => {
+				this.props.panelsSaving(false);
+				this.saving = false;
+			});
+	}
+
+	@autobind
+	handlePanelUpdatedLive(e) {
+		if (!this.activePanelNode) {
+			return;
+		}
+
+		const livetextField = this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0];
+		if (livetextField) {
+			livetextField.innerHTML = e.detail.value;
+		}
 	}
 
 	handlePanelTriggerClick(e) {
@@ -359,7 +376,6 @@ class CollectionPreview extends Component {
 
 CollectionPreview.propTypes = {
 	panels: PropTypes.array,
-	saving: PropTypes.bool,
 	mode: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	panelsSaving: PropTypes.func,
@@ -369,7 +385,6 @@ CollectionPreview.propTypes = {
 
 CollectionPreview.defaultProps = {
 	panels: [],
-	saving: false,
 	mode: 'full',
 	liveEdit: false,
 	panelsSaving: () => {},

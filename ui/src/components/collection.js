@@ -28,7 +28,6 @@ import randomString from '../util/data/random-string';
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		saving: false,
 		keyPrefix: randomString(10),
 		injectionIndex: -1,
 		panelSetSaveError: false,
@@ -261,7 +260,7 @@ class PanelCollection extends Component {
 
 	@autobind
 	handlePanelsSaving(saving = false) {
-		this.setState({ saving });
+		this.sidebar.setAttribute('data-saving', saving);
 	}
 
 	@autobind
@@ -396,7 +395,6 @@ class PanelCollection extends Component {
 		const collectionClasses = classNames({
 			[styles.main]: true,
 			[styles.active]: this.state.active,
-			[styles.saving]: this.state.saving,
 			[styles.editMode]: this.state.liveEdit,
 			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
@@ -411,7 +409,7 @@ class PanelCollection extends Component {
 				data-sets-active={this.state.panelSetPickerActive}
 			>
 				{this.renderBar()}
-				<div ref="sidebar" className={styles.sidebar} data-expanded="false">
+				<div ref="sidebar" className={styles.sidebar} data-expanded="false" data-saving="false">
 					{this.renderHeader()}
 					{this.renderPanels()}
 					{this.renderPicker()}
