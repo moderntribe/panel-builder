@@ -52,6 +52,8 @@ export function panelData(state = initialData, action) {
 
 	case UPDATE_PANEL_DATA:
 		if (action.data.parent) {
+			let parent = newState.panels[action.data.index].data[action.data.parent];
+			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
 		} else {
 			newState.panels[action.data.index].data[action.data.name] = action.data.value;
