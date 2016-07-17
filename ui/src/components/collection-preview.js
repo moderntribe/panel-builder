@@ -21,6 +21,7 @@ class CollectionPreview extends Component {
 		super(props);
 		this.state = {
 			loading: true,
+			saving: false,
 		};
 	}
 
@@ -102,6 +103,14 @@ class CollectionPreview extends Component {
 		this.iframeScroller.center(panel, 500, 0);
 	}
 
+	injectUpdatedPanelHtml(panelHtml) {
+		this.activePanelNode.insertAdjacentHTML('beforebegin', panelHtml);
+		this.activePanelNode = this.activePanelNode.previousSibling;
+		this.activePanelNode.parentNode.removeChild(this.activePanelNode.nextSibling);
+		this.initializePanels();
+		this.activePanelNode.classList.add(styles.active);
+	}
+
 	@autobind
 	cancelPickerInjection() {
 		if (!this.panelCollection.classList.contains(styles.placeholderActive)) {
@@ -129,17 +138,26 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelUpdated(e) {
-		if (!this.activePanelNode) {
+		if (!this.activePanelNode || this.state.saving) {
 			return;
 		}
-
-		console.log(e.detail);
 
 		const livetextField = this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0];
 		if (livetextField) {
 			livetextField.innerHTML = e.detail.value;
 			return;
 		}
+
+		this.setState({ saving: true });
+
+		ajax.getPanelHTML([this.props.panels[e.detail.index]])
+			.done((data) => {
+				this.injectUpdatedPanelHtml(data.panels);
+			})
+			.fail((err) => {
+				console.log(err);
+			})
+			.always(() => this.setState({ saving: false }));
 	}
 
 	handlePanelTriggerClick(e) {

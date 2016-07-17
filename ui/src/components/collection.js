@@ -250,8 +250,8 @@ class PanelCollection extends Component {
 
 	@autobind
 	handleDataUpdate(data = {}) {
-		events.trigger({ event: 'modern_tribe/panel_updated', native: false, data });
 		this.props.updatePanelData(data);
+		events.trigger({ event: 'modern_tribe/panel_updated', native: false, data });
 	}
 
 	handleSortStart() {
