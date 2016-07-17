@@ -96,11 +96,6 @@ class PanelContainer extends Component {
 		fieldWrap.setAttribute('data-show-children', hidden);
 	}
 
-	/**
-	 * todo: Code to be refined, just handles the non live edit mode for now
-	 * discuss the future of this with kyle
-	 */
-
 	handleHeights() {
 		if (this.state.active) {
 			if (!this.props.liveEdit) {
@@ -151,7 +146,7 @@ class PanelContainer extends Component {
 		}
 
 		_.delay(() => {
-			this.props.panelsActivate(true, this.props.index);
+			this.props.panelsActivate(true);
 			this.setState({ active: true }, () => { this.handleHeights(); });
 		}, 300);
 	}
@@ -213,7 +208,6 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
-	active: React.PropTypes.bool,
 	data: React.PropTypes.object,
 	depth: React.PropTypes.number,
 	index: React.PropTypes.number,
@@ -231,7 +225,6 @@ PanelContainer.propTypes = {
 };
 
 PanelContainer.defaultProps = {
-	active: false,
 	data: {},
 	depth: 0,
 	index: 0,

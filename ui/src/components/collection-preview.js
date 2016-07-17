@@ -99,7 +99,7 @@ class CollectionPreview extends Component {
 
 	@autobind
 	cancelPickerInjection() {
-		if (!this.panelCollection.classList.contains(styles.placeholderActive)){
+		if (!this.panelCollection.classList.contains(styles.placeholderActive)) {
 			return;
 		}
 
@@ -136,8 +136,6 @@ class CollectionPreview extends Component {
 		if (isNaN(index)) {
 			return;
 		}
-
-		console.log(index);
 
 		this.deactivatePanels();
 		panel.classList.add(styles.active);
