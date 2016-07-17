@@ -7,6 +7,7 @@ import zenscroll from 'zenscroll';
 
 import FieldBuilder from './shared/field-builder';
 import AccordionBack from './shared/accordion-back';
+import Button from './shared/button';
 
 import { UI_I18N } from '../globals/i18n';
 
@@ -38,11 +39,13 @@ class PanelContainer extends Component {
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
 	/**
@@ -72,6 +75,14 @@ class PanelContainer extends Component {
 					/>
 					<div className={styles.fieldWrap}>
 						{Fields}
+						<Button
+							icon="dashicons-trash"
+							text={UI_I18N['button.delete_panel']}
+							bare
+							full={false}
+							classes={styles.deletePanel}
+							handleClick={this.handleDeletePanel}
+						/>
 					</div>
 				</div>
 			);
@@ -161,6 +172,38 @@ class PanelContainer extends Component {
 		this.props.panelsActivate(false);
 	}
 
+	@autobind
+	maybeDeletePanel(e) {
+		if (e.detail.panelIndex !== this.props.index) {
+			return;
+		}
+
+		if (this.state.active) {
+			this.setState({ active: false });
+			this.props.panelsActivate(false);
+		}
+
+		_.delay(() => {
+			this.props.deletePanel({ index: e.detail.panelIndex });
+		}, 150);
+	}
+
+	@autobind
+	handleDeletePanel() {
+		trigger({
+			event: 'modern_tribe/open_dialog',
+			native: false,
+			data: {
+				type: 'confirm',
+				heading: UI_I18N['message.confirm_delete_panel'],
+				data: {
+					panelIndex: this.props.index,
+				},
+				confirmCallback: 'modern_tribe/delete_panel',
+			},
+		});
+	}
+
 	renderTitle() {
 		let Title = null;
 		if (this.props.data.title && this.props.data.title.length) {
@@ -220,6 +263,7 @@ PanelContainer.propTypes = {
 	panelsActive: React.PropTypes.bool,
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
+	deletePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
@@ -237,6 +281,7 @@ PanelContainer.defaultProps = {
 	panelsActive: false,
 	panelsActivate: () => {},
 	movePanel: () => {},
+	deletePanel: () => {},
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},
 };

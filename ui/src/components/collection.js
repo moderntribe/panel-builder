@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel, addNewPanel, addNewPanelSet } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
 import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
@@ -91,12 +91,16 @@ class PanelCollection extends Component {
 				injectionIndex: -1,
 			});
 		} else {
-			if (MODULAR_CONTENT.needs_save) {
-				this.setState({ triggerLiveEdit: true });
-				heartbeat.triggerAutosave();
-			} else {
-				this.setState({ liveEdit: true });
-			}
+			// todo: for now always saving draft when launching live edit to keep iframe in sync.
+			// if (MODULAR_CONTENT.needs_save) {
+			// 	this.setState({ triggerLiveEdit: true });
+			// 	heartbeat.triggerAutosave();
+			// } else {
+			// 	this.setState({ liveEdit: true });
+			// }
+
+			this.setState({ triggerLiveEdit: true });
+			heartbeat.triggerAutosave();
 		}
 	}
 
@@ -260,6 +264,12 @@ class PanelCollection extends Component {
 		this.setState({ saving });
 	}
 
+	@autobind
+	handleDeletePanel(data) {
+		this.props.deletePanelAtIndex(data);
+		this.setState({ keyPrefix: randomString(10) });
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -335,6 +345,7 @@ class PanelCollection extends Component {
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
 					movePanel={this.props.movePanel}
+					deletePanel={this.handleDeletePanel}
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
@@ -421,6 +432,7 @@ const mapDispatchToProps = (dispatch) => ({
 	updatePanelData: (data) => dispatch(updatePanelData(data)),
 	addNewPanel: (data) => dispatch(addNewPanel(data)),
 	addNewPanelSet: (data) => dispatch(addNewPanelSet(data)),
+	deletePanelAtIndex: (data) => dispatch(deletePanelAtIndex(data)),
 });
 
 PanelCollection.propTypes = {
@@ -429,6 +441,7 @@ PanelCollection.propTypes = {
 	updatePanelData: PropTypes.func.isRequired,
 	addNewPanel: PropTypes.func.isRequired,
 	addNewPanelSet: PropTypes.func.isRequired,
+	deletePanelAtIndex: PropTypes.func.isRequired,
 };
 
 PanelCollection.defaultProps = {
@@ -437,6 +450,7 @@ PanelCollection.defaultProps = {
 	updatePanelData: () => {},
 	addNewPanel: () => {},
 	addNewPanelSet: () => {},
+	deletePanelAtIndex: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PanelCollection);

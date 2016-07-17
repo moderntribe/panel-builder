@@ -11,6 +11,12 @@
 	path {
 		fill: var(--dialog-info);
 	}
+	polygon {
+		fill: var(--dialog-info);
+	}
+	circle {
+		fill: var(--dialog-info);
+	}
 }
 
 @svg-load successIcon url('../img/icons/success.svg') {
@@ -76,6 +82,11 @@
 	}
 }
 
+.buttons {
+	padding-top:15px;
+	border-top: 1px solid var(--picker-border);
+}
+
 .confirm {
 	.icon {
 		background: svg-inline(infoIcon) 50% 50% no-repeat;
@@ -83,6 +94,15 @@
 	h4 {
 		color: var(--dialog-info);
 	}
+}
+
+.confirmButton {
+	background: var(--dialog-info);
+	margin-right: 10px;
+}
+
+.cancelButton {
+
 }
 
 .outer {

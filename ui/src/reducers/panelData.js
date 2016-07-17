@@ -4,6 +4,7 @@ import {
 	ADD_PANEL_SET,
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
+	DELETE_PANEL,
 } from '../actions/panels';
 import update from 'react/lib/update';
 
@@ -48,6 +49,14 @@ export function panelData(state = initialData, action) {
 	case MOVE_PANEL:
 		return update(newState, {
 			panels: { $set: arrayMove(newState.panels, action.data.oldIndex, action.data.newIndex) },
+		});
+
+	case DELETE_PANEL:
+		const panels = _.remove(newState.panels, (panel, i) => {
+			return i !== action.data.index;
+		});
+		return update(newState, {
+			panels: { $set: panels }
 		});
 
 	case UPDATE_PANEL_DATA:

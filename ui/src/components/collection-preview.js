@@ -35,6 +35,7 @@ class CollectionPreview extends Component {
 		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
+		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
 	}
 
 	bindEvents() {
@@ -55,6 +56,7 @@ class CollectionPreview extends Component {
 		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
+		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
 	}
 
 	deactivatePanel(panel) {
@@ -227,7 +229,28 @@ class CollectionPreview extends Component {
 	}
 
 	handlePanelDeleteClick(e) {
+		trigger({
+			event: 'modern_tribe/open_dialog',
+			native: false,
+			data: {
+				type: 'confirm',
+				heading: UI_I18N['message.confirm_delete_panel'],
+				data: {
+					panelIndex: parseInt(domTools.closest(e.currentTarget, `.${styles.panel}`).getAttribute('data-index'), 10),
+				},
+				confirmCallback: 'modern_tribe/delete_panel',
+			},
+		});
+	}
 
+	@autobind
+	deletePanelFromPreview(e) {
+		const el = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${e.detail.panelIndex}"]`)[0];
+		if (!el) {
+			return;
+		}
+		el.parentNode.removeChild(el);
+		this.initializePanels();
 	}
 
 	@autobind

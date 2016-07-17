@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import Modal from 'react-modal';
 
 import Button from './shared/button';
 
 import styles from './panel-dialog.pcss';
+
+import { UI_I18N } from '../globals/i18n';
+import * as events from '../util/events';
 
 const wpWrap = document.getElementById('wpwrap');
 
@@ -25,6 +27,7 @@ class Dialog extends Component {
 		heading: '',
 		message: '',
 		template: '',
+		data: {},
 		confirmCallback: 'modern_tribe/dialog_confirmation',
 		cancelCallback: 'modern_tribe/dialog_cancellation',
 	};
@@ -47,6 +50,7 @@ class Dialog extends Component {
 			heading: e.detail.heading ? e.detail.heading : '',
 			message: e.detail.message ? e.detail.message : '',
 			template: e.detail.template ? e.detail.template : '',
+			data: e.detail.data ? e.detail.data : {},
 			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
 			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
 		});
@@ -63,6 +67,16 @@ class Dialog extends Component {
 		if (wpWrap) {
 			wpWrap.classList.remove(styles.blur);
 		}
+	}
+
+	@autobind
+	handleConfirm() {
+		this.closeDialog();
+		events.trigger({
+			event: this.state.confirmCallback,
+			native: false,
+			data: this.state.data,
+		});
 	}
 
 	confirmPanelSetTitle() {
@@ -87,6 +101,32 @@ class Dialog extends Component {
 		return Message;
 	}
 
+	renderButtons() {
+		let Buttons;
+		if (this.state.type === 'confirm') {
+			Buttons = (
+				<div className={styles.buttons}>
+					<Button
+						handleClick={this.handleConfirm}
+						text={UI_I18N['button.confirm']}
+						full={false}
+						primary={false}
+						classes={styles.confirmButton}
+					/>
+					<Button
+						handleClick={this.closeDialog}
+						text={UI_I18N['button.cancel']}
+						bare
+						full={false}
+						classes={styles.cancelButton}
+					/>
+				</div>
+			);
+		}
+
+		return Buttons;
+	}
+
 	renderModalContent() {
 		const modalClasses = classNames({
 			[styles.error]: this.state.type === 'error',
@@ -101,6 +141,7 @@ class Dialog extends Component {
 					<span className={styles.icon} />
 					{this.state.heading.length && <h4>{this.state.heading}</h4>}
 					{this.renderMessage()}
+					{this.renderButtons()}
 				</div>
 			</div>
 		);
@@ -126,16 +167,6 @@ class Dialog extends Component {
 		);
 	}
 }
-
-Dialog.propTypes = {
-	handleDialogConfirm: PropTypes.func,
-	handleDialogCancel: PropTypes.func,
-};
-
-Dialog.defaultProps = {
-	handleDialogConfirm: () => {},
-	handleDialogCancel: () => {},
-};
 
 export default Dialog;
 
