@@ -99,6 +99,8 @@
 	.panel {
 		position: relative;
 		z-index: 5;
+		opacity: 1;
+		transition: opacity 300ms ease-in-out;
 		&:first-child {
 			.maskButtonUp {
 				display: none;
@@ -123,6 +125,9 @@
 		&.active,
 		&:hover{
 			z-index: 7;
+		}
+		&.loadingPanel {
+			opacity: 0.5;
 		}
 	}
 	.mask {

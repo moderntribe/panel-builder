@@ -21,7 +21,6 @@ class CollectionPreview extends Component {
 		super(props);
 		this.state = {
 			loading: true,
-			saving: false,
 		};
 	}
 
@@ -138,7 +137,7 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelUpdated(e) {
-		if (!this.activePanelNode || this.state.saving) {
+		if (!this.activePanelNode || this.props.saving) {
 			return;
 		}
 
@@ -148,16 +147,17 @@ class CollectionPreview extends Component {
 			return;
 		}
 
-		this.setState({ saving: true });
+		this.props.panelsSaving(true);
+		this.activePanelNode.classList.add(styles.loadingPanel);
 
 		ajax.getPanelHTML([this.props.panels[e.detail.index]])
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 			})
-			.fail((err) => {
-				console.log(err);
+			.fail(() => {
+				this.activePanelNode.classList.remove(styles.loadingPanel);
 			})
-			.always(() => this.setState({ saving: false }));
+			.always(() => this.props.panelsSaving(false));
 	}
 
 	handlePanelTriggerClick(e) {
@@ -336,16 +336,20 @@ class CollectionPreview extends Component {
 
 CollectionPreview.propTypes = {
 	panels: PropTypes.array,
+	saving: PropTypes.bool,
 	mode: PropTypes.string,
 	liveEdit: PropTypes.bool,
+	panelsSaving: PropTypes.func,
 	panelsActivate: PropTypes.func,
 	spawnPickerAtIndex: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
 	panels: [],
+	saving: false,
 	mode: 'full',
 	liveEdit: false,
+	panelsSaving: () => {},
 	panelsActivate: () => {},
 	spawnPickerAtIndex: () => {},
 };

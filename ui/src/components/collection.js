@@ -28,6 +28,7 @@ import randomString from '../util/data/random-string';
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		saving: false,
 		keyPrefix: randomString(10),
 		injectionIndex: -1,
 		panelSetSaveError: false,
@@ -254,6 +255,11 @@ class PanelCollection extends Component {
 		events.trigger({ event: 'modern_tribe/panel_updated', native: false, data });
 	}
 
+	@autobind
+	handlePanelsSaving(saving = false) {
+		this.setState({ saving });
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -294,6 +300,7 @@ class PanelCollection extends Component {
 			<CollectionPreview
 				{...this.state}
 				panels={this.props.panels}
+				panelsSaving={this.handlePanelsSaving}
 				panelsActivate={this.panelsActivate}
 				spawnPickerAtIndex={this.activatePicker}
 			/>
@@ -378,6 +385,7 @@ class PanelCollection extends Component {
 		const collectionClasses = classNames({
 			[styles.main]: true,
 			[styles.active]: this.state.active,
+			[styles.saving]: this.state.saving,
 			[styles.editMode]: this.state.liveEdit,
 			[styles.setsActive]: this.state.panelSetPickerActive,
 			'panel-collection': true,
