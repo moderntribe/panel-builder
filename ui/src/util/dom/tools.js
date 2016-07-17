@@ -20,3 +20,11 @@ export const closest = (el, selector) => {
 
 	return null;
 };
+
+export const insertAfter = (newNode, referenceNode) => {
+	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+};
+
+export const insertBefore = (newNode, referenceNode) => {
+	referenceNode.parentNode.insertBefore(newNode, referenceNode);
+};

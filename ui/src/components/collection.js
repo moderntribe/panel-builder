@@ -23,9 +23,13 @@ import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
 import * as events from '../util/events';
 
+import randomString from '../util/data/random-string';
+
 class PanelCollection extends Component {
 	state = {
 		active: false,
+		keyPrefix: randomString(10),
+		injectionIndex: -1,
 		panelSetSaveError: false,
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
@@ -33,7 +37,6 @@ class PanelCollection extends Component {
 		liveEdit: false,
 		mode: 'full',
 		triggerLiveEdit: false,
-		injectionIndex: -1,
 	};
 
 	componentWillMount() {
@@ -254,7 +257,9 @@ class PanelCollection extends Component {
 	}
 
 	handleSort(e) {
+		events.trigger({ event: 'modern_tribe/panel_moved', native: false, data: e });
 		this.props.movePanel(e);
+		this.setState({ keyPrefix: randomString(10) });
 	}
 
 	renderBar() {
@@ -282,7 +287,6 @@ class PanelCollection extends Component {
 		return this.state.liveEdit ? (
 			<CollectionPreview
 				{...this.state}
-				panels={this.props.panels}
 				panelsActivate={this.panelsActivate}
 				spawnPickerAtIndex={this.activatePicker}
 			/>
@@ -310,7 +314,7 @@ class PanelCollection extends Component {
 				<Panel
 					{...blueprint}
 					{...panel}
-					key={`panel-${i}`}
+					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
 					panelCount={this.props.panels.length}
 					liveEdit={this.state.liveEdit}

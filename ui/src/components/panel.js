@@ -28,7 +28,7 @@ class PanelContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			active: false,
+			active: this.props.active,
 			hidden: false,
 		};
 		this.el = null;
@@ -151,7 +151,7 @@ class PanelContainer extends Component {
 		}
 
 		_.delay(() => {
-			this.props.panelsActivate(true);
+			this.props.panelsActivate(true, this.props.index);
 			this.setState({ active: true }, () => { this.handleHeights(); });
 		}, 300);
 	}
@@ -213,6 +213,7 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
+	active: React.PropTypes.bool,
 	data: React.PropTypes.object,
 	depth: React.PropTypes.number,
 	index: React.PropTypes.number,
@@ -230,6 +231,7 @@ PanelContainer.propTypes = {
 };
 
 PanelContainer.defaultProps = {
+	active: false,
 	data: {},
 	depth: 0,
 	index: 0,

@@ -30,6 +30,7 @@ class CollectionPreview extends Component {
 	}
 
 	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
@@ -48,6 +49,7 @@ class CollectionPreview extends Component {
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
 
+		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
@@ -81,7 +83,7 @@ class CollectionPreview extends Component {
 		placeholder.insertAdjacentHTML('beforebegin', panels);
 		placeholder.parentNode.removeChild(placeholder);
 		this.panelCollection.classList.remove(styles.placeholderActive);
-		this.injectPreviewMasks();
+		this.initializePanels();
 		this.deactivatePanels();
 		const panel = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${index}"]`)[0];
 		panel.classList.add(styles.active);
@@ -108,6 +110,18 @@ class CollectionPreview extends Component {
 		}
 	}
 
+	@autobind
+	handlePanelMoved(e) {
+		const el = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${e.detail.oldIndex}"]`)[0];
+		const target = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${e.detail.newIndex}"]`)[0];
+		if (e.detail.newIndex < e.detail.oldIndex) {
+			domTools.insertBefore(el, target);
+		} else {
+			domTools.insertAfter(el, target);
+		}
+		this.initializePanels();
+	}
+
 	handlePanelTriggerClick(e) {
 		if (!e.target.classList.contains(styles.mask) && !e.target.classList.contains(styles.maskAdd)) {
 			return;
@@ -122,6 +136,8 @@ class CollectionPreview extends Component {
 		if (isNaN(index)) {
 			return;
 		}
+
+		console.log(index);
 
 		this.deactivatePanels();
 		panel.classList.add(styles.active);
@@ -231,7 +247,7 @@ class CollectionPreview extends Component {
 		this.iframe.document.body.appendChild(iframeCSS);
 	}
 
-	injectPreviewMasks() {
+	initializePanels() {
 		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel, i) => this.configurePanel(panel, i));
 	}
 
@@ -254,7 +270,7 @@ class CollectionPreview extends Component {
 		this.injectCSS();
 		this.bindIframeEvents();
 		_.delay(() => {
-			this.injectPreviewMasks();
+			this.initializePanels();
 			this.revealIframe();
 		}, 500);
 	}
