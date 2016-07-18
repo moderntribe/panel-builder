@@ -74,6 +74,7 @@ class PanelContainer extends Component {
 						handleExpanderClick={this.props.handleExpanderClick}
 					/>
 					<div className={styles.fieldWrap}>
+						{this.renderSettingsToggle()}
 						{Fields}
 						<Button
 							icon="dashicons-trash"
@@ -204,6 +205,35 @@ class PanelContainer extends Component {
 		});
 	}
 
+	@autobind
+	enableSettingsMode() {
+		this.el.classList.add(styles.settingsActive);
+	}
+
+	@autobind
+	enableContentMode() {
+		this.el.classList.remove(styles.settingsActive);
+	}
+
+	renderSettingsToggle() {
+		return this.props.settings_fields.length ? (
+			<div className={styles.settings}>
+				<Button
+					text={UI_I18N['tab.content']}
+					full={false}
+					classes={styles.contentButton}
+					handleClick={this.enableContentMode}
+				/>
+				<Button
+					text={UI_I18N['tab.settings']}
+					full={false}
+					classes={styles.settingsButton}
+					handleClick={this.enableSettingsMode}
+				/>
+			</div>
+		) : null;
+	}
+
 	renderTitle() {
 		let Title = null;
 		if (this.props.data.title && this.props.data.title.length) {
@@ -260,6 +290,7 @@ PanelContainer.propTypes = {
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
 	liveEdit: React.PropTypes.bool,
+	settings_fields: React.PropTypes.array,
 	panelsActive: React.PropTypes.bool,
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
@@ -279,6 +310,7 @@ PanelContainer.defaultProps = {
 	fields: [],
 	liveEdit: false,
 	panelsActive: false,
+	settings_fields: [],
 	panelsActivate: () => {},
 	movePanel: () => {},
 	deletePanel: () => {},

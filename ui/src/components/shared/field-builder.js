@@ -27,7 +27,7 @@ const FieldBuilder = (props) => {
 		});
 
 		return (
-			<div className={classes} key={_.uniqueId('field-id-')}>
+			<div className={classes} key={_.uniqueId('field-id-')} data-settings={props.settings_fields.indexOf(field.name) !== -1}>
 				<Field
 					{...field}
 					panelIndex={props.index}
@@ -49,20 +49,24 @@ const FieldBuilder = (props) => {
 };
 
 FieldBuilder.propTypes = {
+	name: PropTypes.string,
 	index: PropTypes.number,
 	label: PropTypes.string,
 	fields: PropTypes.array,
 	data: PropTypes.object,
 	updatePanelData: PropTypes.func,
+	settings_fields: React.PropTypes.array,
 	hidePanel: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
 
 FieldBuilder.defaultProps = {
+	name: '',
 	index: 0,
 	label: '',
 	fields: [],
 	data: {},
+	settings_fields: [],
 	updatePanelData: () => {},
 	hidePanel: () => {},
 	handleExpanderClick: () => {},
