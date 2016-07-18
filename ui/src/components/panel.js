@@ -71,9 +71,11 @@ class PanelContainer extends Component {
 						title={this.props.data.title}
 						panelLabel={this.props.label}
 						handleClick={this.handleClick}
+						handleInfoClick={this.handleInfoClick}
 						handleExpanderClick={this.props.handleExpanderClick}
 					/>
 					<div className={styles.fieldWrap}>
+						{this.renderPanelInfo()}
 						{this.renderSettingsToggle()}
 						{Fields}
 						<Button
@@ -147,6 +149,15 @@ class PanelContainer extends Component {
 	}
 
 	@autobind
+	handleInfoClick() {
+		if (this.el.getAttribute('data-info-active') === 'false') {
+			this.el.setAttribute('data-info-active', 'true');
+		} else {
+			this.el.setAttribute('data-info-active', 'false');
+		}
+	}
+
+	@autobind
 	maybeActivate(e) {
 		if (e.detail.index !== this.props.index) {
 			this.setState({ active: false });
@@ -215,6 +226,15 @@ class PanelContainer extends Component {
 		this.el.classList.remove(styles.settingsActive);
 	}
 
+	renderPanelInfo() {
+		return this.props.thumbnail.length || this.props.description.length ? (
+			<div className={styles.info}>
+				{this.props.description.length && <div className={styles.infoDesc}>{this.props.description}</div>}
+				{this.props.thumbnail.length && <div className={styles.infoThumb}><img src={this.props.thumbnail} role="presentation" /></div>}
+			</div>
+		) : null;
+	}
+
 	renderSettingsToggle() {
 		return this.props.settings_fields.length ? (
 			<div className={styles.settings}>
@@ -268,7 +288,7 @@ class PanelContainer extends Component {
 		});
 
 		return (
-			<div ref="panel" className={wrapperClasses} data-panel>
+			<div ref="panel" className={wrapperClasses} data-panel data-info-active="false">
 				<div className={headerClasses} onClick={this.handleClick}>
 					{this.renderTitle()}
 					<span className={styles.type}>{this.props.label}</span>
@@ -287,6 +307,7 @@ PanelContainer.propTypes = {
 	type: React.PropTypes.string,
 	label: React.PropTypes.string,
 	description: React.PropTypes.string,
+	thumbnail: React.PropTypes.string,
 	icon: React.PropTypes.object,
 	fields: React.PropTypes.array,
 	liveEdit: React.PropTypes.bool,
@@ -306,6 +327,7 @@ PanelContainer.defaultProps = {
 	type: '',
 	label: '',
 	description: '',
+	thumbnail: '',
 	icon: {},
 	fields: [],
 	liveEdit: false,

@@ -45,7 +45,7 @@ class AccordionBack extends Component {
 				/>
 				<h3>
 					{this.state.title}
-					<span className={styles.action}>{this.props.panelLabel}</span>
+					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
 					<Expander handleClick={this.props.handleExpanderClick} />
 				</h3>
 			</nav>
@@ -57,6 +57,7 @@ AccordionBack.propTypes = {
 	title: PropTypes.string,
 	panelLabel: PropTypes.string,
 	handleClick: PropTypes.func,
+	handleInfoClick: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
 
@@ -64,6 +65,7 @@ AccordionBack.defaultProps = {
 	title: UI_I18N['heading.no_title'],
 	panelLabel: '',
 	handleClick: () => {},
+	handleInfoClick: () => {},
 	handleExpanderClick: () => {},
 };
 

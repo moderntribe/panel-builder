@@ -147,6 +147,31 @@
 	}
 }
 
+.info {
+	display: none;
+	width: 100%;
+}
+
+.infoDesc {
+	font-size: 13px;
+	padding-bottom: 20px;
+	color: var(--link-color);
+}
+
+.infoThumb {
+	padding-bottom: 20px;
+	max-width:350px;
+	img {
+		max-width: 100%;
+	}
+}
+
+[data-info-active="true"] {
+	.info {
+		display: block;
+	}
+}
+
 .fields{
 	padding: 0;
 	width: 100%;
