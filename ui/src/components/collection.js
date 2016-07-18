@@ -325,6 +325,7 @@ class PanelCollection extends Component {
 
 		const sortOptions = {
 			animation: 150,
+			handle: '.panel-row-header',
 			ghostClass: styles.sortGhost,
 			onStart: () => this.handleSortStart(),
 			onEnd: () => this.handleSortEnd(),
