@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import styles from './title.pcss';
 
+import * as events from '../../util/events';
+
 class Title extends Component {
 	state = {
 		text: this.props.data.length ? this.props.data : this.props.default,
@@ -17,6 +19,13 @@ class Title extends Component {
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: text,
+		});
+		events.trigger({
+			event: 'modern_tribe/title_updated',
+			native: false,
+			data: {
+				text
+			},
 		});
 	}
 
