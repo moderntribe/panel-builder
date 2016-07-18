@@ -21,7 +21,6 @@ class AccordionBack extends Component {
 		this.state = {
 			title: this.props.title,
 		};
-		this.el = null;
 	}
 
 	componentDidMount() {

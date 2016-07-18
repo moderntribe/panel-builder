@@ -18,7 +18,7 @@ const Button = (props) => {
 		let Load = null;
 		if (props.useLoader && props.showLoader) {
 			Load = (
-				<Loader active width={20} />
+				<Loader active width={20} height={20} />
 			);
 		}
 

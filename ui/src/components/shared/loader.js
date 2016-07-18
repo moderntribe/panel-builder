@@ -5,6 +5,7 @@ import styles from './loader.pcss';
 const Loader = (props) => {
 	const loaderStyle = {
 		width: `${props.width}px`,
+		height: `${props.height}px`,
 	};
 
 	return props.active ? (
@@ -19,11 +20,13 @@ const Loader = (props) => {
 Loader.propTypes = {
 	active: PropTypes.bool,
 	width: PropTypes.number,
+	height: PropTypes.number,
 };
 
 Loader.defaultProps = {
 	active: false,
 	width: 100,
+	height: 100,
 };
 
 export default Loader;
