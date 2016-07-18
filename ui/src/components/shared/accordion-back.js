@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import autobind from 'autobind-decorator';
 
 import Expander from './expander';
 import Button from './button';
@@ -15,18 +16,23 @@ import styles from './accordion-back.pcss';
  */
 
 class AccordionBack extends Component {
-	state = {
-		title: this.props.title,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			title: this.props.title,
+		};
+		this.el = null;
+	}
 
 	componentDidMount() {
-		document.addEventListener('modern_tribe/title_updated', (e) => this.updateTitle(e));
+		document.addEventListener('modern_tribe/title_updated', this.updateTitle);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('modern_tribe/title_updated', (e) => this.updateTitle(e));
+		document.removeEventListener('modern_tribe/title_updated', this.updateTitle);
 	}
 
+	@autobind
 	updateTitle(e) {
 		this.setState({ title: e.detail.text });
 	}
