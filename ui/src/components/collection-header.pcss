@@ -7,6 +7,42 @@
 	}
 }
 
+@svg-load saveSet url('../img/icons/save-panel.svg') {
+	path {
+		fill: var(--link-color);
+	}
+	polygon {
+		fill: var(--link-color);
+	}
+}
+
+@svg-load saveSetHover url('../img/icons/save-panel.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+	polygon {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load editSet url('../img/icons/edit.svg') {
+	path {
+		fill: var(--link-color);
+	}
+	polygon {
+		fill: var(--link-color);
+	}
+}
+
+@svg-load editSetHover url('../img/icons/edit.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+	polygon {
+		fill: var(--button-new-blue);
+	}
+}
+
 .wrapper {
 	composes: group from "../shared/helpers.pcss";
 	padding-top: 5px;
@@ -29,15 +65,37 @@
 	}
 }
 
+.editIcon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: svg-inline(editSet) 50% 50% no-repeat;
+	background-size: contain;
+}
+
 .saveSet {
 	float: right;
 	i {
 		font-size: 24px;
-		top: -6px;
+		top: -2px;
+		background: svg-inline(saveSet) 50% 50% no-repeat;
+		background-size: contain;
+		&:before {
+			display: none;
+		}
 		.liveEdit & {
 			font-size: 18px;
 			top: -3px;
 			margin-right: 2px;
+		}
+	}
+	&:hover {
+		span {
+			color: var(--button-new-blue);
+		}
+		i {
+			background: svg-inline(saveSetHover) 50% 50% no-repeat;
+			background-size: contain;
 		}
 	}
 	.liveEdit & {
@@ -52,24 +110,32 @@
 	text-decoration: none;
 	display: inline-block;
 	width: auto;
+	padding-top: 3px;
 	padding-right: 10px;
 	line-height: 30px;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--link-color);
 	outline: 0;
-	&:focus {
+	&:hover,
+	&:focus,
+	&:active {
 		box-shadow: none;
+		color: var(--button-new-blue);
+		.editIcon {
+			background: svg-inline(editSetHover) 50% 50% no-repeat;
+			background-size: contain;
+		}
 	}
 	i {
 		position: relative;
 		font-size: 24px;
-		top: 4px;
-		margin-right: 6px;
+		top: 2px;
+		margin-right: 8px;
 		.liveEdit & {
 			font-size: 18px;
 			top: 2px;
-			margin-right: 4px;
+			margin-right: 6px;
 		}
 	}
 	.liveEdit & {
