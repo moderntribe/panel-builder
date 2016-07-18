@@ -42,17 +42,14 @@
 		margin: 0 auto;
 		z-index:100002;
 		display: block;
-		&.iframeFull{
-
-		}
-		&.iframeTablet{
+		[data-mode="tablet"] & {
 			width: 768px;
 		}
-		&.iframeMobile{
+		[data-mode="mobile"] & {
 			width: 320px;
 		}
-		&.iframeMobile,
-		&.iframeTablet {
+		[data-mode="mobile"] &,
+		[data-mode="tablet"] & {
 			border-right: 1px solid var(--border-color);
 			border-left: 1px solid var(--border-color);
 		}

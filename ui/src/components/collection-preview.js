@@ -377,9 +377,6 @@ class CollectionPreview extends Component {
 
 	render() {
 		const iframeClasses = classNames({
-			[styles.iframeFull]: this.props.mode === 'full',
-			[styles.iframeTablet]: this.props.mode === 'tablet',
-			[styles.iframeMobile]: this.props.mode === 'mobile',
 			'panel-preview-iframe': true,
 		});
 
@@ -398,7 +395,6 @@ class CollectionPreview extends Component {
 
 CollectionPreview.propTypes = {
 	panels: PropTypes.array,
-	mode: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	panelsSaving: PropTypes.func,
 	panelsActivate: PropTypes.func,
@@ -408,7 +404,6 @@ CollectionPreview.propTypes = {
 
 CollectionPreview.defaultProps = {
 	panels: [],
-	mode: 'full',
 	liveEdit: false,
 	panelsSaving: () => {},
 	panelsActivate: () => {},

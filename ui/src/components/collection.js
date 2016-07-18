@@ -35,7 +35,6 @@ class PanelCollection extends Component {
 		panelSetPickerEditLink: '',
 		pickerActive: false,
 		liveEdit: false,
-		mode: 'full',
 		triggerLiveEdit: false,
 	};
 
@@ -50,6 +49,7 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
+		this.collection = ReactDOM.findDOMNode(this.refs.collection);
 		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
 		this.bindEvents();
 	}
@@ -105,7 +105,7 @@ class PanelCollection extends Component {
 
 	@autobind
 	swapResizeMode(mode) {
-		this.setState({ mode });
+		this.collection.setAttribute('data-mode', mode);
 	}
 
 	@autobind
@@ -405,11 +405,13 @@ class PanelCollection extends Component {
 
 		return (
 			<div
+				ref="collection"
 				className={collectionClasses}
 				data-live-edit={this.state.liveEdit}
 				data-live-active={this.state.active}
 				data-picker-active={this.state.pickerActive}
 				data-sets-active={this.state.panelSetPickerActive}
+				data-mode="full"
 			>
 				{this.renderBar()}
 				<div ref="sidebar" className={styles.sidebar} data-expanded="false" data-saving="false">

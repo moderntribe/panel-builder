@@ -122,7 +122,8 @@
 	.desktop{
 		background: svg-inline(desktop) 50% 50% no-repeat;
 		background-size: auto 35px;
-		&:hover{
+		&:hover,
+		[data-mode="full"] & {
 			background: svg-inline(desktopHover) 50% 50% no-repeat;
 			background-size: auto 35px;
 		}
@@ -130,7 +131,8 @@
 	.tablet{
 		background: svg-inline(tablet) 20px 50% no-repeat;
 		background-size: auto 28px;
-		&:hover{
+		&:hover,
+		[data-mode="tablet"] &{
 			background: svg-inline(tabletHover) 20px 50% no-repeat;
 			background-size: auto 28px;
 		}
@@ -138,7 +140,8 @@
 	.mobile{
 		background: svg-inline(mobile) 50% 50% no-repeat;
 		background-size: auto 22px;
-		&:hover{
+		&:hover,
+		[data-mode="mobile"] & {
 			background: svg-inline(mobileHover) 50% 50% no-repeat;
 			background-size: auto 22px;
 		}
