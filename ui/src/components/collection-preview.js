@@ -31,13 +31,7 @@ class CollectionPreview extends Component {
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
-		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
-		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
-		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
-		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
-		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
-		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
+		this.unBindEvents();
 	}
 
 	bindEvents() {
@@ -60,6 +54,16 @@ class CollectionPreview extends Component {
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
+	}
+
+	unBindEvents() {
+		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
+		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
+		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
+		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
+		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
+		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
+		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
 	}
 
 	deactivatePanel(panel) {
@@ -237,12 +241,30 @@ class CollectionPreview extends Component {
 			});
 	}
 
-	handlePanelUpClick(e) {
+	dispatchSort(panel, oldIndex, newIndex) {
+		this.deactivatePanel(panel);
+		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		_.delay(() => {
+			this.props.updatePanelOrder({
+				oldIndex,
+				newIndex,
+			});
+			this.iframeScroller.center(panel, 500, 0);
+		}, 150);
+	}
 
+	handlePanelUpClick(e) {
+		const panel = domTools.closest(e.currentTarget, `.${styles.panel}`);
+		const oldIndex = parseInt(panel.getAttribute('data-index'), 10);
+		const newIndex = oldIndex - 1;
+		this.dispatchSort(panel, oldIndex, newIndex);
 	}
 
 	handlePanelDownClick(e) {
-
+		const panel = domTools.closest(e.currentTarget, `.${styles.panel}`);
+		const oldIndex = parseInt(panel.getAttribute('data-index'), 10);
+		const newIndex = oldIndex + 1;
+		this.dispatchSort(panel, oldIndex, newIndex);
 	}
 
 	handlePanelDeleteClick(e) {
@@ -368,7 +390,7 @@ class CollectionPreview extends Component {
 						<div className={styles.loading}><Loader active /></div>
 					</div>
 				}
-				<iframe ref="frame" className={iframeClasses} src={MODULAR_CONTENT.preview_url}/>
+				<iframe ref="frame" className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
 			</div>
 		);
 	}
@@ -381,6 +403,7 @@ CollectionPreview.propTypes = {
 	panelsSaving: PropTypes.func,
 	panelsActivate: PropTypes.func,
 	spawnPickerAtIndex: PropTypes.func,
+	updatePanelOrder: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
@@ -390,6 +413,7 @@ CollectionPreview.defaultProps = {
 	panelsSaving: () => {},
 	panelsActivate: () => {},
 	spawnPickerAtIndex: () => {},
+	updatePanelOrder: () => {},
 };
 
 export default CollectionPreview;

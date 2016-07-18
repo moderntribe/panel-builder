@@ -277,6 +277,7 @@ class PanelCollection extends Component {
 		this.sidebar.classList.remove(styles.sorting);
 	}
 
+	@autobind
 	handleSort(e) {
 		events.trigger({ event: 'modern_tribe/panel_moved', native: false, data: e });
 		this.props.movePanel(e);
@@ -311,6 +312,7 @@ class PanelCollection extends Component {
 				panels={this.props.panels}
 				panelsSaving={this.handlePanelsSaving}
 				panelsActivate={this.panelsActivate}
+				updatePanelOrder={this.handleSort}
 				spawnPickerAtIndex={this.activatePicker}
 			/>
 		) : null;
