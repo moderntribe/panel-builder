@@ -125,6 +125,7 @@ class Repeater extends Component {
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
+			'repeater-header': true,
 		});
 		const arrowClasses = classNames({
 			dashicons: true,
@@ -136,7 +137,7 @@ class Repeater extends Component {
 		return (
 			<div
 				key={`${this.state.keyPrefix}-${index}`}
-				data-index={index}
+				data-rowIndex={index}
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
@@ -156,17 +157,19 @@ class Repeater extends Component {
 	getHeaders() {
 		const sortOptions = {
 			animation: 150,
-			handle: '.panel-row-header',
+			handle: '.repeater-header',
 			onSort: (e) => {
 				this.handleSort(e);
 			},
 		};
 
+		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
+
 		return (
 			<Sortable
 				options={sortOptions}
 			>
-				{_.map(this.state.data, (data, i) => this.getHeader(data, i))}
+				{Headers}
 			</Sortable>
 		);
 	}
@@ -255,7 +258,7 @@ class Repeater extends Component {
 		this.props.hidePanel(true);
 		this.setState({
 			active: true,
-			activeIndex: parseInt(e.currentTarget.getAttribute('data-index'), 10),
+			activeIndex: parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10),
 		});
 	}
 
