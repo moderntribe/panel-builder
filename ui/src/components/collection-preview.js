@@ -113,8 +113,8 @@ class CollectionPreview extends Component {
 
 	injectUpdatedPanelHtml(panelHtml) {
 		this.activePanelNode.insertAdjacentHTML('beforebegin', panelHtml);
-		this.activePanelNode = this.activePanelNode.previousSibling;
-		this.activePanelNode.parentNode.removeChild(this.activePanelNode.nextSibling);
+		this.activePanelNode = $(this.activePanelNode).prev().get(0);
+		this.activePanelNode.parentNode.removeChild($(this.activePanelNode).next().get(0));
 		this.initializePanels();
 		this.activePanelNode.classList.add(styles.active);
 	}
