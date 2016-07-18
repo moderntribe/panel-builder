@@ -92,12 +92,13 @@
 	}
 }
 
-[id="panel-collection-preview"][class*="panel-collection"] {
+[id="panel-collection-preview"][data-modular-content-collection] {
 	.panel {
 		position: relative;
 		z-index: 5;
 		opacity: 1;
 		transition: opacity 300ms ease-in-out;
+		min-height: 200px;
 		&:first-child {
 			.maskButtonUp {
 				display: none;

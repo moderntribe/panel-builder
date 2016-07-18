@@ -347,7 +347,7 @@ class CollectionPreview extends Component {
 	}
 
 	initializePanels() {
-		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel, i) => this.configurePanel(panel, i));
+		_.forEach(this.panelCollection.querySelectorAll('[data-modular-content]'), (panel, i) => this.configurePanel(panel, i));
 	}
 
 	revealIframe() {
@@ -361,8 +361,10 @@ class CollectionPreview extends Component {
 	intializeIframeScripts() {
 		this.iframe.removeEventListener('load', this.intializeIframeScripts);
 		this.iframe = this.iframe.contentWindow;
-		this.panelCollection = this.iframe.document.body.querySelectorAll('.panel-collection')[0];
+		this.panelCollection = this.iframe.document.body.querySelectorAll('[data-modular-content-collection]')[0];
 		if (!this.panelCollection) {
+			this.revealIframe();
+			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
 		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);

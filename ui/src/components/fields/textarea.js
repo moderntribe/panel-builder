@@ -65,7 +65,6 @@ class TextArea extends Component {
 					ref={this.fid}
 					name={`modular-content-${this.props.name}`}
 					value={this.state.text}
-					strings={this.props.strings}
 					onChange={this.handleChange}
 				/>
 			);
