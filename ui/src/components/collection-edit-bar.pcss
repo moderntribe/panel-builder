@@ -1,11 +1,17 @@
 @import '../shared/spacing.pcss';
 @import '../shared/colors.pcss';
+@import '../shared/easings.pcss';
 
 .wrapper{
 	background: var(--live-edit-background);
 	height:50px;
 	position:relative;
 	z-index:100004;
+	top: -50px;
+	transition: all 300ms var(--easeInOutSine);
+	&.loaded {
+		top: 0;
+	}
 }
 
 .left {

@@ -22,6 +22,7 @@ import styles from './collection.pcss';
 import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
 import * as events from '../util/events';
+import * as animateWindow from '../util/dom/animate-collection';
 
 import randomString from '../util/data/random-string';
 
@@ -75,10 +76,16 @@ class PanelCollection extends Component {
 	@autobind
 	handleAutosaveSuccess() {
 		if (this.state.triggerLiveEdit) {
-			this.setState({
-				liveEdit: true,
-				triggerLiveEdit: false,
-			});
+			animateWindow.setUp(this.collection, this.sidebar);
+			_.delay(() => {
+				animateWindow.animate(this.collection, this.sidebar);
+				this.setState({
+					liveEdit: true,
+					triggerLiveEdit: false,
+				}, () => {
+					_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
+				});
+			}, 50);
 		}
 	}
 

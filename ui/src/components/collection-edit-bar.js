@@ -20,19 +20,20 @@ import styles from './collection-edit-bar.pcss';
 class EditBar extends Component {
 
 	componentDidMount() {
-		this.lockBody();
-		const target = ReactDOM.findDOMNode(this.refs.right);
-		const publish = document.getElementById('publish');
-		if (!publish) {
-			return;
-		}
-		target.appendChild(publish);
+		this.setup();
 	}
 
 	componentWillUnmount() {
-		this.unLockBody();
-		const target = document.getElementById('publishing-action');
+		this.reset();
+	}
+
+	setup() {
+		this.lockBody();
+		const target = ReactDOM.findDOMNode(this.refs.right);
+		const wrapper = ReactDOM.findDOMNode(this.refs.wrapper);
 		const publish = document.getElementById('publish');
+
+		_.delay(() => wrapper.classList.add(styles.loaded), 25);
 		if (!publish) {
 			return;
 		}
@@ -52,6 +53,16 @@ class EditBar extends Component {
 	@autobind
 	setSizeMobile() {
 		this.props.handleResizeClick('mobile');
+	}
+
+	reset() {
+		this.unLockBody();
+		const target = document.getElementById('publishing-action');
+		const publish = document.getElementById('publish');
+		if (!publish) {
+			return;
+		}
+		target.appendChild(publish);
 	}
 
 	lockBody() {
@@ -80,10 +91,11 @@ class EditBar extends Component {
 	render() {
 		const wrapperClasses = classNames({
 			[styles.wrapper]: true,
+			'modular-content-admin-bar': true,
 		});
 
 		return (
-			<section className={wrapperClasses}>
+			<section ref="wrapper" className={wrapperClasses}>
 				<div className={styles.left}>
 					<nav className={styles.cancel}>
 						<Button
