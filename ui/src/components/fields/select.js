@@ -37,7 +37,7 @@ class Select extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<ReactSelect
-					name={this.props.name}
+					name={`modular-content-${this.props.name}`}
 					value={this.state.value}
 					options={this.props.options}
 					onChange={this.handleChange}

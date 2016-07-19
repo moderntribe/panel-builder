@@ -43,7 +43,7 @@ class Checkbox extends Component {
 				<label>
 					<input
 						type="checkbox"
-						name={`${this.props.name}[]`}
+						name={`modular-content-${this.props.name}[]`}
 						value={option.value}
 						className={styles.checkbox}
 						onChange={this.handleChange}

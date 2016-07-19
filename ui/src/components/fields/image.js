@@ -4,12 +4,14 @@ import MediaUploader from '../shared/media-uploader';
 import classNames from 'classnames';
 
 import { wpMedia } from '../../globals/wp';
+import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './image.pcss';
 
 class Image extends Component {
 	state = {
-		image: '',
+		image: this.props.data ? AdminCache.getImageById(this.props.data)[this.props.size] : '',
+		imageId: this.props.data,
 	};
 
 	/**
@@ -29,10 +31,20 @@ class Image extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			if (attachment.sizes[this.props.size]) {
-				this.setState({ image: attachment.sizes[this.props.size].url });
+				AdminCache.addImage({
+					id: attachment.id,
+					[this.props.size]: attachment.sizes[this.props.size].url,
+				});
+				this.setState({
+					image: attachment.sizes[this.props.size].url,
+					imageId: attachment.id,
+				});
+				this.props.updatePanelData({
+					index: this.props.panelIndex,
+					name: this.props.name,
+					value: attachment.id,
+				});
 			}
-
-			// todo when hooking up store trigger action which updates ui/store with image selection
 		});
 
 		frame.open();
@@ -45,7 +57,15 @@ class Image extends Component {
 	 */
 	@autobind
 	handleRemoveMedia() {
-		this.setState({ image: '' });
+		this.setState({
+			image: '',
+			imageId: 0,
+		});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: 0,
+		});
 	}
 
 	/**
@@ -89,18 +109,24 @@ Image.propTypes = {
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
+	data: React.PropTypes.number,
 	strings: React.PropTypes.object,
 	default: React.PropTypes.string,
 	size: React.PropTypes.string,
+	panelIndex: React.PropTypes.number,
+	updatePanelData: React.PropTypes.func,
 };
 
 Image.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	data: 0,
 	strings: {},
 	default: '',
 	size: 'thumbnail',
+	panelIndex: 0,
+	updatePanelData: () => {},
 };
 
 export default Image;

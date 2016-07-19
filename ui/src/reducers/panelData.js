@@ -4,12 +4,12 @@ import {
 	ADD_PANEL_SET,
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
+	DELETE_PANEL,
 } from '../actions/panels';
+import update from 'react/lib/update';
 
 import { PANELS } from '../globals/config';
-
-// import update from 'react/lib/update';
-// import initialData from '../data/panel-data-multi.json';
+import arrayMove from '../util/data/array-move';
 
 const initialData = {
 	panels: PANELS,
@@ -31,11 +31,11 @@ export function panelData(state = initialData, action) {
 	const newState = state;
 	switch (action.type) {
 	case ADD_PANEL:
-		newState.panels.push({
-			type: action.data.type,
-			depth: 0,
-			data: {},
-		});
+		if (action.data.index === -1) {
+			newState.panels.push(action.data.panels[0]);
+		} else {
+			newState.panels.splice(action.data.index, 0, action.data.panels[0]);
+		}
 
 		return newState;
 
@@ -47,10 +47,22 @@ export function panelData(state = initialData, action) {
 		return newState;
 
 	case MOVE_PANEL:
-		return state;
+		return update(newState, {
+			panels: { $set: arrayMove(newState.panels, action.data.oldIndex, action.data.newIndex) },
+		});
+
+	case DELETE_PANEL:
+		const panels = _.remove(newState.panels, (panel, i) => {
+			return i !== action.data.index;
+		});
+		return update(newState, {
+			panels: { $set: panels }
+		});
 
 	case UPDATE_PANEL_DATA:
 		if (action.data.parent) {
+			let parent = newState.panels[action.data.index].data[action.data.parent];
+			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
 		} else {
 			newState.panels[action.data.index].data[action.data.name] = action.data.value;

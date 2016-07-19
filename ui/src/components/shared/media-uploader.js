@@ -38,7 +38,7 @@ const MediaUploader = (props) => {
 	});
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<div className={currentClasses}>
 				{Preview}
 				<p className={styles.removeButtonContainer}>

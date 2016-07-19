@@ -63,9 +63,8 @@ class TextArea extends Component {
 					className={styles.rawTextarea}
 					id={this.fid}
 					ref={this.fid}
-					name={this.props.name}
+					name={`modular-content-${this.props.name}`}
 					value={this.state.text}
-					strings={this.props.strings}
 					onChange={this.handleChange}
 				/>
 			);
@@ -79,7 +78,7 @@ class TextArea extends Component {
 					<RichtextEditor
 						data={this.props.data}
 						fid={this.fid}
-						name={this.props.name}
+						name={`modular-content-${this.props.name}`}
 						buttons={this.props.media_buttons}
 						strings={this.props.strings}
 					/>

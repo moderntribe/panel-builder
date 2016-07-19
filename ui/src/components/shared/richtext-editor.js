@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import styles from './richtext-editor.pcss';
+
 import { mediaButtonsHTML } from '../../globals/config';
 
 /**
@@ -31,7 +33,7 @@ const RichtextEditor = (props) => {
 	};
 
 	return (
-		<article>
+		<article className={styles.editor}>
 			<div id={`wp-${props.fid}-editor-tools`} className="wp-editor-tools hide-if-no-js">
 				{getMediaButtons()}
 				<div className="wp-editor-tabs">

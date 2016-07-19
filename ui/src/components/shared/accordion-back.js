@@ -1,40 +1,72 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import autobind from 'autobind-decorator';
 
+import Expander from './expander';
 import Button from './button';
+
+import { UI_I18N } from '../../globals/i18n';
 
 import styles from './accordion-back.pcss';
 
 /**
  * Top component of field group that allows for back button to parent level and labelling of accordion level header area
  *
- * @param props
  * @returns {XML}
  * @constructor
  */
 
-const AccordionBack = (props) => (
-	<nav className={styles.back}>
-		<Button
-			classes={styles.backButton}
-			handleClick={props.handleClick}
-		/>
-		<h3>
-			{props.title}
-			<span className={styles.action}>{props.panelLabel}</span>
-		</h3>
-	</nav>
-);
+class AccordionBack extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			title: this.props.title,
+		};
+	}
+
+	componentDidMount() {
+		document.addEventListener('modern_tribe/title_updated', this.updateTitle);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/title_updated', this.updateTitle);
+	}
+
+	@autobind
+	updateTitle(e) {
+		this.setState({ title: e.detail.text });
+	}
+
+	render() {
+		return (
+			<nav className={styles.back}>
+				<Button
+					classes={styles.backButton}
+					handleClick={this.props.handleClick}
+				/>
+				<h3>
+					{this.state.title}
+					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
+					<Expander handleClick={this.props.handleExpanderClick} />
+				</h3>
+			</nav>
+		);
+	}
+}
 
 AccordionBack.propTypes = {
 	title: PropTypes.string,
 	panelLabel: PropTypes.string,
 	handleClick: PropTypes.func,
+	handleInfoClick: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 };
 
 AccordionBack.defaultProps = {
-	title: '',
+	title: UI_I18N['heading.no_title'],
 	panelLabel: '',
 	handleClick: () => {},
+	handleInfoClick: () => {},
+	handleExpanderClick: () => {},
 };
 
 export default AccordionBack;

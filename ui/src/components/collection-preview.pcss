@@ -1,0 +1,332 @@
+@import '../shared/transitions.pcss';
+@import '../shared/colors.pcss';
+@import '../shared/mq.pcss';
+
+.loaderWrap{
+	position: absolute;
+	width: calc(100% - 300px);
+	height: 100%;
+	top: 0;
+	left: 300px;
+	background: #fff;
+	z-index: 100003;
+	opacity: 1;
+	transition: var(--transition-iframe-mask);
+}
+
+.loading{
+	position:absolute;
+	z-index:100009;
+	top:50%;
+	left:50%;
+	margin: -20px 0 0 -50px;
+	> div {
+		top: 0;
+		left: 0;
+	}
+}
+
+.iframe{
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index: 100000;
+	top:0;
+	left:0;
+	padding-left:305px;
+	background: var(--picker-bg);
+	iframe{
+		width:100%;
+		height:100%;
+		position:relative;
+		margin: 0 auto;
+		z-index:100002;
+		display: block;
+		[data-mode="tablet"] & {
+			width: 768px;
+		}
+		[data-mode="mobile"] & {
+			width: 320px;
+		}
+		[data-mode="mobile"] &,
+		[data-mode="tablet"] & {
+			border-right: 1px solid var(--border-color);
+			border-left: 1px solid var(--border-color);
+		}
+	}
+}
+
+@svg-load upArrow url('../img/icons/panel-up-arrow.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load upArrowHover url('../img/icons/panel-up-arrow.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load downArrow url('../img/icons/panel-down-arrow.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load downArrowHover url('../img/icons/panel-down-arrow.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load delete url('../img/icons/delete.svg') {
+	[class="cls-1"] {
+		fill: #fff;
+	}
+}
+
+@svg-load deleteHover url('../img/icons/delete.svg') {
+	[class="cls-1"] {
+		fill: var(--button-new-blue);
+	}
+}
+
+[id="panel-collection-preview"][data-modular-content-collection] {
+	.panel {
+		position: relative;
+		z-index: 5;
+		opacity: 1;
+		transition: opacity 300ms ease-in-out;
+		min-height: 200px;
+		&:first-child {
+			.maskButtonUp {
+				display: none;
+			}
+		}
+		&:last-child {
+			.maskButtonDown {
+				display: none;
+			}
+			.maskButtonUp {
+				@media (--viewport-medium) {
+					right: 40px;
+				}
+			}
+		}
+		&:hover{
+			cursor: pointer;
+		}
+		&.active:hover{
+			cursor: inherit;
+		}
+		&.active,
+		&:hover{
+			z-index: 7;
+		}
+		&.loadingPanel {
+			opacity: 0.5;
+		}
+	}
+	.mask {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 99;
+		opacity: 0;
+		transition: var(--transition-iframe-mask);
+		border: 2px solid var(--picker-border-selected);
+		background: var(--iframe-selected-bg);
+		&:hover{
+			opacity: 1;
+		}
+	}
+	.active .mask {
+		opacity: 1;
+	}
+	&.placeholderActive .mask {
+		display: none;
+	}
+	.maskAdd {
+		height:30%;
+		position: absolute;
+		left: 0;
+		width: 100%;
+		&:hover {
+			.maskButtonAdd {
+				opacity: 1;
+			}
+		}
+	}
+	.maskTop {
+		top: 0;
+	}
+	.maskBottom {
+		bottom: 0;
+	}
+	.maskButtonAdd {
+		display: block;
+		margin: 0;
+		border: 0;
+		padding: 0;
+		opacity: 0;
+		transition: var(--transition-iframe-mask);
+		width: 42px;
+		height: 42px;
+		border-radius: 100%;
+		background-color: var(--live-edit-background);
+		position: absolute;
+		right: 50%;
+		margin-right: -21px;
+		z-index: 102;
+		&:after,
+		&:before {
+			width: 18px;
+			height: 3px;
+			background: #fff;
+			content: '';
+			display: block;
+			position: absolute;
+			right: 50%;
+			top: 50%;
+			margin: -1.5px -9px 0 0;
+		}
+		&:before {
+			transform: rotate(90deg);
+		}
+		&:hover,
+		&:focus,
+		&:active {
+			outline: 0;
+			background-color: var(--live-edit-background);
+			&:after,
+			&:before {
+				background: var(--button-new-blue);
+			}
+		}
+	}
+	.addPanelAbove {
+		top: 0;
+		margin-top: -21px;
+	}
+	.addPanelBelow {
+		bottom: 0;
+		margin-bottom: -21px;
+	}
+	.maskHeader {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 12px;
+		color: #fff;
+		@media (--viewport-medium) {
+			height: 50px;
+			padding: 0;
+			text-align: left;
+		}
+	}
+	.maskLabel {
+		background: var(--picker-border-selected);
+		display: block;
+		padding: 10px;
+		margin-bottom: 10px;
+		@media (--viewport-medium) {
+			position: absolute;
+			padding: 4px 10px;
+			top: 0;
+			margin-bottom: 0;
+			left: 0;
+		}
+	}
+	.maskButton {
+		display: inline-block;
+		margin: 0 4px;
+		border: 0;
+		padding: 0;
+		width: 30px;
+		height: 30px;
+		border-radius: 100%;
+		background-color: var(--live-edit-background);
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: 12px auto;
+		z-index: 102;
+		@media (--viewport-medium) {
+			position: absolute;
+			top: 6px;
+			margin: 0;
+		}
+		&:hover,
+		&:focus,
+		&:active {
+			outline:0;
+			background-color: var(--live-edit-background);
+			background-size: 12px auto;
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
+	}
+
+	.maskButtonUp {
+		background-image: svg-inline(upArrow);
+		@media (--viewport-medium) {
+			right: 74px;
+		}
+		&:hover,
+		&:focus,
+		&:active{
+			background-image: svg-inline(upArrowHover);
+		}
+	}
+	.maskButtonDown {
+		background-image: svg-inline(downArrow);
+		@media (--viewport-medium) {
+			right: 40px;
+		}
+		&:hover,
+		&:focus,
+		&:active {
+			background-image: svg-inline(downArrowHover);
+		}
+	}
+	.maskButtonDelete {
+		background-image: svg-inline(delete);
+		background-size: 10px auto;
+		@media (--viewport-medium) {
+			right: 6px;
+		}
+		&:hover,
+		&:focus,
+		&:active {
+			background-image: svg-inline(deleteHover);
+			background-size: 10px auto;
+		}
+	}
+	.placeholder {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		position: relative;
+		height: 50vh;
+		border: 2px solid var(--picker-border-selected);
+		background: var(--iframe-selected-bg);
+	}
+	.placeholderMessage {
+		position: absolute;
+		width: 280px;
+		height: 40px;
+		line-height: 40px;
+		font-size: 12px;
+		text-transform: uppercase;
+		text-align: center;
+		background: var(--panel-label-color);
+		color: #fff;
+		top: 50%;
+		left: 50%;
+		margin: -20px 0 0 -140px;
+	}
+}

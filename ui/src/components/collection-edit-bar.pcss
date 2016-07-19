@@ -62,14 +62,51 @@
 	top: -1px;
 }
 
+@svg-load desktop url('../img/icons/desktop-resize.svg') {
+	path {
+		fill: #fff;
+	}
+}
+
+@svg-load tablet url('../img/icons/tablet-resize.svg') {
+	path {
+		fill: #fff;
+	}
+}
+
+@svg-load mobile url('../img/icons/mobile-resize.svg') {
+	path {
+		fill: #fff;
+	}
+}
+
+@svg-load desktopHover url('../img/icons/desktop-resize.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load tabletHover url('../img/icons/tablet-resize.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load mobileHover url('../img/icons/mobile-resize.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
 .resizer{
 	position: absolute;
 	height:50px;
 	line-height:50px;
-	width:150px;
-	margin-left:-75px;
+	width:250px;
+	margin-left:-125px;
 	top:0;
 	left: 50%;
+	text-align: center;
 	button{
 		display: inline-block;
 		padding:0;
@@ -82,22 +119,42 @@
 		padding:0;
 		text-align:center;
 	}
-	i{
-		color: #fff;
-		font-size:30px;
-		margin: 0;
-	}
 	.desktop{
-		i{
-			font-size:38px;
+		background: svg-inline(desktop) 50% 50% no-repeat;
+		background-size: auto 35px;
+		&:hover,
+		[data-mode="full"] & {
+			background: svg-inline(desktopHover) 50% 50% no-repeat;
+			background-size: auto 35px;
+		}
+	}
+	.tablet{
+		background: svg-inline(tablet) 20px 50% no-repeat;
+		background-size: auto 28px;
+		&:hover,
+		[data-mode="tablet"] &{
+			background: svg-inline(tabletHover) 20px 50% no-repeat;
+			background-size: auto 28px;
 		}
 	}
 	.mobile{
-		i{
-			font-size:25px;
-			left:-8px;
+		background: svg-inline(mobile) 50% 50% no-repeat;
+		background-size: auto 22px;
+		&:hover,
+		[data-mode="mobile"] & {
+			background: svg-inline(mobileHover) 50% 50% no-repeat;
+			background-size: auto 22px;
 		}
 	}
+}
+
+.resizerHeading {
+	display: inline-block;
+	height:50px;
+	line-height:50px;
+	color: #fff;
+	padding: 0 20px 0 0;
+	vertical-align: top;
 }
 
 

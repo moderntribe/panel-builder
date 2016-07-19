@@ -9,6 +9,8 @@ import PanelPreview from './shared/panel-preview';
 import { UI_I18N } from '../globals/i18n';
 import { BLUEPRINT_TYPES } from '../globals/config';
 
+import * as events from '../util/events';
+
 import styles from './panel-picker.pcss';
 
 /**
@@ -23,17 +25,20 @@ class Picker extends Component {
 	@autobind
 	handleAddPanel(type) {
 		this.props.handleAddPanel({ type });
-		this.handleCancelPicker();
+		this.props.handlePickerUpdate(false);
+		events.trigger({ event: 'modern_tribe/picker_closed', native: false });
 	}
 
 	@autobind
 	handleCancelPicker() {
 		this.props.handlePickerUpdate(false);
+		events.trigger({ event: 'modern_tribe/picker_cancelled', native: false });
 	}
 
 	@autobind
 	handleSpawnPicker() {
 		this.props.handlePickerUpdate(true);
+		events.trigger({ event: 'modern_tribe/picker_opened', native: false });
 	}
 
 	renderPicks() {

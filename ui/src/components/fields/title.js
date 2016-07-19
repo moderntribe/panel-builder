@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import styles from './title.pcss';
 
+import * as events from '../../util/events';
+
 class Title extends Component {
 	state = {
 		text: this.props.data.length ? this.props.data : this.props.default,
@@ -17,6 +19,13 @@ class Title extends Component {
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: text,
+		});
+		events.trigger({
+			event: 'modern_tribe/title_updated',
+			native: false,
+			data: {
+				text
+			},
 		});
 	}
 
@@ -39,7 +48,7 @@ class Title extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<span className={styles.inputContainer}>
-					<input type="text" name={this.props.name} value={this.state.text} onChange={this.handleChange} />
+					<input type="text" name={`modular-content-${this.props.name}`} value={this.state.text} onChange={this.handleChange} />
 				</span>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>

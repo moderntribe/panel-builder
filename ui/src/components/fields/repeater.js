@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
+import Sortable from 'react-sortablejs';
 import _ from 'lodash';
 
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+
+import arrayMove from '../../util/data/array-move';
+import randomString from '../../util/data/random-string';
 
 import styles from './repeater.pcss';
 
@@ -35,6 +39,7 @@ class Repeater extends Component {
 			activeIndex: 0,
 			count: this.props.data.length,
 			data: this.getPaddedFieldData(),
+			keyPrefix: randomString(10),
 			sorting: false,
 		};
 	}
@@ -80,6 +85,7 @@ class Repeater extends Component {
 					title={title}
 					panelLabel={this.props.panelLabel}
 					handleClick={this.handleBackClick}
+					handleExpanderClick={this.props.handleExpanderClick}
 				/>
 				<FieldBuilder
 					fields={this.props.fields}
@@ -119,6 +125,7 @@ class Repeater extends Component {
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
+			'repeater-header': true,
 		});
 		const arrowClasses = classNames({
 			dashicons: true,
@@ -129,8 +136,8 @@ class Repeater extends Component {
 
 		return (
 			<div
-				key={`repeater-header-${index}`}
-				data-index={index}
+				key={`${this.state.keyPrefix}-${index}`}
+				data-rowIndex={index}
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
@@ -148,8 +155,22 @@ class Repeater extends Component {
 
 	@autobind
 	getHeaders() {
-		return _.map(this.state.data, (data, i) =>
-			this.getHeader(data, i)
+		const sortOptions = {
+			animation: 150,
+			handle: '.repeater-header',
+			onSort: (e) => {
+				this.handleSort(e);
+			},
+		};
+
+		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
+
+		return (
+			<Sortable
+				options={sortOptions}
+			>
+				{Headers}
+			</Sortable>
 		);
 	}
 
@@ -177,6 +198,19 @@ class Repeater extends Component {
 			AddRow = <p className={styles.maxMessage}>{this.props.strings['button.max_rows']}</p>;
 		}
 		return AddRow;
+	}
+
+	handleSort(e) {
+		const data = arrayMove(this.state.data, e.oldIndex, e.newIndex);
+		this.setState({
+			keyPrefix: randomString(10),
+			data,
+		});
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: data,
+		});
 	}
 
 	/**
@@ -224,7 +258,7 @@ class Repeater extends Component {
 		this.props.hidePanel(true);
 		this.setState({
 			active: true,
-			activeIndex: parseInt(e.currentTarget.getAttribute('data-index'), 10),
+			activeIndex: parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10),
 		});
 	}
 
@@ -299,6 +333,7 @@ Repeater.propTypes = {
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 	min: PropTypes.number,
 	max: PropTypes.number,
 };
@@ -314,6 +349,7 @@ Repeater.defaultProps = {
 	name: '',
 	default: [],
 	updatePanelData: () => {},
+	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	min: 1,
 	max: 12,

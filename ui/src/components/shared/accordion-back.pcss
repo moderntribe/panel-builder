@@ -1,6 +1,30 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 
+@svg-load info url('../../img/icons/info.svg') {
+	path {
+		fill: var(--light-heading);
+	}
+}
+
+@svg-load infoHover url('../../img/icons/info.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load close url('../../img/icons/close.svg') {
+	path {
+		fill: var(--light-heading);
+	}
+}
+
+@svg-load closeHover url('../../img/icons/close.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
 .back{
 	border: 1px solid var(--border-color);
 	margin:0 0 15px 0;
@@ -13,8 +37,14 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		margin:0;
-		padding:10px 15px 0 15px;
+		padding:10px 30px 0 15px;
 		height:74px;
+		> span {
+			display: block;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
 	}
 }
 
@@ -25,18 +55,55 @@
 }
 
 .action{
-	display:block;
+	display: block;
 	font-size: 13px;
 	font-weight: 400;
 	color: var(--light-heading);
+	cursor: pointer;
+	i {
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		position: relative;
+		margin-left: 6px;
+		top: 3px;
+		background: svg-inline(info) 50% 50% no-repeat;
+		background-size: contain;
+	}
+	&:hover {
+		color: var(--button-new-blue);
+
+		i {
+			background: svg-inline(infoHover) 50% 50% no-repeat;
+			background-size: contain;
+		}
+	}
+}
+
+[data-info-active="true"] {
+	.action{
+		i {
+			top: 1px;
+			width: 10px;
+			height: 10px;
+			background: svg-inline(close) 50% 50% no-repeat;
+			background-size: contain;
+		}
+		&:hover {
+			i {
+				background: svg-inline(closeHover) 50% 50% no-repeat;
+				background-size: contain;
+			}
+		}
+	}
 }
 
 .backButton{
 	display:block;
 	float:left;
 	height: 74px;
-	background:#fff;
-	width: 48px;
+	background:var(--button-primary-bg-color);
+	width: 49px;
 	border:0;
 	border-right: 1px solid var(--border-color);
 	&:before{

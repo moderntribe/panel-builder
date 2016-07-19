@@ -85,6 +85,7 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
+				'css_file' => Plugin::plugin_url('ui/dist/master.css'),
 				'fields' => [
 					
 				]
@@ -106,27 +107,42 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
+				// Live edit bar
+				'heading.resizer'              => __( 'Resize', 'modular-content' ),
+
 				// collection
-				'heading.no_title'        => __( 'No Title', 'modular-content' ),
-				'heading.editing_panels'  => __( 'Editing Panels', 'modular-content' ),
-				'button.launch_edit'      => __( 'Live Preview', 'modular-content' ),
-				'button.add_new'          => __( 'Add a new panel', 'modular-content' ),
-				'button.cancel_add_new'   => __( 'Go back to panel editor', 'modular-content' ),
-				'tab.content'             => _x( 'Content', 'tab name', 'modular-content' ),
-				'tab.settings'            => _x( 'Settings', 'tab name', 'modular-content' ),
+				'heading.no_title'             => __( 'No Title', 'modular-content' ),
+				'heading.editing_panels'       => __( 'Editing Panels', 'modular-content' ),
+				'button.launch_edit'           => __( 'Live Preview', 'modular-content' ),
+				'button.add_new'               => __( 'Add a new panel', 'modular-content' ),
+				'button.cancel_add_new'        => __( 'Go back to panel editor', 'modular-content' ),
+				'tab.content'                  => _x( 'Content', 'tab name', 'modular-content' ),
+				'tab.settings'                 => _x( 'Settings', 'tab name', 'modular-content' ),
 
 				// collection header
-				'heading.active_panels'   => __( 'Active Panels', 'modular-content' ),
+				'heading.active_panels'        => __( 'Active Panels', 'modular-content' ),
+				'heading.choose_panel'         => __( 'Choose a Panel', 'modular-content' ),
 
 				// panel sets
-				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),
-				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
-				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
-				'message.template_saved'  => __( 'Panel Set saved successfully', 'modular-content' ),
-				'message.template_error'  => __( 'There was an error saving the Panel Set', 'modular-content' ),
-				'heading.start_new_page'  => __( 'Start a New Page', 'modular-content' ),
-				'heading.start_from_set'  => __( 'Or Start from a Page Set', 'modular-content' ),
-				'heading.start_from_scr'  => __( 'Create Page From Scratch', 'modular-content' ),
+				'button.select_set'            => __( 'Select Panel Set', 'modular-content' ),
+				'button.save_as_template'      => __( 'Save as Panel Set', 'modular-content' ),
+				'button.edit_template'         => __( 'Edit Panel Set', 'modular-content' ),
+				'message.template_saved'       => __( 'Panel Set saved successfully', 'modular-content' ),
+				'message.template_error'       => __( 'There was an error saving the Panel Set', 'modular-content' ),
+				'heading.start_new_page'       => __( 'Start a New Page', 'modular-content' ),
+				'heading.start_from_set'       => __( 'Or Start from a Page Set', 'modular-content' ),
+				'heading.start_from_scr'       => __( 'Create Page From Scratch', 'modular-content' ),
+
+				// panel
+				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
+
+				// live edit
+				'heading.edit_panel_type'      => __( 'Active Panels', 'modular-content' ),
+				'heading.editing_panel_type'   => __( 'Choose a Panel', 'modular-content' ),
+				'message.panel_placeholder'    => __( 'Waiting for panel selection', 'modular-content' ),
+				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
+				'button.confirm'               => __( 'Confirm', 'modular-content' ),
+				'button.cancel'                => __( 'Cancel', 'modular-content' ),
 			]
 		];
 

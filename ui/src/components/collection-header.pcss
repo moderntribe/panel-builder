@@ -1,6 +1,48 @@
 @import '../shared/transitions.pcss';
 @import '../shared/colors.pcss';
 
+@svg-load preview url('../img/icons/preview.svg') {
+	path {
+		fill: #fff;
+	}
+}
+
+@svg-load saveSet url('../img/icons/save-panel.svg') {
+	path {
+		fill: var(--link-color);
+	}
+	polygon {
+		fill: var(--link-color);
+	}
+}
+
+@svg-load saveSetHover url('../img/icons/save-panel.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+	polygon {
+		fill: var(--button-new-blue);
+	}
+}
+
+@svg-load editSet url('../img/icons/edit.svg') {
+	path {
+		fill: var(--link-color);
+	}
+	polygon {
+		fill: var(--link-color);
+	}
+}
+
+@svg-load editSetHover url('../img/icons/edit.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+	polygon {
+		fill: var(--button-new-blue);
+	}
+}
+
 .wrapper {
 	composes: group from "../shared/helpers.pcss";
 	padding-top: 5px;
@@ -18,20 +60,44 @@
 	display: inline-block;
 	.liveEdit & {
 		display: block;
-		padding: 10px 0 0 0;
+		padding: 40px 0 0 0;
 		font-size: 12px;
 	}
+}
+
+.editIcon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: svg-inline(editSet) 50% 50% no-repeat;
+	background-size: contain;
 }
 
 .saveSet {
 	float: right;
 	i {
 		font-size: 24px;
-		top: -6px;
+		top: -2px;
+		background: svg-inline(saveSet) 50% 50% no-repeat;
+		background-size: contain;
+		&:before {
+			display: none;
+		}
 		.liveEdit & {
-			font-size: 18px;
-			top: -3px;
-			margin-right: 2px;
+			font-size: 12px;
+			top: 1px;
+			margin-right: 8px;
+			width: 15px;
+			height: 15px;
+		}
+	}
+	&:hover {
+		span {
+			color: var(--button-new-blue);
+		}
+		i {
+			background: svg-inline(saveSetHover) 50% 50% no-repeat;
+			background-size: contain;
 		}
 	}
 	.liveEdit & {
@@ -46,24 +112,32 @@
 	text-decoration: none;
 	display: inline-block;
 	width: auto;
+	padding-top: 3px;
 	padding-right: 10px;
 	line-height: 30px;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--link-color);
 	outline: 0;
-	&:focus {
+	&:hover,
+	&:focus,
+	&:active {
 		box-shadow: none;
+		color: var(--button-new-blue);
+		.editIcon {
+			background: svg-inline(editSetHover) 50% 50% no-repeat;
+			background-size: contain;
+		}
 	}
 	i {
 		position: relative;
 		font-size: 24px;
-		top: 4px;
-		margin-right: 6px;
+		top: 2px;
+		margin-right: 8px;
 		.liveEdit & {
 			font-size: 18px;
 			top: 2px;
-			margin-right: 4px;
+			margin-right: 6px;
 		}
 	}
 	.liveEdit & {
@@ -76,78 +150,50 @@
 
 .editButton {
 	float: right;
+	padding-left: 43px;
 	i {
-		font-size: 24px;
-		top: -3px;
-		margin-right: 10px;
+		position: absolute;
+		width: 24px;
+		height: 24px;
+		top: 7px;
+		left: 10px;
+		margin: 0;
+		background: svg-inline(preview) 50% 50% no-repeat;
+	}
+	[class*="post-type-panel-set"] & {
+		display: none;
 	}
 }
 
-.overlay {
-	z-index: 1000000;
-	background: rgba(0,0,0,0.4);
-	position: fixed;
-	top:0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+@svg-load expandArrow url('../img/icons/expand-arrow.svg') {
+	path {
+		fill: var(--button-bare-text-color);
+	}
 }
 
-.modal {
-	z-index: 1000001;
-	top: 50%;
-	left: 50%;
-	width: 400px;
-	height: 200px;
-	max-width: 100%;
-	background: rgba(255,255,255,0.9);
-	border-radius: 5px;
+@svg-load expandArrowHover url('../img/icons/expand-arrow.svg') {
+	path {
+		fill: var(--button-new-blue);
+	}
+}
+
+.expander {
+	display: none;
 	position: absolute;
-	margin: -100px 0 0 -200px;
-	text-align: center;
-}
-
-.modalError {
-	 span {
-		 color: var(--color-danger);
-	 }
-}
-
-.modalSuccess {
-	span {
-		color: var(--color-success);
+	right: 7px;
+	top: 7px;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	background: svg-inline(expandArrow) 50% 50% no-repeat;
+	background-size: contain;
+	&:hover {
+		background: svg-inline(expandArrowHover) 50% 50% no-repeat;
 	}
-}
-
-.modalOuter {
-	display: table;
-	height: 100%;
-	width: 100%;
-}
-
-.modalInner {
-	display: table-cell;
-	vertical-align: middle;
-	height: 100%;
-	width: 100%;
-	span {
-		font-size: 100px;
-		height: 100px;
-		width: 100px;
+	.liveEdit & {
+		display: block;
 	}
-	p {
-		font-weight: 600;
-		color: var(--picker-description);
-		font-size: 14px;
-	}
-}
-
-.closeModal {
-	position: absolute;
-	right: -39px;
-	top: -33px;
-	color: white;
-	i {
-		font-size: 24px;
+	.setsActive & {
+		display: none;
 	}
 }

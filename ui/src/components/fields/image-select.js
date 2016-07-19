@@ -34,7 +34,7 @@ class ImageSelect extends Component {
 			>
 				<input
 					type="radio"
-					name={this.props.name}
+					name={`modular-content-${this.props.name}`}
 					value={option.value}
 					onChange={this.handleChange}
 					checked={this.state.value === option.value}
@@ -60,7 +60,7 @@ class ImageSelect extends Component {
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
-				<div>
+				<div className={styles.container}>
 					{Options}
 				</div>
 				<p className={descriptionClasses}>{this.props.description}</p>

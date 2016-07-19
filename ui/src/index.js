@@ -6,7 +6,8 @@ import configureStore from './store/configure-store';
 
 import PanelCollection from './components/collection';
 
-const modularContent = document.querySelectorAll('#modular-content > .inside')[0];
+const modularContent = document.getElementById('modular-content-app');
+modularContent.classList.add('loaded');
 
 const store = configureStore();
 

@@ -66,6 +66,7 @@ class Group extends Component {
 					title={this.props.label}
 					panelLabel={this.props.panelLabel}
 					handleClick={this.handleBackClick}
+					handleExpanderClick={this.props.handleExpanderClick}
 				/>
 				<FieldBuilder
 					fields={this.props.fields}
@@ -151,6 +152,7 @@ Group.propTypes = {
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
+	handleExpanderClick: PropTypes.func,
 };
 
 Group.defaultProps = {
@@ -164,6 +166,7 @@ Group.defaultProps = {
 	default: [],
 	updatePanelData: () => {},
 	hidePanel: () => {},
+	handleExpanderClick: () => {},
 };
 
 export default Group;

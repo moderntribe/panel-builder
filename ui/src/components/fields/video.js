@@ -57,7 +57,7 @@ class Video extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<span className={videoSpanClasses}>
-					<input type="text" className={videoInputClasses} name={this.props.name} value={this.state.videoURL} size="40" onChange={this.handleChange} />
+					<input type="text" className={videoInputClasses} name={`modular-content-${this.props.name}`} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>

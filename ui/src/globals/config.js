@@ -1,7 +1,7 @@
 import { CONFIG_DEFAULTS } from './defaults/config';
 
 export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
-export const FIELDS_CONFIG = CONFIG.fields || {};
+export const CSS_FILE = CONFIG.css_file || '';
 
 export const MODULAR_CONTENT = window.ModularContent || CONFIG_DEFAULTS;
 export const BLUEPRINTS = MODULAR_CONTENT.blueprint;
