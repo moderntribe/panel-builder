@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import Loader from './shared/loader';
 
-import { MODULAR_CONTENT, CSS_FILE, IFRAME_CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
+import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
@@ -325,7 +325,9 @@ class CollectionPreview extends Component {
 		return `
 			<div class="${styles.mask}">
 				<header class="${styles.maskHeader}">
-					<span class="${styles.maskLabel}">${_.find(BLUEPRINT_TYPES, { type }).label}</span>
+					<span class="${styles.maskLabel}">
+						<span class="${styles.maskEdit}">${UI_I18N['heading.edit_type']}</span><span class="${styles.maskEditing}">${UI_I18N['heading.editing_type']}</span> ${_.find(BLUEPRINT_TYPES, { type }).label}
+					</span>
 					<button class="${styles.maskButton} ${styles.maskButtonUp}">
 						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_up']}</span>
 					</button>

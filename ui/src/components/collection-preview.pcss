@@ -136,6 +136,18 @@
 			opacity: 0.5;
 		}
 	}
+	.active {
+		.mask {
+			&:hover{
+				.maskEdit {
+					display: none;
+				}
+				.maskEditing {
+					display: inline-block;
+				}
+			}
+		}
+	}
 	.mask {
 		position: absolute;
 		top: 0;
@@ -147,6 +159,9 @@
 		transition: var(--transition-iframe-mask);
 		border: 2px solid var(--picker-border-selected);
 		background: var(--iframe-selected-bg);
+		.maskEditing {
+			display: none;
+		}
 		&:hover{
 			opacity: 1;
 			.maskAdd {
@@ -159,9 +174,6 @@
 				bottom: -50px;
 			}
 		}
-	}
-	.active .mask {
-		opacity: 1;
 	}
 	&.placeholderActive .mask {
 		display: none;

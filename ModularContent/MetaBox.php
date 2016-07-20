@@ -139,6 +139,8 @@ class MetaBox {
 				// live edit
 				'heading.edit_panel_type'      => __( 'Active Panels', 'modular-content' ),
 				'heading.editing_panel_type'   => __( 'Choose a Panel', 'modular-content' ),
+				'heading.edit_type'            => __( 'Edit', 'modular-content' ),
+				'heading.editing_type'         => __( 'Editing', 'modular-content' ),
 				'message.panel_placeholder'    => __( 'Waiting for panel selection', 'modular-content' ),
 				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
 				'button.confirm'               => __( 'Confirm', 'modular-content' ),
