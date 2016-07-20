@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import Loader from './shared/loader';
 
-import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
+import { MODULAR_CONTENT, CSS_FILE, IFRAME_CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
@@ -40,7 +40,8 @@ class CollectionPreview extends Component {
 
 	bindIframeEvents() {
 		$(this.panelCollection)
-			.off('click')
+			.off('click mouseover')
+			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousover(e))
 			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
 			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
@@ -93,6 +94,9 @@ class CollectionPreview extends Component {
 
 	injectPanelAtPlaceholder(panels, index) {
 		const placeholder = this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0];
+		if (!placeholder) {
+			return;
+		}
 		placeholder.insertAdjacentHTML('beforebegin', panels);
 		placeholder.parentNode.removeChild(placeholder);
 		this.panelCollection.classList.remove(styles.placeholderActive);
@@ -183,6 +187,7 @@ class CollectionPreview extends Component {
 		}
 	}
 
+	@autobind
 	handlePanelTriggerClick(e) {
 		if (!e.target.classList.contains(styles.mask) && !e.target.classList.contains(styles.maskAdd)) {
 			return;
@@ -208,6 +213,20 @@ class CollectionPreview extends Component {
 				index,
 			},
 		});
+	}
+
+	handleButtonMousover(e) {
+		const tooltip = e.currentTarget.querySelectorAll('[data-tooltip]')[0];
+		if (!tooltip) {
+			return;
+		}
+		const width = Math.max(this.iframe.document.documentElement.clientWidth, this.iframe.window.innerWidth || 0);
+
+		if (tooltip.parentNode.classList.contains(styles.maskButton) && width > 768) {
+			tooltip.style.marginLeft = `-${tooltip.offsetWidth - 28}px`;
+		} else {
+			tooltip.style.marginLeft = `-${tooltip.offsetWidth / 2}px`;
+		}
 	}
 
 	handlePanelAddClick(e) {
@@ -307,15 +326,25 @@ class CollectionPreview extends Component {
 			<div class="${styles.mask}">
 				<header class="${styles.maskHeader}">
 					<span class="${styles.maskLabel}">${_.find(BLUEPRINT_TYPES, { type }).label}</span>
-					<button class="${styles.maskButton} ${styles.maskButtonUp}"></button>
-					<button class="${styles.maskButton} ${styles.maskButtonDown}"></button>
-					<button class="${styles.maskButton} ${styles.maskButtonDelete}"></button>
+					<button class="${styles.maskButton} ${styles.maskButtonUp}">
+						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_up']}</span>
+					</button>
+					<button class="${styles.maskButton} ${styles.maskButtonDown}">
+						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_down']}</span>
+					</button>
+					<button class="${styles.maskButton} ${styles.maskButtonDelete}">
+						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.delete_panel']}</span>
+					</button>
 				</header>
 				<div class="${styles.maskTop} ${styles.maskAdd}">
-					<button class="${styles.maskButtonAdd} ${styles.addPanelAbove}"></button>
+					<button class="${styles.maskButtonAdd} ${styles.addPanelAbove}">
+						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.add_above']}</span>
+					</button>
 				</div>
 				<div class="${styles.maskBottom} ${styles.maskAdd}">
-					<button class="${styles.maskButtonAdd} ${styles.addPanelBelow}"></button>
+					<button class="${styles.maskButtonAdd} ${styles.addPanelBelow}">
+						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.add_below']}</span>
+					</button>
 				</div>
 			</div>
 		`;
@@ -339,11 +368,11 @@ class CollectionPreview extends Component {
 	}
 
 	injectCSS() {
-		const iframeCSS = this.iframe.document.createElement('link');
-		iframeCSS.href = CSS_FILE;
-		iframeCSS.rel = 'stylesheet';
-		iframeCSS.type = 'text/css';
-		this.iframe.document.body.appendChild(iframeCSS);
+		const appCSS = this.iframe.document.createElement('link');
+		appCSS.href = CSS_FILE;
+		appCSS.rel = 'stylesheet';
+		appCSS.type = 'text/css';
+		this.iframe.document.body.appendChild(appCSS);
 	}
 
 	initializePanels() {

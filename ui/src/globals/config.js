@@ -2,6 +2,7 @@ import { CONFIG_DEFAULTS } from './defaults/config';
 
 export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
 export const CSS_FILE = CONFIG.css_file || '';
+export const IFRAME_CSS_FILE = CONFIG.iframe_css_file || '';
 
 export const MODULAR_CONTENT = window.ModularContent || CONFIG_DEFAULTS;
 export const BLUEPRINTS = MODULAR_CONTENT.blueprint;

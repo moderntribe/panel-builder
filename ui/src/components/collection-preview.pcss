@@ -1,5 +1,6 @@
 @import '../shared/transitions.pcss';
 @import '../shared/colors.pcss';
+@import '../shared/typography.pcss';
 @import '../shared/mq.pcss';
 
 .loaderWrap{
@@ -91,6 +92,12 @@
 	[class="cls-1"] {
 		fill: var(--button-new-blue);
 	}
+}
+
+.tooltip {
+	composes: tooltip from "../shared/tooltips.pcss";
+	font-size: 10px;
+	left: 50%;
 }
 
 [id="panel-collection-preview"][data-modular-content-collection] {
@@ -192,6 +199,7 @@
 		right: 50%;
 		margin-right: -21px;
 		z-index: 102;
+		overflow: hidden;
 		&:after,
 		&:before {
 			width: 18px;
@@ -217,6 +225,12 @@
 				background: var(--button-new-blue);
 			}
 		}
+		&:hover {
+			overflow: visible;
+			.tooltip {
+				opacity: 1;
+			}
+		}
 	}
 	.addPanelAbove {
 		top: 27px;
@@ -225,7 +239,7 @@
 		bottom: 27px;
 	}
 	.maskHeader {
-		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-family: var(--sans-serif-font-family);
 		position: absolute;
 		width: 100%;
 		top: 0;
@@ -266,6 +280,7 @@
 		background-position: 50% 50%;
 		background-size: 12px auto;
 		z-index: 102;
+		overflow: hidden;
 		@media (--viewport-medium) {
 			position: absolute;
 			top: 6px;
@@ -279,6 +294,20 @@
 			background-size: 12px auto;
 			background-repeat: no-repeat;
 			background-position: 50% 50%;
+		}
+		&:hover {
+			overflow: visible;
+			.tooltip {
+				opacity: 1;
+			}
+		}
+		.tooltip {
+			&:after {
+				@media (--viewport-medium) {
+					left: auto;
+					right: 20px;
+				}
+			}
 		}
 	}
 
@@ -318,7 +347,7 @@
 		}
 	}
 	.placeholder {
-		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-family: var(--sans-serif-font-family);
 		position: relative;
 		height: 50vh;
 		border: 2px solid var(--picker-border-selected);

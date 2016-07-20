@@ -85,9 +85,9 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
-				'css_file' => Plugin::plugin_url('ui/dist/master.css'),
-				'fields' => [
-					
+				'css_file'        => Plugin::plugin_url( 'ui/dist/master.css' ),
+				'fields'          => [
+
 				]
 			];
 			$data = apply_filters( 'panels_js_config', $data );
@@ -143,6 +143,11 @@ class MetaBox {
 				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
 				'button.confirm'               => __( 'Confirm', 'modular-content' ),
 				'button.cancel'                => __( 'Cancel', 'modular-content' ),
+				'tooltip.panel_up'             => __( 'Move panel up', 'modular-content' ),
+				'tooltip.panel_down'           => __( 'Move panel down', 'modular-content' ),
+				'tooltip.delete_panel'         => __( 'Delete this panel', 'modular-content' ),
+				'tooltip.add_above'            => __( 'Add panel above', 'modular-content' ),
+				'tooltip.add_below'            => __( 'Add panel below', 'modular-content' ),
 			]
 		];
 
