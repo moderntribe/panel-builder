@@ -31,4 +31,5 @@ export const reset = (collection, sidebar) => {
 	collection.style.position = '';
 	collection.style.transition = '';
 	sidebar.style.transition = '';
+	collection.parentNode.style.height = '';
 };

@@ -79,6 +79,20 @@
 	}
 }
 
+[data-iframe-loading="true"] {
+	.sidebar {
+		&:after {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: rgba(255, 255, 255, 0.5);
+			top: 0;
+			left: 0;
+		}
+	}
+}
+
 h1 {
 	font-size: calc(var(--fontSize) * 2);
 }

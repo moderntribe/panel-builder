@@ -77,6 +77,7 @@ class PanelCollection extends Component {
 	handleAutosaveSuccess() {
 		if (this.state.triggerLiveEdit) {
 			animateWindow.setUp(this.collection, this.sidebar);
+			this.collection.setAttribute('data-iframe-loading', 'true');
 			_.delay(() => {
 				animateWindow.animate(this.collection, this.sidebar);
 				this.setState({
@@ -276,6 +277,11 @@ class PanelCollection extends Component {
 		this.setState({ keyPrefix: randomString(10) });
 	}
 
+	@autobind
+	handleIframeLoaded() {
+		this.collection.setAttribute('data-iframe-loading', 'false');
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -318,6 +324,7 @@ class PanelCollection extends Component {
 				{...this.state}
 				panels={this.props.panels}
 				panelsSaving={this.handlePanelsSaving}
+				iframeLoaded={this.handleIframeLoaded}
 				panelsActivate={this.panelsActivate}
 				updatePanelOrder={this.handleSort}
 				spawnPickerAtIndex={this.activatePicker}
@@ -418,6 +425,7 @@ class PanelCollection extends Component {
 				data-live-active={this.state.active}
 				data-picker-active={this.state.pickerActive}
 				data-sets-active={this.state.panelSetPickerActive}
+				data-iframe-loading="false"
 				data-mode="full"
 			>
 				{this.renderBar()}

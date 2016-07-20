@@ -383,6 +383,7 @@ class CollectionPreview extends Component {
 		ReactDOM.findDOMNode(this.refs.loader).style.opacity = 0;
 		_.delay(() => {
 			this.setState({ loading: false });
+			this.props.iframeLoaded();
 		}, 500);
 	}
 
@@ -431,6 +432,7 @@ CollectionPreview.propTypes = {
 	panelsActivate: PropTypes.func,
 	spawnPickerAtIndex: PropTypes.func,
 	updatePanelOrder: PropTypes.func,
+	iframeLoaded: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
@@ -440,6 +442,7 @@ CollectionPreview.defaultProps = {
 	panelsActivate: () => {},
 	spawnPickerAtIndex: () => {},
 	updatePanelOrder: () => {},
+	iframeLoaded: () => {},
 };
 
 export default CollectionPreview;
