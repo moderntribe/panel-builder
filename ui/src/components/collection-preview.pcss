@@ -42,6 +42,7 @@
 		margin: 0 auto;
 		z-index:100002;
 		display: block;
+		transition: var(--transition-iframe);
 		[data-mode="tablet"] & {
 			width: 768px;
 		}
@@ -141,6 +142,15 @@
 		background: var(--iframe-selected-bg);
 		&:hover{
 			opacity: 1;
+			.maskAdd {
+				display: block;
+			}
+			.maskTop {
+				top: -50px;
+			}
+			.maskBottom {
+				bottom: -50px;
+			}
 		}
 	}
 	.active .mask {
@@ -150,7 +160,8 @@
 		display: none;
 	}
 	.maskAdd {
-		height:30%;
+		display:none;
+		height:calc(50% + 50px);
 		position: absolute;
 		left: 0;
 		width: 100%;
@@ -208,12 +219,10 @@
 		}
 	}
 	.addPanelAbove {
-		top: 0;
-		margin-top: -21px;
+		top: 27px;
 	}
 	.addPanelBelow {
-		bottom: 0;
-		margin-bottom: -21px;
+		bottom: 27px;
 	}
 	.maskHeader {
 		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
