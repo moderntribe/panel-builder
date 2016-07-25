@@ -149,9 +149,8 @@ class PostQuacker extends Component {
 		const image = AdminCache.getImageById(this.state.image);
 		let imagePath = '';
 
-		if (image) {
-			const firstSize = _.values(image.sizes)[0];
-			imagePath = firstSize.url;
+		if (image && image.thumbnail) {
+			imagePath = image.thumbnail;
 		}
 		const link = this.state.link || {};
 
@@ -426,7 +425,10 @@ class PostQuacker extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.addImage(attachment);
+			AdminCache.addImage({
+				id: attachment.id,
+				thumbnail: attachment.sizes.thumbnail.url,
+			});
 			this.setState({ image: attachment.id });
 			this.initiateUpdatePanelData();
 		});
