@@ -43,7 +43,10 @@ class PostListPostManual extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.addImage(attachment);
+			AdminCache.addImage({
+				id: attachment.id,
+				thumbnail: attachment.sizes.thumbnail.url,
+			});
 			this.setState({ imageId: attachment.id });
 		});
 
@@ -148,9 +151,8 @@ class PostListPostManual extends Component {
 		let imgPath = '';
 		if (this.state.imageId) {
 			const image = AdminCache.getImageById(this.state.imageId);
-			if (image) {
-				const firstSize = _.values(image.sizes)[0];
-				imgPath = firstSize.url;
+			if (image && image.thumbnail) {
+				imgPath = image.thumbnail;
 			}
 		}
 

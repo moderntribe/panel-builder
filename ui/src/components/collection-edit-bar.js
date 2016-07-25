@@ -29,15 +29,8 @@ class EditBar extends Component {
 
 	setup() {
 		this.lockBody();
-		const target = ReactDOM.findDOMNode(this.refs.right);
 		const wrapper = ReactDOM.findDOMNode(this.refs.wrapper);
-		const publish = document.getElementById('publish');
-
 		_.delay(() => wrapper.classList.add(styles.loaded), 25);
-		if (!publish) {
-			return;
-		}
-		target.appendChild(publish);
 	}
 
 	@autobind
@@ -57,12 +50,13 @@ class EditBar extends Component {
 
 	reset() {
 		this.unLockBody();
-		const target = document.getElementById('publishing-action');
-		const publish = document.getElementById('publish');
-		if (!publish) {
-			return;
+	}
+
+	publishPost() {
+		const postForm = document.getElementById('post');
+		if (postForm) {
+			$(postForm).submit();
 		}
-		target.appendChild(publish);
 	}
 
 	lockBody() {
@@ -89,9 +83,18 @@ class EditBar extends Component {
 	}
 
 	render() {
+		const publishButtonText = document.getElementById('publish').value;
+
 		const wrapperClasses = classNames({
 			[styles.wrapper]: true,
 			'modular-content-admin-bar': true,
+		});
+
+		const publishClasses = classNames({
+			[styles.publish]: true,
+			button: true,
+			'button-primary': true,
+			'button-large': true,
 		});
 
 		return (
@@ -126,7 +129,15 @@ class EditBar extends Component {
 						classes={styles.mobile}
 					/>
 				</div>
-				<div ref="right" className={styles.right} />
+				<div ref="right" className={styles.right}>
+					<Button
+						text={publishButtonText}
+						handleClick={this.publishPost}
+						primary={false}
+						full={false}
+						classes={publishClasses}
+					/>
+				</div>
 			</section>
 		);
 	}
