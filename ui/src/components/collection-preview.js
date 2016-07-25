@@ -322,11 +322,13 @@ class CollectionPreview extends Component {
 	}
 
 	createMask(type) {
+		const label = _.find(BLUEPRINT_TYPES, { type }) ? _.find(BLUEPRINT_TYPES, { type }).label : '';
+
 		return `
 			<div class="${styles.mask}">
 				<header class="${styles.maskHeader}">
 					<span class="${styles.maskLabel}">
-						<span class="${styles.maskEdit}">${UI_I18N['heading.edit_type']}</span><span class="${styles.maskEditing}">${UI_I18N['heading.editing_type']}</span> ${_.find(BLUEPRINT_TYPES, { type }).label}
+						<span class="${styles.maskEdit}">${UI_I18N['heading.edit_type']}</span><span class="${styles.maskEditing}">${UI_I18N['heading.editing_type']}</span> ${label}
 					</span>
 					<button class="${styles.maskButton} ${styles.maskButtonUp}">
 						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_up']}</span>
@@ -354,7 +356,7 @@ class CollectionPreview extends Component {
 
 	updateNewPanels() {
 		let oldPanels = this.panelCollection.querySelectorAll(`.${styles.panel}`).length;
-		_.forEach(this.panelCollection.querySelectorAll(`.panel:not(.${styles.panel})`), (panel) => {
+		_.forEach(this.panelCollection.querySelectorAll(`[data-modular-content]:not(.${styles.panel})`), (panel) => {
 			this.configurePanel(panel, oldPanels);
 			oldPanels++;
 		});
