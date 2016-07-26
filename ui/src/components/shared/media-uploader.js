@@ -18,7 +18,9 @@ const MediaUploader = (props) => {
 	switch (props.fileType) {
 	case 'image':
 		Preview = (
-			<img onClick={props.handleAddMedia} src={props.file} role="presentation" />
+			<div className={styles.imagePreview}>
+				<img onClick={props.handleAddMedia} src={props.file} role="presentation" />
+			</div>
 		);
 		break;
 	default:
@@ -73,7 +75,7 @@ MediaUploader.propTypes = {
 MediaUploader.defaultProps = {
 	label: '',
 	fileType: 'image',
-	size: 'medium',
+	size: 'thumbnail',
 	file: '',
 	strings: {},
 	handleAddMedia: () => {},

@@ -18,3 +18,50 @@ export const addPosts = (postsObj = {}) => {
 
 export const getImageById = (id = 0) => ADMIN_CACHE.images[id.toString()];
 export const getPostById = (id = 0) => ADMIN_CACHE.posts[id.toString()];
+
+/**
+ * The system now only uses thumbnails in all ui cases. Currently that is image field, gallery field, post list and quacker.
+ * It tries to get a thumb from cache, then tries to get full if not founds. Returns empty string if nothing there.
+ *
+ * @param id
+ * @returns {string}
+ */
+
+export const getImageSrcById = (id = 0) => {
+	let image = '';
+	if (id) {
+		const cache = getImageById(id);
+		if (cache && cache.thumbnail) {
+			image = cache.thumbnail;
+		} else if (cache && cache.full) {
+			image = cache.full;
+		}
+	}
+
+	return image;
+};
+
+/**
+ * Gets/caches a thumbnail or full src from an attachment object.
+ *
+ * @param attachment
+ * @returns {string}
+ */
+
+export const cacheSrcByAttachment = (attachment = {}) => {
+	let src = '';
+
+	if (!_.isEmpty(attachment)) {
+		const image = attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+		const size = attachment.sizes.thumbnail ? 'thumbnail' : 'full';
+
+		addImage({
+			id: attachment.id,
+			[size]: image,
+		});
+
+		src = image;
+	}
+
+	return src;
+};

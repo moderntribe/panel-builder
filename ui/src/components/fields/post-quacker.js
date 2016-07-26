@@ -146,12 +146,6 @@ class PostQuacker extends Component {
 		});
 
 		const Editor = this.getEditorTemplate();
-		const image = AdminCache.getImageById(this.state.image);
-		let imagePath = '';
-
-		if (image && image.thumbnail) {
-			imagePath = image.thumbnail;
-		}
 		const link = this.state.link || {};
 
 		return (
@@ -165,7 +159,7 @@ class PostQuacker extends Component {
 					<MediaUploader
 						label={this.props.strings['label.manual_image']}
 						size={this.props.size}
-						file={imagePath}
+						file={AdminCache.getImageSrcById(this.state.image)}
 						strings={this.props.strings}
 						handleAddMedia={this.handleAddMedia}
 						handleRemoveMedia={this.handleRemoveMedia}
@@ -177,7 +171,15 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>{this.props.strings['label.manual_link']}</label>
-					<LinkGroup handleURLChange={this.handleURLChange} handleTargetChange={this.handleTargetChange} handleLabelChange={this.handleLabelChange} valueTarget={link.target} valueUrl={link.url} valueLabel={link.label} strings={this.props.strings} />
+					<LinkGroup
+						handleURLChange={this.handleURLChange}
+						handleTargetChange={this.handleTargetChange}
+						handleLabelChange={this.handleLabelChange}
+						valueTarget={link.target}
+						valueUrl={link.url}
+						valueLabel={link.label}
+						strings={this.props.strings}
+					/>
 				</div>
 			</div>
 		);
@@ -425,10 +427,7 @@ class PostQuacker extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.addImage({
-				id: attachment.id,
-				thumbnail: attachment.sizes.thumbnail.url,
-			});
+			AdminCache.cacheSrcByAttachment(attachment);
 			this.setState({ image: attachment.id });
 			this.initiateUpdatePanelData();
 		});

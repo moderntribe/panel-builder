@@ -9,9 +9,18 @@
 	display:none;
 	&.currentOpen{
 		display:block;
+	}
+	.imagePreview {
 		text-align: center;
+		padding: 10px;
+		background: var(--picker-bg);
+		border: 1px solid var(--picker-border);
+		border-radius: 3px;
 		img {
+			display: inline-block;
 			max-width: 100%;
+			width: 100px;
+			cursor: pointer;
 		}
 	}
 }
@@ -24,5 +33,5 @@
 }
 
 .removeButtonContainer{
-	margin:5px 0 20px 0;
+	margin:10px 0 20px 0;
 }
