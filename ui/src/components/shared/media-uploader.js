@@ -75,7 +75,7 @@ MediaUploader.propTypes = {
 MediaUploader.defaultProps = {
 	label: '',
 	fileType: 'image',
-	size: 'medium',
+	size: 'thumbnail',
 	file: '',
 	strings: {},
 	handleAddMedia: () => {},

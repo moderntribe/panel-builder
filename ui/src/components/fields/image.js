@@ -90,7 +90,6 @@ class Image extends Component {
 				<label className={labelClasses}>{this.props.label}</label>
 				<MediaUploader
 					label={this.props.label}
-					size={this.props.size}
 					file={this.state.image}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
@@ -109,7 +108,6 @@ Image.propTypes = {
 	data: React.PropTypes.number,
 	strings: React.PropTypes.object,
 	default: React.PropTypes.string,
-	size: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
 	updatePanelData: React.PropTypes.func,
 };
@@ -121,7 +119,6 @@ Image.defaultProps = {
 	data: 0,
 	strings: {},
 	default: '',
-	size: 'thumbnail',
 	panelIndex: 0,
 	updatePanelData: () => {},
 };
