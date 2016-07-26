@@ -3,6 +3,7 @@ import Title from '../fields/title';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
 import ImageSelect from '../fields/image-select';
+import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
 import TextArea from '../fields/textarea';
 import Link from '../fields/link';
@@ -32,6 +33,7 @@ export default {
 	Video,
 	PostQuacker,
 	Post_List: PostList,
+	Swatch_Select: SwatchSelect,
 	Group,
 	Repeater,
 };

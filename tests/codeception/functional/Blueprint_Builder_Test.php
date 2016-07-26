@@ -19,6 +19,7 @@ use ModularContent\Fields\Posts;
 use ModularContent\Fields\Radio;
 use ModularContent\Fields\Repeater;
 use ModularContent\Fields\Select;
+use ModularContent\Fields\Swatch_Select;
 use ModularContent\Fields\Text;
 use ModularContent\Fields\TextArea;
 use ModularContent\Fields\Video;
@@ -445,6 +446,23 @@ class Blueprint_Builder_Test extends WPTestCase {
 				'full'     => 'module-contentgrid-full.png',
 			],
 			'default' => 'standard',
+		] ) );
+
+		$panel->add_settings_field( new Swatch_Select( [
+			'label'       => 'Background Color',
+			'name'        => 'background',
+			'description' => 'Select a background color',
+			'default'     => 'blue',
+			'options'     => [
+				'blue'  => [
+					'color' => '#0000BB',
+					'label' => 'Blue',
+				],
+				'green-blue' => [
+					'color' => 'linear-gradient(113.59deg, rgba(186, 191, 16, 1) 0%, rgba(169, 189, 36, 1) 12.24%, rgba(126, 185, 88, 1) 37.36%, rgba(57, 179, 171, 1) 72.79%, rgba(0, 174, 239, 1) 100%)',
+					'label' => 'Green to Blue Gradient',
+				],
+			],
 		] ) );
 
 		$panel->add_field( new TextArea( [
