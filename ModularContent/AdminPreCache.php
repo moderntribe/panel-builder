@@ -22,7 +22,7 @@ class AdminPreCache implements \JsonSerializable {
 		}
 		$thumbnail_id = get_post_thumbnail_id( $post_id );
 		if ( $thumbnail_id ) {
-			$this->add_image( $thumbnail_id, 'thumbnail' );
+			$this->add_image( $thumbnail_id );
 		}
 	}
 
@@ -37,10 +37,15 @@ class AdminPreCache implements \JsonSerializable {
 		$this->data[ $key ] = $data;
 	}
 
-	public function add_image( $image_id, $size ) {
+	// todo: @jbrinley please review. default to thumb, still allow for other sizes if something needs it, grab full if size not found for cache.
+
+	public function add_image( $image_id, $size = 'thumbnail' ) {
 		$image = wp_get_attachment_image_src( $image_id, $size );
 		if ( $image ) {
 			$this->images[ $image_id ][ $size ] = $image[ 0 ];
+		} else {
+			$image = wp_get_attachment_image_src( $image_id, 'full' );
+			$this->images[ $image_id ][ 'full' ] = $image[ 0 ];
 		}
 	}
 
