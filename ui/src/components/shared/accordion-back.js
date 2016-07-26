@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
 
 import Expander from './expander';
@@ -24,21 +25,27 @@ class AccordionBack extends Component {
 	}
 
 	componentDidMount() {
+		this.el = ReactDOM.findDOMNode(this.refs.accordion);
 		document.addEventListener('modern_tribe/title_updated', this.updateTitle);
 	}
 
 	componentWillUnmount() {
+		this.el = null;
 		document.removeEventListener('modern_tribe/title_updated', this.updateTitle);
 	}
 
 	@autobind
 	updateTitle(e) {
+		const nested = this.el.parentNode.getAttribute('data-hidden');
+		if (nested && nested === 'true') {
+			return;
+		}
 		this.setState({ title: e.detail.text });
 	}
 
 	render() {
 		return (
-			<nav className={styles.back}>
+			<nav ref="accordion" className={styles.back}>
 				<Button
 					classes={styles.backButton}
 					handleClick={this.props.handleClick}
