@@ -33,23 +33,19 @@ class Link extends Component {
 	@autobind
 	handleURLChange(e) {
 		const url = e.currentTarget.value;
-		this.setState({ url });
-		this.initiateUpdatePanelData();
+		this.setState({ url }, this.initiateUpdatePanelData);
 	}
 
 	@autobind
 	handleLabelChange(e) {
 		const label = e.currentTarget.value;
-		this.setState({ label });
-		this.initiateUpdatePanelData();
+		this.setState({ label }, this.initiateUpdatePanelData);
 	}
 
 	@autobind
 	handleSelectChange(data) {
 		const target = data.value.length ? data.value : '_self';
-		this.setState({ target }, () => {
-			this.initiateUpdatePanelData();
-		});
+		this.setState({ target }, this.initiateUpdatePanelData);
 	}
 
 	render() {
