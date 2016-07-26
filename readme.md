@@ -257,17 +257,26 @@ you still have one in place. Then `npm install` and grab some popcorn.
 After npm install has completed you can run the npm scripts that define the tasks for this project. They are currently:
 
 ```json
-    "start": "NODE_ENV=development node server.js",
-    "lint": "eslint ./ui/src || exit 0",
-    "dist": "NODE_ENV=production webpack -p",
-    "test": "node_modules/.bin/karma start karma.config.js",
-    "test:dev": "npm run test -- --watch"
+"start": "npm prune && npm install && npm run dev",
+"bundle": "NODE_ENV=production webpack -p",
+"dev": "NODE_ENV=development node server.js",
+"lint": "eslint ./ui/src || exit 0",
+"dist": "npm prune && npm install && npm run lint && npm run test && npm run bundle",
+"test:dev": "npm run test -- --watch"
 ```
 The development task that fires up webpack-dev-server and gets you ready to dev is start. You launch that by typing: `npm start`
-You can then navigate to http://localhost:3000 to see things in action.
+
+The react scripts will be served at `http://localhost:3000/ui/dist/master.js`. 
+To set up your environment to load this file and experience the joys of [hot module replacement](https://webpack.github.io/docs/hot-module-replacement.html) make sure `SCRIPT_DEBUG` is true and you have filtered `modular_content_js_dev_path` with the above src. It is recommended you create a gitignored file in your mu-plugins folder called `mu-local.php`. Then apply the filter like so:
+
+```php
+add_filter( 'modular_content_js_dev_path', function() {
+	return 'http://localhost:3000/ui/dist/master.js';
+});
+```
 
 The other tasks must be run in this fashion: `npm run task` . Give the karma tests a run with `npm run test` to make sure 
 things are working well.
 
-This system is also redux dev tools enabled. You will want to install https://github.com/zalmoxisus/redux-devtools-extension 
+This system is also redux dev tools enabled. You will want to [install them](https://github.com/zalmoxisus/redux-devtools-extension)
 in chrome if you want to use them.
