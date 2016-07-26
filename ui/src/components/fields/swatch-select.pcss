@@ -1,0 +1,111 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/mq.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: block;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.optionColor{
+	width:100%;
+	aspect-ratio: '16:12';
+	box-sizing: border-box;
+	opacity: 0.8;
+
+}
+
+.container {
+	lost-flex-container: row;
+}
+
+[data-live-edit="false"] {
+	.islabel {
+		lost-column: 1/6 6 10px;
+		@media (--viewport-large) {
+			lost-column: 1/8 8 10px;
+		}
+	}
+}
+
+[data-live-edit="true"] {
+	.islabel {
+		lost-column: 1/2 2 10px;
+	}
+	[data-expanded="true"] {
+		.islabel {
+			lost-column: 1/4 4 10px;
+		}
+	}
+}
+
+.optionLabel {
+	display: block;
+	margin-top: 10px;
+	font-size: 12px;
+}
+
+.optInner {
+	display: block;
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.islabel {
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	font-weight:bold;
+	box-sizing:border-box;
+	position: relative;
+	margin-bottom:5px;
+	input[type="radio"] {
+		display: none;
+	}
+
+	input[type="radio"]:checked + .optionColor .optInner, .optionColor .optInner:hover {
+		border: 2px solid var(--border-color-dark-alt);
+	}
+
+	input[type="radio"]:checked + .optionColor {
+		opacity: 1;
+	}
+
+	input[type="radio"]:checked + .optionColor .optInner {
+		&:before {
+			content: '';
+			width:25px;
+			height:25px;
+			position: absolute;
+			display: block;
+			right:5px;
+			top:5px;
+			border-radius: 100%;
+			background-color: color(var(--black) a(40%)) ;
+		}
+		&:after{
+			content: "\f147";
+			font-family:dashicons;
+			width:25px;
+			height:25px;
+			position: absolute;
+			display: block;
+			right:6px;
+			top:6px;
+			font-size:20px;
+			line-height: 25px;
+			color: var(--white);
+		}
+	}
+}

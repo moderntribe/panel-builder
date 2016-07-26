@@ -26,7 +26,7 @@ use ModularContent\Panel;
  *       'label'       => __( 'Blue' ),
  *     ],
  *     'green-blue'       => [
- *       'src'         => 'linear-gradient(113.59deg, rgba(186, 191, 16, 1) 0%, rgba(169, 189, 36, 1) 12.24%, rgba(126, 185, 88, 1) 37.36%, rgba(57, 179, 171, 1) 72.79%, rgba(0, 174, 239, 1) 100%)',
+ *       'color'         => 'linear-gradient(113.59deg, rgba(186, 191, 16, 1) 0%, rgba(169, 189, 36, 1) 12.24%, rgba(126, 185, 88, 1) 37.36%, rgba(57, 179, 171, 1) 72.79%, rgba(0, 174, 239, 1) 100%)',
  *       'label'       => __( 'Green to Blue Gradient' ),
  *     ],
  *   )
