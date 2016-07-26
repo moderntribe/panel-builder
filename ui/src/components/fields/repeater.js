@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
@@ -37,28 +38,45 @@ class Repeater extends Component {
 		this.state = {
 			active: false,
 			activeIndex: 0,
-			count: this.props.data.length,
 			data: this.getPaddedFieldData(),
 			keyPrefix: randomString(10),
 			sorting: false,
 		};
 	}
 
+	getNewRowData() {
+		const newRow = {};
+		_.forEach(this.props.fields, (field) => {
+			newRow[field.name] = '';
+		});
+
+		return newRow;
+	}
+
 	/**
 	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
 	 * we print the min amount of required fields.
+	 *
+	 * todo: when doing child panels convert to data util that can handle nested instances
 	 *
 	 * @returns {*}
 	 */
 
 	getPaddedFieldData() {
-		const fieldData = this.props.data;
+		const store = this.props.panels[this.props.panelIndex].data[this.props.name];
+		const fieldData = !_.isEmpty(store) ? store : [];
 		if (fieldData.length < this.props.min) {
-			const remaining = this.props.min - this.props.data.length;
+			const remaining = this.props.min - fieldData.length;
 			_.times(remaining, () =>
-				fieldData.push({})
+				fieldData.push(this.getNewRowData())
 			);
 		}
+
+		this.props.updatePanelData({
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: fieldData,
+		});
 
 		return fieldData;
 	}
@@ -71,7 +89,7 @@ class Repeater extends Component {
 
 	@autobind
 	getActiveRow() {
-		const rowData = this.props.data[this.state.activeIndex] ? this.props.data[this.state.activeIndex] : {};
+		const rowData = this.state.data[this.state.activeIndex] ? this.state.data[this.state.activeIndex] : {};
 		const title = rowData.title && rowData.title.length ? rowData.title : `Row ${this.state.activeIndex + 1}`;
 		const deleteLabel = this.props.strings['button.delete'];
 		const fieldClasses = classNames({
@@ -242,8 +260,14 @@ class Repeater extends Component {
 	@autobind
 	handleAddRow() {
 		const data = this.state.data;
-		data.push({});
-		this.setState({ data });
+		data.push(this.getNewRowData());
+		this.setState({ data }, () => {
+			this.props.updatePanelData({
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: data,
+			});
+		});
 	}
 
 	/**
@@ -321,8 +345,10 @@ class Repeater extends Component {
 	}
 }
 
+const mapStateToProps = (state) => ({ panels: state.panelData.panels });
+
 Repeater.propTypes = {
-	data: PropTypes.array,
+	panels: PropTypes.array,
 	panelIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
@@ -339,7 +365,7 @@ Repeater.propTypes = {
 };
 
 Repeater.defaultProps = {
-	data: [],
+	panels: [],
 	panelIndex: 0,
 	panelLabel: '',
 	fields: [],
@@ -355,4 +381,4 @@ Repeater.defaultProps = {
 	max: 12,
 };
 
-export default Repeater;
+export default connect(mapStateToProps)(Repeater);

@@ -33,9 +33,11 @@ class PanelContainer extends Component {
 			hidden: false,
 		};
 		this.el = null;
+		this.mounted = false;
 	}
 
 	componentDidMount() {
+		this.mounted = true;
 		this.el = ReactDOM.findDOMNode(this.refs.panel);
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
@@ -43,6 +45,7 @@ class PanelContainer extends Component {
 	}
 
 	componentWillUnmount() {
+		this.mounted = false;
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
@@ -159,6 +162,10 @@ class PanelContainer extends Component {
 
 	@autobind
 	maybeActivate(e) {
+		if (!this.mounted) {
+			return;
+		}
+
 		if (e.detail.index !== this.props.index) {
 			this.setState({ active: false });
 			return;

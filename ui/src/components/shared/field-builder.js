@@ -26,6 +26,7 @@ const FieldBuilder = (props) => {
 			[`input-type-${field.type.toLowerCase()}`]: true,
 		});
 
+
 		return (
 			<div className={classes} key={_.uniqueId('field-id-')} data-settings={props.settings_fields.indexOf(field.name) !== -1}>
 				<Field
