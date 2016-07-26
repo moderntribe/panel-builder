@@ -65,18 +65,22 @@ class Repeater extends Component {
 	getPaddedFieldData() {
 		const store = this.props.panels[this.props.panelIndex].data[this.props.name];
 		const fieldData = !_.isEmpty(store) ? store : [];
+		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
 			const remaining = this.props.min - fieldData.length;
 			_.times(remaining, () =>
 				fieldData.push(this.getNewRowData())
 			);
+			shouldUpdate = true;
 		}
 
-		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value: fieldData,
-		});
+		if (shouldUpdate) {
+			this.props.updatePanelData({
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: fieldData,
+			});
+		}
 
 		return fieldData;
 	}
