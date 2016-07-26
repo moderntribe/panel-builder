@@ -150,6 +150,11 @@ class MetaBox {
 				'tooltip.delete_panel'         => __( 'Delete this panel', 'modular-content' ),
 				'tooltip.add_above'            => __( 'Add panel above', 'modular-content' ),
 				'tooltip.add_below'            => __( 'Add panel below', 'modular-content' ),
+
+				// dialogs
+
+				'heading.image_size_not_found' => __( 'Cannot add image', 'modular-content' ),
+				'message.image_size_not_found' => __( 'This image does not meet the minimum size requirements for this field.', 'modular-content' ),
 			]
 		];
 
