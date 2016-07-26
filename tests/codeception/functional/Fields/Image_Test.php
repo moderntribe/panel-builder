@@ -30,7 +30,6 @@ class Image_Test extends WPTestCase {
 				'button.select' => 'Select Files',
 			],
 			'default'     => $default,
-			'size'        => 'thumbnail',
 		];
 
 		$this->assertEquals( $expected, $blueprint );

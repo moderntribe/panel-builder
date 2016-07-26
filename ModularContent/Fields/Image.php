@@ -16,8 +16,6 @@ use ModularContent\Panel;
  * The image is stored in the field as an attachment ID.
  */
 class Image extends Field {
-	protected $size = 'thumbnail'; // The size that will displayed in the admin
-
 	/**
 	 * @param array $args
 	 *
@@ -27,12 +25,9 @@ class Image extends Field {
 	 *   'label' => __('Featured Image'),
 	 *   'name' => 'featured-image',
 	 *   'description' => __( 'An image to feature' ),
-	 *   'size' => 'thumbnail', // the size displayed in the admin
 	 * ) );
 	 */
 	public function __construct( $args = array() ) {
-		$this->defaults['size'] = $this->size;
-
 		$this->defaults[ 'strings' ] = [
 			'button.remove' => __( 'Remove', 'modular-content' ),
 			'button.select' => __( 'Select Files', 'modular-content' ),
@@ -45,7 +40,6 @@ class Image extends Field {
 		$args = array(
 			'label' => $this->label,
 			'value' => $this->get_input_value(),
-			'size'  => $this->size,
 			'name'  => $this->get_input_name(),
 			'type'  => 'image',
 			'id' => preg_replace('/[^\w\{\}\.]/', '_', $this->get_input_name()),
@@ -118,7 +112,6 @@ class Image extends Field {
 
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
-		$blueprint['size'] = $this->size;
 		return $blueprint;
 	}
 

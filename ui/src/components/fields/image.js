@@ -4,27 +4,15 @@ import MediaUploader from '../shared/media-uploader';
 import classNames from 'classnames';
 
 import { wpMedia } from '../../globals/wp';
-import { UI_I18N } from '../../globals/i18n';
 import * as AdminCache from '../../util/data/admin-cache';
-import * as events from '../../util/events';
 
 import styles from './image.pcss';
 
 class Image extends Component {
 	state = {
-		image: this.getInitialImage(),
+		image: AdminCache.getImageSrcById(this.props.data),
 		imageId: this.props.data,
 	};
-
-	getInitialImage() {
-		let image = '';
-		if (this.props.data) {
-			const cache = AdminCache.getImageById(this.props.data);
-			image = cache && cache[this.props.size] ? cache[this.props.size] : '';
-		}
-
-		return image;
-	}
 
 	/**
 	 * Handles the media uploader open click. Will be hooked up to redux soon.
@@ -42,31 +30,18 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			if (attachment.sizes[this.props.size]) {
-				AdminCache.addImage({
-					id: attachment.id,
-					[this.props.size]: attachment.sizes[this.props.size].url,
-				});
-				this.setState({
-					image: attachment.sizes[this.props.size].url,
-					imageId: attachment.id,
-				});
-				this.props.updatePanelData({
-					index: this.props.panelIndex,
-					name: this.props.name,
-					value: attachment.id,
-				});
-			} else {
-				events.trigger({
-					event: 'modern_tribe/open_dialog',
-					native: false,
-					data: {
-						type: 'error',
-						heading: UI_I18N['heading.image_size_not_found'],
-						message: UI_I18N['message.image_size_not_found'],
-					},
-				});
-			}
+			const image = AdminCache.cacheSrcByAttachment(attachment);
+
+			this.setState({
+				image,
+				imageId: attachment.id,
+			});
+
+			this.props.updatePanelData({
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: attachment.id,
+			});
 		});
 
 		frame.open();

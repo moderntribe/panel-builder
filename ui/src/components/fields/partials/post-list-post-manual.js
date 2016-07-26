@@ -43,10 +43,7 @@ class PostListPostManual extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.addImage({
-				id: attachment.id,
-				thumbnail: attachment.sizes.thumbnail.url,
-			});
+			AdminCache.cacheSrcByAttachment(attachment);
 			this.setState({ imageId: attachment.id });
 		});
 
@@ -147,15 +144,6 @@ class PostListPostManual extends Component {
 			[styles.url]: true,
 		});
 
-		// get image from image cache
-		let imgPath = '';
-		if (this.state.imageId) {
-			const image = AdminCache.getImageById(this.state.imageId);
-			if (image && image.thumbnail) {
-				imgPath = image.thumbnail;
-			}
-		}
-
 		return (
 			// possible hidden fields post_content, post_title, url, and thumbnail_id
 			<article className={styles.wrapper}>
@@ -185,7 +173,7 @@ class PostListPostManual extends Component {
 				{!this.isFieldHidden('thumbnail_id') && <MediaUploader
 					label={this.props.label}
 					size="large"
-					file={imgPath}
+					file={AdminCache.getImageSrcById(this.state.imageId)}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
