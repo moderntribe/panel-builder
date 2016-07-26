@@ -49,12 +49,16 @@ class MetaBox {
 	}
 
 	protected function enqueue_scripts() {
+		$app_scripts = Plugin::plugin_url( 'ui/dist/master.js' );
+
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			wp_register_script( 'panels-admin-ui', 'http://localhost:3000/ui/dist/master.js', [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
+			$app_scripts = apply_filters( 'modular_content_js_dev_path', $app_scripts );
+			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		} else {
-			wp_register_script( 'panels-admin-ui', Plugin::plugin_url( 'ui/dist/master.js' ), [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
-			wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
+			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		}
+
+		wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
 
 		/*
 		 * Rather than enqueuing this immediately, delay until after
@@ -69,7 +73,6 @@ class MetaBox {
 			add_action( "admin_footer-" . $GLOBALS['hook_suffix'], '_wp_footer_scripts' );
 		}, 60, 0 );
 
-		//wp_enqueue_script( 'modular-content-meta-box', Plugin::plugin_url('assets/scripts/js/meta-box-panels.js'), array( 'jquery-ui-sortable', 'wp-util', 'thickbox' ), FALSE, TRUE );
 		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('ui/dist/react-libs.css'), ['font-awesome'] );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
 	}
@@ -150,11 +153,6 @@ class MetaBox {
 				'tooltip.delete_panel'         => __( 'Delete this panel', 'modular-content' ),
 				'tooltip.add_above'            => __( 'Add panel above', 'modular-content' ),
 				'tooltip.add_below'            => __( 'Add panel below', 'modular-content' ),
-
-				// dialogs
-
-				'heading.image_size_not_found' => __( 'Cannot add image', 'modular-content' ),
-				'message.image_size_not_found' => __( 'This image does not meet the minimum size requirements for this field.', 'modular-content' ),
 			]
 		];
 
