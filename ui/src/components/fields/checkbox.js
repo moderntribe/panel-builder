@@ -45,6 +45,7 @@ class Checkbox extends Component {
 						type="checkbox"
 						name={`modular-content-${this.props.name}[]`}
 						value={option.value}
+						tabIndex={0}
 						className={styles.checkbox}
 						onChange={this.handleChange}
 						checked={this.state.data && this.state.data[option.value] === 1}

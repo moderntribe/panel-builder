@@ -29,6 +29,11 @@ input[type="checkbox"]{
 			left: 0;
 			border: 1px solid var(--border-color);
 		}
+		&:focus {
+			+ span {
+				border: 1px solid var(--panel-label-color);
+			}
+		}
 		&:checked {
 			+ span {
 				border-color: var(--button-new-blue);
@@ -61,6 +66,11 @@ input[type="radio"]{
 			top: 4px;
 			left: 0;
 			border: 1px solid var(--border-color);
+		}
+		&:focus {
+			+ span {
+				border: 1px solid var(--panel-label-color);
+			}
 		}
 		&:checked {
 			+ span {
