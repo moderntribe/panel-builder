@@ -92,6 +92,7 @@ class PostQuacker extends Component {
 					buttons={false}
 					strings={this.props.strings}
 					data={this.state.content}
+					onUpdate={this.handleRichtextChange}
 				/>
 			</div>
 		);
@@ -386,8 +387,10 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleRichtextChange(data) {
+		const content = data.currentTarget ? data.currentTarget.value : data;
+
 		this.setState({
-			content: data,
+			content,
 		});
 		this.initiateUpdatePanelData();
 	}
