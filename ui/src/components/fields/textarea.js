@@ -76,11 +76,12 @@ class TextArea extends Component {
 					className="wp-core-ui wp-editor-wrap tmce-active"
 				>
 					<RichtextEditor
-						data={this.props.data}
+						data={this.state.text}
 						fid={this.fid}
 						name={`modular-content-${this.props.name}`}
 						buttons={this.props.media_buttons}
 						strings={this.props.strings}
+						onUpdate={this.handleChange}
 					/>
 				</div>
 			);
@@ -91,7 +92,7 @@ class TextArea extends Component {
 
 	@autobind
 	handleChange(data) {
-		const text = !this.props.richtext ? data.currentTarget.value : data;
+		const text = data.currentTarget ? data.currentTarget.value : data;
 
 		this.setState({ text });
 		this.props.updatePanelData({
