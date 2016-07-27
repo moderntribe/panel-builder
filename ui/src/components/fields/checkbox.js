@@ -40,7 +40,7 @@ class Checkbox extends Component {
 		});
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>
-				<label>
+				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
 						name={`modular-content-${this.props.name}[]`}
@@ -49,6 +49,7 @@ class Checkbox extends Component {
 						onChange={this.handleChange}
 						checked={this.state.data && this.state.data[option.value] === 1}
 					/>
+					<span />
 					{option.label}
 				</label>
 			</li>

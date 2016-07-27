@@ -1,5 +1,82 @@
+@import './colors.pcss';
+
 .full {
 	width: 100%;
 	padding: 8px 10px;
 	margin: 0;
+}
+
+.label {
+	position: relative;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+input[type="checkbox"]{
+	&.checkbox {
+		opacity: 0;
+		width: 27px;
+		+ span {
+			position: absolute;
+			width:23px;
+			height: 23px;
+			border-radius: 2px;
+			top: 4px;
+			left: 0;
+			border: 1px solid var(--border-color);
+		}
+		&:checked {
+			+ span {
+				border-color: var(--button-new-blue);
+				&:after {
+					content: "\f147";
+					font-family:dashicons;
+					position: absolute;
+					display: block;
+					right:1px;
+					top:-3px;
+					width:23px;
+					height: 23px;
+					font-size:26px;
+					color: var(--button-new-blue);
+				}
+			}
+		}
+	}
+}
+
+input[type="radio"]{
+	&.radio {
+		opacity: 0;
+		width: 27px;
+		+ span {
+			position: absolute;
+			width:23px;
+			height: 23px;
+			border-radius: 100%;
+			top: 4px;
+			left: 0;
+			border: 1px solid var(--border-color);
+		}
+		&:checked {
+			+ span {
+				border-color: var(--button-new-blue);
+				&:after {
+					background: var(--button-new-blue);
+					position: absolute;
+					content: '';
+					display: block;
+					right:6px;
+					top:6px;
+					border-radius: 100%;
+					width:9px;
+					height: 9px;
+				}
+			}
+		}
+	}
 }
