@@ -71,12 +71,13 @@ class Swatch_Select extends Radio {
 
 	public function get_vars( $key, $panel ) {
 		$options = $this->get_options();
-		$data = '';
+		$data = [ ];
 		if ( isset( $options[ $key ] ) ) {
+			$data[ 'key' ] = $key;
 			if ( is_array( $options[ $key] ) ) {
-				$data = isset( $options[ $key ][ 'color' ] ) ? $options[ $key ][ 'color' ] : '';
+				$data[ 'color' ] = isset( $options[ $key ][ 'color' ] ) ? $options[ $key ][ 'color' ] : '';
 			} else {
-				$data = $options[ $key ];
+				$data[ 'color' ] = $options[ $key ];
 			}
 		}
 		$data = apply_filters( 'panels_field_vars', $data, $this, $panel );
