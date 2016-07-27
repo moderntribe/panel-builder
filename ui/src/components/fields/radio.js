@@ -35,6 +35,7 @@ class Radio extends Component {
 					type="radio"
 					name={`modular-content-${this.props.name}`}
 					value={option.value}
+					tabIndex={0}
 					onChange={this.handleChange}
 					className={styles.radio}
 					checked={this.state.value === option.value}
