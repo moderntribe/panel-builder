@@ -39,7 +39,13 @@ class ImageSelect extends Component {
 					onChange={this.handleChange}
 					checked={this.state.value === option.value}
 				/>
-				<div className={styles.optionImage}><img src={option.src} alt={option.label} /></div>
+				<div
+					className={styles.optionImage}
+				>
+					<span className={styles.optInner}>
+						<img src={option.src} alt={option.label} />
+					</span>
+				</div>
 				{option.label}
 			</label>
 		);
