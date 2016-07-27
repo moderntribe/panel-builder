@@ -53,9 +53,9 @@ class EditBar extends Component {
 	}
 
 	publishPost() {
-		const postForm = document.getElementById('post');
+		const postForm = document.getElementById('publish');
 		if (postForm) {
-			$(postForm).submit();
+			postForm.click();
 		}
 	}
 
