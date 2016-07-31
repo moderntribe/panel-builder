@@ -277,6 +277,7 @@ class MetaBox {
 		$query_args[ 'preview_id' ] = $post->ID;
 		$query_args[ 'preview_nonce' ] = wp_create_nonce( 'post_preview_' . $post->ID );
 		$query_args[ 'preview_panels' ] = 'true';
+		$query_args[ 'revision_id' ] = $post->ID;
 
 		if ( isset( $_POST[ 'post_format' ] ) ) {
 			$query_args[ 'post_format' ] = empty( $_POST[ 'post_format' ] ) ? 'standard' : sanitize_key( $_POST[ 'post_format' ] );
