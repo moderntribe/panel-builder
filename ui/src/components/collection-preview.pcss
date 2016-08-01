@@ -136,15 +136,29 @@
 		&.loadingPanel {
 			opacity: 0.5;
 		}
+		&.noTransition {
+			.mask {
+				transition: none;
+			}
+		}
 	}
 	.active {
 		.mask {
+			border: 2px solid var(--picker-border-selected);
+			background: transparent;
+			opacity: 1;
+			.maskHeader {
+				opacity: 0;
+			}
+			.maskEdit {
+				display: none;
+			}
+			.maskEditing {
+				display: inline-block;
+			}
 			&:hover{
-				.maskEdit {
-					display: none;
-				}
-				.maskEditing {
-					display: inline-block;
+				.maskHeader {
+					opacity: 1;
 				}
 			}
 		}

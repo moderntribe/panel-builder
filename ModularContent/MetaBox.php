@@ -88,10 +88,8 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
-				'css_file'        => Plugin::plugin_url( 'ui/dist/master.css' ),
-				'fields'          => [
-
-				]
+				'iframe_scroll_offset' => apply_filters( 'modular_content_iframe_scroll_offset', 10 ),
+				'css_file'             => Plugin::plugin_url( 'ui/dist/master.css' ),
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}

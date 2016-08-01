@@ -43,16 +43,22 @@
 			}
 			&.expanded{
 				width:760px;
+				&[data-saving="true"]{
+					&:after {
+						width:760px;
+					}
+				}
 			}
 			&[data-saving="true"]{
 				&:after {
 					content: '';
-					position: absolute;
-					width: 100%;
+					position: fixed;
+					width: 300px;
 					height: 100%;
 					background: rgba(255,255,255,0.5);
 					top: 0;
 					left: 0;
+					z-index: 1000003;
 				}
 			}
 		}
