@@ -7,12 +7,14 @@ import classNames from 'classnames';
 
 import Loader from './shared/loader';
 
-import { MODULAR_CONTENT, CSS_FILE, BLUEPRINT_TYPES } from '../globals/config';
+import { MODULAR_CONTENT, IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
+import * as previewTools from '../util/dom/preview';
 import * as domTools from '../util/dom/tools';
+import * as tests from '../util/tests';
 
 import styles from './collection-preview.pcss';
 
@@ -69,6 +71,10 @@ class CollectionPreview extends Component {
 
 	deactivatePanel(panel) {
 		panel.classList.remove(styles.active);
+		_.delay(() => {
+			panel.classList.remove(styles.noTransition);
+		}, 350);
+
 		this.activePanelNode = null;
 	}
 
@@ -76,10 +82,15 @@ class CollectionPreview extends Component {
 		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel) => this.deactivatePanel(panel));
 	}
 
-	scrollToPanel(index) {
+	scrollToPanel(index, activate = true) {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
-		this.iframeScroller.center(target, 500, 0, () => {
+		this.iframeScroller.to(target, 500, () => {
+			if (!activate) {
+				return;
+			}
+
 			target.classList.add(styles.active);
+			target.classList.add(styles.noTransition);
 			this.activePanelNode = target;
 		});
 	}
@@ -104,6 +115,7 @@ class CollectionPreview extends Component {
 		this.deactivatePanels();
 		const panel = this.panelCollection.querySelectorAll(`.${styles.panel}[data-index="${index}"]`)[0];
 		panel.classList.add(styles.active);
+		panel.classList.add(styles.noTransition);
 		this.activePanelNode = panel;
 		trigger({
 			event: 'modern_tribe/panel_activated',
@@ -121,6 +133,7 @@ class CollectionPreview extends Component {
 		this.activePanelNode.parentNode.removeChild($(this.activePanelNode).next().get(0));
 		this.initializePanels();
 		this.activePanelNode.classList.add(styles.active);
+		this.activePanelNode.classList.add(styles.noTransition);
 	}
 
 	@autobind
@@ -146,6 +159,7 @@ class CollectionPreview extends Component {
 			domTools.insertAfter(el, target);
 		}
 		this.initializePanels();
+		this.scrollToPanel(parseInt(el.getAttribute('data-index'), 10), false);
 	}
 
 	@autobind
@@ -203,8 +217,17 @@ class CollectionPreview extends Component {
 			return;
 		}
 
+		this.activateNewPanel(panel, index);
+	}
+
+	activateNewPanel(panel = null, index = 0) {
+		if (!panel) {
+			return;
+		}
+
 		this.deactivatePanels();
 		panel.classList.add(styles.active);
+		panel.classList.add(styles.noTransition);
 		this.activePanelNode = panel;
 		trigger({
 			event: 'modern_tribe/panel_activated',
@@ -215,12 +238,19 @@ class CollectionPreview extends Component {
 		});
 	}
 
+	activateLastPanel() {
+		const panel = this.panelCollection.lastChild;
+		const index = parseInt(panel.getAttribute('data-index'), 10);
+		this.activateNewPanel(panel, index);
+		_.delay(() => this.scrollToPanel(index), 200);
+	}
+
 	handleButtonMousover(e) {
 		const tooltip = e.currentTarget.querySelectorAll('[data-tooltip]')[0];
 		if (!tooltip) {
 			return;
 		}
-		const width = Math.max(this.iframe.document.documentElement.clientWidth, this.iframe.window.innerWidth || 0);
+		const width = Math.max(this.iframe.documentElement.clientWidth, this.iframeWindow.innerWidth || 0);
 
 		if (tooltip.parentNode.classList.contains(styles.maskButton) && width > 768) {
 			tooltip.style.marginLeft = `-${tooltip.offsetWidth - 28}px`;
@@ -251,6 +281,7 @@ class CollectionPreview extends Component {
 				if (e.detail.index === -1) {
 					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
 					this.updateNewPanels();
+					this.activateLastPanel();
 				} else {
 					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
 				}
@@ -268,7 +299,7 @@ class CollectionPreview extends Component {
 				oldIndex,
 				newIndex,
 			});
-			this.iframeScroller.center(panel, 500, 0);
+			this.scrollToPanel(parseInt(panel.getAttribute('data-index'), 10), false);
 		}, 150);
 	}
 
@@ -321,39 +352,6 @@ class CollectionPreview extends Component {
 		}
 	}
 
-	createMask(type) {
-		const label = _.find(BLUEPRINT_TYPES, { type }) ? _.find(BLUEPRINT_TYPES, { type }).label : '';
-
-		return `
-			<div class="${styles.mask}">
-				<header class="${styles.maskHeader}">
-					<span class="${styles.maskLabel}">
-						<span class="${styles.maskEdit}">${UI_I18N['heading.edit_type']}</span><span class="${styles.maskEditing}">${UI_I18N['heading.editing_type']}</span> ${label}
-					</span>
-					<button class="${styles.maskButton} ${styles.maskButtonUp}">
-						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_up']}</span>
-					</button>
-					<button class="${styles.maskButton} ${styles.maskButtonDown}">
-						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.panel_down']}</span>
-					</button>
-					<button class="${styles.maskButton} ${styles.maskButtonDelete}">
-						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.delete_panel']}</span>
-					</button>
-				</header>
-				<div class="${styles.maskTop} ${styles.maskAdd}">
-					<button class="${styles.maskButtonAdd} ${styles.addPanelAbove}">
-						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.add_above']}</span>
-					</button>
-				</div>
-				<div class="${styles.maskBottom} ${styles.maskAdd}">
-					<button class="${styles.maskButtonAdd} ${styles.addPanelBelow}">
-						<span data-tooltip class="${styles.tooltip}">${UI_I18N['tooltip.add_below']}</span>
-					</button>
-				</div>
-			</div>
-		`;
-	}
-
 	updateNewPanels() {
 		let oldPanels = this.panelCollection.querySelectorAll(`.${styles.panel}`).length;
 		_.forEach(this.panelCollection.querySelectorAll(`[data-modular-content]:not(.${styles.panel})`), (panel) => {
@@ -368,15 +366,7 @@ class CollectionPreview extends Component {
 			return;
 		}
 		panel.classList.add(styles.panel);
-		panel.insertAdjacentHTML('beforeend', this.createMask(panel.getAttribute('data-type')));
-	}
-
-	injectCSS() {
-		const appCSS = this.iframe.document.createElement('link');
-		appCSS.href = CSS_FILE;
-		appCSS.rel = 'stylesheet';
-		appCSS.type = 'text/css';
-		this.iframe.document.body.appendChild(appCSS);
+		panel.insertAdjacentHTML('beforeend', previewTools.createMask(panel.getAttribute('data-type'), styles));
 	}
 
 	initializePanels() {
@@ -394,16 +384,18 @@ class CollectionPreview extends Component {
 	@autobind
 	intializeIframeScripts() {
 		this.iframe.removeEventListener('load', this.intializeIframeScripts);
-		this.iframe = this.iframe.contentWindow;
-		this.panelCollection = this.iframe.document.body.querySelectorAll('[data-modular-content-collection]')[0];
+		this.iframeWindow = this.iframe.contentWindow || this.iframe;
+		this.iframe = this.iframe.contentDocument || this.iframe.contentWindow.document;
+		this.panelCollection = this.iframe.body.querySelectorAll('[data-modular-content-collection]')[0];
 		if (!this.panelCollection) {
 			this.revealIframe();
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);
+		const scrollable = tests.browserTests().firefox ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
+		this.iframeScroller = zenscroll.createScroller(scrollable, null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
-		this.injectCSS();
+		previewTools.injectCSS(this.iframe);
 		this.bindIframeEvents();
 		_.delay(() => {
 			this.initializePanels();
