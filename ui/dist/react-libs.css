@@ -908,6 +908,10 @@
     min-height: 500px;
 }
 
+body {
+    scroll-behavior: smooth;
+}
+
 #modular-content-app.loaded {
     min-height: inherit;
 }

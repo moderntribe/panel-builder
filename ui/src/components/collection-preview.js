@@ -13,6 +13,7 @@ import { UI_I18N } from '../globals/i18n';
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
 import * as domTools from '../util/dom/tools';
+import * as tests from '../util/tests';
 
 import styles from './collection-preview.pcss';
 
@@ -78,7 +79,7 @@ class CollectionPreview extends Component {
 
 	scrollToPanel(index) {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
-		this.iframeScroller.center(target, 500, 0, () => {
+		this.iframeScroller.to(target, 500, () => {
 			target.classList.add(styles.active);
 			this.activePanelNode = target;
 		});
@@ -372,11 +373,11 @@ class CollectionPreview extends Component {
 	}
 
 	injectCSS() {
-		const appCSS = this.iframe.document.createElement('link');
+		const appCSS = this.iframe.createElement('link');
 		appCSS.href = CSS_FILE;
 		appCSS.rel = 'stylesheet';
 		appCSS.type = 'text/css';
-		this.iframe.document.body.appendChild(appCSS);
+		this.iframe.body.appendChild(appCSS);
 	}
 
 	initializePanels() {
@@ -394,14 +395,15 @@ class CollectionPreview extends Component {
 	@autobind
 	intializeIframeScripts() {
 		this.iframe.removeEventListener('load', this.intializeIframeScripts);
-		this.iframe = this.iframe.contentWindow;
-		this.panelCollection = this.iframe.document.body.querySelectorAll('[data-modular-content-collection]')[0];
+		this.iframe = this.iframe.contentDocument;
+		this.panelCollection = this.iframe.body.querySelectorAll('[data-modular-content-collection]')[0];
 		if (!this.panelCollection) {
 			this.revealIframe();
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		this.iframeScroller = zenscroll.createScroller(this.iframe.document.body);
+		const scrollable = tests.browserTests().firefox ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
+		this.iframeScroller = zenscroll.createScroller(scrollable, null, 60);
 		this.panelCollection.id = 'panel-collection-preview';
 		this.injectCSS();
 		this.bindIframeEvents();

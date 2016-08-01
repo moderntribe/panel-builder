@@ -41,6 +41,7 @@
     "redux-thunk": "^2.0.1",
     "sortablejs": "git://github.com/RubaXa/Sortable.git#31e6f0fab638cc1bee500d89008569adfd3ca501",
     "superagent": "^2.0.0",
+    "sweet-scroll": "^1.0.3",
     "verge": "^1.9.1",
     "yargs": "^4.6.0",
     "zenscroll": "^3.1.0"
