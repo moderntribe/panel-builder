@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
 
@@ -205,5 +206,24 @@ class Repeater extends Group {
 		$blueprint['min'] = $this->min;
 		$blueprint['max'] = $this->max;
 		return $blueprint;
+	}
+
+	/**
+	 * Add data relevant to this field to the precache
+	 *
+	 * @param mixed $data
+	 * @param AdminPreCache $cache
+	 *
+	 * @return void
+	 */
+	public function precache( $data, AdminPreCache $cache ) {
+		foreach ( $this->fields as $field ) {
+			$name = $field->get_name();
+			foreach ( $data as $record ) {
+				if ( isset($record[$name]) ) {
+					$field->precache( $record[$name], $cache );
+				}
+			}
+		}
 	}
 }

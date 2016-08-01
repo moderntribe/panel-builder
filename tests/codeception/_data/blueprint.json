@@ -101,8 +101,7 @@
                                 "button.remove": "Remove",
                                 "button.select": "Select Files"
                             },
-                            "default": "",
-                            "size": "thumbnail"
+                            "default": ""
                         }
                     ],
                     "min": 0,
@@ -482,8 +481,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -829,8 +827,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -1085,8 +1082,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -1294,8 +1290,7 @@
                         "button.remove": "Remove",
                         "button.select": "Select Files"
                     },
-                    "default": "",
-                    "size": "medium"
+                    "default": ""
                 },
                 {
                     "type": "ImageSelect",
@@ -1442,8 +1437,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -1803,8 +1797,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -2066,8 +2059,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
@@ -2298,8 +2290,7 @@
                                     "button.remove": "Remove",
                                     "button.select": "Select Files"
                                 },
-                                "default": "",
-                                "size": "medium"
+                                "default": ""
                             },
                             {
                                 "type": "ImageSelect",
