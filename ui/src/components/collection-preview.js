@@ -398,7 +398,7 @@ class CollectionPreview extends Component {
 		const scrollable = tests.browserTests().firefox ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
 		this.iframeScroller = zenscroll.createScroller(scrollable, null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
-		previewTools.setupIframe(this.iframe, this.panelCollection, styles);
+		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();
 		_.delay(() => {
 			this.initializePanels();
