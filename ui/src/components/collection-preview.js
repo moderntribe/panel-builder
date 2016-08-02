@@ -26,6 +26,7 @@ class CollectionPreview extends Component {
 			loading: true,
 		};
 		this.saving = false;
+		this.iframeUrl = heartbeat.iframePreviewUrl();
 	}
 
 	componentDidMount() {
@@ -323,7 +324,8 @@ class CollectionPreview extends Component {
 			event: 'modern_tribe/open_dialog',
 			native: false,
 			data: {
-				type: 'confirm',
+				type: 'error',
+				confirm: true,
 				heading: UI_I18N['message.confirm_delete_panel'],
 				data: {
 					panelIndex: parseInt(domTools.closest(e.currentTarget, `.${styles.panel}`).getAttribute('data-index'), 10),
@@ -396,7 +398,7 @@ class CollectionPreview extends Component {
 		const scrollable = tests.browserTests().firefox ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
 		this.iframeScroller = zenscroll.createScroller(scrollable, null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
-		previewTools.injectCSS(this.iframe);
+		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();
 		_.delay(() => {
 			this.initializePanels();
@@ -416,7 +418,7 @@ class CollectionPreview extends Component {
 						<div className={styles.loading}><Loader active /></div>
 					</div>
 				}
-				<iframe ref="frame" className={iframeClasses} src={heartbeat.iframePreviewUrl()} />
+				<iframe ref="frame" className={iframeClasses} src={this.iframeUrl} />
 			</div>
 		);
 	}

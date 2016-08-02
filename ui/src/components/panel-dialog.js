@@ -28,6 +28,7 @@ class Dialog extends Component {
 		message: '',
 		template: '',
 		data: {},
+		confirm: false,
 		confirmCallback: 'modern_tribe/dialog_confirmation',
 		cancelCallback: 'modern_tribe/dialog_cancellation',
 	};
@@ -51,6 +52,7 @@ class Dialog extends Component {
 			message: e.detail.message ? e.detail.message : '',
 			template: e.detail.template ? e.detail.template : '',
 			data: e.detail.data ? e.detail.data : {},
+			confirm: e.detail.confirm ? e.detail.confirm : false,
 			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
 			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
 		});
@@ -103,7 +105,7 @@ class Dialog extends Component {
 
 	renderButtons() {
 		let Buttons;
-		if (this.state.type === 'confirm') {
+		if (this.state.confirm) {
 			Buttons = (
 				<div className={styles.buttons}>
 					<Button

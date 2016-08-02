@@ -1,7 +1,10 @@
 import { CSS_FILE, BLUEPRINT_TYPES } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
 
-export const createMask = (type = '', styles = {}) => {
+let iframeEl;
+let styles;
+
+export const createMask = (type = '') => {
 	const label = _.find(BLUEPRINT_TYPES, { type }) ? _.find(BLUEPRINT_TYPES, { type }).label : '';
 
 	return `
@@ -34,14 +37,31 @@ export const createMask = (type = '', styles = {}) => {
 		`;
 };
 
-export const injectCSS = (iframe = null) => {
+const injectCSS = () => {
+	const appCSS = iframeEl.createElement('link');
+	appCSS.href = CSS_FILE;
+	appCSS.rel = 'stylesheet';
+	appCSS.type = 'text/css';
+	iframeEl.body.appendChild(appCSS);
+};
+
+const injectLockMask = () => {
+	iframeEl.body.classList.add('modular-content-live-preview');
+};
+
+const addClasses = () => {
+	iframeEl.body.insertAdjacentHTML('beforeend', `<div class="${styles.iframeLock}"></div>`);
+};
+
+export const setupIframe = (iframe = null, collectionStyles = {}) => {
 	if (!iframe) {
 		return;
 	}
 
-	const appCSS = iframe.createElement('link');
-	appCSS.href = CSS_FILE;
-	appCSS.rel = 'stylesheet';
-	appCSS.type = 'text/css';
-	iframe.body.appendChild(appCSS);
+	iframeEl = iframe;
+	styles = collectionStyles;
+
+	injectCSS();
+	injectLockMask();
+	addClasses();
 };

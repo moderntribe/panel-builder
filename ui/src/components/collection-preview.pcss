@@ -97,8 +97,17 @@
 
 .tooltip {
 	composes: tooltip from "../shared/tooltips.pcss";
-	font-size: 10px;
+	font-size: 11px;
 	left: 50%;
+}
+
+.iframeLock {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 95;
 }
 
 [id="panel-collection-preview"][data-modular-content-collection] {

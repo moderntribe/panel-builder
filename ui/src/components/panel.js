@@ -214,6 +214,7 @@ class PanelContainer extends Component {
 			native: false,
 			data: {
 				type: 'confirm',
+				confirm: true,
 				heading: UI_I18N['message.confirm_delete_panel'],
 				data: {
 					panelIndex: this.props.index,
