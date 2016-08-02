@@ -7,18 +7,17 @@ let previewUrl = MODULAR_CONTENT.preview_url;
 let titleText = title.value;
 let settings = {};
 let triggeredSave = false;
-let hasRevision = false;
+let currentRevision = 0;
 let heartbeat = () => {};
 
-const handleAutosaveSuccess = (e, data) => {
+const handleAutosaveSuccess = (e, data = {}) => {
 	settings.success();
-
-	if (hasRevision || !data.revision_id) {
+	const revisionId = parseInt(data.revision_id, 10);
+	if (isNaN(revisionId) || currentRevision === revisionId) {
 		return;
 	}
-
-	hasRevision = true;
-	previewUrl = updateQueryVar('revision_id', data.revision_id, previewUrl);
+	currentRevision = revisionId;
+	previewUrl = updateQueryVar('revision_id', revisionId, previewUrl);
 };
 
 const autosaveDrafts = (e, postdata) => {
