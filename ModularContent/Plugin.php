@@ -2,6 +2,7 @@
 
 namespace ModularContent;
 use ModularContent\Preview\Preview_Request_Handler;
+use ModularContent\Preview\Preview_Revision_Indicator;
 
 /**
  * Class Plugin
@@ -52,10 +53,17 @@ class Plugin {
 			$panels = NULL;
 
 			$current_post =  get_queried_object();
+			$can_preview = current_user_can( 'edit_post', $current_post->ID );
 
 			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
 
-				if ( !empty( $_GET['preview_id'] ) ) {
+				if ( $can_preview && ! empty( $_GET[ 'revision_id' ] ) ) {
+					// a specific revision preview was requested
+					$revision = wp_get_post_revision( $_GET['revision_id' ] );
+					if ( $revision ) {
+						$current_post = $revision;
+					}
+				} elseif ( $can_preview && ! empty( $_GET['preview_id'] ) ) {
 					$autosave = wp_get_post_autosave( get_the_ID() );
 					if ( $autosave ) {
 						$current_post = $autosave;
@@ -65,10 +73,10 @@ class Plugin {
 				$panels = PanelCollection::find_by_post_id( $current_post->ID );
 			}
 
-			if ( empty( $_GET[ 'preview_panels' ] ) ) {
-				$this->loop = new Loop( $panels );
-			} else {
+			if ( $can_preview && ! empty( $_GET[ 'preview_panels' ] ) ) {
 				$this->loop = new Preview\Preview_Loop( $panels );
+			} else {
+				$this->loop = new Loop( $panels );
 			}
 		}
 		return $this->loop;
@@ -91,6 +99,8 @@ class Plugin {
 		$this->ajax_handler()->hook();
 		$preview = new Preview_Request_Handler();
 		$preview->hook();
+		$revision_tracker = new Preview_Revision_Indicator();
+		$revision_tracker->hook();
 	}
 
 	private function init_panel_sets() {

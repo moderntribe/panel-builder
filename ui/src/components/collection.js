@@ -73,20 +73,24 @@ class PanelCollection extends Component {
 		clearInterval(this.heartbeat);
 	}
 
+	animateToLiveEdit(state = {}) {
+		animateWindow.setUp(this.collection, this.sidebar);
+		this.collection.setAttribute('data-iframe-loading', 'true');
+		_.delay(() => {
+			animateWindow.animate(this.collection, this.sidebar);
+			this.setState(state, () => {
+				_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
+			});
+		}, 50);
+	}
+
 	@autobind
 	handleAutosaveSuccess() {
 		if (this.state.triggerLiveEdit) {
-			animateWindow.setUp(this.collection, this.sidebar);
-			this.collection.setAttribute('data-iframe-loading', 'true');
-			_.delay(() => {
-				animateWindow.animate(this.collection, this.sidebar);
-				this.setState({
-					liveEdit: true,
-					triggerLiveEdit: false,
-				}, () => {
-					_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
-				});
-			}, 50);
+			this.animateToLiveEdit({
+				liveEdit: true,
+				triggerLiveEdit: false,
+			});
 		}
 	}
 
@@ -98,16 +102,9 @@ class PanelCollection extends Component {
 				injectionIndex: -1,
 			});
 		} else {
-			// todo: for now always saving draft when launching live edit to keep iframe in sync.
-			// if (MODULAR_CONTENT.needs_save) {
-			// 	this.setState({ triggerLiveEdit: true });
-			// 	heartbeat.triggerAutosave();
-			// } else {
-			// 	this.setState({ liveEdit: true });
-			// }
-
-			this.setState({ triggerLiveEdit: true });
-			heartbeat.triggerAutosave();
+			this.animateToLiveEdit({
+				liveEdit: true,
+			});
 		}
 	}
 

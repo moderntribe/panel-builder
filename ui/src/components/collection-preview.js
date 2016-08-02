@@ -7,12 +7,13 @@ import classNames from 'classnames';
 
 import Loader from './shared/loader';
 
-import { MODULAR_CONTENT, IFRAME_SCROLL_OFFSET } from '../globals/config';
+import { IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
 import * as previewTools from '../util/dom/preview';
+import * as heartbeat from '../util/data/heartbeat';
 import * as domTools from '../util/dom/tools';
 import * as tests from '../util/tests';
 
@@ -415,7 +416,7 @@ class CollectionPreview extends Component {
 						<div className={styles.loading}><Loader active /></div>
 					</div>
 				}
-				<iframe ref="frame" className={iframeClasses} src={MODULAR_CONTENT.preview_url} />
+				<iframe ref="frame" className={iframeClasses} src={heartbeat.iframePreviewUrl()} />
 			</div>
 		);
 	}
