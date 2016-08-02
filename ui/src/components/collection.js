@@ -102,14 +102,9 @@ class PanelCollection extends Component {
 				injectionIndex: -1,
 			});
 		} else {
-			if (MODULAR_CONTENT.needs_save) {
-				this.setState({ triggerLiveEdit: true });
-				heartbeat.triggerAutosave();
-			} else {
-				this.animateToLiveEdit({
-					liveEdit: true,
-				});
-			}
+			this.animateToLiveEdit({
+				liveEdit: true,
+			});
 		}
 	}
 

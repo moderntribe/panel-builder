@@ -1,14 +1,24 @@
 import { MODULAR_CONTENT } from '../../globals/config';
 import { wpHeartbeat, wpAutosave } from '../../globals/wp';
+import updateQueryVar from './update-query-var';
 
 const title = document.getElementById('title');
+let previewUrl = MODULAR_CONTENT.preview_url;
 let titleText = title.value;
 let settings = {};
 let triggeredSave = false;
+let hasRevision = false;
 let heartbeat = () => {};
 
-const handleAutosaveSuccess = () => {
+const handleAutosaveSuccess = (e, data) => {
 	settings.success();
+
+	if (hasRevision || !data.revision_id) {
+		return;
+	}
+
+	hasRevision = true;
+	previewUrl = updateQueryVar('revision_id', data.revision_id, previewUrl);
 };
 
 const autosaveDrafts = (e, postdata) => {
@@ -21,8 +31,10 @@ const autosaveDrafts = (e, postdata) => {
 
 const bindEvents = () => {
 	$(document).on(`before-autosave.${settings.namespace}`, (e, postdata) => autosaveDrafts(e, postdata));
-	$(document).on(`after-autosave.${settings.namespace}`, () => handleAutosaveSuccess());
+	$(document).on(`after-autosave.${settings.namespace}`, (e, data) => handleAutosaveSuccess(e, data));
 };
+
+export const iframePreviewUrl = () => previewUrl;
 
 export const triggerAutosave = () => {
 	if (!wpAutosave) {
