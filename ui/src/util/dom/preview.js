@@ -3,6 +3,7 @@ import { UI_I18N } from '../../globals/i18n';
 
 let iframeEl;
 let styles;
+let collection;
 
 export const createMask = (type = '') => {
 	const label = _.find(BLUEPRINT_TYPES, { type }) ? _.find(BLUEPRINT_TYPES, { type }).label : '';
@@ -50,16 +51,17 @@ const injectLockMask = () => {
 };
 
 const addClasses = () => {
-	iframeEl.body.insertAdjacentHTML('beforeend', `<div class="${styles.iframeLock}"></div>`);
+	collection.insertAdjacentHTML('beforeend', `<div class="${styles.iframeLock} modular-content-iframe-lock"></div>`);
 };
 
-export const setupIframe = (iframe = null, collectionStyles = {}) => {
+export const setupIframe = (iframe = null, panelCollection, collectionStyles = {}) => {
 	if (!iframe) {
 		return;
 	}
 
 	iframeEl = iframe;
 	styles = collectionStyles;
+	collection = panelCollection;
 
 	injectCSS();
 	injectLockMask();
