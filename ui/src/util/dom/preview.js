@@ -51,7 +51,7 @@ const injectLockMask = () => {
 };
 
 const addClasses = () => {
-	collection.insertAdjacentHTML('beforeend', `<div class="${styles.iframeLock} modular-content-iframe-lock"></div>`);
+	collection.insertAdjacentHTML('afterend', `<div class="${styles.iframeLock} modular-content-iframe-lock"></div>`);
 };
 
 export const setupIframe = (iframe = null, panelCollection, collectionStyles = {}) => {
