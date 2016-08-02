@@ -130,8 +130,8 @@ class CollectionPreview extends Component {
 
 	injectUpdatedPanelHtml(panelHtml) {
 		this.activePanelNode.insertAdjacentHTML('beforebegin', panelHtml);
-		this.activePanelNode = $(this.activePanelNode).prev().get(0);
-		this.activePanelNode.parentNode.removeChild($(this.activePanelNode).next().get(0));
+		this.activePanelNode = this.activePanelNode.previousElementSibling;
+		this.activePanelNode.parentNode.removeChild(this.activePanelNode.nextElementSibling);
 		this.initializePanels();
 		this.activePanelNode.classList.add(styles.active);
 		this.activePanelNode.classList.add(styles.noTransition);
@@ -240,7 +240,7 @@ class CollectionPreview extends Component {
 	}
 
 	activateLastPanel() {
-		const panel = this.panelCollection.lastChild;
+		const panel = this.panelCollection.lastElementChild;
 		const index = parseInt(panel.getAttribute('data-index'), 10);
 		this.activateNewPanel(panel, index);
 		_.delay(() => this.scrollToPanel(index), 200);
