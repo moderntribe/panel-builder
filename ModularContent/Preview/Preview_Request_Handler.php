@@ -26,7 +26,8 @@ class Preview_Request_Handler {
 	 */
 	public function handle_request() {
 		try {
-			$preview_builder = new Preview_Builder( $_POST, new Ajax_Preview_Loop() );
+			$data = stripslashes_deep( $_POST );
+			$preview_builder = new Preview_Builder( $data, new Ajax_Preview_Loop() );
 			$panels = $preview_builder->render();
 			wp_send_json_success( [
 				'panels' => $panels,
