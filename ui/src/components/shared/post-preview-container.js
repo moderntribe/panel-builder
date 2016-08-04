@@ -2,11 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import request from 'superagent';
 import param from 'jquery-param';
-import _ from 'lodash';
 
 import PostPreview from './post-preview';
 import * as AdminCache from '../../util/data/admin-cache';
-import { wpMedia } from '../../globals/wp';
+import { getThumbnailPath } from '../../util/media';
 
 class PostPreviewContainer extends Component {
 	constructor(props) {
@@ -18,44 +17,6 @@ class PostPreviewContainer extends Component {
 			editableId: this.props.editableId,
 			postThumbnailHtml: '',
 		};
-	}
-
-	assignPostThumbnail() {
-		let postThumbnailHtml = '';
-		if (this.state.post) {
-			if (this.state.post.thumbnail_html) {
-				console.log("this.state.post.thumbnail_html",this.state.post.thumbnail_html)
-				postThumbnailHtml = this.state.post.thumbnail_html;
-				this.setState({
-					postThumbnailHtml,
-				})
-			} else if (this.state.post.thumbnail_id) {
-				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
-				console.log("image",image)
-				if (image) {
-					postThumbnailHtml = this.getThumbnailHTMLFromImage(image.thumbnail);
-					this.setState({
-						postThumbnailHtml,
-					})
-				} else {
-					// get image path from id
-					const attachment = wpMedia.attachment(parseInt(this.state.post.thumbnail_id, 10));
-					console.log("attachment",attachment)
-					attachment.fetch({
-						success: (att) => {
-							if (att.attributes && att.attributes.type == 'image') {
-								const imageUrl = AdminCache.cacheSrcByAttachment(att.attributes);
-								console.log("imageUrl",imageUrl)
-								postThumbnailHtml = this.getThumbnailHTMLFromImage(imageUrl);
-								this.setState({
-									postThumbnailHtml,
-								})
-							}
-						}
-					});
-				}
-			}
-		}
 	}
 
 	componentWillMount() {
@@ -94,6 +55,33 @@ class PostPreviewContainer extends Component {
 	}
 
 	/**
+	 * Handles display of thumbnail. Uses either the post thumbnail_html
+	 * or gets it from getThumbnailPath (either cache or wp.media)
+	 *
+	 * @method getThumbnailHTMLFromImage
+	 */
+	assignPostThumbnail() {
+		let postThumbnailHtml = '';
+		if (this.state.post) {
+			if (this.state.post.thumbnail_html) {
+				// display post thumbnail html
+				postThumbnailHtml = this.state.post.thumbnail_html;
+				this.setState({
+					postThumbnailHtml,
+				});
+			} else if (this.state.post.thumbnail_id) {
+				// retrieve from either image cache or wp media
+				getThumbnailPath(parseInt(this.state.post.thumbnail_id, 10), (imageURL) => {
+					postThumbnailHtml = this.getThumbnailHTMLFromImage(imageURL);
+					this.setState({
+						postThumbnailHtml,
+					});
+				});
+			}
+		}
+	}
+
+	/**
 	 * Called to update the preview after a use selects a new post
 	 *
 	 * @method updatePreview
@@ -107,11 +95,11 @@ class PostPreviewContainer extends Component {
 				action: 'posts-field-fetch-preview',
 				post_ids: [id],
 			});
-		this.postRequest = request
-			.post(window.ajaxurl)
-			.send(params)
-			.end(this.handleUpdatePreview);
-	});
+			this.postRequest = request
+				.post(window.ajaxurl)
+				.send(params)
+				.end(this.handleUpdatePreview);
+		});
 	}
 
 	/**
@@ -130,13 +118,13 @@ class PostPreviewContainer extends Component {
 					loading: false,
 				}, () => {
 					if (this.props.onGetPostDetails) {
-					this.props.onGetPostDetails({
-						state: this.state,
-						editableId: this.state.editableId,
-					});
-				}
-				this.assignPostThumbnail();
-			});
+						this.props.onGetPostDetails({
+							state: this.state,
+							editableId: this.state.editableId,
+						});
+					}
+					this.assignPostThumbnail();
+				});
 			}
 		}
 	}
@@ -165,18 +153,18 @@ class PostPreviewContainer extends Component {
 		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
 		return (
 			<div>
-			{this.state.loading && <div>Loading...</div>}
-		{this.state.post &&
-		<PostPreview
-			title={this.state.post.post_title}
-			excerpt={this.state.post.post_excerpt}
-			thumbnail={this.state.postThumbnailHtml}
-			onRemoveClick={removeHandler}
-			onEditClick={editHandler}
-				/>
-		}
-	</div>
-	);
+				{this.state.loading && <div>Loading...</div>}
+				{this.state.post &&
+					<PostPreview
+						title={this.state.post.post_title}
+						excerpt={this.state.post.post_excerpt}
+						thumbnail={this.state.postThumbnailHtml}
+						onRemoveClick={removeHandler}
+						onEditClick={editHandler}
+					/>
+				}
+			</div>
+		);
 	}
 }
 
