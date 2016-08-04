@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import PostPreview from './post-preview';
 import * as AdminCache from '../../util/data/admin-cache';
+import { wpMedia } from '../../globals/wp';
 
 class PostPreviewContainer extends Component {
 	constructor(props) {
@@ -15,21 +16,60 @@ class PostPreviewContainer extends Component {
 			post: this.props.post,
 			post_id: this.props.post_id,
 			editableId: this.props.editableId,
+			postThumbnailHtml: '',
 		};
+	}
+
+	assignPostThumbnail() {
+		let postThumbnailHtml = '';
+		if (this.state.post) {
+			if (this.state.post.thumbnail_html) {
+				console.log("this.state.post.thumbnail_html",this.state.post.thumbnail_html)
+				postThumbnailHtml = this.state.post.thumbnail_html;
+				this.setState({
+					postThumbnailHtml,
+				})
+			} else if (this.state.post.thumbnail_id) {
+				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
+				console.log("image",image)
+				if (image) {
+					postThumbnailHtml = this.getThumbnailHTMLFromImage(image.thumbnail);
+					this.setState({
+						postThumbnailHtml,
+					})
+				} else {
+					// get image path from id
+					const attachment = wpMedia.attachment(parseInt(this.state.post.thumbnail_id, 10));
+					console.log("attachment",attachment)
+					attachment.fetch({
+						success: (att) => {
+							if (att.attributes && att.attributes.type == 'image') {
+								const imageUrl = AdminCache.cacheSrcByAttachment(att.attributes);
+								console.log("imageUrl",imageUrl)
+								postThumbnailHtml = this.getThumbnailHTMLFromImage(imageUrl);
+								this.setState({
+									postThumbnailHtml,
+								})
+							}
+						}
+					});
+				}
+			}
+		}
 	}
 
 	componentWillMount() {
 		if (this.state.post) {
 			this.setState({
 				loading: false,
-			});
+			}, this.assignPostThumbnail);
 		} else if (this.state.post_id) {
 			const post = AdminCache.getPostById(parseInt(this.state.post_id, 10));
 			if (post) {
 				this.setState({
 					post,
 					loading: false,
-				});
+				}, this.assignPostThumbnail);
 			} else {
 				this.updatePreview(this.state.post_id);
 			}
@@ -44,14 +84,11 @@ class PostPreviewContainer extends Component {
 
 	/**
 	 * Retrieve thumbnail html from image
-	 * Grabs the first thumbnail size
-	 * TODO if thumbnails can be any dimension we may need this to set as part of blueprint
+	 * Assumes all images have a thumbnail size
 	 *
 	 * @method getThumbnailHTMLFromImage
 	 */
-	getThumbnailHTMLFromImage(image) {
-		const firstSize = _.values(image.sizes)[0];
-		const imgPath = firstSize.url;
+	getThumbnailHTMLFromImage(imgPath) {
 		const html = `<img src="${imgPath}" />`;
 		return html;
 	}
@@ -70,11 +107,11 @@ class PostPreviewContainer extends Component {
 				action: 'posts-field-fetch-preview',
 				post_ids: [id],
 			});
-			this.postRequest = request
-				.post(window.ajaxurl)
-				.send(params)
-				.end(this.handleUpdatePreview);
-		});
+		this.postRequest = request
+			.post(window.ajaxurl)
+			.send(params)
+			.end(this.handleUpdatePreview);
+	});
 	}
 
 	/**
@@ -82,7 +119,7 @@ class PostPreviewContainer extends Component {
 	 *
 	 * @method handleUpdatePreview
 	 */
-	@autobind
+@autobind
 	handleUpdatePreview(err, response) {
 		if (!err && response.ok) {
 			const post = response.body.data.posts[response.body.data.post_ids[0]];
@@ -93,12 +130,13 @@ class PostPreviewContainer extends Component {
 					loading: false,
 				}, () => {
 					if (this.props.onGetPostDetails) {
-						this.props.onGetPostDetails({
-							state: this.state,
-							editableId: this.state.editableId,
-						});
-					}
-				});
+					this.props.onGetPostDetails({
+						state: this.state,
+						editableId: this.state.editableId,
+					});
+				}
+				this.assignPostThumbnail();
+			});
 			}
 		}
 	}
@@ -125,34 +163,20 @@ class PostPreviewContainer extends Component {
 		// account for no remove button
 		const removeHandler = this.props.onRemoveClick ? this.handleRemovePreview : null;
 		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
-
-		// get thumbnail html either as direct thumbnail_html or from the ID and fake it
-		let thumbnailHTML = '';
-		if (this.state.post) {
-			if (this.state.post.thumbnail_html) {
-				thumbnailHTML = this.state.post.thumbnail_html;
-			} else if (this.state.post.thumbnail_id) {
-				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
-				if (image) {
-					thumbnailHTML = this.getThumbnailHTMLFromImage(image);
-				}
-			}
-		}
-
 		return (
 			<div>
-				{this.state.loading && <div>Loading...</div>}
-				{this.state.post &&
-					<PostPreview
-						title={this.state.post.post_title}
-						excerpt={this.state.post.post_excerpt}
-						thumbnail={thumbnailHTML}
-						onRemoveClick={removeHandler}
-						onEditClick={editHandler}
-					/>
-				}
-			</div>
-		);
+			{this.state.loading && <div>Loading...</div>}
+		{this.state.post &&
+		<PostPreview
+			title={this.state.post.post_title}
+			excerpt={this.state.post.post_excerpt}
+			thumbnail={this.state.postThumbnailHtml}
+			onRemoveClick={removeHandler}
+			onEditClick={editHandler}
+				/>
+		}
+	</div>
+	);
 	}
 }
 
