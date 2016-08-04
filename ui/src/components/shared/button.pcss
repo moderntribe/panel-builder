@@ -30,6 +30,8 @@
 	background-color: var(--button-secondary-bg-color);
 	color: var(--button-secondary-text-color);
 	transition: var(--transition-button-primary);
+	//background-color: red;
+
 	&.loading {
 		padding-left: 43px;
 	}
@@ -40,6 +42,15 @@
 	}
 	&:focus {
 		background-color: var(--button-secondary-bg-focus-color);
+	}
+	&:disabled {
+		background-color: var(--button-secondary-disabled-bg-color);
+		color: var(--button-secondary-disabled-text-hover-color);
+		&:hover,
+		&:focus {
+			background-color: var(--button-secondary-disabled-bg-color);
+			color: var(--button-secondary-disabled-text-hover-color);
+		}
 	}
 }
 

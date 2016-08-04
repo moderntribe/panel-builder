@@ -88,6 +88,15 @@ class PostListPostSelected extends Component {
 		});
 	}
 
+	/**
+	 * Checks if the post has what it needs to be added
+	 *
+	 * @method isAddBtnDisabled
+	 */
+	isAddBtnDisabled() {
+		return this.state.search.length === 0;
+	}
+
 	render() {
 		return (
 			<article className={styles.wrapper}>
@@ -111,6 +120,7 @@ class PostListPostSelected extends Component {
 						text="Add to Panel"
 						primary={false}
 						full={false}
+						disabled={this.isAddBtnDisabled()}
 						handleClick={this.handleAddToPanelClick}
 					/>
 					<Button

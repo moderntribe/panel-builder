@@ -131,6 +131,21 @@ class PostListPostManual extends Component {
 		return _.indexOf(this.props.hiddenFields, fieldName) !== -1;
 	}
 
+	/**
+	 * Checks if the post has what it needs to be added
+	 *
+	 * @method isAddBtnDisabled
+	 */
+	isAddBtnDisabled() {
+		if (!this.isFieldHidden('post_title')) {
+			return this.state.postTitle.length === 0;
+		}
+		if (!this.isFieldHidden('post_content')) {
+			return this.state.postContent.length === 0;
+		}
+		return true;
+	}
+
 	render() {
 		const titleClasses = classNames({
 			[styles.postTitle]: true,
@@ -184,6 +199,7 @@ class PostListPostManual extends Component {
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToPanelClick}
+						disabled={this.isAddBtnDisabled()}
 					/>
 					<Button
 						text="Cancel"
