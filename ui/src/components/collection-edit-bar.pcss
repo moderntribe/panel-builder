@@ -155,6 +155,59 @@
 	}
 }
 
+[data-browser="ie"] {
+	&[data-mode="full"] {
+		.resizer {
+			.desktop {
+				background: url('../img/icons/desktop-resize-hover.png') 50% 50% no-repeat;
+				background-size: auto 35px;
+			}
+		}
+	}
+	&[data-mode="tablet"] {
+		.resizer {
+			.tablet {
+				background: url('../img/icons/tablet-resize-hover.png') 20px 50% no-repeat;
+				background-size: auto 28px;
+			}
+		}
+	}
+	&[data-mode="mobile"] {
+		.resizer {
+			.mobile {
+				background: url('../img/icons/mobile-resize-hover.png') 50% 50% no-repeat;
+				background-size: auto 22px;
+			}
+		}
+	}
+	.resizer{
+		.desktop{
+			background: url('../img/icons/desktop-resize.png') 50% 50% no-repeat;
+			background-size: auto 35px;
+			&:hover{
+				background: url('../img/icons/desktop-resize-hover.png') 50% 50% no-repeat;
+				background-size: auto 35px;
+			}
+		}
+		.tablet{
+			background: url('../img/icons/tablet-resize.png') 20px 50% no-repeat;
+			background-size: auto 28px;
+			&:hover {
+				background: url('../img/icons/tablet-resize-hover.png') 20px 50% no-repeat;
+				background-size: auto 28px;
+			}
+		}
+		.mobile{
+			background: url('../img/icons/mobile-resize.png') 50% 50% no-repeat;
+			background-size: auto 22px;
+			&:hover {
+				background: url('../img/icons/mobile-resize-hover.png') 50% 50% no-repeat;
+				background-size: auto 22px;
+			}
+		}
+	}
+}
+
 .resizerHeading {
 	display: inline-block;
 	height:50px;
