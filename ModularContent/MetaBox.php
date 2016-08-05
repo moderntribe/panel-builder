@@ -57,7 +57,6 @@ class MetaBox {
 		} else {
 			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		}
-
 		wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
 
 		/*
@@ -88,7 +87,7 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
-				'iframe_scroll_offset' => apply_filters( 'modular_content_iframe_scroll_offset', 10 ),
+				'iframe_scroll_offset' => 10,
 				'css_file'             => Plugin::plugin_url( 'ui/dist/master.css' ),
 			];
 			$data = apply_filters( 'panels_js_config', $data );

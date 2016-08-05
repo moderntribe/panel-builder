@@ -3,6 +3,8 @@
  * @description Some handy test for common issues.
  */
 
+const isIE = /* @cc_on!@ */false || document.documentMode;
+
 const isJson = (str) => {
 	try {
 		JSON.parse(str);
@@ -32,7 +34,8 @@ const browserTests = () => ({
 	android: /Android/i.test(window.navigator.userAgent) && /Mobile/i.test(window.navigator.userAgent),
 	chrome: !!window.chrome,
 	firefox: typeof InstallTrigger !== 'undefined',
-	ie: /* @cc_on!@ */false || document.documentMode,
+	ie: isIE,
+	edge: ! isIE && !! window.StyleMedia,
 	ios: !!navigator.userAgent.match(/(iPod|iPhone|iPad)/i),
 	iosMobile: !!navigator.userAgent.match(/(iPod|iPhone)/i),
 	safari: Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0,

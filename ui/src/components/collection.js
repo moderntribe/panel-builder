@@ -21,6 +21,7 @@ import styles from './collection.pcss';
 
 import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
+import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
 import * as animateWindow from '../util/dom/animate-collection';
 
@@ -429,6 +430,8 @@ class PanelCollection extends Component {
 				data-sets-active={this.state.panelSetPickerActive}
 				data-iframe-loading="false"
 				data-mode="full"
+			    data-browser={tools.browser()}
+				data-os={tools.os()}
 			>
 				{this.renderBar()}
 				<div ref="sidebar" className={styles.sidebar} data-expanded="false" data-saving="false">
