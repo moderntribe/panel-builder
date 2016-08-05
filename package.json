@@ -13,6 +13,8 @@
   },
   "scripts": {
     "start": "npm prune && npm install && npm run dev",
+    "start_windows": "SET NODE_ENV=development && node server.js",
+    "bundle_windows": "SET NODE_ENV=production webpack -p",
     "bundle": "NODE_ENV=production webpack -p",
     "dev": "NODE_ENV=development node server.js",
     "lint": "eslint ./ui/src || exit 0",
