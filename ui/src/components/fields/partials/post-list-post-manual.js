@@ -195,14 +195,14 @@ class PostListPostManual extends Component {
 				/>}
 				<footer className={styles.footer}>
 					<Button
-						text="Add to Panel"
+						text={this.props.strings['button.add_to_panel']}
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToPanelClick}
 						disabled={this.isAddBtnDisabled()}
 					/>
 					<Button
-						text="Cancel"
+						text={this.props.strings['button.cancel_panel']}
 						handleClick={this.handleCancelClick}
 						full={false}
 						bare
@@ -234,6 +234,7 @@ PostListPostManual.defaultProps = {
 	postUrl: '',
 	label: '',
 	hiddenFields: [],
+	strings: {},
 	editableId: '',
 	handleCancelClick: () => {},
 	handleAddClick: () => {},

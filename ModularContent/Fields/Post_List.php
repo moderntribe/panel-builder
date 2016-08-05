@@ -68,6 +68,9 @@ class Post_List extends Field {
 			'button.remove_post'      						=> __( 'Remove this post', 'modular-content' ),
 			'button.remove'           						=> __( 'Remove', 'modular-content' ), // passed to Image
 			'button.select'           						=> __( 'Select Files', 'modular-content' ), // passed to Image
+			'button.add_to_panel'           				=> __( 'Add to Panel', 'modular-content' ),
+			'button.cancel_panel'           				=> __( 'Cancel', 'modular-content' ),
+			'label.no-results'								=> __( 'No Results', 'modular-content' ),
 			'label.add_another'       						=> __( 'Add Another', 'modular-content' ),
 			'label.content_type'      						=> __( 'Content Type', 'modular-content' ),
 			'label.choose_post'       						=> __( 'Choose a Post', 'modular-content' ),
