@@ -24,7 +24,7 @@ class Title extends Component {
 			event: 'modern_tribe/title_updated',
 			native: false,
 			data: {
-				text
+				text,
 			},
 		});
 	}

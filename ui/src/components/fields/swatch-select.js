@@ -28,33 +28,32 @@ class SwatchSelect extends Component {
 		});
 
 		const Options = _.map(this.props.options, (option, i) => {
-				const optionStyle = {
-					background: option.color,
-				};
+			const optionStyle = {
+				background: option.color,
+			};
 
-				return (
-					<label
-						className={swatchSelectLabelClasses}
-						key={`swatch-select-${i}`}
+			return (
+				<label
+					className={swatchSelectLabelClasses}
+					key={`swatch-select-${i}`}
+				>
+					<input
+						type="radio"
+						name={`modular-content-${this.props.name}`}
+						value={option.value}
+						onChange={this.handleChange}
+						checked={this.state.value === option.value}
+					/>
+					<div
+						className={styles.optionColor}
+						style={optionStyle}
 					>
-						<input
-							type="radio"
-							name={`modular-content-${this.props.name}`}
-							value={option.value}
-							onChange={this.handleChange}
-							checked={this.state.value === option.value}
-						/>
-						<div
-							className={styles.optionColor}
-							style={optionStyle}
-						>
-							<span className={styles.optInner} />
-						</div>
-						{option.label && <span className={styles.optionLabel}>{option.label}</span>}
-					</label>
-				);
-			}
-		);
+						<span className={styles.optInner} />
+					</div>
+					{option.label && <span className={styles.optionLabel}>{option.label}</span>}
+				</label>
+			);
+		});
 
 		const labelClasses = classNames({
 			[styles.label]: true,

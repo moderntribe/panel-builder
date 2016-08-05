@@ -309,6 +309,7 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
+	active: React.PropTypes.bool,
 	data: React.PropTypes.object,
 	depth: React.PropTypes.number,
 	index: React.PropTypes.number,
@@ -329,6 +330,7 @@ PanelContainer.propTypes = {
 };
 
 PanelContainer.defaultProps = {
+	active: false,
 	data: {},
 	depth: 0,
 	index: 0,

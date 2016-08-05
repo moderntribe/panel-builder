@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Modal from 'react-modal';
