@@ -34,17 +34,17 @@ export const insertBefore = (newNode, referenceNode) => {
 
 export const browser = () => {
 	let br = 'unknown';
-	if (browserTests.chrome) {
+	if (browserTests().chrome) {
 		br = 'chrome';
-	} else if (browserTests.firefox) {
+	} else if (browserTests().firefox) {
 		br = 'firefox';
-	} else if (browserTests.edge) {
+	} else if (browserTests().edge) {
 		br = 'edge';
-	} else if (browserTests.ie) {
+	} else if (browserTests().ie) {
 		br = 'ie';
-	} else if (browserTests.safari) {
+	} else if (browserTests().safari) {
 		br = 'safari';
-	} else if (browserTests.opera) {
+	} else if (browserTests().opera) {
 		br = 'opera';
 	}
 
@@ -53,12 +53,12 @@ export const browser = () => {
 
 export const os = () => {
 	let os = 'unknown';
-	if (browserTests.android) {
+	if (browserTests().android) {
 		os = 'android';
-	} else if (browserTests.ios) {
+	} else if (browserTests().ios) {
 		os = 'ios';
 	} else {
-		os = browserTests.os;
+		os = browserTests().os;
 	}
 
 	return os;
