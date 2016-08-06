@@ -44,8 +44,9 @@ class CollectionPreview extends Component {
 
 	bindIframeEvents() {
 		$(this.panelCollection)
-			.off('click mouseover')
+			.off('click mouseover mouseout')
 			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousover(e))
+			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousout(e))
 			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
 			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
@@ -259,6 +260,15 @@ class CollectionPreview extends Component {
 		} else {
 			tooltip.style.marginLeft = `-${tooltip.offsetWidth / 2}px`;
 		}
+		tooltip.style.opacity = 1;
+	}
+
+	handleButtonMousout(e) {
+		const tooltip = e.currentTarget.querySelectorAll('[data-tooltip]')[0];
+		if (!tooltip) {
+			return;
+		}
+		tooltip.style.opacity = 0;
 	}
 
 	handlePanelAddClick(e) {
