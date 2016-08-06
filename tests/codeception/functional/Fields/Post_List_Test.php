@@ -43,6 +43,9 @@ class Post_List_Test extends WPTestCase {
 				'button.remove_post'                         => 'Remove this post',
 				'button.remove'                              => 'Remove',
 				'button.select'                              => 'Select Files',
+				'button.add_to_panel'                        => 'Add to Panel',
+				'button.cancel_panel'                        => 'Cancel',
+				'label.no-results'                           => 'No Results',
 				'label.add_another'                          => 'Add Another',
 				'label.content_type'                         => 'Content Type',
 				'label.choose_post'                          => 'Choose a Post',
@@ -106,8 +109,9 @@ class Post_List_Test extends WPTestCase {
 			],
 		];
 
-		ksort( $expected[ 'strings' ] );
-		ksort( $blueprint[ 'strings' ] );
+		$this->assertEqualSetsWithIndex( $expected[ 'strings' ], $blueprint[ 'strings' ] );
+		unset( $expected[ 'strings' ] );
+		unset( $blueprint[ 'strings' ] );
 
 		$this->assertEquals( $expected, $blueprint );
 	}
