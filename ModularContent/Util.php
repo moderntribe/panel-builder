@@ -84,9 +84,9 @@ class Util {
 		}
 
 		if ( $relationship->reciprocal ) {
-			return "$from &harr; $to";
+			return "$from ↔ $to";
 		} else {
-			return "$from &rarr; $to";
+			return "$from → $to";
 		}
 	}
 

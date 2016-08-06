@@ -224,7 +224,7 @@ class PostList extends Component {
 						Template = (
 							<PostPreviewContainer
 								key={_.uniqueId('manual-post-preview-')}
-								post_id={data.id}
+								post_id={data.id.toString()}
 								editableId={data.editableId}
 								onRemoveClick={this.handleRemovePostClick}
 								onGetPostDetails={this.handleGetPostDetails}

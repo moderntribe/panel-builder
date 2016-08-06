@@ -31,7 +31,7 @@ class PostListPostSelected extends Component {
 
 	@autobind
 	getOptions(input, callback) {
-		let data = this.noResults;
+		let data;
 		if (!this.state.searchPostType.length && !input.length) {
 			callback(null, data);
 			return;
@@ -49,13 +49,6 @@ class PostListPostSelected extends Component {
 				callback(null, data);
 			});
 	}
-
-	noResults = {
-		options: [{
-			value: 0,
-			label: 'No Results',
-		}],
-	};
 
 	@autobind
 	handleChange(data) {
@@ -88,6 +81,15 @@ class PostListPostSelected extends Component {
 		});
 	}
 
+	/**
+	 * Checks if the post has what it needs to be added
+	 *
+	 * @method isAddBtnDisabled
+	 */
+	isAddBtnDisabled() {
+		return this.state.search.length === 0;
+	}
+
 	render() {
 		return (
 			<article className={styles.wrapper}>
@@ -103,18 +105,20 @@ class PostListPostSelected extends Component {
 					value={this.state.search}
 					name="manual-selected-post"
 					loadOptions={this.getOptions}
+					noResultsText={this.props.strings['label.no-results']}
 					isLoading={false}
 					onChange={this.handleSearchChange}
 				/>
 				<footer className={styles.footer}>
 					<Button
-						text="Add to Panel"
+						text={this.props.strings['button.add_to_panel']}
 						primary={false}
 						full={false}
+						disabled={this.isAddBtnDisabled()}
 						handleClick={this.handleAddToPanelClick}
 					/>
 					<Button
-						text="Cancel"
+						text={this.props.strings['button.cancel_panel']}
 						handleClick={this.handleCancelClick}
 						full={false}
 					/>
@@ -130,6 +134,7 @@ PostListPostSelected.propTypes = {
 	handleCancelClick: PropTypes.func,
 	handleAddClick: PropTypes.func,
 	editableId: PropTypes.string,
+	strings: PropTypes.object,
 };
 
 PostListPostSelected.defaultProps = {
@@ -138,6 +143,7 @@ PostListPostSelected.defaultProps = {
 	handleCancelClick: () => {},
 	handleAddClick: () => {},
 	editableId: '',
+	strings: {},
 };
 
 export default PostListPostSelected;

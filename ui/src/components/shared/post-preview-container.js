@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
 import request from 'superagent';
 import param from 'jquery-param';
-import _ from 'lodash';
 
 import PostPreview from './post-preview';
 import * as AdminCache from '../../util/data/admin-cache';
+import { getThumbnailPath } from '../../util/media';
 
 class PostPreviewContainer extends Component {
 	constructor(props) {
@@ -15,6 +15,7 @@ class PostPreviewContainer extends Component {
 			post: this.props.post,
 			post_id: this.props.post_id,
 			editableId: this.props.editableId,
+			postThumbnailHtml: '',
 		};
 	}
 
@@ -22,14 +23,14 @@ class PostPreviewContainer extends Component {
 		if (this.state.post) {
 			this.setState({
 				loading: false,
-			});
+			}, this.assignPostThumbnail);
 		} else if (this.state.post_id) {
 			const post = AdminCache.getPostById(parseInt(this.state.post_id, 10));
 			if (post) {
 				this.setState({
 					post,
 					loading: false,
-				});
+				}, this.assignPostThumbnail);
 			} else {
 				this.updatePreview(this.state.post_id);
 			}
@@ -44,16 +45,40 @@ class PostPreviewContainer extends Component {
 
 	/**
 	 * Retrieve thumbnail html from image
-	 * Grabs the first thumbnail size
-	 * TODO if thumbnails can be any dimension we may need this to set as part of blueprint
+	 * Assumes all images have a thumbnail size
 	 *
 	 * @method getThumbnailHTMLFromImage
 	 */
-	getThumbnailHTMLFromImage(image) {
-		const firstSize = _.values(image.sizes)[0];
-		const imgPath = firstSize.url;
+	getThumbnailHTMLFromImage(imgPath) {
 		const html = `<img src="${imgPath}" />`;
 		return html;
+	}
+
+	/**
+	 * Handles display of thumbnail. Uses either the post thumbnail_html
+	 * or gets it from getThumbnailPath (either cache or wp.media)
+	 *
+	 * @method getThumbnailHTMLFromImage
+	 */
+	assignPostThumbnail() {
+		let postThumbnailHtml = '';
+		if (this.state.post) {
+			if (this.state.post.thumbnail_html) {
+				// display post thumbnail html
+				postThumbnailHtml = this.state.post.thumbnail_html;
+				this.setState({
+					postThumbnailHtml,
+				});
+			} else if (this.state.post.thumbnail_id) {
+				// retrieve from either image cache or wp media
+				getThumbnailPath(parseInt(this.state.post.thumbnail_id, 10), (imageURL) => {
+					postThumbnailHtml = this.getThumbnailHTMLFromImage(imageURL);
+					this.setState({
+						postThumbnailHtml,
+					});
+				});
+			}
+		}
 	}
 
 	/**
@@ -82,7 +107,7 @@ class PostPreviewContainer extends Component {
 	 *
 	 * @method handleUpdatePreview
 	 */
-	@autobind
+@autobind
 	handleUpdatePreview(err, response) {
 		if (!err && response.ok) {
 			const post = response.body.data.posts[response.body.data.post_ids[0]];
@@ -98,6 +123,7 @@ class PostPreviewContainer extends Component {
 							editableId: this.state.editableId,
 						});
 					}
+					this.assignPostThumbnail();
 				});
 			}
 		}
@@ -125,20 +151,6 @@ class PostPreviewContainer extends Component {
 		// account for no remove button
 		const removeHandler = this.props.onRemoveClick ? this.handleRemovePreview : null;
 		const editHandler = this.props.onEditClick ? this.handleEditPreview : null;
-
-		// get thumbnail html either as direct thumbnail_html or from the ID and fake it
-		let thumbnailHTML = '';
-		if (this.state.post) {
-			if (this.state.post.thumbnail_html) {
-				thumbnailHTML = this.state.post.thumbnail_html;
-			} else if (this.state.post.thumbnail_id) {
-				const image = AdminCache.getImageById(parseInt(this.state.post.thumbnail_id, 10));
-				if (image) {
-					thumbnailHTML = this.getThumbnailHTMLFromImage(image);
-				}
-			}
-		}
-
 		return (
 			<div>
 				{this.state.loading && <div>Loading...</div>}
@@ -146,7 +158,7 @@ class PostPreviewContainer extends Component {
 					<PostPreview
 						title={this.state.post.post_title}
 						excerpt={this.state.post.post_excerpt}
-						thumbnail={thumbnailHTML}
+						thumbnail={this.state.postThumbnailHtml}
 						onRemoveClick={removeHandler}
 						onEditClick={editHandler}
 					/>
