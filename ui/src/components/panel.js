@@ -193,13 +193,13 @@ class PanelContainer extends Component {
 
 	@autobind
 	maybeDeletePanel(e) {
-		if (e.detail.panelIndex !== this.props.index) {
-			return;
-		}
-
 		if (this.state.active) {
 			this.setState({ active: false });
 			this.props.panelsActivate(false);
+		}
+
+		if (e.detail.panelIndex !== this.props.index) {
+			return;
 		}
 
 		_.delay(() => {
