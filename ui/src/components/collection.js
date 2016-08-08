@@ -98,10 +98,13 @@ class PanelCollection extends Component {
 	@autobind
 	swapEditMode() {
 		if (this.state.liveEdit) {
-			this.setState({
-				liveEdit: false,
-				injectionIndex: -1,
-			});
+			events.trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+			_.delay(() => {
+				this.setState({
+					liveEdit: false,
+					injectionIndex: -1,
+				});
+			}, 150);
 		} else {
 			if (MODULAR_CONTENT.needs_save) {
 				this.setState({ triggerLiveEdit: true });
