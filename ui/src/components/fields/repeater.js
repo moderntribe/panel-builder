@@ -214,6 +214,7 @@ class Repeater extends Component {
 					primary={false}
 					full={false}
 					handleClick={this.handleAddRow}
+					rounded
 				/>
 			);
 		} else {

@@ -48,6 +48,7 @@ const Button = (props) => {
 		[styles.full]: props.full,
 		[styles.inline]: !props.full,
 		[styles.bare]: props.bare,
+		[styles.rounded]: props.rounded,
 		[styles.loading]: props.showLoader,
 		[props.classes]: props.classes.length,
 	});
@@ -80,6 +81,7 @@ Button.propTypes = {
 	full: PropTypes.bool,
 	bare: PropTypes.bool,
 	disabled: PropTypes.bool,
+	rounded: PropTypes.bool,
 	handleClick: PropTypes.func,
 	useLoader: PropTypes.bool,
 	showLoader: PropTypes.bool,
@@ -95,6 +97,7 @@ Button.defaultProps = {
 	full: true,
 	bare: false,
 	disabled: false,
+	rounded: false,
 	handleClick: () => {},
 	useLoader: false,
 	showLoader: false,

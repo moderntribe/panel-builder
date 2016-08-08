@@ -22,6 +22,7 @@ const PostListManualTypeChooser = (props) => (
 			full={false}
 			classes="type-select"
 			handleClick={props.handleClick}
+			rounded
 		/>
 		<span className={styles.divider} />
 		<Button
@@ -30,6 +31,7 @@ const PostListManualTypeChooser = (props) => (
 			full={false}
 			classes="type-manual"
 			handleClick={props.handleClick}
+			rounded
 		/>
 	</article>
 );
