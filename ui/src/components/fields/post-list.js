@@ -269,10 +269,10 @@ class PostList extends Component {
 				},
 			};
 
-			// todo, sort the sort issues in this field
-			if(tools.browser() === 'ie' || tools.browser() === 'edge') {
+			// todo, sort the sort issues in this field. works fine all browsers except ie11, including edge
+			if (tools.browser() === 'ie') {
 				Posts = (
-					<div options={options}>{Items}</div>
+					<div>{Items}</div>
 				);
 			} else {
 				Posts = (
