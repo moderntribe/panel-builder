@@ -116,11 +116,13 @@ class PostListPostSelected extends Component {
 						full={false}
 						disabled={this.isAddBtnDisabled()}
 						handleClick={this.handleAddToPanelClick}
+						rounded
 					/>
 					<Button
 						text={this.props.strings['button.cancel_panel']}
 						handleClick={this.handleCancelClick}
 						full={false}
+						rounded
 					/>
 				</footer>
 			</article>

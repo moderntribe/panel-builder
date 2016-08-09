@@ -19,6 +19,7 @@ import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
 import * as AdminCache from '../../util/data/admin-cache';
+import * as tools from '../../util/dom/tools';
 
 import styles from './post-list.pcss';
 
@@ -267,13 +268,17 @@ class PostList extends Component {
 					this.handleManualSort(e);
 				},
 			};
-			Posts = (
-				<Sortable
-					options={options}
-				>
-					{Items}
-				</Sortable>
-			);
+
+			// todo, sort the sort issues in this field. works fine all browsers except ie11, including edge
+			if (tools.browser() === 'ie') {
+				Posts = (
+					<div>{Items}</div>
+				);
+			} else {
+				Posts = (
+					<Sortable options={options}>{Items}</Sortable>
+				);
+			}
 		}
 
 		return Posts;

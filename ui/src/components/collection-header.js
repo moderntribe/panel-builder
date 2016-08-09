@@ -86,6 +86,7 @@ const CollectionHeader = (props) => {
 					icon="yes"
 					useLoader
 					showLoader={props.triggerLiveEdit}
+					rounded
 				/>
 			);
 		}

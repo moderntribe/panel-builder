@@ -247,6 +247,7 @@ class PostQuacker extends Component {
 						primary={false}
 						full={false}
 						handleClick={this.handleAddToModuleClick}
+						rounded
 					/>
 				</div>
 				{Preview}
