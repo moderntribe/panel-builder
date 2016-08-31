@@ -205,7 +205,7 @@ class PostQuacker extends Component {
 		let Preview;
 		if (this.state.post_id && this.state.post_id !== 0) {
 			Preview = (<div className={styles.panelFilterRow}>
-				<PostPreviewContainer post_id={this.state.post_id} onRemoveClick={this.handleRemovePostClick} />
+				<PostPreviewContainer post_id={this.state.post_id.toString()} onRemoveClick={this.handleRemovePostClick} />
 			</div>);
 		} else {
 			Preview = (<div className={styles.panelFilterRow}>
@@ -350,9 +350,8 @@ class PostQuacker extends Component {
 		const search = data ? data.value : '';
 		this.setState({
 			search,
-			post_id_staged: data.value,
-		});
-		this.initiateUpdatePanelData();
+			post_id_staged: search,
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -374,11 +373,15 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleAddToModuleClick() {
-		if (this.state.post_id_staged && this.state.post_id_staged !== 0) {
+		// first remove if necessary
+		this.setState({
+			post: null,
+			post_id: 0,
+		}, () => {
 			this.setState({
-				post_id: this.state.post_id_staged,
-			});
-		}
+				post_id: this.state.post_id_staged
+			}, this.initiateUpdatePanelData);
+		});
 	}
 
 	/**
