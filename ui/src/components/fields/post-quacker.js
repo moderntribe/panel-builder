@@ -23,12 +23,6 @@ import styles from './post-quacker.pcss';
 class PostQuacker extends Component {
 	constructor(props) {
 		super(props);
-		this.noResults = {
-			options: [{
-				value: 0,
-				label: this.props.strings.no_results,
-			}],
-		};
 		this.state = {
 			type: this.props.data.type ? this.props.data.type : this.props.default.type,
 			image: this.props.data.image ? this.props.data.image : this.props.default.image,
@@ -41,6 +35,7 @@ class PostQuacker extends Component {
 			post: null,  // displayed post in the preview
 			post_id_staged: null,
 			post_id: this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+			options: [],
 		};
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
@@ -97,7 +92,6 @@ class PostQuacker extends Component {
 			</div>
 		);
 	}
-
 
 	/**
 	 * Constructing the tab buttons
@@ -231,11 +225,12 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>{this.props.strings['label.select_post']}</label>
-					<ReactSelect.Async
+					<ReactSelect
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
-						loadOptions={this.getOptions}
+						options={this.state.options}
+						onInputChange={this.handleOnPostInputChange}
 						placeholder={this.props.strings['placeholder.select_post']}
 						isLoading={this.state.loading}
 						onChange={this.handlePostSearchChange}
@@ -253,31 +248,6 @@ class PostQuacker extends Component {
 				{Preview}
 			</div>
 		);
-	}
-
-	/**
-	 * Handler to pass into react select for showing posts
-	 *
-	 * @method getOptions
-	 */
-	@autobind
-	getOptions(input, callback) {
-		let data = this.noResults;
-		if (!this.state.post_types.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		this.setState({ loading: true });
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
-		request.get(ajaxURL).end((err, response) => {
-			this.setState({ loading: false });
-			if (response.body.posts.length) {
-				data = {
-					options: response.body.posts,
-				};
-			}
-			callback(null, data);
-		});
 	}
 
 	/**
@@ -314,6 +284,45 @@ class PostQuacker extends Component {
 			post_id: this.state.post_id,
 			link: this.state.link,
 		};
+	}
+
+	/**
+	 * Handler for content field richtext
+	 *
+	 * @method handleRichtextChange
+	 */
+	@autobind
+	handleRichtextChange(data) {
+		const content = data.currentTarget ? data.currentTarget.value : data;
+
+		this.setState({
+			content,
+		});
+		this.initiateUpdatePanelData();
+	}
+
+	/**
+	 * Handler on input change per select
+	 *
+	 * @method onInputChange
+	 */
+	@autobind
+	handleOnPostInputChange(input) {
+		let newOptions = [];
+		if (!this.state.post_types.length || !input.length) {
+			return;
+		}
+		this.setState({ loading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
+		request.get(ajaxURL).end((err, response) => {
+			this.setState({ loading: false });
+			if (response.body.posts.length) {
+				newOptions = response.body.posts;
+				this.setState({
+					options: newOptions,
+				});
+			}
+		});
 	}
 
 	@autobind
@@ -377,28 +386,14 @@ class PostQuacker extends Component {
 		this.setState({
 			post: null,
 			post_id: 0,
+			search: '',
+			options: [],
 		}, () => {
 			this.setState({
-				post_id: this.state.post_id_staged
+				post_id: this.state.post_id_staged,
 			}, this.initiateUpdatePanelData);
 		});
 	}
-
-	/**
-	 * Handler for content field richtext
-	 *
-	 * @method handleRichtextChange
-	 */
-	@autobind
-	handleRichtextChange(data) {
-		const content = data.currentTarget ? data.currentTarget.value : data;
-
-		this.setState({
-			content,
-		});
-		this.initiateUpdatePanelData();
-	}
-
 
 	/**
 	 * Generic handler for changing text field
