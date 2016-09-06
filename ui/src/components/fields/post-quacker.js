@@ -297,8 +297,7 @@ class PostQuacker extends Component {
 
 		this.setState({
 			content,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -405,8 +404,7 @@ class PostQuacker extends Component {
 		const title = event.currentTarget.value;
 		this.setState({
 			title,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -430,8 +428,7 @@ class PostQuacker extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			AdminCache.cacheSrcByAttachment(attachment);
-			this.setState({ image: attachment.id });
-			this.initiateUpdatePanelData();
+			this.setState({ image: attachment.id }, this.initiateUpdatePanelData);
 		});
 		frame.open();
 	}
@@ -445,8 +442,7 @@ class PostQuacker extends Component {
 	handleRemoveMedia() {
 		this.setState({
 			image: 0,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -460,8 +456,7 @@ class PostQuacker extends Component {
 		this.setState({
 			post: null,
 			post_id: 0,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
