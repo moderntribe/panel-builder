@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
+import delegate from 'delegate';
 import autobind from 'autobind-decorator';
 import zenscroll from 'zenscroll';
 
@@ -33,6 +34,8 @@ class PanelContainer extends Component {
 			hidden: false,
 		};
 		this.el = null;
+		this.inputDelegates = null;
+		this.selectDelegates = null;
 		this.mounted = false;
 	}
 
@@ -42,6 +45,9 @@ class PanelContainer extends Component {
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
+
+		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', this.handleConditionalFields);
+		this.selectDelegates = delegate(this.el, '.panel-conditional-field select', 'click', this.handleConditionalFields);
 	}
 
 	componentWillUnmount() {
@@ -49,6 +55,9 @@ class PanelContainer extends Component {
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
+
+		this.inputDelegates.destroy();
+		this.selectDelegates.destroy();
 	}
 
 	/**
@@ -95,6 +104,12 @@ class PanelContainer extends Component {
 		}
 
 		return FieldContainer;
+	}
+
+	@autobind
+	handleConditionalFields(e) {
+		console.log(e.delegateTarget.name);
+		console.log(e.delegateTarget.value);
 	}
 
 	/**

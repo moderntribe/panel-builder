@@ -37,6 +37,7 @@ class Checkbox extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>

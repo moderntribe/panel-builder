@@ -55,6 +55,7 @@ class Radio extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 
 		return (
