@@ -20,6 +20,38 @@ class PostPreviewContainer extends Component {
 	}
 
 	componentWillMount() {
+		this.assessHowToBuildPreview();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const didPostIdChange = nextProps.post_id !== this.state.post_id && nextProps.post_id != null;
+		const didPostChange = nextProps.post != null && !_.isMatch(nextProps.post, this.state.post);
+		if (didPostIdChange) {
+			this.setState({
+				post_id: nextProps.post_id,
+				postThumbnailHtml: '',
+				post: null,
+			}, this.assessHowToBuildPreview);
+		} else if (didPostChange) {
+			this.setState({
+				post: nextProps.post,
+				postThumbnailHtml: '',
+			}, this.assessHowToBuildPreview);
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.postRequest) {
+			this.postRequest.abort();
+		}
+	}
+
+	/**
+	 * Assess how to handle prop change
+	 *
+	 * @method assessHowToBuildPreview
+	 */
+	assessHowToBuildPreview() {
 		if (this.state.post) {
 			this.setState({
 				loading: false,
@@ -34,12 +66,6 @@ class PostPreviewContainer extends Component {
 			} else {
 				this.updatePreview(this.state.post_id);
 			}
-		}
-	}
-
-	componentWillUnmount() {
-		if (this.postRequest) {
-			this.postRequest.abort();
 		}
 	}
 
@@ -107,7 +133,7 @@ class PostPreviewContainer extends Component {
 	 *
 	 * @method handleUpdatePreview
 	 */
-@autobind
+	@autobind
 	handleUpdatePreview(err, response) {
 		if (!err && response.ok) {
 			const post = response.body.data.posts[response.body.data.post_ids[0]];

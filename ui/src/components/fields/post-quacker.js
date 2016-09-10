@@ -384,14 +384,10 @@ class PostQuacker extends Component {
 		// first remove if necessary
 		this.setState({
 			post: null,
-			post_id: 0,
+			post_id: this.state.post_id_staged,
 			search: '',
 			options: [],
-		}, () => {
-			this.setState({
-				post_id: this.state.post_id_staged,
-			}, this.initiateUpdatePanelData);
-		});
+		}, this.initiateUpdatePanelData );
 	}
 
 	/**
