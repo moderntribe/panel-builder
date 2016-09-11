@@ -50,6 +50,8 @@ class Checkbox extends Component {
 						className={styles.checkbox}
 						onChange={this.handleChange}
 						checked={this.state.data && this.state.data[option.value] === 1}
+						data-option-type="multiple"
+						data-field="checkbox"
 					/>
 					<span />
 					{option.label}

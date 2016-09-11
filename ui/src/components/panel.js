@@ -13,6 +13,8 @@ import Button from './shared/button';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import * as domTools from '../util/dom/tools';
+import * as panelConditionals from '../util/dom/panel-conditionals';
 
 import styles from './panel.pcss';
 
@@ -35,7 +37,6 @@ class PanelContainer extends Component {
 		};
 		this.el = null;
 		this.inputDelegates = null;
-		this.selectDelegates = null;
 		this.mounted = false;
 	}
 
@@ -47,7 +48,6 @@ class PanelContainer extends Component {
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 
 		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', this.handleConditionalFields);
-		this.selectDelegates = delegate(this.el, '.panel-conditional-field select', 'click', this.handleConditionalFields);
 	}
 
 	componentWillUnmount() {
@@ -57,7 +57,6 @@ class PanelContainer extends Component {
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 
 		this.inputDelegates.destroy();
-		this.selectDelegates.destroy();
 	}
 
 	/**
@@ -108,8 +107,22 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleConditionalFields(e) {
-		console.log(e.delegateTarget.name);
-		console.log(e.delegateTarget.value);
+		// exit for repeater conditional field instances for now
+		if (domTools.closest(e.delegateTarget, '.repeater-field')) {
+			return;
+		}
+
+		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
+
+		trigger({
+			event: panelConditionals.getConditionalEventName(e.delegateTarget),
+			native: false,
+			data: {
+				panel: this.el,
+				inputName: e.delegateTarget.name,
+				inputValue: e.delegateTarget.value,
+			},
+		});
 	}
 
 	/**
@@ -153,7 +166,12 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleClick() {
-		this.setState({ active: !this.state.active }, () => { this.handleHeights(); });
+		this.setState({ active: !this.state.active }, () => {
+			this.handleHeights();
+			if (this.state.active) {
+				panelConditionals.initConditionalFields(this.el);
+			}
+		});
 		this.props.panelsActivate(!this.state.active);
 		trigger({
 			event: 'modern_tribe/panel_toggled',
@@ -192,7 +210,9 @@ class PanelContainer extends Component {
 
 		_.delay(() => {
 			this.props.panelsActivate(true);
-			this.setState({ active: true }, () => { this.handleHeights(); });
+			this.setState({ active: true }, () => {
+				this.handleHeights();
+			});
 		}, 300);
 	}
 
