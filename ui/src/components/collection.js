@@ -61,6 +61,10 @@ class PanelCollection extends Component {
 		heartbeat.destroy();
 	}
 
+	/**
+	 * Setups the autosave and heartbeat state on mount.
+	 */
+
 	bindEvents() {
 		MODULAR_CONTENT.autosave = JSON.stringify({ panels: this.props.panels });
 		MODULAR_CONTENT.needs_save = false;
@@ -70,9 +74,20 @@ class PanelCollection extends Component {
 		});
 	}
 
+	/**
+	 * Cleans up the heartbeat interval
+	 */
+
 	unBindEvents() {
 		clearInterval(this.heartbeat);
 	}
+
+	/**
+	 * Uses a complex set off animations powered by a util to animate the editing window from its in post metabox state
+	 * to a full screen override of the wp admin.
+	 *
+	 * @param state The collection state object
+	 */
 
 	animateToLiveEdit(state = {}) {
 		events.trigger({ event: 'modern_tribe/deactivate_panels', native: false });
@@ -86,6 +101,10 @@ class PanelCollection extends Component {
 		}, 50);
 	}
 
+	/**
+	 * Can be used as callback for a manual autosave to trigger liveedit.
+	 */
+
 	@autobind
 	handleAutosaveSuccess() {
 		if (this.state.triggerLiveEdit) {
@@ -95,6 +114,10 @@ class PanelCollection extends Component {
 			});
 		}
 	}
+
+	/**
+	 * Swaps between live edit mode or not.
+	 */
 
 	@autobind
 	swapEditMode() {
@@ -118,10 +141,22 @@ class PanelCollection extends Component {
 		}
 	}
 
+	/**
+	 * Modifies a data attribute on the collection which css uses to animate the live preview iframe to a width that corresponds to the mode.
+	 *
+	 * @param mode {String} The modes are "mobile", "tablet", "full"
+	 */
+
 	@autobind
 	swapResizeMode(mode) {
 		this.collection.setAttribute('data-mode', mode);
 	}
+
+	/**
+	 * Toggles the whether a panels is active bool on this class.
+	 *
+	 * @param active {Boolean} Active?
+	 */
 
 	@autobind
 	panelsActivate(active) {
@@ -153,6 +188,10 @@ class PanelCollection extends Component {
 		});
 	}
 
+	/**
+	 * Saves a panel set using the custom ajax util.
+	 */
+
 	@autobind
 	savePanelSet() {
 		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
@@ -180,6 +219,10 @@ class PanelCollection extends Component {
 			});
 	}
 
+	/**
+	 * Toggles the sidebar in live edit mode between 300px and 700px in width.
+	 */
+
 	@autobind
 	toggleLiveEditWidth() {
 		if (this.sidebar.classList.contains(styles.expanded)) {
@@ -190,6 +233,12 @@ class PanelCollection extends Component {
 			this.sidebar.setAttribute('data-expanded', 'true');
 		}
 	}
+
+	/**
+	 * If we have sets and we have no panels yet lets display the sets selector.
+	 *
+	 * @returns {*|boolean}
+	 */
 
 	shouldActivatePanelSets() {
 		return TEMPLATES && TEMPLATES.length && !this.props.panels.length;
@@ -215,6 +264,12 @@ class PanelCollection extends Component {
 
 	heartbeat = () => {};
 
+	/**
+	 * Toggles the visibility of the panel picker and emits events.
+	 *
+	 * @param pickerActive {Boolean}
+	 */
+
 	@autobind
 	togglePicker(pickerActive) {
 		if (pickerActive) {
@@ -228,6 +283,12 @@ class PanelCollection extends Component {
 			events.trigger({ event: 'modern_tribe/picker_closed', native: false });
 		}
 	}
+
+	/**
+	 * Adds a new empty panel to the redux store at requested injection index. Emits event with data as well.
+	 *
+	 * @param panel
+	 */
 
 	@autobind
 	handleAddPanel(panel) {
@@ -243,6 +304,12 @@ class PanelCollection extends Component {
 		this.props.addNewPanel(data);
 		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
 	}
+
+	/**
+	 * Injects an entire panel set into the state and triggers a ui update.
+	 *
+	 * @param data
+	 */
 
 	@autobind
 	handleAddPanelSet(data = {}) {
