@@ -75,6 +75,7 @@ class PanelCollection extends Component {
 	}
 
 	animateToLiveEdit(state = {}) {
+		events.trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 		animateWindow.setUp(this.collection, this.sidebar);
 		this.collection.setAttribute('data-iframe-loading', 'true');
 		_.delay(() => {
@@ -433,7 +434,7 @@ class PanelCollection extends Component {
 				data-sets-active={this.state.panelSetPickerActive}
 				data-iframe-loading="false"
 				data-mode="full"
-			    data-browser={tools.browser()}
+				data-browser={tools.browser()}
 				data-os={tools.os()}
 			>
 				{this.renderBar()}

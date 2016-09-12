@@ -18,7 +18,7 @@ import * as panelConditionals from '../util/dom/panel-conditionals';
 
 import styles from './panel.pcss';
 
-const container = document.getElementById('modular-content');
+zenscroll.setup(100, 40);
 
 /**
  * Class Panel
@@ -142,21 +142,15 @@ class PanelContainer extends Component {
 	}
 
 	handleHeights() {
+		if (!this.props.liveEdit) {
+			return;
+		}
 		if (this.state.active) {
-			if (!this.props.liveEdit) {
-				zenscroll.to(container, 100);
-			}
 			_.delay(() => {
 				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
 				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
-				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
 			}, 50);
-		} else {
-			this.el.parentNode.style.height = 'auto';
-			if (!this.props.liveEdit) {
-				zenscroll.to(container, 100);
-			}
 		}
 	}
 
@@ -166,11 +160,17 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleClick() {
+		if (!this.props.liveEdit) {
+			trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		}
+
 		this.setState({ active: !this.state.active }, () => {
 			this.handleHeights();
 			if (this.state.active) {
 				panelConditionals.initConditionalFields(this.el);
 			}
+			const duration = this.state.active ? 200 : 10;
+			zenscroll.to(this.el, duration);
 		});
 		this.props.panelsActivate(!this.state.active);
 		trigger({
@@ -331,7 +331,13 @@ class PanelContainer extends Component {
 		});
 
 		return (
-			<div ref="panel" className={wrapperClasses} data-panel data-info-active="false">
+			<div
+				ref="panel"
+				className={wrapperClasses}
+				data-panel
+				data-info-active="false"
+				data-panel-active={this.state.active}
+			>
 				<div className={headerClasses} onClick={this.handleClick}>
 					{this.renderTitle()}
 					<span className={styles.type}>{this.props.label}</span>
