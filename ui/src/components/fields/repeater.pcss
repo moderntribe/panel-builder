@@ -19,6 +19,13 @@
 	composes: header from "../../shared/accordion.pcss";
 	margin-bottom: var(--panel-margin-vertical);
 }
+[data-live-edit="false"] {
+	[data-row-active="true"] {
+		.header{
+			margin-bottom: 0;
+		}
+	}
+}
 
 .back{
 	composes: back from "../../shared/accordion.pcss";
@@ -48,6 +55,20 @@
 	top:0;
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	}
+	[data-live-edit="false"] & {
+		position:relative;
+		left:0;
+	}
+}
+
+[data-live-edit="false"] {
+	[data-row-active="true"] {
+		.fields{
+			border: 1px solid var(--border-color);
+			border-top: 0;
+			margin-bottom: var(--panel-margin-vertical);
+		}
 	}
 }
 
