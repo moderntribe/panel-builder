@@ -57,7 +57,6 @@ class MetaBox {
 		} else {
 			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		}
-
 		wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
 
 		/*
@@ -133,6 +132,7 @@ class MetaBox {
 				'heading.start_new_page'       => __( 'Start a New Page', 'modular-content' ),
 				'heading.start_from_set'       => __( 'Or Start from a Page Set', 'modular-content' ),
 				'heading.start_from_scr'       => __( 'Create Page From Scratch', 'modular-content' ),
+				'dialog.panel_set_title'       => __( 'Panel Set Title', 'modular-content' ),
 
 				// panel
 				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
