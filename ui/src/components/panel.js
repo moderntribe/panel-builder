@@ -248,7 +248,7 @@ class PanelContainer extends Component {
 			event: 'modern_tribe/open_dialog',
 			native: false,
 			data: {
-				type: 'confirm',
+				type: 'error',
 				confirm: true,
 				heading: UI_I18N['message.confirm_delete_panel'],
 				data: {

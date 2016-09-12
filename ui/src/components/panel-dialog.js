@@ -150,7 +150,6 @@ class Dialog extends Component {
 	}
 
 	renderModalContent() {
-
 		const modalClasses = classNames({
 			[styles.error]: this.state.type === 'error',
 			[styles.success]: this.state.type === 'success',
