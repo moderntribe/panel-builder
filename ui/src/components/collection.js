@@ -194,29 +194,42 @@ class PanelCollection extends Component {
 
 	@autobind
 	savePanelSet() {
-		ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }))
-			.done((data) => {
-				this.setState({
-					panelSetPickerEditLink: data.edit_url,
-				});
-				events.trigger({
-					event: 'modern_tribe/open_dialog',
-					native: false,
-					data: {
-						heading: UI_I18N['message.template_saved'],
-					},
-				});
-			})
-			.fail(() => {
-				events.trigger({
-					event: 'modern_tribe/open_dialog',
-					native: false,
-					data: {
-						type: 'error',
-						heading: UI_I18N['message.template_error'],
-					},
-				});
-			});
+		events.trigger({
+			event: 'modern_tribe/open_dialog',
+			native: false,
+			data: {
+				heading: UI_I18N['dialog.panel_set_title'],
+				template: 'confirmPanelSetTitle',
+				confirm: true,
+				largeModal: true,
+				type: 'confirm',
+				callback: (dialogData = {}) => {
+					ajax.savePanelSet(JSON.stringify({ panels: this.props.panels }), dialogData.panelTitle)
+						.done((data) => {
+							this.setState({
+								panelSetPickerEditLink: data.edit_url,
+							});
+							events.trigger({
+								event: 'modern_tribe/open_dialog',
+								native: false,
+								data: {
+									heading: UI_I18N['message.template_saved'],
+								},
+							});
+						})
+						.fail(() => {
+							events.trigger({
+								event: 'modern_tribe/open_dialog',
+								native: false,
+								data: {
+									type: 'error',
+									heading: UI_I18N['message.template_error'],
+								},
+							});
+						});
+				},
+			},
+		});
 	}
 
 	/**
