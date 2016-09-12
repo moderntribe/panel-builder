@@ -83,7 +83,7 @@ class PanelCollection extends Component {
 	}
 
 	/**
-	 * Uses a complex set off animations powered by a util to animate the editing window from its in post metabox state
+	 * Uses a complex set of animations powered by a util to animate the editing window from its post metabox state
 	 * to a full screen override of the wp admin.
 	 *
 	 * @param state The collection state object
@@ -153,7 +153,7 @@ class PanelCollection extends Component {
 	}
 
 	/**
-	 * Toggles the whether a panels is active bool on this class.
+	 * Toggles whether a panel is active bool on this class.
 	 *
 	 * @param active {Boolean} Active?
 	 */
