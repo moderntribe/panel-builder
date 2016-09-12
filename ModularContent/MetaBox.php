@@ -56,8 +56,9 @@ class MetaBox {
 			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
 		} else {
 			wp_register_script( 'panels-admin-ui', $app_scripts, [ 'wp-util', 'media-upload', 'media-views' ], time(), true );
-			wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
 		}
+
+		wp_enqueue_style( 'panels-admin-ui', Plugin::plugin_url('ui/dist/master.css'), [] );
 
 		/*
 		 * Rather than enqueuing this immediately, delay until after
