@@ -100,9 +100,11 @@ class Group extends Component {
 
 	@autobind
 	handleHeaderClick() {
-		this.props.hidePanel(true);
+		if (this.props.liveEdit) {
+			this.props.hidePanel(true);
+		}
 		this.setState({
-			active: true,
+			active: !this.state.active,
 		});
 	}
 
@@ -131,7 +133,7 @@ class Group extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div className={fieldClasses} data-group-active={this.state.active}>
 				{this.getHeader()}
 				{this.state.active ? this.getFields() : null}
 				<p className={descriptionClasses}>{this.props.description}</p>
@@ -148,6 +150,7 @@ Group.propTypes = {
 	fields: PropTypes.array,
 	label: PropTypes.string,
 	description: PropTypes.string,
+	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
@@ -162,6 +165,7 @@ Group.defaultProps = {
 	fields: [],
 	label: '',
 	description: '',
+	liveEdit: false,
 	name: '',
 	default: [],
 	updatePanelData: () => {},
