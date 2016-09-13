@@ -39,6 +39,8 @@ class Radio extends Component {
 					onChange={this.handleChange}
 					className={styles.radio}
 					checked={this.state.value === option.value}
+					data-option-type="single"
+					data-field="radio"
 				/>
 				<span />
 				{option.label}
@@ -55,6 +57,7 @@ class Radio extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 
 		return (

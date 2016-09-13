@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
 import Sortable from 'react-sortablejs';
+import zenscroll from 'zenscroll';
 import _ from 'lodash';
 
 import Button from '../shared/button';
@@ -14,6 +16,8 @@ import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 
 import styles from './repeater.pcss';
+
+zenscroll.setup(200, 40);
 
 /**
  * Class Repeater
@@ -42,6 +46,11 @@ class Repeater extends Component {
 			keyPrefix: randomString(10),
 			sorting: false,
 		};
+		this.el = null;
+	}
+
+	componentDidMount() {
+		this.el = ReactDOM.findDOMNode(this.refs.repeater);
 	}
 
 	getNewRowData() {
@@ -157,6 +166,7 @@ class Repeater extends Component {
 		});
 
 		return (
+		this.props.liveEdit ?
 			<div
 				key={`${this.state.keyPrefix}-${index}`}
 				data-rowIndex={index}
@@ -165,6 +175,16 @@ class Repeater extends Component {
 			>
 				<h3>{title}</h3>
 				<i className={arrowClasses} />
+			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
+				<div
+					data-rowIndex={index}
+					className={headerClasses}
+					onClick={this.handleHeaderClick}
+				>
+					<h3>{title}</h3>
+					<i className={arrowClasses} />
+				</div>
+				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
 			</div>
 		);
 	}
@@ -226,6 +246,7 @@ class Repeater extends Component {
 	handleSort(e) {
 		const data = arrayMove(this.state.data, e.oldIndex, e.newIndex);
 		this.setState({
+			active: false,
 			keyPrefix: randomString(10),
 			data,
 		});
@@ -258,20 +279,32 @@ class Repeater extends Component {
 		});
 	}
 
+	scrollToActive() {
+		if (!this.props.liveEdit && this.state.active) {
+			zenscroll.to(this.el.querySelectorAll('[data-row-active="true"]')[0]);
+		}
+	}
+
 	/**
 	 * Pushes an empty object onto state which triggers a re render with a new panel row in place :)
 	 */
 
 	@autobind
 	handleAddRow() {
-		const data = this.state.data;
-		data.push(this.getNewRowData());
-		this.setState({ data }, () => {
+		const newState = this.state;
+		newState.data.push(this.getNewRowData());
+		newState.active = true;
+		newState.activeIndex = newState.data.length - 1;
+		if (this.props.liveEdit) {
+			this.props.hidePanel(true);
+		}
+		this.setState(newState, () => {
 			this.props.updatePanelData({
 				index: this.props.panelIndex,
 				name: this.props.name,
-				value: data,
+				value: newState.data,
 			});
+			this.scrollToActive();
 		});
 	}
 
@@ -284,11 +317,19 @@ class Repeater extends Component {
 
 	@autobind
 	handleHeaderClick(e) {
-		this.props.hidePanel(true);
-		this.setState({
-			active: true,
-			activeIndex: parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10),
-		});
+		const activeIndex = parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10);
+		const newState = {
+			activeIndex,
+		};
+		if (this.props.liveEdit) {
+			this.props.hidePanel(true);
+		}
+		if (this.state.active && activeIndex === this.state.activeIndex) {
+			newState.active = false;
+		} else {
+			newState.active = true;
+		}
+		this.setState(newState, () => this.scrollToActive());
 	}
 
 	/**
@@ -339,10 +380,10 @@ class Repeater extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div ref="repeater" className={fieldClasses}>
 				<label className={legendClasses}>{this.props.label}</label>
 				{this.getHeaders()}
-				{this.state.active ? this.getActiveRow() : null}
+				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.getAddRow()}
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
@@ -360,6 +401,7 @@ Repeater.propTypes = {
 	strings: PropTypes.object,
 	label: PropTypes.string,
 	description: PropTypes.string,
+	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
@@ -377,6 +419,7 @@ Repeater.defaultProps = {
 	strings: {},
 	label: '',
 	description: '',
+	liveEdit: false,
 	name: '',
 	default: [],
 	updatePanelData: () => {},

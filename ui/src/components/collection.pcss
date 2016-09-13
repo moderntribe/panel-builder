@@ -68,7 +68,7 @@
 			}
 		}
 	}
-	&.active{
+	&.active {
 		.sidebar{
 			overflow-y: hidden;
 			> div > div {
@@ -76,6 +76,20 @@
 			}
 			> div > button {
 				transform:translate(-100%, 0);
+			}
+		}
+	}
+	&[data-live-edit="false"] {
+		&.active {
+			.sidebar{
+				> div > div {
+					transform:translate(0, 0);
+					display: block;
+				}
+				> div > button {
+					transform:translate(0, 0);
+					display: block;
+				}
 			}
 		}
 	}

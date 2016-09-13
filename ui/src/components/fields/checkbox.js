@@ -37,6 +37,7 @@ class Checkbox extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 		const Options = _.map(this.props.options, (option) =>
 			<li key={_.uniqueId('checkbox-id-')}>
@@ -49,6 +50,8 @@ class Checkbox extends Component {
 						className={styles.checkbox}
 						onChange={this.handleChange}
 						checked={this.state.data && this.state.data[option.value] === 1}
+						data-option-type="multiple"
+						data-field="checkbox"
 					/>
 					<span />
 					{option.label}

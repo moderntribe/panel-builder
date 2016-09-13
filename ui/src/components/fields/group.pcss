@@ -13,11 +13,28 @@
 
 .arrow{
 	composes: arrow from "../../shared/accordion.pcss";
+	[data-live-edit="false"] & {
+		transform: rotate(90deg);
+	}
+}
+
+[data-live-edit="false"] [data-group-active="true"] {
+	.arrow{
+		transform: rotate(-90deg);
+	}
 }
 
 .header{
 	composes: header from "../../shared/accordion.pcss";
 	margin-bottom: var(--panel-margin-vertical);
+}
+
+[data-live-edit="false"] {
+	[data-group-active="true"] {
+		.header{
+			margin-bottom: 0;
+		}
+	}
 }
 
 .back{
@@ -40,6 +57,20 @@
 	top:0;
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+	}
+	[data-live-edit="false"] & {
+		position:relative;
+		left:0;
+	}
+}
+
+[data-live-edit="false"] {
+	[data-group-active="true"] {
+		.fields{
+			border: 1px solid var(--border-color);
+			border-top: 0;
+			margin-bottom: var(--panel-margin-vertical);
+		}
 	}
 }
 

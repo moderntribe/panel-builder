@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Modal from 'react-modal';
@@ -29,6 +30,8 @@ class Dialog extends Component {
 		template: '',
 		data: {},
 		confirm: false,
+		largeModal: false,
+		callback: () => {},
 		confirmCallback: 'modern_tribe/dialog_confirmation',
 		cancelCallback: 'modern_tribe/dialog_cancellation',
 	};
@@ -43,23 +46,9 @@ class Dialog extends Component {
 		document.removeEventListener('modern_tribe/close_dialog', this.closeDialog);
 	}
 
-	@autobind
-	openDialog(e) {
-		this.setState({
-			active: true,
-			type: e.detail.type ? e.detail.type : 'success',
-			heading: e.detail.heading ? e.detail.heading : '',
-			message: e.detail.message ? e.detail.message : '',
-			template: e.detail.template ? e.detail.template : '',
-			data: e.detail.data ? e.detail.data : {},
-			confirm: e.detail.confirm ? e.detail.confirm : false,
-			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
-			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
-		});
-
-		if (wpWrap) {
-			wpWrap.classList.add(styles.blur);
-		}
+	getPageTitle() {
+		const title = document.getElementById('title');
+		return title ? title.value : '';
 	}
 
 	@autobind
@@ -73,16 +62,47 @@ class Dialog extends Component {
 
 	@autobind
 	handleConfirm() {
+		const callbackData = {};
+		if (this.state.template === 'confirmPanelSetTitle') {
+			// special case for the panel set dialog, dont allow confirm if no title set
+			const panelTitle = ReactDOM.findDOMNode(this.refs.panelTitle).value;
+			if (!panelTitle.trim().length) {
+				return;
+			}
+			callbackData.panelTitle = panelTitle;
+		}
 		this.closeDialog();
 		events.trigger({
 			event: this.state.confirmCallback,
 			native: false,
 			data: this.state.data,
 		});
+		this.state.callback(callbackData);
+	}
+
+	@autobind
+	openDialog(e) {
+		this.setState({
+			active: true,
+			type: e.detail.type ? e.detail.type : 'success',
+			heading: e.detail.heading ? e.detail.heading : '',
+			message: e.detail.message ? e.detail.message : '',
+			template: e.detail.template ? e.detail.template : '',
+			data: e.detail.data ? e.detail.data : {},
+			confirm: e.detail.confirm ? e.detail.confirm : false,
+			largeModal: e.detail.largeModal ? e.detail.largeModal : false,
+			callback: e.detail.callback ? e.detail.callback : () => {},
+			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
+			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
+		});
+
+		if (wpWrap) {
+			wpWrap.classList.add(styles.blur);
+		}
 	}
 
 	confirmPanelSetTitle() {
-		return null;
+		return <input ref="panelTitle" className={styles.input} type="text" name="panel-set-title" defaultValue={this.getPageTitle()} />;
 	}
 
 	renderMessage() {
@@ -150,11 +170,16 @@ class Dialog extends Component {
 	}
 
 	render() {
+		const wrapperClasses = classNames({
+			[styles.large]: this.state.largeModal,
+			[styles.modal]: true,
+		});
+
 		return (
 			<Modal
 				isOpen={this.state.active}
 				onRequestClose={this.closeDialog}
-				className={styles.modal}
+				className={wrapperClasses}
 				overlayClassName={styles.overlay}
 			>
 				<Button

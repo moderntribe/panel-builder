@@ -48,6 +48,7 @@ class CollectionPreview extends Component {
 			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousover(e))
 			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousout(e))
 			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
+			.on('click', `.${styles.cancelInsert}`, (e) => this.handleCancelInsertClick(e))
 			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
 			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
 			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
@@ -102,6 +103,7 @@ class CollectionPreview extends Component {
 		return `
 			<div class="${styles.placeholder}">
 				<span class="${styles.placeholderMessage}">${UI_I18N['message.panel_placeholder']}</span>
+				<button class="${styles.cancelInsert}">${UI_I18N['button.cancel']}</button>
 			</div>
 		`;
 	}
@@ -221,6 +223,15 @@ class CollectionPreview extends Component {
 		}
 
 		this.activateNewPanel(panel, index);
+	}
+
+	@autobind
+	handleCancelInsertClick(e) {
+		e.currentTarget.parentNode.parentNode.removeChild(e.currentTarget.parentNode);
+		trigger({
+			event: 'modern_tribe/cancel_picker',
+			native: false,
+		});
 	}
 
 	activateNewPanel(panel = null, index = 0) {

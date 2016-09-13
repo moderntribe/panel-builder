@@ -38,6 +38,8 @@ class ImageSelect extends Component {
 					value={option.value}
 					onChange={this.handleChange}
 					checked={this.state.value === option.value}
+					data-option-type="single"
+					data-field="image-select"
 				/>
 				<div
 					className={styles.optionImage}
@@ -61,6 +63,7 @@ class ImageSelect extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 
 		return (
