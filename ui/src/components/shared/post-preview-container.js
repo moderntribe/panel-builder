@@ -47,6 +47,17 @@ class PostPreviewContainer extends Component {
 	}
 
 	/**
+	 * Retrieve thumbnail html from image
+	 * Assumes all images have a thumbnail size
+	 *
+	 * @method getThumbnailHTMLFromImage
+	 */
+	getThumbnailHTMLFromImage(imgPath) {
+		const html = `<img src="${imgPath}" />`;
+		return html;
+	}
+
+	/**
 	 * Assess how to handle prop change
 	 *
 	 * @method assessHowToBuildPreview
@@ -67,17 +78,6 @@ class PostPreviewContainer extends Component {
 				this.updatePreview(this.state.post_id);
 			}
 		}
-	}
-
-	/**
-	 * Retrieve thumbnail html from image
-	 * Assumes all images have a thumbnail size
-	 *
-	 * @method getThumbnailHTMLFromImage
-	 */
-	getThumbnailHTMLFromImage(imgPath) {
-		const html = `<img src="${imgPath}" />`;
-		return html;
 	}
 
 	/**

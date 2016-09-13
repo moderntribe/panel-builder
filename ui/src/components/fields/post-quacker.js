@@ -387,7 +387,7 @@ class PostQuacker extends Component {
 			post_id: this.state.post_id_staged,
 			search: '',
 			options: [],
-		}, this.initiateUpdatePanelData );
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
