@@ -24,6 +24,14 @@ export const closest = (el, selector) => {
 	return null;
 };
 
+export const convertElements = (elements) => {
+	const converted = [];
+	let i = elements.length;
+	for (i; i--; converted.unshift(elements[i]));
+
+	return converted;
+};
+
 export const insertAfter = (newNode, referenceNode) => {
 	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };

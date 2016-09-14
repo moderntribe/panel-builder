@@ -117,6 +117,15 @@
 .arrow{
 	composes: arrow from "../shared/accordion.pcss";
 	top: 22px;
+	[data-live-edit="false"] & {
+		transform: rotate(90deg);
+	}
+}
+
+[data-live-edit="false"] [data-panel-active="true"] {
+	.arrow{
+		transform: rotate(-90deg);
+	}
 }
 
 .header{
@@ -133,10 +142,20 @@
 	}
 }
 
+.fields {
+	composes: group from "../shared/helpers.pcss";
+}
+
 [data-live-edit="false"] {
 	.fields {
 		position:relative;
 		margin-top: 0 !important;
+	}
+	&[data-live-active="true"] {
+		.fields {
+			border: 1px solid var(--border-color);
+			border-top: 0;
+		}
 	}
 }
 
@@ -146,7 +165,7 @@
 	}
 	.panelActive {
 		.header {
-			display: none;
+			display: block;
 		}
 	}
 }
@@ -185,6 +204,10 @@
 	transition: var(--transition-accordion);
 	&[data-hidden="true"]{
 		transform: translate(-100%, 0);
+	}
+	[data-live-edit="false"] & {
+		transform: translate(0, 0);
+		left: 0;
 	}
 	&.fieldsEdit{
 		height:calc(100vh - 50px);

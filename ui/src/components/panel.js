@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
+import delegate from 'delegate';
 import autobind from 'autobind-decorator';
 import zenscroll from 'zenscroll';
 
@@ -12,10 +13,12 @@ import Button from './shared/button';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import * as domTools from '../util/dom/tools';
+import * as panelConditionals from '../util/dom/panel-conditionals';
 
 import styles from './panel.pcss';
 
-const container = document.getElementById('modular-content');
+zenscroll.setup(100, 40);
 
 /**
  * Class Panel
@@ -33,6 +36,7 @@ class PanelContainer extends Component {
 			hidden: false,
 		};
 		this.el = null;
+		this.inputDelegates = null;
 		this.mounted = false;
 	}
 
@@ -42,6 +46,8 @@ class PanelContainer extends Component {
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
+
+		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', this.handleConditionalFields);
 	}
 
 	componentWillUnmount() {
@@ -49,6 +55,8 @@ class PanelContainer extends Component {
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
+
+		this.inputDelegates.destroy();
 	}
 
 	/**
@@ -97,6 +105,26 @@ class PanelContainer extends Component {
 		return FieldContainer;
 	}
 
+	@autobind
+	handleConditionalFields(e) {
+		// exit for repeater conditional field instances for now
+		if (domTools.closest(e.delegateTarget, '.repeater-field')) {
+			return;
+		}
+
+		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
+
+		trigger({
+			event: panelConditionals.getConditionalEventName(e.delegateTarget),
+			native: false,
+			data: {
+				panel: this.el,
+				inputName: e.delegateTarget.name,
+				inputValue: e.delegateTarget.value,
+			},
+		});
+	}
+
 	/**
 	 * Hides the panel ui for cases where a nested ui such as a repeater wants to reveal itself.
 	 *
@@ -114,21 +142,15 @@ class PanelContainer extends Component {
 	}
 
 	handleHeights() {
+		if (!this.props.liveEdit) {
+			return;
+		}
 		if (this.state.active) {
-			if (!this.props.liveEdit) {
-				zenscroll.to(container, 100);
-			}
 			_.delay(() => {
 				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
 				const fields = this.el.querySelectorAll('.panel-row-fields');
 				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
-				this.el.parentNode.style.height = `${fields[0].offsetHeight}px`;
 			}, 50);
-		} else {
-			this.el.parentNode.style.height = 'auto';
-			if (!this.props.liveEdit) {
-				zenscroll.to(container, 100);
-			}
 		}
 	}
 
@@ -138,7 +160,18 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleClick() {
-		this.setState({ active: !this.state.active }, () => { this.handleHeights(); });
+		if (!this.props.liveEdit) {
+			trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		}
+
+		this.setState({ active: !this.state.active }, () => {
+			this.handleHeights();
+			if (this.state.active) {
+				panelConditionals.initConditionalFields(this.el);
+			}
+			const duration = this.state.active ? 200 : 10;
+			zenscroll.to(this.el, duration);
+		});
 		this.props.panelsActivate(!this.state.active);
 		trigger({
 			event: 'modern_tribe/panel_toggled',
@@ -177,7 +210,9 @@ class PanelContainer extends Component {
 
 		_.delay(() => {
 			this.props.panelsActivate(true);
-			this.setState({ active: true }, () => { this.handleHeights(); });
+			this.setState({ active: true }, () => {
+				this.handleHeights();
+			});
 		}, 300);
 	}
 
@@ -213,7 +248,7 @@ class PanelContainer extends Component {
 			event: 'modern_tribe/open_dialog',
 			native: false,
 			data: {
-				type: 'confirm',
+				type: 'error',
 				confirm: true,
 				heading: UI_I18N['message.confirm_delete_panel'],
 				data: {
@@ -296,7 +331,13 @@ class PanelContainer extends Component {
 		});
 
 		return (
-			<div ref="panel" className={wrapperClasses} data-panel data-info-active="false">
+			<div
+				ref="panel"
+				className={wrapperClasses}
+				data-panel
+				data-info-active="false"
+				data-panel-active={this.state.active}
+			>
 				<div className={headerClasses} onClick={this.handleClick}>
 					{this.renderTitle()}
 					<span className={styles.type}>{this.props.label}</span>

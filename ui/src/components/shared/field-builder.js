@@ -33,6 +33,7 @@ const FieldBuilder = (props) => {
 					{...field}
 					panelIndex={props.index}
 					panelLabel={props.label}
+					liveEdit={props.liveEdit}
 					data={props.data[field.name]}
 					updatePanelData={props.updatePanelData}
 					handleExpanderClick={props.handleExpanderClick}
@@ -54,6 +55,7 @@ FieldBuilder.propTypes = {
 	index: PropTypes.number,
 	label: PropTypes.string,
 	fields: PropTypes.array,
+	liveEdit: PropTypes.bool,
 	data: PropTypes.object,
 	updatePanelData: PropTypes.func,
 	settings_fields: React.PropTypes.array,
@@ -66,6 +68,7 @@ FieldBuilder.defaultProps = {
 	index: 0,
 	label: '',
 	fields: [],
+	liveEdit: false,
 	data: {},
 	settings_fields: [],
 	updatePanelData: () => {},

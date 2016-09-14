@@ -19,7 +19,7 @@ import styles from './collection-header.pcss';
 
 const CollectionHeader = (props) => {
 	// render logic
-	const shouldRender = () => !props.active;
+	const shouldRender = () => !props.active && props.liveEdit || !props.liveEdit;
 	const shouldRenderLiveEdit = () => !props.liveEdit;
 	const shouldRenderExpander = () => props.liveEdit;
 	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length && !props.pickerActive;

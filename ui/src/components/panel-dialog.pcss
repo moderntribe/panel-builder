@@ -7,18 +7,6 @@
 	}
 }
 
-@svg-load infoIcon url('../img/icons/info-modal.svg') {
-	path {
-		fill: var(--dialog-info);
-	}
-	polygon {
-		fill: var(--dialog-info);
-	}
-	circle {
-		fill: var(--dialog-info);
-	}
-}
-
 @svg-load successIcon url('../img/icons/success.svg') {
 	path {
 		fill: var(--dialog-success);
@@ -54,6 +42,9 @@
 		font-size: 20px;
 		font-weight: bold;
 	}
+	&.large {
+		height:310px;
+	}
 }
 
 .icon {
@@ -87,9 +78,16 @@
 	border-top: 1px solid var(--picker-border);
 }
 
+.input {
+	padding: 6px 10px;
+	margin-bottom: 20px;
+	width: 300px;
+}
+
 .confirm {
 	.icon {
-		background: svg-inline(infoIcon) 50% 50% no-repeat;
+		background: url('../img/icons/info-modal.png') 50% 50% no-repeat;
+		background-size: contain;
 	}
 	h4 {
 		color: var(--dialog-info);

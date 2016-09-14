@@ -132,6 +132,7 @@ class MetaBox {
 				'heading.start_new_page'       => __( 'Start a New Page', 'modular-content' ),
 				'heading.start_from_set'       => __( 'Or Start from a Page Set', 'modular-content' ),
 				'heading.start_from_scr'       => __( 'Create Page From Scratch', 'modular-content' ),
+				'dialog.panel_set_title'       => __( 'Panel Set Title', 'modular-content' ),
 
 				// panel
 				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),

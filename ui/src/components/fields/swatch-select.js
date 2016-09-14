@@ -43,6 +43,8 @@ class SwatchSelect extends Component {
 						value={option.value}
 						onChange={this.handleChange}
 						checked={this.state.value === option.value}
+						data-option-type="single"
+						data-field="swatch-select"
 					/>
 					<div
 						className={styles.optionColor}
@@ -66,6 +68,7 @@ class SwatchSelect extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
+			'panel-conditional-field': true,
 		});
 
 		return (

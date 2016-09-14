@@ -22,6 +22,14 @@ import styles from './panel-picker.pcss';
  */
 
 class Picker extends Component {
+	componentDidMount() {
+		document.addEventListener('modern_tribe/cancel_picker', this.handleCancelPicker);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/cancel_picker', this.handleCancelPicker);
+	}
+
 	@autobind
 	handleAddPanel(type) {
 		this.props.handleAddPanel({ type });
