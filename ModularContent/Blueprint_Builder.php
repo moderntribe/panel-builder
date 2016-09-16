@@ -87,11 +87,24 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	public function jsonSerialize() {
-		$blueprint = $this->get_blueprint();
+		$type = $this->get_current_post_type();
+		$blueprint = $this->get_blueprint( $type );
 		foreach ( $blueprint[ 'types' ] as $index => $panel ) {
 			$blueprint[ 'types' ][ $index ] = $this->normalize_string_arrays( $panel );
 		}
 		return $blueprint;
+	}
+
+	private function get_current_post_type() {
+		$type = null;
+		if ( ! is_admin() ) {
+			return $type;
+		}
+		global $pagenow;
+		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
+			return $type;
+	  	}
+		return get_post_type( get_queried_object_id() );
 	}
 
 	private function normalize_string_arrays( $blueprint ) {
