@@ -48,6 +48,19 @@ class MetaBox {
 		$this->enqueue_scripts();
 	}
 
+	/**
+	 * A string of global js to apply just before the main scripts are loaded. Only use for settings flags
+     * required on window, this isnt a place to write anything beyond a few lines.
+	 *
+	 * @return string
+	 */
+
+	protected function inline_scripts() {
+	    $inline_scripts = 'window.noZensmooth = true';
+
+        return $inline_scripts;
+    }
+
 	protected function enqueue_scripts() {
 		$app_scripts = Plugin::plugin_url( 'ui/dist/master.js' );
 
@@ -66,6 +79,7 @@ class MetaBox {
 		 */
 		add_action( 'admin_print_footer_scripts', function() {
 			wp_enqueue_script( 'panels-admin-ui' );
+			wp_add_inline_script( 'panels-admin-ui', $this->inline_scripts(), 'before' );
 			wp_localize_script( 'panels-admin-ui', 'ModularContentConfig', $this->js_config() );
 			wp_localize_script( 'panels-admin-ui', 'ModularContentI18n', $this->js_i18n() );
 			// since footer scripts have already printed, process the queue again on the next available action
