@@ -23,12 +23,6 @@ import styles from './post-quacker.pcss';
 class PostQuacker extends Component {
 	constructor(props) {
 		super(props);
-		this.noResults = {
-			options: [{
-				value: 0,
-				label: this.props.strings.no_results,
-			}],
-		};
 		this.state = {
 			type: this.props.data.type ? this.props.data.type : this.props.default.type,
 			image: this.props.data.image ? this.props.data.image : this.props.default.image,
@@ -41,6 +35,7 @@ class PostQuacker extends Component {
 			post: null,  // displayed post in the preview
 			post_id_staged: null,
 			post_id: this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+			options: [],
 		};
 		this.editor = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
@@ -97,7 +92,6 @@ class PostQuacker extends Component {
 			</div>
 		);
 	}
-
 
 	/**
 	 * Constructing the tab buttons
@@ -205,7 +199,7 @@ class PostQuacker extends Component {
 		let Preview;
 		if (this.state.post_id && this.state.post_id !== 0) {
 			Preview = (<div className={styles.panelFilterRow}>
-				<PostPreviewContainer post_id={this.state.post_id} onRemoveClick={this.handleRemovePostClick} />
+				<PostPreviewContainer post_id={this.state.post_id.toString()} onRemoveClick={this.handleRemovePostClick} />
 			</div>);
 		} else {
 			Preview = (<div className={styles.panelFilterRow}>
@@ -231,11 +225,12 @@ class PostQuacker extends Component {
 				</div>
 				<div className={styles.panelFilterRow}>
 					<label className={styles.tabLabel}>{this.props.strings['label.select_post']}</label>
-					<ReactSelect.Async
+					<ReactSelect
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
 						name="manual-selected-post"
-						loadOptions={this.getOptions}
+						options={this.state.options}
+						onInputChange={this.handleOnPostInputChange}
 						placeholder={this.props.strings['placeholder.select_post']}
 						isLoading={this.state.loading}
 						onChange={this.handlePostSearchChange}
@@ -253,31 +248,6 @@ class PostQuacker extends Component {
 				{Preview}
 			</div>
 		);
-	}
-
-	/**
-	 * Handler to pass into react select for showing posts
-	 *
-	 * @method getOptions
-	 */
-	@autobind
-	getOptions(input, callback) {
-		let data = this.noResults;
-		if (!this.state.post_types.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		this.setState({ loading: true });
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
-		request.get(ajaxURL).end((err, response) => {
-			this.setState({ loading: false });
-			if (response.body.posts.length) {
-				data = {
-					options: response.body.posts,
-				};
-			}
-			callback(null, data);
-		});
 	}
 
 	/**
@@ -316,6 +286,44 @@ class PostQuacker extends Component {
 		};
 	}
 
+	/**
+	 * Handler for content field richtext
+	 *
+	 * @method handleRichtextChange
+	 */
+	@autobind
+	handleRichtextChange(data) {
+		const content = data.currentTarget ? data.currentTarget.value : data;
+
+		this.setState({
+			content,
+		}, this.initiateUpdatePanelData);
+	}
+
+	/**
+	 * Handler on input change per select
+	 *
+	 * @method onInputChange
+	 */
+	@autobind
+	handleOnPostInputChange(input) {
+		let newOptions = [];
+		if (!this.state.post_types.length || !input.length) {
+			return;
+		}
+		this.setState({ loading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
+		request.get(ajaxURL).end((err, response) => {
+			this.setState({ loading: false });
+			if (response.body.posts.length) {
+				newOptions = response.body.posts;
+				this.setState({
+					options: newOptions,
+				});
+			}
+		});
+	}
+
 	@autobind
 	handleURLChange(e) {
 		const url = e.currentTarget.value;
@@ -350,9 +358,8 @@ class PostQuacker extends Component {
 		const search = data ? data.value : '';
 		this.setState({
 			search,
-			post_id_staged: data.value,
-		});
-		this.initiateUpdatePanelData();
+			post_id_staged: search,
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -374,28 +381,14 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleAddToModuleClick() {
-		if (this.state.post_id_staged && this.state.post_id_staged !== 0) {
-			this.setState({
-				post_id: this.state.post_id_staged,
-			});
-		}
-	}
-
-	/**
-	 * Handler for content field richtext
-	 *
-	 * @method handleRichtextChange
-	 */
-	@autobind
-	handleRichtextChange(data) {
-		const content = data.currentTarget ? data.currentTarget.value : data;
-
+		// first remove if necessary
 		this.setState({
-			content,
-		});
-		this.initiateUpdatePanelData();
+			post: null,
+			post_id: this.state.post_id_staged,
+			search: '',
+			options: [],
+		}, this.initiateUpdatePanelData);
 	}
-
 
 	/**
 	 * Generic handler for changing text field
@@ -407,8 +400,7 @@ class PostQuacker extends Component {
 		const title = event.currentTarget.value;
 		this.setState({
 			title,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -432,8 +424,7 @@ class PostQuacker extends Component {
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
 			AdminCache.cacheSrcByAttachment(attachment);
-			this.setState({ image: attachment.id });
-			this.initiateUpdatePanelData();
+			this.setState({ image: attachment.id }, this.initiateUpdatePanelData);
 		});
 		frame.open();
 	}
@@ -447,8 +438,7 @@ class PostQuacker extends Component {
 	handleRemoveMedia() {
 		this.setState({
 			image: 0,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
@@ -462,8 +452,7 @@ class PostQuacker extends Component {
 		this.setState({
 			post: null,
 			post_id: 0,
-		});
-		this.initiateUpdatePanelData();
+		}, this.initiateUpdatePanelData);
 	}
 
 	/**
