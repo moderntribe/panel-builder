@@ -50,7 +50,7 @@ class MetaBox {
 
 	/**
 	 * A string of global js to apply just before the main scripts are loaded. Only use for settings flags
-     * required on window, this isnt a place to write anything beyond a few lines.
+	 * required on window, this isnt a place to write anything beyond a few lines.
 	 *
 	 * @return string
 	 */
