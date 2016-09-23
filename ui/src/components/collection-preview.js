@@ -108,6 +108,14 @@ class CollectionPreview extends Component {
 		`;
 	}
 
+	emitPanelAddedEvent() {
+		trigger({
+			event: 'modular_content/panel_preview_updated',
+			native: false,
+			el: this.iframe,
+		});
+	}
+
 	injectPanelAtPlaceholder(panels, index) {
 		const placeholder = this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0];
 		if (!placeholder) {
@@ -184,6 +192,7 @@ class CollectionPreview extends Component {
 		ajax.getPanelHTML([this.props.panels[e.detail.index]])
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
+				this.emitPanelAddedEvent();
 			})
 			.fail(() => {
 				this.activePanelNode.classList.remove(styles.loadingPanel);
@@ -308,6 +317,7 @@ class CollectionPreview extends Component {
 				} else {
 					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
 				}
+				this.emitPanelAddedEvent();
 			})
 			.fail((err) => {
 				console.log(err);
