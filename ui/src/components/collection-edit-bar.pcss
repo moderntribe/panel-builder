@@ -48,6 +48,8 @@
 	float: left;
 	color: #fff;
 	padding-left: 15px;
+	width: calc(100% - 51px);
+	position: relative;
 	h4{
 		margin: 0;
 	}
@@ -56,6 +58,12 @@
 .page {
 	font-size: 15px;
 	font-weight: 400;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 90px;
+	width: calc(100% - 51px);
 }
 
 .editing{
@@ -64,8 +72,8 @@
 	padding-right: 6px;
 	font-weight: 400;
 	color: var(--post-list-text-color);
-	position: relative;
-	top: -1px;
+	position: absolute;
+	top: 1px;
 }
 
 @svg-load desktop url('../img/icons/desktop-resize.svg') {
