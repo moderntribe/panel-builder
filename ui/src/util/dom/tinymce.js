@@ -1,4 +1,4 @@
-import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags } from '../../globals/wp';
+import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags, wpEditor } from '../../globals/wp';
 
 /**
  * Initializes events for a tinymce instance. You need to pass and editor dom node, a unique id editor settings
@@ -25,8 +25,7 @@ export const init = (opts = {}, callback = () => {}) => {
 	tinyMCE.on('SetupEditor', (editor) => {
 		if (editor.id === options.fid) {
 			editor.on('change keyup paste', () => {
-				// get us content on keyups, pastes and change for live update magic
-				callback(editor.getContent());
+				callback(wpEditor.removep(editor.getContent()));
 			});
 		}
 	});
