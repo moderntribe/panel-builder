@@ -9,6 +9,7 @@ import Loader from './shared/loader';
 
 import { IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
+import { wpEditor } from '../globals/wp';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
@@ -211,6 +212,11 @@ class CollectionPreview extends Component {
 
 		const livetextField = this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0];
 		if (livetextField) {
+			if (livetextField.getAttribute('data-autop')) {
+				livetextField.innerHTML = wpEditor.autop(e.detail.value);
+				return;
+			}
+
 			livetextField.innerHTML = e.detail.value;
 		}
 	}
