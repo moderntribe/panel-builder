@@ -54,7 +54,8 @@ class PostQuacker extends Field {
 			'label.manual_link'            => __( 'Link', 'modular-content' ),
 			'label.select_post_type'       => __( 'Select Type', 'modular-content' ),
 			'label.select_post'            => __( 'Select Content', 'modular-content' ),
-			'no_results'                   => __( 'No Results', 'modular-content' ),
+			'placeholder.no_results'       => __( 'No Results', 'modular-content' ),
+			'placeholder.select_search'    => __( 'Type to search', 'modular-content' ),
 			'placeholder.select_post_type' => __( 'Select Post Type', 'modular-content' ),
 			'placeholder.select_post'      => __( 'Select...', 'modular-content' ),
 			'placeholder.label'            => __( 'Label', 'modular-content' ), // passed to the Link

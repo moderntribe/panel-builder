@@ -36,8 +36,10 @@ class PostQuacker extends Component {
 			post_id_staged: null,
 			post_id: this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
 			options: [],
+			inputValue: '',
 		};
 		this.editor = null;
+		this.request = null;
 		this.fid = _.uniqueId('quacker-field-textfield-');
 		this.tid = _.uniqueId('quacker-field-title-');
 	}
@@ -208,7 +210,7 @@ class PostQuacker extends Component {
 				</div>
 			</div>);
 		}
-
+		const noResultsTextSearch = (this.state.inputValue) ? this.props.strings['placeholder.no_results'] : this.props.strings['placeholder.select_search'];
 		return (
 			<div className={tabClasses}>
 				<div className={styles.panelFilterRow}>
@@ -228,11 +230,13 @@ class PostQuacker extends Component {
 					<ReactSelect
 						disabled={!this.state.post_types || this.state.post_types.length === 0}
 						value={this.state.search}
-						name="manual-selected-post"
+						name={_.uniqueId('quacker-search-selected-')}
 						options={this.state.options}
 						onInputChange={this.handleOnPostInputChange}
+						noResultsText={noResultsTextSearch}
 						placeholder={this.props.strings['placeholder.select_post']}
 						isLoading={this.state.loading}
+						onBlur={this.handlePostSearchBlur}
 						onChange={this.handlePostSearchChange}
 					/>
 				</div>
@@ -294,7 +298,6 @@ class PostQuacker extends Component {
 	@autobind
 	handleRichtextChange(data) {
 		const content = data.currentTarget ? data.currentTarget.value : data;
-
 		this.setState({
 			content,
 		}, this.initiateUpdatePanelData);
@@ -307,19 +310,26 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handleOnPostInputChange(input) {
-		let newOptions = [];
+		this.setState({ inputValue: input });
 		if (!this.state.post_types.length || !input.length) {
+			this.setState({
+				options: [],
+			});
 			return;
 		}
 		this.setState({ loading: true });
 		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
-		request.get(ajaxURL).end((err, response) => {
-			this.setState({ loading: false });
-			if (response.body.posts.length) {
-				newOptions = response.body.posts;
-				this.setState({
-					options: newOptions,
-				});
+		if (this.request) {
+			this.request.abort();
+		}
+		this.request = request.get(ajaxURL).end((err, response) => {
+			if (!err) {
+				this.setState({ loading: false });
+				if (response.body.posts.length) {
+					this.setState({
+						options: response.body.posts,
+					});
+				}
 			}
 		});
 	}
@@ -355,11 +365,35 @@ class PostQuacker extends Component {
 	 */
 	@autobind
 	handlePostSearchChange(data) {
-		const search = data ? data.value : '';
-		this.setState({
-			search,
-			post_id_staged: search,
-		}, this.initiateUpdatePanelData);
+		if (data) {
+			this.setState({
+				search: data.value,
+				post_id_staged: data.value,
+				inputValue: '',
+			}, this.initiateUpdatePanelData);
+		} else {
+			this.setState({
+				search: '',
+				post_id_staged: null,
+				inputValue: '',
+				options: [],
+			}, this.initiateUpdatePanelData);
+		}
+	}
+
+	/**
+	 * Handler for post select blur
+	 *
+	 * @method handlePostSearchBlur
+	 */
+	@autobind
+	handlePostSearchBlur() {
+		if (!this.state.search) {
+			this.setState({
+				options: [],
+				inputValue: '',
+			});
+		}
 	}
 
 	/**
@@ -387,6 +421,7 @@ class PostQuacker extends Component {
 			post_id: this.state.post_id_staged,
 			search: '',
 			options: [],
+			inputValue: '',
 		}, this.initiateUpdatePanelData);
 	}
 
