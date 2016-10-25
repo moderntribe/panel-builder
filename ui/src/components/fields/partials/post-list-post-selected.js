@@ -9,14 +9,19 @@ import Button from '../../shared/button';
 import styles from './post-list-post-selected.pcss';
 
 class PostListPostSelected extends Component {
-	state = {
-		searchPostType: '',
-		selectedPost: '',
-		loading: false,
-		search: '',
-		editableId: this.props.editableId,
-		method: 'select',
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchPostType: '',
+			loading: false,
+			options: [],
+			inputValue: '',
+			search: '',
+			editableId: this.props.editableId,
+			method: 'select',
+		};
+		this.request = null;
+	}
 
 	getRequestParams(input) {
 		return objectToParams({
@@ -30,39 +35,12 @@ class PostListPostSelected extends Component {
 	}
 
 	@autobind
-	getOptions(input, callback) {
-		let data;
-		if (!this.state.searchPostType.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		this.setState({ loading: true });
-		request
-			.get(`${window.ajaxurl}?${this.getRequestParams(input)}`)
-			.end((err, response) => {
-				this.setState({ loading: false });
-				if (response.body.posts.length) {
-					data = {
-						options: response.body.posts,
-					};
-				}
-				callback(null, data);
-			});
-	}
-
-	@autobind
 	handleChange(data) {
 		const searchPostType = data ? data.value : '';
 		this.setState({
 			searchPostType,
 			search: '',
 		});
-	}
-
-	@autobind
-	handleSearchChange(data) {
-		const search = data ? data.value : '';
-		this.setState({ search });
 	}
 
 	@autobind
@@ -81,6 +59,68 @@ class PostListPostSelected extends Component {
 		});
 	}
 
+	@autobind
+	handleOnPostInputChange(input) {
+		this.setState({ inputValue: input });
+		if (!this.state.searchPostType.length || !input.length) {
+			this.setState({
+				options: [],
+			});
+			return;
+		}
+		this.setState({ loading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getRequestParams(input)}`;
+		if (this.request) {
+			this.request.abort();
+		}
+		this.request = request.get(ajaxURL).end((err, response) => {
+			if (!err) {
+				this.setState({ loading: false });
+				if (response.body.posts.length) {
+					this.setState({
+						options: response.body.posts,
+					});
+				}
+			}
+		});
+	}
+
+	/**
+	 * Handler for post select blur
+	 *
+	 * @method handlePostSearchBlur
+	 */
+	@autobind
+	handlePostSearchBlur() {
+		if (!this.state.search) {
+			this.setState({
+				options: [],
+				inputValue: '',
+			});
+		}
+	}
+
+	/**
+	 * Handler for post select change
+	 *
+	 * @method handlePostSearchChange
+	 */
+	@autobind
+	handlePostSearchChange(data) {
+		if (data) {
+			this.setState({
+				search: data.value,
+				inputValue: '',
+			});
+		} else {
+			this.setState({
+				search: '',
+				inputValue: '',
+				options: [],
+			});
+		}
+	}
+
 	/**
 	 * Checks if the post has what it needs to be added
 	 *
@@ -91,6 +131,7 @@ class PostListPostSelected extends Component {
 	}
 
 	render() {
+		const noResultsTextSearch = (this.state.inputValue) ? this.props.strings['placeholder.no_results'] : this.props.strings['placeholder.select_search'];
 		return (
 			<article className={styles.wrapper}>
 				<ReactSelect
@@ -100,14 +141,17 @@ class PostListPostSelected extends Component {
 					options={this.props.post_type}
 					onChange={this.handleChange}
 				/>
-				<ReactSelect.Async
+				<ReactSelect
 					disabled={this.state.searchPostType.length === 0}
 					value={this.state.search}
-					name="manual-selected-post"
-					loadOptions={this.getOptions}
-					noResultsText={this.props.strings['label.no-results']}
-					isLoading={false}
-					onChange={this.handleSearchChange}
+					name={_.uniqueId('post-list-search-selected-')}
+					options={this.state.options}
+					onInputChange={this.handleOnPostInputChange}
+					noResultsText={noResultsTextSearch}
+					placeholder={this.props.strings['placeholder.select_post']}
+					isLoading={this.state.loading}
+					onBlur={this.handlePostSearchBlur}
+					onChange={this.handlePostSearchChange}
 				/>
 				<footer className={styles.footer}>
 					<Button

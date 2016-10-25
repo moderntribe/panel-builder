@@ -60,14 +60,14 @@ export const browser = () => {
 };
 
 export const os = () => {
-	let os = 'unknown';
+	let o = 'unknown';
 	if (browserTests().android) {
-		os = 'android';
+		o = 'android';
 	} else if (browserTests().ios) {
-		os = 'ios';
+		o = 'ios';
 	} else {
-		os = browserTests().os;
+		o = browserTests().os;
 	}
 
-	return os;
+	return o;
 };

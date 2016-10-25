@@ -70,7 +70,9 @@ class Post_List extends Field {
 			'button.select'                              => __( 'Select Files', 'modular-content' ), // passed to Image
 			'button.add_to_panel'                        => __( 'Add to Panel', 'modular-content' ),
 			'button.cancel_panel'                        => __( 'Cancel', 'modular-content' ),
-			'label.no-results'                           => __( 'No Results', 'modular-content' ),
+			'placeholder.no_results'                     => __( 'No Results', 'modular-content' ),
+			'placeholder.select_search'                  => __( 'Type to search', 'modular-content' ),
+			'placeholder.select_post'                    => __( 'Select...', 'modular-content' ),
 			'label.add_another'                          => __( 'Add Another', 'modular-content' ),
 			'label.content_type'                         => __( 'Content Type', 'modular-content' ),
 			'label.choose_post'                          => __( 'Choose a Post', 'modular-content' ),
