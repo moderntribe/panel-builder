@@ -48,6 +48,7 @@ class Initializer {
 		];
 		foreach ( [ 'administrator', 'editor' ] as $role_name ) {
 			$role = get_role( $role_name );
+			if ( ! $role ) { continue; }
 			foreach ( $capabilities as $cap ) {
 				$role->add_cap( $cap . '_' . Set::POST_TYPE . 's' );
 			}
