@@ -20,14 +20,12 @@ const RichtextEditor = (props) => {
 	 * @method getMediaButtons
 	 */
 
-	const getMediaButtons = () => {
-		const buttons = mediaButtonsHTML.replace('%EDITOR_ID%', props.fid);
-
+	const getMediaButtons = () => { // eslint-disable-line
 		return props.buttons ? (
 			<div
 				id={`wp-${props.fid}-media-buttons`}
 				className="wp-media-buttons"
-				dangerouslySetInnerHTML={{ __html: buttons }}
+				dangerouslySetInnerHTML={{ __html: mediaButtonsHTML.replace('%EDITOR_ID%', props.fid) }}
 			></div>
 		) : null;
 	};
