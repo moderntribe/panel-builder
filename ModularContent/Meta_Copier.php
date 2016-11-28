@@ -39,6 +39,9 @@ class Meta_Copier {
 
 	private function clear_meta( $post_id ) {
 		$post_meta_keys = get_post_custom_keys( $post_id );
+		if ( empty( $post_meta_keys ) ) {
+			return; // may be `false` if no meta has been saved for the post
+		}
 		$blacklist      = $this->get_meta_key_blacklist( $post_id );
 		$post_meta_keys = array_diff( $post_meta_keys, $blacklist );
 		foreach ( $post_meta_keys as $key ) {
