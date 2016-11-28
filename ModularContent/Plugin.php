@@ -53,7 +53,7 @@ class Plugin {
 			$panels = NULL;
 
 			$current_post =  get_queried_object();
-			$can_preview = current_user_can( 'edit_post', $current_post->ID );
+			$can_preview = $current_post && current_user_can( 'edit_post', $current_post->ID );
 
 			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
 
