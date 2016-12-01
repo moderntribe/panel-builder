@@ -53,9 +53,10 @@ class Plugin {
 			$panels = NULL;
 
 			$current_post =  get_queried_object();
-			$can_preview = $current_post && current_user_can( 'edit_post', $current_post->ID );
+			$current_post_exists = ! empty( $current_post ) && ! empty( $current_post->ID ) && ! empty( $current_post->post_type );
+			$can_preview = $current_post_exists && current_user_can( 'edit_post', $current_post->ID );
 
-			if ( $current_post && isset($current_post->post_type) && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
+			if ( $current_post_exists && post_type_supports( $current_post->post_type, 'modular-content' ) ) {
 
 				if ( $can_preview && ! empty( $_GET[ 'revision_id' ] ) ) {
 					// a specific revision preview was requested
