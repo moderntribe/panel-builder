@@ -83,6 +83,7 @@ class Post_List extends Field {
 			'label.add_a_filter'                         => __( 'Add a Filter', 'modular-content' ),
 			'label.taxonomy'                             => __( 'Taxonomy', 'modular-content' ),
 			'label.taxonomy-placeholder'                 => __( 'Select Term', 'modular-content' ),
+			'label.select-placeholder'                   => __( 'Select', 'modular-content' ),
 			'label.relationship'                         => __( 'Relationship', 'modular-content' ),
 			'label.relationship-post-type-placeholder'   => __( 'Select a Post Type', 'modular-content' ),
 			'label.relationship-post-select-placeholder' => __( 'Select a Related Post', 'modular-content' ),
@@ -507,6 +508,9 @@ class Post_List extends Field {
 			'tax_query'        => [
 				'relation' => 'AND',
 			],
+			'meta_query'        => [
+				'relation' => 'AND',
+			],
 			'fields'           => 'ids',
 			'suppress_filters' => false,
 		];
@@ -550,7 +554,7 @@ class Post_List extends Field {
 				if ( !( empty( $dq[ 'after' ] ) && empty( $dq[ 'before' ] ) ) ) {
 					$query[ 'date_query' ] = $dq;
 				}
-			} else {
+			} elseif ( taxonomy_exists( $type ) ) {
 				$locked = false;
 				if ( !empty( $filter[ 'lock' ] ) ) {
 					$locked = true;
@@ -583,6 +587,12 @@ class Post_List extends Field {
 						'operator' => 'IN',
 					];
 				}
+			} else { // assume it's a post meta key
+				$query[ 'meta_query' ][] = [
+					'key' => $type,
+					'value' => $filter[ 'selection' ],
+					'operator' => 'IN',
+				];
 			}
 		}
 

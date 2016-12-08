@@ -55,6 +55,7 @@ class Post_List_Test extends WPTestCase {
 				'label.add_a_filter'                         => 'Add a Filter',
 				'label.taxonomy'                             => 'Taxonomy',
 				'label.taxonomy-placeholder'                 => 'Select Term',
+				'label.select-placeholder'                   => 'Select',
 				'label.relationship'                         => 'Relationship',
 				'label.relationship-no-results'              => 'No Results',
 				'label.relationship-post-select-placeholder' => 'Select a Related Post',
