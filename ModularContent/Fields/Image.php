@@ -156,4 +156,14 @@ class Image extends Field {
 			$cache->add_image( $data );
 		}
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return int
+	 */
+	public function prepare_data_for_save( $data ) {
+		return (int) $data;
+	}
 }

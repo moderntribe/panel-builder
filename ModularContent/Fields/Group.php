@@ -172,4 +172,21 @@ class Group extends Field {
 		}
 		return $blueprint;
 	}
+
+	/**
+	 * Ensure that the submitted array is keyless
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepare_data_for_save( $data ) {
+		foreach ( $this->fields as $field ) {
+			$name = $field->get_name();
+			if ( ! isset( $data[ $name ] ) ) {
+				$data[ $name ] = null;
+			}
+			$data[ $name ] = $field->prepare_data_for_save( $data[ $name ] );
+		}
+		return $data;
+	}
 } 

@@ -65,4 +65,14 @@ class Link extends Field {
 		return $this->default;
 	}
 
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return array
+	 */
+	public function prepare_data_for_save( $data ) {
+		return wp_parse_args( $data, [ 'url' => '', 'target' => '', 'label' => '' ] );
+	}
 } 

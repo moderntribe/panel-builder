@@ -75,4 +75,14 @@ class Select extends Field {
 		}
 		return $blueprint;
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return string
+	 */
+	public function prepare_data_for_save( $data ) {
+		return (string) $data;
+	}
 } 
