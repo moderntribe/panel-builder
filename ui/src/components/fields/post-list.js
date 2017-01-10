@@ -222,15 +222,29 @@ class PostList extends Component {
 						);
 					}
 					if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
-						Template = (
-							<PostPreviewContainer
-								key={_.uniqueId('manual-post-preview-')}
-								post_id={data.id.toString()}
-								editableId={data.editableId}
-								onRemoveClick={this.handleRemovePostClick}
-								onGetPostDetails={this.handleGetPostDetails}
-							/>
-						);
+						if (data.id) {
+							Template = (
+								<PostPreviewContainer
+									key={_.uniqueId('manual-post-preview-')}
+									post_id={data.id.toString()}
+									editableId={data.editableId}
+									onRemoveClick={this.handleRemovePostClick}
+									onGetPostDetails={this.handleGetPostDetails}
+								/>
+							);
+						} else {
+							// a post was never selected
+							Template = (
+								<PostListPostSelected
+									key={_.uniqueId('manual-post-edit-')}
+									editableId={data.editableId}
+									strings={this.props.strings}
+									post_type={this.props.post_type}
+									handleCancelClick={this.handleCancelClick}
+									handleAddClick={this.handleAddUpdateClick}
+								/>
+							);
+						}
 					}
 				} else {
 					if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
