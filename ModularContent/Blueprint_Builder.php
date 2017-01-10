@@ -4,6 +4,8 @@
 namespace ModularContent;
 
 
+use ModularContent\Sets\Set;
+
 class Blueprint_Builder implements \JsonSerializable {
 	/** @var TypeRegistry */
 	private $registry;
@@ -104,7 +106,13 @@ class Blueprint_Builder implements \JsonSerializable {
 		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			return $type;
 	  	}
-		return get_post_type( get_queried_object_id() );
+		$type = get_post_type( get_queried_object_id() );
+
+		// Return null so all panel types are available to Panel Sets.
+		if ( Set::POST_TYPE === $type ) {
+			return null;
+		}
+		return $type;
 	}
 
 	private function normalize_string_arrays( $blueprint ) {
