@@ -168,7 +168,7 @@ class MetaBox {
 			]
 		];
 
-		return $js_i18n_array;
+		return apply_filters( 'panels_js_i18n', $js_i18n_array );
 
 	}
 
