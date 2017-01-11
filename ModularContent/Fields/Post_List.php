@@ -38,6 +38,7 @@ class Post_List extends Field {
 	protected $show_max_control = false;
 	protected $strings          = [ ];
 	protected $hidden_fields    = [ ];
+	protected $post_types       = [ ];
 
 	/**
 	 * @param array $args
@@ -82,6 +83,7 @@ class Post_List extends Field {
 			'label.add_a_filter'                         => __( 'Add a Filter', 'modular-content' ),
 			'label.taxonomy'                             => __( 'Taxonomy', 'modular-content' ),
 			'label.taxonomy-placeholder'                 => __( 'Select Term', 'modular-content' ),
+			'label.select-placeholder'                   => __( 'Select', 'modular-content' ),
 			'label.relationship'                         => __( 'Relationship', 'modular-content' ),
 			'label.relationship-post-type-placeholder'   => __( 'Select a Post Type', 'modular-content' ),
 			'label.relationship-post-select-placeholder' => __( 'Select a Related Post', 'modular-content' ),
@@ -96,6 +98,7 @@ class Post_List extends Field {
 			'notice.min_posts'                           => _x( 'This field requires %{count} more item |||| This field requires %{count} more items', 'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
 		];
 		$this->defaults[ 'hidden_fields' ] = [ ];
+		$this->defaults[ 'post_types' ]    = [ ];
 		parent::__construct( $args );
 		if ( empty( $this->max ) ) {
 			$this->max = max( 12, $this->min );
@@ -368,10 +371,22 @@ class Post_List extends Field {
 	}
 
 	public function post_type_options() {
-		$post_types = get_post_types( [ 'has_archive' => true, 'public' => true ], 'objects', 'and' );
-		$post_types[ 'post' ] = get_post_type_object( 'post' ); // posts are special
-		unset( $post_types[ 'landing_page' ] ); // because, really, why would you?
-		$post_types = apply_filters( 'panels_query_post_type_options', $post_types, $this );
+		$post_types = [];
+		if ( empty( $this->post_types ) ) {
+			// default to all post types that have public archives
+			$post_types = get_post_types( [ 'has_archive' => true, 'public' => true ], 'objects', 'and' );
+			$post_types[ 'post' ] = get_post_type_object( 'post' ); // posts are special
+			unset( $post_types[ 'landing_page' ] ); // because, really, why would you?
+			$post_types = apply_filters( 'panels_query_post_type_options', $post_types, $this );
+		} else {
+			foreach ( $this->post_types as $key => $post_type ) {
+				if ( is_object( $post_type ) ) {
+					$post_types[ $post_type->name ] = $post_type;
+				} else {
+					$post_types[ $post_type ] = get_post_type_object( $post_type );
+				}
+			}
+		}
 		return array_filter( $post_types );
 	}
 
@@ -493,6 +508,9 @@ class Post_List extends Field {
 			'tax_query'        => [
 				'relation' => 'AND',
 			],
+			'meta_query'        => [
+				'relation' => 'AND',
+			],
 			'fields'           => 'ids',
 			'suppress_filters' => false,
 		];
@@ -536,7 +554,7 @@ class Post_List extends Field {
 				if ( !( empty( $dq[ 'after' ] ) && empty( $dq[ 'before' ] ) ) ) {
 					$query[ 'date_query' ] = $dq;
 				}
-			} else {
+			} elseif ( taxonomy_exists( $type ) ) {
 				$locked = false;
 				if ( !empty( $filter[ 'lock' ] ) ) {
 					$locked = true;
@@ -569,6 +587,12 @@ class Post_List extends Field {
 						'operator' => 'IN',
 					];
 				}
+			} else { // assume it's a post meta key
+				$query[ 'meta_query' ][] = [
+					'key' => $type,
+					'value' => $filter[ 'selection' ],
+					'operator' => 'IN',
+				];
 			}
 		}
 

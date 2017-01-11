@@ -14,6 +14,7 @@ import PostListPostSelected from './partials/post-list-post-selected';
 import PostListQueryTaxonomyFilter from './partials/post-list-query-taxonomy-filter';
 import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
+import PostListQueryGeneralFilter from './partials/post-list-query-general-filter';
 import PostListMaxChooser from './partials/post-list-max-chooser';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
@@ -404,6 +405,20 @@ class PostList extends Component {
 						label={filter.label}
 						selection={filter.selection}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
+						onRemoveClick={this.onRemoveFilter}
+						strings={this.props.strings}
+					/>
+				);
+			} else {
+				const options = this.props[filter.filter_type][filter.value];
+				Template = (
+					<PostListQueryGeneralFilter
+						key={filter.filterID}
+						filterID={filter.filterID}
+						label={filter.label}
+						options={options}
+						selection={filter.selection}
+						onChangeSelection={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
 						strings={this.props.strings}
 					/>
