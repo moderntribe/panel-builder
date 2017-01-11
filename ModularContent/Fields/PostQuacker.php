@@ -249,4 +249,26 @@ class PostQuacker extends Field {
 			}
 		}
 	}
+
+	/**
+	 * Massage submitted data for consistency
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function prepare_data_for_save( $data ) {
+		$data = wp_parse_args( $data, [
+			'post_id' => 0,
+			'title'   => '',
+			'content' => '',
+			'image'   => 0,
+			'link'    => [
+				'url'    => '',
+				'target' => '',
+				'label'  => '',
+			],
+		]);
+
+		return $data;
+	}
 }

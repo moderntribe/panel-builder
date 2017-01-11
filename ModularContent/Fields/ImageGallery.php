@@ -81,4 +81,15 @@ class ImageGallery extends Field {
 			}
 		}
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return int[]
+	 */
+	public function prepare_data_for_save( $data ) {
+		$data = (array) $data;
+		return array_map( 'intval', $data );
+	}
 }

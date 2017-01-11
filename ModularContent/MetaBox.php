@@ -308,9 +308,25 @@ class MetaBox {
 	 * @return mixed
 	 */
 	protected function filter_post_data( $post_data, $post, $submission ) {
-		$panels = isset( $submission[ 'panels' ] ) ? $submission[ 'panels' ] : [];
-		// the json string will come in slashed. WP is going to unslash it in a moment
-		$post_data['post_content_filtered'] = $panels;
+		if ( empty( $submission[ 'panels' ] ) ) {
+			return $post_data;
+		}
+		// the json string will come in slashed.
+		$panels = json_decode( wp_unslash( $submission[ 'panels' ] ), true );
+
+		if ( ! is_array( $panels ) || empty( $panels[ 'panels' ] ) ) {
+			return $post_data;
+		}
+
+		$registry = Plugin::instance()->registry();
+		foreach ( $panels[ 'panels' ] as &$panel_data ) {
+			$panel = new Panel( $registry->get( $panel_data[ 'type' ] ), $panel_data[ 'data' ], $panel_data[ 'depth' ] );
+			$panel_data[ 'data' ] = $panel->prepare_data_for_save();
+		}
+
+		// the data must be slashed again, because WP is going to try to unslash it in a moment
+		$slashed_json = wp_slash( Util::json_encode( $panels ) );
+		$post_data['post_content_filtered'] = $slashed_json;
 		return $post_data;
 	}
 

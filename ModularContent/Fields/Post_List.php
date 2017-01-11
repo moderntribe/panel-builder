@@ -298,15 +298,36 @@ class Post_List extends Field {
 	}
 
 	/**
-	 * Ensure that the submitted array is keyless
+	 * Massage submitted data for consistency
 	 *
 	 * @param array $data
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
-		if ( array_key_exists( 'posts', $data ) && is_array( $data[ 'posts' ] ) ) {
-			$data[ 'posts' ] = array_values( $data[ 'posts' ] );
+		$data = wp_parse_args( $data, [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ] );
+
+		foreach ( $data[ 'posts' ] as &$post_data ) {
+			switch( $post_data[ 'method' ] ) {
+				case 'select':
+					if ( empty( $post_data[ 'id' ] ) ) {
+						$post_data = null;
+					}
+					break;
+				case 'manual':
+					$post_data = wp_parse_args( $post_data, [
+						'post_title'   => '',
+						'post_content' => '',
+						'thumbnail_id' => 0,
+						'url'          => '',
+					] );
+					break;
+				default:
+					$post_data = null;
+					break;
+			}
 		}
+
+		$data[ 'posts' ] = array_values( array_filter( $data[ 'posts' ] ) ); // values to avoid non-sequential keys
 
 		return $data;
 	}

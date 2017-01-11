@@ -195,8 +195,18 @@ class Repeater extends Group {
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
-		if ( is_array( $data ) ) {
-			return array_values( $data );
+		if ( ! is_array( $data ) ) {
+			$data = [];
+		}
+		$data = array_values( $data ); // ensure sequential numeric keys
+		foreach ( $data as &$instance ) {
+			foreach ( $this->fields as $field ) {
+				$name = $field->get_name();
+				if ( ! isset( $instance[ $name ] ) ) {
+					$instance[ $name ] = null;
+				}
+				$instance[ $name ] = $field->prepare_data_for_save( $instance[ $name ] );
+			}
 		}
 		return $data;
 	}

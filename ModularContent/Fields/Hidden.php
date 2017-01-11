@@ -28,4 +28,14 @@ class Hidden extends Field {
 	public function render_description() {
 		// no description for hidden fields
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return string
+	 */
+	public function prepare_data_for_save( $data ) {
+		return (string) $data;
+	}
 } 

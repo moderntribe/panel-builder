@@ -215,9 +215,10 @@ class Panel implements \JsonSerializable {
 		$output = $this->data;
 		foreach ( $this->type->all_fields() as $field ) {
 			$name = $field->get_name();
-			if ( isset( $this->data[$name] ) ) {
-				$output[$name] = $field->prepare_data_for_save( $this->data[$name] );
+			if ( ! isset( $this->data[ $name ] ) ) {
+				$this->data[ $name ] = null;
 			}
+			$output[ $name ] = $field->prepare_data_for_save( $this->data[ $name ] );
 		}
 		return $output;
 	}
