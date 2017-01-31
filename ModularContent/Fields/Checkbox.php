@@ -41,8 +41,8 @@ class Checkbox extends Select {
 	/**
 	 * Massage submitted data before it's saved.
 	 *
-	 * @param mixed $data
-	 * @return string
+	 * @param array $data
+	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
 		return $data; // do not cast to string, checkboxes get arrays
