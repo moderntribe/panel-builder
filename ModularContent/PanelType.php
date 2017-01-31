@@ -66,6 +66,11 @@ class PanelType {
 		foreach ( $default_fields as $field ) {
 			$this->add_field( $field );
 		}
+		$default_settings_fields = array();
+		$default_settings_fields = apply_filters('modular_content_default_settings_fields', $default_settings_fields, $this->id);
+		foreach ( $default_settings_fields as $settings_field ) {
+			$this->add_settings_field( $settings_field );
+		}
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
 		call_user_func_array( array($this, 'set_child_labels'), apply_filters( 'modular_content_default_child_labels', array( 'singular' => Plugin::instance()->get_label(), 'plural' => Plugin::instance()->get_label('plural') ) ) );
