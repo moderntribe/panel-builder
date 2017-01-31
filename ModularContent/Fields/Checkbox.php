@@ -37,4 +37,14 @@ class Checkbox extends Select {
 
 		echo implode( "\n", $options );
 	}
+
+	/**
+	 * Massage submitted data before it's saved.
+	 *
+	 * @param mixed $data
+	 * @return string
+	 */
+	public function prepare_data_for_save( $data ) {
+		return $data; // do not cast to string, checkboxes get arrays
+	}
 } 
