@@ -162,6 +162,18 @@ class Plugin {
 	}
 
 	private function get_content_url() {
+
+		if ( ! is_singular() ) {
+			$front_page_id = get_option( 'page_on_front' );
+			if ( empty( $front_page_id ) ) {
+				return '#';
+			}
+
+			$page_url = get_edit_post_link( $front_page_id );
+
+			return sprintf( '%s&tool=content', $page_url );
+		}
+
 		$page_url = get_edit_post_link( get_the_ID() );
 		return sprintf( '%s&tool=content', $page_url );
 	}
