@@ -12,6 +12,9 @@ use ModularContent\Preview\Preview_Revision_Indicator;
  * Responsible for setting up the plugin and hooking into WordPress
  */
 class Plugin {
+
+	const CONTENT_TOOL_ID = 'content';
+
 	/** @var self */
 	private static $instance;
 
@@ -162,11 +165,11 @@ class Plugin {
 		global $wp_admin_bar;
 
 		// Allow other plugins to modify where this menu item gets placed.
-		$parent_id = apply_filters( 'panels_fe_menu_parent', 'edit' );
+		$parent_id = apply_filters( 'panels_content_edit_menu_parent', 'edit' );
 
 		$content_item = [
 			'parent' => $parent_id,
-			'title'  => __( 'Content' ),
+			'title'  => __( 'Content', 'modular-content' ),
 			'id'     => 'tribe-content-menu',
 			'href'   => $this->get_content_url(),
 		];
@@ -176,7 +179,7 @@ class Plugin {
 
 	private function get_content_url() {
 		$page_url = get_edit_post_link( get_the_ID() );
-		return sprintf( '%s&tool=content', $page_url );
+		return sprintf( '%s&tool=%s', $page_url, self::CONTENT_TOOL_ID );
 	}
 
 	public function do_the_panels() {
