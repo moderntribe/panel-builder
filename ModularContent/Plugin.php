@@ -94,6 +94,7 @@ class Plugin {
 		$this->init_panel_sets();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
+		add_filter( 'tribe_customize_menu_items', array( $this, 'add_customize_menu_item' ), 10, 2 );
 	}
 
 	private function setup_ajax_handler() {
@@ -141,6 +142,28 @@ class Plugin {
 		wp_register_script( 'select2', self::plugin_url('lib/select2/select2.min.js'), array('jquery'), '3.4.8', TRUE );
 		wp_register_style( 'select2', self::plugin_url('lib/select2/select2.css'), array(), '3.4.8' );
 		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array());
+	}
+
+	public function add_customize_menu_item( $items, $parent_id ) {
+		if ( is_admin() ) {
+			return $items;
+		}
+
+		$content_item = [
+			'parent' => $parent_id,
+			'title'  => __( 'Content' ),
+			'id'     => 'tribe-content-menu',
+			'href'   => $this->get_content_url(),
+		];
+
+		$items[] = $content_item;
+
+		return $items;
+	}
+
+	private function get_content_url() {
+		$page_url = get_edit_post_link( get_the_ID() );
+		return sprintf( '%s&tool=content', $page_url );
 	}
 
 	public function do_the_panels() {
