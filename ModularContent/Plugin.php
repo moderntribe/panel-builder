@@ -94,7 +94,7 @@ class Plugin {
 		$this->init_panel_sets();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
-		add_filter( 'tribe_customize_menu_items', array( $this, 'add_customize_menu_item' ), 10, 2 );
+		add_filter( 'wp_before_admin_bar_render', array( $this, 'add_customize_menu_item' ), 11 );
 	}
 
 	private function setup_ajax_handler() {
@@ -144,10 +144,25 @@ class Plugin {
 		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array());
 	}
 
-	public function add_customize_menu_item( $items, $parent_id ) {
+	public function add_customize_menu_item() {
 		if ( is_admin() ) {
-			return $items;
+			return;
 		}
+
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		$post_type = get_post_type( get_the_ID() );
+
+		if ( ! post_type_supports( $post_type, 'modular-content' ) ) {
+			return;
+		}
+
+		global $wp_admin_bar;
+
+		// Allow other plugins to modify where this menu item gets placed.
+		$parent_id = apply_filters( 'panels_fe_menu_parent', 'edit' );
 
 		$content_item = [
 			'parent' => $parent_id,
@@ -156,24 +171,10 @@ class Plugin {
 			'href'   => $this->get_content_url(),
 		];
 
-		$items[] = $content_item;
-
-		return $items;
+		$wp_admin_bar->add_menu( $content_item );
 	}
 
 	private function get_content_url() {
-
-		if ( ! is_singular() ) {
-			$front_page_id = get_option( 'page_on_front' );
-			if ( empty( $front_page_id ) ) {
-				return '#';
-			}
-
-			$page_url = get_edit_post_link( $front_page_id );
-
-			return sprintf( '%s&tool=content', $page_url );
-		}
-
 		$page_url = get_edit_post_link( get_the_ID() );
 		return sprintf( '%s&tool=content', $page_url );
 	}
