@@ -371,16 +371,4 @@ class PanelType {
 	public function get_child_label( $quantity = 'singular' ) {
 		return ( $quantity == 'plural' ) ? $this->child_label_plural : $this->child_label_singular;
 	}
-
-	/**
-	 * Get the admin HTML template for rendering this panel type's controls
-	 * @return string
-	 */
-	public function get_admin_template() {
-		ob_start();
-		do_action('before_panel_admin_template', $this );
-		include( Plugin::plugin_path('admin-views/panel-template.php') );
-		do_action('after_panel_admin_template', $this );
-		return ob_get_clean();
-	}
 } 

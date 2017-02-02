@@ -23,20 +23,7 @@ namespace ModularContent\Fields;
  * ) );
  */
 class Checkbox extends Select {
-	protected $options       = [ ];
-	protected $options_cache = null;
 	protected $default       = [ ];
-
-	public function render_field() {
-		$options = [ ];
-		$option = '<label class="checkbox-option"><input type="checkbox" name="%s[%s]" value="1" %s /> %s</label>';
-		foreach ( $this->get_options() as $key => $label ) {
-			$checked = sprintf( '<# if ( data.fields.%s[%s] == "1" ) { #> checked="checked" <# } #> ', $this->name, esc_js( $key ) );
-			$options[] = sprintf( $option, $this->get_input_name(), esc_attr( $key ), $checked, esc_html( $label ) );
-		}
-
-		echo implode( "\n", $options );
-	}
 
 	/**
 	 * Massage submitted data before it's saved.

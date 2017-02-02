@@ -182,15 +182,6 @@ class Panel implements \JsonSerializable {
 	}
 
 	/**
-	 * Get the HTML for rendering the admin for this panel
-	 *
-	 * @return string
-	 */
-	public function get_admin_html() {
-		return $this->type->get_admin_template($this->data);
-	}
-
-	/**
 	 * If this panel will likely need to pull in extra data for
 	 * rendering, add it to the cache to avoid extra ajax requests
 	 *
