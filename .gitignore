@@ -24,3 +24,4 @@ vendor/*
 !vendor/autoload.php
 !vendor/composer
 !vendor/moderntribe
+**/__coverage__/

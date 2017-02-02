@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
@@ -29,8 +28,7 @@ class EditBar extends Component {
 
 	setup() {
 		this.lockBody();
-		const wrapper = ReactDOM.findDOMNode(this.refs.wrapper);
-		_.delay(() => wrapper.classList.add(styles.loaded), 25);
+		_.delay(() => this.wrapper.classList.add(styles.loaded), 25);
 	}
 
 	@autobind
@@ -92,13 +90,13 @@ class EditBar extends Component {
 
 		const publishClasses = classNames({
 			[styles.publish]: true,
-			button: true,
+			'button': true,
 			'button-primary': true,
 			'button-large': true,
 		});
 
 		return (
-			<section ref="wrapper" className={wrapperClasses}>
+			<section ref={node => this.wrapper = node} className={wrapperClasses}>
 				<div className={styles.left}>
 					<nav className={styles.cancel}>
 						<Button
@@ -129,7 +127,7 @@ class EditBar extends Component {
 						classes={styles.mobile}
 					/>
 				</div>
-				<div ref="right" className={styles.right}>
+				<div ref={node => this.right = node} className={styles.right}>
 					<Button
 						text={publishButtonText}
 						handleClick={this.publishPost}
