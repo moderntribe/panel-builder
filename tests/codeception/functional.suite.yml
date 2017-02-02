@@ -6,4 +6,5 @@
 
 class_name: FunctionalTester
 modules:
-    enabled: [Filesystem, WPDb, WPLoader, \Helper\Functional]
+    enabled:
+        - WPLoader
