@@ -7,7 +7,7 @@ namespace _generated;
 
 use Codeception\Module\WPLoader;
 
-trait FunctionalTesterActions
+trait IntegrationTesterActions
 {
     /**
      * @return \Codeception\Scenario
