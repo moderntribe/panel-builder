@@ -13,6 +13,7 @@ use ModularContent\Preview\Preview_Revision_Indicator;
  */
 class Plugin {
 
+	const TOOL_ARG        = 'tool';
 	const CONTENT_TOOL_ID = 'content';
 
 	/** @var self */
@@ -179,7 +180,7 @@ class Plugin {
 
 	private function get_content_url() {
 		$page_url = get_edit_post_link( get_the_ID() );
-		return sprintf( '%s&tool=%s', $page_url, self::CONTENT_TOOL_ID );
+		return add_query_arg( array( self::TOOL_ARG => self::CONTENT_TOOL_ID ), $page_url );
 	}
 
 	public function do_the_panels() {
