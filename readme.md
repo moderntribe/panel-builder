@@ -22,7 +22,7 @@ type of panel, and adding those panels to the registry.
 $panel = new \ModularContent\PanelType('type-one'); // an arbitrary but unique key
 $panel->set_label( 'First Label' ); // whatever you want to name your panel
 $panel->set_description( 'This is the first panel we will define' ); // a helpful description for people choosing which type of panel to use
-$panel->set_icon( 'http://example.com/path/to/an/icon/representing/this/panel.png' );
+$panel->set_thumbnail( 'http://example.com/path/to/a/thumbnail/representing/this/panel.png' );
 $panel->set_template_dir( '/absolute/path/to/a/directory/with/a/template/for/this/panel' );
 $panel->add_field( new \ModularContent\Fields\Textarea( array( 'label' => 'Content', 'name' => 'my_content', 'richtext' => true ) ) );
 $panel->add_field( new \ModularContent\Fields\Link( array( 'label' => 'Link', 'name' => 'my_link' ) ) );
@@ -34,7 +34,8 @@ $panel->add_field( new \ModularContent\Fields\Link( array( 'label' => 'Link', 'n
 A few notes about the above code:
 
 * `set_template_dir()` is optional. By default, the plugin will look in the `modular-content` directory
-in your theme. If you specify a different directory, the theme can still override the template.
+in your theme. If you specify a different directory, the theme can still override the template. To specify
+multiple fallback directories, pass in an instance of `PanelViewFinder`.
 * Notice that we do not specify the name of the template file, just the directory. The template MUST
 match the ID you gave to your `PanelType` (`type-one.php` for the above `PanelType`).
 * Create as many `PanelType`s as you want.
@@ -44,6 +45,8 @@ If you want additional fields included on all `PanelType`s, use the `modular_con
 filter.
 
 ### Nested Panels
+
+**NB. Nested panels are temporarily unavailable in version 3.0**
 
 Panels can be nested. For example, you may want to build a slider or an accordion, with a different
 `Panel` for each slide. When you define your `PanelType`s, you can specify how they can be nested.
@@ -192,56 +195,6 @@ own templates.
 with `first_name` for the `name` argument, the you get that value with `get_panel_var('first_name')`.
 * `get_panel_vars()`: Get all the data for the current panel as an array.
 * `get_the_panel()`: Get the full panel object for the current panel.
-
-## Javascript
-
-### Custom events api
-
-The panel admin scripts emit various events as they do their work. You can hook into these if need be.
-All events fire on the `$( document )` jquery object and reside in the namespace tribe-panels.
-Most events return the applicable element along with the event object, plus the panel id.
-
-* `tribe-panels.loaded` is emitted when all existing panels - if any - have loaded in the admin. Returns the panel container.
-* `tribe-panels.picker-loaded` is emitted when the new panel picker is rendered. Returns the panel selection list.
-* `tribe-panels.added-one` is emitted when a panel is added. Returns the panel el and the panel id.
-* `tribe-panels.removed-one` is emitted when a panel is removed. Returns the panel el and the panel id.
-* `tribe-panels.opened-one` is emitted when a panel is expanded by the user. Returns the panel el and the panel id.
-* `tribe-panels.closed-one` is emitted when a panel is closed by the user. Returns the panel el and the panel id.
-* `tribe-panels.repeater-row-added` is emitted when a repeater field is added in any panel. Returns container and new row.
-* `tribe-panels.repeater-row-removed` is emitted when a repeater field is removed in any panel. Returns repeater container.
-
-Example usage:
-
-```js
-$( document ).on( 'tribe-panels.added-one', function( event, element, panel_id ) {
-	console.log( 'New panel added.' );
-	console.log( 'Event: ' + event );
-	console.log( 'New Panel: ' + element );
-	console.log( 'New Panel ID: ' + panel_id );
-} );
-```
-
-Special events (useful for conditional logic in the admin)
-Note that these events also emit on panel init so you can do any first run setup on existing panels, and they emit every time a new panel is added.
-Also note that when registering these fields (image-select, radio, select) a class will be added to the panel row.
-It looks like this: condition-input-name-YOUR_FIELD_NAME-YOUR_ACTIVE_RADIOS_OR_SELECTS_VALUE 
-
-* `tribe-panels.image-select-changed` is emitted when an image-select radio input set has changed it value. Returns panel el, value of selected radio and field el.
-* `tribe-panels.select-changed` is emitted when an select field has changed it value. Returns panel el, value of selected option and field el.
-* `tribe-panels.radio-changed` is emitted when an radio field set has changed it value. Returns panel el, value of selected radio and field el.
-
-Example usage:
-
-```js
-$( document ).on( 'tribe-panels.select-changed', function( event, $panel, val, $field ) {
-	if( $field.is( '.input-name-slide_text_color' ) ){
-		// do something for this registered field on value
-		if( val === 'dark' ){
-			console.log( event );
-		}
-	}
-} );
-```
 
 ## Development Setup
 
