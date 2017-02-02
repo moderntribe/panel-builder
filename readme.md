@@ -24,9 +24,24 @@ $panel->set_label( 'First Label' ); // whatever you want to name your panel
 $panel->set_description( 'This is the first panel we will define' ); // a helpful description for people choosing which type of panel to use
 $panel->set_thumbnail( 'http://example.com/path/to/a/thumbnail/representing/this/panel.png' );
 $panel->set_template_dir( '/absolute/path/to/a/directory/with/a/template/for/this/panel' );
-$panel->add_field( new \ModularContent\Fields\Textarea( array( 'label' => 'Content', 'name' => 'my_content', 'richtext' => true ) ) );
-$panel->add_field( new \ModularContent\Fields\Link( array( 'label' => 'Link', 'name' => 'my_link' ) ) );
-
+$panel->add_field( new \ModularContent\Fields\Textarea( [
+	'label' => 'Content',
+	'name' => 'my_content',
+	'richtext' => true,
+] ) );
+$panel->add_field( new \ModularContent\Fields\Link( [
+	'label' => 'Link',
+	'name' => 'my_link',
+] ) );
+$panel->add_settings_field( new \ModularContent\Fields\Radio( [
+	'name' => 'layout',
+	'label' => 'Layout',
+	'options' => [
+		'left' => 'Left',
+		'right' => 'Right'
+	],
+	'default' => 'Left'
+] ) );
 
 \ModularContent\Plugin::instance()->registry()->register( $panel );
 ```
@@ -43,6 +58,10 @@ match the ID you gave to your `PanelType` (`type-one.php` for the above `PanelTy
 * Every panel will have a `Title` field. It's automatically added when you create your `PanelType`.
 If you want additional fields included on all `PanelType`s, use the `modular_content_default_fields`
 filter.
+* Fields can be divided into "Content" and "Settings" fields. All fields default to "Content", but once
+a "Settings" field has been added, it will show up in a separate tab in the panel editor. `Group` and
+`Repeater` fields are not supported as settings fields, nor can you add a settings field inside of a
+`Group` or `Repeater`.
 
 ### Nested Panels
 
