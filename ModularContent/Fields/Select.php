@@ -36,18 +36,6 @@ class Select extends Field {
 		parent::__construct($args);
 	}
 
-	public function render_field() {
-		$options = array();
-		$option = '<option value="%s" %s>%s</option>';
-		foreach ( $this->get_options() as $key => $label ) {
-			$selected = sprintf('<# if ( data.fields.%s == "%s" ) { #> selected="selected" <# } #> ', $this->name, esc_js($key));
-			$options[] = sprintf($option, esc_attr($key), $selected, esc_html($label));
-		}
-
-		$select = sprintf('<select name="%s">%s</select>', $this->get_input_name(), implode("\n", $options));
-		echo $select;
-	}
-
 	protected function get_options() {
 		if ( isset($this->options_cache) ) {
 			return $this->options_cache;

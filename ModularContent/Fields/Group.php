@@ -75,36 +75,6 @@ class Group extends Field {
 		return NULL;
 	}
 
-	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input panel-input-type-group input-name-%s">', $this->esc_class($this->name));
-	}
-
-	protected function render_label() {
-		if ( !empty($this->label) ) {
-			printf('<legend class="panel-input-label">%s</legend>', $this->label);
-		}
-	}
-
-	protected function render_field() {
-		foreach ( $this->fields as $field ) {
-			$field->render();
-		}
-	}
-
-	protected function render_closing_tag() {
-		echo '</fieldset>';
-	}
-
-	protected function get_default_value_js() {
-		if ( empty( $this->default ) ) {
-			return '{}';
-		}
-		if ( is_string( $this->default ) ) {
-			return $this->default;
-		}
-		return json_encode( $this->default );
-	}
-
 	/**
 	 * Child fields should have the opportunity to set their own vars
 	 *

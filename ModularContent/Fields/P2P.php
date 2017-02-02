@@ -37,10 +37,6 @@ class P2P extends Field {
 		parent::__construct($args);
 	}
 
-	public function render() {
-		// do not render anything
-	}
-
 	public function get_vars( $data, $panel ) {
 		if (
 			!function_exists('p2p_type') // we need P2P to filter the query appropriately

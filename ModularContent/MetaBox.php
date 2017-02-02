@@ -24,10 +24,7 @@ class MetaBox {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'maybe_filter_post_data' ), 10, 2 );
 		add_filter( '_wp_post_revision_fields', array( $this, 'filter_post_revision_fields' ) );
-		add_action( 'wp_ajax_panel-video-preview', array( $this, 'build_video_preview' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
-		add_action( 'wp_ajax_posts-field-p2p-options-search', array( $this, 'get_post_field_p2p_search_results' ), 10, 0 );
-		add_action( 'wp_ajax_posts-field-fetch-titles', array( $this, 'ajax_fetch_titles' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 	}
 
@@ -56,10 +53,10 @@ class MetaBox {
 	 */
 
 	protected function inline_scripts() {
-	    $inline_scripts = 'window.noZensmooth = true';
+		$inline_scripts = 'window.noZensmooth = true';
 
-        return $inline_scripts;
-    }
+		return $inline_scripts;
+	}
 
 	protected function enqueue_scripts() {
 		$app_scripts = Plugin::plugin_url( 'ui/dist/master.js' );
@@ -373,31 +370,6 @@ class MetaBox {
 		return $post_data;
 	}
 
-	public function build_video_preview( $url = '' ) {
-		if ( empty($url) && isset($_POST['url']) ) {
-			$url = $_POST['url'];
-		}
-		if ( empty($url) ) {
-			wp_send_json_error(array('message' => 'invalid_url')); // exits
-		}
-
-		$oembed = new OEmbedder( $url, array('width' => 100, 'height' => 100) );
-		$title = $oembed->get_title();
-		$image = $oembed->get_thumbnail();
-
-		$preview = '';
-		if ( $title ) {
-			$preview .= sprintf( '<h5 class="oembed-title">%s</h5>', $title );
-		}
-		if ( $image ) {
-			$preview .= sprintf('<img src="%s" class="oembed-thumbnail" />', $image);
-		}
-		if ( $preview ) {
-			wp_send_json_success(array('url' => $url, 'preview' => $preview));
-		}
-		wp_send_json_error(array('message' => 'not_found'));
-	}
-
 	public function get_post_field_search_results() {
 		$response = array(
 			'posts' => array(),
@@ -444,93 +416,6 @@ class MetaBox {
 		}
 
 		wp_send_json($response); // exits
-	}
-	public function get_post_field_p2p_search_results() {
-		$response = array(
-			'posts' => array(),
-			'more' => false,
-		);
-
-		$request = wp_parse_args( $_REQUEST, array(
-			's' => '',
-			'type' => '',
-			'paged' => 1,
-			'post_type' => 'any',
-		));
-
-		if ( !empty($request['s']) || !empty($request['post_type']) ) {
-			if ( $request['type'] ) {
-				$post__in = $this->get_posts_with_p2p_connection( $request['type'] );
-				if ( empty( $post__in ) ) {
-					$post__in = array( -1 );
-				}
-			} else {
-				$post__in = '';
-			}
-			$args = array(
-				'post_type' => apply_filters( 'panel_input_query_post_types', $request['post_type'], $request['type'] ),
-				'post_status' => 'publish',
-				's' => $request['s'],
-				'posts_per_page' => 50,
-				'suppress_filters' => false,
-			);
-			if ( $post__in ) {
-				$args['post__in'] = $post__in;
-			}
-			if ( !empty($request['paged']) ) {
-				$offset = $request['paged'] - 1;
-				$offset = $offset * 50;
-				if ( $offset > 0 ) {
-					$args['offset'] = $offset;
-				}
-			}
-
-			$args  = apply_filters( 'panel_input_p2p_search_query', $args, $request['type'] );
-
-			// p2p adds p2p.* to the returned fields for the query, causing the DISTINCT argument
-			// to become somewhat useless
-			add_filter( 'posts_clauses', function( $clauses, $query ) {
-				/** @var \wpdb $wpdb */
-				global $wpdb;
-				$clauses['fields'] = str_replace( ", $wpdb->p2p.*", '', $clauses['fields'] );
-				return $clauses;
-			}, 20, 2 ); // hook in at same priority as p2p to avoid the #17817 recursion bug
-
-			$query = new \WP_Query();
-			$posts = $query->query( $args );
-
-			foreach ( $posts as $post ) {
-				$post_type_object = get_post_type_object( $post->post_type );
-				$post_type_label = $post_type_object->labels->singular_name;
-				$response['posts'][] = array(
-					'id' => $post->ID,
-					'text' => esc_html( sprintf( '[%s] %s', $post_type_label, get_the_title($post) ) ),
-				);
-			}
-
-			if ( $query->max_num_pages > $request['paged'] ) {
-				$response['more'] = TRUE;
-			}
-		}
-
-		wp_send_json($response); // exits
-	}
-
-	private function get_posts_with_p2p_connection( $type ) {
-		/** @var \wpdb $wpdb */
-		global $wpdb;
-		$from_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
-		$to_ids = $wpdb->get_col( $wpdb->prepare( "SELECT p2p_to FROM {$wpdb->p2p} WHERE p2p_type=%s", $type ) );
-		return array_merge( $from_ids, $to_ids );
-	}
-
-	public function ajax_fetch_titles() {
-		$post_ids = $_POST['post_ids'];
-		$response = array('post_ids' => array());
-		foreach ( $post_ids as $id ) {
-			$response['post_ids'][$id] = get_the_title($id);
-		}
-		wp_send_json_success($response);
 	}
 
 	public function ajax_fetch_preview() {

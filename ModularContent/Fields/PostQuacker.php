@@ -68,47 +68,6 @@ class PostQuacker extends Field {
 		parent::__construct( $args );
 	}
 
-	protected function render_opening_tag() {
-		printf('<fieldset class="panel-input input-type-postquacker input-name-%s">', $this->esc_class($this->name));
-	}
-
-	protected function render_label() {
-		if ( !empty($this->label) ) {
-			printf('<legend class="panel-input-label">%s</legend>', $this->label);
-		}
-	}
-
-	protected function render_closing_tag() {
-		echo '</fieldset>';
-	}
-
-	protected function get_default_value_js() {
-		return $this->default;
-	}
-
-	protected function render_description() {
-		// do not render
-	}
-
-	public function render_field() {
-		$input_name = $this->get_input_name();
-		$input_value = sprintf("data.fields.%s", $this->name);
-		$manual_fields = $this->get_manual_fields();
-		include(\ModularContent\Plugin::plugin_path('admin-views/field-postquacker.php'));
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'select2'), FALSE, TRUE );
-		wp_enqueue_style( 'jquery-ui' );
-		wp_enqueue_style( 'select2' );
-	}
-
-	protected function get_manual_fields() {
-		$fields = $this->get_manual_field_definitions();
-		ob_start();
-		foreach ( $fields as $f ) {
-			$f->render();
-		}
-		return ob_get_clean();
-	}
-
 	protected function get_manual_field_definitions() {
 		/** @var Field[] $fields */
 		$fields = array(

@@ -81,14 +81,6 @@ abstract class Field {
 		$this->name = preg_replace('/[^\w\.]/', '_', $this->name);
 	}
 
-	public function render() {
-		$this->render_before();
-		$this->render_label();
-		$this->render_field();
-		$this->render_description();
-		$this->render_after();
-	}
-
 	/**
 	 * @return string The form field name associated with this input
 	 */
@@ -118,7 +110,7 @@ abstract class Field {
 	 * @param $data
 	 * @param $panel
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_vars_for_api( $data, $panel ) {
 
@@ -152,102 +144,8 @@ abstract class Field {
 		return '';
 	}
 
-	protected function render_before() {
-		$this->render_opening_tag();
-		$this->print_hasOwnProperty_statements();
-	}
-
-	protected function render_opening_tag() {
-		printf('<div class="panel-input input-name-%s input-type-%s">', $this->esc_class($this->name), $this->get_short_type_name());
-	}
-
-	/**
-	 * Avoid JS errors by making sure that all required properties
-	 * of the data object exist.
-	 *
-	 * @return void
-	 */
-	protected function print_hasOwnProperty_statements() {
-		$base = 'data.fields';
-		$default = '{}';
-		$parts = explode('.', $this->name);
-		$number_of_parts = count($parts);
-		$current = 0;
-		foreach ( $parts as $p ) {
-			$current++;
-			if ( $current == $number_of_parts ) {
-				$default = $this->get_default_value_js();
-			}
-			printf('<# if ( !%s.hasOwnProperty("%s") ) { %s.%s = %s; } #>', $base, $p, $base, $p, $default);
-			$base .= '.'.$p;
-		}
-		if ( strpos($default, '{') === 0 ) {
-			// make sure that the data is initialized with all necessary properties
-			printf('<# _.defaults(%s, %s); #>', $base, $default);
-		}
-	}
-
-	/**
-	 * @return string The JS string for setting the default value for the field
-	 */
-	protected function get_default_value_js() {
-		return sprintf("'%s'", esc_js($this->default));
-	}
-
-	protected function render_label() {
-		if ( !empty($this->label) ) {
-			$css_class = "panel-input-label";
-			if ( strtolower( $this->label ) === "title" ) {
-				$css_class .= " panel-input-label-title";
-			}
-			printf('<label class="%1s">%2s</label>', $css_class, $this->label);
-		}
-	}
-
-	protected function render_field() {
-		printf('<span class="panel-input-field"><input name="%s" value="%s" /></span>', $this->get_input_name(), $this->get_input_value());
-	}
-
-	protected function render_description() {
-		if ( $this->description ) {
-			printf('<p class="description panel-input-description">%s</p>', $this->description);
-		}
-	}
-
-	protected function render_after() {
-		$this->render_closing_tag();
-	}
-
-	protected function render_closing_tag() {
-		echo '</div>'."\n";
-	}
-
-	protected function get_input_name() {
-		$parts = explode('.', $this->name);
-		$name = '{{data.field_name}}';
-		foreach ( $parts as $p ) {
-			$name .= '['.$p.']';
-		}
-		return $name;
-	}
-
-	protected function get_input_value( $component = '' ) {
-		$name = $this->name;
-		if ( !empty($component) ) {
-			$name .= '.'.$component;
-		}
-		return sprintf("{{data.fields.%s}}", $name);
-	}
-
 	protected function esc_class( $class ) {
 		return esc_attr(preg_replace('/[^\w]/', '_', $class));
-	}
-
-	protected function get_short_type_name() {
-		$class = get_class($this);
-		$class = str_replace(__NAMESPACE__, '', $class);
-		$class = trim($class, '\\');
-		return strtolower($class);
 	}
 
 	/**
