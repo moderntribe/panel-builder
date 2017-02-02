@@ -181,6 +181,7 @@ class Dialog extends Component {
 				onRequestClose={this.closeDialog}
 				className={wrapperClasses}
 				overlayClassName={styles.overlay}
+				contentLabel="Modal"
 			>
 				<Button
 					handleClick={this.closeDialog}
