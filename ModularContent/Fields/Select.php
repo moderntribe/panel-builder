@@ -72,7 +72,7 @@ class Select extends Field {
 	 */
 	public function prepare_data_for_save( $data ) {
 		$data = (string) $data;
-		if ( strlen( $data ) === 0 && $this->default ) {
+		if ( strlen( $data ) === 0 && (string) $this->default ) {
 			$data = (string) $this->default;
 		}
 		return  $data;
