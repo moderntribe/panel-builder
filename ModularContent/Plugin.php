@@ -143,9 +143,7 @@ class Plugin {
 	}
 
 	public function register_admin_scripts() {
-		wp_register_script( 'select2', self::plugin_url('lib/select2/select2.min.js'), array('jquery'), '3.4.8', TRUE );
-		wp_register_style( 'select2', self::plugin_url('lib/select2/select2.css'), array(), '3.4.8' );
-		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array());
+		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array(), '2.0' );
 	}
 
 	public function add_customize_menu_item() {
@@ -187,8 +185,8 @@ class Plugin {
 		$this->do_not_filter_the_content();
 		echo $this->get_the_panels();
 
-		remove_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
-		add_action( 'the_panels', '__return_null', 10, 0 );
+		remove_action( 'the_panels', array( $this, 'do_the_panels' ), 10 );
+		add_action( 'the_panels', '__return_null', 10, 0 ); // TODO: this can be removed once minimum support is WP 4.7
 	}
 
 	public function get_the_panels() {
@@ -203,7 +201,7 @@ class Plugin {
 
 	public function do_not_filter_the_content() {
 		add_filter( 'the_content', array( $this, 'passthrough' ), 100, 1 );
-		remove_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
+		remove_filter( 'the_content', array( $this, 'filter_the_content' ), 100 );
 	}
 
 	/**

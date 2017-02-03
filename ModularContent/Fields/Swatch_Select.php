@@ -35,9 +35,6 @@ use ModularContent\Panel;
  */
 class Swatch_Select extends Radio {
 
-	public function render_field() {
-	}
-
 	protected function get_options() {
 		if ( isset($this->options_cache) ) {
 			return $this->options_cache;
