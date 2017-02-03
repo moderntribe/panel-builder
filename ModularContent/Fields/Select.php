@@ -71,6 +71,10 @@ class Select extends Field {
 	 * @return string
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (string) $data;
+		$data = (string) $data;
+		if ( strlen( $data ) === 0 && $this->default ) {
+			$data = (string) $this->default;
+		}
+		return  $data;
 	}
 } 

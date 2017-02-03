@@ -146,6 +146,6 @@ class Image extends Field {
 	 * @return int
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (int) $data;
+		return (int) parent::prepare_data_for_save( $data );
 	}
 }

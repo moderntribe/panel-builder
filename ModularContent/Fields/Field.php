@@ -151,12 +151,17 @@ abstract class Field {
 	/**
 	 * Massage submitted data before it's saved.
 	 *
-	 * Default implementation is a passthrough.
+	 * Default implementation ensures that default values save,
+	 * as they will not be passed through from the UI
+	 * if the user never interacts with the field.
 	 *
 	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function prepare_data_for_save( $data ) {
+		if ( empty( $data ) && $this->default ) {
+			$data = $this->default;
+		}
 		return $data;
 	}
 
