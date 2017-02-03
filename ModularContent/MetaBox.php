@@ -311,7 +311,7 @@ class MetaBox {
 		// the json string will come in slashed.
 		$panels = json_decode( wp_unslash( $submission[ 'panels' ] ), true );
 
-		if ( ! is_array( $panels ) || empty( $panels[ 'panels' ] ) ) {
+		if ( ! is_array( $panels ) || ! isset( $panels[ 'panels' ] ) ) {
 			return $post_data;
 		}
 

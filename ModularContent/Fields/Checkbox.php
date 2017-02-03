@@ -28,10 +28,14 @@ class Checkbox extends Select {
 	/**
 	 * Massage submitted data before it's saved.
 	 *
+	 * Do not cast to string, checkboxes get arrays
+	 * Do not force default on empty submissions, in
+	 * case all checkboxes are purposefully unchecked.
+	 *
 	 * @param array $data
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
-		return $data; // do not cast to string, checkboxes get arrays
+		return $data;
 	}
 } 

@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+
 use ModularContent\AdminPreCache;
 use ModularContent\Panel;
 
@@ -24,7 +25,7 @@ use ModularContent\Panel;
  */
 class ImageGallery extends Field {
 	public function __construct( $args ) {
-		$this->defaults['strings'] = [
+		$this->defaults[ 'strings' ] = [
 			'button.edit_gallery' => __( 'Edit Gallery', 'modular-content' ),
 		];
 		parent::__construct( $args );
@@ -45,8 +46,8 @@ class ImageGallery extends Field {
 
 	public function get_vars_for_api( $data, $panel ) {
 		$image_ids = $this->get_vars( $data, $panel );
-		$size      = apply_filters( 'panels_image_gallery_field_size_for_api', 'full', $this, $data, $panel );
-		$resources = array();
+		$size = apply_filters( 'panels_image_gallery_field_size_for_api', 'full', $this, $data, $panel );
+		$resources = [];
 
 		foreach ( (array) $image_ids as $id ) {
 			$resources[] = wp_get_attachment_image_src( $id, $size );
@@ -79,10 +80,24 @@ class ImageGallery extends Field {
 	 * Massage submitted data before it's saved.
 	 *
 	 * @param mixed $data
-	 * @return int[]
+	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
 		$data = (array) $data;
-		return array_map( 'intval', $data );
+		$cleaned = [];
+		foreach ( $data as $image ) {
+			if ( empty( $image[ 'id' ] ) ) {
+				continue;
+			}
+			$thumbnail = wp_get_attachment_image_src( $image[ 'id' ], 'thumbnail' );
+			if ( ! $thumbnail ) {
+				continue;
+			}
+			$cleaned[] = [
+				'id'        => (int) $image[ 'id' ],
+				'thumbnail' => $thumbnail[ 0 ],
+			];
+		}
+		return $cleaned;
 	}
 }
