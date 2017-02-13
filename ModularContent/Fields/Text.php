@@ -25,6 +25,6 @@ class Text extends Field {
 	 * @return string
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (string) $data;
+		return (string) parent::prepare_data_for_save( $data );
 	}
 }
