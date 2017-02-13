@@ -35,24 +35,6 @@ class Image extends Field {
 		parent::__construct($args);
 	}
 
-	public function render_field() {
-
-		$args = array(
-			'label' => $this->label,
-			'value' => $this->get_input_value(),
-			'name'  => $this->get_input_name(),
-			'type'  => 'image',
-			'id' => preg_replace('/[^\w\{\}\.]/', '_', $this->get_input_name()),
-			'settings' => preg_replace('/[^\w\{\}\.]/', '_', str_replace('{{data.field_name}}', '{{data.panel_id}}', $this->get_input_name())),
-		);
-
-		$field = new \AttachmentHelper\Field( $args );
-
-		$field->render();
-
-		wp_enqueue_script( 'modular-content-image-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/image-field.js'), array('jquery'), FALSE, TRUE );
-	}
-
 	public function get_vars_for_api( $data, $panel ) {
 
 		$all_sizes_data = [ ];
@@ -164,6 +146,6 @@ class Image extends Field {
 	 * @return int
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (int) $data;
+		return (int) parent::prepare_data_for_save( $data );
 	}
 }

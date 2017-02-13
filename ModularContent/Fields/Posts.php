@@ -44,6 +44,8 @@ class Posts extends Post_List {
 	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin,
 	 *   'show_max_control' => false, // if true, the user can pick the max number of posts (between min and max)
 	 * ) );
+	 *
+	 * @deprecated
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['max'] = $this->max;
@@ -64,37 +66,6 @@ class Posts extends Post_List {
 		if ( $this->suggested > $this->max ) {
 			$this->suggested = $this->max;
 		}
-
-	}
-
-	public function render() {
-		$this->render_before();
-		$this->render_label();
-		$this->render_field();
-		$this->render_after();
-	}
-
-	protected function render_label() {
-		if ( !empty($this->label) ) {
-			printf('<legend class="panel-input-label">%s</legend>', $this->label);
-		}
-	}
-
-	public function render_field() {
-		$p2p = $this->p2p_options();
-		$taxonomies = $this->taxonomy_options();
-		$input_name = $this->get_input_name();
-		$input_value = sprintf("data.fields.%s", $this->name);
-		$max = (int)$this->max;
-		$min = (int)$this->min;
-		$suggested = (int)$this->suggested;
-		$description = $this->description;
-		$show_max_control = $this->show_max_control;
-		include(\ModularContent\Plugin::plugin_path('admin-views/field-posts.php'));
-		add_action( 'after_panel_admin_template_inside', array( __CLASS__, 'print_supporting_templates' ), 10, 0 );
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url('assets/scripts/js/fields/posts-field.js'), array('jquery', 'jquery-ui-tabs', 'jquery-ui-datepicker', 'select2'), FALSE, TRUE );
-		wp_enqueue_style( 'jquery-ui' );
-		wp_enqueue_style( 'select2' );
 
 	}
 

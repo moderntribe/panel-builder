@@ -53,14 +53,6 @@ class TextArea extends Field {
 		}
 	}
 
-	public function render_field() {
-		if ( $this->richtext ) {
-			// TODO
-		} else {
-			printf('<span class="panel-input-field"><textarea name="%s" rows="6" cols="40">%s</textarea></span>', $this->get_input_name(), $this->get_input_value() );
-		}
-	}
-
 	public function add_data_atts_to_editor( $editor_html ) {
 		$editor_html = str_replace('<div', '<div data-settings_id="'.$this->get_indexed_name().'"', $editor_html );
 		return $editor_html;
@@ -76,15 +68,6 @@ class TextArea extends Field {
 		$html = ob_get_clean();
 		$data[ 'media_buttons_html' ] = $html;
 		return $data;
-	}
-
-	protected function get_id( $uuid = '{{data.panel_id}}' ) {
-		return $uuid.'_'.$this->esc_class($this->name);
-	}
-
-	protected function get_indexed_id( $uuid = '{{data.panel_id}}' ) {
-		$id = $this->get_id($uuid);
-		return $id.'-'.$this->index;
 	}
 
 	protected function get_indexed_name() {
@@ -114,6 +97,13 @@ class TextArea extends Field {
 		return $blueprint;
 	}
 
+	protected function generate_textarea_name() {
+		if ( function_exists( 'wp_generate_uuid4' ) ) {
+			return wp_generate_uuid4(); // added in WP 4.7
+		}
+		return uniqid( $this->name, true );
+	}
+
 	/**
 	 * Tell WP to render an editor so that the settings
 	 * can be found later in the tinyMCEPreInit object.
@@ -125,7 +115,7 @@ class TextArea extends Field {
 		$editor_id = $this->get_indexed_name();
 		$settings = wp_parse_args( $this->editor_settings, array(
 			'textarea_rows' => 15,
-			'textarea_name' => $this->get_input_name(),
+			'textarea_name' => $this->generate_textarea_name(),
 			'quicktags'     => true,
 			'editor_class'  => 'wysiwyg-' . $editor_id,
 			'media_buttons' => $this->media_buttons,
@@ -150,6 +140,6 @@ class TextArea extends Field {
 	 * @return string
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (string) $data;
+		return (string) parent::prepare_data_for_save( $data );
 	}
 }

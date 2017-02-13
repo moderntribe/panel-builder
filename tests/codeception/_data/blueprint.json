@@ -132,7 +132,9 @@
                         "button.select": "Select Files",
                         "button.add_to_panel": "Add to Panel",
                         "button.cancel_panel": "Cancel",
-                        "label.no-results": "No Results",
+                        "placeholder.no_results": "No Results",
+                        "placeholder.select_search": "Type to search",
+                        "placeholder.select_post": "Select...",
                         "label.add_another": "Add Another",
                         "label.content_type": "Content Type",
                         "label.choose_post": "Choose a Post",
@@ -142,6 +144,7 @@
                         "label.add_a_filter": "Add a Filter",
                         "label.taxonomy": "Taxonomy",
                         "label.taxonomy-placeholder": "Select Term",
+                        "label.select-placeholder": "Select",
                         "label.relationship": "Relationship",
                         "label.relationship-post-type-placeholder": "Select a Post Type",
                         "label.relationship-post-select-placeholder": "Select a Related Post",
@@ -201,11 +204,11 @@
                         "post_tag": [
                             {
                                 "value": 2,
-                                "label": "Term 16"
+                                "label": "Term 18"
                             },
                             {
                                 "value": 3,
-                                "label": "Term 17"
+                                "label": "Term 19"
                             }
                         ]
                     }
@@ -225,7 +228,8 @@
                         "label.manual_link": "Link",
                         "label.select_post_type": "Select Type",
                         "label.select_post": "Select Content",
-                        "no_results": "No Results",
+                        "placeholder.no_results": "No Results",
+                        "placeholder.select_search": "Type to search",
                         "placeholder.select_post_type": "Select Post Type",
                         "placeholder.select_post": "Select...",
                         "placeholder.label": "Label",
@@ -1644,7 +1648,9 @@
                         "button.select": "Select Files",
                         "button.add_to_panel": "Add to Panel",
                         "button.cancel_panel": "Cancel",
-                        "label.no-results": "No Results",
+                        "placeholder.no_results": "No Results",
+                        "placeholder.select_search": "Type to search",
+                        "placeholder.select_post": "Select...",
                         "label.add_another": "Add Another",
                         "label.content_type": "Content Type",
                         "label.choose_post": "Choose a Post",
@@ -1654,6 +1660,7 @@
                         "label.add_a_filter": "Add a Filter",
                         "label.taxonomy": "Taxonomy",
                         "label.taxonomy-placeholder": "Select Term",
+                        "label.select-placeholder": "Select",
                         "label.relationship": "Relationship",
                         "label.relationship-post-type-placeholder": "Select a Post Type",
                         "label.relationship-post-select-placeholder": "Select a Related Post",
@@ -1716,11 +1723,11 @@
                         "post_tag": [
                             {
                                 "value": 2,
-                                "label": "Term 16"
+                                "label": "Term 18"
                             },
                             {
                                 "value": 3,
-                                "label": "Term 17"
+                                "label": "Term 19"
                             }
                         ]
                     }
@@ -2440,6 +2447,16 @@
     ],
     "categories": [
         {
+            "category": "yellow",
+            "label": "Yellow Panels",
+            "description": "These panels render with a yellow-ish theme",
+            "weight": 0,
+            "types": [
+                "contentgrid",
+                "wysiwyg"
+            ]
+        },
+        {
             "category": "blue",
             "label": "Blue Panels",
             "description": "These panels render with a blue theme",
@@ -2447,16 +2464,6 @@
             "types": [
                 "gallery",
                 "imagetext",
-                "wysiwyg"
-            ]
-        },
-        {
-            "category": "yellow",
-            "label": "Yellow Panels",
-            "description": "These panels render with a yellow-ish theme",
-            "weight": 0,
-            "types": [
-                "contentgrid",
                 "wysiwyg"
             ]
         }

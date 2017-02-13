@@ -112,43 +112,6 @@ class Post_List extends Field {
 
 	}
 
-	public function render() {
-		$this->render_before();
-		$this->render_label();
-		$this->render_description();
-		$this->render_field();
-		$this->render_after();
-	}
-
-	protected function render_label() {
-		if ( !empty( $this->label ) ) {
-			printf( '<legend class="panel-input-label">%s</legend>', $this->label );
-		}
-	}
-
-	public function render_field() {
-		$p2p = $this->p2p_options();
-		$taxonomies = $this->taxonomy_options();
-		$input_name = $this->get_input_name();
-		$input_value = sprintf( "data.fields.%s", $this->name );
-		$max = (int)$this->max;
-		$min = (int)$this->min;
-		$suggested = (int)$this->suggested;
-		$description = $this->description;
-		$show_max_control = $this->show_max_control;
-		$hidden_fields = (array)$this->hidden_fields;
-		include( \ModularContent\Plugin::plugin_path( 'admin-views/field-post-list.php' ) );
-		add_action( 'after_panel_admin_template_inside', [ __CLASS__, 'print_supporting_templates' ], 10, 0 );
-		wp_enqueue_script( 'modular-content-posts-field', \ModularContent\Plugin::plugin_url( 'assets/scripts/js/fields/post-list-field.js' ), [ 'jquery', 'jquery-ui-tabs', 'jquery-ui-datepicker', 'select2' ], false, true );
-		wp_enqueue_style( 'jquery-ui' );
-		wp_enqueue_style( 'select2' );
-
-	}
-
-	protected function get_default_value_js() {
-		return $this->default;
-	}
-
 	public function get_vars( $data, $panel ) {
 		if ( empty( $data ) ) {
 			$data = $this->default;
@@ -421,74 +384,6 @@ class Post_List extends Field {
 		}
 		$filter_groups[ 'date' ] = 'date';
 		return $filter_groups;
-	}
-
-	public static function print_supporting_templates() {
-		?>
-		<script type="text/javascript">
-			<?php // var declared in meta-box-panels.php ?>
-			<?php $filter_groups = self::get_filter_groups(); ?>
-			ModularContent.posts_filter_templates = <?php echo \ModularContent\Util::json_encode( $filter_groups ); ?>;
-		</script>
-		<script type="text/template" class="template" id="tmpl-field-posts-filter">
-			<div class="panel-filter-row filter-{{data.type}}">
-				<a href="#" class="remove-filter icon-remove"
-				   title="<?php _e( 'Delete this filter', 'modular-content' ); ?>"></a>
-				<label>{{data.label}}</label>
-				<span class="filter-options"></span>
-				<!--<label class="filter-lock" title="<?php _e( 'Unlock to override with current context', 'modular-content' ); ?>"><span class="wrapper">--><input
-					type="hidden" name="{{data.name}}[filters][{{data.type}}][lock]" value="1"/>
-				<!-- <?php _e( 'Lock Selection', 'modular-content' ); ?></span></label>-->
-			</div>
-		</script>
-
-		<script type="text/template" class="template" id="tmpl-field-posts-p2p-options">
-			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select"
-			       data-placeholder="<?php _e( 'Select Posts', 'modular-content' ); ?>" data-filter_type="{{data.type}}"/>
-		</script>
-
-		<script type="text/template" class="template" id="tmpl-field-posts-meta-options">
-			<input name="{{data.name}}[filters][{{data.type}}][selection]" class="term-select"
-			       data-placeholder="<?php _e( 'Insert Values', 'modular-content' ); ?>" data-filter_type="{{data.type}}"/>
-		</script>
-
-		<script type="text/template" class="template" id="tmpl-field-posts-date-options">
-			<div class="date-range-input" data-filter_type="{{data.type}}">
-				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][start]" class="date-select date-start"
-				       placeholder="<?php _e( 'Start Date', 'modular-content' ); ?>"/>
-				<span class="sep">&ndash;</span>
-				<input type="text" name="{{data.name}}[filters][{{data.type}}][selection][end]" class="date-select date-end"
-				       placeholder="<?php _e( 'End Date', 'modular-content' ); ?>"/>
-			</div>
-		</script>
-
-		<?php
-
-		foreach ( self::taxonomy_options() as $taxonomy_name ) {
-			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
-			$options = [ ];
-			foreach ( $terms as $term ) {
-				$term_name = self::build_hierarchical_term_name( $term );
-				$options[ $term_name ] = sprintf( '<option value="%d">%s</option>', $term->term_id, esc_html( $term_name ) );
-			}
-			ksort( $options );
-			?>
-			<script type="text/template" class="template"
-			        id="tmpl-field-posts-taxonomy-<?php echo $taxonomy_name; ?>-options">
-				<select name="{{data.name}}[filters][{{data.type}}][selection][]" class="term-select" multiple="multiple"
-				        data-placeholder="<?php _e( 'Select Terms', 'modular-content' ); ?>" data-filter_type="{{data.type}}">
-					<?php echo implode( "\n", $options ); ?>
-				</select>
-			</script>
-
-		<?php }
-		add_action( 'after_panel_admin_template', [ __CLASS__, 'dequeue_supporting_templates' ], 10 );
-
-	}
-
-
-	public static function dequeue_supporting_templates() {
-		remove_action( 'after_panel_admin_template_inside', [ __CLASS__, 'print_supporting_templates' ], 10 );
 	}
 
 	protected static function build_hierarchical_term_name( $term, $sep = ' > ' ) {
