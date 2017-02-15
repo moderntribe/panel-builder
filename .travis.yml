@@ -1,0 +1,82 @@
+sudo: required
+
+language: php
+
+notifications:
+  email: false
+
+php:
+  - '7.0'
+
+services:
+  - mysql
+
+# disable the default submodule logic
+git:
+  submodules: false
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+env:
+  - wpDbName=test wpLoaderDbName=wploader wpDbPrefix=wp_ wpUrl=wp.local wpAdminUsername=admin wpAdminPassword=password
+
+before_install:
+  - sed -i 's/\/srv\/www/\/tmp\/wordpress/' codeception.dist.yml
+  - sed -i 's/127\.0\.0\.1/localhost/' codeception.dist.yml
+  - "sed -i 's/dbName: panels-tests/dbName: wploader/' codeception.dist.yml"
+  - sed -i 's/panels-tests/test/' codeception.dist.yml
+  - "sed -i '/configFile: tests-config\\.php/d' codeception.dist.yml"
+  - "sed -i 's/password:.*/password:/' codeception.dist.yml"
+  - "sed -i 's/dbPassword: password/dbPassword:/' codeception.dist.yml"
+  - mysql -e "create database IF NOT EXISTS $wpDbName;" -uroot
+  - mysql -e "create database IF NOT EXISTS $wpLoaderDbName;" -uroot
+
+install:
+  - composer update
+
+before_script:
+  # set up folders
+  - mkdir -p $HOME/tools /tmp/wordpress
+
+  # install wp-cli
+  - wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /tmp/tools/
+  - chmod +x /tmp/tools/wp-cli.phar && mv /tmp/tools/wp-cli.phar /tmp/tools/wp
+  - export PATH=$PATH:/tmp/tools:vendor/bin
+
+  # install Apache and WordPress setup scripts
+  - git clone https://github.com/lucatume/travis-apache-setup.git /tmp/tools/travis-apache-setup
+  - chmod +x /tmp/tools/travis-apache-setup/apache-setup.sh
+  - chmod +x /tmp/tools/travis-apache-setup/wp-install.sh
+  - ln -s /tmp/tools/travis-apache-setup/apache-setup.sh /tmp/tools/apache-setup
+  - ln -s /tmp/tools/travis-apache-setup/wp-install.sh /tmp/tools/wp-install
+
+  # download and install WordPress
+  - wp-install --dir=/tmp/wordpress --dbname="$wpDbName" --dbuser="root" --dbpass="" --dbprefix=$wpDbPrefix --domain="$wpUrl" --title="Test" --admin_user=$wpAdminUsername --admin_password=$wpAdminPassword --admin_email=admin@wordpress.dev --theme=twentysixteen --empty
+  - cd /tmp/wordpress
+
+  # move the plugin into WordPress folder
+  - mv $TRAVIS_BUILD_DIR /tmp/wordpress/wp-content/plugins/panel-builder
+  - export PLUGIN_DIR="/tmp/wordpress/wp-content/plugins/panel-builder"
+
+  # activate the plugin in WordPress
+  - wp plugin activate panel-builder
+
+  # flush rewrite rules
+  - printf  "apache_modules:\n\t- mod_rewrite" > /tmp/wordpress/wp-cli.yml
+  - wp rewrite structure '/%postname%/' --hard
+
+  # export a dump of the just installed database to the _data folder
+  - cd /tmp/wordpress
+  - wp db export $PLUGIN_DIR/tests/codeception/_data/dump.sql
+
+  # set up Apache virtual host
+  - sudo env "PATH=$PATH" apache-setup --host="127.0.0.1" --url="$wpUrl" --dir="/tmp/wordpress"
+
+  # Get back to the plugin dir
+  - cd $PLUGIN_DIR
+
+script:
+  - codecept run integration -vvv
