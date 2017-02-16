@@ -40,6 +40,7 @@ var plugins = [
 var cssloader;
 if (DEBUG) {
 	plugins.push(new webpack.HotModuleReplacementPlugin());
+	plugins.push(new webpack.NamedModulesPlugin());
 	cssloader = 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 } else {
 	plugins.push(new webpack.DefinePlugin({

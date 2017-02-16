@@ -51,8 +51,6 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
-		this.collection = ReactDOM.findDOMNode(this.refs.collection);
-		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
 		this.bindEvents();
 	}
 
