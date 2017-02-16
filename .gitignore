@@ -11,6 +11,7 @@ Thumbs.db
 .sass-cache/
 assets/bower_components
 node_modules
+npm-debug.log
 
 # source maps
 *.css.map

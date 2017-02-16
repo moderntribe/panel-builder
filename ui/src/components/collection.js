@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -127,15 +126,13 @@ class PanelCollection extends Component {
 					injectionIndex: -1,
 				});
 			}, 150);
+		} else if (MODULAR_CONTENT.needs_save) {
+			this.setState({ triggerLiveEdit: true });
+			heartbeat.triggerAutosave();
 		} else {
-			if (MODULAR_CONTENT.needs_save) {
-				this.setState({ triggerLiveEdit: true });
-				heartbeat.triggerAutosave();
-			} else {
-				this.animateToLiveEdit({
-					liveEdit: true,
-				});
-			}
+			this.animateToLiveEdit({
+				liveEdit: true,
+			});
 		}
 	}
 
@@ -261,7 +258,7 @@ class PanelCollection extends Component {
 	 * But that means we wont get auto liveupdating of the value from props and have to setup our own "heartbeat" to do it.
 	 */
 	runDataHeartbeat() {
-		const dataInput = ReactDOM.findDOMNode(this.refs.data);
+		const dataInput = this.dataInput;
 		this.heartbeat = setInterval(() => {
 			const newData = JSON.stringify({ panels: this.props.panels });
 			if (MODULAR_CONTENT.autosave === newData) {
@@ -484,7 +481,7 @@ class PanelCollection extends Component {
 	renderDataStorageInput() {
 		return (
 			<input
-				ref="data"
+				ref={r => this.dataInput = r}
 				type="hidden"
 				name="panels"
 				id="panels"
@@ -504,7 +501,7 @@ class PanelCollection extends Component {
 
 		return (
 			<div
-				ref="collection"
+				ref={r => this.collection = r}
 				className={collectionClasses}
 				data-live-edit={this.state.liveEdit}
 				data-live-active={this.state.active}
@@ -516,7 +513,7 @@ class PanelCollection extends Component {
 				data-os={tools.os()}
 			>
 				{this.renderBar()}
-				<div ref="sidebar" className={styles.sidebar} data-expanded="false" data-saving="false">
+				<div ref={r => this.sidebar = r} className={styles.sidebar} data-expanded="false" data-saving="false">
 					{this.renderHeader()}
 					{this.renderPanels()}
 					{this.renderPicker()}
@@ -530,14 +527,14 @@ class PanelCollection extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({ panels: state.panelData.panels });
+const mapStateToProps = state => ({ panels: state.panelData.panels });
 
-const mapDispatchToProps = (dispatch) => ({
-	movePanel: (data) => dispatch(movePanel(data)),
-	updatePanelData: (data) => dispatch(updatePanelData(data)),
-	addNewPanel: (data) => dispatch(addNewPanel(data)),
-	addNewPanelSet: (data) => dispatch(addNewPanelSet(data)),
-	deletePanelAtIndex: (data) => dispatch(deletePanelAtIndex(data)),
+const mapDispatchToProps = dispatch => ({
+	movePanel: data => dispatch(movePanel(data)),
+	updatePanelData: data => dispatch(updatePanelData(data)),
+	addNewPanel: data => dispatch(addNewPanel(data)),
+	addNewPanelSet: data => dispatch(addNewPanelSet(data)),
+	deletePanelAtIndex: data => dispatch(deletePanelAtIndex(data)),
 });
 
 PanelCollection.propTypes = {
