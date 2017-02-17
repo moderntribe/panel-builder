@@ -13,7 +13,7 @@ const HTML = (props) => {
 	});
 	return (
 		<div className={fieldClasses}>
-			<div className={descriptionClasses} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
+			<div className={descriptionClasses} dangerouslySetInnerHTML={{ __html: props.description }} />
 		</div>
 	);
 };

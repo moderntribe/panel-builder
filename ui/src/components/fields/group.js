@@ -31,7 +31,7 @@ class Group extends Component {
 			'panel-row-header': true,
 		});
 		const arrowClasses = classNames({
-			dashicons: true,
+			'dashicons': true,
 			[styles.arrow]: true,
 			'panel-row-arrow': true,
 			'dashicons-arrow-right-alt2': true,

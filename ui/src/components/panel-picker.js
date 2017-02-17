@@ -55,7 +55,7 @@ class Picker extends Component {
 				key={`panel-preview-${i}`}
 				{...blueprint}
 				handleAddPanel={this.handleAddPanel}
-			/>
+			/>,
 		) : null;
 	}
 

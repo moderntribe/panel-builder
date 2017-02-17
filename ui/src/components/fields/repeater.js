@@ -78,7 +78,7 @@ class Repeater extends Component {
 		if (fieldData.length < this.props.min) {
 			const remaining = this.props.min - fieldData.length;
 			_.times(remaining, () =>
-				fieldData.push(this.getNewRowData())
+				fieldData.push(this.getNewRowData()),
 			);
 			shouldUpdate = true;
 		}
@@ -159,7 +159,7 @@ class Repeater extends Component {
 			'repeater-header': true,
 		});
 		const arrowClasses = classNames({
-			dashicons: true,
+			'dashicons': true,
 			[styles.arrow]: true,
 			'panel-row-arrow': true,
 			'dashicons-arrow-right-alt2': true,
@@ -391,7 +391,7 @@ class Repeater extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({ panels: state.panelData.panels });
+const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Repeater.propTypes = {
 	panels: PropTypes.array,

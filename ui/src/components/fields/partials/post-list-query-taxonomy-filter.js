@@ -37,7 +37,7 @@ class PostListQueryTaxonomyFilter extends Component {
 	 * @method broadcastDataChange
 	 */
 	broadcastDataChange() {
-		const selection = _.map(this.state.tags, (tag) => tag.value);
+		const selection = _.map(this.state.tags, tag => tag.value);
 		this.props.onChangeTaxonomy({
 			state: this.state,
 			filterID: this.props.filterID,

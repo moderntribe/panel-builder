@@ -19,7 +19,7 @@ const canLocalStore = () => {
 	let mod;
 	let result = false;
 	try {
-		mod = new Date;
+		mod = new Date();
 		localStorage.setItem(mod, mod.toString());
 		result = localStorage.getItem(mod) === mod.toString();
 		localStorage.removeItem(mod);
@@ -35,7 +35,7 @@ const browserTests = () => ({
 	chrome: !!window.chrome,
 	firefox: typeof InstallTrigger !== 'undefined',
 	ie: isIE,
-	edge: ! isIE && !! window.StyleMedia,
+	edge: !isIE && !!window.StyleMedia,
 	ios: !!navigator.userAgent.match(/(iPod|iPhone|iPad)/i),
 	iosMobile: !!navigator.userAgent.match(/(iPod|iPhone)/i),
 	safari: Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0,

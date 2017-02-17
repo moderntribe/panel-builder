@@ -40,12 +40,12 @@ const PostPreview = (props) => {
 	return (
 		<div className={selectedPostClassses}>
 			<div className="selected-post-preview">
-				<div className={thumbnailClasses} dangerouslySetInnerHTML={{ __html: props.thumbnail }}></div>
+				<div className={thumbnailClasses} dangerouslySetInnerHTML={{ __html: props.thumbnail }} />
 				<h5 className={titleClasses}>{props.title}</h5>
-				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }}></div>
+				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }} />
 			</div>
-			{props.onRemoveClick && <div onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt"></span></div>}
-			{props.onEditClick && <div onClick={props.onEditClick} className={editClassses} title="Edit This Post"><span className="dashicons dashicons-edit"></span></div>}
+			{props.onRemoveClick && <div onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt" /></div>}
+			{props.onEditClick && <div onClick={props.onEditClick} className={editClassses} title="Edit This Post"><span className="dashicons dashicons-edit" /></div>}
 		</div>
 	);
 };

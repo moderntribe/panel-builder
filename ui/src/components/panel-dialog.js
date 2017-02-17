@@ -111,14 +111,12 @@ class Dialog extends Component {
 			if (this.state.template === 'confirmPanelSetTitle') {
 				Message = this.confirmPanelSetTitle();
 			}
-		} else {
-			if (this.state.message.length) {
-				Message = (
-					<div className={styles.message}>
-						<p>{this.state.message}</p>
-					</div>
+		} else if (this.state.message.length) {
+			Message = (
+				<div className={styles.message}>
+					<p>{this.state.message}</p>
+				</div>
 				);
-			}
 		}
 		return Message;
 	}

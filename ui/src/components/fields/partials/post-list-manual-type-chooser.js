@@ -13,7 +13,7 @@ import styles from './post-list-manual-type-chooser.pcss';
  * @constructor
  */
 
-const PostListManualTypeChooser = (props) => (
+const PostListManualTypeChooser = props => (
 	<article className={styles.container} data-index={props.index}>
 		<BlankPostUi />
 		<Button

@@ -115,7 +115,7 @@ class ImageGallery extends Component {
 	 */
 
 	selectImages() {
-		const ids = _.map(this.state.gallery, (attachment) => attachment.id);
+		const ids = _.map(this.state.gallery, attachment => attachment.id);
 		// Set frame object:
 		this.frame = wpMedia({
 			frame: 'post',
@@ -162,7 +162,7 @@ class ImageGallery extends Component {
 				<input type="hidden" name={`${this.props.name}[${index}][id]`} value={attachment.id} />
 				<input type="hidden" name={`${this.props.name}[${index}][thumbnail]`} value={attachment.thumbnail} />
 				<img src={attachment.thumbnail} alt={`thumnbail${attachment.id}`} />
-			</div>
+			</div>,
 		);
 
 		const descriptionClasses = classNames({

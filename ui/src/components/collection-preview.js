@@ -46,14 +46,14 @@ class CollectionPreview extends Component {
 	bindIframeEvents() {
 		$(this.panelCollection)
 			.off('click mouseover mouseout')
-			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousover(e))
-			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousout(e))
-			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
-			.on('click', `.${styles.cancelInsert}`, (e) => this.handleCancelInsertClick(e))
-			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
-			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
-			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
-			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
+			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, e => this.handleButtonMousover(e))
+			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, e => this.handleButtonMousout(e))
+			.on('click', `.${styles.mask}`, e => this.handlePanelTriggerClick(e))
+			.on('click', `.${styles.cancelInsert}`, e => this.handleCancelInsertClick(e))
+			.on('click', `.${styles.maskButtonAdd}`, e => this.handlePanelAddClick(e))
+			.on('click', `.${styles.maskButtonUp}`, e => this.handlePanelUpClick(e))
+			.on('click', `.${styles.maskButtonDown}`, e => this.handlePanelDownClick(e))
+			.on('click', `.${styles.maskButtonDelete}`, e => this.handlePanelDeleteClick(e));
 
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -84,7 +84,7 @@ class CollectionPreview extends Component {
 	}
 
 	deactivatePanels() {
-		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel) => this.deactivatePanel(panel));
+		_.forEach(this.panelCollection.querySelectorAll('.panel'), panel => this.deactivatePanel(panel));
 	}
 
 	scrollToPanel(index, activate = true) {

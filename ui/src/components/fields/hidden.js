@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const Hidden = (props) => (
+const Hidden = props => (
 	<div className="panel-field">
 		<input type="hidden" name={props.name} value={props.default} />
 	</div>
