@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import componentMap from './field-map';
+import Children from '../fields/children';
 
 import styles from './field-builder.pcss';
 
@@ -26,7 +27,6 @@ const FieldBuilder = (props) => {
 			[`input-type-${field.type.toLowerCase()}`]: true,
 		});
 
-
 		return (
 			<div className={classes} key={_.uniqueId('field-id-')} data-settings={props.settings_fields.indexOf(field.name) !== -1}>
 				<Field
@@ -43,9 +43,14 @@ const FieldBuilder = (props) => {
 		);
 	});
 
+	const ChildPanels = props.hasChildren ? (
+		<Children />
+	) : null;
+
 	return (
 		<div>
 			{Fields}
+			{ChildPanels}
 		</div>
 	);
 };
@@ -56,6 +61,7 @@ FieldBuilder.propTypes = {
 	label: PropTypes.string,
 	fields: PropTypes.array,
 	liveEdit: PropTypes.bool,
+	hasChildren: PropTypes.bool,
 	data: PropTypes.object,
 	updatePanelData: PropTypes.func,
 	settings_fields: React.PropTypes.array,
@@ -69,6 +75,7 @@ FieldBuilder.defaultProps = {
 	label: '',
 	fields: [],
 	liveEdit: false,
+	hasChildren: false,
 	data: {},
 	settings_fields: [],
 	updatePanelData: () => {},

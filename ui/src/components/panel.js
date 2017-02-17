@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import delegate from 'delegate';
@@ -42,7 +41,7 @@ class PanelContainer extends Component {
 
 	componentDidMount() {
 		this.mounted = true;
-		this.el = ReactDOM.findDOMNode(this.refs.panel);
+		this.el = this.panel;
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
@@ -67,7 +66,7 @@ class PanelContainer extends Component {
 
 	getFields() {
 		let FieldContainer = null;
-		const Fields = this.state.active ? <FieldBuilder {...this.props} hidePanel={this.hideFields} /> : null;
+		const Fields = this.state.active ? <FieldBuilder {...this.props} hasChildren={this.props.children.max > 0} hidePanel={this.hideFields} /> : null;
 
 		if (this.state.active) {
 			const fieldClasses = classNames({
@@ -77,7 +76,7 @@ class PanelContainer extends Component {
 			});
 
 			FieldContainer = (
-				<div ref="fields" className={fieldClasses} data-hidden="false" data-show-children="false">
+				<div ref={r => this.fields = r} className={fieldClasses} data-hidden="false" data-show-children="false">
 					<AccordionBack
 						title={this.props.data.title}
 						panelLabel={this.props.label}
@@ -133,7 +132,7 @@ class PanelContainer extends Component {
 
 	@autobind
 	hideFields(hidden = false) {
-		const fieldWrap = ReactDOM.findDOMNode(this.refs.fields);
+		const fieldWrap = this.fields;
 		if (!fieldWrap) {
 			return;
 		}
@@ -324,7 +323,7 @@ class PanelContainer extends Component {
 			'panel-row-header': true,
 		});
 		const arrowClasses = classNames({
-			dashicons: true,
+			'dashicons': true,
 			[styles.arrow]: true,
 			'panel-row-arrow': true,
 			'dashicons-arrow-right-alt2': true,
@@ -332,7 +331,7 @@ class PanelContainer extends Component {
 
 		return (
 			<div
-				ref="panel"
+				ref={r => this.panel = r}
 				className={wrapperClasses}
 				data-panel
 				data-info-active="false"
@@ -351,6 +350,7 @@ class PanelContainer extends Component {
 
 PanelContainer.propTypes = {
 	active: React.PropTypes.bool,
+	children: React.PropTypes.object,
 	data: React.PropTypes.object,
 	depth: React.PropTypes.number,
 	index: React.PropTypes.number,
@@ -372,6 +372,7 @@ PanelContainer.propTypes = {
 
 PanelContainer.defaultProps = {
 	active: false,
+	children: {},
 	data: {},
 	depth: 0,
 	index: 0,

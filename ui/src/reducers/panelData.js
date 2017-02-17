@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import update from 'react/lib/update';
 import {
 	ADD_PANEL,
 	ADD_PANEL_SET,
@@ -6,13 +7,13 @@ import {
 	UPDATE_PANEL_DATA,
 	DELETE_PANEL,
 } from '../actions/panels';
-import update from 'react/lib/update';
 
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
+import * as panelDataMassager from '../util/data/panel-data-massager';
 
 const initialData = {
-	panels: PANELS,
+	panels: panelDataMassager.nest(PANELS),
 };
 
 // when needing deep update can do like yo:

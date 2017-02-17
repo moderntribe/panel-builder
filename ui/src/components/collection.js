@@ -23,6 +23,7 @@ import * as heartbeat from '../util/data/heartbeat';
 import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
 import * as animateWindow from '../util/dom/animate-collection';
+import * as panelDataMassager from '../util/data/panel-data-massager';
 
 import randomString from '../util/data/random-string';
 
@@ -267,6 +268,7 @@ class PanelCollection extends Component {
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
+			console.log(panelDataMassager.flatten(newData));
 		}, 1000);
 	}
 
@@ -438,7 +440,6 @@ class PanelCollection extends Component {
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
-					panelCount={this.props.panels.length}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
