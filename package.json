@@ -66,9 +66,9 @@
     "superagent": "^2.0.0",
     "sweet-scroll": "^1.0.3",
     "verge": "^1.9.1",
-    "yargs": "^4.6.0",
     "webpack": "2",
     "webpack-dev-server": "2",
+    "yargs": "^4.6.0",
     "zenscroll": "^3.1.0"
   },
   "devDependencies": {

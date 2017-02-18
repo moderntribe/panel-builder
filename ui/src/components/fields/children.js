@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
+import deepAssign from 'deep-assign';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
 import _ from 'lodash';
@@ -11,6 +11,7 @@ import _ from 'lodash';
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import PanelPicker from '../panel-picker';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
@@ -39,10 +40,21 @@ zenscroll.setup(200, 40);
 class Children extends Component {
 	constructor(props) {
 		super(props);
+		this.childData = deepAssign({
+			label: {
+				plural: 'Panels',
+				singular: 'Panel',
+			},
+			max: 0,
+			types: {},
+		}, this.props.childData);
+
 		this.state = {
 			active: false,
 			activeIndex: 0,
-			data: this.getPaddedFieldData(),
+			data: [],
+			panels: this.props.panels,
+			pickerActive: false,
 			keyPrefix: randomString(10),
 			sorting: false,
 		};
@@ -50,7 +62,7 @@ class Children extends Component {
 	}
 
 	componentDidMount() {
-		this.el = ReactDOM.findDOMNode(this.refs.repeater);
+		this.el = this.childPanels;
 	}
 
 	getNewRowData() {
@@ -63,38 +75,6 @@ class Children extends Component {
 	}
 
 	/**
-	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
-	 * we print the min amount of required fields.
-	 *
-	 * todo: when doing child panels convert to data util that can handle nested instances
-	 *
-	 * @returns {*}
-	 */
-
-	getPaddedFieldData() {
-		const store = this.props.panels[this.props.panelIndex].data[this.props.name];
-		const fieldData = !_.isEmpty(store) ? store : [];
-		let shouldUpdate = false;
-		if (fieldData.length < this.props.min) {
-			const remaining = this.props.min - fieldData.length;
-			_.times(remaining, () =>
-				fieldData.push(this.getNewRowData()),
-			);
-			shouldUpdate = true;
-		}
-
-		if (shouldUpdate) {
-			this.props.updatePanelData({
-				index: this.props.panelIndex,
-				name: this.props.name,
-				value: fieldData,
-			});
-		}
-
-		return fieldData;
-	}
-
-	/**
 	 * Uses Fieldbuilder and Button to generate an accordion hidden field group which is animated into place.
 	 *
 	 * @returns {XML}
@@ -102,7 +82,7 @@ class Children extends Component {
 
 	@autobind
 	getActiveRow() {
-		const rowData = this.state.data[this.state.activeIndex] ? this.state.data[this.state.activeIndex] : {};
+		const rowData = this.state.panels[this.state.activeIndex] ? this.state.panels[this.state.activeIndex] : {};
 		const title = rowData.title && rowData.title.length ? rowData.title : `Row ${this.state.activeIndex + 1}`;
 		const deleteLabel = this.props.strings['button.delete'];
 		const fieldClasses = classNames({
@@ -139,7 +119,6 @@ class Children extends Component {
 
 	/**
 	 * Prints all headers which trigger accordions with an index used to activate their targets when clicked.
-	 * Will be hooked up to sorting on the sort ticket.
 	 *
 	 * @param data The data if any for this row
 	 * @param index The index for this row
@@ -149,10 +128,9 @@ class Children extends Component {
 	getHeader(data = {}, index) {
 		const polyglot = new Polyglot();
 		polyglot.extend({
-			row_index: this.props.strings['label.row_index'],
+			row_index: this.childData.label.singular,
 		});
-		const rowIndexLabel = polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
-		const title = data.title && data.title.length ? data.title : rowIndexLabel;
+		const title = polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
@@ -225,22 +203,33 @@ class Children extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.props.max) {
+		if (this.state.data.length < this.childData.max) {
 			AddRow = (
 				<Button
 					icon="dashicons-plus-alt"
 					classes="repeater-add-row"
-					text={this.props.strings['button.new']}
+					text={`Add ${this.childData.label.singular}`}
 					primary={false}
 					full={false}
-					handleClick={this.handleAddRow}
+					handleClick={this.handleLaunchPicker}
 					rounded
 				/>
 			);
-		} else {
-			AddRow = <p className={styles.maxMessage}>{this.props.strings['button.max_rows']}</p>;
 		}
+
 		return AddRow;
+	}
+
+	getPicker() {
+		return (
+			<PanelPicker
+				child
+				activate
+				handlePickerUpdate={this.handlePickerUpdate}
+				handleAddPanel={this.handleAddRow}
+				types={_.values(this.childData.types)}
+			/>
+		);
 	}
 
 	handleSort(e) {
@@ -283,6 +272,11 @@ class Children extends Component {
 		if (!this.props.liveEdit && this.state.active) {
 			zenscroll.to(this.el.querySelectorAll('[data-row-active="true"]')[0]);
 		}
+	}
+
+	@autobind
+	handleLaunchPicker() {
+		this.setState({ pickerActive: !this.state.pickerActive });
 	}
 
 	/**
@@ -380,10 +374,11 @@ class Children extends Component {
 		});
 
 		return (
-			<div ref="repeater" className={fieldClasses}>
+			<div ref={r => this.childPanels = r} className={fieldClasses}>
 				<label className={legendClasses}>{this.props.label}</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
+				{this.state.pickerActive ? this.getPicker() : null}
 				{this.getAddRow()}
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
@@ -394,7 +389,9 @@ class Children extends Component {
 const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Children.propTypes = {
+	childData: PropTypes.object,
 	panels: PropTypes.array,
+	data: PropTypes.array,
 	panelIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
@@ -407,15 +404,15 @@ Children.propTypes = {
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
-	min: PropTypes.number,
-	max: PropTypes.number,
 };
 
 Children.defaultProps = {
+	childData: {},
 	panels: [],
 	panelIndex: 0,
 	panelLabel: '',
 	fields: [],
+	data: [],
 	strings: {},
 	label: '',
 	description: '',
@@ -425,8 +422,6 @@ Children.defaultProps = {
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
-	min: 1,
-	max: 12,
 };
 
 export default connect(mapStateToProps)(Children);
