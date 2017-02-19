@@ -64,7 +64,7 @@ class PanelCollection extends Component {
 	 */
 
 	bindEvents() {
-		MODULAR_CONTENT.autosave = JSON.stringify({ panels: this.props.panels });
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: panelDataMassager.flatten(_.cloneDeep(this.props.panels)) });
 		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
 		heartbeat.init({
@@ -261,14 +261,14 @@ class PanelCollection extends Component {
 	runDataHeartbeat() {
 		const dataInput = this.dataInput;
 		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify({ panels: this.props.panels });
+			const panels = panelDataMassager.flatten(_.cloneDeep(this.props.panels));
+			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
 				return;
 			}
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
-			console.log(panelDataMassager.flatten(newData));
 		}, 1000);
 	}
 

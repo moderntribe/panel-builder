@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
-import Polyglot from 'node-polyglot';
 import deepAssign from 'deep-assign';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
 import _ from 'lodash';
 
 import Button from '../shared/button';
-import FieldBuilder from '../shared/field-builder';
+import Panel from '../panel';
 import AccordionBack from '../shared/accordion-back';
 import PanelPicker from '../panel-picker';
 
@@ -54,11 +53,12 @@ class Children extends Component {
 		this.state = {
 			active: false,
 			activeIndex: 0,
-			data: [],
-			panels: this.props.panels,
+			childDepth: this.props.depth + 1,
+			data: this.props.data,
 			pickerActive: false,
 			keyPrefix: randomString(10),
 			sorting: false,
+			types: _.values(this.childData.types),
 		};
 		this.el = null;
 	}
@@ -67,26 +67,18 @@ class Children extends Component {
 		this.el = this.childPanels;
 	}
 
-	getNewRowData() {
-		const newRow = {};
-		_.forEach(this.props.fields, (field) => {
-			newRow[field.name] = '';
-		});
-
-		return newRow;
-	}
-
 	/**
-	 * Uses Fieldbuilder and Button to generate an accordion hidden field group which is animated into place.
+	 * Uses AccordionBack, Panel and Button to generate an accordion hidden field group which is animated into place.
 	 *
 	 * @returns {XML}
 	 */
 
 	@autobind
 	getActiveRow() {
-		const rowData = this.state.panels[this.state.activeIndex] ? this.state.panels[this.state.activeIndex] : {};
-		const title = rowData.title && rowData.title.length ? rowData.title : `Row ${this.state.activeIndex + 1}`;
-		const deleteLabel = this.props.strings['button.delete'];
+		const rowData = this.state.data[this.state.activeIndex] ? this.state.data[this.state.activeIndex] : {};
+		const title = rowData.data.title && rowData.data.title.length ? rowData.data.title : `${this.childData.label.singular} ${this.state.activeIndex + 1}`;
+		const deleteLabel = `${UI_I18N['button.delete']} ${this.childData.label.singular}`;
+		const blueprint = _.find(this.state.types, { type: rowData.type });
 		const fieldClasses = classNames({
 			[styles.fields]: true,
 			'panel-row-fields': true,
@@ -96,16 +88,24 @@ class Children extends Component {
 			<div className={fieldClasses}>
 				<AccordionBack
 					title={title}
-					panelLabel={this.props.panelLabel}
+					panelLabel={blueprint.label}
 					handleClick={this.handleBackClick}
+					handleInfoClick={this.handleInfoClick}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				<FieldBuilder
-					fields={this.props.fields}
-					data={rowData}
-					parent={this.props.name}
-					index={this.props.panelIndex}
-					updatePanelData={this.updateRepeaterFieldData}
+				<Panel
+					{...blueprint}
+					{...this.state.data[this.state.activeIndex]}
+					key={`${this.state.keyPrefix}-${this.state.activeIndex}`}
+					index={this.state.activeIndex}
+					classesWrapper={styles.childPanels}
+					classesFields={styles.childPanelsFields}
+					liveEdit={this.props.liveEdit}
+					depth={this.state.childDepth}
+					panelsActive
+					active
+					updatePanelData={this.handleDataUpdate}
+					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
 				<Button
 					icon="dashicons-trash"
@@ -128,15 +128,13 @@ class Children extends Component {
 	 */
 
 	getHeader(data = {}, index) {
-		const polyglot = new Polyglot();
-		polyglot.extend({
-			row_index: this.childData.label.singular,
-		});
-		const title = polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
+		const dataTitle = data.data.title;
+		const title = dataTitle && dataTitle.length ? dataTitle : this.childData.label.singular;
+		const blueprint = _.find(this.state.types, { type: data.type });
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
-			'repeater-header': true,
+			'children-header': true,
 		});
 		const arrowClasses = classNames({
 			'dashicons': true,
@@ -153,7 +151,10 @@ class Children extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{title}</h3>
+				<h3>
+					{title}
+					<span className={styles.typeHeading}>({blueprint.label})</span>
+				</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
@@ -161,7 +162,10 @@ class Children extends Component {
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3>{title}</h3>
+					<h3>
+						{title}
+						<span className={styles.typeHeading}>({blueprint.label})</span>
+					</h3>
 					<i className={arrowClasses} />
 				</div>
 				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
@@ -179,7 +183,7 @@ class Children extends Component {
 	getHeaders() {
 		const sortOptions = {
 			animation: 150,
-			handle: '.repeater-header',
+			handle: '.children-header',
 			onSort: (e) => {
 				this.handleSort(e);
 			},
@@ -226,13 +230,6 @@ class Children extends Component {
 		return AddRow;
 	}
 
-	@autobind
-	handlePickerUpdate(spawning) {
-		if (!spawning) {
-			this.setState({ pickerActive: false });
-		}
-	}
-
 	getPicker() {
 		return (
 			<PanelPicker
@@ -243,9 +240,25 @@ class Children extends Component {
 				handlePickerUpdate={this.handlePickerUpdate}
 				classes={styles.childPicker}
 				handleAddPanel={this.handleAddRow}
-				types={_.values(this.childData.types)}
+				types={this.state.types}
 			/>
 		);
+	}
+
+	@autobind
+	handleInfoClick() {
+		if (this.el.getAttribute('data-info-active') === 'false') {
+			this.el.setAttribute('data-info-active', 'true');
+		} else {
+			this.el.setAttribute('data-info-active', 'false');
+		}
+	}
+
+	@autobind
+	handlePickerUpdate(spawning) {
+		if (!spawning) {
+			this.setState({ pickerActive: false });
+		}
 	}
 
 	handleSort(e) {
@@ -256,8 +269,8 @@ class Children extends Component {
 			data,
 		});
 		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
+			index: this.props.parentIndex,
+			name: 'panels',
 			value: data,
 		});
 	}
@@ -278,8 +291,8 @@ class Children extends Component {
 			data,
 		});
 		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
+			index: this.props.parentIndex,
+			name: 'panels',
 			value: data,
 		});
 	}
@@ -300,9 +313,13 @@ class Children extends Component {
 	 */
 
 	@autobind
-	handleAddRow() {
+	handleAddRow(panel) {
 		const newState = this.state;
-		newState.data.push(this.getNewRowData());
+		newState.data.push({
+			type: panel.type,
+			depth: this.state.childDepth,
+			data: {},
+		});
 		newState.active = true;
 		newState.activeIndex = newState.data.length - 1;
 		if (this.props.liveEdit) {
@@ -310,8 +327,8 @@ class Children extends Component {
 		}
 		this.setState(newState, () => {
 			this.props.updatePanelData({
-				index: this.props.panelIndex,
-				name: this.props.name,
+				index: this.props.parentIndex,
+				name: 'panels',
 				value: newState.data,
 			});
 			this.scrollToActive();
@@ -356,18 +373,18 @@ class Children extends Component {
 	}
 
 	/**
-	 * Handles receiving data from field updates and updating redux store to update database
+	 * Handles receiving data from child panel updates and updating redux store
 	 *
-	 * @param data passed up from the field
+	 * @param data passed up from the panel
 	 */
 
 	@autobind
-	updateRepeaterFieldData(data) {
+	handleDataUpdate(data) {
 		const newData = this.state.data;
-		newData[this.state.activeIndex][data.name] = data.value;
+		newData[this.state.activeIndex].data[data.name] = data.value;
 		this.props.updatePanelData({
-			index: this.props.panelIndex,
-			name: this.props.name,
+			index: this.props.parentIndex,
+			name: 'panels',
 			value: newData,
 		});
 	}
@@ -376,7 +393,7 @@ class Children extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
-			'repeater-field': true,
+			'children-field': true,
 		});
 
 		const legendClasses = classNames({
@@ -393,6 +410,7 @@ class Children extends Component {
 			<div
 				ref={r => this.childPanels = r}
 				className={fieldClasses}
+				data-info-active="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
 				<label className={legendClasses}>{this.childData.label.plural}</label>
@@ -410,17 +428,14 @@ const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Children.propTypes = {
 	childData: PropTypes.object,
-	panels: PropTypes.array,
+	depth: PropTypes.number,
 	data: PropTypes.array,
-	panelIndex: PropTypes.number,
+	parentIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
-	strings: PropTypes.object,
-	label: PropTypes.string,
 	description: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
-	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
@@ -428,17 +443,14 @@ Children.propTypes = {
 
 Children.defaultProps = {
 	childData: {},
-	panels: [],
-	panelIndex: 0,
+	depth: 0,
+	parentIndex: 0,
 	panelLabel: '',
 	fields: [],
 	data: [],
-	strings: {},
-	label: '',
 	description: '',
 	liveEdit: false,
 	name: '',
-	default: [],
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},
 	hidePanel: () => {},

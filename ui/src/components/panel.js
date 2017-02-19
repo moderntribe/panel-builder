@@ -42,6 +42,9 @@ class PanelContainer extends Component {
 	componentDidMount() {
 		this.mounted = true;
 		this.el = this.panel;
+		if (this.props.depth > 0) {
+			return;
+		}
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
@@ -51,6 +54,9 @@ class PanelContainer extends Component {
 
 	componentWillUnmount() {
 		this.mounted = false;
+		if (this.props.depth > 0) {
+			return;
+		}
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
@@ -73,29 +79,38 @@ class PanelContainer extends Component {
 				[styles.fields]: true,
 				[styles.fieldsEdit]: this.props.liveEdit,
 				'panel-row-fields': true,
+				[this.props.classesFields]: this.props.classesFields.length,
 			});
+
+			const BackButton = this.props.depth === 0 ? (
+				<AccordionBack
+					title={this.props.data.title}
+					panelLabel={this.props.label}
+					handleClick={this.handleClick}
+					handleInfoClick={this.handleInfoClick}
+					handleExpanderClick={this.props.handleExpanderClick}
+				/>
+			) : null;
+
+			const DeleteButton = this.props.depth === 0 ? (
+				<Button
+					icon="dashicons-trash"
+					text={UI_I18N['button.delete_panel']}
+					bare
+					full={false}
+					classes={styles.deletePanel}
+					handleClick={this.handleDeletePanel}
+				/>
+			) : null;
 
 			FieldContainer = (
 				<div ref={r => this.fields = r} className={fieldClasses} data-hidden="false" data-show-children="false">
-					<AccordionBack
-						title={this.props.data.title}
-						panelLabel={this.props.label}
-						handleClick={this.handleClick}
-						handleInfoClick={this.handleInfoClick}
-						handleExpanderClick={this.props.handleExpanderClick}
-					/>
+					{BackButton}
 					<div className={styles.fieldWrap}>
 						{this.renderPanelInfo()}
 						{this.renderSettingsToggle()}
 						{Fields}
-						<Button
-							icon="dashicons-trash"
-							text={UI_I18N['button.delete_panel']}
-							bare
-							full={false}
-							classes={styles.deletePanel}
-							handleClick={this.handleDeletePanel}
-						/>
+						{DeleteButton}
 					</div>
 				</div>
 			);
@@ -104,92 +119,34 @@ class PanelContainer extends Component {
 		return FieldContainer;
 	}
 
-	@autobind
-	handleConditionalFields(e) {
-		// exit for repeater conditional field instances for now
-		if (domTools.closest(e.delegateTarget, '.repeater-field')) {
-			return;
-		}
-
-		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
-
-		trigger({
-			event: panelConditionals.getConditionalEventName(e.delegateTarget),
-			native: false,
-			data: {
-				panel: this.el,
-				inputName: e.delegateTarget.name,
-				inputValue: e.delegateTarget.value,
-			},
-		});
-	}
-
 	/**
-	 * Hides the panel ui for cases where a nested ui such as a repeater wants to reveal itself.
+	 * Renders the header for root level panels.
 	 *
-	 * @param hidden
+	 * @returns {*}
 	 */
 
-	@autobind
-	hideFields(hidden = false) {
-		const fieldWrap = this.fields;
-		if (!fieldWrap) {
-			return;
+	getHeader() {
+		if (this.props.depth > 0) {
+			return null;
 		}
-		fieldWrap.setAttribute('data-hidden', hidden);
-		fieldWrap.setAttribute('data-show-children', hidden);
-	}
-
-	handleHeights() {
-		if (!this.props.liveEdit) {
-			return;
-		}
-		if (this.state.active) {
-			_.delay(() => {
-				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
-				const fields = this.el.querySelectorAll('.panel-row-fields');
-				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
-			}, 50);
-		}
-	}
-
-	/**
-	 * Shows/hides the panel field group with an animation
-	 */
-
-	@autobind
-	handleClick() {
-		if (!this.props.liveEdit) {
-			trigger({ event: 'modern_tribe/deactivate_panels', native: false });
-		}
-
-		this.setState({ active: !this.state.active }, () => {
-			this.handleHeights();
-			if (this.state.active) {
-				panelConditionals.initConditionalFields(this.el);
-			}
-			const duration = this.state.active ? 200 : 10;
-			zenscroll.to(this.el, duration);
+		const headerClasses = classNames({
+			[styles.header]: true,
+			'panel-row-header': true,
 		});
-		this.props.panelsActivate(!this.state.active);
-		trigger({
-			event: 'modern_tribe/panel_toggled',
-			native: false,
-			data: {
-				active: !this.state.active,
-				index: this.props.index,
-				depth: this.props.depth,
-			},
+		const arrowClasses = classNames({
+			'dashicons': true,
+			[styles.arrow]: true,
+			'panel-row-arrow': true,
+			'dashicons-arrow-right-alt2': true,
 		});
-	}
 
-	@autobind
-	handleInfoClick() {
-		if (this.el.getAttribute('data-info-active') === 'false') {
-			this.el.setAttribute('data-info-active', 'true');
-		} else {
-			this.el.setAttribute('data-info-active', 'false');
-		}
+		return (
+			<div className={headerClasses} onClick={this.handleClick}>
+				{this.renderTitle()}
+				<span className={styles.type}>{this.props.label}</span>
+				<i className={arrowClasses} />
+			</div>
+		);
 	}
 
 	@autobind
@@ -227,6 +184,10 @@ class PanelContainer extends Component {
 
 	@autobind
 	maybeDeletePanel(e) {
+		if (this.props.depth > 0) {
+			return;
+		}
+
 		if (this.state.active) {
 			this.setState({ active: false });
 			this.props.panelsActivate(false);
@@ -261,6 +222,98 @@ class PanelContainer extends Component {
 	@autobind
 	enableSettingsMode() {
 		this.el.classList.add(styles.settingsActive);
+	}
+
+	@autobind
+	handleInfoClick() {
+		if (this.el.getAttribute('data-info-active') === 'false') {
+			this.el.setAttribute('data-info-active', 'true');
+		} else {
+			this.el.setAttribute('data-info-active', 'false');
+		}
+	}
+
+	/**
+	 * Shows/hides the panel field group with an animation
+	 */
+
+	@autobind
+	handleClick() {
+		if (this.props.depth > 0) {
+			return;
+		}
+
+		if (!this.props.liveEdit) {
+			trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		}
+
+		this.setState({ active: !this.state.active }, () => {
+			this.handleHeights();
+			if (this.state.active) {
+				panelConditionals.initConditionalFields(this.el);
+			}
+			const duration = this.state.active ? 200 : 10;
+			zenscroll.to(this.el, duration);
+		});
+		this.props.panelsActivate(!this.state.active);
+		trigger({
+			event: 'modern_tribe/panel_toggled',
+			native: false,
+			data: {
+				active: !this.state.active,
+				index: this.props.index,
+				depth: this.props.depth,
+			},
+		});
+	}
+
+	handleHeights() {
+		if (!this.props.liveEdit) {
+			return;
+		}
+		if (this.state.active) {
+			_.delay(() => {
+				const offset = this.props.liveEdit && this.props.index !== 0 ? 0 : 12;
+				const fields = this.el.querySelectorAll('.panel-row-fields');
+				fields[0].style.marginTop = `-${this.el.offsetTop - offset}px`;
+			}, 50);
+		}
+	}
+
+	/**
+	 * Hides the panel ui for cases where a nested ui such as a repeater wants to reveal itself.
+	 *
+	 * @param hidden
+	 */
+
+	@autobind
+	hideFields(hidden = false) {
+		const fieldWrap = this.fields;
+		if (!fieldWrap) {
+			return;
+		}
+		fieldWrap.setAttribute('data-hidden', hidden);
+		fieldWrap.setAttribute('data-show-children', hidden);
+	}
+
+	@autobind
+	handleConditionalFields(e) {
+		// exit for repeater and child panel conditional field instances (new support coming)
+		if (domTools.closest(e.delegateTarget, '.repeater-field') || domTools.closest(e.delegateTarget, '.children-field')) {
+			return;
+		}
+
+		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
+
+		trigger({
+			event: panelConditionals.getConditionalEventName(e.delegateTarget),
+			native: false,
+			data: {
+				panel: this.el,
+				inputName: e.delegateTarget.name,
+				inputValue: e.delegateTarget.value,
+			},
+		});
 	}
 
 	@autobind
@@ -317,16 +370,7 @@ class PanelContainer extends Component {
 			[styles.panelActive]: this.state.active,
 			[`panel-type-${this.props.type}`]: true,
 			[`panel-depth-${this.props.depth}`]: true,
-		});
-		const headerClasses = classNames({
-			[styles.header]: true,
-			'panel-row-header': true,
-		});
-		const arrowClasses = classNames({
-			'dashicons': true,
-			[styles.arrow]: true,
-			'panel-row-arrow': true,
-			'dashicons-arrow-right-alt2': true,
+			[this.props.classesWrapper]: this.props.classesWrapper.length,
 		});
 
 		return (
@@ -337,11 +381,7 @@ class PanelContainer extends Component {
 				data-info-active="false"
 				data-panel-active={this.state.active}
 			>
-				<div className={headerClasses} onClick={this.handleClick}>
-					{this.renderTitle()}
-					<span className={styles.type}>{this.props.label}</span>
-					<i className={arrowClasses} />
-				</div>
+				{this.getHeader()}
 				{this.getFields()}
 			</div>
 		);
@@ -351,6 +391,8 @@ class PanelContainer extends Component {
 PanelContainer.propTypes = {
 	active: React.PropTypes.bool,
 	children: React.PropTypes.object,
+	classesWrapper: React.PropTypes.string,
+	classesFields: React.PropTypes.string,
 	data: React.PropTypes.object,
 	depth: React.PropTypes.number,
 	index: React.PropTypes.number,
@@ -373,6 +415,8 @@ PanelContainer.propTypes = {
 PanelContainer.defaultProps = {
 	active: false,
 	children: {},
+	classesWrapper: '',
+	classesFields: '',
 	data: {},
 	depth: 0,
 	index: 0,

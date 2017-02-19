@@ -65,6 +65,8 @@ export function panelData(state = initialData, action) {
 			let parent = newState.panels[action.data.index].data[action.data.parent];
 			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
+		} else if (action.data.name === 'panels') {
+			newState.panels[action.data.index].panels = action.data.value;
 		} else {
 			newState.panels[action.data.index].data[action.data.name] = action.data.value;
 		}

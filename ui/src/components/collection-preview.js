@@ -190,7 +190,13 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.index]])
+		const panels = [this.props.panels[e.detail.index]];
+		if (panels[0] && Array.isArray(panels[0].panels)) {
+			panels[0].panels.forEach(panel => panels.push(panel));
+		}
+		console.log(panels);
+
+		ajax.getPanelHTML(panels)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPanelAddedEvent();

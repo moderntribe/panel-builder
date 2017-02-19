@@ -131,6 +131,7 @@ class MetaBox {
 				'button.child_cancel_add_new'  => __( 'Cancel', 'modular-content' ),
 				'tab.content'                  => _x( 'Content', 'tab name', 'modular-content' ),
 				'tab.settings'                 => _x( 'Settings', 'tab name', 'modular-content' ),
+				'button.delete'                => __( 'Delete', 'modular-content' ),
 
 				// collection header
 				'heading.active_panels'        => __( 'Active Panels', 'modular-content' ),

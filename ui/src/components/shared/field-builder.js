@@ -47,11 +47,13 @@ const FieldBuilder = (props) => {
 		<Children
 			childData={props.children}
 			panels={props.panels}
+			depth={props.depth}
 			parentIndex={props.index}
 			liveEdit={props.liveEdit}
-			data={props.data.panels}
+			data={props.panels}
 			updatePanelData={props.updatePanelData}
 			handleExpanderClick={props.handleExpanderClick}
+			hidePanel={props.hidePanel}
 		/>
 	) : null;
 
@@ -66,6 +68,7 @@ const FieldBuilder = (props) => {
 FieldBuilder.propTypes = {
 	name: PropTypes.string,
 	children: PropTypes.object,
+	depth: PropTypes.number,
 	index: PropTypes.number,
 	label: PropTypes.string,
 	fields: PropTypes.array,
@@ -82,6 +85,7 @@ FieldBuilder.propTypes = {
 FieldBuilder.defaultProps = {
 	name: '',
 	children: {},
+	depth: 0,
 	index: 0,
 	label: '',
 	fields: [],
