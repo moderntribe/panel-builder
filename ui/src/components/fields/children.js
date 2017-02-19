@@ -16,6 +16,8 @@ import PanelPicker from '../panel-picker';
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 
+import { UI_I18N } from '../../globals/i18n';
+
 import styles from './children.pcss';
 
 zenscroll.setup(200, 40);
@@ -204,10 +206,14 @@ class Children extends Component {
 	getAddRow() {
 		let AddRow = null;
 		if (this.state.data.length < this.childData.max) {
+			const classes = classNames({
+				'children-add-row': true,
+				[styles.addRow]: true,
+			});
 			AddRow = (
 				<Button
 					icon="dashicons-plus-alt"
-					classes="repeater-add-row"
+					classes={classes}
 					text={`Add ${this.childData.label.singular}`}
 					primary={false}
 					full={false}
@@ -220,12 +226,22 @@ class Children extends Component {
 		return AddRow;
 	}
 
+	@autobind
+	handlePickerUpdate(spawning) {
+		if (!spawning) {
+			this.setState({ pickerActive: false });
+		}
+	}
+
 	getPicker() {
 		return (
 			<PanelPicker
 				child
 				activate
+				addNewText={UI_I18N['button.child_add_new']}
+				cancelText={UI_I18N['button.child_cancel_add_new']}
 				handlePickerUpdate={this.handlePickerUpdate}
+				classes={styles.childPicker}
 				handleAddPanel={this.handleAddRow}
 				types={_.values(this.childData.types)}
 			/>
@@ -374,8 +390,12 @@ class Children extends Component {
 		});
 
 		return (
-			<div ref={r => this.childPanels = r} className={fieldClasses}>
-				<label className={legendClasses}>{this.props.label}</label>
+			<div
+				ref={r => this.childPanels = r}
+				className={fieldClasses}
+				data-child-picker-active={this.state.pickerActive}
+			>
+				<label className={legendClasses}>{this.childData.label.plural}</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.state.pickerActive ? this.getPicker() : null}

@@ -72,7 +72,7 @@ class Picker extends Component {
 		return this.props.activate ? (
 			<Button
 				icon="dashicons-dismiss"
-				text={UI_I18N['button.cancel_add_new']}
+				text={this.props.cancelText}
 				bare
 				classes={styles.button}
 				handleClick={this.handleCancelPicker}
@@ -84,7 +84,7 @@ class Picker extends Component {
 		return !this.props.activate ? (
 			<Button
 				icon="dashicons-plus-alt"
-				text={UI_I18N['button.add_new']}
+				text={this.props.addNewText}
 				bare
 				classes={styles.button}
 				handleClick={this.handleSpawnPicker}
@@ -111,6 +111,8 @@ class Picker extends Component {
 
 Picker.propTypes = {
 	activate: PropTypes.bool,
+	addNewText: PropTypes.string,
+	cancelText: PropTypes.string,
 	child: PropTypes.bool,
 	classes: PropTypes.string,
 	data: PropTypes.object,
@@ -121,6 +123,8 @@ Picker.propTypes = {
 
 Picker.defaultProps = {
 	activate: false,
+	addNewText: UI_I18N['button.add_new'],
+	cancelText: UI_I18N['button.cancel_add_new'],
 	child: false,
 	classes: '',
 	data: {},

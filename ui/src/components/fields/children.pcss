@@ -37,6 +37,28 @@
 	}
 }
 
+.childPicker {
+
+}
+
+.field[data-child-picker-active="true"] {
+	.label {
+		~ div:not(.childPicker) {
+			display: none;
+		}
+	}
+	.addRow {
+		display: none;
+	}
+	.childPicker {
+		display: block;
+
+		[data-live-edit="true"] & {
+			padding: 10px 0;
+		}
+	}
+}
+
 .back{
 	composes: back from "../../shared/accordion.pcss";
 }
