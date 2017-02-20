@@ -66,7 +66,7 @@ class Repeater extends Component {
 	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
 	 * we print the min amount of required fields.
 	 *
-	 * // todo: single child panel leve support for now. when moving into multiple levels refactor to index map
+	 * // todo: single child panel level support for now. when moving into multiple levels refactor to index map
 	 *
 	 * @returns {*}
 	 */

@@ -32,10 +32,14 @@ export function panelData(state = initialData, action) {
 	const newState = state;
 	switch (action.type) {
 	case ADD_PANEL:
+		const panel = {
+			...action.data.panels[0],
+			panels: [],
+		};
 		if (action.data.index === -1) {
-			newState.panels.push(action.data.panels[0]);
+			newState.panels.push(panel);
 		} else {
-			newState.panels.splice(action.data.index, 0, action.data.panels[0]);
+			newState.panels.splice(action.data.index, 0, panel);
 		}
 
 		return newState;
