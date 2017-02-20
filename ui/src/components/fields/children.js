@@ -85,7 +85,7 @@ class Children extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div ref={r => this.fields = r} className={fieldClasses}>
 				<AccordionBack
 					title={title}
 					panelLabel={blueprint.label}
@@ -98,14 +98,17 @@ class Children extends Component {
 					{...this.state.data[this.state.activeIndex]}
 					key={`${this.state.keyPrefix}-${this.state.activeIndex}`}
 					index={this.state.activeIndex}
+					panelIndex={this.state.activeIndex}
+					parentIndex={this.props.parentIndex}
 					classesWrapper={styles.childPanels}
 					classesFields={styles.childPanelsFields}
 					liveEdit={this.props.liveEdit}
 					depth={this.state.childDepth}
 					panelsActive
 					active
+					nestedGroupActive={this.handleNestedGroups}
 					updatePanelData={this.handleDataUpdate}
-					handleExpanderClick={this.toggleLiveEditWidth}
+					handleExpanderClick={this.props.handleExpanderClick}
 				/>
 				<Button
 					icon="dashicons-trash"
@@ -359,6 +362,11 @@ class Children extends Component {
 		this.setState(newState, () => this.scrollToActive());
 	}
 
+	@autobind
+	handleNestedGroups(hidden) {
+		this.el.setAttribute('data-show-nested', hidden);
+	}
+
 	/**
 	 * Handles sending us back to the panel from viewing an added row. Communicates with panel parent.
 	 */
@@ -375,13 +383,22 @@ class Children extends Component {
 	/**
 	 * Handles receiving data from child panel updates and updating redux store
 	 *
+	 * todo: group fields should be handled differently. when moving to index map consolidate with other method.
+	 *
 	 * @param data passed up from the panel
 	 */
 
 	@autobind
 	handleDataUpdate(data) {
 		const newData = this.state.data;
-		newData[this.state.activeIndex].data[data.name] = data.value;
+		if (data.parent) {
+			if (!_.isObject(newData[this.state.activeIndex].data[data.parent])) {
+				newData[this.state.activeIndex].data[data.parent] = {};
+			}
+			newData[this.state.activeIndex].data[data.parent][data.name] = data.value;
+		} else {
+			newData[this.state.activeIndex].data[data.name] = data.value;
+		}
 		this.props.updatePanelData({
 			index: this.props.parentIndex,
 			name: 'panels',
@@ -411,6 +428,7 @@ class Children extends Component {
 				ref={r => this.childPanels = r}
 				className={fieldClasses}
 				data-info-active="false"
+				data-show-nested="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
 				<label className={legendClasses}>{this.childData.label.plural}</label>

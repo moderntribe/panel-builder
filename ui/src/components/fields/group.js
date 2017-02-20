@@ -102,6 +102,7 @@ class Group extends Component {
 	handleHeaderClick() {
 		if (this.props.liveEdit) {
 			this.props.hidePanel(true);
+			this.props.nestedGroupActive(true);
 		}
 		this.setState({
 			active: !this.state.active,
@@ -115,6 +116,7 @@ class Group extends Component {
 	@autobind
 	handleBackClick() {
 		this.props.hidePanel(false);
+		this.props.nestedGroupActive(false);
 		this.setState({
 			active: false,
 		});
@@ -144,6 +146,8 @@ class Group extends Component {
 }
 
 Group.propTypes = {
+	depth: PropTypes.number,
+	parentIndex: PropTypes.number,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
@@ -153,12 +157,15 @@ Group.propTypes = {
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
+	nestedGroupActive: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
 
 Group.defaultProps = {
+	depth: 0,
+	parentIndex: 0,
 	data: {},
 	panelIndex: 0,
 	panelLabel: '',
@@ -168,6 +175,7 @@ Group.defaultProps = {
 	liveEdit: false,
 	name: '',
 	default: [],
+	nestedGroupActive: () => {},
 	updatePanelData: () => {},
 	hidePanel: () => {},
 	handleExpanderClick: () => {},

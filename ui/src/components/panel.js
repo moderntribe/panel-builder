@@ -380,6 +380,7 @@ class PanelContainer extends Component {
 				data-panel
 				data-info-active="false"
 				data-panel-active={this.state.active}
+				data-depth={this.props.depth}
 			>
 				{this.getHeader()}
 				{this.getFields()}
@@ -405,6 +406,7 @@ PanelContainer.propTypes = {
 	liveEdit: React.PropTypes.bool,
 	settings_fields: React.PropTypes.array,
 	panelsActive: React.PropTypes.bool,
+	nestedGroupActive: PropTypes.func,
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	deletePanel: PropTypes.func,
@@ -429,6 +431,7 @@ PanelContainer.defaultProps = {
 	liveEdit: false,
 	panelsActive: false,
 	settings_fields: [],
+	nestedGroupActive: () => {},
 	panelsActivate: () => {},
 	movePanel: () => {},
 	deletePanel: () => {},

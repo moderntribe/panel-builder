@@ -66,13 +66,14 @@ class Repeater extends Component {
 	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
 	 * we print the min amount of required fields.
 	 *
-	 * todo: when doing child panels convert to data util that can handle nested instances
+	 * // todo: single child panel leve support for now. when moving into multiple levels refactor to index map
 	 *
 	 * @returns {*}
 	 */
 
 	getPaddedFieldData() {
-		const store = this.props.panels[this.props.panelIndex].data[this.props.name];
+		const target = this.props.depth === 1 ? this.props.panels[this.props.parentIndex].panels[this.props.panelIndex] : this.props.panels[this.props.panelIndex];
+		const store = target.data[this.props.name];
 		const fieldData = !_.isEmpty(store) ? store : [];
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
@@ -323,6 +324,7 @@ class Repeater extends Component {
 		};
 		if (this.props.liveEdit) {
 			this.props.hidePanel(true);
+			this.props.nestedGroupActive(true);
 		}
 		if (this.state.active && activeIndex === this.state.activeIndex) {
 			newState.active = false;
@@ -339,6 +341,7 @@ class Repeater extends Component {
 	@autobind
 	handleBackClick() {
 		this.props.hidePanel(false);
+		this.props.nestedGroupActive(false);
 		this.setState({
 			active: false,
 			activeIndex: 0,
@@ -380,7 +383,7 @@ class Repeater extends Component {
 		});
 
 		return (
-			<div ref="repeater" className={fieldClasses}>
+			<div ref="repeater" className={fieldClasses} data-depth={this.props.depth} data-active={this.state.active}>
 				<label className={legendClasses}>{this.props.label}</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
@@ -394,9 +397,11 @@ class Repeater extends Component {
 const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Repeater.propTypes = {
+	depth: PropTypes.number,
 	panels: PropTypes.array,
-	panelIndex: PropTypes.number,
+	parentIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
+	panelIndex: PropTypes.number,
 	fields: PropTypes.array,
 	strings: PropTypes.object,
 	label: PropTypes.string,
@@ -406,12 +411,15 @@ Repeater.propTypes = {
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
+	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 	min: PropTypes.number,
 	max: PropTypes.number,
 };
 
 Repeater.defaultProps = {
+	depth: 0,
+	parentIndex: 0,
 	panels: [],
 	panelIndex: 0,
 	panelLabel: '',
@@ -423,6 +431,7 @@ Repeater.defaultProps = {
 	name: '',
 	default: [],
 	updatePanelData: () => {},
+	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	min: 1,

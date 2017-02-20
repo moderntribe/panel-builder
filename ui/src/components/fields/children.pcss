@@ -45,6 +45,18 @@
 			overflow: visible;
 		}
 	}
+
+	[data-show-nested="true"] .fields {
+		overflow: visible;
+	}
+
+	[data-show-nested="true"] .fields > nav {
+		display: none;
+	}
+
+	[data-show-nested="true"] .fields .childPanels {
+		padding: 0;
+	}
 }
 
 .childPanels {
