@@ -22,6 +22,12 @@
 	.arrow{
 		transform: rotate(-90deg);
 	}
+
+	[data-row-active="false"] {
+		.arrow{
+			transform: rotate(90deg);
+		}
+	}
 }
 
 .header{
@@ -33,6 +39,12 @@
 	[data-row-active="true"] {
 		.header{
 			margin-bottom: 0;
+		}
+
+		[data-row-active="false"] {
+			.header{
+				margin-bottom: 12px;
+			}
 		}
 	}
 }

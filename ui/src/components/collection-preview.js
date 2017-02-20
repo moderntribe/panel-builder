@@ -194,7 +194,6 @@ class CollectionPreview extends Component {
 		if (panels[0] && Array.isArray(panels[0].panels)) {
 			panels[0].panels.forEach(panel => panels.push(panel));
 		}
-		console.log(panels);
 
 		ajax.getPanelHTML(panels)
 			.done((data) => {
