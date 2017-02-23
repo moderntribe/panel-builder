@@ -1,0 +1,13 @@
+modules:
+  config:
+    Db:
+      dsn: 'mysql:host=localhost;dbname=test'
+      password: ''
+    WPDb:
+      dsn: 'mysql:host=localhost;dbname=test'
+      password: ''
+    WPLoader:
+      wpRootFolder: /tmp/wordpress
+      dbName: wploader
+      dbPassword: ''
+      configFile: ''

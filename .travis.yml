@@ -6,7 +6,6 @@ notifications:
   email: false
 
 php:
-  - '5.6'
   - '7.0'
 
 services:
@@ -25,13 +24,28 @@ env:
   - wpDbName=test wpLoaderDbName=wploader wpDbPrefix=wp_ wpUrl=wp.local wpAdminUsername=admin wpAdminPassword=password
 
 before_install:
-  - sed -i 's/\/srv\/www/\/tmp\/wordpress/' codeception.dist.yml
-  - sed -i 's/127\.0\.0\.1/localhost/' codeception.dist.yml
-  - "sed -i 's/dbName: panels-tests/dbName: wploader/' codeception.dist.yml"
-  - sed -i 's/panels-tests/test/' codeception.dist.yml
-  - "sed -i '/configFile: tests-config\\.php/d' codeception.dist.yml"
-  - "sed -i 's/password:.*/password:/' codeception.dist.yml"
-  - "sed -i 's/dbPassword: password/dbPassword:/' codeception.dist.yml"
+  - |
+    cat <<EOF > codeception.yml
+    modules:
+      config:
+        Db:
+          dsn: 'mysql:host=localhost;dbname=test'
+          password: ''
+        WPDb:
+          dsn: 'mysql:host=localhost;dbname=test'
+          password: ''
+        WPLoader:
+          wpRootFolder: /tmp/wordpress
+          dbName: wploader
+          dbPassword: ''
+          configFile: ''
+    EOF
+
+  # Clean up on aisle 3
+  - sed -i 's/^  //' codeception.yml
+  - sed -i '/EOF/d' codeception.yml
+
+  # Create some databases
   - mysql -e "create database IF NOT EXISTS $wpDbName;" -uroot
   - mysql -e "create database IF NOT EXISTS $wpLoaderDbName;" -uroot
 
