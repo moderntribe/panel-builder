@@ -35,7 +35,7 @@ before_install:
   - mysql -e "create database IF NOT EXISTS $wpLoaderDbName;" -uroot
 
 install:
-  - composer update
+  - composer install
 
 before_script:
   # set up folders
