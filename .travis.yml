@@ -31,14 +31,14 @@ before_install:
     modules:
       config:
         Db:
-          dsn: 'mysql:host=localhost;dbname=test'
+          dsn: 'mysql:host=localhost;dbname=$wpDbName'
           password: ''
         WPDb:
-          dsn: 'mysql:host=localhost;dbname=test'
+          dsn: 'mysql:host=localhost;dbname=$wpDbName'
           password: ''
         WPLoader:
           wpRootFolder: /tmp/wordpress
-          dbName: wploader
+          dbName: $wpLoaderDbName
           dbPassword: ''
           configFile: ''
     EOF
