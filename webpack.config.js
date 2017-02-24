@@ -8,32 +8,52 @@ var entry = DEBUG ? [
 	'react-hot-loader/patch',
 	'webpack-dev-server/client?http://localhost:3000',
 	'webpack/hot/only-dev-server',
-	'./ui/src/index',
+	path.resolve(__dirname, 'ui/src/index'),
 ] : [
 	'react-hot-loader/patch',
 	'babel-polyfill',
-	'./ui/src/index',
+	path.resolve(__dirname, 'ui/src/index'),
 ];
 var plugins = [
 	new webpack.ProvidePlugin({
 		jQuery: 'jquery',
 		$: 'jquery',
 	}),
-	new ExtractTextPlugin('master.css', {
-		allChunks: true,
+	new ExtractTextPlugin({ filename: 'master.css', disable: false, allChunks: true }),
+	new webpack.LoaderOptionsPlugin({
+		options: {
+			context: __dirname,
+			postcss: [
+				require('postcss-inline-comment'),
+				require('postcss-import'),
+				require('postcss-custom-media'),
+				require('postcss-quantity-queries'),
+				require('postcss-aspect-ratio'),
+				require('postcss-cssnext')({ browsers: ['last 3 versions', 'ie 11'] }),
+				require('postcss-nested'),
+				require('postcss-inline-svg'),
+				require('lost'),
+			]
+		}
 	}),
 ];
 var cssloader;
 if (DEBUG) {
 	plugins.push(new webpack.HotModuleReplacementPlugin());
-	cssloader = 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
+	cssloader = 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 } else {
 	plugins.push(new webpack.DefinePlugin({
 		'process.env': {
 			NODE_ENV: JSON.stringify('production'),
 		},
 	}));
-	cssloader = ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader');
+	cssloader = ExtractTextPlugin.extract({
+		fallbackLoader: 'style-loader',
+		loader: [
+			'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+			'postcss-loader'
+		]
+	});
 }
 
 module.exports = {
@@ -43,12 +63,16 @@ module.exports = {
 		jquery: 'jQuery',
 	},
 	resolveLoader: {
-		root: path.join(__dirname, 'node_modules'),
+		modules: [
+			path.resolve(__dirname, 'node_modules'),
+		]
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx', 'json', '.pcss'],
-		modulesDirectories: ['node_modules'],
-		fallback: path.join(__dirname, 'node_modules'),
+		extensions: ['.js', '.jsx', 'json', '.pcss'],
+		modules: [
+			path.resolve('./ui/src'),
+			path.resolve(__dirname, 'node_modules'),
+		]
 	},
 	output: {
 		path: DEBUG ? path.join(__dirname, '/') : path.join(__dirname, '/ui/dist/'),
@@ -60,16 +84,11 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js$/,
-				loader: 'babel',
-				include: path.join(__dirname, 'ui/src'),
+				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
 					'plugins': ['lodash'],
 				}
-			},
-			{
-				include: /\.json$/,
-				loaders: ['json-loader'],
 			},
 			{
 				test: /\.(png|jpg|jpeg)$/,
@@ -81,15 +100,5 @@ module.exports = {
 			},
 		],
 	},
-	postcss: [
-		require('postcss-inline-comment'),
-		require('postcss-import'),
-		require('postcss-custom-media'),
-		require('postcss-quantity-queries'),
-		require('postcss-aspect-ratio'),
-		require('postcss-cssnext')({ browsers: ['last 3 versions', 'ie 11'] }),
-		require('postcss-nested'),
-		require('postcss-inline-svg'),
-		require('lost'),
-	],
 };
+
