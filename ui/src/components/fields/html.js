@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './html.pcss';
 import classNames from 'classnames';
+
+import styles from './html.pcss';
 
 const HTML = (props) => {
 	const descriptionClasses = classNames({

@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import autobind from 'autobind-decorator';
-import LinkGroup from '../shared/link-group';
-
 import classNames from 'classnames';
 
+import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
 
 class Link extends Component {

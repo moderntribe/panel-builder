@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
-import MediaUploader from '../shared/media-uploader';
 import classNames from 'classnames';
 
+import MediaUploader from '../shared/media-uploader';
 import { wpMedia } from '../../globals/wp';
 import * as AdminCache from '../../util/data/admin-cache';
 

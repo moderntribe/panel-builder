@@ -440,6 +440,7 @@ class PanelCollection extends Component {
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
+					indexMap={[i]}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}

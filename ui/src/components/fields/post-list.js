@@ -102,19 +102,18 @@ class PostList extends Component {
 			};
 		}
 		// add other filters
-		for (const filter of this.state.filters) {
+		for (const filter of this.state.filters) { // eslint-disable-line
 			filters[filter.value] = {
 				lock: true,
 				selection: filter.selection,
 			};
 		}
-		const newValue = {
+		return {
 			filters,
 			type: this.state.type,
 			posts: this.state.manualPostData,
 			max: this.state.max.toString(),
 		};
-		return newValue;
 	}
 
 	/**
@@ -123,13 +122,13 @@ class PostList extends Component {
 	 * @method getPropFilterByKey
 	 */
 	getPropFilterByKey(filterKey) {
-		for (const filter of this.props.filters) {
+		for (const filter of this.props.filters) { // eslint-disable-line
 			if (filter.value) {
 				if (filter.value === filterKey) {
 					return filter;
 				}
 			} else if (filter.options) {
-				for (const option of filter.options) {
+				for (const option of filter.options) { // eslint-disable-line
 					if (option.value === filterKey) {
 						return option;
 					}

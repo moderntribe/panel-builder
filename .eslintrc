@@ -40,8 +40,10 @@
     "no-param-reassign": [2, {"props": false}],
     "no-script-url": 0,
     "no-return-assign": 0,
+    "no-mixed-operators": 0,
     "no-use-before-define": [2, "nofunc"],
     "quote-props": [2, "consistent-as-needed"],
+    "react/no-danger": 0,
     "react/jsx-indent": [2, "tab"],
     "react/jsx-indent-props": [2, "tab"],
     "react/jsx-no-bind": [2, {
@@ -49,6 +51,8 @@
       "allowArrowFunctions": true,
       "allowBind": false
     }],
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/label-has-for": 0,
     "react/forbid-prop-types": 0,
     "react/no-unused-prop-types": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

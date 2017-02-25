@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
 
 import Expander from './expander';
@@ -25,7 +24,6 @@ class AccordionBack extends Component {
 	}
 
 	componentDidMount() {
-		this.el = ReactDOM.findDOMNode(this.refs.accordion);
 		document.addEventListener('modern_tribe/title_updated', this.updateTitle);
 	}
 
@@ -45,7 +43,7 @@ class AccordionBack extends Component {
 
 	render() {
 		return (
-			<nav ref="accordion" className={styles.back}>
+			<nav ref={r => this.el = r} className={styles.back}>
 				<Button
 					classes={styles.backButton}
 					handleClick={this.props.handleClick}

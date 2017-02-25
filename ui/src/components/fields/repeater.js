@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
@@ -49,10 +48,6 @@ class Repeater extends Component {
 		this.el = null;
 	}
 
-	componentDidMount() {
-		this.el = ReactDOM.findDOMNode(this.refs.repeater);
-	}
-
 	getNewRowData() {
 		const newRow = {};
 		_.forEach(this.props.fields, (field) => {
@@ -65,8 +60,6 @@ class Repeater extends Component {
 	/**
 	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
 	 * we print the min amount of required fields.
-	 *
-	 * // todo: single child panel level support for now. when moving into multiple levels refactor to index map
 	 *
 	 * @returns {*}
 	 */
@@ -383,7 +376,7 @@ class Repeater extends Component {
 		});
 
 		return (
-			<div ref="repeater" className={fieldClasses} data-depth={this.props.depth} data-active={this.state.active}>
+			<div ref={r => this.el = r} className={fieldClasses} data-depth={this.props.depth} data-active={this.state.active}>
 				<label className={legendClasses}>{this.props.label}</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}

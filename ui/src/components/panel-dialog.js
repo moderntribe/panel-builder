@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Modal from 'react-modal';
@@ -65,7 +64,7 @@ class Dialog extends Component {
 		const callbackData = {};
 		if (this.state.template === 'confirmPanelSetTitle') {
 			// special case for the panel set dialog, dont allow confirm if no title set
-			const panelTitle = ReactDOM.findDOMNode(this.refs.panelTitle).value;
+			const panelTitle = this.panelTitle;
 			if (!panelTitle.trim().length) {
 				return;
 			}
@@ -102,7 +101,7 @@ class Dialog extends Component {
 	}
 
 	confirmPanelSetTitle() {
-		return <input ref="panelTitle" className={styles.input} type="text" name="panel-set-title" defaultValue={this.getPageTitle()} />;
+		return <input ref={r => this.panelTitle = r} className={styles.input} type="text" name="panel-set-title" defaultValue={this.getPageTitle()} />;
 	}
 
 	renderMessage() {

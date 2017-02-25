@@ -56,7 +56,7 @@ class ImageGallery extends Component {
 		const gallery = models.map((attachment) => {
 			const att = attachment.toJSON();
 			let thumbnail = '';
-			if (att.sizes.hasOwnProperty('thumbnail')) {
+			if (Object.prototype.hasOwnProperty.call(att.sizes, 'thumbnail')) {
 				thumbnail = att.sizes.thumbnail.url;
 			} else {
 				// If it doesn't have a thumbnail, that's because it was

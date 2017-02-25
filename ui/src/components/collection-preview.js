@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import zenscroll from 'zenscroll';
 import autobind from 'autobind-decorator';
@@ -31,7 +30,7 @@ class CollectionPreview extends Component {
 	}
 
 	componentDidMount() {
-		this.iframe = ReactDOM.findDOMNode(this.refs.frame);
+		this.iframe = this.frame;
 		this.bindEvents();
 	}
 
@@ -419,7 +418,7 @@ class CollectionPreview extends Component {
 	}
 
 	revealIframe() {
-		ReactDOM.findDOMNode(this.refs.loader).style.opacity = 0;
+		this.loader.style.opacity = 0;
 		_.delay(() => {
 			this.setState({ loading: false });
 			this.props.iframeLoaded();
@@ -456,11 +455,11 @@ class CollectionPreview extends Component {
 		return (
 			<div className={styles.iframe}>
 				{this.state.loading &&
-					<div ref="loader" className={styles.loaderWrap}>
+					<div ref={r => this.loader = r} className={styles.loaderWrap}>
 						<div className={styles.loading}><Loader active /></div>
 					</div>
 				}
-				<iframe ref="frame" className={iframeClasses} src={this.iframeUrl} />
+				<iframe ref={r => this.frame = r} className={iframeClasses} src={this.iframeUrl} />
 			</div>
 		);
 	}
