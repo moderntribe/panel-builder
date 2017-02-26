@@ -50,10 +50,7 @@ class Repeater extends Component {
 
 	getNewRowData() {
 		const newRow = {};
-		_.forEach(this.props.fields, (field) => {
-			newRow[field.name] = '';
-		});
-
+		_.forEach(this.props.fields, field => newRow[field.name] = field.default);
 		return newRow;
 	}
 
@@ -117,6 +114,7 @@ class Repeater extends Component {
 					data={rowData}
 					parent={this.props.name}
 					index={this.props.panelIndex}
+					indexMap={this.props.indexMap}
 					updatePanelData={this.updateRepeaterFieldData}
 				/>
 				<Button
@@ -395,6 +393,7 @@ Repeater.propTypes = {
 	parentIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
 	panelIndex: PropTypes.number,
+	indexMap: PropTypes.array,
 	fields: PropTypes.array,
 	strings: PropTypes.object,
 	label: PropTypes.string,
@@ -415,6 +414,7 @@ Repeater.defaultProps = {
 	parentIndex: 0,
 	panels: [],
 	panelIndex: 0,
+	indexMap: [],
 	panelLabel: '',
 	fields: [],
 	strings: {},

@@ -83,6 +83,11 @@ class Children extends Component {
 			[styles.fields]: true,
 			'panel-row-fields': true,
 		});
+		const indexMap = JSON.parse(JSON.stringify(this.props.indexMap));
+		indexMap.push({
+			index: this.state.activeIndex,
+			key: 'panels',
+		});
 
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
@@ -100,6 +105,7 @@ class Children extends Component {
 					index={this.state.activeIndex}
 					panelIndex={this.state.activeIndex}
 					parentIndex={this.props.parentIndex}
+					indexMap={indexMap}
 					classesWrapper={styles.childPanels}
 					classesFields={styles.childPanelsFields}
 					liveEdit={this.props.liveEdit}
@@ -449,6 +455,7 @@ Children.propTypes = {
 	depth: PropTypes.number,
 	data: PropTypes.array,
 	parentIndex: PropTypes.number,
+	indexMap: PropTypes.array,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
 	description: PropTypes.string,
@@ -463,6 +470,7 @@ Children.defaultProps = {
 	childData: {},
 	depth: 0,
 	parentIndex: 0,
+	indexMap: [],
 	panelLabel: '',
 	fields: [],
 	data: [],

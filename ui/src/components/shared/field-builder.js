@@ -34,6 +34,7 @@ const FieldBuilder = (props) => {
 					depth={props.depth}
 					panelIndex={props.index}
 					parentIndex={props.parentIndex}
+					indexMap={props.indexMap}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
 					data={props.data[field.name]}
@@ -52,6 +53,7 @@ const FieldBuilder = (props) => {
 			panels={props.panels}
 			depth={props.depth}
 			parentIndex={props.index}
+			indexMap={props.indexMap}
 			liveEdit={props.liveEdit}
 			data={props.panels}
 			updatePanelData={props.updatePanelData}
@@ -74,6 +76,7 @@ FieldBuilder.propTypes = {
 	children: PropTypes.object,
 	depth: PropTypes.number,
 	index: PropTypes.number,
+	indexMap: PropTypes.array,
 	label: PropTypes.string,
 	fields: PropTypes.array,
 	panels: PropTypes.array,
@@ -94,6 +97,7 @@ FieldBuilder.defaultProps = {
 	childPanels: [],
 	depth: 0,
 	index: 0,
+	indexMap: [],
 	label: '',
 	fields: [],
 	panels: [],

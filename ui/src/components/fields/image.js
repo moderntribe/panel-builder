@@ -107,7 +107,7 @@ Image.propTypes = {
 	description: React.PropTypes.string,
 	data: React.PropTypes.number,
 	strings: React.PropTypes.object,
-	default: React.PropTypes.string,
+	default: React.PropTypes.number,
 	panelIndex: React.PropTypes.number,
 	updatePanelData: React.PropTypes.func,
 };
@@ -118,7 +118,7 @@ Image.defaultProps = {
 	description: '',
 	data: 0,
 	strings: {},
-	default: '',
+	default: 0,
 	panelIndex: 0,
 	updatePanelData: () => {},
 };

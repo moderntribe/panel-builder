@@ -24,6 +24,7 @@ import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
 import * as animateWindow from '../util/dom/animate-collection';
 import * as panelDataMassager from '../util/data/panel-data-massager';
+import cloneDeep from '../util/data/clone-deep';
 
 import randomString from '../util/data/random-string';
 
@@ -64,7 +65,7 @@ class PanelCollection extends Component {
 	 */
 
 	bindEvents() {
-		MODULAR_CONTENT.autosave = JSON.stringify({ panels: panelDataMassager.flatten(_.cloneDeep(this.props.panels)) });
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: panelDataMassager.flatten(cloneDeep(this.props.panels)) });
 		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
 		heartbeat.init({
@@ -261,7 +262,7 @@ class PanelCollection extends Component {
 	runDataHeartbeat() {
 		const dataInput = this.dataInput;
 		this.heartbeat = setInterval(() => {
-			const panels = panelDataMassager.flatten(_.cloneDeep(this.props.panels));
+			const panels = panelDataMassager.flatten(cloneDeep(this.props.panels));
 			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
 				return;
@@ -434,13 +435,17 @@ class PanelCollection extends Component {
 
 		const Panels = _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
+			const indexMap = [{
+				key: 'panels',
+				index: i,
+			}];
 			return (
 				<Panel
 					{...blueprint}
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
-					indexMap={[i]}
+					indexMap={indexMap}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
