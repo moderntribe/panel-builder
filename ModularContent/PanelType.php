@@ -39,7 +39,7 @@ class PanelType {
 	protected $settings_fields = array();
 
 	/** @var int */
-	protected $max_depth = 1;
+	protected $max_depth = 0;
 
 	/** @var int */
 	protected $max_children = 0;

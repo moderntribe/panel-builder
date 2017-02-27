@@ -10,10 +10,9 @@ import {
 
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
-import * as panelDataMassager from '../util/data/panel-data-massager';
 
 const initialData = {
-	panels: panelDataMassager.nest(PANELS),
+	panels: PANELS,
 };
 
 // when needing deep update can do like yo:

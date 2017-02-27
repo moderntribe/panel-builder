@@ -112,9 +112,10 @@ class Panel implements \JsonSerializable {
 
 	public function jsonSerialize() {
 		return [
-			'type'  => (string) $this->type,
-			'depth' => (int) $this->depth,
-			'data'  => (object) $this->data,
+			'type'   => (string) $this->type,
+			'depth'  => (int) $this->depth,
+			'data'   => (object) $this->data,
+			'panels' => $this->children,
 		];
 	}
 

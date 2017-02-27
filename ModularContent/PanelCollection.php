@@ -34,6 +34,44 @@ class PanelCollection implements \JsonSerializable {
 		return $this->panels;
 	}
 
+
+	/**
+	 * Build a tree using the depth field of the panels in a collection
+	 *
+	 * @return Panel[]
+	 */
+	public function build_tree() {
+		$tree = array();
+		/** @var Panel[] $parents */
+		$parents = array();
+		$current_depth = 0;
+		foreach ( $this->panels as $original_panel ) {
+			$panel = clone( $original_panel );
+			$type = $panel->get_type_object();
+			$depth = $panel->get_depth();
+			if ( $type->get_max_depth() < $depth || $depth > $current_depth + 1 ) {
+				continue; // fell out of the tree
+			}
+
+			while ( $depth < $current_depth && $current_depth > 0 ) {
+				unset($parents[$current_depth]);
+				$current_depth--;
+			}
+
+			if ( $current_depth > 0 ) {
+				$parents[$current_depth]->add_child($panel);
+			} else {
+				$tree[] = $panel;
+			}
+
+			if ( $type->get_max_children() > 0 ) {
+				$current_depth++;
+				$parents[$current_depth] = $panel;
+			}
+		}
+		return $tree;
+	}
+
 	/**
 	 * Render all panels in the collection to a string
 	 *

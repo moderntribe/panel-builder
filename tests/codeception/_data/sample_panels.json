@@ -29,7 +29,8 @@
                 "cta_style": [
                     "button"
                 ]
-            }
+            },
+            "panels": []
         },
         {
             "type": "gallery",
@@ -55,7 +56,8 @@
                         "thumbnail": "http:\/\/griddle.tri.be\/?w=450&h=250"
                     }
                 ]
-            }
+            },
+            "panels": []
         },
         {
             "type": "imagetext",
@@ -74,7 +76,8 @@
                 "cta_style": [
                     "text"
                 ]
-            }
+            },
+            "panels": []
         },
         {
             "type": "micronav",
@@ -89,14 +92,16 @@
                     "filters": [],
                     "max": 0
                 }
-            }
+            },
+            "panels": []
         },
         {
             "type": "tabgroup",
             "depth": 0,
             "data": {
                 "title": "A group of tabs"
-            }
+            },
+            "panels": []
         },
         {
             "type": "wysiwyg",
@@ -111,7 +116,8 @@
                         "column": "Column 2 Content"
                     }
                 ]
-            }
+            },
+            "panels": []
         },
         {
             "type": "wysiwyg",
@@ -123,7 +129,8 @@
                         "column": "Column 1 Content"
                     }
                 ]
-            }
+            },
+            "panels": []
         },
         {
             "type": "wysiwyg",
@@ -138,7 +145,8 @@
                         "column": "Column 2 Content"
                     }
                 ]
-            }
+            },
+            "panels": []
         }
     ]
 }

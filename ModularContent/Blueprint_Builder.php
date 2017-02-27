@@ -37,7 +37,7 @@ class Blueprint_Builder implements \JsonSerializable {
 		return empty( $allowed );
 	}
 
-	private function single_panel_type_blueprint( PanelType $type, $depth = 1 ) {
+	private function single_panel_type_blueprint( PanelType $type, $depth = 0 ) {
 		$blueprint = [ ];
 		$blueprint[ 'type' ] = $type->get_id();
 		$blueprint[ 'label' ] = $type->get_label();
