@@ -64,7 +64,7 @@ class Dialog extends Component {
 		const callbackData = {};
 		if (this.state.template === 'confirmPanelSetTitle') {
 			// special case for the panel set dialog, dont allow confirm if no title set
-			const panelTitle = this.panelTitle;
+			const panelTitle = this.panelTitle.value;
 			if (!panelTitle.trim().length) {
 				return;
 			}
