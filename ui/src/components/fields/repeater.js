@@ -259,6 +259,7 @@ class Repeater extends Component {
 		const data = this.state.data;
 		data.splice(this.state.activeIndex, 1);
 		this.props.hidePanel(false);
+		this.props.nestedGroupActive(false);
 		this.setState({
 			active: false,
 			activeIndex: 0,
