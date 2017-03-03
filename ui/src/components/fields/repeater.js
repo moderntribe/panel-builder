@@ -289,6 +289,7 @@ class Repeater extends Component {
 		newState.activeIndex = newState.data.length - 1;
 		if (this.props.liveEdit) {
 			this.props.hidePanel(true);
+			this.props.nestedGroupActive(true);
 		}
 		this.setState(newState, () => {
 			this.props.updatePanelData({
