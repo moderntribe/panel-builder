@@ -76,7 +76,7 @@ class PostList extends Component {
 	@autobind
 	onRemoveFilter(e) {
 		const filters = _.cloneDeep(this.state.filters);
-		_.remove(filters, (filter) => filter.filterID === e.filterID);
+		_.remove(filters, filter => filter.filterID === e.filterID);
 		this.setState({
 			filterValue: '',
 			filters,
@@ -96,25 +96,24 @@ class PostList extends Component {
 		const filters = {};
 		// add the post types
 		if (this.state.postTypes.length) {
-			const selection = _.map(this.state.postTypes, (postType) => postType.value);
+			const selection = _.map(this.state.postTypes, postType => postType.value);
 			filters.post_type = {
 				selection,
 			};
 		}
 		// add other filters
-		for (const filter of this.state.filters) {
+		for (const filter of this.state.filters) { // eslint-disable-line
 			filters[filter.value] = {
 				lock: true,
 				selection: filter.selection,
 			};
 		}
-		const newValue = {
+		return {
 			filters,
 			type: this.state.type,
 			posts: this.state.manualPostData,
 			max: this.state.max.toString(),
 		};
-		return newValue;
 	}
 
 	/**
@@ -123,13 +122,13 @@ class PostList extends Component {
 	 * @method getPropFilterByKey
 	 */
 	getPropFilterByKey(filterKey) {
-		for (const filter of this.props.filters) {
+		for (const filter of this.props.filters) { // eslint-disable-line
 			if (filter.value) {
 				if (filter.value === filterKey) {
 					return filter;
 				}
 			} else if (filter.options) {
-				for (const option of filter.options) {
+				for (const option of filter.options) { // eslint-disable-line
 					if (option.value === filterKey) {
 						return option;
 					}
@@ -247,34 +246,32 @@ class PostList extends Component {
 							);
 						}
 					}
-				} else {
-					if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
-						Template = (
-							<PostListPostManual
-								key={_.uniqueId('manual-post-edit-')}
-								editableId={data.editableId}
-								strings={this.props.strings}
-								hiddenFields={this.props.hidden_fields}
-								postTitle={data.post_title}
-								postContent={data.post_content}
-								imageId={parseInt(data.thumbnail_id, 10)}
-								postUrl={data.url}
-								handleCancelClick={this.handleCancelClick}
-								handleAddClick={this.handleAddUpdateClick}
-							/>
+				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Manual) {
+					Template = (
+						<PostListPostManual
+							key={_.uniqueId('manual-post-edit-')}
+							editableId={data.editableId}
+							strings={this.props.strings}
+							hiddenFields={this.props.hidden_fields}
+							postTitle={data.post_title}
+							postContent={data.post_content}
+							imageId={parseInt(data.thumbnail_id, 10)}
+							postUrl={data.url}
+							handleCancelClick={this.handleCancelClick}
+							handleAddClick={this.handleAddUpdateClick}
+						/>
 						);
-					} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
-						Template = (
-							<PostListPostSelected
-								key={_.uniqueId('manual-post-edit-')}
-								editableId={data.editableId}
-								strings={this.props.strings}
-								post_type={this.props.post_type}
-								handleCancelClick={this.handleCancelClick}
-								handleAddClick={this.handleAddUpdateClick}
-							/>
+				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
+					Template = (
+						<PostListPostSelected
+							key={_.uniqueId('manual-post-edit-')}
+							editableId={data.editableId}
+							strings={this.props.strings}
+							post_type={this.props.post_type}
+							handleCancelClick={this.handleCancelClick}
+							handleAddClick={this.handleAddUpdateClick}
+						/>
 						);
-					}
 				}
 				return Template;
 			});
@@ -309,14 +306,14 @@ class PostList extends Component {
 		// Shows the empties if less than min
 		if (this.state.manualPostData.length < this.props.min) {
 			const remaining = this.props.min - this.state.manualPostData.length;
-			MaybeChooser = _.times(remaining, (i) =>
+			MaybeChooser = _.times(remaining, i =>
 				<PostListManualTypeChooser
 					key={_.uniqueId('add-manual-post-')}
 					index={i}
 					showHeading={this.state.manualPostData.length !== 0}
 					handleClick={this.addManualPost}
 					strings={this.props.strings}
-				/>
+				/>,
 			);
 		} else if (this.state.manualPostData.length < this.props.max) {
 			// shows one empty if more than min but less than max
@@ -366,7 +363,7 @@ class PostList extends Component {
 		});
 
 		// map filter data to individual filters
-		let Filters = _.map(this.state.filters, (filter) => {
+		const Filters = _.map(this.state.filters, (filter) => {
 			let Template;
 			if (filter.filter_type === POST_LIST_CONFIG.FILTERS.Date) {
 				Template = (
@@ -473,7 +470,7 @@ class PostList extends Component {
 	 */
 	getFilterOptions() {
 		let filters = _.cloneDeep(this.props.filters);
-		const postTypesFlat = _.map(this.state.postTypes, (type) => type.value);
+		const postTypesFlat = _.map(this.state.postTypes, type => type.value);
 
 		// first level for date
 		filters = _.remove(filters, (filter) => {
@@ -495,15 +492,13 @@ class PostList extends Component {
 						let check;
 						if (!option.post_type) {
 							check = true; // remove if no post_type
-						} else {
-							if (option.post_type.length) { // check against array
-								const intersect = _.intersection(option.post_type, postTypesFlat);
-								check = intersect.length > 0;
-							} else { // check against object and keys
-								const keysIn = _.keysIn(option.post_type);
-								const intersectKeys = _.intersection(keysIn, postTypesFlat);
-								check = intersectKeys.length > 0;
-							}
+						} else if (option.post_type.length) { // check against array
+							const intersect = _.intersection(option.post_type, postTypesFlat);
+							check = intersect.length > 0;
+						} else { // check against object and keys
+							const keysIn = _.keysIn(option.post_type);
+							const intersectKeys = _.intersection(keysIn, postTypesFlat);
+							check = intersectKeys.length > 0;
 						}
 						return check;
 					});
@@ -809,7 +804,7 @@ class PostList extends Component {
 		// looking for editableId
 		const newState = {};
 		newState.manualPostData = _.cloneDeep(this.state.manualPostData);
-		_.remove(newState.manualPostData, (n) => n.editableId === editableId);
+		_.remove(newState.manualPostData, n => n.editableId === editableId);
 		this.setState(newState, () => {
 			this.initiateUpdatePanelData();
 		});

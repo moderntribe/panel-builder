@@ -217,7 +217,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$this->assertCount( 1, $blueprint[ 'types' ], 'one top-level panel type expected' );
 
 		$top = $blueprint[ 'types' ];
-		for ( $i = 0; $i < 5; $i++ ) {
+		for ( $i = 0; $i < 6; $i++ ) {
 			$this->assertCount( 1, $top[ 0 ][ 'children' ][ 'types' ], 'expecting a child panel type' );
 			$this->assertEquals( 'test_type', $top[ 0 ][ 'children' ][ 'types' ][ 0 ][ 'type' ], 'expecting a child panel type' );
 			$top = $top[ 0 ][ 'children' ][ 'types' ];

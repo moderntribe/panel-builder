@@ -18,7 +18,7 @@ export const closest = (el, selector) => {
 		if (parent && parent[matchesFn](selector)) {
 			return parent;
 		}
-		el = parent;
+		el = parent; //eslint-disable-line
 	}
 
 	return null;

@@ -30,7 +30,7 @@ class PanelSetsPicker extends Component {
 	renderStartPageFromScratch() {
 		return (
 			<div className={styles.newPage} onClick={this.props.handleStartNewPage}>
-				<div className={styles.createIcon}></div>
+				<div className={styles.createIcon} />
 				<h3 className={styles.createHeader}>{UI_I18N['heading.start_from_scr']}</h3>
 			</div>
 		);
@@ -43,7 +43,7 @@ class PanelSetsPicker extends Component {
 				{...template}
 				togglePreview={this.togglePreview}
 				handleAddPanelSet={this.props.handleAddPanelSet}
-			/>
+			/>,
 		);
 
 		return (

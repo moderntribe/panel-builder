@@ -1,20 +1,20 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var DEBUG = process.env.NODE_ENV !== 'production';
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var devtool = DEBUG ? 'eval' : 'source-map';
-var entry = DEBUG ? [
+const DEBUG = process.env.NODE_ENV !== 'production';
+
+const devtool = DEBUG ? 'eval' : 'source-map';
+const entry = DEBUG ? [
 	'react-hot-loader/patch',
 	'webpack-dev-server/client?http://localhost:3000',
 	'webpack/hot/only-dev-server',
 	path.resolve(__dirname, 'ui/src/index'),
 ] : [
 	'react-hot-loader/patch',
-	'babel-polyfill',
 	path.resolve(__dirname, 'ui/src/index'),
 ];
-var plugins = [
+const plugins = [
 	new webpack.ProvidePlugin({
 		jQuery: 'jquery',
 		$: 'jquery',
@@ -33,13 +33,14 @@ var plugins = [
 				require('postcss-nested'),
 				require('postcss-inline-svg'),
 				require('lost'),
-			]
-		}
+			],
+		},
 	}),
 ];
-var cssloader;
+let cssloader;
 if (DEBUG) {
 	plugins.push(new webpack.HotModuleReplacementPlugin());
+	plugins.push(new webpack.NamedModulesPlugin());
 	cssloader = 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 } else {
 	plugins.push(new webpack.DefinePlugin({
@@ -51,35 +52,35 @@ if (DEBUG) {
 		fallbackLoader: 'style-loader',
 		loader: [
 			'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-			'postcss-loader'
-		]
+			'postcss-loader',
+		],
 	});
 }
 
 module.exports = {
-	devtool: devtool,
-	entry: entry,
+	devtool,
+	entry,
 	externals: {
 		jquery: 'jQuery',
 	},
 	resolveLoader: {
 		modules: [
 			path.resolve(__dirname, 'node_modules'),
-		]
+		],
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', 'json', '.pcss'],
 		modules: [
 			path.resolve('./ui/src'),
 			path.resolve(__dirname, 'node_modules'),
-		]
+		],
 	},
 	output: {
 		path: DEBUG ? path.join(__dirname, '/') : path.join(__dirname, '/ui/dist/'),
 		filename: DEBUG ? 'ui/dist/master.js' : 'master.js',
 		publicPath: DEBUG ? 'http://localhost:3000/' : '',
 	},
-	plugins: plugins,
+	plugins,
 	module: {
 		loaders: [
 			{
@@ -87,8 +88,8 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					'plugins': ['lodash'],
-				}
+					plugins: ['lodash'],
+				},
 			},
 			{
 				test: /\.(png|jpg|jpeg)$/,

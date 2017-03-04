@@ -34,6 +34,44 @@ class PanelCollection implements \JsonSerializable {
 		return $this->panels;
 	}
 
+
+	/**
+	 * Build a tree using the depth field of the panels in a collection
+	 *
+	 * @return Panel[]
+	 */
+	public function build_tree() {
+		$tree = array();
+		/** @var Panel[] $parents */
+		$parents = array();
+		$current_depth = 0;
+		foreach ( $this->panels as $original_panel ) {
+			$panel = clone( $original_panel );
+			$type = $panel->get_type_object();
+			$depth = $panel->get_depth();
+			if ( $type->get_max_depth() < $depth || $depth > $current_depth + 1 ) {
+				continue; // fell out of the tree
+			}
+
+			while ( $depth < $current_depth && $current_depth > 0 ) {
+				unset($parents[$current_depth]);
+				$current_depth--;
+			}
+
+			if ( $current_depth > 0 ) {
+				$parents[$current_depth]->add_child($panel);
+			} else {
+				$tree[] = $panel;
+			}
+
+			if ( $type->get_max_children() > 0 ) {
+				$current_depth++;
+				$parents[$current_depth] = $panel;
+			}
+		}
+		return $tree;
+	}
+
 	/**
 	 * Render all panels in the collection to a string
 	 *
@@ -68,20 +106,31 @@ class PanelCollection implements \JsonSerializable {
 		$registry = $registry ? $registry : Plugin::instance()->registry();
 		$collection = new self();
 		if ( !empty($data['panels']) ) {
-			foreach ( $data['panels'] as $p ) {
-				if ( !is_array($p) ) {
-					$p = json_decode($p, TRUE);
-				}
-				try {
-					$type = $registry->get($p['type']);
-					$panel = new Panel( $type, isset($p['data']) ? $p['data'] : array(), isset($p['depth']) ? $p['depth'] : 0 );
-					$collection->add_panel($panel);
-				} catch ( \Exception $e ) {
-					// skip
-				}
+			$panels = self::flatten_panel_list( $data, $registry );
+			foreach ( $panels as $p ) {
+				$collection->add_panel( $p );
 			}
 		}
 		return $collection;
+	}
+
+	private static function flatten_panel_list( $data, TypeRegistry $registry ) {
+		$panels = [];
+		foreach ( $data[ 'panels' ] as $p ) {
+			if ( !is_array($p) ) {
+				$p = json_decode($p, TRUE);
+			}
+			try {
+				$type = $registry->get($p['type']);
+				$panels[] = new Panel( $type, isset($p['data']) ? $p['data'] : array(), isset($p['depth']) ? $p['depth'] : 0 );
+				if ( isset( $p['panels'] ) && is_array( $p['panels'] ) ) {
+					$panels = array_merge( $panels, self::flatten_panel_list( $p, $registry ) );
+				}
+			} catch ( \Exception $e ) {
+				// skip
+			}
+		}
+		return $panels;
 	}
 
 	/**

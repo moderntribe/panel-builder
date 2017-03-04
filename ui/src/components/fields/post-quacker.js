@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
-import { wpMedia } from '../../globals/wp';
-import ReactDOM from 'react-dom';
+import ReactSelect from 'react-select-plus';
 import _ from 'lodash';
 import request from 'superagent';
 import param from 'jquery-param';
 
+import { wpMedia } from '../../globals/wp';
 import MediaUploader from '../shared/media-uploader';
 import Button from '../shared/button';
 import BlankPostUi from '../shared/blank-post-ui';
@@ -15,7 +15,6 @@ import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
 
 import * as RichtextEvents from '../../util/dom/tinymce';
-import ReactSelect from 'react-select-plus';
 import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './post-quacker.pcss';
@@ -54,7 +53,6 @@ class PostQuacker extends Component {
 	}
 
 	componentDidMount() {
-		this.cacheDom();
 		// delay for smooth animations, framerate killa
 		_.delay(() => {
 			this.initTinyMCE();
@@ -80,7 +78,7 @@ class PostQuacker extends Component {
 		return (
 			<div
 				id={`wp-${this.fid}-wrap`}
-				ref={this.fid}
+				ref={r => this.editor = r}
 				className={editorClasses}
 			>
 				<RichtextEditor
@@ -515,16 +513,6 @@ class PostQuacker extends Component {
 			name: this.props.name,
 			value: this.getValue(),
 		});
-	}
-
-	/**
-	 * Cache the dom elements this component works on.
-	 *
-	 * @method cacheDom
-	 */
-
-	cacheDom() {
-		this.editor = ReactDOM.findDOMNode(this.refs[this.fid]);
 	}
 
 	/**

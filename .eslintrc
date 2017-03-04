@@ -23,30 +23,45 @@
     "eqeqeq": [2, "allow-null"],
     "func-names": 0,
     "import/no-named-as-default": 0,
-    "indent": [2, "tab", {"SwitchCase": 1}],
-    "new-cap": 0,
+    "import/prefer-default-export": 0,
+    "no-useless-escape": 0,
     "no-tabs": 0,
-    "react/no-danger": 0,
-    "no-return-assign": 0,
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "new-cap": 0,
+    "no-console": 0,
+    "no-plusplus": 0,
     "no-undef": 0,
     "global-require": 0,
     "class-methods-use-this": 0,
     "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
     "no-param-reassign": [2, {"props": false}],
     "no-script-url": 0,
-    "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}],
+    "no-return-assign": 0,
+    "no-mixed-operators": 0,
     "no-use-before-define": [2, "nofunc"],
     "quote-props": [2, "consistent-as-needed"],
+    "react/no-danger": 0,
     "react/jsx-indent": [2, "tab"],
     "react/jsx-indent-props": [2, "tab"],
     "react/jsx-no-bind": [2, {
       "ignoreRefs": true,
-      "allowArrowFunctions": false,
+      "allowArrowFunctions": true,
       "allowBind": false
     }],
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/label-has-for": 0,
     "react/forbid-prop-types": 0,
+    "react/no-unused-prop-types": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "space-before-function-paren": 0,
-    "spaced-comment": 0
+    "spaced-comment": 0,
+    "max-len": [
+      "error",
+      500,
+      4
+    ]
   }
 }

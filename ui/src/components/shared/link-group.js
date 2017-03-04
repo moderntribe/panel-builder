@@ -64,7 +64,6 @@ const LinkGroup = (props) => {
 					searchable={false}
 					clearable={false}
 					options={TARGET_OPTIONS}
-					clearable={false}
 					onChange={props.handleTargetChange}
 				/>
 			</div>

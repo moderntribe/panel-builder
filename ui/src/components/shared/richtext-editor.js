@@ -26,7 +26,7 @@ const RichtextEditor = (props) => {
 				id={`wp-${props.fid}-media-buttons`}
 				className="wp-media-buttons"
 				dangerouslySetInnerHTML={{ __html: mediaButtonsHTML.replace('%EDITOR_ID%', props.fid) }}
-			></div>
+			/>
 		) : null;
 	};
 
@@ -62,7 +62,7 @@ const RichtextEditor = (props) => {
 					data-settings_id={props.fid}
 					id={`qt_${props.fid}_toolbar`}
 					className="quicktags-toolbar"
-				></div>
+				/>
 				<textarea
 					className={`wysiwyg-${props.fid} wp-editor-area`}
 					rows="15"

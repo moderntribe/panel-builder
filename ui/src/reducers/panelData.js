@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import update from 'react/lib/update';
 import {
 	ADD_PANEL,
 	ADD_PANEL_SET,
@@ -6,7 +7,6 @@ import {
 	UPDATE_PANEL_DATA,
 	DELETE_PANEL,
 } from '../actions/panels';
-import update from 'react/lib/update';
 
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
@@ -31,10 +31,14 @@ export function panelData(state = initialData, action) {
 	const newState = state;
 	switch (action.type) {
 	case ADD_PANEL:
+		const panel = {
+			...action.data.panels[0],
+			panels: [],
+		};
 		if (action.data.index === -1) {
-			newState.panels.push(action.data.panels[0]);
+			newState.panels.push(panel);
 		} else {
-			newState.panels.splice(action.data.index, 0, action.data.panels[0]);
+			newState.panels.splice(action.data.index, 0, panel);
 		}
 
 		return newState;
@@ -64,6 +68,8 @@ export function panelData(state = initialData, action) {
 			let parent = newState.panels[action.data.index].data[action.data.parent];
 			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
+		} else if (action.data.name === 'panels') {
+			newState.panels[action.data.index].panels = action.data.value;
 		} else {
 			newState.panels[action.data.index].data[action.data.name] = action.data.value;
 		}

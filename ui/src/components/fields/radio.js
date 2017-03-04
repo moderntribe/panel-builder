@@ -26,7 +26,7 @@ class Radio extends Component {
 			'plradio-label': true,
 		});
 
-		const Options = _.map(this.props.options, (option) =>
+		const Options = _.map(this.props.options, option =>
 			<label
 				className={radioLabelClasses}
 				key={_.uniqueId('option-id-')}
@@ -44,7 +44,7 @@ class Radio extends Component {
 				/>
 				<span />
 				{option.label}
-			</label>
+			</label>,
 		);
 		const labelClasses = classNames({
 			[styles.label]: true,

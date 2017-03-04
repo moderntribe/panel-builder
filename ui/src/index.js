@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,7 +17,7 @@ ReactDOM.render(
 			<PanelCollection />
 		</AppContainer>
 	</Provider>,
-	modularContent
+	modularContent,
 );
 /* eslint-disable global-require */
 if (module.hot) {
@@ -30,7 +29,7 @@ if (module.hot) {
 					<NextApp />
 				</AppContainer>
 			</Provider>,
-			modularContent
+			modularContent,
 		);
 	});
 }

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -24,6 +23,7 @@ import * as heartbeat from '../util/data/heartbeat';
 import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
 import * as animateWindow from '../util/dom/animate-collection';
+import cloneDeep from '../util/data/clone-deep';
 
 import randomString from '../util/data/random-string';
 
@@ -51,8 +51,6 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
-		this.collection = ReactDOM.findDOMNode(this.refs.collection);
-		this.sidebar = ReactDOM.findDOMNode(this.refs.sidebar);
 		this.bindEvents();
 	}
 
@@ -66,7 +64,7 @@ class PanelCollection extends Component {
 	 */
 
 	bindEvents() {
-		MODULAR_CONTENT.autosave = JSON.stringify({ panels: this.props.panels });
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: cloneDeep(this.props.panels) });
 		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
 		heartbeat.init({
@@ -129,15 +127,13 @@ class PanelCollection extends Component {
 					injectionIndex: -1,
 				});
 			}, 150);
+		} else if (MODULAR_CONTENT.needs_save) {
+			this.setState({ triggerLiveEdit: true });
+			heartbeat.triggerAutosave();
 		} else {
-			if (MODULAR_CONTENT.needs_save) {
-				this.setState({ triggerLiveEdit: true });
-				heartbeat.triggerAutosave();
-			} else {
-				this.animateToLiveEdit({
-					liveEdit: true,
-				});
-			}
+			this.animateToLiveEdit({
+				liveEdit: true,
+			});
 		}
 	}
 
@@ -263,9 +259,10 @@ class PanelCollection extends Component {
 	 * But that means we wont get auto liveupdating of the value from props and have to setup our own "heartbeat" to do it.
 	 */
 	runDataHeartbeat() {
-		const dataInput = ReactDOM.findDOMNode(this.refs.data);
+		const dataInput = this.dataInput;
 		this.heartbeat = setInterval(() => {
-			const newData = JSON.stringify({ panels: this.props.panels });
+			const panels = cloneDeep(this.props.panels);
+			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
 				return;
 			}
@@ -437,13 +434,17 @@ class PanelCollection extends Component {
 
 		const Panels = _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
+			const indexMap = [{
+				key: 'panels',
+				index: i,
+			}];
 			return (
 				<Panel
 					{...blueprint}
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
-					panelCount={this.props.panels.length}
+					indexMap={indexMap}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
@@ -486,7 +487,7 @@ class PanelCollection extends Component {
 	renderDataStorageInput() {
 		return (
 			<input
-				ref="data"
+				ref={r => this.dataInput = r}
 				type="hidden"
 				name="panels"
 				id="panels"
@@ -506,7 +507,7 @@ class PanelCollection extends Component {
 
 		return (
 			<div
-				ref="collection"
+				ref={r => this.collection = r}
 				className={collectionClasses}
 				data-live-edit={this.state.liveEdit}
 				data-live-active={this.state.active}
@@ -518,7 +519,7 @@ class PanelCollection extends Component {
 				data-os={tools.os()}
 			>
 				{this.renderBar()}
-				<div ref="sidebar" className={styles.sidebar} data-expanded="false" data-saving="false">
+				<div ref={r => this.sidebar = r} className={styles.sidebar} data-expanded="false" data-saving="false">
 					{this.renderHeader()}
 					{this.renderPanels()}
 					{this.renderPicker()}
@@ -532,14 +533,14 @@ class PanelCollection extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({ panels: state.panelData.panels });
+const mapStateToProps = state => ({ panels: state.panelData.panels });
 
-const mapDispatchToProps = (dispatch) => ({
-	movePanel: (data) => dispatch(movePanel(data)),
-	updatePanelData: (data) => dispatch(updatePanelData(data)),
-	addNewPanel: (data) => dispatch(addNewPanel(data)),
-	addNewPanelSet: (data) => dispatch(addNewPanelSet(data)),
-	deletePanelAtIndex: (data) => dispatch(deletePanelAtIndex(data)),
+const mapDispatchToProps = dispatch => ({
+	movePanel: data => dispatch(movePanel(data)),
+	updatePanelData: data => dispatch(updatePanelData(data)),
+	addNewPanel: data => dispatch(addNewPanel(data)),
+	addNewPanelSet: data => dispatch(addNewPanelSet(data)),
+	deletePanelAtIndex: data => dispatch(deletePanelAtIndex(data)),
 });
 
 PanelCollection.propTypes = {
