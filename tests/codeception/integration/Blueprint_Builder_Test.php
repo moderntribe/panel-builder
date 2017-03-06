@@ -59,6 +59,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 					'label' => [
 						'singular' => 'Module',
 						'plural'   => 'Modules',
+						'add'    => 'Add Module',
+						'delete' => 'Delete Module',
 					],
 					'types' => [ ],
 				],
@@ -138,6 +140,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 					'label' => [
 						'singular' => 'Module',
 						'plural'   => 'Modules',
+						'add'    => 'Add Module',
+						'delete' => 'Delete Module',
 					],
 					'types' => [
 						[
@@ -161,6 +165,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 								'label' => [
 									'singular' => 'Module',
 									'plural'   => 'Modules',
+									'add'    => 'Add Module',
+									'delete' => 'Delete Module',
 								],
 								'types' => [ ],
 							],

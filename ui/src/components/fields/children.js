@@ -45,6 +45,8 @@ class Children extends Component {
 			label: {
 				plural: 'Panels',
 				singular: 'Panel',
+				add: 'Add Panel',
+				delete: 'Delete panel',
 			},
 			max: 0,
 			types: {},
@@ -77,7 +79,7 @@ class Children extends Component {
 	getActiveRow() {
 		const rowData = this.state.data[this.state.activeIndex] ? this.state.data[this.state.activeIndex] : {};
 		const title = rowData.data.title && rowData.data.title.length ? rowData.data.title : `${this.childData.label.singular} ${this.state.activeIndex + 1}`;
-		const deleteLabel = `${UI_I18N['button.delete']} ${this.childData.label.singular}`;
+		const deleteLabel = `${this.childData.label.delete}`;
 		const blueprint = _.find(this.state.types, { type: rowData.type });
 		const fieldClasses = classNames({
 			[styles.fields]: true,
@@ -227,7 +229,7 @@ class Children extends Component {
 				<Button
 					icon="dashicons-plus-alt"
 					classes={classes}
-					text={`Add ${this.childData.label.singular}`}
+					text={`${this.childData.label.add}`}
 					primary={false}
 					full={false}
 					handleClick={this.handleLaunchPicker}
