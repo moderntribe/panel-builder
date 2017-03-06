@@ -53,6 +53,9 @@ class PanelType {
 	/** @var string */
 	protected $child_label_plural = '';
 
+	/** @var string[] */
+	protected $strings = [];
+
 	/**
 	 * @param string $id A unique string identifying this panel type
 	 */
@@ -357,18 +360,49 @@ class PanelType {
 	 * @return void
 	 */
 	public function set_child_labels( $singular, $plural ) {
-		$this->child_label_singular = $singular;
-		$this->child_label_plural = $plural;
+		$this->set_string( 'child.singular', $singular );
+		$this->set_string( 'child.plural', $plural );
+		$this->set_string( 'child.add', sprintf( _x( 'Add %s', 'Add child panel string', 'panel-builder'), $singular ) );
+		$this->set_string( 'child.delete', sprintf( _x( 'Delete %s', 'Remove child panel string', 'panel-builder'), $singular ) );
 	}
 
 	/**
-	 * Get the label for children of this panel type
+	 * Get the label for children of this panel type.
+	 * Retained for backwards compatibility, but preferred
+	 * to use:
+	 * $this->get_string( 'child.singular' )
+	 * $this->get_string( 'child.plural' )
 	 *
-	 * @param string $quantity
-	 *
+	 * @param string $quantity 'singular' or 'plural'
 	 * @return string
+	 * @see get_string()
 	 */
 	public function get_child_label( $quantity = 'singular' ) {
-		return ( $quantity == 'plural' ) ? $this->child_label_plural : $this->child_label_singular;
+		return $this->get_string( 'child.' . $quantity );
+	}
+
+
+	/**
+	 * Configure the value for a string
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @return void
+	 */
+	public function set_string( $key, $value ) {
+		$this->strings[ $key ] = $value;
+	}
+
+	/**
+	 * Get the configured value for a string
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function get_string( $key ) {
+		if ( isset( $this->strings[ $key ] ) ) {
+			return $this->strings[ $key ];
+		}
+		return '';
 	}
 } 
