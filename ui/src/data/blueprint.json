@@ -25,7 +25,7 @@
         "default": ""
       },
       {
-        "type": "ImageGallery",
+        "type": "Image_Gallery",
         "label": "Image Gallery",
         "name": "gallery",
         "description": "Gallery description goes here",

@@ -108,7 +108,7 @@
                     "max": 6
                 },
                 {
-                    "type": "ImageGallery",
+                    "type": "Image_Gallery",
                     "label": "Gallery",
                     "name": "gallery",
                     "description": "This is a gallery field",
@@ -1856,7 +1856,7 @@
                     "editor_settings_reference": ""
                 },
                 {
-                    "type": "ImageGallery",
+                    "type": "Image_Gallery",
                     "label": "Image Gallery",
                     "name": "gallery",
                     "description": "",

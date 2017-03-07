@@ -10,7 +10,7 @@ use ModularContent\Fields\Group;
 use ModularContent\Fields\Hidden;
 use ModularContent\Fields\HTML;
 use ModularContent\Fields\Image;
-use ModularContent\Fields\ImageGallery;
+use ModularContent\Fields\Image_Gallery;
 use ModularContent\Fields\ImageSelect;
 use ModularContent\Fields\Link;
 use ModularContent\Fields\Post_List;
@@ -387,7 +387,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		] ) );
 		$panel->add_field( $links );
 
-		$panel->add_field( new ImageGallery( [
+		$panel->add_field( new Image_Gallery( [
 			'label'       => 'Gallery',
 			'name'        => 'gallery',
 			'description' => 'This is a gallery field',
@@ -620,8 +620,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 			'label' => 'Description',
 		] ) );
 
-		// ImageGallery
-		$panel->add_field( new Fields\ImageGallery( [
+		// Image_Gallery
+		$panel->add_field( new Fields\Image_Gallery( [
 			'label' => 'Image Gallery',
 			'name'  => 'gallery',
 		] ) );
