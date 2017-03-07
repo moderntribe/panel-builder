@@ -5,13 +5,13 @@ namespace ModularContent\Fields;
 use Codeception\TestCase\WPTestCase;
 use ModularContent\AdminPreCache;
 
-class ImageGallery_Test extends WPTestCase {
+class Image_Gallery_Test extends WPTestCase {
 	public function test_blueprint() {
 		$label = __CLASS__ . '::' . __FUNCTION__;
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
 		$default = __LINE__;
-		$field = new ImageGallery( [
+		$field = new Image_Gallery( [
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
@@ -21,7 +21,7 @@ class ImageGallery_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ImageGallery',
+			'type'        => 'Image_Gallery',
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
@@ -39,7 +39,7 @@ class ImageGallery_Test extends WPTestCase {
 		$size = 'thumbnail';
 		$attachment_id = $this->factory()->attachment->create_upload_object( $file_path );
 		$cache = new AdminPreCache();
-		$field = new ImageGallery( [
+		$field = new Image_Gallery( [
 			'label'       => __FUNCTION__,
 			'name'        => __FUNCTION__,
 			'description' => __FUNCTION__,
