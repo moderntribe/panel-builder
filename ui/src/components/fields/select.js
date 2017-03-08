@@ -7,28 +7,17 @@ import styles from './select.pcss';
 
 class Select extends Component {
 	state = {
-		// todo: a bug in react select plus causes int values to not render the initial value
 		value: this.props.data && this.props.data.length ? _.toString(this.props.data) : _.toString(this.props.default),
 	};
-
-	getStringTypedOptions() {
-		return this.props.options.map(option => ({
-			label: option.label,
-			value: _.toString(option.value),
-		}));
-	}
 
 	@autobind
 	handleChange(data) {
 		const value = data ? _.toString(data.value) : _.toString(this.props.default);
-		const typedValue = isNaN(value) ? value : parseInt(value, 10);
-
 		this.setState({ value });
-
 		this.props.updatePanelData({
 			index: this.props.panelIndex,
 			name: this.props.name,
-			value: typedValue,
+			value,
 		});
 	}
 
@@ -52,7 +41,7 @@ class Select extends Component {
 				<label className={labelClasses}>{this.props.label}</label>
 				<ReactSelect
 					name={`modular-content-${this.props.name}`}
-					options={this.getStringTypedOptions()}
+					options={this.props.options}
 					onChange={this.handleChange}
 					value={this.state.value}
 				/>
