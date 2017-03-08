@@ -58,7 +58,7 @@ class Select extends Field {
 		foreach ( $options as $key => $label ) {
 			$blueprint['options'][] = [
 				'label' => $label,
-			  'value' => $key,
+				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
 			];
 		}
 		return $blueprint;
