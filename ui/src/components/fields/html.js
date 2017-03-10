@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './html.pcss';
 import classNames from 'classnames';
+
+import styles from './html.pcss';
 
 const HTML = (props) => {
 	const descriptionClasses = classNames({
@@ -13,7 +14,7 @@ const HTML = (props) => {
 	});
 	return (
 		<div className={fieldClasses}>
-			<div className={descriptionClasses} dangerouslySetInnerHTML={{ __html: props.description }} ></div>
+			<div className={descriptionClasses} dangerouslySetInnerHTML={{ __html: props.description }} />
 		</div>
 	);
 };

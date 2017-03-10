@@ -31,7 +31,7 @@ class Group extends Component {
 			'panel-row-header': true,
 		});
 		const arrowClasses = classNames({
-			dashicons: true,
+			'dashicons': true,
 			[styles.arrow]: true,
 			'panel-row-arrow': true,
 			'dashicons-arrow-right-alt2': true,
@@ -73,6 +73,7 @@ class Group extends Component {
 					data={this.props.data}
 					parent={this.props.name}
 					index={this.props.panelIndex}
+					indexMap={this.props.indexMap}
 					updatePanelData={this.updateGroupFieldData}
 				/>
 			</div>
@@ -102,6 +103,7 @@ class Group extends Component {
 	handleHeaderClick() {
 		if (this.props.liveEdit) {
 			this.props.hidePanel(true);
+			this.props.nestedGroupActive(true);
 		}
 		this.setState({
 			active: !this.state.active,
@@ -115,6 +117,7 @@ class Group extends Component {
 	@autobind
 	handleBackClick() {
 		this.props.hidePanel(false);
+		this.props.nestedGroupActive(false);
 		this.setState({
 			active: false,
 		});
@@ -144,8 +147,11 @@ class Group extends Component {
 }
 
 Group.propTypes = {
+	depth: PropTypes.number,
+	parentIndex: PropTypes.number,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
+	indexMap: PropTypes.array,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
 	label: PropTypes.string,
@@ -153,12 +159,16 @@ Group.propTypes = {
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
+	nestedGroupActive: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
 
 Group.defaultProps = {
+	depth: 0,
+	parentIndex: 0,
+	indexMap: [],
 	data: {},
 	panelIndex: 0,
 	panelLabel: '',
@@ -168,6 +178,7 @@ Group.defaultProps = {
 	liveEdit: false,
 	name: '',
 	default: [],
+	nestedGroupActive: () => {},
 	updatePanelData: () => {},
 	hidePanel: () => {},
 	handleExpanderClick: () => {},

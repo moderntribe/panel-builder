@@ -44,51 +44,13 @@ class Loop {
 		$this->panel = NULL;
 		$this->collection = $collection;
 		$this->panels = $collection->panels();
-		$this->panel_tree = $this->build_tree( $this->panels );
+		$this->panel_tree = $collection->build_tree();
 		$this->iterator = NULL;
 	}
 
 	public function rewind() {
 		$this->panel = NULL;
 		$this->iterator = NULL;
-	}
-
-	/**
-	 * Build a tree using the depth field of the panels in a collection
-	 *
-	 * @param Panel[] $panels
-	 *
-	 * @return array
-	 */
-	protected function build_tree( $panels ) {
-		$tree = array();
-		/** @var Panel[] $parents */
-		$parents = array();
-		$current_depth = 0;
-		foreach ( $panels as $panel ) {
-			$type = $panel->get_type_object();
-			$depth = $panel->get_depth();
-			if ( $type->get_max_depth() < $depth || $depth > $current_depth + 1 ) {
-				continue; // fell out of the tree
-			}
-
-			while ( $depth < $current_depth && $current_depth > 0 ) {
-				unset($parents[$current_depth]);
-				$current_depth--;
-			}
-
-			if ( $current_depth > 0 ) {
-				$parents[$current_depth]->add_child($panel);
-			} else {
-				$tree[] = $panel;
-			}
-
-			if ( $type->get_max_children() > 0 ) {
-				$current_depth++;
-				$parents[$current_depth] = $panel;
-			}
-		}
-		return $tree;
 	}
 
 	/**

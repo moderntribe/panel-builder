@@ -63,7 +63,12 @@ const CollectionHeader = (props) => {
 		let EditSet;
 		if (canEditPanelSet()) {
 			EditSet = (
-				<a href={props.panelSetPickerEditLink} className={styles.editSet} target="_blank">
+				<a
+					href={props.panelSetPickerEditLink}
+					className={styles.editSet}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					<i className={styles.editIcon} />
 					{UI_I18N['button.edit_template']}
 				</a>

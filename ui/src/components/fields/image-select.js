@@ -27,7 +27,7 @@ class ImageSelect extends Component {
 			[styles.imageSelectLabel]: true,
 		});
 
-		const Options = _.map(this.props.options, (option) =>
+		const Options = _.map(this.props.options, option =>
 			<label
 				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
@@ -49,7 +49,7 @@ class ImageSelect extends Component {
 					</span>
 				</div>
 				{option.label}
-			</label>
+			</label>,
 		);
 
 		const labelClasses = classNames({

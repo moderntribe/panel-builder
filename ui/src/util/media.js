@@ -33,7 +33,7 @@ export const getThumbnailPath = (thumbnailID, callback) => {
 						}
 					}
 				},
-			}
+			},
 		);
 	}
 	return true;

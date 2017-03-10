@@ -16,6 +16,9 @@ use ModularContent\Panel;
  * The image is stored in the field as an attachment ID.
  */
 class Image extends Field {
+
+	protected $default = 0;
+
 	/**
 	 * @param array $args
 	 *

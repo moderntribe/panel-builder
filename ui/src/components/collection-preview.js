@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import zenscroll from 'zenscroll';
 import autobind from 'autobind-decorator';
@@ -31,7 +30,7 @@ class CollectionPreview extends Component {
 	}
 
 	componentDidMount() {
-		this.iframe = ReactDOM.findDOMNode(this.refs.frame);
+		this.iframe = this.frame;
 		this.bindEvents();
 	}
 
@@ -46,14 +45,14 @@ class CollectionPreview extends Component {
 	bindIframeEvents() {
 		$(this.panelCollection)
 			.off('click mouseover mouseout')
-			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousover(e))
-			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, (e) => this.handleButtonMousout(e))
-			.on('click', `.${styles.mask}`, (e) => this.handlePanelTriggerClick(e))
-			.on('click', `.${styles.cancelInsert}`, (e) => this.handleCancelInsertClick(e))
-			.on('click', `.${styles.maskButtonAdd}`, (e) => this.handlePanelAddClick(e))
-			.on('click', `.${styles.maskButtonUp}`, (e) => this.handlePanelUpClick(e))
-			.on('click', `.${styles.maskButtonDown}`, (e) => this.handlePanelDownClick(e))
-			.on('click', `.${styles.maskButtonDelete}`, (e) => this.handlePanelDeleteClick(e));
+			.on('mouseover', `.${styles.maskButtonAdd}, .${styles.maskButton}`, e => this.handleButtonMousover(e))
+			.on('mouseout', `.${styles.maskButtonAdd}, .${styles.maskButton}`, e => this.handleButtonMousout(e))
+			.on('click', `.${styles.mask}`, e => this.handlePanelTriggerClick(e))
+			.on('click', `.${styles.cancelInsert}`, e => this.handleCancelInsertClick(e))
+			.on('click', `.${styles.maskButtonAdd}`, e => this.handlePanelAddClick(e))
+			.on('click', `.${styles.maskButtonUp}`, e => this.handlePanelUpClick(e))
+			.on('click', `.${styles.maskButtonDown}`, e => this.handlePanelDownClick(e))
+			.on('click', `.${styles.maskButtonDelete}`, e => this.handlePanelDeleteClick(e));
 
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -84,7 +83,7 @@ class CollectionPreview extends Component {
 	}
 
 	deactivatePanels() {
-		_.forEach(this.panelCollection.querySelectorAll('.panel'), (panel) => this.deactivatePanel(panel));
+		_.forEach(this.panelCollection.querySelectorAll('.panel'), panel => this.deactivatePanel(panel));
 	}
 
 	scrollToPanel(index, activate = true) {
@@ -414,7 +413,7 @@ class CollectionPreview extends Component {
 	}
 
 	revealIframe() {
-		ReactDOM.findDOMNode(this.refs.loader).style.opacity = 0;
+		this.loader.style.opacity = 0;
 		_.delay(() => {
 			this.setState({ loading: false });
 			this.props.iframeLoaded();
@@ -451,11 +450,11 @@ class CollectionPreview extends Component {
 		return (
 			<div className={styles.iframe}>
 				{this.state.loading &&
-					<div ref="loader" className={styles.loaderWrap}>
+					<div ref={r => this.loader = r} className={styles.loaderWrap}>
 						<div className={styles.loading}><Loader active /></div>
 					</div>
 				}
-				<iframe ref="frame" className={iframeClasses} src={this.iframeUrl} />
+				<iframe ref={r => this.frame = r} className={iframeClasses} src={this.iframeUrl} />
 			</div>
 		);
 	}

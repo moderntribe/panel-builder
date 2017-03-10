@@ -39,7 +39,7 @@ class Checkbox extends Component {
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
-		const Options = _.map(this.props.options, (option) =>
+		const Options = _.map(this.props.options, option =>
 			<li key={_.uniqueId('checkbox-id-')}>
 				<label className={styles.checkboxLabel}>
 					<input
@@ -56,14 +56,14 @@ class Checkbox extends Component {
 					<span />
 					{option.label}
 				</label>
-			</li>
+			</li>,
 		);
 
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<ul className={styles.list}>
-				{Options}
+					{Options}
 				</ul>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>

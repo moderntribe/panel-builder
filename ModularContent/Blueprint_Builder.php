@@ -37,7 +37,7 @@ class Blueprint_Builder implements \JsonSerializable {
 		return empty( $allowed );
 	}
 
-	private function single_panel_type_blueprint( PanelType $type, $depth = 1 ) {
+	private function single_panel_type_blueprint( PanelType $type, $depth = 0 ) {
 		$blueprint = [ ];
 		$blueprint[ 'type' ] = $type->get_id();
 		$blueprint[ 'label' ] = $type->get_label();
@@ -48,8 +48,10 @@ class Blueprint_Builder implements \JsonSerializable {
 		$blueprint[ 'children' ] = [
 			'max'   => $type->get_max_children(),
 			'label' => [
-				'singular' => $type->get_child_label( 'singular' ),
-				'plural'   => $type->get_child_label( 'plural' ),
+				'singular' => $type->get_string( 'child.singular' ),
+				'plural'   => $type->get_string( 'child.plural' ),
+				'add'      => $type->get_string( 'child.add' ),
+				'delete'   => $type->get_string( 'child.delete' ),
 			],
 			'types' => $this->get_child_types( $type, $depth + 1 ),
 		];

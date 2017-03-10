@@ -1,6 +1,15 @@
 {
-  "presets": ["es2015","stage-0","react"],
-  "plugins": ["lodash","react-hot-loader/babel","transform-decorators-legacy"],
+  "presets": [
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    "lodash",
+    "react-hot-loader/babel",
+    "transform-decorators-legacy",
+    "transform-runtime"
+  ],
   "env": {
     "test": {
       "plugins": ["istanbul"]

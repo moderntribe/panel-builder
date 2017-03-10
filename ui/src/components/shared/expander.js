@@ -4,7 +4,7 @@ import Button from './button';
 
 import styles from './expander.pcss';
 
-const Expander = (props) => (
+const Expander = props => (
 	<Button
 		handleClick={props.handleClick}
 		bare

@@ -7,13 +7,12 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import autobind from 'autobind-decorator';
+import classNames from 'classnames';
 import _ from 'lodash';
 
 import RichtextEditor from '../shared/richtext-editor';
 import * as RichtextEvents from '../../util/dom/tinymce';
-import autobind from 'autobind-decorator';
-import classNames from 'classnames';
 
 import styles from './textarea.pcss';
 
@@ -26,7 +25,6 @@ class TextArea extends Component {
 	constructor(props) {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
-		this.editor = null;
 		this.state = {
 			text: this.props.data.length ? this.props.data : this.props.default,
 		};
@@ -36,8 +34,6 @@ class TextArea extends Component {
 		if (!this.props.richtext) {
 			return;
 		}
-
-		this.cacheDom();
 
 		// delay for smooth animations, framerate killa
 		_.delay(() => {
@@ -62,7 +58,7 @@ class TextArea extends Component {
 				<textarea
 					className={styles.rawTextarea}
 					id={this.fid}
-					ref={this.fid}
+					ref={r => this.editor = r}
 					name={`modular-content-${this.props.name}`}
 					value={this.state.text}
 					onChange={this.handleChange}
@@ -72,7 +68,7 @@ class TextArea extends Component {
 			Editor = (
 				<div
 					id={`wp-${this.fid}-wrap`}
-					ref={this.fid}
+					ref={r => this.editor = r}
 					className="wp-core-ui wp-editor-wrap tmce-active"
 				>
 					<RichtextEditor
@@ -118,16 +114,6 @@ class TextArea extends Component {
 			fid: this.fid,
 			editor_settings: this.props.editor_settings_reference,
 		}, this.handleChange);
-	}
-
-	/**
-	 * Cache the dom elements this component works on.
-	 *
-	 * @method cacheDom
-	 */
-
-	cacheDom() {
-		this.editor = ReactDOM.findDOMNode(this.refs[this.fid]);
 	}
 
 	/**

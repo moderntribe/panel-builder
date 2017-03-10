@@ -13,7 +13,7 @@ import styles from './notification.pcss';
 
 const Notification = (props) => {
 	const iconClasses = classNames({
-		dashicons: true,
+		'dashicons': true,
 		'dashicons-warning': props.type === 'warn',
 		'panel-notification-icon': true,
 		[styles.icon]: true,

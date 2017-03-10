@@ -127,8 +127,11 @@ class MetaBox {
 				'button.launch_edit'           => __( 'Live Preview', 'modular-content' ),
 				'button.add_new'               => __( 'Add a new panel', 'modular-content' ),
 				'button.cancel_add_new'        => __( 'Go back to panel editor', 'modular-content' ),
+				'button.child_add_new'         => __( 'Add a new ', 'modular-content' ),
+				'button.child_cancel_add_new'  => __( 'Cancel', 'modular-content' ),
 				'tab.content'                  => _x( 'Content', 'tab name', 'modular-content' ),
 				'tab.settings'                 => _x( 'Settings', 'tab name', 'modular-content' ),
+				'button.delete'                => __( 'Delete', 'modular-content' ),
 
 				// collection header
 				'heading.active_panels'        => __( 'Active Panels', 'modular-content' ),
@@ -265,7 +268,7 @@ class MetaBox {
 			'blueprint'    => $blueprint,
 			'cache'        => $cache,
 			'localization' => $localization,
-			'panels'       => $collection->panels(),
+			'panels'       => $collection->build_tree(),
 			'preview_url'  => $this->get_preview_link( $post ),
 		];
 
@@ -315,6 +318,8 @@ class MetaBox {
 			return $post_data;
 		}
 
+		$panels['panels'] = $this->flatten_tree( $panels['panels'] );
+
 		$registry = Plugin::instance()->registry();
 		foreach ( $panels[ 'panels' ] as &$panel_data ) {
 			$panel = new Panel( $registry->get( $panel_data[ 'type' ] ), $panel_data[ 'data' ], $panel_data[ 'depth' ] );
@@ -325,6 +330,21 @@ class MetaBox {
 		$slashed_json = wp_slash( Util::json_encode( $panels ) );
 		$post_data['post_content_filtered'] = $slashed_json;
 		return $post_data;
+	}
+
+	protected function flatten_tree( $panel_tree ) {
+		$flattened = [];
+		foreach ( $panel_tree as $panel ) {
+			if ( empty( $panel[ 'panels' ] ) ) {
+				$flattened[] = $panel;
+			} else {
+				$children = $this->flatten_tree( $panel[ 'panels' ] );
+				unset( $panel[ 'panels' ] );
+				$flattened[] = $panel;
+				$flattened = array_merge( $flattened, $children );
+			}
+		}
+		return $flattened;
 	}
 
 	/**
@@ -357,7 +377,8 @@ class MetaBox {
 
 	/**
 	 * If an autosave came in without the panels, store the autosave
-	 * with the last saved value.
+	 * with the last saved value. Otherwise, flatten the data.
+	 *
 	 * @param array $post_data
 	 * @param \WP_Post $post
 	 * @param array $submission
@@ -366,6 +387,9 @@ class MetaBox {
 	public function filter_autosave_data( $post_data, $post, $submission ) {
 		if ( empty($post_data['post_content_filtered']) ) {
 			$post_data['post_content_filtered'] = $post['post_content_filtered'];
+		} else {
+			$submission[ 'panels' ] = $post_data[ 'post_content_filtered' ];
+			$post_data = $this->filter_post_data( $post_data, $post, $submission );
 		}
 		return $post_data;
 	}
