@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -36,7 +36,7 @@ class PanelCollection extends Component {
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
 		pickerActive: false,
-		liveEdit: false,
+		liveEdit: this.isActiveOnInit(),
 		triggerLiveEdit: false,
 	};
 
@@ -57,6 +57,15 @@ class PanelCollection extends Component {
 	componentWillUnmount() {
 		this.unBindEvents();
 		heartbeat.destroy();
+	}
+
+	/**
+	 * Activate either if app is initially loading and url key found, or allow prop control
+	 *
+	 * @returns {boolean|*}
+	 */
+	isActiveOnInit() {
+		return window.location.search.indexOf(`${URL_CONFIG.tool_arg}=${URL_CONFIG.tool_arg_id}`) !== -1;
 	}
 
 	/**

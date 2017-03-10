@@ -100,6 +100,10 @@ class MetaBox {
 			$data = [
 				'iframe_scroll_offset' => 10,
 				'css_file'             => Plugin::plugin_url( 'ui/dist/master.css' ),
+				'url_config' => [
+					'tool_arg'    => Plugin::TOOL_ARG,
+					'tool_arg_id' => Plugin::CONTENT_TOOL_ID,
+				],
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
