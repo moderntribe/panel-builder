@@ -276,6 +276,8 @@ class PostList extends Component {
 				return Template;
 			});
 			const options = {
+				filter: '.panel-builder__input--no-drag',
+				preventOnFilter: false,
 				onSort: (e) => {
 					this.handleManualSort(e);
 				},
