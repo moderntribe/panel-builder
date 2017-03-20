@@ -132,7 +132,7 @@ class Post_List extends Field {
 				}
 			}
 		} else {
-			if ( !empty( $data[ 'max' ] ) && $data[ 'max' ] > $this->min && $data[ 'max' ] < $this->max ) {
+			if ( !empty( $data[ 'max' ] ) && $data[ 'max' ] >= $this->min && $data[ 'max' ] <= $this->max ) {
 				$max = (int)$data[ 'max' ];
 			} else {
 				$max = (int)$this->max;
