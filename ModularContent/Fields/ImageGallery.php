@@ -24,6 +24,9 @@ use ModularContent\Panel;
  * get_panel_var() will return an array of attachment IDs
  */
 class ImageGallery extends Field {
+
+	protected $default = [];
+
 	public function __construct( $args ) {
 		$this->defaults[ 'strings' ] = [
 			'button.edit_gallery' => __( 'Edit Gallery', 'modular-content' ),

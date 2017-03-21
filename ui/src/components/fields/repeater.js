@@ -13,6 +13,7 @@ import AccordionBack from '../shared/accordion-back';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
+import * as defaultData from '../../util/data/default-data';
 
 import styles from './repeater.pcss';
 
@@ -48,12 +49,6 @@ class Repeater extends Component {
 		this.el = null;
 	}
 
-	getNewRowData() {
-		const newRow = {};
-		_.forEach(this.props.fields, field => newRow[field.name] = field.default);
-		return newRow;
-	}
-
 	/**
 	 * On init of the field, state uses this to add empty objects to the existing data array if needed to make sure
 	 * we print the min amount of required fields.
@@ -69,7 +64,7 @@ class Repeater extends Component {
 		if (fieldData.length < this.props.min) {
 			const remaining = this.props.min - fieldData.length;
 			_.times(remaining, () =>
-				fieldData.push(this.getNewRowData()),
+				fieldData.push(defaultData.repeater(this.props.fields)),
 			);
 			shouldUpdate = true;
 		}
@@ -285,7 +280,7 @@ class Repeater extends Component {
 	@autobind
 	handleAddRow() {
 		const newState = this.state;
-		newState.data.push(this.getNewRowData());
+		newState.data.push(defaultData.repeater(this.props.fields));
 		newState.active = true;
 		newState.activeIndex = newState.data.length - 1;
 		if (this.props.liveEdit) {

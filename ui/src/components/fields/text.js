@@ -7,7 +7,7 @@ import styles from './text.pcss';
 class Text extends Component {
 
 	state = {
-		text: this.props.data.length ? this.props.data : this.props.default,
+		text: this.props.data,
 	};
 
 	/**

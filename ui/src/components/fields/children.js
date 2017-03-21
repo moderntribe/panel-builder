@@ -14,8 +14,10 @@ import PanelPicker from '../panel-picker';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
+import * as defaultData from '../../util/data/default-data';
 
 import { UI_I18N } from '../../globals/i18n';
+import { BLUEPRINT_TYPES } from '../../globals/config';
 
 import styles from './children.pcss';
 
@@ -326,10 +328,11 @@ class Children extends Component {
 	@autobind
 	handleAddRow(panel) {
 		const newState = this.state;
+		const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
 		newState.data.push({
 			type: panel.type,
 			depth: this.state.childDepth,
-			data: {},
+			data: defaultData.panel(blueprint),
 		});
 		newState.active = true;
 		newState.activeIndex = newState.data.length - 1;
