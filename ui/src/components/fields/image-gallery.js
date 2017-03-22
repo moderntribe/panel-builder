@@ -8,7 +8,7 @@ import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
 class ImageGallery extends Component {
 	state = {
-		gallery: this.props.data ? this.props.data : this.props.default,
+		gallery: this.props.data,
 	};
 
 	/**
@@ -204,7 +204,7 @@ ImageGallery.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.object,
-	default: PropTypes.string,
+	default: PropTypes.array,
 	data: PropTypes.array,
 	panelIndex: PropTypes.number,
 	updatePanelData: PropTypes.func,
@@ -215,7 +215,7 @@ ImageGallery.defaultProps = {
 	name: '',
 	description: '',
 	strings: {},
-	default: '',
+	default: [],
 	data: [],
 	panelIndex: 0,
 	updatePanelData: () => {},

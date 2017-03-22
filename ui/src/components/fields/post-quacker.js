@@ -23,17 +23,17 @@ class PostQuacker extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: this.props.data.type ? this.props.data.type : this.props.default.type,
-			image: this.props.data.image ? this.props.data.image : this.props.default.image,
-			title: this.props.data.title ? this.props.data.title : this.props.default.title,
-			content: this.props.data.content ? this.props.data.content : this.props.default.content,
+			type: this.props.data.type,
+			image: this.props.data.image,
+			title: this.props.data.title,
+			content: this.props.data.content,
 			post_types: [], // selected post types
-			link: this.props.data.link ? this.props.data.link : this.props.default.link,
+			link: this.props.data.link,
 			search: '', // search field query string
 			loading: false,
 			post: null,  // displayed post in the preview
 			post_id_staged: null,
-			post_id: this.props.data.post_id ? this.props.data.post_id : this.props.default.post_id,
+			post_id: this.props.data.post_id,
 			options: [],
 			inputValue: '',
 		};
