@@ -17,7 +17,6 @@ import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
 
 import { UI_I18N } from '../../globals/i18n';
-import { BLUEPRINT_TYPES } from '../../globals/config';
 
 import styles from './children.pcss';
 
@@ -328,7 +327,7 @@ class Children extends Component {
 	@autobind
 	handleAddRow(panel) {
 		const newState = this.state;
-		const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
+		const blueprint = _.find(this.props.childData.types, { type: panel.type });
 		newState.data.push({
 			type: panel.type,
 			depth: this.state.childDepth,
