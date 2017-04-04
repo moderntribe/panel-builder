@@ -1,4 +1,12 @@
 /**
+ * Wp admin tweaks
+ */
+
+#wpwrap #wpfooter {
+    position: static;
+}
+
+/**
  * React Select
  * ============
  * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/
@@ -218,11 +226,12 @@
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
     margin-top: -1px;
+    margin-bottom: 20px;
     max-height: 200px;
     position: absolute;
     top: 100%;
     width: 100%;
-    z-index: 1;
+    z-index: 50;
     -webkit-overflow-scrolling: touch;
 }
 .panel-input .Select-menu {
