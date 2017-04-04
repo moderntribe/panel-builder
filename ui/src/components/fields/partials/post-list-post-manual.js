@@ -148,14 +148,17 @@ class PostListPostManual extends Component {
 
 	render() {
 		const titleClasses = classNames({
+			'panel-builder__input--no-drag': true,
 			[styles.postTitle]: true,
 		});
 
 		const contentClasses = classNames({
+			'panel-builder__input--no-drag': true,
 			[styles.postContent]: true,
 		});
 
 		const urlClasses = classNames({
+			'panel-builder__input--no-drag': true,
 			[styles.url]: true,
 		});
 

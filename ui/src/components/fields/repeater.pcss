@@ -46,6 +46,11 @@
 				margin-bottom: 12px;
 			}
 		}
+
+		.deleteRow {
+			float: none;
+			margin-top: -50px;
+		}
 	}
 }
 
@@ -75,8 +80,11 @@
 	position:absolute;
 	left:100%;
 	top:0;
+	text-align: right;
+
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+		text-align: left;
 	}
 	[data-live-edit="false"] & {
 		position:relative;
