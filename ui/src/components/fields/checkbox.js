@@ -7,7 +7,7 @@ import styles from './checkbox.pcss';
 
 class Checkbox extends Component {
 	state = {
-		data: this.props.data ? this.props.data : this.props.default,
+		data: this.props.data,
 	};
 
 	@autobind

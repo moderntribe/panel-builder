@@ -11,6 +11,7 @@ import {
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
 
+
 const initialData = {
 	panels: PANELS,
 };

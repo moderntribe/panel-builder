@@ -23,6 +23,7 @@ import * as heartbeat from '../util/data/heartbeat';
 import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
 import * as animateWindow from '../util/dom/animate-collection';
+import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
 
 import randomString from '../util/data/random-string';
@@ -311,12 +312,13 @@ class PanelCollection extends Component {
 
 	@autobind
 	handleAddPanel(panel) {
+		const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
 		const data = {
 			index: this.state.injectionIndex,
 			panels: [{
 				type: panel.type,
 				depth: 0,
-				data: {},
+				data: defaultData.panel(blueprint),
 			}],
 		};
 
