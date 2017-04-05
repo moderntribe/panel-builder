@@ -10,7 +10,7 @@ class ImageGallery_Test extends WPTestCase {
 		$label = __CLASS__ . '::' . __FUNCTION__;
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$default = __LINE__;
+		$default = [];
 		$field = new ImageGallery( [
 			'label'       => $label,
 			'name'        => $name,

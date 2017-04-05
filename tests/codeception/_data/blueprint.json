@@ -115,7 +115,7 @@
                     "strings": {
                         "button.edit_gallery": "Edit Gallery"
                     },
-                    "default": ""
+                    "default": []
                 },
                 {
                     "type": "Post_List",
@@ -201,16 +201,7 @@
                         }
                     ],
                     "taxonomies": {
-                        "post_tag": [
-                            {
-                                "value": 2,
-                                "label": "Term 18"
-                            },
-                            {
-                                "value": 3,
-                                "label": "Term 19"
-                            }
-                        ]
+                        "post_tag": []
                     }
                 },
                 {
@@ -1863,7 +1854,7 @@
                     "strings": {
                         "button.edit_gallery": "Edit Gallery"
                     },
-                    "default": ""
+                    "default": []
                 }
             ],
             "settings_fields": [],
@@ -3424,16 +3415,7 @@
                         }
                     ],
                     "taxonomies": {
-                        "post_tag": [
-                            {
-                                "value": 2,
-                                "label": "Term 18"
-                            },
-                            {
-                                "value": 3,
-                                "label": "Term 19"
-                            }
-                        ]
+                        "post_tag": []
                     }
                 }
             ],
