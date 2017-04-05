@@ -45,6 +45,7 @@ class PanelCollection implements \JsonSerializable {
 		/** @var Panel[] $parents */
 		$parents = array();
 		$current_depth = 0;
+		$child_index = 0;
 		foreach ( $this->panels as $original_panel ) {
 			$panel = clone( $original_panel );
 			$type = $panel->get_type_object();
@@ -55,16 +56,20 @@ class PanelCollection implements \JsonSerializable {
 
 			while ( $depth < $current_depth && $current_depth > 0 ) {
 				unset($parents[$current_depth]);
+				$child_index = 0;
 				$current_depth--;
 			}
 
 			if ( $current_depth > 0 ) {
+				$panel->set_child_index( $child_index );
 				$parents[$current_depth]->add_child($panel);
+				$child_index++;
 			} else {
 				$tree[] = $panel;
 			}
 
 			if ( $type->get_max_children() > 0 ) {
+				$child_index = 0;
 				$current_depth++;
 				$parents[$current_depth] = $panel;
 			}
