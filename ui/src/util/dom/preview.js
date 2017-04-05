@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { CSS_FILE, BLUEPRINT_TYPES } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
 
@@ -59,4 +61,14 @@ export const setupIframe = (iframe = null, collectionStyles = {}) => {
 
 	injectCSS();
 	addClasses();
+};
+
+export const getLiveTextSelector = (data) => {
+	let selector = `[data-depth="${data.depth}"][data-name="${data.name}"][data-livetext]`;
+	if (_.isNumber(data.childIndex)) {
+		selector += ` [data-index="${data.childIndex}"]`;
+		selector += `[data-name="${data.childName}"]`;
+		selector += '[data-livetext]';
+	}
+	return selector;
 };

@@ -15,6 +15,7 @@ class ImageSelect extends Component {
 		const value = e.currentTarget.value;
 		this.setState({ value });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value,
@@ -83,6 +84,7 @@ ImageSelect.propTypes = {
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
 	strings: React.PropTypes.object,
+	depth: React.PropTypes.number,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
 	data: React.PropTypes.string,
@@ -95,6 +97,7 @@ ImageSelect.defaultProps = {
 	name: '',
 	description: '',
 	strings: {},
+	depth: 0,
 	default: '',
 	options: [],
 	data: '',
