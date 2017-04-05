@@ -5565,9 +5565,9 @@ react-select-plus@1.0.0-rc.3.patch1:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
 
-react-sortablejs@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/react-sortablejs/-/react-sortablejs-1.3.1.tgz#d86777c97bd76c6780baa04491c3071baaabee79"
+react-sortablejs@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-sortablejs/-/react-sortablejs-1.3.0.tgz#c2c0b719b572954e0c62712a95e563413981d0dd"
 
 react-tooltip@^3.0.13:
   version "3.2.7"
@@ -6060,9 +6060,9 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
-sortablejs@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.5.1.tgz#efae13b84c677f3b3d3f4f8e46c7e05fc6acb525"
+sortablejs@1.5.0-rc1:
+  version "1.5.0-rc1"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.5.0-rc1.tgz#c3407e9a6fc4a54b4d0804926a2e2993544d91b3"
 
 source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
