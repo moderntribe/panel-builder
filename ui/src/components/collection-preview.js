@@ -181,7 +181,8 @@ class CollectionPreview extends Component {
 			return;
 		}
 
-		if (this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0]) {
+		const selector = previewTools.getLiveTextSelector(e.detail);
+		if (this.activePanelNode.querySelectorAll(selector)[0]) {
 			return;
 		}
 
@@ -209,14 +210,17 @@ class CollectionPreview extends Component {
 			return;
 		}
 
-		const livetextField = this.activePanelNode.querySelectorAll(`[data-name="${e.detail.name}"][data-livetext]`)[0];
+		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
+		const selector = previewTools.getLiveTextSelector(e.detail);
+
+		const livetextField = this.activePanelNode.querySelectorAll(selector)[0];
 		if (livetextField) {
 			if (livetextField.getAttribute('data-autop')) {
-				livetextField.innerHTML = wpEditor.autop(e.detail.value);
+				livetextField.innerHTML = wpEditor.autop(value);
 				return;
 			}
 
-			livetextField.innerHTML = e.detail.value;
+			livetextField.innerHTML = value;
 		}
 	}
 

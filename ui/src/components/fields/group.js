@@ -88,6 +88,7 @@ class Group extends Component {
 	@autobind
 	updateGroupFieldData(data) {
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: data.index,
 			name: data.name,
 			value: data.value,

@@ -20,6 +20,7 @@ class Video extends Component {
 		const videoURL = e.currentTarget.value;
 		this.setState({ videoURL });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: videoURL,
@@ -69,6 +70,7 @@ Video.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	depth: React.PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	data: PropTypes.string,
@@ -80,6 +82,7 @@ Video.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	depth: 0,
 	strings: {},
 	default: '',
 	data: '',
