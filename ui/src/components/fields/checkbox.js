@@ -14,7 +14,7 @@ class Checkbox extends Component {
 	handleChange(e) {
 		const key = e.currentTarget.value;
 		const data = _.cloneDeep(this.state.data);
-		data[key] = this.state.data[key] === 1 ? 0 : 1;
+		data[key] = this.state.data[key] ? 0 : 1;
 		this.setState({
 			data,
 		});
@@ -50,7 +50,7 @@ class Checkbox extends Component {
 						tabIndex={0}
 						className={styles.checkbox}
 						onChange={this.handleChange}
-						checked={this.state.data && this.state.data[option.value] === 1}
+						checked={this.state.data && this.state.data[option.value]} // eslint-disable-line
 						data-option-type="multiple"
 						data-field="checkbox"
 					/>
