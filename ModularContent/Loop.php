@@ -134,12 +134,13 @@ class Loop {
 	private function update_nest_indices( Panel $panel ) {
 		$current_depth = $panel->get_depth();
 
+		// If our top-level iterator increases, we reset all of our nest indices back to the top level.
 		if ( $this->iterator->key() !== $this->current_index ) {
 			$this->current_index = $this->iterator->key();
 			$this->nest_indices  = [ array_shift( $this->nest_indices ) ];
 		}
 
-		if ( $current_depth < key( $this->nest_indices ) ) {
+		while ( $current_depth < max( array_keys( $this->nest_indices ) ) ) {
 			array_pop( $this->nest_indices );
 		}
 
