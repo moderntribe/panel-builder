@@ -20,6 +20,8 @@ class Loop {
 	protected $vars_for_api = array();
 	protected $settings = array();
 	protected $panel_tree = array();
+	protected $current_index = 0;
+	protected $nest_indices = [];
 
 	/** @var ArrayIterator */
 	protected $iterator = NULL;
@@ -107,7 +109,10 @@ class Loop {
 	public function set_the_panel( Panel $panel = NULL ) {
 		if ( empty($panel) && isset($this->iterator) && $this->iterator->valid() ) {
 			$panel = $this->iterator->current();
+		} else {
+			$this->update_nest_indices( $panel );
 		}
+
 		if ( empty($panel) ) {
 			$this->panel        = null;
 			$this->vars         = array();
@@ -119,6 +124,40 @@ class Loop {
 			$this->vars_for_api = $panel->get_api_vars();
 			$this->settings     = $panel->get_settings();
 		}
+	}
+
+	/**
+	 * Updates the nest indices array based on the current panel and depth.
+	 *
+	 * @param $panel
+	 */
+	private function update_nest_indices( Panel $panel ) {
+		$current_depth = $panel->get_depth();
+
+		if ( $this->iterator->key() !== $this->current_index ) {
+			$this->current_index = $this->iterator->key();
+			$this->nest_indices  = [ array_shift( $this->nest_indices ) ];
+		}
+
+		if ( $current_depth < key( $this->nest_indices ) ) {
+			array_pop( $this->nest_indices );
+		}
+
+		if ( ! array_key_exists( $current_depth, $this->nest_indices ) ) {
+			$this->nest_indices[ $current_depth ] = 0;
+			return;
+		}
+
+		$this->nest_indices[ $current_depth ] ++;
+	}
+
+	/**
+	 * Returns the current nest index for the active panel.
+	 *
+	 * @return integer
+	 */
+	public function get_nest_index() {
+		return (integer) $this->nest_indices[ $this->panel->get_depth() ];
 	}
 
 	/**

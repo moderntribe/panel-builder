@@ -18,7 +18,6 @@ class Panel implements \JsonSerializable {
 	private $data = array();
 	private $template_vars = NULL;
 	private $api_vars = NULL;
-	private $child_index = false;
 	/** @var Panel[] */
 	private $children = array();
 
@@ -84,24 +83,6 @@ class Panel implements \JsonSerializable {
 	 */
 	public function get_depth() {
 		return $this->depth;
-	}
-
-	/**
-	 * Set the current index if panel is a child panel.
-	 *
-	 * @param $index
-	 */
-	public function set_child_index( $index ) {
-		$this->child_index = absint($index);
-	}
-
-	/**
-	 * Get the current index if a panel is a child panel.
-	 *
-	 * @return bool
-	 */
-	public function get_child_index() {
-		return $this->child_index;
 	}
 
 	/**
