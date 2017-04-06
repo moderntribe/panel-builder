@@ -140,7 +140,7 @@ class Loop {
 			$this->nest_indices  = [ array_shift( $this->nest_indices ) ];
 		}
 
-		while ( $current_depth < max( array_keys( $this->nest_indices ) ) ) {
+		while ( ! empty( $this->nest_indices ) && $current_depth < max( array_keys( $this->nest_indices ) ) ) {
 			array_pop( $this->nest_indices );
 		}
 
