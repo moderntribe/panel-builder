@@ -102,3 +102,7 @@ function rewind_panels() {
 function is_panel_preview() {
 	return \ModularContent\Plugin::instance()->loop()->is_preview();
 }
+
+function get_nest_index() {
+	return \ModularContent\Plugin::instance()->loop()->get_nest_index();
+}
