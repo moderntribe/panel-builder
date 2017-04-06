@@ -28,7 +28,7 @@ class Checkbox_Test extends WPTestCase {
 			'name'        => $name,
 			'description' => $description,
 			'strings'     => [ ],
-			'default'     => [ 'second' => 1 ],
+			'default'     => (object)[ 'second' => 1 ],
 			'options'     => [
 				[
 					'label' => 'First Option',

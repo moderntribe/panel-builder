@@ -25,6 +25,12 @@ namespace ModularContent\Fields;
 class Checkbox extends Select {
 	protected $default       = [ ];
 
+	public function get_blueprint() {
+		$blueprint = parent::get_blueprint();
+		$blueprint[ 'default' ] = (object) $this->default;
+		return $blueprint;
+	}
+
 	/**
 	 * Massage submitted data before it's saved.
 	 *
