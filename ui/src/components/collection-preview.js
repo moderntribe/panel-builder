@@ -181,8 +181,9 @@ class CollectionPreview extends Component {
 			return;
 		}
 
+		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
 		const selector = previewTools.getLiveTextSelector(e.detail);
-		if (this.activePanelNode.querySelectorAll(selector)[0]) {
+		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
 			return;
 		}
 
@@ -211,6 +212,10 @@ class CollectionPreview extends Component {
 		}
 
 		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
+		if (!_.isString(value)) {
+			return;
+		}
+
 		const selector = previewTools.getLiveTextSelector(e.detail);
 
 		const livetextField = this.activePanelNode.querySelectorAll(selector)[0];
