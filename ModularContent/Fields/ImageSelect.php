@@ -60,7 +60,7 @@ class ImageSelect extends Radio {
 			} else {
 				$data = wp_parse_args( $data, [ 'src' => '', 'label' => '' ] );
 			}
-			$data['value'] = $key;
+			$data['value'] = (string) $key;
 			$blueprint['options'][] = $data;
 		}
 		return $blueprint;
