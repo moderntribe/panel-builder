@@ -7,7 +7,7 @@ import styles from './swatch-select.pcss';
 
 class SwatchSelect extends Component {
 	state = {
-		value: this.props.data.length ? this.props.data : this.props.default,
+		value: this.props.data,
 	};
 
 	@autobind

@@ -31,7 +31,7 @@ class PostList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: this.props.data.type ? this.props.data.type : this.props.default.type,
+			type: this.props.data.type,
 			manualPostData: this.props.data.posts ? this.prepIncomingPosts(this.props.data.posts) : [],
 			queryPosts: {},   // filtered lists... coming from ajax call not props.data
 			postTypes: this.prepIncomingPostTypes(),

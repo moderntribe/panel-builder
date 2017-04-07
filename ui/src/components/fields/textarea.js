@@ -26,7 +26,7 @@ class TextArea extends Component {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
 		this.state = {
-			text: this.props.data.length ? this.props.data : this.props.default,
+			text: this.props.data,
 		};
 	}
 

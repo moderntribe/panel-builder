@@ -8,7 +8,7 @@ import * as events from '../../util/events';
 
 class Title extends Component {
 	state = {
-		text: this.props.data.length ? this.props.data : this.props.default,
+		text: this.props.data,
 	};
 
 	@autobind

@@ -7,7 +7,7 @@ import styles from './select.pcss';
 
 class Select extends Component {
 	state = {
-		value: this.props.data && this.props.data.length ? _.toString(this.props.data) : _.toString(this.props.default),
+		value: this.props.data,
 	};
 
 	@autobind

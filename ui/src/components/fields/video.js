@@ -6,7 +6,7 @@ import styles from './video.pcss';
 class Video extends Component {
 
 	state = {
-		videoURL: this.props.data.length ? this.props.data : this.props.default,
+		videoURL: this.props.data,
 	};
 
 	/**
