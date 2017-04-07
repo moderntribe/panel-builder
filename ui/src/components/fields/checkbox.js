@@ -14,11 +14,12 @@ class Checkbox extends Component {
 	handleChange(e) {
 		const key = e.currentTarget.value;
 		const data = _.cloneDeep(this.state.data);
-		data[key] = this.state.data[key] === 1 ? 0 : 1;
+		data[key] = this.state.data[key] ? 0 : 1;
 		this.setState({
 			data,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: data,
@@ -49,7 +50,7 @@ class Checkbox extends Component {
 						tabIndex={0}
 						className={styles.checkbox}
 						onChange={this.handleChange}
-						checked={this.state.data && this.state.data[option.value] === 1}
+						checked={this.state.data && this.state.data[option.value]} // eslint-disable-line
 						data-option-type="multiple"
 						data-field="checkbox"
 					/>
@@ -74,6 +75,7 @@ class Checkbox extends Component {
 Checkbox.propTypes = {
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
+	depth: React.PropTypes.number,
 	description: React.PropTypes.string,
 	strings: React.PropTypes.object,
 	default: React.PropTypes.object,
@@ -87,6 +89,7 @@ Checkbox.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	depth: 0,
 	strings: {},
 	default: {},
 	options: [],

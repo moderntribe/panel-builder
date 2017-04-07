@@ -509,6 +509,7 @@ class PostQuacker extends Component {
 	@autobind
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: this.getValue(),
@@ -573,6 +574,7 @@ PostQuacker.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	depth: React.PropTypes.number,
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.object,
@@ -588,6 +590,7 @@ PostQuacker.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	depth: 0,
 	post_type: [],
 	strings: {},
 	default: {},

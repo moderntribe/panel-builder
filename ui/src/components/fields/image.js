@@ -38,6 +38,7 @@ class Image extends Component {
 			});
 
 			this.props.updatePanelData({
+				depth: this.props.depth,
 				index: this.props.panelIndex,
 				name: this.props.name,
 				value: attachment.id,
@@ -59,6 +60,7 @@ class Image extends Component {
 			imageId: 0,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: 0,
@@ -104,6 +106,7 @@ class Image extends Component {
 Image.propTypes = {
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
+	depth: React.PropTypes.number,
 	description: React.PropTypes.string,
 	data: React.PropTypes.number,
 	strings: React.PropTypes.object,
@@ -116,6 +119,7 @@ Image.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	depth: 0,
 	data: 0,
 	strings: {},
 	default: 0,
