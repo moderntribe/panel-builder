@@ -281,6 +281,7 @@ class Children extends Component {
 			data,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.parentIndex,
 			name: 'panels',
 			value: data,
@@ -303,6 +304,7 @@ class Children extends Component {
 			data,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.parentIndex,
 			name: 'panels',
 			value: data,
@@ -340,6 +342,7 @@ class Children extends Component {
 		}
 		this.setState(newState, () => {
 			this.props.updatePanelData({
+				depth: this.props.depth,
 				index: this.props.parentIndex,
 				name: 'panels',
 				value: newState.data,
@@ -410,7 +413,12 @@ class Children extends Component {
 			newData[this.state.activeIndex].data[data.name] = data.value;
 		}
 		this.props.updatePanelData({
+			depth: data.depth,
 			index: this.props.parentIndex,
+			childIndex: this.state.activeIndex,
+			childName: data.name,
+			childValue: data.value,
+			parent: data.parent,
 			name: 'panels',
 			value: newData,
 		});

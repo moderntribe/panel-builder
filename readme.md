@@ -215,28 +215,195 @@ with `first_name` for the `name` argument, the you get that value with `get_pane
 * `get_panel_vars()`: Get all the data for the current panel as an array.
 * `get_the_panel()`: Get the full panel object for the current panel.
 
-## Development Setup
+### Live edit
+
+During editing of content panels 3 and above has a live edit mode. Like the customizer in WordPress, 
+Panel builder loads the front end of the corresponding page you are editing into a preview window and synchronizes 
+changes you make into the iframe for live previewing. There are a few things you should be aware of.
+
+In our templates we often only want to render markup if the value for a part of the ui exists in the db. 
+But we may need that item during the preview process regardless. In this case we have the function
+`is_panel_preview()`. It can be used like so:
+
+```php
+if ( ! empty( $title ) || is_panel_preview() ) {
+	?>
+	<h3
+		class="cardgrid-card__title h4"
+		data-depth="<?php echo $panel_object->get_depth(); ?>"
+		data-index="<?php echo $card_index; ?>"
+		data-name="title"
+		data-livetext
+	>
+		<?php echo $title; ?>
+	</h3>
+	<?php
+}
+```
+
+Which will output the h3 tag and enable livetext during live preview even if the title is not yet set.
+
+### Livetext
+
+Normally when a change occurs during live edit mode the system performs a debounced ajax call to get updated html for 
+the panel being edited. This can be laggy, especially in the case of typing. Hence an instant update system called
+"livetext" has been implemented. For it to work for a field you have to setup some required data attributes, and also 
+use the technique above to make sure the empty html tag is output during liveedit.
+
+Some rules:
+ 
+* livetext works for text, textarea and wysiwyg fields. 
+* It works for top level instances of these fields, repeaters and child panels. 
+
+*It does NOT yet work for nested grandchild panels and beyond, or repeaters that are nested inside child panels.*
+
+Livetext requires these attributes on the dom element that should update live:
+
+```
+data-depth="THE PANELS DEPTH"
+data-name="THE REGISTERED NAME OF THE FIELD"
+data-index="THE INDEX RELATIVE TO ITS SIBLINGS"
+data-livetext
+```
+
+Here is an example for making it work with a top level field that we know will never be used in a child panel:
+
+```php
+<?php if ( ! empty( $content ) || is_panel_preview() ) { ?>
+	<div
+		class="panel__content"
+		data-depth="0"
+		data-name="content"
+		data-livetext
+	>
+		<?php echo $panel['content']; ?>
+	</div>
+<?php } ?>
+```
+
+Here is the same field setup to work at root or in a child panel.
+
+```php
+<?php 
+
+$panel_object = get_the_panel();
+
+if ( ! empty( $content ) || is_panel_preview() ) { ?>
+	<div
+		class="panel__content"
+		data-depth="<?php echo $panel_object->get_depth(); ?>"
+		data-name="content"
+		data-index="<?php echo get_nest_index(); ?>"
+		data-livetext
+	>
+		<?php echo $panel['content']; ?>
+	</div>
+<?php } ?>
+```
+
+Here is how to apply live text to fields inside a repeater, which is using a partial for the repeater row.
+First, remember that this only works for repaters that arent nested inside child panels at this time.
+Next lets setup the wrapper for the rows. We give it the name attribute we used to identify the repeater group, 
+and our other attributes we use for livetext.
+We also set a couple of globals (feel free to find other methods to pass your vars in, like locate template)
+
+```php
+<?php 
+global $panel_object;
+$panel_object = get_the_panel();
+?>
+<div
+	class="content-wrap"
+	data-depth="0"
+	data-name="cards"
+	data-livetext
+>
+
+	<?php // Cards
+	if ( ! empty( $panel['cards'] ) ) {
+
+		global $card;
+		global $card_index;
+
+		$card_index = 0;
+
+		echo '<ol class="panel-cardgrid__cards">';
+
+		foreach ( $panel['cards'] as $card ) {
+			get_template_part( 'content/panels/cardgrid-card' );
+			$card_index++;
+		}
+
+		echo '</ol><!-- .panel-cardgrid__cards -->';
+
+		unset( $card );
+		unset( $card_index );
+	}
+	?>
+
+</div><!-- .content-wrap -->
+```
+
+Now, let's look at the row partial included above and how it is configured:
+
+```php
+<?php
+global $card;
+global $card_index;
+global $panel_object;
+?>
+
+<li>
+<?php
+// Card Title
+if ( ! empty( $card['title'] ) || is_panel_preview() ) {
+    ?>
+    <h3
+        class="cardgrid-card__title h4"
+        data-depth="<?php echo $panel_object->get_depth(); ?>"
+        data-index="<?php echo $card_index; ?>"
+        data-name="title"
+        data-livetext
+    >
+        <?php echo $card['title']; ?>
+    </h3>
+    <?php
+}
+?>
+
+</li><!-- .cardgrid-card -->
+
+```
+
+
+
+## React Development Setup
 
 ### Node and Dependencies
 
-This system uses node version 5.11.0. If you don't already have that plus some system to control node versions (eg NVM) it
-is recommended you install one. For your convenience this project has an .nvmrc file at its root. Once you have installed Node 5.11.0
+This system uses node version 6.9.4. If you don't already have that plus some system to control node versions (eg NVM) it
+is recommended you install one. For your convenience this project has an .nvmrc file at its root. Once you have installed Node 6.9.4
 you can either set it as your default OR every time you come to this project just type `nvm use` to load the correct version.
 
-After getting your node version ready and making sure you are on 5.11.0, first delete an existing node_modules folder if 
-you still have one in place. Then `npm install` and grab some popcorn. 
+Next you will need yarn installed globally with `npm install yarn -g`.
 
-After npm install has completed you can run the npm scripts that define the tasks for this project. They are currently:
+After getting your node version ready, installing yarn and making sure you are on 6.9.4, first delete an existing node_modules folder if 
+you still have one in place. Then `yarn install`. 
+
+After yarn install has completed you can run the npm scripts that define the tasks for this project. They are currently:
 
 ```json
-"start": "npm prune && npm install && npm run dev",
-"bundle": "NODE_ENV=production webpack -p",
-"dev": "NODE_ENV=development node server.js",
-"lint": "eslint ./ui/src || exit 0",
-"dist": "npm prune && npm install && npm run lint && npm run test && npm run bundle",
-"test:dev": "npm run test -- --watch"
+ 	"start": "yarn install && npm run dev",
+    "start_windows": "SET NODE_ENV=development && node server.js",
+    "bundle_windows": "SET NODE_ENV=production webpack -p",
+    "bundle": "NODE_ENV=production webpack -p",
+    "dev": "NODE_ENV=development node server.js",
+    "lint": "eslint ./ui/src || exit 0",
+    "dist": "yarn install && yarn test && yarn lint && yarn bundle",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
 ```
-The development task that fires up webpack-dev-server and gets you ready to dev is start. You launch that by typing: `npm start`
+The development task that fires up webpack-dev-server and gets you ready to dev is start. You launch that by typing: `yarn start`
 
 The react scripts will be served at `http://localhost:3000/ui/dist/master.js`. 
 To set up your environment to load this file and experience the joys of [hot module replacement](https://webpack.github.io/docs/hot-module-replacement.html) make sure `SCRIPT_DEBUG` is true and you have filtered `modular_content_js_dev_path` with the above src. It is recommended you create a gitignored file in your mu-plugins folder called `mu-local.php`. Then apply the filter like so:
@@ -247,7 +414,7 @@ add_filter( 'modular_content_js_dev_path', function() {
 });
 ```
 
-The other tasks must be run in this fashion: `npm run task` . Give the karma tests a run with `npm run test` to make sure 
+The other tasks must be run in this fashion: `yarn run task` . Give the Jest tests a run with `yarn test` to make sure 
 things are working well.
 
 This system is also redux dev tools enabled. You will want to [install them](https://github.com/zalmoxisus/redux-devtools-extension)

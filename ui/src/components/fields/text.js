@@ -20,6 +20,7 @@ class Text extends Component {
 		const text = e.currentTarget.value;
 		this.setState({ text });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
 			value: text,
@@ -57,6 +58,7 @@ Text.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	depth: React.PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	updatePanelData: PropTypes.func,
@@ -68,6 +70,7 @@ Text.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	depth: 0,
 	strings: {},
 	default: '',
 	updatePanelData: () => {},

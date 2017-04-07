@@ -347,7 +347,12 @@ class Repeater extends Component {
 		const newData = this.state.data;
 		newData[this.state.activeIndex][data.name] = data.value;
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			index: this.props.panelIndex,
+			childIndex: this.state.activeIndex,
+			childName: data.name,
+			childValue: data.value,
+			parent: data.parent,
 			name: this.props.name,
 			value: newData,
 		});
