@@ -390,6 +390,7 @@ class Repeater extends Component {
 const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Repeater.propTypes = {
+	data: PropTypes.array,
 	depth: PropTypes.number,
 	panels: PropTypes.array,
 	parentIndex: PropTypes.number,
@@ -412,6 +413,7 @@ Repeater.propTypes = {
 };
 
 Repeater.defaultProps = {
+	data: [],
 	depth: 0,
 	parentIndex: 0,
 	panels: [],

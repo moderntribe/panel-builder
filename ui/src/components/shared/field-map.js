@@ -1,3 +1,5 @@
+import * as FIELD_TYPES from '../../constants/field-types';
+
 import Text from '../fields/text';
 import Title from '../fields/title';
 import Radio from '../fields/radio';
@@ -18,22 +20,22 @@ import Group from '../fields/group';
 import Repeater from '../fields/repeater';
 
 export default {
-	Text,
-	Title,
-	Radio,
-	Checkbox,
-	ImageSelect,
-	Select,
-	TextArea,
-	Link,
-	Hidden,
-	HTML,
-	Image,
-	ImageGallery,
-	Video,
-	PostQuacker,
-	Post_List: PostList,
-	Swatch_Select: SwatchSelect,
-	Group,
-	Repeater,
+	[FIELD_TYPES.TEXT]: Text,
+	[FIELD_TYPES.TITLE]: Title,
+	[FIELD_TYPES.RADIO]: Radio,
+	[FIELD_TYPES.CHECKBOX]: Checkbox,
+	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
+	[FIELD_TYPES.SELECT]: Select,
+	[FIELD_TYPES.TEXTAREA]: TextArea,
+	[FIELD_TYPES.LINK]: Link,
+	[FIELD_TYPES.HIDDEN]: Hidden,
+	[FIELD_TYPES.HTML]: HTML,
+	[FIELD_TYPES.IMAGE]: Image,
+	[FIELD_TYPES.IMAGE_GALLERY]: ImageGallery,
+	[FIELD_TYPES.VIDEO]: Video,
+	[FIELD_TYPES.POST_QUACKER]: PostQuacker,
+	[FIELD_TYPES.POST_LIST]: PostList,
+	[FIELD_TYPES.SWATCH_SELECT]: SwatchSelect,
+	[FIELD_TYPES.GROUP]: Group,
+	[FIELD_TYPES.REPEATER]: Repeater,
 };
