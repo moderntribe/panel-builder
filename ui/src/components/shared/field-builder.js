@@ -5,6 +5,8 @@ import _ from 'lodash';
 import componentMap from './field-map';
 import Children from '../fields/children';
 
+import getTypeCheckedData from '../../util/data/get-typechecked-data';
+
 import styles from './field-builder.pcss';
 
 /**
@@ -37,7 +39,7 @@ const FieldBuilder = (props) => {
 					indexMap={props.indexMap}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
-					data={props.data[field.name]}
+					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
 					handleExpanderClick={props.handleExpanderClick}
 					nestedGroupActive={props.nestedGroupActive}
