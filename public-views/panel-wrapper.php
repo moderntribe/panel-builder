@@ -12,7 +12,9 @@
  * @var string $html The rendered HTML of the panel
  */
 
-$zebra = ( $index % 2 == 0 ) ? 'odd' : 'even';
+$panel_index = get_nest_index();
+
+$zebra = ( $panel_index % 2 == 0 ) ? 'odd' : 'even';
 ?>
 <div
 	class="panel panel-type-<?php esc_attr_e($panel->get('type')); ?> panel-<?php echo $zebra; ?>"
