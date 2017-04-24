@@ -61,15 +61,9 @@ class PostListPostSelected extends Component {
 
 	@autobind
 	handleOnPostInputChange(input) {
-		this.setState({ inputValue: input });
-		if (!this.state.searchPostType.length || !input.length) {
-			this.setState({
-				options: [],
-			});
-			return;
-		}
-		this.setState({ loading: true });
-		const ajaxURL = `${window.ajaxurl}?${this.getRequestParams(input)}`;
+		const inputValue = _.isString(input) ? input : '';
+		this.setState({ inputValue, loading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getRequestParams(inputValue)}`;
 		if (this.request) {
 			this.request.abort();
 		}
@@ -150,6 +144,7 @@ class PostListPostSelected extends Component {
 					noResultsText={noResultsTextSearch}
 					placeholder={this.props.strings['placeholder.select_post']}
 					isLoading={this.state.loading}
+					onFocus={this.handleOnPostInputChange}
 					onBlur={this.handlePostSearchBlur}
 					onChange={this.handlePostSearchChange}
 				/>
