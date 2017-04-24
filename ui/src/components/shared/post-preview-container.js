@@ -185,6 +185,7 @@ class PostPreviewContainer extends Component {
 						title={this.state.post.post_title}
 						excerpt={this.state.post.post_excerpt}
 						thumbnail={this.state.postThumbnailHtml}
+						url={this.state.post.url}
 						onRemoveClick={removeHandler}
 						onEditClick={editHandler}
 					/>

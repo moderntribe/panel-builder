@@ -839,6 +839,7 @@ class PostList extends Component {
 			post_excerpt: post.post_content,
 			permalink: post.url,
 			thumbnail_id: post.thumbnail_id,
+			url: post.url ? post.url : '',
 			ID: parseInt(post.id, 10),
 		};
 	}
