@@ -36,6 +36,10 @@ const PostPreview = (props) => {
 		[styles.edit]: true,
 		'edit-selected-post': true,
 	});
+	const linkClassses = classNames({
+		[styles.link]: true,
+		'link-selected-post': true,
+	});
 
 	return (
 		<div className={selectedPostClassses}>
@@ -43,6 +47,7 @@ const PostPreview = (props) => {
 				<div className={thumbnailClasses} dangerouslySetInnerHTML={{ __html: props.thumbnail }} />
 				<h5 className={titleClasses}>{props.title}</h5>
 				<div className={excerptClasses} dangerouslySetInnerHTML={{ __html: props.excerpt }} />
+				{props.url && <a className={linkClassses} href={props.url} target="_blank" rel="noopener noreferrer">{props.url}</a>}
 			</div>
 			{props.onRemoveClick && <div onClick={props.onRemoveClick} className={removeClassses} title="Remove This Post"><span className="dashicons dashicons-no-alt" /></div>}
 			{props.onEditClick && <div onClick={props.onEditClick} className={editClassses} title="Edit This Post"><span className="dashicons dashicons-edit" /></div>}
@@ -55,6 +60,7 @@ PostPreview.propTypes = {
 	title: PropTypes.string,
 	thumbnail: PropTypes.string,
 	excerpt: PropTypes.string,
+	url: PropTypes.string,
 	onRemoveClick: PropTypes.func,
 	onEditClick: PropTypes.func,
 };
@@ -62,6 +68,7 @@ PostPreview.propTypes = {
 PostPreview.defaultProps = {
 	title: '',
 	thumbnail: '',
+	url: '',
 	excerpt: '',
 	onRemoveClick: null,
 	onEditClick: null,
