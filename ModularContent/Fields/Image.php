@@ -19,6 +19,19 @@ class Image extends Field {
 
 	protected $default = 0;
 
+	protected $default_mime_types = [
+		'image/svg',
+		'image/svg+xml',
+		'image/jpeg',
+		'image/gif',
+		'image/png',
+		'image/bmp',
+		'image/tiff',
+		'image/x-icon',
+	];
+
+	protected $allowed_image_mime_types;
+
 	/**
 	 * @param array $args
 	 *
@@ -35,6 +48,7 @@ class Image extends Field {
 			'button.remove' => __( 'Remove', 'modular-content' ),
 			'button.select' => __( 'Select Files', 'modular-content' ),
 		];
+		$this->defaults['allowed_image_mime_types'] = isset( $args['allowed_image_mime_types'] ) ? $args['allowed_image_mime_types'] : apply_filters( 'panels_default_allowed_mime_types', $this->default_mime_types );
 		parent::__construct($args);
 	}
 
@@ -97,6 +111,7 @@ class Image extends Field {
 
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
+		$blueprint['allowed_image_mime_types'] = $this->allowed_image_mime_types;
 		return $blueprint;
 	}
 
