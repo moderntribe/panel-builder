@@ -88,26 +88,6 @@ class MetaBox {
 	}
 
 	/**
-	 * Supported types for the image field, also allows svg by default, though the theme will still have to enable
-	 * that format separately
-	 *
-	 * @return array
-	 */
-
-	private function get_image_mime_types() {
-		return [
-			'image/svg',
-			'image/svg+xml',
-			'image/jpeg',
-			'image/gif',
-			'image/png',
-			'image/bmp',
-			'image/tiff',
-			'image/x-icon',
-		];
-	}
-
-	/**
 	 * Provides config data to be used by front-end JS
 	 *
 	 * @return array
@@ -118,7 +98,6 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
-				'allowed_image_mime_types' => $this->get_image_mime_types(),
 				'iframe_scroll_offset'     => 10,
 				'css_file'                 => Plugin::plugin_url( 'ui/dist/master.css' ),
 			];

@@ -30,7 +30,7 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			const image = AdminCache.cacheSrcByAttachment(attachment);
+			const image = AdminCache.cacheSrcByAttachment(attachment, this.props.allowed_image_mime_types);
 
 			this.setState({
 				image,
@@ -104,6 +104,7 @@ class Image extends Component {
 }
 
 Image.propTypes = {
+	allowed_image_mime_types: React.PropTypes.array,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	depth: React.PropTypes.number,
@@ -116,6 +117,7 @@ Image.propTypes = {
 };
 
 Image.defaultProps = {
+	allowed_image_mime_types: [],
 	label: '',
 	name: '',
 	description: '',
