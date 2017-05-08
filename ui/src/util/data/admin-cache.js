@@ -54,8 +54,6 @@ export const cacheSrcByAttachment = (attachment = {}, types = []) => {
 		return '';
 	}
 
-	console.log(types);
-
 	// make sure this mime type is allowed
 	if (types.length && !types.filter(mime => attachment.mime === mime).length) {
 		console.error(`
