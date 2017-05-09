@@ -92,7 +92,9 @@ class Plugin {
 	}
 
 	private function setup() {
-		\AJAXQueue\Core::init();
+		if ( is_admin() ) {
+			\AJAXQueue\Core::init();
+		}
 		\AttachmentHelper\Plugin::init();
 		$this->setup_ajax_handler();
 		$this->init_panel_sets();

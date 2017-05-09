@@ -19,6 +19,19 @@ class Image extends Field {
 
 	protected $default = 0;
 
+	protected $default_mime_types = [
+		'image/svg',
+		'image/svg+xml',
+		'image/jpeg',
+		'image/gif',
+		'image/png',
+		'image/bmp',
+		'image/tiff',
+		'image/x-icon',
+	];
+
+	protected $allowed_image_mime_types;
+
 	/**
 	 * @param array $args
 	 *
@@ -35,6 +48,7 @@ class Image extends Field {
 			'button.remove' => __( 'Remove', 'modular-content' ),
 			'button.select' => __( 'Select Files', 'modular-content' ),
 		];
+		$this->defaults['allowed_image_mime_types'] = isset( $args['allowed_image_mime_types'] ) ? $args['allowed_image_mime_types'] : apply_filters( 'panels_default_allowed_mime_types', $this->default_mime_types );
 		parent::__construct($args);
 	}
 
@@ -97,35 +111,8 @@ class Image extends Field {
 
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
+		$blueprint['allowed_image_mime_types'] = $this->allowed_image_mime_types;
 		return $blueprint;
-	}
-
-	public static function js_config() {
-		return [
-			'plupload' => [
-				'runtimes' => 'html5,silverlight,flash,html4',
-				'browse_button' => 'plupload-browse-button',
-				'container' => 'plupload-upload-ui',
-				'drop_element' => 'drag-drop-area',
-				'file_data_name' => 'async-upload',
-				'multiple_queues' => false,
-				'multi_selection' => false,
-				'max_file_size' => wp_max_upload_size() . 'b',
-				'url' => admin_url( 'admin-ajax.php' ),
-				'flash_swf_url' => includes_url( 'js/plupload/plupload.flash.swf' ),
-				'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
-				'multipart' => true,
-				'urlstream_upload' => true,
-
-				// Additional parameters:
-				'multipart_params' => [
-					'_ajax_nonce' => wp_create_nonce( 'photo-upload' ),
-					'action' => 'attachment_helper_upload_image',
-					'postID' => get_the_ID(),
-					'size' => 'medium',
-				],
-			]
-		];
 	}
 
 	/**
