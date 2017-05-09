@@ -6,30 +6,34 @@ use Codeception\TestCase\WPTestCase;
 use ModularContent\AdminPreCache;
 
 class Image_Test extends WPTestCase {
+
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$default = __LINE__;
-		$field = new Image( [
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'default'     => $default,
+		$default     = __LINE__;
+		$mime_types  = [ 'image/svg' ];
+		$field       = new Image( [
+			'label'                    => $label,
+			'name'                     => $name,
+			'description'              => $description,
+			'default'                  => $default,
+			'allowed_image_mime_types' => $mime_types,
 		] );
 
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'Image',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [
+			'type'                     => 'Image',
+			'label'                    => $label,
+			'name'                     => $name,
+			'description'              => $description,
+			'strings'                  => [
 				'button.remove' => 'Remove',
 				'button.select' => 'Select Files',
 			],
-			'default'     => $default,
+			'default'                  => $default,
+			'allowed_image_mime_types' => $mime_types,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
