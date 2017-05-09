@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ADMIN_CACHE, CONFIG } from '../../globals/config';
+import { ADMIN_CACHE } from '../../globals/config';
 
 ADMIN_CACHE.images = ADMIN_CACHE.images || {};
 ADMIN_CACHE.posts = ADMIN_CACHE.posts || {};

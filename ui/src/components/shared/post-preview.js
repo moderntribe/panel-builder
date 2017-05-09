@@ -31,10 +31,12 @@ const PostPreview = (props) => {
 	const removeClassses = classNames({
 		[styles.remove]: true,
 		'remove-selected-post': true,
+		'panel-builder__input--no-drag': true,
 	});
 	const editClassses = classNames({
 		[styles.edit]: true,
 		'edit-selected-post': true,
+		'panel-builder__input--no-drag': true,
 	});
 	const linkClassses = classNames({
 		[styles.link]: true,

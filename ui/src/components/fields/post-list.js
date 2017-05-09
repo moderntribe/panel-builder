@@ -726,6 +726,7 @@ class PostList extends Component {
 	 */
 	@autobind
 	handleCancelClick(e) {
+		// todo: dont delete data if already populated on cancel
 		// looking for editableId
 		this.removePostFromList(e.state.editableId);
 	}
