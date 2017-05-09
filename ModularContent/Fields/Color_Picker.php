@@ -15,7 +15,7 @@ namespace ModularContent\Fields;
  */
 class Color_Picker extends Field {
 
-	protected $default = 0;
+	protected $default = '';
 
 	protected $default_swatches = [
 		'#4a7ef2',
@@ -67,6 +67,6 @@ class Color_Picker extends Field {
 	 * @return int
 	 */
 	public function prepare_data_for_save( $data ) {
-		return (int) parent::prepare_data_for_save( $data );
+		return (string) parent::prepare_data_for_save( $data );
 	}
 }
