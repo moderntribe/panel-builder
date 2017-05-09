@@ -24,6 +24,7 @@ export default {
 	[FIELD_TYPES.TITLE]: Title,
 	[FIELD_TYPES.RADIO]: Radio,
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
+	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
 	[FIELD_TYPES.SELECT]: Select,
 	[FIELD_TYPES.TEXTAREA]: TextArea,

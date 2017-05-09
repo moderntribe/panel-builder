@@ -13,7 +13,7 @@ namespace ModularContent\Fields;
  *
  * The image is stored in the field as an attachment ID.
  */
-class ColorPicker extends Field {
+class Color_Picker extends Field {
 
 	protected $default = 0;
 
@@ -35,7 +35,7 @@ class ColorPicker extends Field {
 	 *
 	 * Usage example:
 	 *
-	 * $field = new ColorPicker( array(
+	 * $field = new Color_Picker( array(
 	 *   'label' => __('Background Color'),
 	 *   'name' => 'background-color',
 	 *   'description' => __( 'The color to use as the background.' ),

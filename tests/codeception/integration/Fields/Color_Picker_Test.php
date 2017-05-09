@@ -12,7 +12,7 @@ class Color_Picker_Test extends WPTestCase {
 		$description = __FUNCTION__ . ':' . __LINE__;
 		$default     = __LINE__;
 		$swatches    = [ '#CCCCCC' ];
-		$field       = new ColorPicker( [
+		$field       = new Color_Picker( [
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
@@ -24,7 +24,7 @@ class Color_Picker_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'ColorPicker',
+			'type'         => 'Color_Picker',
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
