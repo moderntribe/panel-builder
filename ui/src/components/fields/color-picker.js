@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { BlockPicker } from 'react-color';
 
-import styles from './swatch-select.pcss';
+import Button from '../shared/button';
 
-class SwatchSelect extends Component {
+import styles from './color-picker.pcss';
+
+class ColorPicker extends Component {
 	state = {
+		pickerActive: false,
 		value: this.props.data,
 	};
 
 	@autobind
 	handleChange(e) {
-		const value = e.currentTarget.value;
+		const value = e.hex;
 		this.setState({ value });
 		this.props.updatePanelData({
 			depth: this.props.depth,
@@ -22,42 +25,61 @@ class SwatchSelect extends Component {
 		});
 	}
 
-	render() {
-		const swatchSelectLabelClasses = classNames({
-			'plswatchelect-label': true,
-			[styles.islabel]: true,
+	@autobind
+	handleToggle() {
+		this.setState({ pickerActive: !this.state.pickerActive });
+	}
+
+	renderPicker() {
+		return this.state.pickerActive ? (
+			<BlockPicker
+				color={this.state.value}
+				colors={this.props.swatches}
+				onChange={this.handleChange}
+			/>
+		) : null;
+	}
+
+	renderToggle() {
+		const colorLabelClasses = classNames({
+			'site-builder__color-field-label': true,
+			[styles.colorLabel]: true,
+			[styles.pickerActive]: this.state.pickerActive,
 		});
 
-		const Options = _.map(this.props.options, (option, i) => {
-			const optionStyle = {
-				background: option.color,
-			};
+		const pickerStyles = {
+			backgroundColor: this.state.value,
+		};
 
-			return (
-				<label
-					className={swatchSelectLabelClasses}
-					key={`swatch-select-${i}`}
+		const arrowClasses = classNames({
+			'site-builder__color-arrow': true,
+			[styles.selectedColorArrow]: true,
+			'dashicons': true,
+			'dashicons-arrow-down': !this.state.pickerActive,
+			'dashicons-arrow-up': this.state.pickerActive,
+		});
+
+		return (
+			<div
+				className={colorLabelClasses}
+			>
+				<div
+					className={styles.selectedColor}
+					style={pickerStyles}
 				>
-					<input
-						type="radio"
-						name={`modular-content-${this.props.name}`}
-						value={option.value}
-						onChange={this.handleChange}
-						checked={this.state.value === option.value}
-						data-option-type="single"
-						data-field="swatch-select"
+					<i className={arrowClasses} />
+					<Button
+						classes={styles.colorTrigger}
+						bare
+						handleClick={this.handleToggle}
 					/>
-					<div
-						className={styles.optionColor}
-						style={optionStyle}
-					>
-						<span className={styles.optInner} />
-					</div>
-					{option.label && <span className={styles.optionLabel}>{option.label}</span>}
-				</label>
-			);
-		});
+				</div>
+				{this.renderPicker()}
+			</div>
+		);
+	}
 
+	render() {
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
@@ -76,7 +98,7 @@ class SwatchSelect extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
 				<div className={styles.container}>
-					{Options}
+					{this.renderToggle()}
 				</div>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
@@ -84,30 +106,32 @@ class SwatchSelect extends Component {
 	}
 }
 
-SwatchSelect.propTypes = {
+ColorPicker.propTypes = {
+	data: React.PropTypes.string,
+	default: React.PropTypes.string,
+	depth: React.PropTypes.number,
+	description: React.PropTypes.string,
+	input_active: React.PropTypes.bool,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
+	strings: React.PropTypes.object,
+	swatches: React.PropTypes.array,
 	updatePanelData: React.PropTypes.func,
 };
 
-SwatchSelect.defaultProps = {
+ColorPicker.defaultProps = {
+	data: '',
+	default: '',
+	depth: 0,
+	description: '',
+	input_active: false,
 	label: '',
 	name: '',
-	description: '',
-	depth: 0,
-	strings: {},
-	default: '',
-	options: [],
-	data: '',
 	panelIndex: 0,
+	strings: {},
+	swatches: [],
 	updatePanelData: () => {},
 };
 
-export default SwatchSelect;
+export default ColorPicker;

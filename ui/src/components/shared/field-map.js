@@ -4,6 +4,7 @@ import Text from '../fields/text';
 import Title from '../fields/title';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
+import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';

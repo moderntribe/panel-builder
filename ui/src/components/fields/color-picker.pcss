@@ -1,16 +1,63 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
-@import '../../shared/mq.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
+	padding: var(--field-padding-horizontal) var(--field-padding-vertical);
+}
+
+.colorLabel {
+	composes: label from "../../shared/inputs.pcss";
+	color: var(--white);
+	height: auto;
+	overflow: visible;
+
+	[class="block-picker"] {
+		margin-top: 12px;
+		position: absolute !important;
+		z-index: 12;
+		width: 100% !important;
+
+		input {
+			display: none;
+		}
+	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
-	display: block;
+	overflow: visible;
 }
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
+	margin-top: 13px;
+}
+
+.selectedColor {
+	position: relative;
+}
+
+.colorTrigger {
+	height: 40px;
+}
+
+.selectedColorArrow {
+	background: var(--button-primary-bg-color);
+	height: 40px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 40px;
+
+	&:before {
+		color: var(--button-secondary-disabled-bg-color);
+		font-size: 30px;
+		height: 15px;
+		left: 5px;
+		line-height: 15px;
+		position: absolute;
+		top: 12px;
+		width: 15px;
+	}
 }
