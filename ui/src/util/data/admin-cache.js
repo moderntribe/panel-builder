@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ADMIN_CACHE, CONFIG } from '../../globals/config';
+import { ADMIN_CACHE } from '../../globals/config';
 
 ADMIN_CACHE.images = ADMIN_CACHE.images || {};
 ADMIN_CACHE.posts = ADMIN_CACHE.posts || {};
@@ -44,20 +44,21 @@ export const getImageSrcById = (id = 0) => {
 /**
  * Gets/caches a thumbnail or full src from an attachment object.
  *
- * @param attachment
+ * @param attachment {Object} The attachment object
+ * @param types {Array} The mime types array
  * @returns {string}
  */
 
-export const cacheSrcByAttachment = (attachment = {}) => {
+export const cacheSrcByAttachment = (attachment = {}, types = []) => {
 	if (_.isEmpty(attachment)) {
 		return '';
 	}
 
 	// make sure this mime type is allowed
-	if (!CONFIG.allowed_image_mime_types.filter(mime => attachment.mime === mime).length) {
+	if (types.length && !types.filter(mime => attachment.mime === mime).length) {
 		console.error(`
-				This attachment type is not allowed in panel builder. 
-				You can filter "panels_js_config" and modify "allowed_image_mime_types" if you wish to allow a new type.
+				This attachment type is not allowed for this field instance. 
+				You can filter "panels_default_allowed_mime_types" if you wish to allow a new type globally, or by field instance.
 				Use a mime type string.
 			`);
 		return '';
