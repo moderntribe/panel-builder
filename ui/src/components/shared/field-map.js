@@ -4,6 +4,7 @@ import Text from '../fields/text';
 import Title from '../fields/title';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
+import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
@@ -24,6 +25,7 @@ export default {
 	[FIELD_TYPES.TITLE]: Title,
 	[FIELD_TYPES.RADIO]: Radio,
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
+	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
 	[FIELD_TYPES.SELECT]: Select,
 	[FIELD_TYPES.TEXTAREA]: TextArea,
