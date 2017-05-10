@@ -7,6 +7,7 @@ export const TEXT = 'Text';
 export const TITLE = 'Title';
 export const RADIO = 'Radio';
 export const CHECKBOX = 'Checkbox';
+export const COLOR_PICKER = 'Color_Picker';
 export const IMAGE_SELECT = 'ImageSelect';
 export const SELECT = 'Select';
 export const TEXTAREA = 'TextArea';

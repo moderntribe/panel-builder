@@ -1,0 +1,139 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	padding: var(--field-padding-horizontal) 0;
+}
+
+.colorLabel {
+	composes: label from "../../shared/inputs.pcss";
+	color: var(--white);
+	height: auto;
+	overflow: visible;
+	max-width: 600px;
+
+	[class="block-picker"] {
+		margin-top: 12px;
+		position: absolute !important;
+		z-index: 12;
+		width: 100% !important;
+		box-shadow: 0 11px 33px 0 rgba(0,0,0,0.20) !important;
+
+		input {
+			display: none;
+			border-radius: 0 !important;
+			line-height: 30px;
+			height: 30px !important;
+		}
+	}
+
+	&.hasInput {
+		[class="block-picker"] {
+			input {
+				display: block;
+			}
+		}
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	overflow: visible;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+	margin-top: 13px;
+}
+
+.selectedColor {
+	position: relative;
+	border: 1px solid var(--border-color);
+	border-right: 0;
+	height: 40px;
+
+	.hasColor & {
+		border: 0;
+	}
+}
+
+.colorTrigger {
+	height: 40px;
+}
+
+.colorClear {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	right: 40px;
+	top: -1px;
+
+	i {
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		top: 0;
+		left: 0;
+		margin: 0;
+
+		&:before  {
+			position: absolute;
+			font-size: 20px;
+			width: 40px;
+			height: 40px;
+			top: 0;
+			left: 0;
+			text-align: center;
+			line-height: 42px;
+			color: var(--white);
+			z-index: 4;
+		}
+
+		&:after  {
+			position: absolute;
+			content: '';
+			width: 16px;
+			height: 16px;
+			top: 13px;
+			left: 12px;
+			border-radius: 100%;
+			background: var(--arrow-color);
+			transition: var(--transition-button-primary);
+			z-index: 3;
+		}
+	}
+
+	&:hover {
+		i:after {
+			background: var(--picker-description);
+		}
+	}
+}
+
+.selectedColorArrow {
+	background: var(--button-primary-bg-color);
+	height: 40px;
+	position: absolute;
+	right: 0;
+	top: -1px;
+	width: 40px;
+	border: 1px solid var(--border-color);
+	border-left: 0;
+
+	.hasColor & {
+		top: 0;
+	}
+
+	&:before {
+		color: var(--arrow-color);
+		font-size: 30px;
+		height: 15px;
+		left: 3px;
+		line-height: 15px;
+		position: absolute;
+		top: 11px;
+		width: 15px;
+	}
+}
