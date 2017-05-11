@@ -33,7 +33,7 @@ class PostList extends Component {
 		this.state = {
 			type: this.props.data.type,
 			manualPostData: this.props.data.posts ? this.prepIncomingPosts(this.props.data.posts) : [],
-			queryPosts: {},   // filtered lists... coming from ajax call not props.data
+			queryPostsArray: [],   // filtered lists... coming from ajax call not props.data
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
 			filterValue: '',
@@ -440,14 +440,13 @@ class PostList extends Component {
 	 * @method getFilteredPosts
 	 */
 	getFilteredPosts() {
-		const keys = _.keys(this.state.queryPosts);
-		const posts = _.map(keys, (key, index) => {
+		const posts = _.map(this.state.queryPostsArray, (post, index) => {
 			let Container = null;
 			if (index < this.state.max) {
 				Container = (
 					<PostPreviewContainer
 						key={_.uniqueId('query-post-preview-')}
-						post={this.state.queryPosts[key]}
+						post={post}
 					/>
 				);
 			}
@@ -598,6 +597,19 @@ class PostList extends Component {
 	/**
 	 * Retrieve new posts. Add to cache
 	 *
+	 * @method getOrderedPosts
+	 */
+	getOrderedPosts(posts, postIds) {
+		const postsArray = [];
+		_.forEach(postIds, (id) => {
+			postsArray.push(posts[id]);
+		});
+		return postsArray;
+	}
+
+	/**
+	 * Retrieve new posts. Add to cache
+	 *
 	 * @method getNewPosts
 	 */
 	getNewPosts() {
@@ -611,8 +623,9 @@ class PostList extends Component {
 			.end((err, response) => {
 				if (response && response.ok) {
 					AdminCache.addPosts(response.body.data.posts);
+					const queryPostsArray = this.getOrderedPosts(response.body.data.posts, response.body.data.post_ids);
 					this.setState({
-						queryPosts: response.body.data.posts,
+						queryPostsArray,
 					});
 				}
 			});
