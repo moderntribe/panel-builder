@@ -3,29 +3,17 @@
 namespace ModularContent\Fields;
 
 /**
- * Class Image
+ * Class Color_Picker
  *
  * @package ModularContent\Fields
  *
- * An image field.
- *
- * Note: this depends on the Attachment Helper library.
- *
- * The image is stored in the field as an attachment ID.
+ * An color picker field.
  */
 class Color_Picker extends Field {
 
 	protected $default = '';
 
-	protected $default_swatches = [
-		'#4a7ef2',
-		'#3c73ef',
-		'#3b4664',
-		'#5cb85c',
-		'#d15e61',
-		'#ffa700',
-		'#eee',
-	];
+	protected $default_swatches = [];
 
 	protected $swatches     = [];
 	protected $input_active = false;
@@ -41,7 +29,8 @@ class Color_Picker extends Field {
 	 *   'name' => 'background-color',
 	 *   'description' => __( 'The color to use as the background.' ),
 	 *   'swatches' => [ '#000000', '#fcfcfc' ],
-	 *   'input_active' => false,
+	 *   'input_active' => false, // if true, displays a text input to define a custom swatch in the field
+	 *   'allow_clear' => false,
 	 * ) );
 	 */
 	public function __construct( $args = [] ) {

@@ -19,6 +19,7 @@ class Color_Picker_Test extends WPTestCase {
 			'default'      => $default,
 			'swatches'     => $swatches,
 			'input_active' => false,
+			'allow_clear'  => false,
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -29,13 +30,14 @@ class Color_Picker_Test extends WPTestCase {
 			'name'         => $name,
 			'description'  => $description,
 			'strings'      => [
-				'input.placeholder' => 'enter hex code',
+				'input.placeholder' => 'Enter Hex Code',
 			],
 			'default'      => $default,
 			'swatches'     => $swatches,
 			'input_active' => false,
+			'allow_clear'  => false,
 		];
 
-		$this->assertEquals( $expected, $blueprint );
+		$this->assertEqualSets( $expected, $blueprint );
 	}
 }
