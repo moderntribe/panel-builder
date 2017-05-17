@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
+import tinycolor from 'tinycolor2';
 import classNames from 'classnames';
 import { BlockPicker } from 'react-color';
 
@@ -16,16 +17,23 @@ import styles from './color-picker.pcss';
  */
 
 class ColorPicker extends Component {
-	state = {
-		pickerActive: false,
-		value: this.props.data,
-	};
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			pickerActive: false,
+			value: this.props.data,
+		};
+		this.mounted = false;
+	}
 
 	componentDidMount() {
+		this.mounted = true;
 		document.addEventListener('click', this.onDocumentClick);
 	}
 
 	componentWillUnmount() {
+		this.mounted = false;
 		document.removeEventListener('click', this.onDocumentClick);
 	}
 
@@ -37,6 +45,9 @@ class ColorPicker extends Component {
 
 	@autobind
 	onDocumentClick(event) {
+		if (!this.mounted) {
+			return;
+		}
 		if (!this.state.pickerActive) {
 			return;
 		}
@@ -156,6 +167,7 @@ class ColorPicker extends Component {
 			[styles.pickerActive]: this.state.pickerActive,
 			[styles.hasColor]: this.state.value.length,
 			[styles.hasInput]: this.props.input_active,
+			[styles.isLight]: this.state.value.length && tinycolor(this.state.value).isLight(),
 		});
 
 		const pickerStyles = {
