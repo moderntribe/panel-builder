@@ -69,6 +69,7 @@
     "sortablejs": "1.5.1",
     "superagent": "^2.0.0",
     "sweet-scroll": "^1.0.3",
+    "tinycolor2": "^1.4.1",
     "verge": "^1.9.1",
     "webpack": "2",
     "webpack-dev-server": "2",

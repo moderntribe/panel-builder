@@ -36,6 +36,16 @@
 			}
 		}
 	}
+
+	[class="block-picker"] div:first-child + div + div > div > div:not(:last-of-type) {
+		border: 1px solid var(--border-color);
+	}
+
+	&.isLight {
+		[class="block-picker"] div:first-child + div > div {
+			color: var(--picker-label) !important;
+		}
+	}
 }
 
 .label {
@@ -53,10 +63,6 @@
 	border: 1px solid var(--border-color);
 	border-right: 0;
 	height: 40px;
-
-	.hasColor & {
-		border: 0;
-	}
 }
 
 .colorTrigger {
