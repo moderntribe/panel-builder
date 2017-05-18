@@ -81,7 +81,6 @@ class Accordion extends Component {
 
 	@autobind
 	updateGroupFieldData(data) {
-		console.log('updating');
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: data.index,
