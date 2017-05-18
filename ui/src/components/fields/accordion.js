@@ -8,6 +8,11 @@ import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
 
+// todo: replace with custom height solution and drop deps on gsap for this admin tool to avoid collisions
+
+const tw = window.TweenMax ? window.TweenMax : TweenMax;
+const p3 = window.Power3 ? window.Power3 : Power3;
+
 class Accordion extends Component {
 	state = {
 		active: false,
@@ -94,8 +99,8 @@ class Accordion extends Component {
 		if (!this.state.active) {
 			return;
 		}
-		TweenMax.set(this.fields, { height: 'auto' });
-		TweenMax.from(this.fields, 0.6, { ease: Power3.easeOut, height: 0 });
+		tw.set(this.fields, { height: 'auto' });
+		tw.from(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
 		_.delay(() => this.fields.classList.add(styles.animated), 600);
 	}
 
