@@ -5,6 +5,10 @@
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
 	border-bottom: 1px solid var(--border-color);
+
+	[data-settings="false"] {
+		display: block;
+	}
 }
 
 .label {
