@@ -17,6 +17,7 @@ import ImageGallery from '../fields/image-gallery';
 import PostQuacker from '../fields/post-quacker';
 import PostList from '../fields/post-list';
 import Group from '../fields/group';
+import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
 
 export default {
@@ -37,5 +38,6 @@ export default {
 	[FIELD_TYPES.POST_LIST]: PostList,
 	[FIELD_TYPES.SWATCH_SELECT]: SwatchSelect,
 	[FIELD_TYPES.GROUP]: Group,
+	[FIELD_TYPES.ACCORDION]: Accordion,
 	[FIELD_TYPES.REPEATER]: Repeater,
 };
