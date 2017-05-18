@@ -33,7 +33,7 @@ class Post_List extends Field {
 
 	protected $max              = 12;
 	protected $min              = 0;
-	protected $suggested        = 0;
+	protected $suggested        = 1;
 	protected $default          = [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ];
 	protected $show_max_control = false;
 	protected $strings          = [ ];
@@ -108,6 +108,9 @@ class Post_List extends Field {
 		}
 		if ( $this->suggested > $this->max ) {
 			$this->suggested = $this->max;
+		}
+		if ( $this->suggested < $this->min ) {
+			$this->suggested = $this->min;
 		}
 
 	}
