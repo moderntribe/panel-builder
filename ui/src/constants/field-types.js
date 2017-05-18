@@ -21,4 +21,5 @@ export const POST_QUACKER = 'PostQuacker';
 export const POST_LIST = 'Post_List';
 export const SWATCH_SELECT = 'Swatch_Select';
 export const GROUP = 'Group';
+export const ACCORDION = 'Accordion';
 export const REPEATER = 'Repeater';
