@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
+import { BLUEPRINT_CATEGORIES } from '../../globals/config';
+
 import styles from './panel-preview.pcss';
 
 /**
@@ -13,8 +15,11 @@ import styles from './panel-preview.pcss';
 
 const PanelPreview = (props) => {
 	const addPanel = () => props.handleAddPanel(props.type);
+	const checkIsComponent = () => BLUEPRINT_CATEGORIES.filter(c => c.category === 'components')[0];
+	const isComponent = checkIsComponent();
 	const containerClasses = classNames({
 		[styles.container]: true,
+		[styles.isComponent]: isComponent,
 	});
 
 	return (
@@ -22,9 +27,10 @@ const PanelPreview = (props) => {
 			className={containerClasses}
 			onClick={addPanel}
 		>
-			<h4>{props.label}</h4>
-			<p>{props.description}</p>
+			{!isComponent && <h4>{props.label}</h4>}
+			{!isComponent && <p>{props.description}</p>}
 			<figure><img src={props.thumbnail} alt={props.label} /></figure>
+			{isComponent && <h4 className={styles.componentTitle}>{props.label}</h4>}
 		</article>
 	);
 };

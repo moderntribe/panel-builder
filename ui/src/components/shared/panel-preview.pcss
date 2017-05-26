@@ -37,6 +37,23 @@
 	@media (--viewport-large) {
 		lost-column: 1/3;
 	}
+
+	&.isComponent {
+		lost-column: 1/2;
+		margin-bottom: 10px;
+
+		@media (--viewport-medium) {
+			lost-column: 1/4;
+		}
+		@media (--viewport-large) {
+			lost-column: 1/6;
+		}
+
+		.componentTitle {
+			text-align: center;
+			font-size: 13px;
+		}
+	}
 }
 
 [data-live-edit="true"]{
@@ -45,11 +62,19 @@
 		flex: none;
 		width: 100%;
 		float:none;
+		&.isComponent {
+			lost-column: 1/2;
+			margin-bottom: 10px;
+		}
 	}
 	[data-expanded="true"]{
 		.container {
 			lost-column: 1/2;
 			margin-bottom: 10px;
+
+			&.isComponent {
+				lost-column: 1/4;
+			}
 		}
 	}
 }
