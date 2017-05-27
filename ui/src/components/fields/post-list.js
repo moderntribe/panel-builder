@@ -37,7 +37,7 @@ class PostList extends Component {
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
 			filterValue: '',
-			max: this.props.data.max ? parseInt(this.props.data.max, 10) : this.props.suggested,		// assume a string
+			max: Math.max(1, this.props.data.max ? parseInt(this.props.data.max, 10) : this.props.suggested),		// assume a string
 		};
 	}
 
