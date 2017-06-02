@@ -15,8 +15,15 @@ import styles from './panel-preview.pcss';
 
 const PanelPreview = (props) => {
 	const addPanel = () => props.handleAddPanel(props.type);
-	const checkIsComponent = () => BLUEPRINT_CATEGORIES.filter(c => c.category === 'components')[0];
+	const checkIsComponent = () => {
+		const componentCategory = BLUEPRINT_CATEGORIES.filter(c => c.category === 'components')[0];
+		if (!componentCategory) {
+			return false;
+		}
+		return _.isArray(componentCategory.types) && componentCategory.types.indexOf(props.type) !== -1;
+	};
 	const isComponent = checkIsComponent();
+	console.log(isComponent);
 	const containerClasses = classNames({
 		[styles.container]: true,
 		[styles.isComponent]: isComponent,
