@@ -104,22 +104,24 @@ class Repeater extends Component {
 					handleClick={this.handleBackClick}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				<FieldBuilder
-					fields={this.props.fields}
-					data={rowData}
-					parent={this.props.name}
-					index={this.props.panelIndex}
-					indexMap={this.props.indexMap}
-					updatePanelData={this.updateRepeaterFieldData}
-				/>
-				<Button
-					icon="dashicons-trash"
-					text={deleteLabel}
-					bare
-					full={false}
-					classes={styles.deleteRow}
-					handleClick={this.handleDeleteRow}
-				/>
+				<div className={styles.fieldWrap}>
+					<FieldBuilder
+						fields={this.props.fields}
+						data={rowData}
+						parent={this.props.name}
+						index={this.props.panelIndex}
+						indexMap={this.props.indexMap}
+						updatePanelData={this.updateRepeaterFieldData}
+					/>
+					<Button
+						icon="dashicons-trash"
+						text={deleteLabel}
+						bare
+						full={false}
+						classes={styles.deleteRow}
+						handleClick={this.handleDeleteRow}
+					/>
+				</div>
 			</div>
 		);
 	}
