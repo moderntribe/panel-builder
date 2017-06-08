@@ -97,6 +97,8 @@ class Accordion extends Component {
 
 	maybeAnimateFields() {
 		if (!this.state.active) {
+			this.fields.classList.remove(styles.animated);
+			tw.to(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
 			return;
 		}
 		tw.set(this.fields, { height: 'auto' });
@@ -126,7 +128,7 @@ class Accordion extends Component {
 		return (
 			<div ref={r => this.el = r} className={fieldClasses}>
 				{this.getHeader()}
-				{this.state.active ? this.getFields() : null}
+				{this.getFields()}
 			</div>
 		);
 	}
