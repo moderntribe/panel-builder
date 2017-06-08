@@ -6,6 +6,7 @@
 	composes: fieldContainer from "../../shared/fields.pcss";
 	border-bottom: 1px solid var(--border-color);
 	transform: translate3d(0, 0, 0);
+	margin-bottom: 0;
 }
 
 .label {
@@ -17,7 +18,7 @@
 	transition: var(--transition-accordion);
 	transform: rotate(90deg);
 	right: 0;
-	top: 19px;
+	top: 25px;
 
 	.active & {
 		transform: rotate(-90deg);
@@ -29,7 +30,7 @@
 	margin: 0 auto;
 	width: 100%;
 	background: none;
-	padding: 20px 0 25px;
+	padding: 25px 0;
 	border: 0;
 
 	.description {
