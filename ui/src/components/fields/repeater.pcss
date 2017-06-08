@@ -32,6 +32,7 @@
 
 .header{
 	composes: header from "../../shared/accordion.pcss";
+	transform: translate3d(0, 0, 0);
 	margin-bottom: var(--panel-margin-vertical);
 }
 
@@ -105,6 +106,11 @@
 [data-live-edit="true"]{
 	.fields{
 		height:calc(100vh - 50px);
+		overflow: visible;
+	}
+	.fieldWrap{
+		padding-top: 25px;
+		height: calc(100vh - 125px);
 		overflow-y: auto;
 	}
 }
