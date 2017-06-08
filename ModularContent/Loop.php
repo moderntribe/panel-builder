@@ -12,6 +12,7 @@ use ArrayIterator;
  * An iterator over a collection of panels
  */
 class Loop {
+	/** @var Panel */
 	protected $panel = NULL;
 	protected $collection = NULL;
 	/** @var Panel[] */
@@ -109,7 +110,7 @@ class Loop {
 	public function set_the_panel( Panel $panel = NULL ) {
 		if ( empty($panel) && isset($this->iterator) && $this->iterator->valid() ) {
 			$panel = $this->iterator->current();
-		} else {
+		} elseif ( ! empty( $panel ) && isset( $this->iterator ) ) {
 			$this->update_nest_indices( $panel );
 		}
 
@@ -158,7 +159,12 @@ class Loop {
 	 * @return integer
 	 */
 	public function get_nest_index() {
-		return (integer) $this->nest_indices[ $this->panel->get_depth() ];
+		$depth = $this->panel->get_depth();
+		if ( isset( $this->nest_indices[ $depth ] ) ) {
+			return (integer) $this->nest_indices[ $depth ];
+		} else {
+			return 0;
+		}
 	}
 
 	/**

@@ -113,15 +113,15 @@ class Repeater extends Component {
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
 					/>
+					<Button
+						icon="dashicons-trash"
+						text={deleteLabel}
+						bare
+						full={false}
+						classes={styles.deleteRow}
+						handleClick={this.handleDeleteRow}
+					/>
 				</div>
-				<Button
-					icon="dashicons-trash"
-					text={deleteLabel}
-					bare
-					full={false}
-					classes={styles.deleteRow}
-					handleClick={this.handleDeleteRow}
-				/>
 			</div>
 		);
 	}
