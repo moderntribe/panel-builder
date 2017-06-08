@@ -20,7 +20,6 @@ export const setConditionalClass = (panel, input) => {
 
 export const initConditionalFields = (panel) => {
 	domTools.convertElements(panel.querySelectorAll('.panel-conditional-field input:checked')).forEach((input) => {
-		console.log(input);
 		if (domTools.closest(input, '.repeater-field')) {
 			return;
 		}
