@@ -81,6 +81,9 @@ class Plugin {
 			if ( $can_preview && ! empty( $_GET[ 'preview_panels' ] ) ) {
 				$this->loop = new Preview\Preview_Loop( $panels );
 			} else {
+				if ( post_password_required( $current_post ) ) {
+					$panels = null;
+				}
 				$this->loop = new Loop( $panels );
 			}
 		}
