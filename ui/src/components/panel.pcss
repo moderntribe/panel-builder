@@ -215,6 +215,10 @@
 	&.fieldsEdit{
 		height:calc(100vh - 50px);
 		overflow-y: visible;
+
+		&[data-show-children="true"]{
+			overflow: visible;
+		}
 	}
 }
 
