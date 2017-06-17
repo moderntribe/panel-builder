@@ -600,7 +600,7 @@ class Post_List extends Field {
 				$term_name = self::build_hierarchical_term_name( $term );
 				$options[] = [
 					'value' => $term->term_id,
-					'label' => $term_name,
+					'label' => html_entity_decode( $term_name, ENT_QUOTES | ENT_HTML401 ), // it will be re-encoded later
 				];
 			}
 			usort( $options, [ $this, 'sort_by_label' ] );
