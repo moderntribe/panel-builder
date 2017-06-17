@@ -104,6 +104,18 @@
 	}
 }
 
+[data-live-edit="true"] {
+	.deletePanel {
+		position: absolute;
+		text-align: left;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		background: var(--white);
+		border-top: 1px solid var(--border-color);
+	}
+}
+
 .noTitle{
 	font-weight: 400;
 	font-style: italic;
@@ -222,7 +234,7 @@
 	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 	[data-live-edit="true"] & {
 		padding-top: 25px;
-		height: calc(100vh - 125px);
+		height: calc(100vh - 167px);
 		overflow-y: auto;
 	}
 }

@@ -86,7 +86,7 @@ class AdminPreCache implements \JsonSerializable {
 			if ( empty( $excerpt ) ) {
 				$excerpt = $post->post_content;
 			}
-			$title = get_the_title( $post );
+			$title = html_entity_decode( get_the_title($post), ENT_QUOTES | ENT_HTML401 );
 			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
 			$excerpt = apply_filters( 'get_the_excerpt', $excerpt );
 			$thumbnail_html = get_the_post_thumbnail( $post->ID, array( 150, 150 ) );

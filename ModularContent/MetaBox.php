@@ -434,7 +434,7 @@ class MetaBox {
 			foreach ( $posts as $post ) {
 				$response['posts'][] = array(
 					'value' => $post->ID,
-					'label' => esc_html(get_the_title($post)),
+					'label' => html_entity_decode( get_the_title($post), ENT_QUOTES | ENT_HTML401 ),
 				);
 			}
 

@@ -52,6 +52,8 @@
 		.deleteRow {
 			float: none;
 			margin-top: -50px;
+			width: 100%;
+			text-align: right;
 		}
 	}
 }
@@ -73,6 +75,18 @@
 	margin-right:5px;
 	&:hover {
 		color: var(--delete-panel-hover-color-alt);
+	}
+}
+
+[data-live-edit="true"] {
+	.deleteRow{
+		position: absolute;
+		text-align: left;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		background: var(--white);
+		border-top: 1px solid var(--border-color);
 	}
 }
 
@@ -111,7 +125,7 @@
 	}
 	.fieldWrap{
 		padding-top: 25px;
-		height: calc(100vh - 125px);
+		height: calc(100vh - 167px);
 		overflow-y: auto;
 	}
 }
