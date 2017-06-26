@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import zenscroll from 'zenscroll';
+import wpautop from 'wpautop';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -8,7 +9,6 @@ import Loader from './shared/loader';
 
 import { IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
-import { wpEditor } from '../globals/wp';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
@@ -221,7 +221,7 @@ class CollectionPreview extends Component {
 		const livetextField = this.activePanelNode.querySelectorAll(selector)[0];
 		if (livetextField) {
 			if (livetextField.getAttribute('data-autop')) {
-				livetextField.innerHTML = wpEditor.autop(value);
+				livetextField.innerHTML = wpautop(value);
 				return;
 			}
 
