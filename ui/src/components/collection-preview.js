@@ -191,7 +191,7 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.index]])
+		ajax.getPanelHTML([this.props.panels[e.detail.index]], e.detail.index)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPanelAddedEvent();
@@ -322,7 +322,7 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelsAdded(e) {
-		ajax.getPanelHTML(e.detail.panels)
+		ajax.getPanelHTML(e.detail.panels, e.detail.index)
 			.done((data) => {
 				if (e.detail.index === -1) {
 					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
