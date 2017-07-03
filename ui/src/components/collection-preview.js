@@ -191,7 +191,7 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.index]])
+		ajax.getPanelHTML([this.props.panels[e.detail.index]], e.detail.index)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPanelAddedEvent();
@@ -322,7 +322,10 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelsAdded(e) {
-		ajax.getPanelHTML(e.detail.panels)
+		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
+		// or do other index based opts.
+		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
+		ajax.getPanelHTML(e.detail.panels, panelIndex)
 			.done((data) => {
 				if (e.detail.index === -1) {
 					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
