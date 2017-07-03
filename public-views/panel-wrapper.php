@@ -18,11 +18,7 @@ $panel_index = get_nest_index();
 $zebra = ( $panel_index % 2 == 0 ) ? 'odd' : 'even';
 
 // Child Panel
-if ( $panel->get_depth() >= 1 ) {
-
-	$classes[] = 'panel-child';
-
-	?>
+if ( $panel->get_depth() >= 1 ) { ?>
 
 	<article class="panel panel-child">
 
