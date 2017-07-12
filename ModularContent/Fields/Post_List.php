@@ -277,8 +277,7 @@ class Post_List extends Field {
 				case 'select':
 					if ( empty( $post_data[ 'id' ] ) ) {
 						$post_data = null;
-					}
-					if ( ! get_post_status( $post_data[ 'id' ] ) ) {
+					} elseif ( ! get_post_status( $post_data[ 'id' ] ) ) {
 						$post_data = null;
 					}
 					break;
