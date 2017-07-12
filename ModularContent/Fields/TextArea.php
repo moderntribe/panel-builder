@@ -70,7 +70,7 @@ class TextArea extends Field {
 		return $data;
 	}
 
-	protected function get_indexed_name() {
+	public function get_indexed_name() {
 		$name = $this->esc_class( $this->name );
 		return $name . '-' . $this->index;
 	}
