@@ -278,6 +278,9 @@ class Post_List extends Field {
 					if ( empty( $post_data[ 'id' ] ) ) {
 						$post_data = null;
 					}
+					if ( ! get_post_status( $post_data[ 'id' ] ) ) {
+						$post_data = null;
+					}
 					break;
 				case 'manual':
 					$post_data = wp_parse_args( $post_data, [
