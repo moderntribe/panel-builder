@@ -119,7 +119,7 @@ class PostPreviewContainer extends Component {
 		}, () => {
 			const filters = {
 				post_type: {
-					selection: this.props.post_type,
+					selection: [this.props.post_type],
 					lock: true,
 				},
 			};
