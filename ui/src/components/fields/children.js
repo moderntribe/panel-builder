@@ -15,6 +15,7 @@ import PanelPicker from '../panel-picker';
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
+import * as panelConditionals from '../../util/dom/panel-conditionals';
 
 import { UI_I18N } from '../../globals/i18n';
 
@@ -348,6 +349,7 @@ class Children extends Component {
 				value: newState.data,
 			});
 			this.scrollToActive();
+			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
 		});
 	}
 
@@ -372,7 +374,10 @@ class Children extends Component {
 		} else {
 			newState.active = true;
 		}
-		this.setState(newState, () => this.scrollToActive());
+		this.setState(newState, () => {
+			this.scrollToActive();
+			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
+		});
 	}
 
 	@autobind
@@ -447,6 +452,7 @@ class Children extends Component {
 				className={fieldClasses}
 				data-info-active="false"
 				data-show-nested="false"
+				data-settings="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
 				<label className={legendClasses}>{this.childData.label.plural}</label>

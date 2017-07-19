@@ -14,11 +14,12 @@ export const savePanelSet = (panels = '', title = '') => {
 	return wpAjax.send({ data });
 };
 
-export const getPanelHTML = (panels = []) => {
+export const getPanelHTML = (panels = [], index = 0) => {
 	const request = {
 		data: {
 			post_id,
 			panels,
+			index,
 		},
 	};
 

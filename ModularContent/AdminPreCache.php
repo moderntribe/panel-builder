@@ -86,7 +86,7 @@ class AdminPreCache implements \JsonSerializable {
 			if ( empty( $excerpt ) ) {
 				$excerpt = $post->post_content;
 			}
-			$title = get_the_title( $post );
+			$title = html_entity_decode( get_the_title($post), ENT_QUOTES | ENT_HTML401 );
 			$excerpt = wp_trim_words( $excerpt, 40, '&hellip;' );
 			$excerpt = apply_filters( 'get_the_excerpt', $excerpt );
 			$thumbnail_html = get_the_post_thumbnail( $post->ID, array( 150, 150 ) );
@@ -100,6 +100,14 @@ class AdminPreCache implements \JsonSerializable {
 			$post_type_object = get_post_type_object( $post->post_type );
 			$post_data[ 'post_type_label' ] = $post_type_object->labels->singular_name;
 			$post_data[ 'permalink' ] = get_permalink( $post->ID );
+		} else {
+			$post_data = [
+				'post_title'      => __( 'Error: Post not found', 'modular-content' ),
+				'post_excerpt'    => '',
+				'thumbnail_html'  => '',
+				'post_type_label' => '',
+				'permalink'       => '',
+			];
 		}
 
 		$post = $original_post;

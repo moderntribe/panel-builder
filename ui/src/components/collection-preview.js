@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import zenscroll from 'zenscroll';
+import wpautop from 'wpautop';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -8,7 +9,6 @@ import Loader from './shared/loader';
 
 import { IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
-import { wpEditor } from '../globals/wp';
 
 import { trigger } from '../util/events';
 import * as ajax from '../util/ajax';
@@ -191,7 +191,7 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.index]])
+		ajax.getPanelHTML([this.props.panels[e.detail.index]], e.detail.index)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPanelAddedEvent();
@@ -221,7 +221,7 @@ class CollectionPreview extends Component {
 		const livetextField = this.activePanelNode.querySelectorAll(selector)[0];
 		if (livetextField) {
 			if (livetextField.getAttribute('data-autop')) {
-				livetextField.innerHTML = wpEditor.autop(value);
+				livetextField.innerHTML = wpautop(value);
 				return;
 			}
 
@@ -322,7 +322,10 @@ class CollectionPreview extends Component {
 
 	@autobind
 	handlePanelsAdded(e) {
-		ajax.getPanelHTML(e.detail.panels)
+		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
+		// or do other index based opts.
+		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
+		ajax.getPanelHTML(e.detail.panels, panelIndex)
 			.done((data) => {
 				if (e.detail.index === -1) {
 					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
