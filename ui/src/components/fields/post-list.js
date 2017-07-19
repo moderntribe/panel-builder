@@ -600,11 +600,7 @@ class PostList extends Component {
 	 * @method getOrderedPosts
 	 */
 	getOrderedPosts(posts, postIds) {
-		const postsArray = [];
-		_.forEach(postIds, (id) => {
-			postsArray.push(posts[id]);
-		});
-		return postsArray;
+		return postIds.map(id => posts[id]);
 	}
 
 	/**
