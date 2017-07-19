@@ -117,8 +117,15 @@ class PostPreviewContainer extends Component {
 		this.setState({
 			loading: true,
 		}, () => {
+			const filters = {
+				post_type: {
+					selection: this.props.post_type,
+					lock: true,
+				},
+			};
 			const params = param({
 				action: 'posts-field-fetch-preview',
+				filters,
 				post_ids: [id],
 			});
 			this.postRequest = request
@@ -198,6 +205,7 @@ class PostPreviewContainer extends Component {
 PostPreviewContainer.propTypes = {
 	post: PropTypes.object,
 	post_id: React.PropTypes.string,
+	post_type: React.PropTypes.string,
 	thumbnailId: React.PropTypes.number,
 	onRemoveClick: React.PropTypes.func,
 	onEditClick: React.PropTypes.func,
@@ -208,6 +216,7 @@ PostPreviewContainer.propTypes = {
 PostPreviewContainer.defaultProps = {
 	post: null,
 	post_id: null,
+	post_type: '',
 	thumbnailId: null,
 	onRemoveClick: null,
 	onEditClick: null,
