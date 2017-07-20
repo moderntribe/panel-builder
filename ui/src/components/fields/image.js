@@ -45,6 +45,13 @@ class Image extends Component {
 			});
 		});
 
+		frame.on('open', () => {
+			if (!this.state.imageId) {
+				return;
+			}
+			frame.state().get('selection').add(wpMedia.attachment(this.state.imageId));
+		});
+
 		frame.open();
 	}
 
