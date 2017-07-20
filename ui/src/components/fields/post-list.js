@@ -227,6 +227,7 @@ class PostList extends Component {
 								<PostPreviewContainer
 									key={_.uniqueId('manual-post-preview-')}
 									post_id={data.id.toString()}
+									post_type={data.post_type}
 									editableId={data.editableId}
 									onRemoveClick={this.handleRemovePostClick}
 									onGetPostDetails={this.handleGetPostDetails}
@@ -718,6 +719,7 @@ class PostList extends Component {
 				} else if (data.method === POST_LIST_CONFIG.POST_METHODS.Select) {
 					// only have id at this point... uses preview to retrieve the post data
 					data.id = e.state.search; // eslint-disable-line no-param-reassign
+					data.post_type = e.state.searchPostType; // eslint-disable-line no-param-reassign
 				}
 				data.isPreview = true; // eslint-disable-line no-param-reassign
 			}
@@ -861,6 +863,7 @@ class PostList extends Component {
 	 */
 	mapWPPostToDataPost(wpPost) {
 		return {
+			post_type: wpPost.post_type,
 			post_title: wpPost.post_title,
 			post_content: wpPost.post_excerpt,
 			url: wpPost.permalink,
