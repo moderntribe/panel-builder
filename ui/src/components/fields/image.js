@@ -49,7 +49,9 @@ class Image extends Component {
 			if (!this.state.imageId) {
 				return;
 			}
-			frame.state().get('selection').add(wpMedia.attachment(this.state.imageId));
+			const attachment = wpMedia.attachment(this.state.imageId);
+			attachment.fetch();
+			frame.state().get('selection').add(attachment);
 		});
 
 		frame.open();
