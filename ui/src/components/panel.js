@@ -43,7 +43,9 @@ class PanelContainer extends Component {
 		this.mounted = true;
 		this.el = this.panel;
 
-		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', this.handleConditionalFields);
+		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', e => _.delay(() => {
+			this.handleConditionalFields(e);
+		}, 100));
 
 		if (this.props.depth > 0) {
 			return;
@@ -305,7 +307,7 @@ class PanelContainer extends Component {
 			return;
 		}
 
-		e.stopImmediatePropagation();
+		e.stopPropagation();
 		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
 
 		trigger({
