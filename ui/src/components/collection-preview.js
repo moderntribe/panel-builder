@@ -88,6 +88,10 @@ class CollectionPreview extends Component {
 
 	scrollToPanel(index, activate = true) {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
+		if (!target) {
+			console.warn(`Couldn't find panel to scroll to at index ${index}`);
+			return;
+		}
 		this.iframeScroller.to(target, 500, () => {
 			if (!activate) {
 				return;

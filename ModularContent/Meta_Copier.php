@@ -57,13 +57,15 @@ class Meta_Copier {
 	 * the destination post.
 	 *
 	 * @param int $post_id
+	 *
 	 * @return array
 	 */
 	private function get_meta_key_blacklist( $post_id ) {
-		$list = array(
+		$list = [
 			'_edit_lock',
 			'_edit_last',
-		);
+			'_wp_page_template',
+		];
 
 		return apply_filters( 'modular_content_meta_copier_blacklist', $list, $post_id );
 	}

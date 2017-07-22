@@ -33,7 +33,7 @@ class Set implements \JsonSerializable {
 			'label'       => $this->get_label(),
 			'thumbnail'   => $this->get_thumbnail_src(),
 			'preview'     => $this->get_preview_image_src( self::IMAGE_SIZE_PREVIEW ),
-			'template'    => $this->get_template(),
+			'template'    => [ 'panels' => $this->get_template() ],
 			'description' => $this->get_description(),
 		];
 	}
@@ -88,10 +88,15 @@ class Set implements \JsonSerializable {
 	}
 
 	/**
-	 * @return PanelCollection
+	 * Get the structured data for the Template.
+	 *
+	 * @return array
 	 */
 	public function get_template() {
-		return $this->post_id ? PanelCollection::find_by_post_id( $this->post_id ) : new PanelCollection();
+		if ( ! $this->post_id ) {
+			return [];
+		}
+		return PanelCollection::find_by_post_id( $this->post_id )->build_tree();
 	}
 
 	/**
