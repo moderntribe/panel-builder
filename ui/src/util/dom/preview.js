@@ -45,6 +45,7 @@ const injectCSS = () => {
 	appCSS.rel = 'stylesheet';
 	appCSS.type = 'text/css';
 	iframeEl.body.appendChild(appCSS);
+	console.log(appCSS);
 };
 
 const addClasses = () => {
