@@ -13,13 +13,11 @@
   },
   "scripts": {
     "start": "yarn install && npm run dev",
-    "start_windows": "SET NODE_ENV=development && node server.js",
-    "bundle_windows": "SET NODE_ENV=production webpack -p",
-    "bundle": "NODE_ENV=production webpack -p",
-    "dev": "NODE_ENV=development node server.js",
+    "bundle": "cross-env NODE_ENV=production webpack -p --progress",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "lint": "eslint ./ui/src || exit 0",
     "dist": "yarn install && yarn test && yarn lint && yarn bundle",
-    "test": "jest",
+    "test": "jest -i",
     "test:watch": "npm test -- --watch"
   },
   "dependencies": {
@@ -88,6 +86,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.22.0",
     "concurrently": "^3.1.0",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.26.1",
     "cssnano": "^3.9.1",
     "eslint": "^3.14.1",
