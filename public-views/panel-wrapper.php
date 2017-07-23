@@ -31,6 +31,7 @@ if ( $panel->get_depth() >= 1 ) { ?>
 	<section
 		class="panel panel-type-<?php esc_attr_e( $panel->get( 'type' ) ); ?> panel-<?php echo $zebra; ?>"
 		data-type="<?php esc_attr_e( $panel->get( 'type' ) ); ?>"
+		data-index="<?php esc_attr_e( $panel_index ); ?>"
 		data-modular-content
 	>
 		<?php echo $html; ?>
