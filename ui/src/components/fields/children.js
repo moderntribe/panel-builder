@@ -16,6 +16,8 @@ import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
+import * as EVENTS from '../../constants/events';
+import { trigger } from '../../util/events';
 
 import { UI_I18N } from '../../globals/i18n';
 
@@ -281,11 +283,18 @@ class Children extends Component {
 			keyPrefix: randomString(10),
 			data,
 		});
-		this.props.updatePanelData({
+		const updateData = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
+			rowIndex: e.newIndex,
 			name: 'panels',
 			value: data,
+		};
+		this.props.updatePanelData(updateData);
+		trigger({
+			event: EVENTS.CHILD_PANEL_MOVED,
+			native: false,
+			data: updateData,
 		});
 	}
 
@@ -304,11 +313,18 @@ class Children extends Component {
 			activeIndex: 0,
 			data,
 		});
-		this.props.updatePanelData({
+		const updateData = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
+			rowIndex: this.state.activeIndex,
 			name: 'panels',
 			value: data,
+		};
+		this.props.updatePanelData(updateData);
+		trigger({
+			event: EVENTS.CHILD_PANEL_DELETED,
+			native: false,
+			data: updateData,
 		});
 	}
 
@@ -342,14 +358,21 @@ class Children extends Component {
 			this.props.hidePanel(true);
 		}
 		this.setState(newState, () => {
-			this.props.updatePanelData({
+			const data = {
 				depth: this.props.depth,
 				index: this.props.parentIndex,
+				rowIndex: newState.activeIndex,
 				name: 'panels',
 				value: newState.data,
-			});
+			};
+			this.props.updatePanelData(data);
 			this.scrollToActive();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
+			trigger({
+				event: EVENTS.CHILD_PANEL_ADDED,
+				native: false,
+				data,
+			});
 		});
 	}
 
@@ -375,8 +398,21 @@ class Children extends Component {
 			newState.active = true;
 		}
 		this.setState(newState, () => {
+			const event = newState.active ? EVENTS.CHILD_PANEL_ACTIVATED : EVENTS.CHILD_PANEL_DEACTIVATED;
+			const data = {
+				rowIndex: activeIndex,
+				depth: this.props.depth,
+				index: this.props.parentIndex,
+				name: 'panels',
+				value: this.state.data,
+			};
 			this.scrollToActive();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
+			trigger({
+				event,
+				native: false,
+				data,
+			});
 		});
 	}
 
@@ -391,10 +427,22 @@ class Children extends Component {
 
 	@autobind
 	handleBackClick() {
+		const data = {
+			rowIndex: this.state.activeIndex,
+			depth: this.props.depth,
+			index: this.props.parentIndex,
+			name: 'panels',
+			value: this.state.data,
+		};
 		this.props.hidePanel(false);
 		this.setState({
 			active: false,
 			activeIndex: 0,
+		});
+		trigger({
+			event: EVENTS.CHILD_PANEL_DEACTIVATED,
+			native: false,
+			data,
 		});
 	}
 

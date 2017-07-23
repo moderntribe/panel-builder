@@ -45,7 +45,6 @@ const injectCSS = () => {
 	appCSS.rel = 'stylesheet';
 	appCSS.type = 'text/css';
 	iframeEl.body.appendChild(appCSS);
-	console.log(appCSS);
 };
 
 const addClasses = () => {
@@ -71,6 +70,5 @@ export const getLiveTextSelector = (data) => {
 		selector += `[data-name="${data.childName}"]`;
 		selector += '[data-livetext]';
 	}
-	console.log(selector);
 	return selector;
 };
