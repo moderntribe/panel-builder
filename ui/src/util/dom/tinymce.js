@@ -1,5 +1,68 @@
 import { tinyMCE, tinyMCEPreInit, switchEditors, QTags, quicktags, wpEditor } from '../../globals/wp';
 
+const instances = {};
+
+/**
+ * @function maybeInitNinjaForms
+ * @description If ninja forms active init. Some nasty hackin to patch their bugs and workaround that old school ish
+ */
+
+const maybeInitNinjaForms = (editor) => {
+	const insertNinja = editor.querySelectorAll('.nf-insert-form')[0];
+	if (!insertNinja) {
+		return;
+	}
+	insertNinja.addEventListener('click', e => e.preventDefault());
+	instances.jBox = $(editor.querySelectorAll('.nf-insert-form')[0]).jBox('Modal', {
+		title: 'Insert Form',
+		position: {
+			x: 'center',
+			y: 'center',
+		},
+		closeButton: 'title',
+		closeOnClick: 'overlay',
+		closeOnEsc: true,
+		content: $('#nf-insert-form-modal'),
+		onOpen () {
+			$('.nf-forms-combobox').combobox();
+			$(this)[0].content.find('.ui-autocomplete-input').attr('placeholder', 'Select a form or type to search');
+			$(this)[0].content.css('overflow', 'visible');
+			$(this)[0].content.find('.ui-icon-triangle-1-s').addClass('dashicons dashicons-arrow-down').css('margin-left', '-7px');
+		},
+	});
+
+	$(document.body).on('click.modularmce', '#nf-insert-form', (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		const formSelect = e.currentTarget.parentNode.parentNode.querySelectorAll('#nf-form-select')[0];
+		const formId = formSelect.value;
+		if (!formId.length) {
+			instances.jBox.close();
+			return;
+		}
+		const shortcode = `[ninja_form id=${formId}]`;
+		window.parent.send_to_editor(shortcode);
+		instances.jBox.close();
+		formSelect.value = '';
+	});
+};
+
+/**
+ * @function maybeDestroyNinjaForms
+ * @description If ninja forms active destroy
+ */
+
+const maybeDestroyNinjaForms = (editor) => {
+	const insertNinja = editor.querySelectorAll('.nf-insert-form')[0];
+	if (!insertNinja) {
+		return;
+	}
+	if (instances.jBox) {
+		instances.jBox.destroy();
+	}
+	$(document.body).off('.modularmce');
+};
+
 /**
  * Initializes events for a tinymce instance. You need to pass and editor dom node, a unique id editor settings
  * reference. Call on componentDidMount.
@@ -21,6 +84,8 @@ export const init = (opts = {}, callback = () => {}) => {
 		console.warn('You tried to bind events for a tinymce instance but didn\'t pass a valid dom node.');
 		return;
 	}
+
+	maybeInitNinjaForms(options.editor);
 
 	tinyMCE.on('SetupEditor', (editor) => {
 		if (editor.id === options.fid) {
@@ -74,6 +139,8 @@ export const destroy = (opts = {}) => {
 	if (!options.editor) {
 		return;
 	}
+
+	maybeDestroyNinjaForms(options.editor);
 
 	delete window.tinyMCEPreInit.mceInit[options.fid];
 	delete window.tinyMCEPreInit.qtInit[options.fid];
