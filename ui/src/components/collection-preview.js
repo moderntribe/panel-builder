@@ -69,12 +69,13 @@ class CollectionPreview extends Component {
 		document.addEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
 		document.addEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
 		// child panel events
 		document.addEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
 		document.addEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
@@ -92,12 +93,14 @@ class CollectionPreview extends Component {
 		// repeater events
 		document.removeEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
 		document.removeEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
 		// child panel events
 		document.removeEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
 		document.removeEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
