@@ -69,6 +69,7 @@ class CollectionPreview extends Component {
 		document.addEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
 		document.addEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
 		// child panel events

@@ -475,6 +475,17 @@ class Children extends Component {
 			name: 'panels',
 			value: newData,
 		});
+		trigger({
+			event: EVENTS.CHILD_PANEL_UPDATED,
+			native: false,
+			data: {
+				rowIndex: this.state.activeIndex,
+				depth: data.depth,
+				index: this.props.parentIndex,
+				name: 'panels',
+				value: newData,
+			},
+		});
 	}
 
 	render() {

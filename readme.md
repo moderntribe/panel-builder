@@ -384,11 +384,13 @@ These events are emitted into the iframe when an operation is completed successf
 * `modular_content/panel_preview_updated` Ajax has run and replaced a panels html block.
 * `modular_content/repeater_row_added` A repeater row was added.
 * `modular_content/repeater_row_moved` A repeater row moved.
+* `modular_content/repeater_row_updated` A repeater row updated.
 * `modular_content/repeater_row_deleted` A repeater row was deleted.
 * `modular_content/repeater_row_activated` A repeater row was activated.
 * `modular_content/repeater_row_deactivated` A repeater row was deactivated.
 * `modular_content/child_panel_added` A child panel was added.
 * `modular_content/child_panel_moved` A child panel moved.
+* `modular_content/child_panel_updated` A child panel updated.
 * `modular_content/child_panel_deleted` A child panel was deleted.
 * `modular_content/child_panel_activated` A child panel was activated.
 * `modular_content/child_panel_deactivated` A child panel was deactivated.
