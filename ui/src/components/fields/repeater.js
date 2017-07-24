@@ -408,6 +408,17 @@ class Repeater extends Component {
 			name: this.props.name,
 			value: newData,
 		});
+		trigger({
+			event: EVENTS.REPEATER_ROW_UPDATED,
+			native: false,
+			data: {
+				rowIndex: this.state.activeIndex,
+				depth: this.props.depth,
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: this.state.data,
+			},
+		});
 	}
 
 	render() {
