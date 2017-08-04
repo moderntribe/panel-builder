@@ -65,9 +65,7 @@ a "Settings" field has been added, it will show up in a separate tab in the pane
 
 ### Nested Panels
 
-**NB. Nested panels are temporarily unavailable in version 3.0**
-
-Panels can be nested. For example, you may want to build a slider or an accordion, with a different
+Panels can be nested (v3.2 and up, or v2). For example, you may want to build a slider or an accordion, with a different
 `Panel` for each slide. When you define your `PanelType`s, you can specify how they can be nested.
 
 ```php
@@ -374,8 +372,76 @@ if ( ! empty( $card['title'] ) || is_panel_preview() ) {
 </li><!-- .cardgrid-card -->
 
 ```
+## Custom Javascript Events
 
+A variety of custom events are fired on the document in admin and also injected into the iframe on its document as the system is used.
+While you may want to do something nifty admin side that hooks into them there, most likely as a themer you'll want to do something on the front end during live preview. A common case would be scrolling an active slide into view that is powered by a repeater row so they can actually see what they are editing in that slide when working on it. Or most common, you'll want to reinit some javascript powered layout when the panel preview refreshes that block with new html. 
 
+### List of iframe events
+
+These events are emitted into the iframe when an operation is completed successfully. The repeater and child panel events have a 200ms delay applied when they are fired in conjunction with an html update for that panels preview that involves ajax. This means that you can first respond to the panel updated event and do initial preparations before then doing some nested action, like initializing a slider again after update before then sliding it to the active slide index emitted by the child or repeater event.
+
+* `modular_content/panel_preview_updated` Ajax has run and replaced a panels html block.
+* `modular_content/repeater_row_added` A repeater row was added.
+* `modular_content/repeater_row_moved` A repeater row moved.
+* `modular_content/repeater_row_updated` A repeater row updated.
+* `modular_content/repeater_row_deleted` A repeater row was deleted.
+* `modular_content/repeater_row_activated` A repeater row was activated.
+* `modular_content/repeater_row_deactivated` A repeater row was deactivated.
+* `modular_content/child_panel_added` A child panel was added.
+* `modular_content/child_panel_moved` A child panel moved.
+* `modular_content/child_panel_updated` A child panel updated.
+* `modular_content/child_panel_deleted` A child panel was deleted.
+* `modular_content/child_panel_activated` A child panel was activated.
+* `modular_content/child_panel_deactivated` A child panel was deactivated.
+
+The data passed along in the event.detail object is as follows: 
+
+#### modular_content/panel_preview_updated
+
+It will also contain a child index if it is a child panel as `childIndex`. Top event type will be added or updated.
+
+```json
+{
+  "parent": {
+    "type": "modern_tribe/panel_updated",
+    "data": {
+      "depth": 0,
+      "index": 2,
+      "name": "THE_FIELD_NAME_TRIGGERING_THE_UPDATE",
+      "value": "THE_UPDATE_DATA"
+    }
+  }
+}
+```
+
+#### All repeater events
+
+The rowIndex is the currently operated upon index in the repeater group.
+
+```json
+{
+  "rowIndex": 2,
+  "depth": 0,
+  "index": 3,
+  "name": "THE_REPEATER_FIELD_NAME",
+  "value": "ARRAY_OF_ALL_ROWS_OF_THIS_REPEATERS_DATA"
+}
+```
+
+#### All child panel events
+
+The rowIndex is the currently operated upon index in the child panel group.
+
+```json
+{
+  "rowIndex": 2,
+  "depth": 1,
+  "index": 3,
+  "name": "panels",
+  "value": "ARRAY_OF_ALL_ROWS_OF_THIS_CHILD_PANEL_DATA"
+}
+```
 
 ## React Development Setup
 
@@ -394,13 +460,11 @@ After yarn install has completed you can run the npm scripts that define the tas
 
 ```json
  	"start": "yarn install && npm run dev",
-    "start_windows": "SET NODE_ENV=development && node server.js",
-    "bundle_windows": "SET NODE_ENV=production webpack -p",
-    "bundle": "NODE_ENV=production webpack -p",
-    "dev": "NODE_ENV=development node server.js",
+    "bundle": "cross-env NODE_ENV=production webpack -p --progress",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "lint": "eslint ./ui/src || exit 0",
     "dist": "yarn install && yarn test && yarn lint && yarn bundle",
-    "test": "jest",
+    "test": "jest -i",
     "test:watch": "npm test -- --watch"
 ```
 The development task that fires up webpack-dev-server and gets you ready to dev is start. You launch that by typing: `yarn start`
@@ -414,7 +478,7 @@ add_filter( 'modular_content_js_dev_path', function() {
 });
 ```
 
-The other tasks must be run in this fashion: `yarn run task` . Give the Jest tests a run with `yarn test` to make sure 
+The other tasks must be run in this fashion: `yarn task` . Give the Jest tests a run with `yarn test` to make sure 
 things are working well.
 
 This system is also redux dev tools enabled. You will want to [install them](https://github.com/zalmoxisus/redux-devtools-extension)
