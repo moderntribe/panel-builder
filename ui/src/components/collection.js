@@ -39,6 +39,7 @@ class PanelCollection extends Component {
 		pickerActive: false,
 		liveEdit: false,
 		triggerLiveEdit: false,
+		initialData: JSON.parse(JSON.stringify(this.props.panels)),
 	};
 
 	componentWillMount() {
@@ -121,6 +122,9 @@ class PanelCollection extends Component {
 	@autobind
 	swapEditMode() {
 		if (this.state.liveEdit) {
+			if (JSON.stringify(this.props.panels) !== JSON.stringify(this.state.initialData)) {
+				alert('changes!');
+			}
 			events.trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 			_.delay(() => {
 				this.setState({
