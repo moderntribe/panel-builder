@@ -160,6 +160,7 @@ class MetaBox {
 				'heading.editing_panel_type'   => __( 'Choose a Panel', 'modular-content' ),
 				'heading.edit_type'            => __( 'Edit', 'modular-content' ),
 				'heading.editing_type'         => __( 'Editing', 'modular-content' ),
+				'heading.refresh_delay'        => __( 'Refresh Delay (seconds)', 'modular-content' ),
 				'message.panel_placeholder'    => __( 'Waiting for panel selection', 'modular-content' ),
 				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
 				'button.confirm'               => __( 'Confirm', 'modular-content' ),

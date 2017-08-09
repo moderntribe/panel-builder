@@ -28,8 +28,10 @@ class CollectionPreview extends Component {
 		};
 		this.saving = false;
 		this.nestedEvent = null;
-		this.updateDebounceRate = 1000;
 		this.iframeUrl = heartbeat.iframePreviewUrl();
+
+		this.handlePanelUpdated = _.debounce(this.handlePanelUpdated.bind(this), this.props.refreshRate, true);
+		this.handleNestedUpdates = _.debounce(this.handleNestedUpdates, this.props.refreshRate - 100, true);
 	}
 
 	componentDidMount() {
@@ -39,10 +41,36 @@ class CollectionPreview extends Component {
 
 	componentWillUnmount() {
 		this.unBindEvents();
+		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 	}
 
 	bindEvents() {
 		this.iframe.addEventListener('load', this.intializeIframeScripts);
+	}
+
+	bindPanelEvents() {
+		// panel events
+		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
+		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
+		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
+		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
+		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
+		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
+		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
+		// repeater events
+		document.addEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
+		// child panel events
+		document.addEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_UPDATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
 	}
 
 	bindIframeEvents() {
@@ -57,28 +85,7 @@ class CollectionPreview extends Component {
 			.on('click', `.${styles.maskButtonDown}`, e => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, e => this.handlePanelDeleteClick(e));
 
-		// panel events
-		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
-		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
-		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
-		document.addEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, this.updateDebounceRate, true));
-		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
-		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
-		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
-		// repeater events
-		document.addEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
-		document.addEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
-		// child panel events
-		document.addEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
-		document.addEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
-		document.addEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
+		this.bindPanelEvents();
 	}
 
 	unBindEvents() {
@@ -86,21 +93,21 @@ class CollectionPreview extends Component {
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
-		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, this.updateDebounceRate, true));
+		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdated);
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
 		// repeater events
 		document.removeEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
-		document.removeEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.removeEventListener(EVENTS.REPEATER_ROW_UPDATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
 		// child panel events
 		document.removeEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
-		document.removeEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.removeEventListener(EVENTS.CHILD_PANEL_UPDATED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
 		document.removeEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
@@ -231,7 +238,6 @@ class CollectionPreview extends Component {
 		this.scrollToPanel(parseInt(el.getAttribute('data-index'), 10), false);
 	}
 
-	@autobind
 	handlePanelUpdated(e) {
 		if (!this.activePanelNode || this.saving) {
 			return;
@@ -317,7 +323,6 @@ class CollectionPreview extends Component {
 		return type === EVENTS.REPEATER_ROW_ACTIVATED || type === EVENTS.REPEATER_ROW_DEACTIVATED || type === EVENTS.CHILD_PANEL_ACTIVATED || type === EVENTS.CHILD_PANEL_DEACTIVATED;
 	}
 
-	@autobind
 	handleNestedUpdates(e) {
 		// some events are immediate as they dont trigger ajax updating of the preview for the active panel
 		if (this.isImmediateNestedEvent(e.type)) {
@@ -336,7 +341,7 @@ class CollectionPreview extends Component {
 		this.nestedEvent = e;
 		_.delay(() => {
 			this.nestedEvent = null;
-		}, this.updateDebounceRate + 100);
+		}, this.props.refreshRate + 100);
 	}
 
 	activateNewPanel(panel = null, index = 0) {
@@ -556,23 +561,25 @@ class CollectionPreview extends Component {
 }
 
 CollectionPreview.propTypes = {
-	panels: PropTypes.array,
+	iframeLoaded: PropTypes.func,
 	liveEdit: PropTypes.bool,
-	panelsSaving: PropTypes.func,
+	panels: PropTypes.array,
 	panelsActivate: PropTypes.func,
+	panelsSaving: PropTypes.func,
+	refreshRate: PropTypes.number,
 	spawnPickerAtIndex: PropTypes.func,
 	updatePanelOrder: PropTypes.func,
-	iframeLoaded: PropTypes.func,
 };
 
 CollectionPreview.defaultProps = {
-	panels: [],
+	iframeLoaded: () => {},
 	liveEdit: false,
-	panelsSaving: () => {},
+	panels: [],
 	panelsActivate: () => {},
+	panelsSaving: () => {},
+	refreshRate: 1,
 	spawnPickerAtIndex: () => {},
 	updatePanelOrder: () => {},
-	iframeLoaded: () => {},
 };
 
 export default CollectionPreview;

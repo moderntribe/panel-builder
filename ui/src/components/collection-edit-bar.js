@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
 import Button from './shared/button';
+import RefreshRate from './shared/refresh-rate';
 
 import { UI_I18N } from '../globals/i18n';
 
@@ -128,6 +129,10 @@ class EditBar extends Component {
 					/>
 				</div>
 				<div ref={node => this.right = node} className={styles.right}>
+					<RefreshRate
+						refreshRate={this.props.refreshRate}
+						updateRefreshRate={this.props.handleRefreshRateChange}
+					/>
 					<Button
 						text={publishButtonText}
 						handleClick={this.publishPost}
@@ -144,11 +149,15 @@ class EditBar extends Component {
 EditBar.propTypes = {
 	handleCancelClick: PropTypes.func,
 	handleResizeClick: PropTypes.func,
+	handleRefreshRateChange: PropTypes.func,
+	refreshRate: PropTypes.number,
 };
 
 EditBar.defaultProps = {
 	handleCancelClick: () => {},
 	handleResizeClick: () => {},
+	handleRefreshRateChange: () => {},
+	refreshRate: 1000,
 };
 
 export default EditBar;
