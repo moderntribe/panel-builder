@@ -22,6 +22,7 @@ import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
 import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
+import * as storage from '../util/storage/local';
 import * as animateWindow from '../util/dom/animate-collection';
 import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
@@ -31,13 +32,14 @@ import randomString from '../util/data/random-string';
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		keyPrefix: randomString(10),
 		injectionIndex: -1,
-		panelSetSaveError: false,
+		keyPrefix: randomString(10),
+		liveEdit: false,
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
+		panelSetSaveError: false,
 		pickerActive: false,
-		liveEdit: false,
+		refreshRate: this.getRefreshDelay(),
 		triggerLiveEdit: false,
 	};
 
@@ -98,6 +100,16 @@ class PanelCollection extends Component {
 				_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
 			});
 		}, 50);
+	}
+
+	/**
+	 * The live preview refresh delay can now be delayed between 1-20 seconds by the user in the live preview bar.
+	 * The value is stored in localstorage.
+	 */
+
+	getRefreshDelay() {
+		const savedRate = storage.get('modular-content-refresh-delay');
+		return savedRate ? parseInt(savedRate, 10) : 1000;
 	}
 
 	/**
@@ -368,6 +380,13 @@ class PanelCollection extends Component {
 		this.collection.setAttribute('data-iframe-loading', 'false');
 	}
 
+	@autobind
+	handleRefreshRateChange(e) {
+		const refreshRate = parseInt(e.currentTarget.value, 10) * 1000;
+		this.setState({ refreshRate });
+		storage.put('modular-content-refresh-delay', refreshRate);
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -388,6 +407,8 @@ class PanelCollection extends Component {
 			<EditBar
 				handleCancelClick={this.swapEditMode}
 				handleResizeClick={this.swapResizeMode}
+				refreshRate={this.state.refreshRate}
+				handleRefreshRateChange={this.handleRefreshRateChange}
 			/>
 		) : null;
 	}
@@ -407,6 +428,7 @@ class PanelCollection extends Component {
 	renderIframe() {
 		return this.state.liveEdit ? (
 			<CollectionPreview
+				key={`collection-preview-${this.state.refreshRate}`}
 				{...this.state}
 				panels={this.props.panels}
 				panelsSaving={this.handlePanelsSaving}
