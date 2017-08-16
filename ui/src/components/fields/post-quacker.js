@@ -264,11 +264,12 @@ class PostQuacker extends Component {
 		});
 		return param({
 			action: 'posts-field-posts-search',
+			field_name: 'items',
+			paged: 1,
+			panel_type: this.props.panelType,
+			post_type: types,
 			s: input,
 			type: 'query-panel',
-			paged: 1,
-			post_type: types,
-			field_name: 'items',
 		});
 	}
 
@@ -279,12 +280,12 @@ class PostQuacker extends Component {
 	 */
 	getValue() {
 		return {
-			type: this.state.type,
-			title: this.state.title,
 			content: this.state.content,
 			image: this.state.image,
-			post_id: this.state.post_id,
 			link: this.state.link,
+			post_id: this.state.post_id,
+			title: this.state.title,
+			type: this.state.type,
 		};
 	}
 
@@ -571,35 +572,37 @@ class PostQuacker extends Component {
 }
 
 PostQuacker.propTypes = {
+	data: PropTypes.object,
+	default: PropTypes.object,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	editor_settings_reference: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string,
-	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	post_type: PropTypes.array,
-	strings: PropTypes.object,
-	default: PropTypes.object,
+	panelIndex: PropTypes.number,
+	panelType: PropTypes.string,
 	post_id: PropTypes.number,
-	editor_settings_reference: PropTypes.string,
-	data: React.PropTypes.object,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
-	size: React.PropTypes.string,
+	post_type: PropTypes.array,
+	size: PropTypes.string,
+	strings: PropTypes.object,
+	updatePanelData: PropTypes.func,
 };
 
 PostQuacker.defaultProps = {
+	data: {},
+	default: {},
+	depth: 0,
+	description: '',
+	editor_settings_reference: 'content',
 	label: '',
 	name: '',
-	description: '',
-	depth: 0,
-	post_type: [],
-	strings: {},
-	default: {},
-	post_id: 0,
-	editor_settings_reference: 'content',
-	data: {},
 	panelIndex: 0,
-	updatePanelData: () => {},
+	panelType: '',
+	post_id: 0,
+	post_type: [],
 	size: 'thumbnail',
+	strings: {},
+	updatePanelData: () => {},
 };
 
 export default PostQuacker;

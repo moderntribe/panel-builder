@@ -216,6 +216,7 @@ class PostList extends Component {
 								key={_.uniqueId('manual-post-preview-')}
 								post={post}
 								editableId={data.editableId}
+								panelType={this.props.panelType}
 								onRemoveClick={this.handleRemovePostClick}
 								onEditClick={this.handleEditPostClick}
 							/>
@@ -228,6 +229,7 @@ class PostList extends Component {
 									key={_.uniqueId('manual-post-preview-')}
 									post_id={data.id.toString()}
 									post_type={data.post_type}
+									panelType={this.props.panelType}
 									editableId={data.editableId}
 									onRemoveClick={this.handleRemovePostClick}
 									onGetPostDetails={this.handleGetPostDetails}
@@ -241,6 +243,7 @@ class PostList extends Component {
 									editableId={data.editableId}
 									strings={this.props.strings}
 									post_type={this.props.post_type}
+									panelType={this.props.panelType}
 									handleCancelClick={this.handleCancelClick}
 									handleAddClick={this.handleAddUpdateClick}
 								/>
@@ -269,6 +272,7 @@ class PostList extends Component {
 							editableId={data.editableId}
 							strings={this.props.strings}
 							post_type={this.props.post_type}
+							panelType={this.props.panelType}
 							handleCancelClick={this.handleCancelClick}
 							handleAddClick={this.handleAddUpdateClick}
 						/>
@@ -384,8 +388,8 @@ class PostList extends Component {
 				const taxonomy = this.props.taxonomies[filter.value];
 				Template = (
 					<PostListQueryTaxonomyFilter
-						key={filter.filterID}
 						filterID={filter.filterID}
+						key={filter.filterID}
 						label={filter.label}
 						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
 						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
@@ -399,13 +403,14 @@ class PostList extends Component {
 				}));
 				Template = (
 					<PostListQueryRelatedFilter
-						key={filter.filterID}
 						filterID={filter.filterID}
-						postTypes={postTypesArray}
+						key={filter.filterID}
 						label={filter.label}
-						selection={filter.selection}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						panelType={this.props.panelType}
+						postTypes={postTypesArray}
+						selection={filter.selection}
 						strings={this.props.strings}
 					/>
 				);
@@ -413,13 +418,13 @@ class PostList extends Component {
 				const options = this.props[filter.filter_type][filter.value];
 				Template = (
 					<PostListQueryGeneralFilter
-						key={filter.filterID}
 						filterID={filter.filterID}
+						key={filter.filterID}
 						label={filter.label}
-						options={options}
-						selection={filter.selection}
 						onChangeSelection={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
+						options={options}
+						selection={filter.selection}
 						strings={this.props.strings}
 					/>
 				);
@@ -578,6 +583,7 @@ class PostList extends Component {
 				selection: types,
 				lock: true,
 			};
+			filters.panel_type = this.props.panelType;
 		}
 		// filters
 		this.state.filters.forEach((filter) => {
@@ -973,42 +979,44 @@ class PostList extends Component {
 }
 
 PostList.propTypes = {
-	label: PropTypes.string,
-	name: PropTypes.string,
-	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	strings: PropTypes.object,
+	data: PropTypes.object,
 	default: PropTypes.object,
-	min: PropTypes.number,
-	max: PropTypes.number,
-	suggested: PropTypes.number,
-	show_max_control: PropTypes.bool,
-	post_type: PropTypes.array,
+	depth: React.PropTypes.number,
+	description: PropTypes.string,
 	filters: PropTypes.array,
 	hidden_fields: PropTypes.array,
-	taxonomies: PropTypes.object,
-	data: PropTypes.object,
+	label: PropTypes.string,
+	max: PropTypes.number,
+	min: PropTypes.number,
+	name: PropTypes.string,
 	panelIndex: PropTypes.number,
+	panelType: PropTypes.string,
+	post_type: PropTypes.array,
+	show_max_control: PropTypes.bool,
+	strings: PropTypes.object,
+	suggested: PropTypes.number,
+	taxonomies: PropTypes.object,
 	updatePanelData: React.PropTypes.func,
 };
 
 PostList.defaultProps = {
-	label: '',
-	name: '',
-	description: '',
-	depth: 0,
-	strings: {},
+	data: {},
 	default: {},
-	min: 1,
-	max: 12,
-	suggested: 6,
-	show_max_control: false,
-	post_type: [],
+	depth: 0,
+	description: '',
 	filters: [],
 	hidden_fields: [],
-	taxonomies: {},
-	data: {},
+	label: '',
+	max: 12,
+	min: 1,
+	name: '',
 	panelIndex: 0,
+	panelType: '',
+	post_type: [],
+	show_max_control: false,
+	strings: {},
+	suggested: 6,
+	taxonomies: {},
 	updatePanelData: () => {
 	},
 };

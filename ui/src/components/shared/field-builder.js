@@ -42,6 +42,7 @@ const FieldBuilder = (props) => {
 					parentIndex={props.parentIndex}
 					indexMap={props.indexMap}
 					panelLabel={props.label}
+					panelType={props.type}
 					liveEdit={props.liveEdit}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
@@ -78,44 +79,46 @@ const FieldBuilder = (props) => {
 };
 
 FieldBuilder.propTypes = {
-	name: PropTypes.string,
 	children: PropTypes.object,
+	data: PropTypes.object,
 	depth: PropTypes.number,
+	fields: PropTypes.array,
+	handleExpanderClick: PropTypes.func,
+	hasChildren: PropTypes.bool,
+	hidePanel: PropTypes.func,
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
 	label: PropTypes.string,
-	fields: PropTypes.array,
+	liveEdit: PropTypes.bool,
+	name: PropTypes.string,
+	nestedGroupActive: PropTypes.func,
 	panels: PropTypes.array,
 	parentIndex: PropTypes.number,
-	liveEdit: PropTypes.bool,
-	hasChildren: PropTypes.bool,
-	data: PropTypes.object,
-	updatePanelData: PropTypes.func,
 	settings_fields: React.PropTypes.array,
-	hidePanel: PropTypes.func,
-	nestedGroupActive: PropTypes.func,
-	handleExpanderClick: PropTypes.func,
+	type: PropTypes.string,
+	updatePanelData: PropTypes.func,
 };
 
 FieldBuilder.defaultProps = {
-	name: '',
-	children: {},
 	childPanels: [],
+	children: {},
+	data: {},
 	depth: 0,
+	fields: [],
+	handleExpanderClick: () => {},
+	hasChildren: false,
+	hidePanel: () => {},
 	index: 0,
 	indexMap: [],
 	label: '',
-	fields: [],
+	liveEdit: false,
+	name: '',
+	nestedGroupActive: () => {},
 	panels: [],
 	parentIndex: 0,
-	liveEdit: false,
-	hasChildren: false,
-	data: {},
 	settings_fields: [],
+	type: '',
 	updatePanelData: () => {},
-	hidePanel: () => {},
-	nestedGroupActive: () => {},
-	handleExpanderClick: () => {},
 };
 
 export default FieldBuilder;

@@ -123,6 +123,7 @@ class PostPreviewContainer extends Component {
 					lock: true,
 				},
 			};
+			filters.panel_type = this.props.panelType;
 			const params = param({
 				action: 'posts-field-fetch-preview',
 				filters,
@@ -203,25 +204,27 @@ class PostPreviewContainer extends Component {
 }
 
 PostPreviewContainer.propTypes = {
+	editableId: PropTypes.string,
+	onEditClick: PropTypes.func,
+	onGetPostDetails: PropTypes.func,
+	onRemoveClick: PropTypes.func,
+	panelType: PropTypes.string,
 	post: PropTypes.object,
-	post_id: React.PropTypes.string,
-	post_type: React.PropTypes.string,
-	thumbnailId: React.PropTypes.number,
-	onRemoveClick: React.PropTypes.func,
-	onEditClick: React.PropTypes.func,
-	editableId: React.PropTypes.string,
-	onGetPostDetails: React.PropTypes.func,
+	post_id: PropTypes.string,
+	post_type: PropTypes.string,
+	thumbnailId: PropTypes.number,
 };
 
 PostPreviewContainer.defaultProps = {
+	editableId: '',
+	onEditClick: null,
+	onGetPostDetails: null,
+	onRemoveClick: null,
+	panelType: '',
 	post: null,
 	post_id: null,
 	post_type: '',
 	thumbnailId: null,
-	onRemoveClick: null,
-	onEditClick: null,
-	onGetPostDetails: null,
-	editableId: '',
 };
 
 export default PostPreviewContainer;
