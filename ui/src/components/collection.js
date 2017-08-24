@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, URL_CONFIG } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -33,6 +33,7 @@ class PanelCollection extends Component {
 	state = {
 		active: false,
 		injectionIndex: -1,
+		initialData: cloneDeep(PANELS),
 		keyPrefix: randomString(10),
 		liveEdit: this.isActiveOnInit(),
 		panelSetPickerActive: false,
@@ -41,7 +42,6 @@ class PanelCollection extends Component {
 		pickerActive: false,
 		refreshRate: this.getRefreshDelay(),
 		triggerLiveEdit: false,
-		initialData: JSON.parse(JSON.stringify(this.props.panels)),
 	};
 
 	componentWillMount() {
@@ -96,14 +96,6 @@ class PanelCollection extends Component {
 	}
 
 	/**
-	 * Cleans up the heartbeat interval
-	 */
-
-	unBindEvents() {
-		clearInterval(this.heartbeat);
-	}
-
-	/**
 	 * Uses a complex set of animations powered by a util to animate the editing window from its post metabox state
 	 * to a full screen override of the wp admin.
 	 *
@@ -120,6 +112,25 @@ class PanelCollection extends Component {
 				_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
 			});
 		}, 50);
+	}
+
+	/**
+	 * Check if we have unsaved data
+	 *
+	 * @returns {boolean}
+	 */
+
+	@autobind
+	isDirty() {
+		return JSON.stringify(this.state.initialData) !== JSON.stringify(this.props.panels);
+	}
+
+	/**
+	 * Cleans up the heartbeat interval
+	 */
+
+	unBindEvents() {
+		clearInterval(this.heartbeat);
 	}
 
 	/**
@@ -143,9 +154,6 @@ class PanelCollection extends Component {
 	@autobind
 	swapEditMode() {
 		if (this.state.liveEdit) {
-			if (JSON.stringify(this.props.panels) !== JSON.stringify(this.state.initialData)) {
-				alert('changes!');
-			}
 			events.trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 			_.delay(() => {
 				this.setState({
@@ -418,6 +426,7 @@ class PanelCollection extends Component {
 	renderBar() {
 		return this.state.liveEdit ? (
 			<EditBar
+				dataIsDirty={this.isDirty}
 				handleCancelClick={this.swapEditMode}
 				handleResizeClick={this.swapResizeMode}
 				refreshRate={this.state.refreshRate}
