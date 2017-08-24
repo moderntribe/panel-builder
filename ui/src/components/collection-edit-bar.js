@@ -6,6 +6,8 @@ import Button from './shared/button';
 import RefreshRate from './shared/refresh-rate';
 
 import { UI_I18N } from '../globals/i18n';
+import * as events from '../util/events';
+import * as storage from '../util/storage/local';
 
 import styles from './collection-edit-bar.pcss';
 
@@ -45,6 +47,45 @@ class EditBar extends Component {
 	@autobind
 	setSizeMobile() {
 		this.props.handleResizeClick('mobile');
+	}
+
+	toggleUnsavedDataMessage(e) {
+		if (e.target.checked) {
+			storage.put('modular_content_unsaved_prompt_hide', '1');
+			return;
+		}
+		storage.remove('modular_content_unsaved_prompt_hide');
+	}
+
+	/**
+	 * Handles closing live preview. Will check local storage to see if the user has opted out of
+	 * unsaved data messaging. If not prompts if dirty data is found.
+	 */
+
+	@autobind
+	handleCancel() {
+		if (storage.get('modular_content_unsaved_prompt_hide')) {
+			this.props.handleCancelClick();
+			return;
+		}
+		if (this.props.dataIsDirty()) {
+			events.trigger({
+				event: 'modern_tribe/open_dialog',
+				native: false,
+				data: {
+					callback: () => this.props.handleCancelClick(),
+					callbackOnClose: true,
+					checkBoxCallback: e => this.toggleUnsavedDataMessage(e),
+					checkBoxMessage: UI_I18N['message.unsaved_toggle'],
+					heading: UI_I18N['heading.unsaved_data'],
+					largeModal: true,
+					message: UI_I18N['message.unsaved_data'],
+					type: 'confirm',
+				},
+			});
+			return;
+		}
+		this.props.handleCancelClick();
 	}
 
 	reset() {
@@ -103,7 +144,7 @@ class EditBar extends Component {
 						<Button
 							bare
 							icon="dashicons-no-alt"
-							handleClick={this.props.handleCancelClick}
+							handleClick={this.handleCancel}
 						/>
 					</nav>
 					<div className={styles.title}>
@@ -147,6 +188,7 @@ class EditBar extends Component {
 }
 
 EditBar.propTypes = {
+	dataIsDirty: PropTypes.func,
 	handleCancelClick: PropTypes.func,
 	handleResizeClick: PropTypes.func,
 	handleRefreshRateChange: PropTypes.func,
@@ -154,6 +196,7 @@ EditBar.propTypes = {
 };
 
 EditBar.defaultProps = {
+	dataIsDirty: () => {},
 	handleCancelClick: () => {},
 	handleResizeClick: () => {},
 	handleRefreshRateChange: () => {},
