@@ -20,6 +20,7 @@ import PostList from '../fields/post-list';
 import Group from '../fields/group';
 import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
+import ColumnWidth from '../fields/column-width';
 
 export default {
 	[FIELD_TYPES.TEXT]: Text,
@@ -42,4 +43,5 @@ export default {
 	[FIELD_TYPES.GROUP]: Group,
 	[FIELD_TYPES.ACCORDION]: Accordion,
 	[FIELD_TYPES.REPEATER]: Repeater,
+	[FIELD_TYPES.COLUMN_WIDTH]: ColumnWidth,
 };
