@@ -228,7 +228,7 @@
     margin-top: -1px;
     margin-bottom: 20px;
     max-height: 200px;
-    position: absolute;
+    position: relative;
     top: 100%;
     width: 100%;
     z-index: 50;

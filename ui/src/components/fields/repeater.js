@@ -14,6 +14,8 @@ import AccordionBack from '../shared/accordion-back';
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
+import * as EVENTS from '../../constants/events';
+import { trigger } from '../../util/events';
 
 import styles from './repeater.pcss';
 
@@ -239,10 +241,17 @@ class Repeater extends Component {
 			keyPrefix: randomString(10),
 			data,
 		});
-		this.props.updatePanelData({
+		const updateData = {
 			index: this.props.panelIndex,
+			rowIndex: e.newIndex,
 			name: this.props.name,
 			value: data,
+		};
+		this.props.updatePanelData(updateData);
+		trigger({
+			event: EVENTS.REPEATER_ROW_MOVED,
+			native: false,
+			data: updateData,
 		});
 	}
 
@@ -262,10 +271,17 @@ class Repeater extends Component {
 			activeIndex: 0,
 			data,
 		});
-		this.props.updatePanelData({
+		const updateData = {
 			index: this.props.panelIndex,
+			rowIndex: this.state.activeIndex,
 			name: this.props.name,
 			value: data,
+		};
+		this.props.updatePanelData(updateData);
+		trigger({
+			event: EVENTS.REPEATER_ROW_DELETED,
+			native: false,
+			data: updateData,
 		});
 	}
 
@@ -290,12 +306,19 @@ class Repeater extends Component {
 			this.props.nestedGroupActive(true);
 		}
 		this.setState(newState, () => {
-			this.props.updatePanelData({
+			const data = {
 				index: this.props.panelIndex,
+				rowIndex: newState.activeIndex,
 				name: this.props.name,
 				value: newState.data,
-			});
+			};
+			this.props.updatePanelData(data);
 			this.scrollToActive();
+			trigger({
+				event: EVENTS.REPEATER_ROW_ADDED,
+				native: false,
+				data,
+			});
 		});
 	}
 
@@ -321,7 +344,22 @@ class Repeater extends Component {
 		} else {
 			newState.active = true;
 		}
-		this.setState(newState, () => this.scrollToActive());
+		this.setState(newState, () => {
+			const event = newState.active ? EVENTS.REPEATER_ROW_ACTIVATED : EVENTS.REPEATER_ROW_DEACTIVATED;
+			const data = {
+				rowIndex: activeIndex,
+				depth: this.props.depth,
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: this.state.data,
+			};
+			this.scrollToActive();
+			trigger({
+				event,
+				native: false,
+				data,
+			});
+		});
 	}
 
 	/**
@@ -330,8 +368,20 @@ class Repeater extends Component {
 
 	@autobind
 	handleBackClick() {
+		const data = {
+			rowIndex: this.state.activeIndex,
+			depth: this.props.depth,
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value: this.state.data,
+		};
 		this.props.hidePanel(false);
 		this.props.nestedGroupActive(false);
+		trigger({
+			event: EVENTS.REPEATER_ROW_DEACTIVATED,
+			native: false,
+			data,
+		});
 		this.setState({
 			active: false,
 			activeIndex: 0,
@@ -357,6 +407,17 @@ class Repeater extends Component {
 			parent: data.parent,
 			name: this.props.name,
 			value: newData,
+		});
+		trigger({
+			event: EVENTS.REPEATER_ROW_UPDATED,
+			native: false,
+			data: {
+				rowIndex: this.state.activeIndex,
+				depth: this.props.depth,
+				index: this.props.panelIndex,
+				name: this.props.name,
+				value: this.state.data,
+			},
 		});
 	}
 

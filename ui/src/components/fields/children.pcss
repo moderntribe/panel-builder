@@ -26,6 +26,7 @@
 
 .header{
 	composes: header from "../../shared/accordion.pcss";
+	transform: translate3d(0, 0, 0);
 	margin-bottom: var(--panel-margin-vertical);
 }
 
@@ -49,11 +50,24 @@
 }
 
 [data-live-edit="true"] {
+	.field {
+		transform: none;
+	}
 	.childPanels {
+		padding-top: 25px;
+		height: calc(100vh - 167px);
+		overflow-y: auto;
+
 		.childPanelsFields {
 			position: static;
 			height: auto;
 			overflow: visible;
+
+			> div {
+				padding-top: 25px;
+				height: auto;
+				overflow: visible;
+			}
 		}
 	}
 
@@ -139,6 +153,18 @@
 	}
 }
 
+[data-live-edit="true"] {
+	.deleteRow{
+		position: absolute;
+		text-align: left;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		background: var(--white);
+		border-top: 1px solid var(--border-color);
+	}
+}
+
 .fields{
 	padding: 0;
 	width: 100%;
@@ -169,7 +195,7 @@
 [data-live-edit="true"]{
 	.fields{
 		height:calc(100vh - 50px);
-		overflow-y: auto;
+		overflow: visible;
 	}
 }
 

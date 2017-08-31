@@ -70,6 +70,5 @@ export const getLiveTextSelector = (data) => {
 		selector += `[data-name="${data.childName}"]`;
 		selector += '[data-livetext]';
 	}
-	console.log(selector);
 	return selector;
 };
