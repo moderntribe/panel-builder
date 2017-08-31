@@ -38,6 +38,23 @@
 
 		> div:first-child {
 			padding-bottom: 25% !important;
+
+			[data-live-edit="true"] & {
+				padding-bottom: 50% !important;
+			}
+		}
+
+		> div:last-child {
+
+			> div {
+				width: 25px !important;
+				height: 25px !important;
+
+				[data-live-edit="true"] & {
+					width: 16px !important;
+					height: 16px !important;
+				}
+			}
 		}
 
 		div div span {
