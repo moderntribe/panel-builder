@@ -92,8 +92,7 @@ class TextArea extends Component {
 
 		this.setState({ text });
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: text,
 		});
@@ -171,6 +170,7 @@ TextArea.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	depth: React.PropTypes.number,
+	indexMap: React.PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	richtext: PropTypes.bool,
@@ -185,6 +185,7 @@ TextArea.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	indexMap: [],
 	depth: 0,
 	strings: {},
 	default: '',

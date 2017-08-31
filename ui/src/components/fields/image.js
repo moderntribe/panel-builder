@@ -38,8 +38,7 @@ class Image extends Component {
 			});
 
 			this.props.updatePanelData({
-				depth: this.props.depth,
-				index: this.props.panelIndex,
+				indexMap: this.props.indexMap,
 				name: this.props.name,
 				value: attachment.id,
 			});
@@ -69,8 +68,7 @@ class Image extends Component {
 			imageId: 0,
 		});
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: 0,
 		});
@@ -116,6 +114,7 @@ Image.propTypes = {
 	allowed_image_mime_types: React.PropTypes.array,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
+	indexMap: React.PropTypes.array,
 	depth: React.PropTypes.number,
 	description: React.PropTypes.string,
 	data: React.PropTypes.number,
@@ -129,6 +128,7 @@ Image.defaultProps = {
 	allowed_image_mime_types: [],
 	label: '',
 	name: '',
+	indexMap: [],
 	description: '',
 	depth: 0,
 	data: 0,

@@ -10,6 +10,7 @@ import {
 
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
+import * as storeTools from '../util/data/store';
 
 
 const initialData = {
@@ -69,11 +70,8 @@ export function panelData(state = initialData, action) {
 			let parent = newState.panels[action.data.index].data[action.data.parent];
 			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
-		} else if (action.data.name === 'panels') {
-			newState.panels = traversePanels(action.data.map,newState.panels,action.data.value);
-			//			newState.panels[action.data.index].panels = action.data.value;
 		} else {
-			newState.panels[action.data.index].data[action.data.name] = action.data.value;
+			newState.panels = storeTools.traverse(action.data.indexMap.slice(), newState.panels, action.data.name, action.data.value);
 		}
 
 		return newState;
@@ -82,18 +80,5 @@ export function panelData(state = initialData, action) {
 		return state;
 	}
 }
-
-const traversePanels = (map,panels,data) => {
-	let thisIndex = map.shift();
-
-	if ( map.length === 0 ) {
-		panels[ thisIndex ] = data;
-		return panels;
-	}
-
-	panels[ thisIndex ].panels = traversePanels(map,panels[ thisIndex ].panels,data);
-
-	return panels;
-};
 
 /* eslint-enable */

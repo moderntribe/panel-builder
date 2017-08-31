@@ -436,17 +436,12 @@ class PanelCollection extends Component {
 
 		const Panels = _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
-			const indexMap = [{
-				key: 'panels',
-				index: i,
-			}];
 			return (
 				<Panel
 					{...blueprint}
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
-					indexMap={indexMap}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}

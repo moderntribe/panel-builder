@@ -89,11 +89,9 @@ class Children extends Component {
 			[styles.fields]: true,
 			'panel-row-fields': true,
 		});
-		const indexMap = JSON.parse(JSON.stringify(this.props.indexMap));
-		indexMap.push({
-			index: this.state.activeIndex,
-			key: 'panels',
-		});
+
+		console.log('Children says:');
+		console.log(this.props.indexMap);
 
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
@@ -111,7 +109,7 @@ class Children extends Component {
 					index={this.state.activeIndex}
 					panelIndex={this.state.activeIndex}
 					parentIndex={this.props.parentIndex}
-					indexMap={indexMap}
+					indexMap={this.props.indexMap}
 					classesWrapper={styles.childPanels}
 					classesFields={styles.childPanelsFields}
 					liveEdit={this.props.liveEdit}
@@ -286,8 +284,9 @@ class Children extends Component {
 		const updateData = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
-			rowIndex: e.newIndex,
+			indexMap: this.prop.indexMap,
 			name: 'panels',
+			rowIndex: e.newIndex,
 			value: data,
 		};
 		this.props.updatePanelData(updateData);
@@ -316,8 +315,9 @@ class Children extends Component {
 		const updateData = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
-			rowIndex: this.state.activeIndex,
+			indexMap: this.prop.indexMap,
 			name: 'panels',
+			rowIndex: this.state.activeIndex,
 			value: data,
 		};
 		this.props.updatePanelData(updateData);
@@ -361,8 +361,9 @@ class Children extends Component {
 			const data = {
 				depth: this.props.depth,
 				index: this.props.parentIndex,
-				rowIndex: newState.activeIndex,
+				indexMap: this.props.indexMap,
 				name: 'panels',
+				rowIndex: newState.activeIndex,
 				value: newState.data,
 			};
 			this.props.updatePanelData(data);
@@ -403,6 +404,7 @@ class Children extends Component {
 				rowIndex: activeIndex,
 				depth: this.props.depth,
 				index: this.props.parentIndex,
+				indexMap: this.props.indexMap,
 				name: 'panels',
 				value: this.state.data,
 			};
@@ -431,6 +433,7 @@ class Children extends Component {
 			rowIndex: this.state.activeIndex,
 			depth: this.props.depth,
 			index: this.props.parentIndex,
+			indexMap: this.props.indexMap,
 			name: 'panels',
 			value: this.state.data,
 		};
@@ -471,6 +474,7 @@ class Children extends Component {
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,
+			indexMap: this.props.indexMap,
 			parent: data.parent,
 			name: 'panels',
 			value: newData,

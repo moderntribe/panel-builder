@@ -76,7 +76,20 @@ class PanelContainer extends Component {
 
 	getFields() {
 		let FieldContainer = null;
-		const Fields = this.state.active ? <FieldBuilder {...this.props} hasChildren={this.props.children.max > 0 && this.props.children.types.length > 0} hidePanel={this.hideFields} /> : null;
+		const indexMap = this.props.indexMap.slice();
+		indexMap.push(this.props.index);
+		console.log('Panels says:');
+		console.log(indexMap);
+		const Fields = this.state.active ?
+			(
+				<FieldBuilder
+					{...this.props}
+					hasChildren={this.props.children.max > 0 && this.props.children.types.length > 0}
+					hidePanel={this.hideFields}
+					indexMap={indexMap}
+				/>
+			) :
+			null;
 
 		if (this.state.active) {
 			const fieldClasses = classNames({

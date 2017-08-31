@@ -14,8 +14,7 @@ class Radio extends Component {
 		const value = e.currentTarget.value;
 		this.setState({ value });
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,
 		});
@@ -76,6 +75,7 @@ Radio.propTypes = {
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
 	depth: React.PropTypes.number,
+	indexMap: React.PropTypes.array,
 	strings: React.PropTypes.object,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
@@ -89,6 +89,7 @@ Radio.defaultProps = {
 	name: '',
 	description: '',
 	depth: 0,
+	indexMap: [],
 	strings: {},
 	default: '',
 	options: [],

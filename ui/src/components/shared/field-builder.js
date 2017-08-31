@@ -52,6 +52,8 @@ const FieldBuilder = (props) => {
 			</div>
 		);
 	});
+	console.log('Field builder says:');
+	console.log(props.indexMap);
 
 	const ChildPanels = props.hasChildren ? (
 		<Children
