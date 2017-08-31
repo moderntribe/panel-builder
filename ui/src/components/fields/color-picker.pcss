@@ -30,6 +30,24 @@
 		}
 	}
 
+	[class="sketch-picker"] {
+		margin-top: 12px;
+		position: relative !important;
+		box-sizing: border-box !important;
+		width: 100% !important;
+		box-shadow: 0 11px 33px 0 rgba(0,0,0,0.20) !important;
+
+		> div:first-child {
+			padding-bottom: 25% !important;
+		}
+
+		div div span {
+			text-align: left !important;
+			font-weight: bold !important;
+			font-size: 12px !important;
+		}
+	}
+
 	&.hasInput {
 		[class="block-picker"] {
 			input {
@@ -128,10 +146,6 @@
 	width: 40px;
 	border: 1px solid var(--border-color);
 	border-left: 0;
-
-	.hasColor & {
-		top: 0;
-	}
 
 	&:before {
 		color: var(--arrow-color);

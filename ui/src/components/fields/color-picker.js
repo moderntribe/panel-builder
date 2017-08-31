@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
+import _ from 'lodash';
 import tinycolor from 'tinycolor2';
 import classNames from 'classnames';
 
@@ -65,7 +66,7 @@ class ColorPicker extends Component {
 	 */
 
 	getActiveColor() {
-		if (this.state.value.length) {
+		if (this.state.value.length || _.isPlainObject(this.state.value)) {
 			return this.state.value;
 		}
 		if (this.props.default.length) {
@@ -73,6 +74,37 @@ class ColorPicker extends Component {
 		}
 
 		return this.props.swatches[0];
+	}
+
+	getCSSColor() {
+		if (this.props.color_mode === 'hex') {
+			return this.state.value;
+		}
+		if (this.props.color_mode === 'rgb') {
+			return `rgba(${this.state.value.r}, ${this.state.value.g}, ${this.state.value.b}, ${this.state.value.a})`;
+		}
+		return '';
+	}
+
+	/**
+	 * Fired when the picker changes value. Dispatches updates to the store.
+	 *
+	 * @param e
+	 */
+
+	@autobind
+	handleChange(e) {
+		const value = e && e[this.props.color_mode] ? e[this.props.color_mode] : '';
+		this.setState({
+			pickerActive: value.length || _.isPlainObject(this.state.value) ? this.state.pickerActive : false,
+			value,
+		});
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			index: this.props.panelIndex,
+			name: this.props.name,
+			value,
+		});
 	}
 
 	/**
@@ -89,28 +121,6 @@ class ColorPicker extends Component {
 		}
 
 		input.placeholder = this.props.strings['input.placeholder'];
-	}
-
-	/**
-	 * Fired when the picker changes value. Dispatches updates to the store.
-	 *
-	 * @param e
-	 */
-
-	@autobind
-	handleChange(e) {
-		console.log(e);
-		const value = e && e.hex ? e.hex : '';
-		this.setState({
-			pickerActive: value.length ? this.state.pickerActive : false,
-			value,
-		});
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
-			name: this.props.name,
-			value,
-		});
 	}
 
 	/**
@@ -168,13 +178,13 @@ class ColorPicker extends Component {
 			'site-builder__color-field-label': true,
 			[styles.colorLabel]: true,
 			[styles.pickerActive]: this.state.pickerActive,
-			[styles.hasColor]: this.state.value.length,
+			[styles.hasColor]: this.state.value.length || _.isPlainObject(this.state.value),
 			[styles.hasInput]: this.props.input_active,
 			[styles.isLight]: this.state.value.length && tinycolor(this.state.value).isLight(),
 		});
 
 		const pickerStyles = {
-			backgroundColor: this.state.value,
+			backgroundColor: this.getCSSColor(),
 		};
 
 		const arrowClasses = classNames({
@@ -235,6 +245,7 @@ class ColorPicker extends Component {
 
 ColorPicker.propTypes = {
 	allow_clear: React.PropTypes.bool,
+	color_mode: React.PropTypes.string,
 	data: React.PropTypes.string,
 	default: React.PropTypes.string,
 	depth: React.PropTypes.number,
@@ -251,6 +262,7 @@ ColorPicker.propTypes = {
 
 ColorPicker.defaultProps = {
 	allow_clear: false,
+	color_mode: 'hex',
 	data: '',
 	default: '',
 	depth: 0,
