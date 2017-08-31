@@ -50,6 +50,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-partial-import": "^3.0.1",
     "postcss-quantity-queries": "^0.4.0",
+    "prop-types": "^15.5.10",
     "react": "^15.4.1",
     "react-color": "^2.11.7",
     "react-datepicker": "^0.40.0",
