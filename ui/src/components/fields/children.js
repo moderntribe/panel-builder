@@ -90,9 +90,6 @@ class Children extends Component {
 			'panel-row-fields': true,
 		});
 
-		console.log('Children says:');
-		console.log(this.props.indexMap);
-
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
 				<AccordionBack

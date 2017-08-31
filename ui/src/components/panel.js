@@ -78,8 +78,6 @@ class PanelContainer extends Component {
 		let FieldContainer = null;
 		const indexMap = this.props.indexMap.slice();
 		indexMap.push(this.props.index);
-		console.log('Panels says:');
-		console.log(indexMap);
 		const Fields = this.state.active ?
 			(
 				<FieldBuilder
