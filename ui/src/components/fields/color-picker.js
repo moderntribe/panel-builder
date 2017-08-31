@@ -157,7 +157,7 @@ class ColorPicker extends Component {
 	 */
 
 	renderClear() {
-		return this.props.allow_clear && this.state.value.length ? (
+		return this.props.allow_clear && (this.state.value.length || _.isPlainObject(this.state.value)) ? (
 			<Button
 				classes={styles.colorClear}
 				icon="dashicons-dismiss"
