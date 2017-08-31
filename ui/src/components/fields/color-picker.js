@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import tinycolor from 'tinycolor2';
 import classNames from 'classnames';
-import { BlockPicker } from 'react-color';
 
 import Button from '../shared/button';
 
 import * as domTools from '../../util/dom/tools';
+import colorPickers from '../shared/color-picker-map';
 
 import styles from './color-picker.pcss';
 
@@ -99,6 +99,7 @@ class ColorPicker extends Component {
 
 	@autobind
 	handleChange(e) {
+		console.log(e);
 		const value = e && e.hex ? e.hex : '';
 		this.setState({
 			pickerActive: value.length ? this.state.pickerActive : false,
@@ -128,10 +129,12 @@ class ColorPicker extends Component {
 	 */
 
 	renderPicker() {
+		const Picker = colorPickers[this.props.picker_type];
 		return this.state.pickerActive ? (
-			<BlockPicker
+			<Picker
 				color={this.getActiveColor()}
 				colors={this.props.swatches}
+				presetColors={this.props.swatches}
 				onChange={this.handleChange}
 			/>
 		) : null;
@@ -240,6 +243,7 @@ ColorPicker.propTypes = {
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
+	picker_type: React.PropTypes.string,
 	strings: React.PropTypes.object,
 	swatches: React.PropTypes.array,
 	updatePanelData: React.PropTypes.func,
@@ -255,6 +259,7 @@ ColorPicker.defaultProps = {
 	label: '',
 	name: '',
 	panelIndex: 0,
+	picker_type: 'BlockPicker',
 	strings: {},
 	swatches: [],
 	updatePanelData: () => {},
