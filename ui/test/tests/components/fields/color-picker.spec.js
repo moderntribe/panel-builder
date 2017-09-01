@@ -35,7 +35,7 @@ const render = (overrideProps) => {
 	};
 };
 
-describe('SwatchSelect field', () => {
+describe('Color Picker field', () => {
 	it('calls componentDidMount', () => {
 		sinon.spy(ColorPicker.prototype, 'componentDidMount');
 		const { colorPicker } = render();
