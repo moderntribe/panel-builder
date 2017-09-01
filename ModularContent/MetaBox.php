@@ -400,12 +400,13 @@ class MetaBox {
 			'more' => false,
 		);
 
-		$request = wp_parse_args( $_REQUEST, array(
-			's' => '',
-			'type' => '',
-			'paged' => 1,
-			'post_type' => 'any',
-		));
+		$request = wp_parse_args( $_REQUEST, [
+			's'          => '',
+			'type'       => '',
+			'paged'      => 1,
+			'post_type'  => 'any',
+			'panel_type' => '',
+		] );
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
 			$args = array(
