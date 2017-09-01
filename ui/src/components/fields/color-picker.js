@@ -23,6 +23,7 @@ class ColorPicker extends Component {
 		super(props);
 		this.state = {
 			pickerActive: false,
+			rgb: this.getInitialRGBValue(),
 			value: this.props.data,
 		};
 		this.mounted = false;
@@ -66,8 +67,8 @@ class ColorPicker extends Component {
 	 */
 
 	getActiveColor() {
-		if (this.state.value.length || _.isPlainObject(this.state.value)) {
-			return this.state.value;
+		if (this.state.value.length) {
+			return this.props.color_mode === 'rgb' ? this.state.rgb : this.state.value;
 		}
 		if (this.props.default.length) {
 			return this.props.default;
@@ -76,14 +77,26 @@ class ColorPicker extends Component {
 		return this.props.swatches[0];
 	}
 
-	getCSSColor() {
-		if (this.props.color_mode === 'hex') {
-			return this.state.value;
+	/**
+	 * We have to convert the css string value of rgba to the object react color uses on init if in rgb mode
+	 *
+	 * @returns {*}
+	 */
+
+	getInitialRGBValue() {
+		if (this.props.color_mode !== 'rgb') {
+			return {};
 		}
-		if (this.props.color_mode === 'rgb') {
-			return `rgba(${this.state.value.r}, ${this.state.value.g}, ${this.state.value.b}, ${this.state.value.a})`;
+		if (!this.props.data.length) {
+			return {};
 		}
-		return '';
+		const rgbaArray = this.props.data.slice(0).replace(/[^0-9.,]/g, '').split(',');
+		return {
+			r: rgbaArray[0],
+			g: rgbaArray[1],
+			b: rgbaArray[2],
+			a: rgbaArray[3],
+		};
 	}
 
 	/**
@@ -94,9 +107,13 @@ class ColorPicker extends Component {
 
 	@autobind
 	handleChange(e) {
-		const value = e && e[this.props.color_mode] ? e[this.props.color_mode] : '';
+		let value = e && e[this.props.color_mode] ? e[this.props.color_mode] : '';
+		if (this.props.color_mode === 'rgb') {
+			value = `rgba(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b}, ${e.rgb.a})`;
+		}
 		this.setState({
 			pickerActive: value.length || _.isPlainObject(this.state.value) ? this.state.pickerActive : false,
+			rgb: this.props.color_mode === 'rgb' ? e.rgb : {},
 			value,
 		});
 		this.props.updatePanelData({
@@ -157,7 +174,7 @@ class ColorPicker extends Component {
 	 */
 
 	renderClear() {
-		return this.props.allow_clear && (this.state.value.length || _.isPlainObject(this.state.value)) ? (
+		return this.props.allow_clear && this.state.value.length ? (
 			<Button
 				classes={styles.colorClear}
 				icon="dashicons-dismiss"
@@ -178,13 +195,13 @@ class ColorPicker extends Component {
 			'site-builder__color-field-label': true,
 			[styles.colorLabel]: true,
 			[styles.pickerActive]: this.state.pickerActive,
-			[styles.hasColor]: this.state.value.length || _.isPlainObject(this.state.value),
+			[styles.hasColor]: this.state.value.length,
 			[styles.hasInput]: this.props.input_active,
 			[styles.isLight]: this.state.value.length && tinycolor(this.state.value).isLight(),
 		});
 
 		const pickerStyles = {
-			backgroundColor: this.getCSSColor(),
+			backgroundColor: this.state.value,
 		};
 
 		const arrowClasses = classNames({

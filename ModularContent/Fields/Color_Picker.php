@@ -26,17 +26,19 @@ class Color_Picker extends Field {
 	 *
 	 * Usage example:
 	 *
-	 * $field = new Color_Picker( array(
-	 *   'label' => __('Background Color'),
-	 *   'name' => 'background-color',
-	 *   'description' => __( 'The color to use as the background.' ),
-	 *   'swatches' => [ '#000000', '#fcfcfc' ],
-	 *   'picker_type' => 'BlockPicker', // supported types AlphaPicker, BlockPicker, ChromePicker, CirclePicker, CompactPicker, GithubPicker, HuePicker, MaterialPicker, PhotoshopPicker, SketchPicker, SliderPicker, SwatchesPicker, TwitterPicker. More info at https://casesandberg.github.io/react-color/
-	 *   'color_mode' => 'hex' // support hex, hsl, hsv or rgb. All but hex also have alpha channel and must be used if you wish to use the alpha capable pickers. Again, check the site above for more info.
-	 *   'input_active' => false, // if true, displays a text input to define a custom swatch in the field. only applies to some picker types, please check https://casesandberg.github.io/react-color/ for details
-	 *   'allow_clear' => false,
-	 * ) );
+	$field = new Color_Picker( array(
+		'label'        => __( 'Background Color' ),
+		'name'         => 'background-color',
+		'description'  => __( 'The color to use as the background.' ),
+		'swatches'     => [ '#000000', '#fcfcfc' ], // must be hex
+		'picker_type'  => 'BlockPicker', // supported types AlphaPicker, BlockPicker, ChromePicker, CirclePicker, CompactPicker, GithubPicker, HuePicker, MaterialPicker, PhotoshopPicker, SketchPicker, SliderPicker, SwatchesPicker, TwitterPicker. More info at https://casesandberg.github.io/react-color/
+		'color_mode'   => 'hex', // support hex or rgb. Rgba has alpha channel and must be used if you wish to use the alpha capable pickers. Again, check the site above for more info.
+		'input_active' => false, // if true, displays a text input to define a custom swatch in the field. Only applies to some picker types, please check https://casesandberg.github.io/react-color/ for details
+	) );
 	 */
+
+
+
 	public function __construct( $args = [] ) {
 		$this->defaults['strings']      = [
 			'input.placeholder' => __( 'Enter Hex Code', 'modular-content' ),
