@@ -91,6 +91,9 @@ class ColorPicker extends Component {
 			return {};
 		}
 		const rgbaArray = this.props.data.slice(0).replace(/[^0-9.,]/g, '').split(',');
+		if (rgbaArray.length !== 4) {
+			return {};
+		}
 		return {
 			r: rgbaArray[0],
 			g: rgbaArray[1],
