@@ -26,19 +26,10 @@ import styles from './children.pcss';
 zenscroll.setup(200, 40);
 
 /**
- * Class Repeater
+ * Class Children
  *
- * A repeatable container for a group of fields. The Repeater can
- * contain one or more fields. An editor can add, remove, or sort
+ * A repeatable container for a group of panels. An editor can add, remove, or sort
  * instances of the group.
- *
- * Using data from a repeater in a template:
- *
- * $contacts = get_panel_var( 'contacts' );
- * foreach ( $contacts as $contact ) {
- *   $name = $contact['name'];
- *   $email = $contact['email'];
- * }
  *
  */
 
@@ -141,6 +132,9 @@ class Children extends Component {
 		const dataTitle = data.data.title;
 		const title = dataTitle && dataTitle.length ? dataTitle : this.childData.label.singular;
 		const blueprint = _.find(this.state.types, { type: data.type });
+		if (!blueprint) {
+			return null;
+		}
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
@@ -364,6 +358,8 @@ class Children extends Component {
 				value: newState.data,
 			};
 			this.props.updatePanelData(data);
+			console.log('Updating panel data with');
+			console.log(data);
 			this.scrollToActive();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
 			trigger({
