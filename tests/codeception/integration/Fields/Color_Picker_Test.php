@@ -12,12 +12,14 @@ class Color_Picker_Test extends WPTestCase {
 		$description = __FUNCTION__ . ':' . __LINE__;
 		$default     = __LINE__;
 		$swatches    = [ '#CCCCCC' ];
-		$field       = new Color_Picker( [
+		$field = new Color_Picker( [
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
 			'default'      => $default,
 			'swatches'     => $swatches,
+			'picker_type'  => 'BlockPicker',
+			'color_mode'   => 'hex',
 			'input_active' => false,
 			'allow_clear'  => false,
 		] );
@@ -34,6 +36,8 @@ class Color_Picker_Test extends WPTestCase {
 			],
 			'default'      => $default,
 			'swatches'     => $swatches,
+			'picker_type'  => 'BlockPicker',
+			'color_mode'   => 'hex',
 			'input_active' => false,
 			'allow_clear'  => false,
 		];
