@@ -4,6 +4,12 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
+	transition: var(--transition-accordion);
+	transform: none;
+
+	.fields {
+		transition: var(--transition-accordion);
+	}
 }
 
 .label {
@@ -51,36 +57,19 @@
 
 [data-live-edit="true"] {
 	.field {
+		left: 0;
 		transform: none;
-	}
-	.childPanels {
-		padding-top: 25px;
-		height: calc(100vh - 167px);
-		overflow-y: auto;
 
-		.childPanelsFields {
-			position: static;
-			height: auto;
-			overflow: visible;
+		&.childActive > .fields {
+			transform: translateX(-300px);
 
-			> div {
-				padding-top: 25px;
-				height: auto;
-				overflow: visible;
+			> .fieldWrap {
+
+				> [data-fields="true"] {
+					overflow: visible;
+				}
 			}
 		}
-	}
-
-	[data-show-nested="true"] .fields {
-		overflow: visible;
-	}
-
-	[data-show-nested="true"] .fields > nav {
-		display: none;
-	}
-
-	[data-show-nested="true"] .fields .childPanels {
-		padding: 0;
 	}
 }
 
@@ -167,10 +156,12 @@
 
 .fields{
 	padding: 0;
-	width: 100%;
-	position:absolute;
-	left:100%;
-	top:0;
+	width: 300px;
+	position: fixed;
+	left: 100%;
+	top: 0;
+	height: calc(100vh - 50px);
+	z-index: 100;
 	text-align: right;
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
@@ -179,6 +170,8 @@
 	[data-live-edit="false"] & {
 		position:relative;
 		left:0;
+		width: 100%;
+		height: auto;
 	}
 }
 

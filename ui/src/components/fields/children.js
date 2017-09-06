@@ -16,6 +16,7 @@ import { updatePanelData } from '../../actions/panels';
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
+import * as tools from '../../util/dom/tools';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
 import * as EVENTS from '../../constants/events';
 import { trigger } from '../../util/events';
@@ -63,6 +64,13 @@ class Children extends Component {
 
 	componentDidMount() {
 		this.el = this.childPanels;
+	}
+
+	setChildActiveClass() {
+		const parentGroup = tools.closest(this.el, '.children-field');
+		if (parentGroup) {
+			parentGroup.classList.add(styles.childActive);
+		}
 	}
 
 	/**
@@ -404,6 +412,7 @@ class Children extends Component {
 				value: this.state.data,
 			};
 			this.scrollToActive();
+			this.setChildActiveClass();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
 			trigger({
 				event,
