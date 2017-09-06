@@ -52,7 +52,7 @@ class Children extends Component {
 			active: false,
 			activeIndex: 0,
 			childDepth: this.props.depth + 1,
-			data: this.props.data,
+			data: this.props.data.filter(p => p.depth === (this.props.depth + 1)),
 			pickerActive: false,
 			keyPrefix: randomString(10),
 			sorting: false,
@@ -358,8 +358,6 @@ class Children extends Component {
 				rowIndex: newState.activeIndex,
 				value: newState.data,
 			};
-			console.log('Updating panel data with');
-			console.log(JSON.parse(JSON.stringify(data)));
 			this.props.updateChildPanelData(data);
 			this.scrollToActive();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);

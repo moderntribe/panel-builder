@@ -12,7 +12,6 @@ import * as DATA_KEYS from '../../constants/data-keys';
  */
 
 export const traverse = (indexMap = [], panels = [], name = '', data = '') => {
-	console.log('traversing');
 	const thisIndex = indexMap.shift();
 
 	if (indexMap.length === 0) {
@@ -26,6 +25,5 @@ export const traverse = (indexMap = [], panels = [], name = '', data = '') => {
 	}
 
 	panels[thisIndex][DATA_KEYS.PANELS] = traverse(indexMap, panels[thisIndex][DATA_KEYS.PANELS], name, data);
-	console.log(panels);
 	return panels;
 };
