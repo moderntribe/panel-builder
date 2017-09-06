@@ -273,7 +273,7 @@ class Children extends Component {
 			keyPrefix: randomString(10),
 			data,
 		});
-		const updateData = {
+		const payload = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
 			indexMap: this.props.indexMap,
@@ -281,12 +281,13 @@ class Children extends Component {
 			rowIndex: e.newIndex,
 			value: data,
 		};
-		this.props.updateChildPanelData(updateData);
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_MOVED,
 			native: false,
-			data: updateData,
+			data: payload,
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	/**
@@ -304,7 +305,7 @@ class Children extends Component {
 			activeIndex: 0,
 			data,
 		});
-		const updateData = {
+		const payload = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
 			indexMap: this.props.indexMap,
@@ -312,12 +313,13 @@ class Children extends Component {
 			rowIndex: this.state.activeIndex,
 			value: data,
 		};
-		this.props.updateChildPanelData(updateData);
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_DELETED,
 			native: false,
-			data: updateData,
+			data: payload,
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	scrollToActive() {
@@ -366,6 +368,7 @@ class Children extends Component {
 				native: false,
 				data,
 			});
+			trigger({ event: EVENTS.PANEL_UPDATED, native: false, data });
 		});
 	}
 
@@ -460,7 +463,7 @@ class Children extends Component {
 		} else {
 			newData[this.state.activeIndex].data[data.name] = data.value;
 		}
-		this.props.updateChildPanelData({
+		const payload = {
 			depth: data.depth,
 			index: this.props.parentIndex,
 			childIndex: this.state.activeIndex,
@@ -470,7 +473,8 @@ class Children extends Component {
 			parent: data.parent,
 			name: 'panels',
 			value: newData,
-		});
+		};
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_UPDATED,
 			native: false,
@@ -482,6 +486,7 @@ class Children extends Component {
 				value: newData,
 			},
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	render() {

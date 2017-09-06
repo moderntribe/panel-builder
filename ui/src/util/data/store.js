@@ -20,7 +20,6 @@ export const traverse = (indexMap = [], panels = [], name = '', data = '') => {
 		} else {
 			panels[thisIndex][DATA_KEYS.DATA][name] = data;
 		}
-		console.log(panels);
 		return panels;
 	}
 
