@@ -71,7 +71,9 @@ export function panelData(state = initialData, action) {
 			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
 			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
 		} else {
-			newState.panels = storeTools.traverse(action.data.indexMap.slice(), newState.panels, action.data.name, action.data.value);
+			console.log(action.data.indexMap);
+			const indexMap = action.data.indexMap.slice();
+			newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.value);
 		}
 
 		return newState;
