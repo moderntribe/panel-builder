@@ -23,8 +23,7 @@ class Link extends Component {
 	@autobind
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -79,6 +78,7 @@ Link.propTypes = {
 	name: PropTypes.string,
 	depth: React.PropTypes.number,
 	description: PropTypes.string,
+	indexMap: React.PropTypes.array,
 	strings: PropTypes.object,
 	default: React.PropTypes.object,
 	data: PropTypes.object,
@@ -91,6 +91,7 @@ Link.defaultProps = {
 	name: '',
 	depth: 0,
 	description: '',
+	indexMap: [],
 	strings: {},
 	default: {},
 	data: {},

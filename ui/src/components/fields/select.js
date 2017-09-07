@@ -15,8 +15,7 @@ class Select extends Component {
 		const value = data ? _.toString(data.value) : _.toString(this.props.default);
 		this.setState({ value });
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,
 		});
@@ -58,6 +57,7 @@ Select.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	indexMap: PropTypes.array,
 	depth: React.PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
@@ -71,6 +71,7 @@ Select.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	indexMap: [],
 	depth: 0,
 	strings: {},
 	default: '',

@@ -1,3 +1,5 @@
+export const PANEL_UPDATED = 'modern_tribe/panel_updated';
+
 export const REPEATER_ROW_ADDED = 'modular_content/repeater_row_added';
 export const REPEATER_ROW_MOVED = 'modular_content/repeater_row_moved';
 export const REPEATER_ROW_UPDATED = 'modular_content/repeater_row_updated';

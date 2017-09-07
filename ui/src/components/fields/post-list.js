@@ -635,8 +635,7 @@ class PostList extends Component {
 	 */
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -979,6 +978,7 @@ PostList.propTypes = {
 	depth: React.PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.object,
+	indexMap: PropTypes.array,
 	min: PropTypes.number,
 	max: PropTypes.number,
 	suggested: PropTypes.number,
@@ -999,6 +999,7 @@ PostList.defaultProps = {
 	depth: 0,
 	strings: {},
 	default: {},
+	indexMap: [],
 	min: 1,
 	max: 12,
 	suggested: 6,
