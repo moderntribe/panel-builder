@@ -22,6 +22,7 @@ class Text extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: text,
 		});

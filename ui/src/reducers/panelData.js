@@ -66,15 +66,8 @@ export function panelData(state = initialData, action) {
 		});
 
 	case UPDATE_PANEL_DATA:
-		if (action.data.parent) {
-			let parent = newState.panels[action.data.index].data[action.data.parent];
-			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
-			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
-		} else {
-			const indexMap = action.data.indexMap.slice();
-			newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.value);
-		}
-
+		const indexMap = action.data.indexMap.slice();
+		newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.parent, action.data.value);
 		return newState;
 
 	default:
