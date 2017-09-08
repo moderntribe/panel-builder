@@ -7,22 +7,27 @@ import * as DATA_KEYS from '../../constants/data-keys';
  * @param indexMap
  * @param panels
  * @param name
+ * @param parent
  * @param data
  * @returns {Array}
  */
 
-export const traverse = (indexMap = [], panels = [], name = '', data = '') => {
+export const traverse = (indexMap = [], panels = [], name = '', parent = '', data = '') => {
 	const thisIndex = indexMap.shift();
 
 	if (indexMap.length === 0) {
 		if (name === DATA_KEYS.PANELS) {
 			panels[thisIndex][DATA_KEYS.PANELS] = data;
+		} else if (parent.length) {
+			const parentData = panels[thisIndex].data[parent];
+			panels[thisIndex].data[parent] = parentData || {};
+			panels[thisIndex].data[parent][name] = data;
 		} else {
 			panels[thisIndex][DATA_KEYS.DATA][name] = data;
 		}
 		return panels;
 	}
 
-	panels[thisIndex][DATA_KEYS.PANELS] = traverse(indexMap, panels[thisIndex][DATA_KEYS.PANELS], name, data);
+	panels[thisIndex][DATA_KEYS.PANELS] = traverse(indexMap, panels[thisIndex][DATA_KEYS.PANELS], name, parent, data);
 	return panels;
 };
