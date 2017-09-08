@@ -1,0 +1,49 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field{
+	composes: fieldContainer from "../../shared/fields.pcss";
+	transform: translate3d(0, 0, 0);
+}
+
+.container {
+	composes: group from "../../shared/helpers.pcss";
+
+	padding: 15px 0 20px;
+}
+
+.columnWidthLabel{
+	composes: label from "../../shared/inputs.pcss";
+	float: left;
+	position: relative;
+	height: 22px;
+
+	&:after {
+		content: '';
+		background: var(--panel-type-color);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: calc(100% - 2px);
+		height: 100%;
+	}
+
+	&.active {
+		&:after {
+			background: var(--button-new-blue);
+		}
+	}
+}
+
+.radio {
+
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+

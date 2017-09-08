@@ -15,36 +15,41 @@ class ColumnWidth extends Component {
 		const value = e.currentTarget.value;
 		this.setState({ value });
 		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,
 		});
 	}
 
 	render() {
-		const imgSelectLabelClasses = classNames({
-			'plcolumnwidth-label': true,
-			[styles.columnWidthLabel]: true,
+		const width = 100 / this.props.options.length;
+		const Options = this.props.options.map((option, i) => {
+			const columnWidthLabelClasses = classNames({
+				'plcolumnwidth-label': true,
+				[styles.columnWidthLabel]: true,
+				[styles.active]: (i + 1) <= this.state.value,
+			});
+			const labelStyle = {
+				width: `${width}%`,
+			};
+			return (
+				<label
+					className={columnWidthLabelClasses}
+					style={labelStyle}
+					key={_.uniqueId('option-img-sel-id-')}
+				>
+					<input
+						type="radio"
+						name={`modular-content-${this.props.name}`}
+						value={option.value}
+						onChange={this.handleChange}
+						checked={this.state.value === option.value}
+						data-option-type="single"
+						data-field="column-width"
+					/>
+				</label>
+			);
 		});
-
-		const Options = _.map(this.props.options, option =>
-			<label
-				className={imgSelectLabelClasses}
-				key={_.uniqueId('option-img-sel-id-')}
-			>
-				<input
-					type="radio"
-					name={`modular-content-${this.props.name}`}
-					value={option.value}
-					onChange={this.handleChange}
-					checked={this.state.value === option.value}
-					data-option-type="single"
-					data-field="column-width"
-				/>
-				{option.label}
-			</label>,
-		);
 
 		const labelClasses = classNames({
 			[styles.label]: true,
@@ -73,28 +78,30 @@ class ColumnWidth extends Component {
 }
 
 ColumnWidth.propTypes = {
+	data: React.PropTypes.string,
+	default: React.PropTypes.string,
+	depth: React.PropTypes.number,
+	description: React.PropTypes.string,
+	indexMap: React.PropTypes.array,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	depth: React.PropTypes.number,
-	default: React.PropTypes.string,
 	options: React.PropTypes.array,
-	data: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
+	strings: React.PropTypes.object,
 	updatePanelData: React.PropTypes.func,
 };
 
 ColumnWidth.defaultProps = {
+	data: '',
+	default: '',
+	depth: 0,
+	description: '',
+	indexMap: [],
 	label: '',
 	name: '',
-	description: '',
-	strings: {},
-	depth: 0,
-	default: '',
 	options: [],
-	data: '',
 	panelIndex: 0,
+	strings: {},
 	updatePanelData: () => {},
 };
 
