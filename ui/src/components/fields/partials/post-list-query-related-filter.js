@@ -46,11 +46,12 @@ class PostListQueryRelatedFilter extends Component {
 		});
 		return param({
 			action: 'posts-field-posts-search',
+			field_name: 'items',
+			paged: 1,
+			panel_type: this.props.panelType,
+			post_type: types,
 			s: input,
 			type: 'query-panel',
-			paged: 1,
-			post_type: types,
-			field_name: 'items',
 		});
 	}
 
@@ -151,21 +152,23 @@ class PostListQueryRelatedFilter extends Component {
 }
 
 PostListQueryRelatedFilter.propTypes = {
-	onRemoveClick: PropTypes.func,
-	onChangeRelatedPosts: PropTypes.func,
-	postTypes: PropTypes.array,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
+	onChangeRelatedPosts: PropTypes.func,
+	onRemoveClick: PropTypes.func,
+	panelType: PropTypes.string,
+	postTypes: PropTypes.array,
 	selection: PropTypes.string,
-	strings: React.PropTypes.object,
+	strings: PropTypes.object,
 };
 
 PostListQueryRelatedFilter.defaultProps = {
-	onRemoveClick: () => {},
-	onChangeRelatedPosts: () => {},
-	postTypes: [],
 	filterID: '',
 	label: '',
+	onChangeRelatedPosts: () => {},
+	onRemoveClick: () => {},
+	panelType: '',
+	postTypes: [],
 	selection: null,
 	strings: {},
 };

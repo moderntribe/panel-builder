@@ -26,11 +26,12 @@ class PostListPostSelected extends Component {
 	getRequestParams(input) {
 		return objectToParams({
 			action: 'posts-field-posts-search',
+			field_name: 'items',
+			paged: 1,
+			panel_type: this.props.panelType,
+			post_type: this.state.searchPostType,
 			s: input,
 			type: 'query-panel',
-			paged: 1,
-			post_type: this.state.searchPostType,
-			field_name: 'items',
 		});
 	}
 
@@ -170,20 +171,22 @@ class PostListPostSelected extends Component {
 }
 
 PostListPostSelected.propTypes = {
-	name: PropTypes.string,
-	post_type: PropTypes.array,
-	handleCancelClick: PropTypes.func,
-	handleAddClick: PropTypes.func,
 	editableId: PropTypes.string,
+	handleAddClick: PropTypes.func,
+	handleCancelClick: PropTypes.func,
+	name: PropTypes.string,
+	panelType: PropTypes.string,
+	post_type: PropTypes.array,
 	strings: PropTypes.object,
 };
 
 PostListPostSelected.defaultProps = {
-	name: '',
-	post_type: [],
-	handleCancelClick: () => {},
-	handleAddClick: () => {},
 	editableId: '',
+	handleAddClick: () => {},
+	handleCancelClick: () => {},
+	name: '',
+	panelType: '',
+	post_type: [],
 	strings: {},
 };
 
