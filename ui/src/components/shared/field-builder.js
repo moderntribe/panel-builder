@@ -16,6 +16,9 @@ import styles from './field-builder.pcss';
  */
 
 const FieldBuilder = (props) => {
+
+	console.log(props.fields);
+
 	const Fields = _.map(props.fields, (field) => {
 		const Field = componentMap[field.type.replace(/\\/g, '')];
 		if (!Field) {
