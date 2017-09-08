@@ -122,6 +122,7 @@ class ColorPicker extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,
 		});
@@ -271,6 +272,7 @@ ColorPicker.propTypes = {
 	depth: React.PropTypes.number,
 	description: React.PropTypes.string,
 	input_active: React.PropTypes.bool,
+	indexMap: React.PropTypes.array,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
@@ -288,6 +290,7 @@ ColorPicker.defaultProps = {
 	depth: 0,
 	description: '',
 	input_active: false,
+	indexMap: [],
 	label: '',
 	name: '',
 	panelIndex: 0,
