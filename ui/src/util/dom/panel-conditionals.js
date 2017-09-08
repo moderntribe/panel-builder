@@ -3,6 +3,9 @@ import * as domTools from './tools';
 const getFieldClass = input => `condition-input-name-${input.name.replace('modular-content-', '').replace('[]', '')}`;
 
 export const setConditionalClass = (panel, input) => {
+	if (!panel) {
+		return;
+	}
 	const cssClassKey = getFieldClass(input);
 
 	if (input.getAttribute('data-option-type') === 'single') {
@@ -19,6 +22,9 @@ export const setConditionalClass = (panel, input) => {
 };
 
 export const initConditionalFields = (panel) => {
+	if (!panel) {
+		return;
+	}
 	domTools.convertElements(panel.querySelectorAll('.panel-conditional-field input:checked')).forEach((input) => {
 		if (domTools.closest(input, '.repeater-field')) {
 			return;
