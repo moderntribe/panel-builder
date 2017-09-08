@@ -57,19 +57,7 @@
 
 [data-live-edit="true"] {
 	.field {
-		left: 0;
 		transform: none;
-
-		&.childActive > .fields {
-			transform: translateX(-300px);
-
-			> .fieldWrap {
-
-				> [data-fields="true"] {
-					overflow: visible;
-				}
-			}
-		}
 	}
 }
 
@@ -154,19 +142,28 @@
 	}
 }
 
-.fields{
+.fields {
+	background: #ffffff;
 	padding: 0;
 	width: 300px;
-	position: fixed;
+	position: absolute;
 	left: 100%;
 	top: 0;
 	height: calc(100vh - 50px);
 	z-index: 100;
 	text-align: right;
+	transition: all 0.15s linear;
+
+	.field & {
+		transform: translateX(-100%);
+		transition: all 0.15s linear;
+	}
+
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 		text-align: left;
 	}
+
 	[data-live-edit="false"] & {
 		position:relative;
 		left:0;
