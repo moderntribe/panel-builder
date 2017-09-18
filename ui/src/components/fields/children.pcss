@@ -66,10 +66,8 @@
 
 	.childPanelsFields {
 		border: 0 !important;
-
-		> div {
-			padding: 0;
-		}
+		position: relative;
+	  	left: 0;
 	}
 }
 
@@ -159,6 +157,10 @@
 		transition: all 0.15s linear;
 	}
 
+	[data-live-edit="false"] & {
+		transform: translateX(0);
+	}
+
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 		text-align: left;
@@ -169,6 +171,11 @@
 		left:0;
 		width: 100%;
 		height: auto;
+	}
+
+  	[data-live-edit="true"] & & {
+		top: -76px;
+		width: 300px;
 	}
 }
 
