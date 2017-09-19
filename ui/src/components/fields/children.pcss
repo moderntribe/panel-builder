@@ -193,6 +193,13 @@
 	.fields{
 		height:calc(100vh - 50px);
 		overflow: visible;
+		transition: var(--transition-sidebar);
+	}
+
+	[data-expanded="true"] {
+		.fields {
+			width: 760px;
+		}
 	}
 }
 
