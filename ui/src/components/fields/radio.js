@@ -14,6 +14,7 @@ class Radio extends Component {
 		const value = e.currentTarget.value;
 		this.setState({ value });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,

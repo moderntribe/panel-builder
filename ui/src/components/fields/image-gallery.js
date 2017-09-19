@@ -72,6 +72,7 @@ class ImageGallery extends Component {
 			gallery,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: gallery,
