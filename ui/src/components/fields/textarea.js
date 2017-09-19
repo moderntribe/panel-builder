@@ -92,6 +92,7 @@ class TextArea extends Component {
 
 		this.setState({ text });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: text,

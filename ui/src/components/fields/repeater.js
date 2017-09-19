@@ -79,6 +79,7 @@ class Repeater extends Component {
 
 		if (shouldUpdate) {
 			this.props.updatePanelData({
+				depth: this.props.depth,
 				index: this.props.panelIndex,
 				indexMap: this.props.indexMap,
 				name: this.props.name,
@@ -249,6 +250,7 @@ class Repeater extends Component {
 			data,
 		});
 		const updateData = {
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			rowIndex: e.newIndex,
 			indexMap: this.props.indexMap,
@@ -280,6 +282,7 @@ class Repeater extends Component {
 			data,
 		});
 		const updateData = {
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			rowIndex: this.state.activeIndex,
 			indexMap: this.props.indexMap,
@@ -316,6 +319,7 @@ class Repeater extends Component {
 		}
 		this.setState(newState, () => {
 			const data = {
+				depth: this.props.depth,
 				index: this.props.panelIndex,
 				rowIndex: newState.activeIndex,
 				indexMap: this.props.indexMap,

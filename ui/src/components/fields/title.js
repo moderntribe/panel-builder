@@ -16,6 +16,7 @@ class Title extends Component {
 		const text = e.currentTarget.value;
 		this.setState({ text });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: text,
