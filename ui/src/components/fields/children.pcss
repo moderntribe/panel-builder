@@ -194,6 +194,13 @@
 		height:calc(100vh - 50px);
 		overflow: visible;
 		transition: var(--transition-sidebar);
+
+		[data-group="repeater-fields"] {
+			background: var(--white);
+			left: 0;
+			top: -76px;
+			z-index: 20;
+		}
 	}
 
 	[data-expanded="true"] {

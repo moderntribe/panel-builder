@@ -61,9 +61,12 @@ class Repeater extends Component {
 	getPaddedFieldData() {
 		let target = JSON.parse(JSON.stringify(this.props.panels));
 		this.props.indexMap.forEach((val, i) => {
+			if (!target) {
+				return;
+			}
 			target = (i + 1) === this.props.indexMap.length ? target[val] : target[val].panels;
 		});
-		const store = target.data[this.props.name];
+		const store = target && target.data ? target.data[this.props.name] : {};
 		const fieldData = !_.isEmpty(store) ? store : [];
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
@@ -103,7 +106,7 @@ class Repeater extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div className={fieldClasses} data-group="repeater-fields">
 				<AccordionBack
 					title={title}
 					panelLabel={this.props.panelLabel}
