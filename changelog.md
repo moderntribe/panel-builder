@@ -1,8 +1,16 @@
+## 3.3.0 (September 27, 2017)
+
+* Added new color picker field. Store rgba or hex values directly in the db and pick from any of these uis, with best design support for block and sketch picker. https://casesandberg.github.io/react-color/
+* New accordion field. Instead of nested drawers, group fields in a clean horizontal row
+* Live refresh rate setting. Now adjust the delay it takes for a ajax update in live preview to execute
+* Unsaved content messaging. When leaving live preview receive a message you can suppress about how panel data being saved works.
+
 ## 3.2.0 (April 6, 2017)
 
 * Implement default data injected to store on add panel actions. You can now rely on defaults to come out from the db.
 * Implement livetext for repeaters and child panels. You can now speed up the ui updating for all your text fields. Check readme for details.
 * Patch checkbox defaults and saving bug #68237
+* Many misc bugfixes
 
 ## 3.1.0 (March 2017)
 
