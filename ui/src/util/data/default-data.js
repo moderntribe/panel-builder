@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import * as FIELD_TYPES from '../../constants/field-types';
+
 /**
  * Return default field data for an array of fields. used by group and repeater
  *
@@ -29,7 +31,7 @@ const getPanelDefaults = (fields = []) => {
 	}
 	const panelData = {};
 	_.forEach(fields, (field) => {
-		if (field.type === 'Group') {
+		if (field.type === FIELD_TYPES.GROUP || field.type === FIELD_TYPES.ACCORDION) {
 			panelData[field.name] = getGroupDefaults(field.fields);
 		} else {
 			panelData[field.name] = field.default;

@@ -1,0 +1,77 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	border-bottom: 1px solid var(--border-color);
+	margin-bottom: 0;
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+}
+
+.arrow {
+	composes: arrow from "../../shared/accordion.pcss";
+	transition: var(--transition-accordion);
+	transform: rotate(90deg);
+	right: 0;
+	top: 25px;
+
+	.active & {
+		transform: rotate(-90deg);
+	}
+}
+
+.header {
+	composes: header from "../../shared/accordion.pcss";
+	margin: 0 auto;
+	width: 100%;
+	background: none;
+	padding: 25px 0;
+	border: 0;
+
+	.description {
+		margin-bottom: 0;
+	}
+}
+
+.back {
+	composes: back from "../../shared/accordion.pcss";
+}
+
+.action {
+	composes: action from "../../shared/accordion.pcss";
+}
+
+.backButton {
+	composes: backButton from "../../shared/accordion.pcss";
+}
+
+.fields {
+	padding: 0;
+	height: 0;
+	overflow: hidden;
+
+	&.animated {
+		overflow: visible;
+	}
+
+	.fieldWrap {
+		[data-settings="false"] {
+			display: block;
+		}
+	}
+}
+
+.fieldWrap {
+	overflow-y: visible;
+	height: auto;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+	padding: 0 20px 10px 0;
+	margin-top: 0;
+}

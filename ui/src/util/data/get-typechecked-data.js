@@ -30,6 +30,7 @@ const getTypeCheckedData = (type = '', fieldData) => {
 	case FIELD_TYPES.POST_QUACKER:
 	case FIELD_TYPES.POST_LIST:
 	case FIELD_TYPES.GROUP:
+	case FIELD_TYPES.ACCORDION:
 		if (!_.isPlainObject(fieldData)) {
 			checkedData = _.toPlainObject(fieldData);
 		}
