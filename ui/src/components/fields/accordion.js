@@ -8,8 +8,6 @@ import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
 
-// todo: replace with custom height solution and drop deps on gsap for this admin tool to avoid collisions
-
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
 
@@ -89,6 +87,7 @@ class Accordion extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: data.index,
+			indexMap: this.props.indexMap,
 			name: data.name,
 			value: data.value,
 			parent: this.props.name,
