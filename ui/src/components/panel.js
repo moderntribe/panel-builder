@@ -42,26 +42,30 @@ class PanelContainer extends Component {
 	componentDidMount() {
 		this.mounted = true;
 		this.el = this.panel;
+
+		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', e => _.delay(() => {
+			this.handleConditionalFields(e);
+		}, 100));
+
 		if (this.props.depth > 0) {
 			return;
 		}
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
-
-		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', this.handleConditionalFields);
 	}
 
 	componentWillUnmount() {
 		this.mounted = false;
+
+		this.inputDelegates.destroy();
+
 		if (this.props.depth > 0) {
 			return;
 		}
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
 		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
-
-		this.inputDelegates.destroy();
 	}
 
 	/**
@@ -298,20 +302,22 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleConditionalFields(e) {
-		// exit for repeater and child panel conditional field instances (new support coming)
-		if (domTools.closest(e.delegateTarget, '.repeater-field') || domTools.closest(e.delegateTarget, '.children-field')) {
+		const input = e.delegateTarget ? e.delegateTarget : e.target;
+		// exit for repeater
+		if (domTools.closest(input, '.repeater-field')) {
 			return;
 		}
 
-		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
+		e.stopPropagation();
+		panelConditionals.setConditionalClass(this.el, input);
 
 		trigger({
-			event: panelConditionals.getConditionalEventName(e.delegateTarget),
+			event: panelConditionals.getConditionalEventName(input),
 			native: false,
 			data: {
 				panel: this.el,
-				inputName: e.delegateTarget.name,
-				inputValue: e.delegateTarget.value,
+				inputName: input.name,
+				inputValue: input.value,
 			},
 		});
 	}

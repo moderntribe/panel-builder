@@ -30,7 +30,11 @@ const FieldBuilder = (props) => {
 		});
 
 		return (
-			<div className={classes} key={_.uniqueId('field-id-')} data-settings={props.settings_fields.indexOf(field.name) !== -1}>
+			<div
+				className={classes}
+				key={_.uniqueId('field-id-')}
+				data-settings={props.settings_fields.indexOf(field.name) !== -1}
+			>
 				<Field
 					{...field}
 					depth={props.depth}

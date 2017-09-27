@@ -68,14 +68,16 @@ class Group extends Component {
 					handleClick={this.handleBackClick}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				<FieldBuilder
-					fields={this.props.fields}
-					data={this.props.data}
-					parent={this.props.name}
-					index={this.props.panelIndex}
-					indexMap={this.props.indexMap}
-					updatePanelData={this.updateGroupFieldData}
-				/>
+				<div className={styles.fieldWrap}>
+					<FieldBuilder
+						fields={this.props.fields}
+						data={this.props.data}
+						parent={this.props.name}
+						index={this.props.panelIndex}
+						indexMap={this.props.indexMap}
+						updatePanelData={this.updateGroupFieldData}
+					/>
+				</div>
 			</div>
 		);
 	}

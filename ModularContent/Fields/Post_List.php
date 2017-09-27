@@ -33,7 +33,7 @@ class Post_List extends Field {
 
 	protected $max              = 12;
 	protected $min              = 0;
-	protected $suggested        = 0;
+	protected $suggested        = 1;
 	protected $default          = [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ];
 	protected $show_max_control = false;
 	protected $strings          = [ ];
@@ -108,6 +108,9 @@ class Post_List extends Field {
 		}
 		if ( $this->suggested > $this->max ) {
 			$this->suggested = $this->max;
+		}
+		if ( $this->suggested < $this->min ) {
+			$this->suggested = $this->min;
 		}
 
 	}
@@ -273,6 +276,8 @@ class Post_List extends Field {
 			switch( $post_data[ 'method' ] ) {
 				case 'select':
 					if ( empty( $post_data[ 'id' ] ) ) {
+						$post_data = null;
+					} elseif ( ! get_post_status( $post_data[ 'id' ] ) ) {
 						$post_data = null;
 					}
 					break;
@@ -597,7 +602,7 @@ class Post_List extends Field {
 				$term_name = self::build_hierarchical_term_name( $term );
 				$options[] = [
 					'value' => $term->term_id,
-					'label' => $term_name,
+					'label' => html_entity_decode( $term_name, ENT_QUOTES | ENT_HTML401 ), // it will be re-encoded later
 				];
 			}
 			usort( $options, [ $this, 'sort_by_label' ] );
