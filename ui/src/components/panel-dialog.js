@@ -23,16 +23,21 @@ const wpWrap = document.getElementById('wpwrap');
 class Dialog extends Component {
 	state = {
 		active: false,
-		type: 'success',
-		heading: '',
-		message: '',
-		template: '',
-		data: {},
-		confirm: false,
-		largeModal: false,
 		callback: () => {},
-		confirmCallback: 'modern_tribe/dialog_confirmation',
+		callbackOnClose: false,
 		cancelCallback: 'modern_tribe/dialog_cancellation',
+		checkBoxCallback: () => {},
+		checkBoxMessage: '',
+		confirm: false,
+		confirmCallback: 'modern_tribe/dialog_confirmation',
+		data: {},
+		heading: '',
+		html: '',
+		largeModal: false,
+		message: '',
+		useCheckbox: false,
+		template: '',
+		type: 'success',
 	};
 
 	componentDidMount() {
@@ -56,6 +61,10 @@ class Dialog extends Component {
 
 		if (wpWrap) {
 			wpWrap.classList.remove(styles.blur);
+		}
+
+		if (this.state.callbackOnClose) {
+			this.state.callback();
 		}
 	}
 
@@ -83,16 +92,21 @@ class Dialog extends Component {
 	openDialog(e) {
 		this.setState({
 			active: true,
-			type: e.detail.type ? e.detail.type : 'success',
+			callback: e.detail.callback ? e.detail.callback : () => {},
+			callbackOnClose: e.detail.callbackOnClose ? e.detail.callbackOnClose : false,
+			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
+			checkBoxCallback: e.detail.checkBoxCallback ? e.detail.checkBoxCallback : () => {},
+			checkBoxMessage: e.detail.checkBoxMessage ? e.detail.checkBoxMessage : '',
+			confirm: e.detail.confirm ? e.detail.confirm : false,
+			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
+			data: e.detail.data ? e.detail.data : {},
 			heading: e.detail.heading ? e.detail.heading : '',
+			html: e.detail.html ? e.detail.html : '',
+			largeModal: e.detail.largeModal ? e.detail.largeModal : false,
 			message: e.detail.message ? e.detail.message : '',
 			template: e.detail.template ? e.detail.template : '',
-			data: e.detail.data ? e.detail.data : {},
-			confirm: e.detail.confirm ? e.detail.confirm : false,
-			largeModal: e.detail.largeModal ? e.detail.largeModal : false,
-			callback: e.detail.callback ? e.detail.callback : () => {},
-			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
-			cancelCallback: e.detail.cancelCallback ? e.detail.cancelCallback : 'modern_tribe/dialog_cancellation',
+			type: e.detail.type ? e.detail.type : 'success',
+			useCheckbox: e.detail.useCheckbox ? e.detail.useCheckbox : false,
 		});
 
 		if (wpWrap) {
@@ -118,6 +132,29 @@ class Dialog extends Component {
 				);
 		}
 		return Message;
+	}
+
+	renderArbitraryHTML() {
+		let HTML;
+		if (this.state.html.length) {
+			HTML = (
+				<div className={styles.html} dangerouslySetInnerHTML={{ __html: this.state.html }} />
+			);
+		}
+		return HTML;
+	}
+
+	renderCheckbox() {
+		let Checkbox;
+		if (this.state.checkBoxMessage.length) {
+			Checkbox = (
+				<div className={styles.checkbox}>
+					<input type="checkbox" onChange={this.state.checkBoxCallback} />
+					{this.state.checkBoxMessage}
+				</div>
+			);
+		}
+		return Checkbox;
 	}
 
 	renderButtons() {
@@ -160,6 +197,8 @@ class Dialog extends Component {
 					<span className={styles.icon} />
 					{this.state.heading.length && <h4>{this.state.heading}</h4>}
 					{this.renderMessage()}
+					{this.renderArbitraryHTML()}
+					{this.renderCheckbox()}
 					{this.renderButtons()}
 				</div>
 			</div>

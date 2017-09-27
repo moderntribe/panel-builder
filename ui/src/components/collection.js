@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -33,6 +33,7 @@ class PanelCollection extends Component {
 	state = {
 		active: false,
 		injectionIndex: -1,
+		initialData: cloneDeep(PANELS),
 		keyPrefix: randomString(10),
 		liveEdit: false,
 		panelSetPickerActive: false,
@@ -63,24 +64,13 @@ class PanelCollection extends Component {
 	}
 
 	/**
-	 * Setups the autosave and heartbeat state on mount.
+	 * The live preview refresh delay can now be delayed between 1-20 seconds by the user in the live preview bar.
+	 * The value is stored in localstorage.
 	 */
 
-	bindEvents() {
-		MODULAR_CONTENT.autosave = JSON.stringify({ panels: cloneDeep(this.props.panels) });
-		MODULAR_CONTENT.needs_save = false;
-		this.runDataHeartbeat();
-		heartbeat.init({
-			success: this.handleAutosaveSuccess,
-		});
-	}
-
-	/**
-	 * Cleans up the heartbeat interval
-	 */
-
-	unBindEvents() {
-		clearInterval(this.heartbeat);
+	getRefreshDelay() {
+		const savedRate = storage.get('modular-content-refresh-delay');
+		return savedRate ? parseInt(savedRate, 10) : 1000;
 	}
 
 	/**
@@ -103,13 +93,35 @@ class PanelCollection extends Component {
 	}
 
 	/**
-	 * The live preview refresh delay can now be delayed between 1-20 seconds by the user in the live preview bar.
-	 * The value is stored in localstorage.
+	 * Check if we have unsaved data
+	 *
+	 * @returns {boolean}
 	 */
 
-	getRefreshDelay() {
-		const savedRate = storage.get('modular-content-refresh-delay');
-		return savedRate ? parseInt(savedRate, 10) : 1000;
+	@autobind
+	isDirty() {
+		return JSON.stringify(this.state.initialData) !== JSON.stringify(this.props.panels);
+	}
+
+	/**
+	 * Cleans up the heartbeat interval
+	 */
+
+	unBindEvents() {
+		clearInterval(this.heartbeat);
+	}
+
+	/**
+	 * Setups the autosave and heartbeat state on mount.
+	 */
+
+	bindEvents() {
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: cloneDeep(this.props.panels) });
+		MODULAR_CONTENT.needs_save = false;
+		this.runDataHeartbeat();
+		heartbeat.init({
+			success: this.handleAutosaveSuccess,
+		});
 	}
 
 	/**
@@ -405,6 +417,7 @@ class PanelCollection extends Component {
 	renderBar() {
 		return this.state.liveEdit ? (
 			<EditBar
+				dataIsDirty={this.isDirty}
 				handleCancelClick={this.swapEditMode}
 				handleResizeClick={this.swapResizeMode}
 				refreshRate={this.state.refreshRate}

@@ -289,7 +289,7 @@ class CollectionPreview extends Component {
 
 			livetextField.innerHTML = value;
 		}
-	};
+	}
 
 	@autobind
 	handlePanelTriggerClick(e) {
@@ -323,6 +323,7 @@ class CollectionPreview extends Component {
 		return type === EVENTS.REPEATER_ROW_ACTIVATED || type === EVENTS.REPEATER_ROW_DEACTIVATED || type === EVENTS.CHILD_PANEL_ACTIVATED || type === EVENTS.CHILD_PANEL_DEACTIVATED;
 	}
 
+	@autobind
 	handleNestedUpdates(e) {
 		// some events are immediate as they dont trigger ajax updating of the preview for the active panel
 		if (this.isImmediateNestedEvent(e.type)) {

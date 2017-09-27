@@ -138,15 +138,18 @@ class MetaBox {
 				'heading.choose_panel'         => __( 'Choose a Panel', 'modular-content' ),
 
 				// panel sets
-				'button.select_set'            => __( 'Select Panel Set', 'modular-content' ),
-				'button.save_as_template'      => __( 'Save as Panel Set', 'modular-content' ),
-				'button.edit_template'         => __( 'Edit Panel Set', 'modular-content' ),
-				'message.template_saved'       => __( 'Panel Set saved successfully', 'modular-content' ),
-				'message.template_error'       => __( 'There was an error saving the Panel Set', 'modular-content' ),
-				'heading.start_new_page'       => __( 'Start a New Page', 'modular-content' ),
-				'heading.start_from_set'       => __( 'Or Start from a Page Set', 'modular-content' ),
-				'heading.start_from_scr'       => __( 'Create Page From Scratch', 'modular-content' ),
-				'dialog.panel_set_title'       => __( 'Panel Set Title', 'modular-content' ),
+				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),
+				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
+				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
+				'heading.unsaved_data' => __( 'Unsaved Changes', 'modular-content' ),
+				'message.unsaved_data'    => __( 'You have unsaved work, but can still save it with the draft or publish button. Relaunching the preview will keep these unsaved changes intact.', 'modular-content' ),
+				'message.unsaved_toggle'  => __( "Don't show me this reminder again on this computer", 'modular-content' ),
+				'message.template_saved'  => __( 'Panel Set saved successfully', 'modular-content' ),
+				'message.template_error'  => __( 'There was an error saving the Panel Set', 'modular-content' ),
+				'heading.start_new_page'  => __( 'Start a New Page', 'modular-content' ),
+				'heading.start_from_set'  => __( 'Or Start from a Page Set', 'modular-content' ),
+				'heading.start_from_scr'  => __( 'Create Page From Scratch', 'modular-content' ),
+				'dialog.panel_set_title'  => __( 'Panel Set Title', 'modular-content' ),
 
 				// panel
 				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
