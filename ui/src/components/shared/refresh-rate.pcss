@@ -1,0 +1,31 @@
+@import '../../shared/colors.pcss';
+
+.wrapper {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.text {
+	color: var(--white);
+	margin: 0 5px;
+	position: relative;
+	top: -1px;
+}
+
+input[type="number"].input {
+	padding: 1px 0;
+	border-radius: 2px;
+	background: var(--panel-label-color);
+	border: 1px solid var(--panel-label-color);
+	text-align: center;
+	width: 30px;
+	color: var(--white);
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+}

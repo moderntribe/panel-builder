@@ -9,6 +9,10 @@ export const CONFIG_DEFAULTS = {
 		images: {},
 		posts: {},
 	},
+	url_config: {
+		tool_arg: 'tool',
+		tool_arg_id: 'content',
+	},
 	media_buttons_html: '',
 	panels: [],
 	preview_url: '',

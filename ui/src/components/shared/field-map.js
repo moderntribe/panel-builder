@@ -4,6 +4,7 @@ import Text from '../fields/text';
 import Title from '../fields/title';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
+import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
@@ -17,13 +18,16 @@ import ImageGallery from '../fields/image-gallery';
 import PostQuacker from '../fields/post-quacker';
 import PostList from '../fields/post-list';
 import Group from '../fields/group';
+import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
+import ColumnWidth from '../fields/column-width';
 
 export default {
 	[FIELD_TYPES.TEXT]: Text,
 	[FIELD_TYPES.TITLE]: Title,
 	[FIELD_TYPES.RADIO]: Radio,
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
+	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
 	[FIELD_TYPES.SELECT]: Select,
 	[FIELD_TYPES.TEXTAREA]: TextArea,
@@ -37,5 +41,7 @@ export default {
 	[FIELD_TYPES.POST_LIST]: PostList,
 	[FIELD_TYPES.SWATCH_SELECT]: SwatchSelect,
 	[FIELD_TYPES.GROUP]: Group,
+	[FIELD_TYPES.ACCORDION]: Accordion,
 	[FIELD_TYPES.REPEATER]: Repeater,
+	[FIELD_TYPES.COLUMN_WIDTH]: ColumnWidth,
 };

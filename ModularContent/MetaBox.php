@@ -98,8 +98,12 @@ class MetaBox {
 		static $data = [ ];
 		if ( empty( $data ) ) {
 			$data = [
-				'iframe_scroll_offset'     => 10,
-				'css_file'                 => Plugin::plugin_url( 'ui/dist/master.css' ),
+				'iframe_scroll_offset' => 10,
+				'css_file'             => Plugin::plugin_url( 'ui/dist/master.css' ),
+				'url_config' => [
+					'tool_arg'    => Plugin::TOOL_ARG,
+					'tool_arg_id' => Plugin::CONTENT_TOOL_ID,
+				],
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
@@ -138,15 +142,18 @@ class MetaBox {
 				'heading.choose_panel'         => __( 'Choose a Panel', 'modular-content' ),
 
 				// panel sets
-				'button.select_set'            => __( 'Select Panel Set', 'modular-content' ),
-				'button.save_as_template'      => __( 'Save as Panel Set', 'modular-content' ),
-				'button.edit_template'         => __( 'Edit Panel Set', 'modular-content' ),
-				'message.template_saved'       => __( 'Panel Set saved successfully', 'modular-content' ),
-				'message.template_error'       => __( 'There was an error saving the Panel Set', 'modular-content' ),
-				'heading.start_new_page'       => __( 'Start a New Page', 'modular-content' ),
-				'heading.start_from_set'       => __( 'Or Start from a Page Set', 'modular-content' ),
-				'heading.start_from_scr'       => __( 'Create Page From Scratch', 'modular-content' ),
-				'dialog.panel_set_title'       => __( 'Panel Set Title', 'modular-content' ),
+				'button.select_set'       => __( 'Select Panel Set', 'modular-content' ),
+				'button.save_as_template' => __( 'Save as Panel Set', 'modular-content' ),
+				'button.edit_template'    => __( 'Edit Panel Set', 'modular-content' ),
+				'heading.unsaved_data' => __( 'Unsaved Changes', 'modular-content' ),
+				'message.unsaved_data'    => __( 'You have unsaved work, but can still save it with the draft or publish button. Relaunching the preview will keep these unsaved changes intact.', 'modular-content' ),
+				'message.unsaved_toggle'  => __( "Don't show me this reminder again on this computer", 'modular-content' ),
+				'message.template_saved'  => __( 'Panel Set saved successfully', 'modular-content' ),
+				'message.template_error'  => __( 'There was an error saving the Panel Set', 'modular-content' ),
+				'heading.start_new_page'  => __( 'Start a New Page', 'modular-content' ),
+				'heading.start_from_set'  => __( 'Or Start from a Page Set', 'modular-content' ),
+				'heading.start_from_scr'  => __( 'Create Page From Scratch', 'modular-content' ),
+				'dialog.panel_set_title'  => __( 'Panel Set Title', 'modular-content' ),
 
 				// panel
 				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
@@ -156,6 +163,7 @@ class MetaBox {
 				'heading.editing_panel_type'   => __( 'Choose a Panel', 'modular-content' ),
 				'heading.edit_type'            => __( 'Edit', 'modular-content' ),
 				'heading.editing_type'         => __( 'Editing', 'modular-content' ),
+				'heading.refresh_delay'        => __( 'Refresh Delay (seconds)', 'modular-content' ),
 				'message.panel_placeholder'    => __( 'Waiting for panel selection', 'modular-content' ),
 				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
 				'button.confirm'               => __( 'Confirm', 'modular-content' ),

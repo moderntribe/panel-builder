@@ -30,11 +30,13 @@ const getTypeCheckedData = (type = '', fieldData) => {
 	case FIELD_TYPES.POST_QUACKER:
 	case FIELD_TYPES.POST_LIST:
 	case FIELD_TYPES.GROUP:
+	case FIELD_TYPES.ACCORDION:
 		if (!_.isPlainObject(fieldData)) {
 			checkedData = _.toPlainObject(fieldData);
 		}
 		break;
 	case FIELD_TYPES.IMAGE:
+	case FIELD_TYPES.COLUMN_WIDTH:
 		if (!_.isInteger(fieldData)) {
 			checkedData = _.toInteger(fieldData);
 		}

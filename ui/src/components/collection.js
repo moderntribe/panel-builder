@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -22,6 +22,7 @@ import * as ajax from '../util/ajax';
 import * as heartbeat from '../util/data/heartbeat';
 import * as tools from '../util/dom/tools';
 import * as events from '../util/events';
+import * as storage from '../util/storage/local';
 import * as animateWindow from '../util/dom/animate-collection';
 import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
@@ -31,13 +32,15 @@ import randomString from '../util/data/random-string';
 class PanelCollection extends Component {
 	state = {
 		active: false,
-		keyPrefix: randomString(10),
 		injectionIndex: -1,
-		panelSetSaveError: false,
+		initialData: cloneDeep(PANELS),
+		keyPrefix: randomString(10),
+		liveEdit: this.isActiveOnInit(),
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
+		panelSetSaveError: false,
 		pickerActive: false,
-		liveEdit: false,
+		refreshRate: this.getRefreshDelay(),
 		triggerLiveEdit: false,
 	};
 
@@ -61,6 +64,25 @@ class PanelCollection extends Component {
 	}
 
 	/**
+	 * The live preview refresh delay can now be delayed between 1-20 seconds by the user in the live preview bar.
+	 * The value is stored in localstorage.
+	 */
+
+	getRefreshDelay() {
+		const savedRate = storage.get('modular-content-refresh-delay');
+		return savedRate ? parseInt(savedRate, 10) : 1000;
+	}
+
+	/**
+	 * Activate either if app is initially loading and url key found, or allow prop control
+	 *
+	 * @returns {boolean|*}
+	 */
+	isActiveOnInit() {
+		return window.location.search.indexOf(`${URL_CONFIG.tool_arg}=${URL_CONFIG.tool_arg_id}`) !== -1;
+	}
+
+	/**
 	 * Setups the autosave and heartbeat state on mount.
 	 */
 
@@ -71,14 +93,6 @@ class PanelCollection extends Component {
 		heartbeat.init({
 			success: this.handleAutosaveSuccess,
 		});
-	}
-
-	/**
-	 * Cleans up the heartbeat interval
-	 */
-
-	unBindEvents() {
-		clearInterval(this.heartbeat);
 	}
 
 	/**
@@ -98,6 +112,25 @@ class PanelCollection extends Component {
 				_.delay(() => animateWindow.reset(this.collection, this.sidebar), 450);
 			});
 		}, 50);
+	}
+
+	/**
+	 * Check if we have unsaved data
+	 *
+	 * @returns {boolean}
+	 */
+
+	@autobind
+	isDirty() {
+		return JSON.stringify(this.state.initialData) !== JSON.stringify(this.props.panels);
+	}
+
+	/**
+	 * Cleans up the heartbeat interval
+	 */
+
+	unBindEvents() {
+		clearInterval(this.heartbeat);
 	}
 
 	/**
@@ -368,6 +401,13 @@ class PanelCollection extends Component {
 		this.collection.setAttribute('data-iframe-loading', 'false');
 	}
 
+	@autobind
+	handleRefreshRateChange(e) {
+		const refreshRate = parseInt(e.currentTarget.value, 10) * 1000;
+		this.setState({ refreshRate });
+		storage.put('modular-content-refresh-delay', refreshRate);
+	}
+
 	handleSortStart() {
 		this.sidebar.classList.add(styles.sorting);
 	}
@@ -386,8 +426,11 @@ class PanelCollection extends Component {
 	renderBar() {
 		return this.state.liveEdit ? (
 			<EditBar
+				dataIsDirty={this.isDirty}
 				handleCancelClick={this.swapEditMode}
 				handleResizeClick={this.swapResizeMode}
+				refreshRate={this.state.refreshRate}
+				handleRefreshRateChange={this.handleRefreshRateChange}
 			/>
 		) : null;
 	}
@@ -407,6 +450,7 @@ class PanelCollection extends Component {
 	renderIframe() {
 		return this.state.liveEdit ? (
 			<CollectionPreview
+				key={`collection-preview-${this.state.refreshRate}`}
 				{...this.state}
 				panels={this.props.panels}
 				panelsSaving={this.handlePanelsSaving}
