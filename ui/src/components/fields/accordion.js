@@ -8,8 +8,6 @@ import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
 
-// todo: replace with custom height solution and drop deps on gsap for this admin tool to avoid collisions
-
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
 
