@@ -15,7 +15,6 @@ import * as ajax from '../util/ajax';
 import * as previewTools from '../util/dom/preview';
 import * as heartbeat from '../util/data/heartbeat';
 import * as domTools from '../util/dom/tools';
-import * as tests from '../util/tests';
 import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
