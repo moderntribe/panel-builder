@@ -443,8 +443,7 @@ class CollectionPreview extends Component {
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		const scrollable = tests.browserTests().firefox || tests.browserTests().ie ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
-		this.iframeScroller = zenscroll.createScroller(scrollable, null, IFRAME_SCROLL_OFFSET);
+		this.iframeScroller = zenscroll.createScroller(this.iframe.querySelectorAll('html')[0], null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
 		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();

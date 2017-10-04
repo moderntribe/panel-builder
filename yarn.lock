@@ -7112,6 +7112,6 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-zenscroll@^3.1.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/zenscroll/-/zenscroll-3.3.0.tgz#1dd3facb548e4f4fda3da2e8b48ae509a1297dc0"
+zenscroll@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/zenscroll/-/zenscroll-4.0.0.tgz#4baefa4a1b9fb3bcc6d365e200648ff339e447a8"
