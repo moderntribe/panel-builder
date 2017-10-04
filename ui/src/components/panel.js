@@ -302,21 +302,22 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleConditionalFields(e) {
+		const input = e.delegateTarget ? e.delegateTarget : e.target;
 		// exit for repeater
-		if (domTools.closest(e.delegateTarget, '.repeater-field')) {
+		if (domTools.closest(input, '.repeater-field')) {
 			return;
 		}
 
 		e.stopPropagation();
-		panelConditionals.setConditionalClass(this.el, e.delegateTarget);
+		panelConditionals.setConditionalClass(this.el, input);
 
 		trigger({
-			event: panelConditionals.getConditionalEventName(e.delegateTarget),
+			event: panelConditionals.getConditionalEventName(input),
 			native: false,
 			data: {
 				panel: this.el,
-				inputName: e.delegateTarget.name,
-				inputValue: e.delegateTarget.value,
+				inputName: input.name,
+				inputValue: input.value,
 			},
 		});
 	}

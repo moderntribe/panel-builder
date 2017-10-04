@@ -16,6 +16,7 @@ import * as previewTools from '../util/dom/preview';
 import * as heartbeat from '../util/data/heartbeat';
 import * as domTools from '../util/dom/tools';
 import * as tests from '../util/tests';
+import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
 
@@ -26,6 +27,8 @@ class CollectionPreview extends Component {
 			loading: true,
 		};
 		this.saving = false;
+		this.nestedEvent = null;
+		this.updateDebounceRate = 1000;
 		this.iframeUrl = heartbeat.iframePreviewUrl();
 	}
 
@@ -54,23 +57,53 @@ class CollectionPreview extends Component {
 			.on('click', `.${styles.maskButtonDown}`, e => this.handlePanelDownClick(e))
 			.on('click', `.${styles.maskButtonDelete}`, e => this.handlePanelDeleteClick(e));
 
+		// panel events
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.addEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
-		document.addEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
+		document.addEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, this.updateDebounceRate, true));
 		document.addEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.addEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.addEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
+		// repeater events
+		document.addEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.addEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
+		// child panel events
+		document.addEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.addEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
+		document.addEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
 	}
 
 	unBindEvents() {
+		// panel events
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
 		document.removeEventListener('modern_tribe/panel_updated', this.handlePanelUpdatedLive);
-		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, 500, true));
+		document.removeEventListener('modern_tribe/panel_updated', _.debounce(this.handlePanelUpdated, this.updateDebounceRate, true));
 		document.removeEventListener('modern_tribe/panels_added', this.handlePanelsAdded);
 		document.removeEventListener('modern_tribe/picker_cancelled', this.cancelPickerInjection);
 		document.removeEventListener('modern_tribe/delete_panel', this.deletePanelFromPreview);
+		// repeater events
+		document.removeEventListener(EVENTS.REPEATER_ROW_ACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.REPEATER_ROW_DEACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.REPEATER_ROW_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.removeEventListener(EVENTS.REPEATER_ROW_ADDED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.REPEATER_ROW_MOVED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.REPEATER_ROW_DELETED, this.handleNestedUpdates);
+		// child panel events
+		document.removeEventListener(EVENTS.CHILD_PANEL_ACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.CHILD_PANEL_DEACTIVATED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.CHILD_PANEL_UPDATED, _.debounce(this.handleNestedUpdates, this.updateDebounceRate - 100, true));
+		document.removeEventListener(EVENTS.CHILD_PANEL_ADDED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.CHILD_PANEL_MOVED, this.handleNestedUpdates);
+		document.removeEventListener(EVENTS.CHILD_PANEL_DELETED, this.handleNestedUpdates);
 	}
 
 	deactivatePanel(panel) {
@@ -88,6 +121,10 @@ class CollectionPreview extends Component {
 
 	scrollToPanel(index, activate = true) {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
+		if (!target) {
+			console.warn(`Couldn't find panel to scroll to at index ${index}`);
+			return;
+		}
 		this.iframeScroller.to(target, 500, () => {
 			if (!activate) {
 				return;
@@ -108,12 +145,31 @@ class CollectionPreview extends Component {
 		`;
 	}
 
-	emitPanelAddedEvent() {
+	emitPreviewUpdatedEvent(parentEvent, nestedEvent) {
 		trigger({
 			event: 'modular_content/panel_preview_updated',
 			native: false,
 			el: this.iframe,
+			data: {
+				parent: {
+					type: parentEvent.type,
+					data: parentEvent.detail,
+				},
+			},
 		});
+		console.log('Panel Builder: Emitted custom event modular_content/panel_preview_updated into preview iframe.');
+		if (!nestedEvent) {
+			return;
+		}
+		_.delay(() => {
+			trigger({
+				event: nestedEvent.type,
+				native: false,
+				el: this.iframe,
+				data: nestedEvent.detail,
+			});
+			console.log(`Panel Builder: Emitted custom nested event ${nestedEvent.type} into preview iframe.`);
+		}, 200);
 	}
 
 	injectPanelAtPlaceholder(panels, index) {
@@ -180,7 +236,7 @@ class CollectionPreview extends Component {
 		if (!this.activePanelNode || this.saving) {
 			return;
 		}
-
+		const nestedEvent = this.nestedEvent;
 		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
 		const selector = previewTools.getLiveTextSelector(e.detail);
 		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
@@ -194,7 +250,7 @@ class CollectionPreview extends Component {
 		ajax.getPanelHTML([this.props.panels[e.detail.index]], e.detail.index)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
-				this.emitPanelAddedEvent();
+				this.emitPreviewUpdatedEvent(e, nestedEvent);
 			})
 			.fail(() => {
 				this.activePanelNode.classList.remove(styles.loadingPanel);
@@ -255,6 +311,32 @@ class CollectionPreview extends Component {
 			event: 'modern_tribe/cancel_picker',
 			native: false,
 		});
+	}
+
+	isImmediateNestedEvent(type) {
+		return type === EVENTS.REPEATER_ROW_ACTIVATED || type === EVENTS.REPEATER_ROW_DEACTIVATED || type === EVENTS.CHILD_PANEL_ACTIVATED || type === EVENTS.CHILD_PANEL_DEACTIVATED;
+	}
+
+	@autobind
+	handleNestedUpdates(e) {
+		// some events are immediate as they dont trigger ajax updating of the preview for the active panel
+		if (this.isImmediateNestedEvent(e.type)) {
+			trigger({
+				event: e.type,
+				native: false,
+				el: this.iframe,
+				data: e.detail,
+			});
+			console.log(`Panel Builder: Emitted custom nested event ${e.type} into preview iframe.`);
+			return;
+		}
+		// some nested events are delayed and have to fire after ajax has run to update the preview.
+		// We pass them around here, wiping them out after 100 ms plus the debounce rate to make sure
+		// the only fire for the associated panel_updated event triggering the ajax
+		this.nestedEvent = e;
+		_.delay(() => {
+			this.nestedEvent = null;
+		}, this.updateDebounceRate + 100);
 	}
 
 	activateNewPanel(panel = null, index = 0) {
@@ -325,6 +407,7 @@ class CollectionPreview extends Component {
 		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
 		// or do other index based opts.
 		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
+		const nestedEvent = this.nestedEvent;
 		ajax.getPanelHTML(e.detail.panels, panelIndex)
 			.done((data) => {
 				if (e.detail.index === -1) {
@@ -334,7 +417,7 @@ class CollectionPreview extends Component {
 				} else {
 					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
 				}
-				this.emitPanelAddedEvent();
+				this.emitPreviewUpdatedEvent(e, nestedEvent);
 			})
 			.fail((err) => {
 				console.log(err);
