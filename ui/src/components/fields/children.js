@@ -338,7 +338,11 @@ class Children extends Component {
 
 	@autobind
 	handleLaunchPicker() {
-		this.setState({ pickerActive: !this.state.pickerActive });
+		if (this.state.types.length === 1) {
+			this.handleAddRow({ type: this.state.types[0].type });
+		} else {
+			this.setState({ pickerActive: !this.state.pickerActive });
+		}
 	}
 
 	/**
