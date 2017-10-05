@@ -411,7 +411,13 @@ class Repeater extends Component {
 	@autobind
 	updateRepeaterFieldData(data) {
 		const newData = this.state.data;
-		newData[this.state.activeIndex][data.name] = data.value;
+		if (data.parent) {
+			const parentData = newData[this.state.activeIndex][data.parent];
+			newData[this.state.activeIndex][data.parent] = _.isPlainObject(parentData) ? parentData : {};
+			newData[this.state.activeIndex][data.parent][data.name] = data.value;
+		} else {
+			newData[this.state.activeIndex][data.name] = data.value;
+		}
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: this.props.panelIndex,
@@ -419,7 +425,6 @@ class Repeater extends Component {
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,
-			parent: data.parent,
 			name: this.props.name,
 			value: newData,
 		});
@@ -486,6 +491,7 @@ Repeater.propTypes = {
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	type: PropTypes.string,
 	min: PropTypes.number,
 	max: PropTypes.number,
 };
@@ -509,6 +515,7 @@ Repeater.defaultProps = {
 	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
+	type: '',
 	min: 1,
 	max: 12,
 };
