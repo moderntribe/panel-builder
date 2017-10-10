@@ -522,15 +522,33 @@ class Post_List extends Field {
 		return $query;
 	}
 
+	/**
+	 * @param $connection_id
+	 * @param $post_ids
+	 *
+	 * @return array
+	 *
+	 * Originally this used get_posts with with connected_type and connected arguments.  It was bugging out and the
+	 * sql WP was calling for that request was mind boggling complex so I've simplified it using a wpdb query.
+	 */
 	protected static function get_p2p_filtered_ids( $connection_id, $post_ids ) {
-		$connected = get_posts( [
-			'suppress_filters' => false,
-			'connected_type'   => $connection_id,
-			'connected_items'  => $post_ids,
-			'nopaging'         => true,
-			'fields'           => 'ids',
-			'post_type'        => 'any',
-		] );
+		global $wpdb;
+		$post_ids_sql = esc_sql( implode( $post_ids ) );
+		$sql = $wpdb->prepare(
+				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
+				$connection_id );
+
+		$connected = [];
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+
+		if ( empty( $results ) ) {
+			return [];
+		}
+
+		foreach ( $results as $result ) {
+			$connected[] = in_array( $result['p2p_to'], $post_ids ) ? $result['p2p_from'] : $result['p2p_to'];
+		}
+
 		return $connected;
 	}
 
