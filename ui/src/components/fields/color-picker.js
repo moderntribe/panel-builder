@@ -111,12 +111,12 @@ class ColorPicker extends Component {
 	@autobind
 	handleChange(e) {
 		let value = e && e[this.props.color_mode] ? e[this.props.color_mode] : '';
-		if (this.props.color_mode === 'rgb') {
+		if (this.props.color_mode === 'rgb' && e.rgb) {
 			value = `rgba(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b}, ${e.rgb.a})`;
 		}
 		this.setState({
 			pickerActive: value.length || _.isPlainObject(this.state.value) ? this.state.pickerActive : false,
-			rgb: this.props.color_mode === 'rgb' ? e.rgb : {},
+			rgb: this.props.color_mode === 'rgb' && e.rgb ? e.rgb : {},
 			value,
 		});
 		this.props.updatePanelData({
