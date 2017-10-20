@@ -160,6 +160,10 @@ class Plugin {
 			return;
 		}
 
+		if ( ! apply_filters( 'panels_content_show_edit_menu', true ) ) {
+			return;
+		}
+
 		$post_type = get_post_type( get_the_ID() );
 
 		if ( ! post_type_supports( $post_type, 'modular-content' ) ) {
@@ -168,12 +172,13 @@ class Plugin {
 
 		global $wp_admin_bar;
 
-		// Allow other plugins to modify where this menu item gets placed.
-		$parent_id = apply_filters( 'panels_content_edit_menu_parent', 'edit' );
+		// Allow other plugins to modify where this menu item gets placed and what it's titled.
+		$parent_id  = apply_filters( 'panels_content_edit_menu_parent', 'edit' );
+		$menu_title = apply_filters( 'panels_content_edit_menu_title', __( 'Content', 'modular-content' ) );
 
 		$content_item = [
 			'parent' => $parent_id,
-			'title'  => __( 'Content', 'modular-content' ),
+			'title'  => $menu_title,
 			'id'     => 'tribe-content-menu',
 			'href'   => $this->get_content_url(),
 		];
