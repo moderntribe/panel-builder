@@ -108,7 +108,6 @@ class PostListQueryRelatedFilter extends Component {
 	 */
 	@autobind
 	handlePostChange(data) {
-		console.log(data);
 		const post = data ? data.value : '';
 		this.setState({
 			post,
