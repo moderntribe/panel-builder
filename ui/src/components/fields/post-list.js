@@ -45,6 +45,11 @@ class PostList extends Component {
 		if (this.state.filters.length || this.state.postTypes.length) {
 			this.getNewPosts();
 		}
+
+		// if only one possible post type is returned, then pre-select it
+		if (this.props.post_type.length === 1 && this.state.postTypes.length === 0) {
+			this.state.postTypes = this.props.post_type[0].value;
+		}
 	}
 
 	/**
@@ -520,6 +525,7 @@ class PostList extends Component {
 			[styles.tabContent]: true,
 			[styles.active]: this.state.type === 'query',
 		});
+
 		return (
 			<div className={tabClasses}>
 				<div className={styles.row}>
