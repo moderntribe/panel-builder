@@ -16,7 +16,7 @@ class SwatchSelect extends Component {
 		this.setState({ value });
 		this.props.updatePanelData({
 			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,
 		});
@@ -90,6 +90,7 @@ SwatchSelect.propTypes = {
 	description: React.PropTypes.string,
 	depth: React.PropTypes.number,
 	strings: React.PropTypes.object,
+	indexMap: React.PropTypes.array,
 	default: React.PropTypes.string,
 	options: React.PropTypes.array,
 	data: React.PropTypes.string,
@@ -103,6 +104,7 @@ SwatchSelect.defaultProps = {
 	description: '',
 	depth: 0,
 	strings: {},
+	indexMap: [],
 	default: '',
 	options: [],
 	data: '',

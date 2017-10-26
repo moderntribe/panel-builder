@@ -510,7 +510,7 @@ class PostQuacker extends Component {
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
 			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -577,6 +577,7 @@ PostQuacker.propTypes = {
 	depth: React.PropTypes.number,
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
+	indexMap: React.PropTypes.array,
 	default: PropTypes.object,
 	post_id: PropTypes.number,
 	editor_settings_reference: PropTypes.string,
@@ -591,6 +592,7 @@ PostQuacker.defaultProps = {
 	name: '',
 	description: '',
 	depth: 0,
+	indexMap: [],
 	post_type: [],
 	strings: {},
 	default: {},

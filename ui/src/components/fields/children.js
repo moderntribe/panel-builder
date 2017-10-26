@@ -11,10 +11,12 @@ import Button from '../shared/button';
 import Panel from '../panel';
 import AccordionBack from '../shared/accordion-back';
 import PanelPicker from '../panel-picker';
+import { updatePanelData } from '../../actions/panels';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
+import * as tools from '../../util/dom/tools';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
 import * as EVENTS from '../../constants/events';
 import { trigger } from '../../util/events';
@@ -26,19 +28,10 @@ import styles from './children.pcss';
 zenscroll.setup(200, 40);
 
 /**
- * Class Repeater
+ * Class Children
  *
- * A repeatable container for a group of fields. The Repeater can
- * contain one or more fields. An editor can add, remove, or sort
+ * A repeatable container for a group of panels. An editor can add, remove, or sort
  * instances of the group.
- *
- * Using data from a repeater in a template:
- *
- * $contacts = get_panel_var( 'contacts' );
- * foreach ( $contacts as $contact ) {
- *   $name = $contact['name'];
- *   $email = $contact['email'];
- * }
  *
  */
 
@@ -60,7 +53,7 @@ class Children extends Component {
 			active: false,
 			activeIndex: 0,
 			childDepth: this.props.depth + 1,
-			data: this.props.data,
+			data: this.props.data.filter(p => p.depth === (this.props.depth + 1)),
 			pickerActive: false,
 			keyPrefix: randomString(10),
 			sorting: false,
@@ -71,6 +64,13 @@ class Children extends Component {
 
 	componentDidMount() {
 		this.el = this.childPanels;
+	}
+
+	setChildActiveClass() {
+		const parentGroup = tools.closest(this.el, '.children-field');
+		if (parentGroup) {
+			parentGroup.classList.add(styles.childActive);
+		}
 	}
 
 	/**
@@ -89,11 +89,6 @@ class Children extends Component {
 			[styles.fields]: true,
 			'panel-row-fields': true,
 		});
-		const indexMap = JSON.parse(JSON.stringify(this.props.indexMap));
-		indexMap.push({
-			index: this.state.activeIndex,
-			key: 'panels',
-		});
 
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
@@ -111,7 +106,7 @@ class Children extends Component {
 					index={this.state.activeIndex}
 					panelIndex={this.state.activeIndex}
 					parentIndex={this.props.parentIndex}
-					indexMap={indexMap}
+					indexMap={this.props.indexMap}
 					classesWrapper={styles.childPanels}
 					classesFields={styles.childPanelsFields}
 					liveEdit={this.props.liveEdit}
@@ -146,6 +141,9 @@ class Children extends Component {
 		const dataTitle = data.data.title;
 		const title = dataTitle && dataTitle.length ? dataTitle : this.childData.label.singular;
 		const blueprint = _.find(this.state.types, { type: data.type });
+		if (!blueprint) {
+			return null;
+		}
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
@@ -283,19 +281,21 @@ class Children extends Component {
 			keyPrefix: randomString(10),
 			data,
 		});
-		const updateData = {
+		const payload = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
-			rowIndex: e.newIndex,
+			indexMap: this.props.indexMap,
 			name: 'panels',
+			rowIndex: e.newIndex,
 			value: data,
 		};
-		this.props.updatePanelData(updateData);
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_MOVED,
 			native: false,
-			data: updateData,
+			data: payload,
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	/**
@@ -313,19 +313,21 @@ class Children extends Component {
 			activeIndex: 0,
 			data,
 		});
-		const updateData = {
+		const payload = {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
-			rowIndex: this.state.activeIndex,
+			indexMap: this.props.indexMap,
 			name: 'panels',
+			rowIndex: this.state.activeIndex,
 			value: data,
 		};
-		this.props.updatePanelData(updateData);
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_DELETED,
 			native: false,
-			data: updateData,
+			data: payload,
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	scrollToActive() {
@@ -336,7 +338,11 @@ class Children extends Component {
 
 	@autobind
 	handleLaunchPicker() {
-		this.setState({ pickerActive: !this.state.pickerActive });
+		if (this.state.types.length === 1) {
+			this.handleAddRow({ type: this.state.types[0].type });
+		} else {
+			this.setState({ pickerActive: !this.state.pickerActive });
+		}
 	}
 
 	/**
@@ -361,11 +367,12 @@ class Children extends Component {
 			const data = {
 				depth: this.props.depth,
 				index: this.props.parentIndex,
-				rowIndex: newState.activeIndex,
+				indexMap: this.props.indexMap.slice(),
 				name: 'panels',
+				rowIndex: newState.activeIndex,
 				value: newState.data,
 			};
-			this.props.updatePanelData(data);
+			this.props.updateChildPanelData(data);
 			this.scrollToActive();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
 			trigger({
@@ -373,6 +380,7 @@ class Children extends Component {
 				native: false,
 				data,
 			});
+			trigger({ event: EVENTS.PANEL_UPDATED, native: false, data });
 		});
 	}
 
@@ -403,10 +411,12 @@ class Children extends Component {
 				rowIndex: activeIndex,
 				depth: this.props.depth,
 				index: this.props.parentIndex,
+				indexMap: this.props.indexMap,
 				name: 'panels',
 				value: this.state.data,
 			};
 			this.scrollToActive();
+			this.setChildActiveClass();
 			panelConditionals.initConditionalFields(this.el.querySelectorAll(`.${styles.childPanels}`)[0]);
 			trigger({
 				event,
@@ -431,6 +441,7 @@ class Children extends Component {
 			rowIndex: this.state.activeIndex,
 			depth: this.props.depth,
 			index: this.props.parentIndex,
+			indexMap: this.props.indexMap,
 			name: 'panels',
 			value: this.state.data,
 		};
@@ -465,16 +476,18 @@ class Children extends Component {
 		} else {
 			newData[this.state.activeIndex].data[data.name] = data.value;
 		}
-		this.props.updatePanelData({
+		const payload = {
 			depth: data.depth,
 			index: this.props.parentIndex,
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,
+			indexMap: this.props.indexMap,
 			parent: data.parent,
 			name: 'panels',
 			value: newData,
-		});
+		};
+		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_UPDATED,
 			native: false,
@@ -486,6 +499,7 @@ class Children extends Component {
 				value: newData,
 			},
 		});
+		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
 
 	render() {
@@ -525,38 +539,41 @@ class Children extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => ({ updateChildPanelData: data => dispatch(updatePanelData(data)) });
 const mapStateToProps = state => ({ panels: state.panelData.panels });
 
 Children.propTypes = {
 	childData: PropTypes.object,
-	depth: PropTypes.number,
 	data: PropTypes.array,
-	parentIndex: PropTypes.number,
-	indexMap: PropTypes.array,
-	panelLabel: PropTypes.string,
-	fields: PropTypes.array,
+	depth: PropTypes.number,
 	description: PropTypes.string,
+	fields: PropTypes.array,
+	handleExpanderClick: PropTypes.func,
+	hidePanel: PropTypes.func,
+	indexMap: PropTypes.array,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
+	panelLabel: PropTypes.string,
+	parentIndex: PropTypes.number,
+	updateChildPanelData: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func,
-	hidePanel: PropTypes.func,
-	handleExpanderClick: PropTypes.func,
 };
 
 Children.defaultProps = {
 	childData: {},
-	depth: 0,
-	parentIndex: 0,
-	indexMap: [],
-	panelLabel: '',
-	fields: [],
 	data: [],
+	depth: 0,
 	description: '',
-	liveEdit: false,
-	name: '',
-	updatePanelData: () => {},
+	fields: [],
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
+	indexMap: [],
+	liveEdit: false,
+	name: '',
+	panelLabel: '',
+	parentIndex: 0,
+	updateChildPanelData: () => {},
+	updatePanelData: () => {},
 };
 
-export default connect(mapStateToProps)(Children);
+export default connect(mapStateToProps, mapDispatchToProps)(Children);

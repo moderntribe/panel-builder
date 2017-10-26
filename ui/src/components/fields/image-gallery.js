@@ -73,7 +73,7 @@ class ImageGallery extends Component {
 		});
 		this.props.updatePanelData({
 			depth: this.props.depth,
-			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: gallery,
 		});
@@ -205,6 +205,7 @@ ImageGallery.propTypes = {
 	name: PropTypes.string,
 	depth: React.PropTypes.number,
 	description: PropTypes.string,
+	indexMap: React.PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.array,
 	data: PropTypes.array,
@@ -217,6 +218,7 @@ ImageGallery.defaultProps = {
 	name: '',
 	depth: 0,
 	description: '',
+	indexMap: [],
 	strings: {},
 	default: [],
 	data: [],

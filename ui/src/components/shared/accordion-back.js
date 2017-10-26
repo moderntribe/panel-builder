@@ -34,6 +34,9 @@ class AccordionBack extends Component {
 
 	@autobind
 	updateTitle(e) {
+		if (!this.el) {
+			return;
+		}
 		const nested = this.el.parentNode.getAttribute('data-hidden');
 		if (nested && nested === 'true') {
 			return;

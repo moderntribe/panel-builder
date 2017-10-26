@@ -59,8 +59,14 @@ class Repeater extends Component {
 	 */
 
 	getPaddedFieldData() {
-		const target = this.props.depth === 1 ? this.props.panels[this.props.parentIndex].panels[this.props.panelIndex] : this.props.panels[this.props.panelIndex];
-		const store = target.data[this.props.name];
+		let target = JSON.parse(JSON.stringify(this.props.panels));
+		this.props.indexMap.forEach((val, i) => {
+			if (!target) {
+				return;
+			}
+			target = (i + 1) === this.props.indexMap.length ? target[val] : target[val].panels;
+		});
+		const store = target && target.data ? target.data[this.props.name] : {};
 		const fieldData = !_.isEmpty(store) ? store : [];
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
@@ -73,7 +79,9 @@ class Repeater extends Component {
 
 		if (shouldUpdate) {
 			this.props.updatePanelData({
+				depth: this.props.depth,
 				index: this.props.panelIndex,
+				indexMap: this.props.indexMap,
 				name: this.props.name,
 				value: fieldData,
 			});
@@ -99,7 +107,7 @@ class Repeater extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div className={fieldClasses} data-group="repeater-fields">
 				<AccordionBack
 					title={title}
 					panelLabel={this.props.panelLabel}
@@ -242,8 +250,10 @@ class Repeater extends Component {
 			data,
 		});
 		const updateData = {
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			rowIndex: e.newIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -272,8 +282,10 @@ class Repeater extends Component {
 			data,
 		});
 		const updateData = {
+			depth: this.props.depth,
 			index: this.props.panelIndex,
 			rowIndex: this.state.activeIndex,
+			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -307,8 +319,10 @@ class Repeater extends Component {
 		}
 		this.setState(newState, () => {
 			const data = {
+				depth: this.props.depth,
 				index: this.props.panelIndex,
 				rowIndex: newState.activeIndex,
+				indexMap: this.props.indexMap,
 				name: this.props.name,
 				value: newState.data,
 			};
@@ -397,14 +411,20 @@ class Repeater extends Component {
 	@autobind
 	updateRepeaterFieldData(data) {
 		const newData = this.state.data;
-		newData[this.state.activeIndex][data.name] = data.value;
+		if (data.parent) {
+			const parentData = newData[this.state.activeIndex][data.parent];
+			newData[this.state.activeIndex][data.parent] = _.isPlainObject(parentData) ? parentData : {};
+			newData[this.state.activeIndex][data.parent][data.name] = data.value;
+		} else {
+			newData[this.state.activeIndex][data.name] = data.value;
+		}
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: this.props.panelIndex,
+			indexMap: this.props.indexMap,
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,
-			parent: data.parent,
 			name: this.props.name,
 			value: newData,
 		});
@@ -471,6 +491,7 @@ Repeater.propTypes = {
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	type: PropTypes.string,
 	min: PropTypes.number,
 	max: PropTypes.number,
 };
@@ -494,6 +515,7 @@ Repeater.defaultProps = {
 	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
+	type: '',
 	min: 1,
 	max: 12,
 };

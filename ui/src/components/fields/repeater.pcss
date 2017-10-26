@@ -34,6 +34,7 @@
 	composes: header from "../../shared/accordion.pcss";
 	transform: translate3d(0, 0, 0);
 	margin-bottom: var(--panel-margin-vertical);
+	transform: translate3d(0, 0, 0);
 }
 
 [data-live-edit="false"] {
@@ -93,9 +94,11 @@
 	padding: 0;
 	width: 100%;
 	position:absolute;
-	left:100%;
+	left:0;
 	top:0;
+	background: var(--white);
 	text-align: right;
+	z-index: 20;
 
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);

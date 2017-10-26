@@ -23,3 +23,4 @@ export const SWATCH_SELECT = 'Swatch_Select';
 export const GROUP = 'Group';
 export const ACCORDION = 'Accordion';
 export const REPEATER = 'Repeater';
+export const COLUMN_WIDTH = 'Column_Width';

@@ -36,6 +36,7 @@ const getTypeCheckedData = (type = '', fieldData) => {
 		}
 		break;
 	case FIELD_TYPES.IMAGE:
+	case FIELD_TYPES.COLUMN_WIDTH:
 		if (!_.isInteger(fieldData)) {
 			checkedData = _.toInteger(fieldData);
 		}

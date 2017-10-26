@@ -92,6 +92,7 @@ class Group extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			index: data.index,
+			indexMap: this.props.indexMap,
 			name: data.name,
 			value: data.value,
 			parent: this.props.name,

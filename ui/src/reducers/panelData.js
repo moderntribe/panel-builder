@@ -10,6 +10,7 @@ import {
 
 import { PANELS } from '../globals/config';
 import arrayMove from '../util/data/array-move';
+import * as storeTools from '../util/data/store';
 
 
 const initialData = {
@@ -65,20 +66,13 @@ export function panelData(state = initialData, action) {
 		});
 
 	case UPDATE_PANEL_DATA:
-		if (action.data.parent) {
-			let parent = newState.panels[action.data.index].data[action.data.parent];
-			newState.panels[action.data.index].data[action.data.parent] = parent ? parent : {};
-			newState.panels[action.data.index].data[action.data.parent][action.data.name] = action.data.value;
-		} else if (action.data.name === 'panels') {
-			newState.panels[action.data.index].panels = action.data.value;
-		} else {
-			newState.panels[action.data.index].data[action.data.name] = action.data.value;
-		}
-
+		const indexMap = action.data.indexMap.slice();
+		newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.parent, action.data.value);
 		return newState;
 
 	default:
 		return state;
 	}
 }
+
 /* eslint-enable */

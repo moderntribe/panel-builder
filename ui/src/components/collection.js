@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -35,7 +35,7 @@ class PanelCollection extends Component {
 		injectionIndex: -1,
 		initialData: cloneDeep(PANELS),
 		keyPrefix: randomString(10),
-		liveEdit: false,
+		liveEdit: this.isActiveOnInit(),
 		panelSetPickerActive: false,
 		panelSetPickerEditLink: '',
 		panelSetSaveError: false,
@@ -74,6 +74,28 @@ class PanelCollection extends Component {
 	}
 
 	/**
+	 * Activate either if app is initially loading and url key found, or allow prop control
+	 *
+	 * @returns {boolean|*}
+	 */
+	isActiveOnInit() {
+		return window.location.search.indexOf(`${URL_CONFIG.tool_arg}=${URL_CONFIG.tool_arg_id}`) !== -1;
+	}
+
+	/**
+	 * Setups the autosave and heartbeat state on mount.
+	 */
+
+	bindEvents() {
+		MODULAR_CONTENT.autosave = JSON.stringify({ panels: cloneDeep(this.props.panels) });
+		MODULAR_CONTENT.needs_save = false;
+		this.runDataHeartbeat();
+		heartbeat.init({
+			success: this.handleAutosaveSuccess,
+		});
+	}
+
+	/**
 	 * Uses a complex set of animations powered by a util to animate the editing window from its post metabox state
 	 * to a full screen override of the wp admin.
 	 *
@@ -109,19 +131,6 @@ class PanelCollection extends Component {
 
 	unBindEvents() {
 		clearInterval(this.heartbeat);
-	}
-
-	/**
-	 * Setups the autosave and heartbeat state on mount.
-	 */
-
-	bindEvents() {
-		MODULAR_CONTENT.autosave = JSON.stringify({ panels: cloneDeep(this.props.panels) });
-		MODULAR_CONTENT.needs_save = false;
-		this.runDataHeartbeat();
-		heartbeat.init({
-			success: this.handleAutosaveSuccess,
-		});
 	}
 
 	/**
@@ -471,17 +480,12 @@ class PanelCollection extends Component {
 
 		const Panels = _.map(this.props.panels, (panel, i) => {
 			const blueprint = _.find(BLUEPRINT_TYPES, { type: panel.type });
-			const indexMap = [{
-				key: 'panels',
-				index: i,
-			}];
 			return (
 				<Panel
 					{...blueprint}
 					{...panel}
 					key={`${this.state.keyPrefix}-${i}`}
 					index={i}
-					indexMap={indexMap}
 					liveEdit={this.state.liveEdit}
 					panelsActive={this.state.active}
 					panelsActivate={this.panelsActivate}
