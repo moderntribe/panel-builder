@@ -26,7 +26,9 @@ class PostListPostSelected extends Component {
 	componentWillMount() {
 		// if only one possible post type is returned, then pre-select it
 		if (this.props.post_type.length === 1 && this.state.searchPostType.length === 0) {
-			this.state.searchPostType = this.props.post_type[0].value;
+			this.setState({
+				searchPostType: this.props.post_type[0].value,
+			});
 		}
 	}
 

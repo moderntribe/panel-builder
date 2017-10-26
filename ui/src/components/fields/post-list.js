@@ -48,7 +48,9 @@ class PostList extends Component {
 
 		// if only one possible post type is returned, then pre-select it
 		if (this.props.post_type.length === 1 && this.state.postTypes.length === 0) {
-			this.state.postTypes = this.props.post_type[0].value;
+			this.setState({
+				postTypes: this.props.post_type[0].value,
+			});
 		}
 	}
 
