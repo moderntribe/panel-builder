@@ -533,7 +533,11 @@ class Post_List extends Field {
 	 */
 	protected static function get_p2p_filtered_ids( $connection_id, $post_ids ) {
 		global $wpdb;
-		$post_ids_sql = esc_sql( implode( $post_ids ) );
+		$post_ids_sql = implode( ',', array_map( 'intval', $post_ids ) );
+
+		/**
+		 * Get all p2p connections for request post ids of connection type
+		 */
 		$sql = $wpdb->prepare(
 				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
 				$connection_id );
@@ -545,8 +549,12 @@ class Post_List extends Field {
 			return [];
 		}
 
+		/**
+		 * Merge all p2p_to and p2p_from into a single array then pull just those that are different from our request post ids.
+		 */
 		foreach ( $results as $result ) {
-			$connected[] = in_array( $result['p2p_to'], $post_ids ) ? $result['p2p_from'] : $result['p2p_to'];
+			$p2p_results = array_diff( array_merge( array_column( $results, 'p2p_to' ), array_column( $results, 'p2p_from' ) ), $post_ids );
+			$connected = array_unique( $p2p_results );
 		}
 
 		return $connected;
