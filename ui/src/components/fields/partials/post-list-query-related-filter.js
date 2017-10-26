@@ -14,7 +14,7 @@ class PostListQueryRelatedFilter extends Component {
 		super(props);
 		this.getOptions = _.debounce(this.getOptions.bind(this), 450);
 	}
-	
+
 	state = {
 		postTypes: [],
 		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
