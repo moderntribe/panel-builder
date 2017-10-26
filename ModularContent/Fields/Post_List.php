@@ -552,10 +552,8 @@ class Post_List extends Field {
 		/**
 		 * Merge all p2p_to and p2p_from into a single array then pull just those that are different from our request post ids.
 		 */
-		foreach ( $results as $result ) {
-			$p2p_results = array_diff( array_merge( array_column( $results, 'p2p_to' ), array_column( $results, 'p2p_from' ) ), $post_ids );
-			$connected = array_unique( $p2p_results );
-		}
+		$p2p_results = array_diff( array_merge( array_column( $results, 'p2p_to' ), array_column( $results, 'p2p_from' ) ), $post_ids );
+		$connected   = array_unique( $p2p_results );
 
 		return $connected;
 	}
