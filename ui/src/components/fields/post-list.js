@@ -8,6 +8,7 @@ import _ from 'lodash';
 import request from 'superagent';
 import param from 'jquery-param';
 
+import PostTypeSelect from './partials/post-type-select';
 import PostListManualTypeChooser from './partials/post-list-manual-type-chooser';
 import PostListPostManual from './partials/post-list-post-manual';
 import PostListPostSelected from './partials/post-list-post-selected';
@@ -44,13 +45,6 @@ class PostList extends Component {
 	componentWillMount() {
 		if (this.state.filters.length || this.state.postTypes.length) {
 			this.getNewPosts();
-		}
-
-		// if only one possible post type is returned, then pre-select it
-		if (this.props.post_type.length === 1 && this.state.postTypes.length === 0) {
-			this.setState({
-				postTypes: this.props.post_type[0].value,
-			});
 		}
 	}
 
@@ -532,10 +526,8 @@ class PostList extends Component {
 			<div className={tabClasses}>
 				<div className={styles.row}>
 					<label className={styles.label}>{this.props.strings['label.content_type']}</label>
-					<ReactSelect
-						options={this.props.post_type}
-						name={_.uniqueId('post-list-type-')}
-						placeholder="Select Post Types"
+					<PostTypeSelect
+						postTypes={this.props.post_type}
 						multi
 						value={this.state.postTypes}
 						onChange={this.handlePostTypeChange}
