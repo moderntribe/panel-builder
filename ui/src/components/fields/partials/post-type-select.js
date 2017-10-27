@@ -5,25 +5,14 @@ import React, { Component, PropTypes } from 'react';
 class PostTypeSelect extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			postTypes: this.maybePreselectPostTypes(),
-		};
+		this.maybePreselectPostTypes();
 	}
 
 	// if only one possible post type is returned, then pre-select it
 	maybePreselectPostTypes() {
-		let postTypes = [];
-		console.log(this.props.postTypes);
-		console.log(this.props.value);
-
-		// if only one possible post type is returned, then pre-select it
 		if (this.props.postTypes.length === 1 && this.props.value.length === 0) {
-			postTypes = this.props.postTypes[0].value;
-		} else {
-			postTypes = this.props.value;
+			this.props.onChange(this.props.postTypes[0]); // pass state back up chain
 		}
-
-		return postTypes;
 	}
 
 	render() {
@@ -33,9 +22,9 @@ class PostTypeSelect extends Component {
 				name={this.props.name}
 				placeholder={this.props.placeHolder}
 				multi={this.props.multi}
-				value={this.state.postTypes}
+				value={this.props.value}
 				searchable={this.props.searchable}
-				onChange={this.props.handlePostTypeChange}
+				onChange={this.props.onChange}
 			/>
 		);
 	}
@@ -48,7 +37,7 @@ PostTypeSelect.propTypes = {
 	multi: PropTypes.bool,
 	value: PropTypes.array,
 	searchable: PropTypes.bool,
-	handlePostTypeChange: React.PropTypes.func,
+	onChange: React.PropTypes.func,
 };
 
 PostTypeSelect.defaultProps = {
@@ -58,7 +47,7 @@ PostTypeSelect.defaultProps = {
 	value: [],
 	searchable: false,
 	placeHolder: 'Select Post Types',
-	handlePostTypeChange: () => {},
+	onChange: () => {},
 };
 
 export default PostTypeSelect;

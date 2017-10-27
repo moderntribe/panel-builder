@@ -131,7 +131,6 @@ class PostListPostSelected extends Component {
 			<article className={styles.wrapper}>
 				<PostTypeSelect
 					postTypes={this.props.post_type}
-					searchable={false}
 					value={this.state.searchPostType}
 					onChange={this.handleChange}
 				/>
