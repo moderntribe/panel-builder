@@ -3,6 +3,7 @@ import ReactSelect from 'react-select-plus';
 import autobind from 'autobind-decorator';
 import request from 'superagent';
 
+import PostTypeSelect from './post-type-select';
 import objectToParams from '../../../util/data/object-to-params';
 import Button from '../../shared/button';
 
@@ -128,11 +129,9 @@ class PostListPostSelected extends Component {
 		const noResultsTextSearch = (this.state.inputValue) ? this.props.strings['placeholder.no_results'] : this.props.strings['placeholder.select_search'];
 		return (
 			<article className={styles.wrapper}>
-				<ReactSelect
-					name={_.uniqueId('post-selected-')}
+				<PostTypeSelect
+					postTypes={this.props.post_type}
 					value={this.state.searchPostType}
-					searchable={false}
-					options={this.props.post_type}
 					onChange={this.handleChange}
 				/>
 				<ReactSelect
