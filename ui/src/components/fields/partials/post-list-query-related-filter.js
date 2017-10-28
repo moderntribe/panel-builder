@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import request from 'superagent';
@@ -9,9 +10,16 @@ import * as AdminCache from '../../../util/data/admin-cache';
 import styles from './post-list-query-related-filter.pcss';
 
 class PostListQueryRelatedFilter extends Component {
+	constructor(props) {
+		super(props);
+		this.getOptions = _.debounce(this.getOptions.bind(this), 450);
+	}
+	
 	state = {
 		postTypes: [],
 		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
+		postOptions: [],
+		postsIsLoading: false,
 		isSavedSelection: Boolean(this.props.selection),
 	};
 
@@ -59,21 +67,15 @@ class PostListQueryRelatedFilter extends Component {
 	 *
 	 * @method getOptions
 	 */
-	@autobind
-	getOptions(input, callback) {
-		let data = this.noResults;
-		if (!this.state.postTypes.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
+	getOptions(value) {
+		this.setState({ postsIsLoading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(value)}`;
 		request.get(ajaxURL).end((err, response) => {
+			const newState = { postsIsLoading: false };
 			if (response.body.posts.length) {
-				data = {
-					options: response.body.posts,
-				};
+				newState.postOptions = response.body.posts;
 			}
-			callback(null, data);
+			this.setState(newState);
 		});
 	}
 
@@ -89,6 +91,14 @@ class PostListQueryRelatedFilter extends Component {
 				postTypes,
 			});
 		}
+	}
+
+	@autobind
+	maybeGetOptions(input) {
+		if (input.currentTarget.value.length) {
+			return;
+		}
+		this.getOptions(input.currentTarget.value);
 	}
 
 	/**
@@ -137,12 +147,15 @@ class PostListQueryRelatedFilter extends Component {
 						placeholder={this.props.strings['label.relationship-post-type-placeholder']}
 						onChange={this.handleTypeChange}
 					/>
-					<ReactSelect.Async
+					<ReactSelect
 						value={this.state.post}
 						name="manual-selected-post"
-						loadOptions={this.getOptions}
+						isLoading={this.state.postsIsLoading}
+						options={this.state.postOptions}
 						placeholder={this.props.strings['label.relationship-post-select-placeholder']}
 						onChange={this.handlePostChange}
+						onInputChange={this.getOptions}
+						onFocus={this.maybeGetOptions}
 					/>
 				</span>
 			</div>
