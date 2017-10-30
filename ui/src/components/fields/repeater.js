@@ -66,7 +66,12 @@ class Repeater extends Component {
 			}
 			target = (i + 1) === this.props.indexMap.length ? target[val] : target[val].panels;
 		});
-		const store = target && target.data ? target.data[this.props.name] : {};
+		let store;
+		if (this.props.parent.length) {
+			store = target && target.data ? target.data[this.props.parent][this.props.name] : {};
+		} else {
+			store = target && target.data ? target.data[this.props.name] : {};
+		}
 		const fieldData = !_.isEmpty(store) ? store : [];
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
@@ -476,6 +481,7 @@ Repeater.propTypes = {
 	data: PropTypes.array,
 	depth: PropTypes.number,
 	panels: PropTypes.array,
+	parent: PropTypes.string,
 	parentIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
 	panelIndex: PropTypes.number,
@@ -499,6 +505,7 @@ Repeater.propTypes = {
 Repeater.defaultProps = {
 	data: [],
 	depth: 0,
+	parent: '',
 	parentIndex: 0,
 	panels: [],
 	panelIndex: 0,

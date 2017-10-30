@@ -41,6 +41,7 @@ const FieldBuilder = (props) => {
 					panelIndex={props.index}
 					parentIndex={props.parentIndex}
 					indexMap={props.indexMap}
+					parent={props.parent}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
@@ -84,6 +85,7 @@ FieldBuilder.propTypes = {
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
 	label: PropTypes.string,
+	parent: PropTypes.string,
 	fields: PropTypes.array,
 	panels: PropTypes.array,
 	parentIndex: PropTypes.number,
@@ -107,6 +109,7 @@ FieldBuilder.defaultProps = {
 	label: '',
 	fields: [],
 	panels: [],
+	parent: '',
 	parentIndex: 0,
 	liveEdit: false,
 	hasChildren: false,
