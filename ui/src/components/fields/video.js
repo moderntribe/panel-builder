@@ -20,6 +20,7 @@ class Video extends Component {
 		const videoURL = e.currentTarget.value;
 		this.setState({ videoURL });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: videoURL,

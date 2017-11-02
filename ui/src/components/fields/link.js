@@ -23,6 +23,7 @@ class Link extends Component {
 	@autobind
 	initiateUpdatePanelData() {
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: this.getValue(),

@@ -15,6 +15,7 @@ class Select extends Component {
 		const value = data ? _.toString(data.value) : _.toString(this.props.default);
 		this.setState({ value });
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value,

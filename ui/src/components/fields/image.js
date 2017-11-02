@@ -38,6 +38,7 @@ class Image extends Component {
 			});
 
 			this.props.updatePanelData({
+				depth: this.props.depth,
 				indexMap: this.props.indexMap,
 				name: this.props.name,
 				value: attachment.id,
@@ -68,6 +69,7 @@ class Image extends Component {
 			imageId: 0,
 		});
 		this.props.updatePanelData({
+			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			name: this.props.name,
 			value: 0,

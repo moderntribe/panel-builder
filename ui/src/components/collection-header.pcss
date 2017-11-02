@@ -1,5 +1,6 @@
 @import '../shared/transitions.pcss';
 @import '../shared/colors.pcss';
+@import '../shared/mq.pcss';
 
 @svg-load preview url('../img/icons/preview.svg') {
 	path {
@@ -151,6 +152,10 @@
 .editButton {
 	float: right;
 	padding-left: 43px;
+	display: none;
+	@media (--viewport-medium) {
+		display: block;
+	}
 	i {
 		position: absolute;
 		width: 24px;

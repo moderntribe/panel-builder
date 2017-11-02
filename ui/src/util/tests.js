@@ -30,6 +30,8 @@ const canLocalStore = () => {
 	}
 };
 
+const isHeaderLayout = () => document.body.classList.contains('post-type-header_layout');
+
 const browserTests = () => ({
 	android: /Android/i.test(window.navigator.userAgent) && /Mobile/i.test(window.navigator.userAgent),
 	chrome: !!window.chrome,
@@ -43,4 +45,4 @@ const browserTests = () => ({
 	os: navigator.platform,
 });
 
-export { isJson, canLocalStore, browserTests };
+export { isJson, canLocalStore, browserTests, isHeaderLayout };

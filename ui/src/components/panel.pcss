@@ -25,6 +25,17 @@
 	> button.close:focus {
 		outline: none;
 	}
+
+  	.row {
+		margin-left: -var(--panel-padding-horizontal);
+		margin-right: -var(--panel-padding-horizontal);
+	}
+
+	.fieldWrap {
+		padding-left: var(--panel-padding-horizontal);
+		padding-right: var(--panel-padding-horizontal);
+  	}
+
 }
 
 .settings {
@@ -183,6 +194,10 @@
 			display: block;
 		}
 	}
+}
+
+:global(.panel-builder-live-preview .mce-container.mce-panel.mce-floatpanel) {
+	z-index: 100101 !important;
 }
 
 .info {

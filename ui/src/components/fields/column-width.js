@@ -78,8 +78,8 @@ class ColumnWidth extends Component {
 }
 
 ColumnWidth.propTypes = {
-	data: React.PropTypes.string,
-	default: React.PropTypes.string,
+	data: React.PropTypes.number,
+	default: React.PropTypes.number,
 	depth: React.PropTypes.number,
 	description: React.PropTypes.string,
 	indexMap: React.PropTypes.array,
@@ -92,8 +92,8 @@ ColumnWidth.propTypes = {
 };
 
 ColumnWidth.defaultProps = {
-	data: '',
-	default: '',
+	data: 0,
+	default: 0,
 	depth: 0,
 	description: '',
 	indexMap: [],

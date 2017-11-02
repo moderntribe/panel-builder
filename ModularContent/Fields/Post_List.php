@@ -522,15 +522,39 @@ class Post_List extends Field {
 		return $query;
 	}
 
+	/**
+	 * @param $connection_id
+	 * @param $post_ids
+	 *
+	 * @return array
+	 *
+	 * Originally this used get_posts with with connected_type and connected arguments.  It was bugging out and the
+	 * sql WP was calling for that request was mind boggling complex so I've simplified it using a wpdb query.
+	 */
 	protected static function get_p2p_filtered_ids( $connection_id, $post_ids ) {
-		$connected = get_posts( [
-			'suppress_filters' => false,
-			'connected_type'   => $connection_id,
-			'connected_items'  => $post_ids,
-			'nopaging'         => true,
-			'fields'           => 'ids',
-			'post_type'        => 'any',
-		] );
+		global $wpdb;
+		$post_ids_sql = implode( ',', array_map( 'intval', $post_ids ) );
+
+		/**
+		 * Get all p2p connections for request post ids of connection type
+		 */
+		$sql = $wpdb->prepare(
+				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
+				$connection_id );
+
+		$connected = [];
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+
+		if ( empty( $results ) ) {
+			return [];
+		}
+
+		/**
+		 * Merge all p2p_to and p2p_from into a single array then pull just those that are different from our request post ids.
+		 */
+		$p2p_results = array_diff( array_merge( array_column( $results, 'p2p_to' ), array_column( $results, 'p2p_from' ) ), $post_ids );
+		$connected   = array_unique( $p2p_results );
+
 		return $connected;
 	}
 

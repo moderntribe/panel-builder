@@ -37,11 +37,13 @@ class CollectionPreview extends Component {
 	componentDidMount() {
 		this.iframe = this.frame;
 		this.bindEvents();
+		document.body.classList.add('panel-builder-live-preview');
 	}
 
 	componentWillUnmount() {
 		this.unBindEvents();
 		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		document.body.classList.remove('panel-builder-live-preview');
 	}
 
 	bindEvents() {
@@ -130,6 +132,15 @@ class CollectionPreview extends Component {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
 		if (!target) {
 			console.warn(`Couldn't find panel to scroll to at index ${index}`);
+			return;
+		}
+		if (tests.isHeaderLayout()) {
+			if (!activate) {
+				return;
+			}
+			target.classList.add(styles.active);
+			target.classList.add(styles.noTransition);
+			this.activePanelNode = target;
 			return;
 		}
 		this.iframeScroller.to(target, 500, () => {
@@ -253,7 +264,7 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.index]], e.detail.index)
+		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0])
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPreviewUpdatedEvent(e, nestedEvent);
@@ -532,8 +543,7 @@ class CollectionPreview extends Component {
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		const scrollable = tests.browserTests().firefox || tests.browserTests().ie ? this.iframe.querySelectorAll('html')[0] : this.iframe.body;
-		this.iframeScroller = zenscroll.createScroller(scrollable, null, IFRAME_SCROLL_OFFSET);
+		this.iframeScroller = zenscroll.createScroller(this.iframe.querySelectorAll('html')[0], null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
 		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();

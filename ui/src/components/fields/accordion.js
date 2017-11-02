@@ -8,15 +8,14 @@ import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
 
-// todo: replace with custom height solution and drop deps on gsap for this admin tool to avoid collisions
-
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
 
 class Accordion extends Component {
-	state = {
-		active: false,
-	};
+	constructor(props) {
+		super(props);
+		this.active = false;
+	}
 
 	/**
 	 * Gets the header which toggles the group into view
@@ -70,8 +69,10 @@ class Accordion extends Component {
 						fields={this.props.fields}
 						data={this.props.data}
 						parent={this.props.name}
+						parentType={this.props.name}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
+						type={this.props.type}
 						updatePanelData={this.updateGroupFieldData}
 					/>
 				</div>
@@ -91,17 +92,19 @@ class Accordion extends Component {
 			index: data.index,
 			indexMap: this.props.indexMap,
 			name: data.name,
-			value: data.value,
 			parent: this.props.name,
+			value: data.value,
 		});
 	}
 
 	maybeAnimateFields() {
-		if (!this.state.active) {
+		if (!this.active) {
+			this.el.classList.remove(styles.active);
 			this.fields.classList.remove(styles.animated);
 			tw.to(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
 			return;
 		}
+		this.el.classList.add(styles.active);
 		tw.set(this.fields, { height: 'auto' });
 		tw.from(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
 		_.delay(() => this.fields.classList.add(styles.animated), 600);
@@ -113,15 +116,13 @@ class Accordion extends Component {
 
 	@autobind
 	handleHeaderClick() {
-		this.setState({
-			active: !this.state.active,
-		}, () => this.maybeAnimateFields());
+		this.active = !this.active;
+		this.maybeAnimateFields();
 	}
 
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
-			[styles.active]: this.state.active,
 			'panel-builder__field': true,
 			'panel-builder__accordion-field': true,
 		});
@@ -137,41 +138,45 @@ class Accordion extends Component {
 }
 
 Accordion.propTypes = {
-	depth: PropTypes.number,
-	parentIndex: PropTypes.number,
 	data: PropTypes.object,
-	panelIndex: PropTypes.number,
-	indexMap: PropTypes.array,
-	panelLabel: PropTypes.string,
-	fields: PropTypes.array,
-	label: PropTypes.string,
+	default: PropTypes.array,
+	depth: PropTypes.number,
 	description: PropTypes.string,
+	fields: PropTypes.array,
+	handleExpanderClick: PropTypes.func,
+	hidePanel: PropTypes.func,
+	indexMap: PropTypes.array,
+	label: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
-	default: PropTypes.array,
 	nestedGroupActive: PropTypes.func,
+	panelIndex: PropTypes.number,
+	panelLabel: PropTypes.string,
+	parent: PropTypes.string,
+	parentIndex: PropTypes.number,
+	type: PropTypes.string,
 	updatePanelData: PropTypes.func,
-	hidePanel: PropTypes.func,
-	handleExpanderClick: PropTypes.func,
 };
 
 Accordion.defaultProps = {
-	depth: 0,
-	parentIndex: 0,
-	indexMap: [],
 	data: {},
-	panelIndex: 0,
-	panelLabel: '',
-	fields: [],
-	label: '',
+	default: [],
+	depth: 0,
 	description: '',
+	fields: [],
+	handleExpanderClick: () => {},
+	hidePanel: () => {},
+	indexMap: [],
+	label: '',
 	liveEdit: false,
 	name: '',
-	default: [],
 	nestedGroupActive: () => {},
+	panelIndex: 0,
+	panelLabel: '',
+	parent: '',
+	parentIndex: 0,
+	type: '',
 	updatePanelData: () => {},
-	hidePanel: () => {},
-	handleExpanderClick: () => {},
 };
 
 export default Accordion;
