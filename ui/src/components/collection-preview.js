@@ -36,11 +36,13 @@ class CollectionPreview extends Component {
 	componentDidMount() {
 		this.iframe = this.frame;
 		this.bindEvents();
+		document.body.classList.add('panel-builder-live-preview');
 	}
 
 	componentWillUnmount() {
 		this.unBindEvents();
 		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
+		document.body.classList.remove('panel-builder-live-preview');
 	}
 
 	bindEvents() {
