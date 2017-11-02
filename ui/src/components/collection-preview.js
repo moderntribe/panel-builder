@@ -15,6 +15,7 @@ import * as ajax from '../util/ajax';
 import * as previewTools from '../util/dom/preview';
 import * as heartbeat from '../util/data/heartbeat';
 import * as domTools from '../util/dom/tools';
+import * as tests from '../util/tests';
 import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
@@ -131,6 +132,15 @@ class CollectionPreview extends Component {
 		const target = this.panelCollection.querySelectorAll(`.panel[data-index="${index}"]`)[0];
 		if (!target) {
 			console.warn(`Couldn't find panel to scroll to at index ${index}`);
+			return;
+		}
+		if (tests.isHeaderLayout()) {
+			if (!activate) {
+				return;
+			}
+			target.classList.add(styles.active);
+			target.classList.add(styles.noTransition);
+			this.activePanelNode = target;
 			return;
 		}
 		this.iframeScroller.to(target, 500, () => {

@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { CSS_FILE, BLUEPRINT_TYPES } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
+import * as tests from '../tests';
 
 let iframeEl;
 let styles;
@@ -49,6 +50,9 @@ const injectCSS = () => {
 
 const addClasses = () => {
 	iframeEl.body.classList.add('modular-content-live-preview');
+	if (tests.isHeaderLayout()) {
+		iframeEl.body.classList.add('post-type-header_layout');
+	}
 };
 
 export const setupIframe = (iframe = null, collectionStyles = {}) => {
