@@ -10,11 +10,12 @@ class ImageSelect_Test extends WPTestCase {
 		$name = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
 		$field = new ImageSelect( [
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'default'     => 'left',
-			'options'     => [
+			'label'           => $label,
+			'name'            => $name,
+			'description'     => $description,
+			'default'         => 'left',
+			'can_add_columns' => true,
+			'options'         => [
 				'left'  => [
 					'src'   => 'http://example.com/path/to/module-layout-left.png',
 					'label' => 'Left',
@@ -29,20 +30,21 @@ class ImageSelect_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'ImageSelect',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [ ],
-			'default'     => 'left',
-			'options'     => [
+			'type'            => 'ImageSelect',
+			'label'           => $label,
+			'name'            => $name,
+			'description'     => $description,
+			'strings'         => [],
+			'default'         => 'left',
+			'can_add_columns' => true,
+			'options'         => [
 				[
-					'src' => 'http://example.com/path/to/module-layout-left.png',
+					'src'   => 'http://example.com/path/to/module-layout-left.png',
 					'label' => 'Left',
 					'value' => 'left',
 				],
 				[
-					'src' => 'http://example.com/path/to/module-layout-right.png',
+					'src'   => 'http://example.com/path/to/module-layout-right.png',
 					'label' => 'Right',
 					'value' => 'right',
 				],
