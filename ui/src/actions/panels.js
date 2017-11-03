@@ -1,8 +1,20 @@
+export const INJECT_COLUMNS = 'INJECT_COLUMNS';
 export const MOVE_PANEL = 'MOVE_PANEL';
 export const UPDATE_PANEL_DATA = 'UPDATE_PANEL_DATA';
 export const ADD_PANEL = 'ADD_PANEL';
 export const ADD_PANEL_SET = 'ADD_PANEL_SET';
 export const DELETE_PANEL = 'DELETE_PANEL';
+
+function injectColumnsInData(data) {
+	return {
+		type: INJECT_COLUMNS,
+		data,
+	};
+}
+
+export function injectColumns(data) {
+	return dispatch => dispatch(injectColumnsInData(data));
+}
 
 function movePanelInData(data) {
 	return {

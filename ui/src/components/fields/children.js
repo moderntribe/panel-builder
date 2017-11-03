@@ -60,10 +60,16 @@ class Children extends Component {
 			types: _.values(this.childData.types),
 		};
 		this.el = null;
+		this.handleColumnInjection = this.handleColumnInjection.bind(this);
 	}
 
 	componentDidMount() {
 		this.el = this.childPanels;
+		document.addEventListener(EVENTS.COLUMNS_UPDATED, this.handleColumnInjection);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener(EVENTS.COLUMNS_UPDATED, this.handleColumnInjection);
 	}
 
 	setChildActiveClass() {
@@ -256,6 +262,14 @@ class Children extends Component {
 				types={this.state.types}
 			/>
 		);
+	}
+
+	handleColumnInjection() {
+		console.log(this.props.panels[this.props.indexMap[0]].panels);
+		this.setState({
+			active: false,
+			data: this.props.panels[this.props.indexMap[0]].panels,
+		});
 	}
 
 	@autobind
@@ -523,6 +537,7 @@ class Children extends Component {
 			<div
 				ref={r => this.childPanels = r}
 				className={fieldClasses}
+				data-refresh={this.state.refreshKey}
 				data-info-active="false"
 				data-show-nested="false"
 				data-settings="false"
@@ -553,6 +568,7 @@ Children.propTypes = {
 	indexMap: PropTypes.array,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
+	panels: PropTypes.array,
 	panelLabel: PropTypes.string,
 	parentIndex: PropTypes.number,
 	updateChildPanelData: PropTypes.func.isRequired,
@@ -568,6 +584,7 @@ Children.defaultProps = {
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	indexMap: [],
+	panels: [],
 	liveEdit: false,
 	name: '',
 	panelLabel: '',

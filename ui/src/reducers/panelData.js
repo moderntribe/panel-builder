@@ -3,14 +3,16 @@ import update from 'react/lib/update';
 import {
 	ADD_PANEL,
 	ADD_PANEL_SET,
+	INJECT_COLUMNS,
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
 	DELETE_PANEL,
 } from '../actions/panels';
 
-import { PANELS } from '../globals/config';
+import { PANELS, BLUEPRINT_TYPES } from '../globals/config';
 import arrayMove from '../util/data/array-move';
 import * as storeTools from '../util/data/store';
+import * as defaultData from '../util/data/default-data';
 
 
 const initialData = {
@@ -43,6 +45,23 @@ export function panelData(state = initialData, action) {
 			newState.panels.splice(action.data.index, 0, panel);
 		}
 
+		return newState;
+
+	case INJECT_COLUMNS:
+		const rowBlueprint = _.find(BLUEPRINT_TYPES, { type: 'custom_layout_row' });
+		const columnBlueprint =_.find(rowBlueprint.children.types, { type: 'layout_column' });
+		const columns = JSON.parse(action.data.value).map((column_width) => {
+			const column = {
+				type: 'layout_column',
+				depth: 1,
+				data: defaultData.panel(columnBlueprint),
+				panels: [],
+			};
+			column.data.column_width = column_width;
+			return column;
+		});
+
+		newState.panels[action.data.indexMap[0]].panels = columns;
 		return newState;
 
 	case ADD_PANEL_SET:

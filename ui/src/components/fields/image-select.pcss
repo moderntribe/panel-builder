@@ -12,6 +12,16 @@
 	display: block;
 }
 
+.arrow {
+	transition: transform 200ms ease-in-out;
+	transform: rotate(-90deg);
+	margin-left: 6px;
+
+	&.arrowUp {
+		transform: rotate(90deg);
+	}
+}
+
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
@@ -34,6 +44,16 @@
 
 .container {
 	lost-flex-container: row;
+	overflow: hidden;
+	transition: max-height 600ms ease-in-out;
+
+	&.isColumn {
+		max-height: 1000px;
+	}
+
+	&.hidden {
+		max-height: 0;
+	}
 }
 
 [data-live-edit="false"] {

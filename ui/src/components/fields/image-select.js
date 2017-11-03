@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import { injectColumns } from '../../actions/panels';
 import styles from './image-select.pcss';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
 
 class ImageSelect extends Component {
-	state = {
-		value: this.props.data,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			hidden: this.props.can_add_columns,
+			value: this.props.data,
+		};
+	}
+
+	@autobind
+	handleHeader() {
+		this.setState({ hidden: ! this.state.hidden });
+	}
 
 	@autobind
 	handleChange(e) {
 		const value = e.currentTarget.value;
-		this.setState({ value });
+		if (this.props.can_add_columns) {
+			this.props.injectColumns({
+				indexMap: this.props.indexMap,
+				value,
+			});
+		}
+		this.setState({ value }, () => {
+			if (!this.props.can_add_columns) {
+				return;
+			}
+			trigger({
+				event: EVENTS.COLUMNS_UPDATED,
+				native: false,
+			});
+		});
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
@@ -57,9 +84,22 @@ class ImageSelect extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
+
+		const arrowClasses = classNames({
+			'dashicons': true,
+			'dashicons-arrow-right-alt2': true,
+			[styles.arrow]: this.props.can_add_columns,
+			[styles.arrowUp]: this.state.hidden,
+		});
+
 		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
+		});
+		const containerClasses = classNames({
+			[styles.container]: true,
+			[styles.hidden]: this.state.hidden,
+			[styles.isColumn]: this.props.can_add_columns,
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -69,8 +109,11 @@ class ImageSelect extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
-				<div className={styles.container}>
+				<label className={labelClasses} onClick={this.handleHeader}>
+					{this.props.label}
+					{this.props.can_add_columns && <i className={arrowClasses} />}
+				</label>
+				<div className={containerClasses}>
 					{Options}
 				</div>
 				<p className={descriptionClasses}>{this.props.description}</p>
@@ -79,7 +122,12 @@ class ImageSelect extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => ({
+	injectColumns: data => dispatch(injectColumns(data)),
+});
+
 ImageSelect.propTypes = {
+	can_add_columns: React.PropTypes.bool,
 	label: React.PropTypes.string,
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
@@ -90,10 +138,12 @@ ImageSelect.propTypes = {
 	options: React.PropTypes.array,
 	data: React.PropTypes.string,
 	panelIndex: React.PropTypes.number,
+	injectColumns: React.PropTypes.func,
 	updatePanelData: React.PropTypes.func,
 };
 
 ImageSelect.defaultProps = {
+	can_add_columns: false,
 	label: '',
 	name: '',
 	description: '',
@@ -104,7 +154,8 @@ ImageSelect.defaultProps = {
 	options: [],
 	data: '',
 	panelIndex: 0,
+	injectColumns: () => {},
 	updatePanelData: () => {},
 };
 
-export default ImageSelect;
+export default connect(null, mapDispatchToProps)(ImageSelect);

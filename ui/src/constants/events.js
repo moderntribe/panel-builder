@@ -13,3 +13,5 @@ export const CHILD_PANEL_UPDATED = 'modular_content/child_panel_updated';
 export const CHILD_PANEL_DELETED = 'modular_content/child_panel_deleted';
 export const CHILD_PANEL_ACTIVATED = 'modular_content/child_panel_activated';
 export const CHILD_PANEL_DEACTIVATED = 'modular_content/child_panel_deactivated';
+
+export const COLUMNS_UPDATED = 'modern_tribe/columns_updated';
