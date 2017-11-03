@@ -53,6 +53,7 @@ class ImageSelect extends Component {
 		const imgSelectLabelClasses = classNames({
 			'plimageselect-label': true,
 			[styles.imageSelectLabel]: true,
+			[styles.isColumnImg]: this.props.can_add_columns,
 		});
 
 		const Options = _.map(this.props.options, option =>
@@ -76,7 +77,7 @@ class ImageSelect extends Component {
 						<img src={option.src} alt={option.label} />
 					</span>
 				</div>
-				{option.label}
+				{!this.props.can_add_columns && option.label}
 			</label>,
 		);
 
@@ -103,6 +104,8 @@ class ImageSelect extends Component {
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.hidden]: this.state.hidden,
+			[styles.isColumnType]: this.props.can_add_columns,
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});

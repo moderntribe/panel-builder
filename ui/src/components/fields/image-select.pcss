@@ -1,6 +1,7 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 @import '../../shared/mq.pcss';
+@import '../../shared/transitions.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
@@ -24,6 +25,15 @@
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
+
+	.isColumnType & {
+		transition: color 600ms ease-in-out;
+		color: var(--dialog-error);
+	}
+
+	.hidden.isColumnType & {
+		color: var(--description-text-color);
+	}
 }
 
 .optionImage{
@@ -39,6 +49,10 @@
 		height:auto;
 		box-sizing:border-box;
 		margin-bottom:5px;
+
+		.isColumnImg & {
+			padding: 25px 5px;
+		}
 	}
 }
 

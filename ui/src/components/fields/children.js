@@ -265,7 +265,6 @@ class Children extends Component {
 	}
 
 	handleColumnInjection() {
-		console.log(this.props.panels[this.props.indexMap[0]].panels);
 		this.setState({
 			active: false,
 			data: this.props.panels[this.props.indexMap[0]].panels,
