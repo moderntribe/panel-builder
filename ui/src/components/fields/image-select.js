@@ -20,19 +20,26 @@ class ImageSelect extends Component {
 
 	@autobind
 	handleHeader() {
-		this.setState({ hidden: ! this.state.hidden });
+		this.setState({ hidden: !this.state.hidden });
 	}
 
 	@autobind
 	handleChange(e) {
 		const value = e.currentTarget.value;
 		if (this.props.can_add_columns) {
+			const confirmation = window.confirm('This will replace all existing column data, are you sure?');
+			if (!confirmation) {
+				return;
+			}
 			this.props.injectColumns({
 				indexMap: this.props.indexMap,
 				value,
 			});
 		}
-		this.setState({ value }, () => {
+		this.setState({
+			value,
+			hidden: this.props.can_add_columns,
+		}, () => {
 			if (!this.props.can_add_columns) {
 				return;
 			}
