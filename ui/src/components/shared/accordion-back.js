@@ -52,7 +52,7 @@ class AccordionBack extends Component {
 					handleClick={this.props.handleClick}
 				/>
 				<h3>
-					{this.state.title}
+					<span dangerouslySetInnerHTML={{ __html: this.state.title }} />
 					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
 					<Expander handleClick={this.props.handleExpanderClick} />
 				</h3>
