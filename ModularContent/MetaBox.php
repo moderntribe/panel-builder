@@ -166,6 +166,7 @@ class MetaBox {
 				'heading.refresh_delay'        => __( 'Refresh Delay (seconds)', 'modular-content' ),
 				'message.panel_placeholder'    => __( 'Waiting for panel selection', 'modular-content' ),
 				'message.confirm_delete_panel' => __( 'Delete this panel?', 'modular-content' ),
+				'message.confirm_layout'       => __( 'This will replace all existing column data, are you sure?', 'modular-content' ),
 				'button.confirm'               => __( 'Confirm', 'modular-content' ),
 				'button.cancel'                => __( 'Cancel', 'modular-content' ),
 				'tooltip.panel_up'             => __( 'Move panel up', 'modular-content' ),

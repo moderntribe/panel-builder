@@ -8,14 +8,27 @@ import { injectColumns } from '../../actions/panels';
 import styles from './image-select.pcss';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
+import { UI_I18N } from '../../globals/i18n';
 
 class ImageSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: _.uniqueId('image-select-'),
 			hidden: this.props.can_add_columns,
+			layoutRequest: null,
 			value: this.props.data,
 		};
+		this.confirmColumnInjection = this.confirmColumnInjection.bind(this);
+	}
+
+	componentDidMount() {
+		this.el = this.childPanels;
+		document.addEventListener('modern_tribe/inject_layout', this.confirmColumnInjection);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/inject_layout', this.confirmColumnInjection);
 	}
 
 	@autobind
@@ -23,14 +36,15 @@ class ImageSelect extends Component {
 		this.setState({ hidden: !this.state.hidden });
 	}
 
-	@autobind
-	handleChange(e) {
-		const value = e.currentTarget.value;
+	confirmColumnInjection(e) {
+		if (e.detail.id !== this.state.id) {
+			return;
+		}
+		this.updateState(this.state.layoutRequest);
+	}
+
+	updateState(value) {
 		if (this.props.can_add_columns) {
-			const confirmation = window.confirm('This will replace all existing column data, are you sure?');
-			if (!confirmation) {
-				return;
-			}
 			this.props.injectColumns({
 				indexMap: this.props.indexMap,
 				value,
@@ -54,6 +68,29 @@ class ImageSelect extends Component {
 			name: this.props.name,
 			value,
 		});
+	}
+
+	@autobind
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		if (this.props.can_add_columns) {
+			trigger({
+				event: 'modern_tribe/open_dialog',
+				native: false,
+				data: {
+					type: 'error',
+					confirm: true,
+					heading: UI_I18N['message.confirm_layout'],
+					data: {
+						id: this.state.id,
+					},
+					confirmCallback: 'modern_tribe/inject_layout',
+				},
+			});
+			this.setState({ layoutRequest: value });
+			return;
+		}
+		this.updateState(value);
 	}
 
 	render() {
