@@ -67,6 +67,7 @@
     "redux-thunk": "^2.0.1",
     "sinon": "^2.2.0",
     "sortablejs": "1.6.1",
+    "striptags": "2.2.1",
     "superagent": "^2.0.0",
     "sweet-scroll": "^1.0.3",
     "tinycolor2": "^1.4.1",

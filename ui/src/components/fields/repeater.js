@@ -6,6 +6,7 @@ import Polyglot from 'node-polyglot';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
 import _ from 'lodash';
+import striptags from 'striptags';
 
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
@@ -182,7 +183,7 @@ class Repeater extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3 dangerouslySetInnerHTML={{ __html: title}} />
+				<h3>{striptags(title)}</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
@@ -190,7 +191,7 @@ class Repeater extends Component {
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3 dangerouslySetInnerHTML={{ __html: title}} />
+					<h3>{striptags(title)}</h3>
 					<i className={arrowClasses} />
 				</div>
 				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}

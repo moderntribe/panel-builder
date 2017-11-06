@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import autobind from 'autobind-decorator';
+import striptags from 'striptags';
 
 import Expander from './expander';
 import Button from './button';
@@ -52,7 +53,7 @@ class AccordionBack extends Component {
 					handleClick={this.props.handleClick}
 				/>
 				<h3>
-					<span dangerouslySetInnerHTML={{ __html: this.state.title }} />
+					{striptags(this.state.title)}
 					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
 					<Expander handleClick={this.props.handleExpanderClick} />
 				</h3>
