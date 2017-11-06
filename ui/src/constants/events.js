@@ -15,3 +15,6 @@ export const CHILD_PANEL_ACTIVATED = 'modular_content/child_panel_activated';
 export const CHILD_PANEL_DEACTIVATED = 'modular_content/child_panel_deactivated';
 
 export const COLUMNS_UPDATED = 'modern_tribe/columns_updated';
+export const INJECT_LAYOUT = 'modern_tribe/inject_layout';
+
+export const OPEN_DIALOG = 'modern_tribe/open_dialog';

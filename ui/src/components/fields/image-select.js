@@ -23,12 +23,11 @@ class ImageSelect extends Component {
 	}
 
 	componentDidMount() {
-		this.el = this.childPanels;
-		document.addEventListener('modern_tribe/inject_layout', this.confirmColumnInjection);
+		document.addEventListener(EVENTS.INJECT_LAYOUT, this.confirmColumnInjection);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('modern_tribe/inject_layout', this.confirmColumnInjection);
+		document.removeEventListener(EVENTS.INJECT_LAYOUT, this.confirmColumnInjection);
 	}
 
 	@autobind
@@ -75,7 +74,7 @@ class ImageSelect extends Component {
 		const value = e.currentTarget.value;
 		if (this.props.can_add_columns) {
 			trigger({
-				event: 'modern_tribe/open_dialog',
+				event: EVENTS.OPEN_DIALOG,
 				native: false,
 				data: {
 					type: 'error',
@@ -84,7 +83,7 @@ class ImageSelect extends Component {
 					data: {
 						id: this.state.id,
 					},
-					confirmCallback: 'modern_tribe/inject_layout',
+					confirmCallback: EVENTS.INJECT_LAYOUT,
 				},
 			});
 			this.setState({ layoutRequest: value });
