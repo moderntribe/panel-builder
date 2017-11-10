@@ -278,6 +278,7 @@ class PanelContainer extends Component {
 				active: !this.state.active,
 				index: this.props.index,
 				depth: this.props.depth,
+				type: this.props.type,
 			},
 		});
 	}

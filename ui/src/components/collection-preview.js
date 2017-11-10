@@ -122,6 +122,14 @@ class CollectionPreview extends Component {
 		}, 350);
 
 		this.activePanelNode = null;
+		trigger({
+			event: 'modern_tribe/panel_deactivated',
+			native: false,
+			el: this.iframe,
+			data: {
+				target: panel,
+			},
+		});
 	}
 
 	deactivatePanels() {
@@ -141,6 +149,14 @@ class CollectionPreview extends Component {
 			target.classList.add(styles.active);
 			target.classList.add(styles.noTransition);
 			this.activePanelNode = target;
+			trigger({
+				event: 'modern_tribe/panel_activated',
+				native: false,
+				el: this.iframe,
+				data: {
+					target,
+				},
+			});
 			return;
 		}
 		this.iframeScroller.to(target, 500, () => {
@@ -204,6 +220,14 @@ class CollectionPreview extends Component {
 		panel.classList.add(styles.active);
 		panel.classList.add(styles.noTransition);
 		this.activePanelNode = panel;
+		trigger({
+			event: 'modern_tribe/panel_activated',
+			native: false,
+			el: this.iframe,
+			data: {
+				target: panel,
+			},
+		});
 		trigger({
 			event: 'modern_tribe/panel_activated',
 			native: false,
