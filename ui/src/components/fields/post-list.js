@@ -36,7 +36,7 @@ class PostList extends Component {
 			queryPostsArray: [],   // filtered lists... coming from ajax call not props.data
 			postTypes: this.prepIncomingPostTypes(),
 			filters: this.prepIncomingFilters(),
-			filterValue: '',
+			filterValue: this.getActiveFilter(),
 			max: Math.max(1, this.props.data.max ? parseInt(this.props.data.max, 10) : this.props.suggested),		// assume a string
 		};
 	}
@@ -931,6 +931,26 @@ class PostList extends Component {
 			}
 		});
 		return filters;
+	}
+
+	/**
+	 * todo: @graeme we need to meet, i dont understand the logic for active filter. we appear to allow multiples
+	 * but you set this.state.filterValue to a string
+	 * @returns {string}
+	 */
+
+	getActiveFilter() {
+		let filterValue = '';
+		Object.entries(this.props.data.filters).forEach(([key, entry]) => {
+			if (key === 'post_type') {
+				return;
+			}
+			const filterProps = this.getPropFilterByKey(key);
+			filterValue = filterProps.value;
+			console.log(filterProps);
+		});
+		console.log(filterValue);
+		return filterValue;
 	}
 
 	/**
