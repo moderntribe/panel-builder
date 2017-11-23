@@ -15,6 +15,21 @@ export const CONFIG_DEFAULTS = {
 	},
 	media_buttons_html: '',
 	panels: [],
+	permissions: {
+		can_edit_panel_settings: true,
+		can_add_panels: true,
+		can_delete_panels: true,
+		can_sort_panels: true,
+		can_add_rows: true,
+		can_delete_rows: true,
+		can_sort_rows: true,
+		can_add_child_panels: true,
+		can_delete_child_panels: true,
+		can_sort_child_panels: true,
+		can_add_panel_sets: true,
+		can_save_panel_sets: true,
+		can_edit_panel_sets: true,
+	},
 	preview_url: '',
 	fields: {
 		post_list: {
