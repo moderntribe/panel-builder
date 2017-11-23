@@ -24,6 +24,7 @@ import { trigger } from '../../util/events';
 import { UI_I18N } from '../../globals/i18n';
 
 import styles from './children.pcss';
+import { PERMISSIONS } from '../../globals/config';
 
 zenscroll.setup(200, 40);
 
@@ -117,14 +118,14 @@ class Children extends Component {
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				<Button
+				{PERMISSIONS.can_delete_child_panels && <Button
 					icon="dashicons-trash"
 					text={deleteLabel}
 					bare
 					full={false}
 					classes={styles.deleteRow}
 					handleClick={this.handleDeleteRow}
-				/>
+				/>}
 			</div>
 		);
 	}
@@ -204,13 +205,13 @@ class Children extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return (
+		return PERMISSIONS.can_sort_child_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Headers}
 			</Sortable>
-		);
+		) : <div>{Headers}</div>;
 	}
 
 	/**
@@ -222,7 +223,7 @@ class Children extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.childData.max) {
+		if (this.state.data.length < this.childData.max && PERMISSIONS.can_add_child_panels) {
 			const classes = classNames({
 				'children-add-row': true,
 				[styles.addRow]: true,

@@ -28,6 +28,7 @@ export const CONFIG_DEFAULTS = {
 		can_sort_child_panels: true,
 		can_add_panel_sets: true,
 		can_save_panel_sets: true,
+		can_edit_panel_sets: true,
 	},
 	preview_url: '',
 	fields: {
