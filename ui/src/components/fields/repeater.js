@@ -6,6 +6,7 @@ import Polyglot from 'node-polyglot';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
 import _ from 'lodash';
+import striptags from 'striptags';
 
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
@@ -95,6 +96,14 @@ class Repeater extends Component {
 		return fieldData;
 	}
 
+	getRowIndexLabel(index) {
+		const polyglot = new Polyglot();
+		polyglot.extend({
+			row_index: this.props.strings['label.row_index'],
+		});
+		return polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
+	}
+
 	/**
 	 * Uses Fieldbuilder and Button to generate an accordion hidden field group which is animated into place.
 	 *
@@ -104,7 +113,8 @@ class Repeater extends Component {
 	@autobind
 	getActiveRow() {
 		const rowData = this.state.data[this.state.activeIndex] ? this.state.data[this.state.activeIndex] : {};
-		const title = rowData.title && rowData.title.length ? rowData.title : `Row ${this.state.activeIndex + 1}`;
+		const rowIndexLabel = this.getRowIndexLabel(this.state.activeIndex);
+		const title = rowData.title && rowData.title.length ? rowData.title : rowIndexLabel;
 		const deleteLabel = this.props.strings['button.delete'];
 		const fieldClasses = classNames({
 			[styles.fields]: true,
@@ -151,11 +161,7 @@ class Repeater extends Component {
 	 */
 
 	getHeader(data = {}, index) {
-		const polyglot = new Polyglot();
-		polyglot.extend({
-			row_index: this.props.strings['label.row_index'],
-		});
-		const rowIndexLabel = polyglot.t('row_index', { index: index + 1, smart_count: index + 1 });
+		const rowIndexLabel = this.getRowIndexLabel(index);
 		const title = data.title && data.title.length ? data.title : rowIndexLabel;
 		const headerClasses = classNames({
 			[styles.header]: true,
@@ -177,7 +183,7 @@ class Repeater extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{title}</h3>
+				<h3>{striptags(title)}</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
@@ -185,7 +191,7 @@ class Repeater extends Component {
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3>{title}</h3>
+					<h3>{striptags(title)}</h3>
 					<i className={arrowClasses} />
 				</div>
 				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}

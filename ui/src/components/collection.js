@@ -6,7 +6,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -497,17 +497,17 @@ class PanelCollection extends Component {
 			);
 		});
 
-		return (
+		return PERMISSIONS.can_sort_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Panels}
 			</Sortable>
-		);
+		) : <div>{Panels}</div>;
 	}
 
 	renderPicker() {
-		return !this.state.panelSetPickerActive ? (
+		return !this.state.panelSetPickerActive && PERMISSIONS.can_add_panels ? (
 			<Picker
 				activate={this.state.pickerActive}
 				handlePickerUpdate={this.togglePicker}
@@ -517,7 +517,7 @@ class PanelCollection extends Component {
 	}
 
 	renderPanelSetPicker() {
-		return this.state.panelSetPickerActive ? (
+		return this.state.panelSetPickerActive && PERMISSIONS.can_add_panel_sets ? (
 			<PanelSetsPicker
 				handleAddPanelSet={this.handleAddPanelSet}
 				handleStartNewPage={this.handleStartNewPage}
