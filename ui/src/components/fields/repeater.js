@@ -19,6 +19,7 @@ import * as EVENTS from '../../constants/events';
 import { trigger } from '../../util/events';
 
 import styles from './repeater.pcss';
+import { PERMISSIONS } from '../../globals/config';
 
 zenscroll.setup(200, 40);
 
@@ -138,14 +139,14 @@ class Repeater extends Component {
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
 					/>
-					<Button
+					{PERMISSIONS.can_delete_rows && <Button
 						icon="dashicons-trash"
 						text={deleteLabel}
 						bare
 						full={false}
 						classes={styles.deleteRow}
 						handleClick={this.handleDeleteRow}
-					/>
+					/>}
 				</div>
 			</div>
 		);
@@ -217,13 +218,13 @@ class Repeater extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return (
+		return PERMISSIONS.can_sort_rows ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Headers}
 			</Sortable>
-		);
+		) : <div>{Headers}</div>;
 	}
 
 	/**
@@ -235,7 +236,7 @@ class Repeater extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.props.max) {
+		if (this.state.data.length < this.props.max && PERMISSIONS.can_add_rows) {
 			AddRow = (
 				<Button
 					icon="dashicons-plus-alt"
