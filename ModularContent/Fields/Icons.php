@@ -11,7 +11,7 @@ namespace ModularContent\Fields;
  */
 class Icons extends Radio {
 
-	protected $class_string;
+	protected $class_string = '';
 
 	/**
 	 * @param array $args
@@ -26,4 +26,27 @@ class Icons extends Radio {
 	    'class_string' => 'fa %s',
 	) );
 	 */
+
+	public function __construct( $args = [] ) {
+		$this->defaults['class_string'] = $this->class_string;
+		parent::__construct( $args );
+	}
+
+	public function get_blueprint() {
+		$blueprint                 = parent::get_blueprint();
+		$options                   = $this->get_options();
+		$blueprint['class_string'] = $this->class_string;
+		$blueprint['options']      = [];
+		foreach ( $options as $key => $label ) {
+
+			$key = is_int( $key ) ? $label : $key; // convert non-associative array keys to the value instead.
+
+			$blueprint['options'][] = [
+				'label' => $label,
+				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
+			];
+		}
+
+		return $blueprint;
+	}
 }
