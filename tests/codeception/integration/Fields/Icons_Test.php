@@ -16,6 +16,7 @@ class Icons_Test extends WPTestCase {
 			'description'  => $description,
 			'default'      => 'fa-one',
 			'class_string' => 'fa %s',
+			'search'       => true,
 			'options'      => [
 				'fa-one',
 				'fa-two',
@@ -33,6 +34,7 @@ class Icons_Test extends WPTestCase {
 			'strings'      => [],
 			'default'      => 'fa-one',
 			'class_string' => 'fa %s',
+			'search'       => true,
 			'options'      => [
 				[
 					'label' => 'fa-one',

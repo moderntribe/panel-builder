@@ -12,6 +12,7 @@ namespace ModularContent\Fields;
 class Icons extends Radio {
 
 	protected $class_string = '';
+	protected $search  = false;
 
 	/**
 	 * @param array $args
@@ -23,12 +24,14 @@ class Icons extends Radio {
 		'name'         => 'list-icon',
 		'description'  => __( 'The icon to use for each list item.' ),
 	    'options'      => [ 'fa-user', 'fa-access-denied', 'fa-list' ],
-	    'class_string' => 'fa %s',
+	    'search'       => true, // whether to display a search field for searching through the available options
+	    'class_string' => 'fa %s', // the class string to be added to the element; %s will be replaced with the selected option
 	) );
 	 */
 
 	public function __construct( $args = [] ) {
 		$this->defaults['class_string'] = $this->class_string;
+		$this->defaults['search']       = $this->search;
 		parent::__construct( $args );
 	}
 
@@ -36,6 +39,7 @@ class Icons extends Radio {
 		$blueprint                 = parent::get_blueprint();
 		$options                   = $this->get_options();
 		$blueprint['class_string'] = $this->class_string;
+		$blueprint['search']       = $this->search;
 		$blueprint['options']      = [];
 		foreach ( $options as $key => $label ) {
 
