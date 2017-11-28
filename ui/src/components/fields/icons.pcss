@@ -1,0 +1,74 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/mq.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	transform: translate3d(0, 0, 0);
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: block;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.search {
+	width: 100%;
+	padding: 8px 10px;
+	margin: 10px 0;
+}
+
+.iconLabel {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	input {
+		position: absolute;
+		left: -9999px;
+		opacity: 0;
+
+		&:checked + i {
+			color: var(--color-primary);
+		}
+	}
+
+	&:hover i {
+		color: var(--color-primary);
+	}
+}
+
+.icon {
+
+}
+
+[data-live-edit="false"] {
+	.iconLabel {
+
+	}
+}
+
+[data-live-edit="true"] {
+	.iconLabel {
+
+	}
+	[data-expanded="true"] {
+		.iconLabel {
+
+		}
+	}
+}
