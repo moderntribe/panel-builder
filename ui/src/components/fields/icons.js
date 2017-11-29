@@ -86,7 +86,12 @@ class Icons extends Component {
 			'panel-field-description': true,
 		});
 		const containerClasses = classNames({
+			'panel-icon-container': true,
 			[styles.container]: true,
+		});
+		const searchClasses = classNames({
+			'panel-icon-search': true,
+			[styles.searchWrapper]: true,
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -99,8 +104,8 @@ class Icons extends Component {
 				<label className={labelClasses}>
 					{this.props.label}
 				</label>
-				{this.props.search && <div className={styles.searchWrapper}>
-					<input className={styles.search} value={this.state.search} onChange={this.handleSearch} placeholder="Search Icon Library" />
+				{this.props.search && <div className={searchClasses}>
+					<input className={styles.search} value={this.state.search} onChange={this.handleSearch} placeholder={this.props.strings['placeholder.search']} />
 				</div>}
 				<div className={containerClasses}>
 					{Options}

@@ -30,6 +30,9 @@ class Icons extends Radio {
 	 */
 
 	public function __construct( $args = [] ) {
+		$this->defaults[ 'strings' ] = [
+			'placeholder.search' => __( 'Search Icon Library', 'modular-content' ),
+		];
 		$this->defaults['class_string'] = $this->class_string;
 		$this->defaults['search']       = $this->search;
 		parent::__construct( $args );
