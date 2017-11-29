@@ -51,8 +51,9 @@ class Icons extends Component {
 		});
 
 		const Options = _.map(this.getOptionsForState(), (option) => {
+			const externalClasses = this.props.class_string.replace('%s', option.value);
 			const iconClasses = classNames({
-				'fa': true,
+				[externalClasses]: true,
 				'fa-2x': true,
 				[styles.icon]: true,
 				[option.value]: true,
@@ -118,6 +119,7 @@ class Icons extends Component {
 
 Icons.propTypes = {
 	label: React.PropTypes.string,
+	class_string: React.PropTypes.string,
 	name: React.PropTypes.string,
 	description: React.PropTypes.string,
 	strings: React.PropTypes.object,
@@ -133,6 +135,7 @@ Icons.propTypes = {
 
 Icons.defaultProps = {
 	label: '',
+	class_string: 'icon %s',
 	name: '',
 	description: '',
 	indexMap: [],
