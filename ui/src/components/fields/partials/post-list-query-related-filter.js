@@ -13,9 +13,8 @@ class PostListQueryRelatedFilter extends Component {
 	constructor(props) {
 		super(props);
 		this.getOptions = _.debounce(this.getOptions.bind(this), 450);
+		this.state = this.getInitialState();
 	}
-	
-	state = this.getInitialState();
 
 	noResults = { // eslint-disable-line
 		options: [{
@@ -23,6 +22,39 @@ class PostListQueryRelatedFilter extends Component {
 			label: this.props.strings['label.relationship-no-results'],
 		}],
 	};
+
+	/**
+	 * Retrieve initial state
+	 *
+	 * @method getInitialState
+	 */
+	getInitialState() {
+		const state = {
+			postTypes: [],
+			post: this.props.selection ? parseInt(this.props.selection, 10) : '',
+			postOptions: [],
+			postsIsLoading: false,
+			isSavedSelection: Boolean(this.props.selection),
+		};
+
+		// if we have a post but no post options for saved state
+		if (state.post && state.postOptions.length < 1) {
+			const cachedPost = AdminCache.getPostById(state.post);
+			if (cachedPost) {
+				state.postOptions = [{
+					value: cachedPost.ID,
+					label: cachedPost.post_title,
+				}];
+				const pType = _.find(this.props.postTypes, { value: cachedPost.post_type });
+				if (pType) {
+					state.postTypes = [
+						pType,
+					];
+				}
+			}
+		}
+		return state;
+	}
 
 	componentWillMount() {
 		if (this.state.isSavedSelection) {
@@ -71,39 +103,6 @@ class PostListQueryRelatedFilter extends Component {
 			}
 			this.setState(newState);
 		});
-	}
-
-	/**
-	 * Retrieve initial state
-	 *
-	 * @method getInitialState
-	 */
-	getInitialState() {
-		let state = {
-			postTypes: [],
-			post: this.props.selection ? parseInt(this.props.selection, 10) : '',
-			postOptions: [],
-			postsIsLoading: false,
-			isSavedSelection: Boolean(this.props.selection),
-		};
-
-		// if we have a post but no post options for saved state
-		if (state.post && state.postOptions.length < 1 ) {
-			const cachedPost = AdminCache.getPostById(state.post);
-			if (cachedPost) {
-				state.postOptions = [{
-					value: cachedPost.ID,
-					label: cachedPost.post_title,
-				}];
-				const pType = _.find(this.props.postTypes, { 'value' : cachedPost.post_type });
-				if (pType) {
-					state.postTypes = [
-						pType
-					];
-				}
-			}
-		}
-		return state;
 	}
 
 	/**
@@ -207,7 +206,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	filterID: '',
 	label: '',
 	selection: null,
-	strings: {}
+	strings: {},
 };
 
 export default PostListQueryRelatedFilter;
