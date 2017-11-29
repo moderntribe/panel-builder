@@ -15,13 +15,7 @@ class PostListQueryRelatedFilter extends Component {
 		this.getOptions = _.debounce(this.getOptions.bind(this), 450);
 	}
 	
-	state = {
-		postTypes: [],
-		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
-		postOptions: [],
-		postsIsLoading: false,
-		isSavedSelection: Boolean(this.props.selection),
-	};
+	state = this.getInitialState();
 
 	noResults = { // eslint-disable-line
 		options: [{
@@ -77,6 +71,39 @@ class PostListQueryRelatedFilter extends Component {
 			}
 			this.setState(newState);
 		});
+	}
+
+	/**
+	 * Retrieve initial state
+	 *
+	 * @method getInitialState
+	 */
+	getInitialState() {
+		let state = {
+			postTypes: [],
+			post: this.props.selection ? parseInt(this.props.selection, 10) : '',
+			postOptions: [],
+			postsIsLoading: false,
+			isSavedSelection: Boolean(this.props.selection),
+		};
+
+		// if we have a post but no post options for saved state
+		if (state.post && state.postOptions.length < 1 ) {
+			const cachedPost = AdminCache.getPostById(state.post);
+			if (cachedPost) {
+				state.postOptions = [{
+					value: cachedPost.ID,
+					label: cachedPost.post_title,
+				}];
+				const pType = _.find(this.props.postTypes, { 'value' : cachedPost.post_type });
+				if (pType) {
+					state.postTypes = [
+						pType
+					];
+				}
+			}
+		}
+		return state;
 	}
 
 	/**
@@ -180,7 +207,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	filterID: '',
 	label: '',
 	selection: null,
-	strings: {},
+	strings: {}
 };
 
 export default PostListQueryRelatedFilter;
