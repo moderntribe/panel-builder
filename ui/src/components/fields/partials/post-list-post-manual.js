@@ -169,7 +169,7 @@ class PostListPostManual extends Component {
 					type="text"
 					className={titleClasses}
 					onChange={this.handleTitleChange}
-					name="post_title"
+					name="post_custom_title"
 					value={this.state.postTitle}
 					placeholder={this.props.strings['label.title']}
 				/>}
