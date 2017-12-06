@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 import request from 'superagent';
@@ -9,11 +10,11 @@ import * as AdminCache from '../../../util/data/admin-cache';
 import styles from './post-list-query-related-filter.pcss';
 
 class PostListQueryRelatedFilter extends Component {
-	state = {
-		postTypes: [],
-		post: this.props.selection ? parseInt(this.props.selection, 10) : '',
-		isSavedSelection: Boolean(this.props.selection),
-	};
+	constructor(props) {
+		super(props);
+		this.getOptions = _.debounce(this.getOptions.bind(this), 450);
+		this.state = this.getInitialState();
+	}
 
 	noResults = { // eslint-disable-line
 		options: [{
@@ -21,6 +22,39 @@ class PostListQueryRelatedFilter extends Component {
 			label: this.props.strings['label.relationship-no-results'],
 		}],
 	};
+
+	/**
+	 * Retrieve initial state
+	 *
+	 * @method getInitialState
+	 */
+	getInitialState() {
+		const state = {
+			postTypes: [],
+			post: this.props.selection ? parseInt(this.props.selection, 10) : '',
+			postOptions: [],
+			postsIsLoading: false,
+			isSavedSelection: Boolean(this.props.selection),
+		};
+
+		// if we have a post but no post options for saved state
+		if (state.post && state.postOptions.length < 1) {
+			const cachedPost = AdminCache.getPostById(state.post);
+			if (cachedPost) {
+				state.postOptions = [{
+					value: cachedPost.ID,
+					label: cachedPost.post_title,
+				}];
+				const pType = _.find(this.props.postTypes, { value: cachedPost.post_type });
+				if (pType) {
+					state.postTypes = [
+						pType,
+					];
+				}
+			}
+		}
+		return state;
+	}
 
 	componentWillMount() {
 		if (this.state.isSavedSelection) {
@@ -59,21 +93,15 @@ class PostListQueryRelatedFilter extends Component {
 	 *
 	 * @method getOptions
 	 */
-	@autobind
-	getOptions(input, callback) {
-		let data = this.noResults;
-		if (!this.state.postTypes.length && !input.length) {
-			callback(null, data);
-			return;
-		}
-		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(input)}`;
+	getOptions(value) {
+		this.setState({ postsIsLoading: true });
+		const ajaxURL = `${window.ajaxurl}?${this.getSearchRequestParams(value)}`;
 		request.get(ajaxURL).end((err, response) => {
+			const newState = { postsIsLoading: false };
 			if (response.body.posts.length) {
-				data = {
-					options: response.body.posts,
-				};
+				newState.postOptions = response.body.posts;
 			}
-			callback(null, data);
+			this.setState(newState);
 		});
 	}
 
@@ -89,6 +117,14 @@ class PostListQueryRelatedFilter extends Component {
 				postTypes,
 			});
 		}
+	}
+
+	@autobind
+	maybeGetOptions(input) {
+		if (input.currentTarget.value.length) {
+			return;
+		}
+		this.getOptions(input.currentTarget.value);
 	}
 
 	/**
@@ -137,12 +173,15 @@ class PostListQueryRelatedFilter extends Component {
 						placeholder={this.props.strings['label.relationship-post-type-placeholder']}
 						onChange={this.handleTypeChange}
 					/>
-					<ReactSelect.Async
+					<ReactSelect
 						value={this.state.post}
 						name="manual-selected-post"
-						loadOptions={this.getOptions}
+						isLoading={this.state.postsIsLoading}
+						options={this.state.postOptions}
 						placeholder={this.props.strings['label.relationship-post-select-placeholder']}
 						onChange={this.handlePostChange}
+						onInputChange={this.getOptions}
+						onFocus={this.maybeGetOptions}
 					/>
 				</span>
 			</div>
