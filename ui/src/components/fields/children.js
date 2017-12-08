@@ -19,6 +19,7 @@ import * as defaultData from '../../util/data/default-data';
 import * as tools from '../../util/dom/tools';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
 import * as EVENTS from '../../constants/events';
+import * as FINDLAW from '../../constants/findlaw';
 import { trigger } from '../../util/events';
 
 import { UI_I18N } from '../../globals/i18n';
@@ -136,6 +137,23 @@ class Children extends Component {
 		);
 	}
 
+	getColumnWidth(data = {}) {
+		if (!data[FINDLAW.FIELD_COLUMN_WIDTH]) {
+			return null;
+		}
+		return _.times(data[FINDLAW.FIELD_COLUMN_WIDTH], () => (
+			<span className={styles.columnWidthItem} key={_.uniqueId('column-display-')} />
+		));
+	}
+
+	getSubtitle(data = {}, blueprint = {}) {
+		return data.type !== FINDLAW.TYPE_COLUMN ? (
+			<span className={styles.typeHeading}>({blueprint.label})</span>
+		) : (
+			<span className={styles.columnWidthDisplay}>{this.getColumnWidth(data.data)}</span>
+		);
+	}
+
 	/**
 	 * Prints all headers which trigger accordions with an index used to activate their targets when clicked.
 	 *
@@ -146,7 +164,8 @@ class Children extends Component {
 
 	getHeader(data = {}, index) {
 		const dataTitle = data.data.title;
-		const title = dataTitle && dataTitle.length ? dataTitle : this.childData.label.singular;
+		const rowIndex = data.type === FINDLAW.TYPE_COLUMN ? ` ${index + 1}` : '';
+		const title = dataTitle && dataTitle.length ? dataTitle : `${this.childData.label.singular}${rowIndex}`;
 		const blueprint = _.find(this.state.types, { type: data.type });
 		if (!blueprint) {
 			return null;
@@ -171,9 +190,9 @@ class Children extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>
+				<h3 className={styles.rowHeading}>
 					{title}
-					<span className={styles.typeHeading}>({blueprint.label})</span>
+					{this.getSubtitle(data, blueprint)}
 				</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
@@ -182,9 +201,9 @@ class Children extends Component {
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3>
+					<h3 className={styles.rowHeading}>
 						{title}
-						<span className={styles.typeHeading}>({blueprint.label})</span>
+						{this.getSubtitle(data, blueprint)}
 					</h3>
 					<i className={arrowClasses} />
 				</div>
