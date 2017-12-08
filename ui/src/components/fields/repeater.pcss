@@ -35,6 +35,8 @@
 	transform: translate3d(0, 0, 0);
 	margin-bottom: var(--panel-margin-vertical);
 	transform: translate3d(0, 0, 0);
+	display: flex;
+	align-items: center;
 }
 
 [data-live-edit="false"] {
@@ -56,6 +58,28 @@
 			text-align: right;
 		}
 	}
+}
+
+.iconWrap {
+	position: absolute;
+	width: 20px;
+	left: 15px;
+	height: 100%;
+	top: 0;
+	display: flex;
+	align-items: center;
+}
+
+.iconImage {
+	width: 100%;
+}
+
+.iconIcon {
+	font-size: 1.4em;
+}
+
+.hasIcon {
+	padding-left: 46px;
 }
 
 .back{

@@ -16,6 +16,8 @@ import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
 import * as defaultData from '../../util/data/default-data';
 import * as EVENTS from '../../constants/events';
+import * as FINDLAW from '../../constants/findlaw';
+import * as AdminCache from '../../util/data/admin-cache';
 import { trigger } from '../../util/events';
 
 import styles from './repeater.pcss';
@@ -168,6 +170,7 @@ class Repeater extends Component {
 			[styles.header]: true,
 			'panel-row-header': true,
 			'repeater-header': true,
+			[styles.hasIcon]: data[FINDLAW.FIELD_ICON_LIBRARY] || data[FINDLAW.FIELD_ICON_ICON_IMAGE],
 		});
 		const arrowClasses = classNames({
 			'dashicons': true,
@@ -184,7 +187,8 @@ class Repeater extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{striptags(title)}</h3>
+				{this.maybeGetIcon(data)}
+				<h3 className={styles.rowHeading}>{striptags(title)}</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
@@ -192,7 +196,8 @@ class Repeater extends Component {
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3>{striptags(title)}</h3>
+					{this.maybeGetIcon(data)}
+					<h3 className={styles.rowHeading}>{striptags(title)}</h3>
 					<i className={arrowClasses} />
 				</div>
 				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
@@ -252,6 +257,26 @@ class Repeater extends Component {
 			AddRow = <p className={styles.maxMessage}>{this.props.strings['button.max_rows']}</p>;
 		}
 		return AddRow;
+	}
+
+	maybeGetIcon(data = {}) {
+		if (!data[FINDLAW.FIELD_ICON_LIBRARY] && !data[FINDLAW.FIELD_ICON_ICON_IMAGE]) {
+			return null;
+		}
+		const iconClasses = classNames({
+			fa: true,
+			[data[FINDLAW.FIELD_ICON_LIBRARY]]: true,
+			[styles.iconIcon]: true,
+		});
+		return data[FINDLAW.FIELD_ICON_ICON_IMAGE] !== 0 ? (
+			<span className={styles.iconWrap}>
+				<img className={styles.iconImage} src={AdminCache.getImageSrcById(data[FINDLAW.FIELD_ICON_ICON_IMAGE])} alt="" />
+			</span>
+		) : (
+			<span className={styles.iconWrap}>
+				<i className={iconClasses} />
+			</span>
+		);
 	}
 
 	handleSort(e) {
