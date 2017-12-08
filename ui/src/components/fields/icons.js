@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import styles from './icons.pcss';
+import Button from '../shared/button';
 
 class Icons extends Component {
 	constructor(props) {
@@ -20,6 +21,38 @@ class Icons extends Component {
 			return this.props.options;
 		}
 		return this.props.options.filter(icon => icon.value.indexOf(this.state.search) !== -1);
+	}
+
+	getSelectedIcon() {
+		const externalClasses = this.props.class_string.replace('%s', this.state.value);
+		const iconClasses = classNames({
+			[externalClasses]: true,
+			[styles.selectedIcon]: true,
+		});
+		return (
+			<div className={styles.selectedWrap}>
+				{this.props.strings['label.selected']}
+				<i className={iconClasses} />
+				<Button
+					icon="dashicons-trash"
+					bare
+					full={false}
+					classes={styles.deleteIcon}
+					handleClick={this.handleDeleteIcon}
+				/>
+			</div>
+		);
+	}
+
+	@autobind
+	handleDeleteIcon() {
+		this.setState({ value: '' });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			name: this.props.name,
+			value: '',
+		});
 	}
 
 	@autobind
@@ -54,9 +87,7 @@ class Icons extends Component {
 			const externalClasses = this.props.class_string.replace('%s', option.value);
 			const iconClasses = classNames({
 				[externalClasses]: true,
-				'fa-2x': true,
 				[styles.icon]: true,
-				[option.value]: true,
 			});
 			return (
 				<label
@@ -105,6 +136,7 @@ class Icons extends Component {
 				<label className={labelClasses}>
 					{this.props.label}
 				</label>
+				{this.state.value.length > 0 && this.getSelectedIcon()}
 				{this.props.search && <div className={searchClasses}>
 					<input className={styles.search} value={this.state.search} onChange={this.handleSearch} placeholder={this.props.strings['placeholder.search']} />
 				</div>}
