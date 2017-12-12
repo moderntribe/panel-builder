@@ -26,6 +26,7 @@ class Repeater extends Group {
 	protected $min = 0;
 	protected $max = 0;
 	protected $new_button_label = '';
+	protected $settings_fields = [];
 
 	/**
 	 * @param array $args
@@ -75,6 +76,26 @@ class Repeater extends Group {
 	public function add_field( Field $field ) {
 		$this->fields[$field->get_name()] = $field;
 	}
+
+	/**
+	 * @param Field $field
+	 */
+	public function add_settings_field( Field $field ) {
+		$this->add_field( $field );
+		$this->settings_fields[] = $field->get_name();
+	}
+
+	/**
+	 * Determine if the field with the given name should
+	 * be displayed in the Settings tab
+	 *
+	 * @param string $field_name
+	 *
+	 * @return bool
+	 */
+	public function is_settings_field( $field_name ) {
+		return in_array( $field_name, $this->settings_fields, true );
+		}
 
 	/**
 	 * @param $name
@@ -172,9 +193,11 @@ class Repeater extends Group {
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
-		$blueprint['min'] = $this->min;
-		$blueprint['max'] = $this->max;
+		$blueprint                    = parent::get_blueprint();
+		$blueprint['min']             = $this->min;
+		$blueprint['max']             = $this->max;
+		$blueprint['settings_fields'] = $this->settings_fields;
+
 		return $blueprint;
 	}
 
