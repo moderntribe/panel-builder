@@ -10,7 +10,7 @@ import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
 import { UI_I18N } from '../../globals/i18n';
 
-class ImageSelect extends Component {
+export class ImageSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

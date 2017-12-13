@@ -22,6 +22,7 @@ import { trigger } from '../../util/events';
 
 import styles from './repeater.pcss';
 import { PERMISSIONS } from '../../globals/config';
+import { UI_I18N } from '../../globals/i18n';
 
 zenscroll.setup(200, 40);
 
@@ -133,8 +134,10 @@ class Repeater extends Component {
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
 				<div className={styles.fieldWrap}>
+					{PERMISSIONS.can_edit_panel_settings && this.renderSettingsToggle()}
 					<FieldBuilder
 						fields={this.props.fields}
+						settings_fields={this.props.settings_fields}
 						data={rowData}
 						parent={this.props.name}
 						index={this.props.panelIndex}
@@ -478,6 +481,35 @@ class Repeater extends Component {
 		});
 	}
 
+	@autobind
+	enableSettingsMode() {
+		this.el.classList.add(styles.settingsActive);
+	}
+
+	@autobind
+	enableContentMode() {
+		this.el.classList.remove(styles.settingsActive);
+	}
+
+	renderSettingsToggle() {
+		return this.props.settings_fields.length ? (
+			<div className={styles.settings}>
+				<Button
+					text={UI_I18N['tab.content']}
+					full={false}
+					classes={styles.contentButton}
+					handleClick={this.enableContentMode}
+				/>
+				<Button
+					text={UI_I18N['tab.settings']}
+					full={false}
+					classes={styles.settingsButton}
+					handleClick={this.enableSettingsMode}
+				/>
+			</div>
+		) : null;
+	}
+
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -525,6 +557,7 @@ Repeater.propTypes = {
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
+	settings_fields: React.PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
@@ -550,6 +583,7 @@ Repeater.defaultProps = {
 	liveEdit: false,
 	name: '',
 	default: [],
+	settings_fields: [],
 	updatePanelData: () => {},
 	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import ImageSelect from 'components/fields/image-select';
+import { ImageSelect } from 'components/fields/image-select';
 
 // test data
 const OPTIONS1 = [
