@@ -31,6 +31,7 @@ const canLocalStore = () => {
 };
 
 const isHeaderLayout = () => document.body.classList.contains('post-type-header_layout');
+const isFooterLayout = () => document.body.classList.contains('post-type-footer_layout');
 
 const browserTests = () => ({
 	android: /Android/i.test(window.navigator.userAgent) && /Mobile/i.test(window.navigator.userAgent),
@@ -45,4 +46,4 @@ const browserTests = () => ({
 	os: navigator.platform,
 });
 
-export { isJson, canLocalStore, browserTests, isHeaderLayout };
+export { isJson, canLocalStore, browserTests, isHeaderLayout, isFooterLayout };

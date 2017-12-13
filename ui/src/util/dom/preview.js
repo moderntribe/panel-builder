@@ -52,6 +52,8 @@ const addClasses = () => {
 	iframeEl.body.classList.add('modular-content-live-preview');
 	if (tests.isHeaderLayout()) {
 		iframeEl.body.classList.add('post-type-header_layout');
+	} else if (tests.isFooterLayout()) {
+		iframeEl.body.classList.add('post-type-footer_layout');
 	}
 };
 
