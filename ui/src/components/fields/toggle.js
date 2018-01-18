@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { I18N } from '../../globals/i18n';
 import field from '../shared/field';
 import * as styleUtil from '../../util/dom/styles';
 import styles from './toggle.pcss';
 
 export const Toggle = (props) => {
-	const handleChange = e => props.updateValue(e.currentTarget.value === 0 ? 1 : 0);
+	const handleChange = e => props.updateValue(parseInt(e.currentTarget.value, 10) === 0 ? 1 : 0);
 
 	const renderOptions = () => {
 		const toggleLabelClasses = classNames({
-			'site-builder__toggle-label': false,
+			'modular-content-toggle-label': false,
 			'toggle': true,
 			[styles.toggleLabel]: true,
 		});
@@ -29,14 +28,13 @@ export const Toggle = (props) => {
 					type="checkbox"
 					value={props.value}
 					tabIndex={0}
-					name={`modular-content-${this.props.name}`}
+					name={`modular-content-${props.name}`}
 					className={styles.toggleInput}
 					onChange={handleChange}
-					checked={props.value === 'on'}
+					checked={props.value === 1}
 				/>
 				<div
 					className={sliderClasses}
-					data-string={props.value === 'on' ? I18N.toggle_on_off.toggle_on : I18N.toggle_on_off.toggle_off}
 				/>
 				<span />
 			</label>
@@ -63,7 +61,7 @@ Toggle.propTypes = {
 	name: PropTypes.string,
 	options: PropTypes.array,
 	updateValue: PropTypes.func,
-	value: PropTypes.string,
+	value: PropTypes.number,
 };
 
 Toggle.defaultProps = {
@@ -73,7 +71,7 @@ Toggle.defaultProps = {
 	name: '',
 	options: [],
 	updateValue: () => {},
-	value: '',
+	value: 0,
 };
 
 export default field(Toggle);
