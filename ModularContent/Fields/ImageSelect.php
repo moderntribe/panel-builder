@@ -37,9 +37,11 @@ use ModularContent\Panel;
 class ImageSelect extends Radio {
 
 	protected $can_add_columns = false;
+	protected $option_width = 6;
 
 	public function __construct( $args = [] ) {
 		$this->defaults['can_add_columns'] = $this->can_add_columns;
+		$this->defaults['option_width'] = $this->option_width;
 		parent::__construct( $args );
 	}
 
@@ -73,6 +75,8 @@ class ImageSelect extends Radio {
 			$blueprint['options'][] = $data;
 		}
 		$blueprint['can_add_columns'] = $this->can_add_columns;
+		$blueprint['option_width'] = (int) $this->option_width;
+		unset( $blueprint['layout'] );
 
 		return $blueprint;
 	}

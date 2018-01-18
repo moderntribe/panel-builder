@@ -38,14 +38,13 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	private function single_panel_type_blueprint( PanelType $type, $depth = 0 ) {
-		$blueprint = [ ];
-		$blueprint[ 'type' ] = $type->get_id();
-		$blueprint[ 'label' ] = $type->get_label();
-		$blueprint[ 'description' ] = $type->get_description();
-		$blueprint[ 'thumbnail' ] = $type->get_thumbnail();
-		$blueprint[ 'fields' ] = $this->get_fields( $type );
-		$blueprint[ 'settings_fields' ] = $type->get_settings_field_names();
-		$blueprint[ 'children' ] = [
+		$blueprint                = [];
+		$blueprint['type']        = $type->get_id();
+		$blueprint['label']       = $type->get_label();
+		$blueprint['description'] = $type->get_description();
+		$blueprint['thumbnail']   = $type->get_thumbnail();
+		$blueprint['fields']      = $this->get_fields( $type );
+		$blueprint['children']    = [
 			'max'   => $type->get_max_children(),
 			'label' => [
 				'singular' => $type->get_string( 'child.singular' ),
@@ -56,7 +55,18 @@ class Blueprint_Builder implements \JsonSerializable {
 			'types' => $this->get_child_types( $type, $depth + 1 ),
 		];
 
+		$this->get_tabbed_fields( $blueprint, $type );
+
 		return $blueprint;
+	}
+
+	protected function get_tabbed_fields( &$blueprint, PanelType $type ) {
+		$tabbed_fields = $type->get_tabbed_field_names();
+
+		foreach ( $tabbed_fields as $tab => $fields ) {
+			$tab_name               = sprintf( '%s_fields', $tab );
+			$blueprint[ $tab_name ] = $fields;
+		}
 	}
 
 	private function get_fields( PanelType $type ) {

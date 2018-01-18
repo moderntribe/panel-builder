@@ -25,6 +25,7 @@ class ImageSelect_Test extends WPTestCase {
 					'label' => 'Right',
 				],
 			],
+			'option_width' => 5,
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -49,8 +50,23 @@ class ImageSelect_Test extends WPTestCase {
 					'value' => 'right',
 				],
 			],
+			'option_width' => 5,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_option_width_error() {
+		$valid = true;
+
+		try {
+			new ImageSelect( [
+				'option_width' => 14,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }

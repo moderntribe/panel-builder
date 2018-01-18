@@ -13,8 +13,10 @@ use ModularContent\Panel;
  * A select box.
  */
 class Select extends Field {
-	protected $options = array();
+
+	protected $options       = [];
 	protected $options_cache = NULL;
+	protected $layout        = 'compact';
 
 	/**
 	 * @param array $args
@@ -31,9 +33,18 @@ class Select extends Field {
 	 *   )
 	 * ) );
 	 */
-	public function __construct( $args = array() ){
+	public function __construct( $args = [] ) {
+		$this->check_layout( $args );
+
 		$this->defaults['options'] = $this->options;
-		parent::__construct($args);
+		$this->defaults['layout']  = $this->layout;
+		parent::__construct( $args );
+	}
+
+	protected function check_layout( $args ) {
+		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' ) {
+			throw new \LogicException( 'Layout argument can only be "compact" or "full".' );
+		}
 	}
 
 	protected function get_options() {
@@ -61,6 +72,7 @@ class Select extends Field {
 				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
 			];
 		}
+		$blueprint['layout'] = $this->layout;
 		return $blueprint;
 	}
 

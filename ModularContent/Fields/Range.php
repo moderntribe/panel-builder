@@ -40,6 +40,9 @@ class Range extends Number {
 		$blueprint['handles']   = $this->handles;
 		$blueprint['has_input'] = $this->has_input;
 
+		unset( $blueprint['input_width'] );
+		unset( $blueprint['layout'] );
+
 		return $blueprint;
 	}
 

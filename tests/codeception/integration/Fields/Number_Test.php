@@ -25,6 +25,8 @@ class Number_Test extends WPTestCase {
 			'max'          => $max,
 			'step'         => $step,
 			'unit_display' => $unit_display,
+			'input_width'  => 3,
+			'layout'       => 'compact',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -40,8 +42,53 @@ class Number_Test extends WPTestCase {
 			'max'          => $max,
 			'step'         => $step,
 			'unit_display' => $unit_display,
+			'input_width'  => 3,
+			'layout'       => 'compact',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_input_width_error() {
+		$valid = true;
+
+		try {
+			new Number( [
+				'input_width' => 14,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
+
+	public function test_layout_error() {
+		$valid = true;
+
+		try {
+			new Number( [
+				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
+
+	public function test_input_and_layout_error() {
+		$valid = true;
+
+		try {
+			new Number( [
+				'layout'      => 'full',
+				'input_width' => 12,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }

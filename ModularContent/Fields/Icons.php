@@ -55,6 +55,9 @@ class Icons extends Radio {
 			];
 		}
 
+		unset( $blueprint['layout'] );
+		unset( $blueprint['option_width'] );
+
 		return $blueprint;
 	}
 }

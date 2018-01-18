@@ -35,6 +35,13 @@ use ModularContent\Panel;
  */
 class Swatch_Select extends Radio {
 
+	protected $option_width = 4;
+
+	public function __construct( array $args = [] ) {
+		$this->defaults['option_width'] = $this->option_width;
+		parent::__construct( $args );
+	}
+
 	protected function get_options() {
 		if ( isset($this->options_cache) ) {
 			return $this->options_cache;
@@ -63,6 +70,8 @@ class Swatch_Select extends Radio {
 			$data['value'] = (string) $key;
 			$blueprint['options'][] = $data;
 		}
+		$blueprint['option_width'] = $this->option_width;
+		unset( $blueprint['layout'] );
 		return $blueprint;
 	}
 

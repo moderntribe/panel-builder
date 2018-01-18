@@ -35,37 +35,42 @@ class Repeater_Test extends WPTestCase {
 		$blueprint = $group->get_blueprint();
 
 		$expected = [
-			'type'        => 'Repeater',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [
+			'type'            => 'Repeater',
+			'label'           => $label,
+			'name'            => $name,
+			'description'     => $description,
+			'strings'         => [
 				'button.new'      => 'Add Another',
 				'button.delete'   => 'Delete Row',
 				'label.row_index' => 'Row %{index} |||| Row %{index}',
 				'notice.max_rows' => 'You have reached the row limit of this field',
 			],
-			'default'     => [ ],
-			'fields'      => [
+			'default'         => [],
+			'fields'          => [
 				[
 					'type'        => 'Text',
 					'label'       => $label . '1',
 					'name'        => $name . '1',
 					'description' => $description . '1',
-					'strings'     => [ ],
+					'strings'     => [],
 					'default'     => '',
+					'input_width' => 12,
+					'layout'      => 'full',
 				],
 				[
 					'type'        => 'Text',
 					'label'       => $label . '2',
 					'name'        => $name . '2',
 					'description' => $description . '2',
-					'strings'     => [ ],
+					'strings'     => [],
 					'default'     => '',
+					'input_width' => 12,
+					'layout'      => 'full',
 				],
 			],
-			'min'         => 1,
-			'max'         => 6,
+			'min'             => 1,
+			'max'             => 6,
+			'settings_fields' => [],
 		];
 
 		$this->assertEquals( $expected, $blueprint );
