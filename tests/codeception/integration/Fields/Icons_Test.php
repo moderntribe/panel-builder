@@ -31,7 +31,10 @@ class Icons_Test extends WPTestCase {
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
-			'strings'      => [],
+			'strings'      => [
+				'placeholder.search' => 'Search Icon Library',
+				'label.selected' => 'Selected Icon:',
+			],
 			'default'      => 'fa-one',
 			'class_string' => 'fa %s',
 			'search'       => true,

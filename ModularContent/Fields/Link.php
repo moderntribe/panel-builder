@@ -21,14 +21,31 @@ use ModularContent\Panel;
 class Link extends Field {
 
 	protected $default = [ 'url' => '', 'target' => '', 'label' => '' ];
+	protected $layout  = 'compact';
 
 
 	public function __construct( $args ) {
+		$this->check_layout( $args );
+
 		$this->defaults[ 'strings' ] = [
 			'placeholder.label' => __( 'Label', 'modular-content' ),
 			'placeholder.url'   => __( 'URL', 'modular-content' ),
 		];
+		$this->defaults['layout'] = $this->layout;
 		parent::__construct( $args );
+	}
+
+	protected function check_layout( $args ) {
+		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' ) {
+			throw new \LogicException( 'Layout argument can only be "compact" or "full".' );
+		}
+	}
+
+	public function get_blueprint() {
+		$blueprint           = parent::get_blueprint();
+		$blueprint['layout'] = $this->layout;
+
+		return $blueprint;
 	}
 
 	/**

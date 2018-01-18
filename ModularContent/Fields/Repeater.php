@@ -197,6 +197,10 @@ class Repeater extends Group {
 		$blueprint['min']             = $this->min;
 		$blueprint['max']             = $this->max;
 		$blueprint['settings_fields'] = $this->settings_fields;
+		$blueprint['min'] = $this->min;
+		$blueprint['max'] = $this->max;
+
+		unset( $blueprint['layout'] );
 
 		return $blueprint;
 	}

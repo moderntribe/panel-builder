@@ -19,6 +19,7 @@ class Image_Test extends WPTestCase {
 			'description'              => $description,
 			'default'                  => $default,
 			'allowed_image_mime_types' => $mime_types,
+			'layout'                   => 'full',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -34,17 +35,18 @@ class Image_Test extends WPTestCase {
 			],
 			'default'                  => $default,
 			'allowed_image_mime_types' => $mime_types,
+			'layout'                   => 'full',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
 	}
 
 	public function test_precache() {
-		$file_path = codecept_data_dir( '300x250.png' );
-		$size = 'thumbnail';
+		$file_path  = codecept_data_dir( '300x250.png' );
+		$size       = 'thumbnail';
 		$attachment = $this->factory()->attachment->create_upload_object( $file_path );
-		$cache = new AdminPreCache();
-		$field = new Image( [
+		$cache      = new AdminPreCache();
+		$field      = new Image( [
 			'label'       => __FUNCTION__,
 			'name'        => __FUNCTION__,
 			'description' => __FUNCTION__,
@@ -52,8 +54,22 @@ class Image_Test extends WPTestCase {
 		] );
 		$field->precache( $attachment, $cache );
 		$output = $cache->get_cache();
-		$images = (array) $output[ 'images' ];
+		$images = (array) $output['images'];
 		$this->assertCount( 1, $images );
 		$this->assertNotEmpty( $images[ $attachment ][ $size ] );
+	}
+
+	public function test_layout_error() {
+		$valid = true;
+
+		try {
+			new Image( [
+				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }
