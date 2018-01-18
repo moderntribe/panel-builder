@@ -17,7 +17,7 @@ class Text_Test extends WPTestCase {
 			'description' => $description,
 			'default'     => $default,
 			'input_width' => 5,
-			'layout'      => 'compact',
+			'layout'      => 'full',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -30,7 +30,7 @@ class Text_Test extends WPTestCase {
 			'strings'     => [],
 			'default'     => $default,
 			'input_width' => 5,
-			'layout'      => 'compact',
+			'layout'      => 'full',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
@@ -56,6 +56,21 @@ class Text_Test extends WPTestCase {
 		try {
 			new Text( [
 				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
+
+	public function test_input_and_layout_error() {
+		$valid = true;
+
+		try {
+			new Text( [
+				'layout'      => 'compact',
+				'input_width' => 12,
 			] );
 		} catch ( \LogicException $e ) {
 			$valid = false;

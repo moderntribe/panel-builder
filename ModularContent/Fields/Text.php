@@ -60,6 +60,10 @@ class Text extends Field {
 	}
 
 	protected function check_input_width( $args ) {
+		if ( isset( $args['input_width'] ) && ( isset( $args['layout'] ) && $args['layout'] === 'compact' ) ) {
+			throw new \LogicException( 'input_width only applies to full layouts.' );
+		}
+
 		if ( isset( $args['input_width'] ) && ( $args['input_width'] < 1 || $args['input_width'] > 12 ) ) {
 			throw new \LogicException( 'input_width argument must be between 1-12.' );
 		}
