@@ -26,7 +26,7 @@ class Number_Test extends WPTestCase {
 			'step'         => $step,
 			'unit_display' => $unit_display,
 			'input_width'  => 3,
-			'layout'       => 'full',
+			'layout'       => 'compact',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -43,7 +43,7 @@ class Number_Test extends WPTestCase {
 			'step'         => $step,
 			'unit_display' => $unit_display,
 			'input_width'  => 3,
-			'layout'       => 'full',
+			'layout'       => 'compact',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
@@ -82,7 +82,7 @@ class Number_Test extends WPTestCase {
 
 		try {
 			new Number( [
-				'layout'      => 'compact',
+				'layout'      => 'full',
 				'input_width' => 12,
 			] );
 		} catch ( \LogicException $e ) {
