@@ -25,3 +25,4 @@ export const ACCORDION = 'Accordion';
 export const REPEATER = 'Repeater';
 export const COLUMN_WIDTH = 'Column_Width';
 export const ICONS = 'Icons';
+export const NUMBER = 'Number';

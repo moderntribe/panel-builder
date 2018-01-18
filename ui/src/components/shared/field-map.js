@@ -22,6 +22,7 @@ import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
 import ColumnWidth from '../fields/column-width';
 import Icons from '../fields/icons';
+import Number from '../fields/number';
 
 export default {
 	[FIELD_TYPES.TEXT]: Text,
@@ -46,4 +47,5 @@ export default {
 	[FIELD_TYPES.REPEATER]: Repeater,
 	[FIELD_TYPES.COLUMN_WIDTH]: ColumnWidth,
 	[FIELD_TYPES.ICONS]: Icons,
+	[FIELD_TYPES.NUMBER]: Number,
 };

@@ -35,10 +35,19 @@ Number.propTypes = {
 	default: PropTypes.number,
 	description: PropTypes.string,
 	label: PropTypes.string,
-	max: PropTypes.string,
-	min: PropTypes.string,
+	max: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
+	min: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 	name: PropTypes.string,
-	step: PropTypes.string,
+	step: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 	unit_display: PropTypes.string,
 	updateValue: PropTypes.func,
 	value: PropTypes.oneOfType([
