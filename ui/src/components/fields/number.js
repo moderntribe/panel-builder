@@ -31,18 +31,11 @@ export const Number = (props) => {
 };
 
 Number.propTypes = {
-	data: PropTypes.number,
 	default: PropTypes.number,
 	description: PropTypes.string,
 	label: PropTypes.string,
-	max: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string,
-	]),
-	min: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string,
-	]),
+	max: PropTypes.number,
+	min: PropTypes.number,
 	name: PropTypes.string,
 	step: PropTypes.oneOfType([
 		PropTypes.number,
@@ -57,12 +50,11 @@ Number.propTypes = {
 };
 
 Number.defaultProps = {
-	data: 0,
 	default: 0,
 	description: '',
 	label: '',
-	max: '',
-	min: '',
+	max: 0,
+	min: 0,
 	name: '',
 	step: 'any',
 	unit_display: 'px',
