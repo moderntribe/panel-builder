@@ -62,4 +62,18 @@ class Checkbox_Test extends WPTestCase {
 
 		$this->assertFalse( $valid );
 	}
+
+	public function test_option_width_error() {
+		$valid = true;
+
+		try {
+			new Checkbox( [
+				'option_width' => 14,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
 }

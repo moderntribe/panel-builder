@@ -30,6 +30,7 @@ class Radio extends Select {
 
 	public function __construct( $args = [] ) {
 		$this->check_layout( $args );
+		$this->check_option_width( $args );
 
 		$this->defaults['layout']       = $this->layout;
 		$this->defaults['option_width'] = $this->option_width;
@@ -47,6 +48,12 @@ class Radio extends Select {
 	protected function check_layout( $args ) {
 		if ( isset( $args['layout'] ) && $args['layout'] !== 'vertical' && $args['layout'] !== 'horizontal' ) {
 			throw new \LogicException( 'Layout argument can only be "vertical" or "horizontal".' );
+		}
+	}
+
+	protected function check_option_width( $args ) {
+		if ( isset( $args['option_width'] ) && ( $args['option_width'] < 1 || $args['option_width'] > 12 ) ) {
+			throw new \LogicException( 'option_width argument must be between 1-12.' );
 		}
 	}
 

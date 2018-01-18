@@ -53,4 +53,18 @@ class ImageSelect_Test extends WPTestCase {
 
 		$this->assertEquals( $expected, $blueprint );
 	}
+
+	public function test_option_width_error() {
+		$valid = true;
+
+		try {
+			new ImageSelect( [
+				'option_width' => 14,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
 }
