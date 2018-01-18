@@ -26,6 +26,7 @@ class Range extends Number {
 
 	protected $handles   = [ 0 ];
 	protected $has_input = false;
+	protected $default   = [];
 
 	public function __construct( $args = [] ) {
 		$this->check_handle_positions( $args );
@@ -42,6 +43,7 @@ class Range extends Number {
 
 		unset( $blueprint['input_width'] );
 		unset( $blueprint['layout'] );
+		unset( $blueprint['show_arrows'] );
 
 		return $blueprint;
 	}
