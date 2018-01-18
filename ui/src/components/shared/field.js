@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
+import * as FIELD_TYPES from '../../constants/field-types';
+
 /**
  * A Higher Order Component for some fields that handles all their common functionality and state dispatches
  *
@@ -18,7 +20,15 @@ export function field(WrappedComponent) {
 
 		@autobind
 		getInitialValue() {
-
+			let value = '';
+			switch (this.props.type) {
+			case FIELD_TYPES.NUMBER:
+				value = this.props.data < this.props.min ? this.props.min : this.props.data;
+				break;
+			default:
+				value = this.props.data;
+			}
+			return value;
 		}
 
 		@autobind
@@ -53,6 +63,12 @@ export function field(WrappedComponent) {
 	});
 
 	Field.propTypes = {
+		data: PropTypes.oneOfType([
+			PropTypes.array,
+			PropTypes.number,
+			PropTypes.object,
+			PropTypes.string,
+		]),
 		default: PropTypes.oneOfType([
 			PropTypes.array,
 			PropTypes.number,
@@ -65,14 +81,18 @@ export function field(WrappedComponent) {
 		fields: PropTypes.array,
 		indexMap: PropTypes.array,
 		label: PropTypes.string,
+		max: PropTypes.number,
+		min: PropTypes.number,
 		name: PropTypes.string,
 		options: PropTypes.array,
 		panelIndex: PropTypes.number,
 		settings: PropTypes.object,
+		type: PropTypes.string,
 		updatePanelData: PropTypes.func,
 	};
 
 	Field.defaultProps = {
+		data: '',
 		default: '',
 		depth: 0,
 		description: '',
@@ -80,10 +100,13 @@ export function field(WrappedComponent) {
 		fields: [],
 		indexMap: [],
 		label: '',
+		max: 0,
+		min: 0,
 		name: '',
 		options: [],
 		panelIndex: 0,
 		settings: {},
+		type: '',
 		updatePanelData: () => {},
 	};
 
