@@ -5,17 +5,18 @@ namespace ModularContent\Fields;
 use Codeception\TestCase\WPTestCase;
 
 class Swatch_Select_Test extends WPTestCase {
+
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$field = new Swatch_Select( [
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'default'     => 'blue',
-			'options'     => [
-				'blue'  => [
+		$field       = new Swatch_Select( [
+			'label'        => $label,
+			'name'         => $name,
+			'description'  => $description,
+			'default'      => 'blue',
+			'options'      => [
+				'blue'       => [
 					'color' => '#0000BB',
 					'label' => 'Blue',
 				],
@@ -24,18 +25,19 @@ class Swatch_Select_Test extends WPTestCase {
 					'label' => 'Green to Blue Gradient',
 				],
 			],
+			'option_width' => 3,
 		] );
 
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'Swatch_Select',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [ ],
-			'default'     => 'blue',
-			'options'     => [
+			'type'         => 'Swatch_Select',
+			'label'        => $label,
+			'name'         => $name,
+			'description'  => $description,
+			'strings'      => [],
+			'default'      => 'blue',
+			'options'      => [
 				[
 					'color' => '#0000BB',
 					'label' => 'Blue',
@@ -47,6 +49,7 @@ class Swatch_Select_Test extends WPTestCase {
 					'value' => 'green-blue',
 				],
 			],
+			'option_width' => 3,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
