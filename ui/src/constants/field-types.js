@@ -10,6 +10,7 @@ export const CHECKBOX = 'Checkbox';
 export const COLOR_PICKER = 'Color_Picker';
 export const IMAGE_SELECT = 'ImageSelect';
 export const SELECT = 'Select';
+export const RANGE = 'Range';
 export const TEXTAREA = 'TextArea';
 export const LINK = 'Link';
 export const HIDDEN = 'Hidden';

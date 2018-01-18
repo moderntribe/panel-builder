@@ -8,6 +8,7 @@ import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
+import Range from '../fields/range';
 import TextArea from '../fields/textarea';
 import Link from '../fields/link';
 import Hidden from '../fields/hidden';
@@ -32,6 +33,7 @@ export default {
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
 	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
+	[FIELD_TYPES.RANGE]: Range,
 	[FIELD_TYPES.SELECT]: Select,
 	[FIELD_TYPES.TEXTAREA]: TextArea,
 	[FIELD_TYPES.LINK]: Link,

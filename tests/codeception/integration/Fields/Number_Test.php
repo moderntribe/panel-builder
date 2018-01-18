@@ -27,6 +27,7 @@ class Number_Test extends WPTestCase {
 			'unit_display' => $unit_display,
 			'input_width'  => 3,
 			'layout'       => 'compact',
+			'show_arrows'  => true,
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -44,6 +45,7 @@ class Number_Test extends WPTestCase {
 			'unit_display' => $unit_display,
 			'input_width'  => 3,
 			'layout'       => 'compact',
+			'show_arrows'  => true,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
