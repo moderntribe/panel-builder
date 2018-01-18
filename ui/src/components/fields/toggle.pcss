@@ -7,19 +7,11 @@
 	padding: 0 var(--field-padding-vertical) 15px;
 	width: 100%;
 
-	&.isCondition {
-		padding: var(--field-padding-horizontal) 0;
-	}
-
 	> label + div {
 		display: inline-block;
 		margin-bottom: 10px;
 		position: relative;
 		top: 8px;
-	}
-
-	p {
-		display: none; /* Might still use these, but for now, hide. */
 	}
 }
 
@@ -64,27 +56,29 @@
 
 .toggleSlider {
 	background-color: var(--toggle-off-bg);
-	border-radius: 34px;
 	position: absolute;
 	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	height: 12px;
+	width: 48px;
+	top: 9px;
+	border-radius: 6px;
 	transition: var(--transition-toggle);
 }
 
 .toggleSlider:before {
 	background-color: var(--toggle-off-circle);
-	border-radius: 50%;
 	bottom: 2px;
 	content: "";
-	height: 26px;
-	left: 3px;
+	left: 0;
 	position: absolute;
 	right: auto;
 	transition: 0.4s;
-	width: 26px;
+	height: 25px;
+	top: -8px;
+	width: 25px;
+	border: 1px solid var(--toggle-border-color);
+	border-radius: 100px;
+	box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.07);
 }
 
 .toggleSlider[data-string]:after {
@@ -96,21 +90,15 @@
 	text-transform: uppercase;
 }
 
-input:checked + .toggleSlider[data-string] {
+input:focus + .toggleSlider {
+
+}
+
+input:checked + .toggleSlider {
 	background-color: var(--toggle-on-bg);
 
-	&:after {
-		content: attr(data-string);
-		left: 7px;
-		right: 7px;
+	&:before {
+		background-color: var(--toggle-on-circle);
+		transform: translateX(28px);
 	}
-}
-
-input:focus + .toggleSlider {
-	box-shadow: 0 0 1px var(--toggle-on-bg);
-}
-
-input:checked + .toggleSlider:before {
-	background-color: var(--toggle-on-circle);
-	transform: translateX(28px);
 }
