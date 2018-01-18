@@ -56,6 +56,9 @@ class PanelType {
 	/** @var string[] */
 	protected $strings = [];
 
+	/** @var array[] */
+	protected $tabs = [];
+
 	/**
 	 * @param string $id A unique string identifying this panel type
 	 */
@@ -69,11 +72,7 @@ class PanelType {
 		foreach ( $default_fields as $field ) {
 			$this->add_field( $field );
 		}
-		$default_settings_fields = array();
-		$default_settings_fields = apply_filters('modular_content_default_settings_fields', $default_settings_fields, $this->id);
-		foreach ( $default_settings_fields as $settings_field ) {
-			$this->add_settings_field( $settings_field );
-		}
+		$this->get_default_tabbed_fields();
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
 		call_user_func_array( array($this, 'set_child_labels'), apply_filters( 'modular_content_default_child_labels', array( 'singular' => Plugin::instance()->get_label(), 'plural' => Plugin::instance()->get_label('plural') ) ) );
@@ -127,21 +126,89 @@ class PanelType {
 	}
 
 	/**
+	 * Adds a field to the specified tab.
+	 *
+	 * @param Field $field
+	 * @param       $tab
+	 */
+	public function add_tabbed_field( Field $field, $tab ) {
+		$this->add_field( $field );
+
+		if ( ! isset( $this->tabs[ $tab ] ) ) {
+			$this->tabs[ $tab ] = [];
+		}
+
+		$this->tabs[ $tab ][] = $field->get_name();
+	}
+
+	/**
+	 * Determine if a given field name is in the specified tab.
+	 *
+	 * @param $field_name
+	 * @param $tab
+	 *
+	 * @return bool
+	 */
+	public function is_tabbed_field( $field_name, $tab ) {
+		return isset( $this->tabs[ $tab ] ) && in_array( $field_name, $this->tabs[ $tab ] );
+	}
+
+	/**
+	 * Get all of the tabbed fields.
+	 *
+	 * @return array[]
+	 */
+	public function get_tabbed_field_names() {
+		return $this->tabs;
+	}
+
+	/**
+	 * Loop through applied default filters and add the specified fields to the correct tabs.
+	 */
+	private function get_default_tabbed_fields() {
+		global $wp_filter;
+
+		$filters = $this->preg_grep_keys( '/modular_content_default_[^_]*_fields/', $wp_filter );
+
+		foreach ( $filters as $filter_name => $filter ) {
+			$tab_name              = str_replace( [ 'modular_content_default_', '_fields' ], '', $filter_name );
+			$default_tabbed_fields = [];
+			$default_tabbed_fields = apply_filters( $filter_name, $default_tabbed_fields, $this->id );
+
+			foreach ( $default_tabbed_fields as $tabbed_field ) {
+				$this->add_tabbed_field( $tabbed_field, $tab_name );
+			}
+		}
+	}
+
+	/**
+	 * Call preg_grep against the keys of an array to match the pattern.
+	 *
+	 * @param     $pattern
+	 * @param     $input
+	 * @param int $flags
+	 *
+	 * @return array
+	 */
+	function preg_grep_keys( $pattern, $input, $flags = 0 ) {
+		return array_intersect_key( $input, array_flip( preg_grep( $pattern, array_keys( $input ), $flags ) ) );
+	}
+
+	/**
 	 * Add a field to the Settings tab of the panel type
 	 *
 	 * @param Field $field
 	 * @return void
 	 */
 	public function add_settings_field( Field $field ) {
-		$this->add_field( $field );
-		$this->settings_fields[] = $field->get_name();
+		$this->add_tabbed_field( $field, 'settings' );
 	}
 
 	/**
 	 * @return array The names of all registered settings fields
 	 */
 	public function get_settings_field_names() {
-		return $this->settings_fields;
+		return isset( $this->tabs['settings'] ) ? $this->tabs['settings'] : [];
 	}
 
 	/**
@@ -152,7 +219,7 @@ class PanelType {
 	 * @return bool
 	 */
 	public function is_settings_field( $field_name ) {
-		return in_array( $field_name, $this->settings_fields );
+		return isset( $this->tabs['settings'] ) && in_array( $field_name, $this->tabs['settings'] );
 	}
 
 	/**
