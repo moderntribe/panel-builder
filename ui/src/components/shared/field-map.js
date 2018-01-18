@@ -12,6 +12,7 @@ import TextArea from '../fields/textarea';
 import Link from '../fields/link';
 import Hidden from '../fields/hidden';
 import HTML from '../fields/html';
+import Toggle from '../fields/toggle';
 import Image from '../fields/image';
 import Video from '../fields/video';
 import ImageGallery from '../fields/image-gallery';
@@ -35,6 +36,7 @@ export default {
 	[FIELD_TYPES.LINK]: Link,
 	[FIELD_TYPES.HIDDEN]: Hidden,
 	[FIELD_TYPES.HTML]: HTML,
+	[FIELD_TYPES.TOGGLE]: Toggle,
 	[FIELD_TYPES.IMAGE]: Image,
 	[FIELD_TYPES.IMAGE_GALLERY]: ImageGallery,
 	[FIELD_TYPES.VIDEO]: Video,

@@ -1,0 +1,116 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	padding: 0 var(--field-padding-vertical) 15px;
+	width: 100%;
+
+	&.isCondition {
+		padding: var(--field-padding-horizontal) 0;
+	}
+
+	> label + div {
+		display: inline-block;
+		margin-bottom: 10px;
+		position: relative;
+		top: 8px;
+	}
+
+	p {
+		display: none; /* Might still use these, but for now, hide. */
+	}
+}
+
+.toggleLabel {
+	color: var(--white);
+	width: 60px;
+}
+
+.toggleLabel {
+	composes: label from "../../shared/inputs.pcss";
+	top: -5px;
+	position: relative;
+
+	input[type="checkbox"] {
+		visibility: hidden;
+	}
+}
+
+.list {
+	composes: list from "../../shared/fields.pcss";
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: inline-block;
+	margin: 0 5px 0 0;
+	position: relative;
+	top: -10px;
+	width: 50%;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.toggle {
+	display: inline-block;
+	height: 34px;
+	position: relative;
+	width: 70px;
+}
+
+.toggleSlider {
+	background-color: var(--toggle-off-bg);
+	border-radius: 34px;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transition: var(--transition-toggle);
+}
+
+.toggleSlider:before {
+	background-color: var(--toggle-off-circle);
+	border-radius: 50%;
+	bottom: 2px;
+	content: "";
+	height: 26px;
+	left: 3px;
+	position: absolute;
+	right: auto;
+	transition: 0.4s;
+	width: 26px;
+}
+
+.toggleSlider[data-string]:after {
+	content: attr(data-string);
+	font-size: 10px;
+	left: auto;
+	position: absolute;
+	right: 7px;
+	text-transform: uppercase;
+}
+
+input:checked + .toggleSlider[data-string] {
+	background-color: var(--toggle-on-bg);
+
+	&:after {
+		content: attr(data-string);
+		left: 7px;
+		right: 7px;
+	}
+}
+
+input:focus + .toggleSlider {
+	box-shadow: 0 0 1px var(--toggle-on-bg);
+}
+
+input:checked + .toggleSlider:before {
+	background-color: var(--toggle-on-circle);
+	transform: translateX(28px);
+}

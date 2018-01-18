@@ -14,6 +14,7 @@ export const TEXTAREA = 'TextArea';
 export const LINK = 'Link';
 export const HIDDEN = 'Hidden';
 export const HTML = 'HTML';
+export const TOGGLE = 'Toggle';
 export const IMAGE = 'Image';
 export const IMAGE_GALLERY = 'ImageGallery';
 export const VIDEO = 'Video';
