@@ -12,7 +12,7 @@ class Color_Picker_Test extends WPTestCase {
 		$description = __FUNCTION__ . ':' . __LINE__;
 		$default     = __LINE__;
 		$swatches    = [ '#CCCCCC' ];
-		$field = new Color_Picker( [
+		$field       = new Color_Picker( [
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
@@ -22,6 +22,7 @@ class Color_Picker_Test extends WPTestCase {
 			'color_mode'   => 'hex',
 			'input_active' => false,
 			'allow_clear'  => false,
+			'layout'       => 'full',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -40,8 +41,23 @@ class Color_Picker_Test extends WPTestCase {
 			'color_mode'   => 'hex',
 			'input_active' => false,
 			'allow_clear'  => false,
+			'layout'       => 'full',
 		];
 
 		$this->assertEqualSets( $expected, $blueprint );
+	}
+
+	public function test_layout_error() {
+		$valid = true;
+
+		try {
+			new Color_Picker( [
+				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }

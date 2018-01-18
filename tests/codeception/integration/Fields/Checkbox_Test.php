@@ -50,24 +50,11 @@ class Checkbox_Test extends WPTestCase {
 	}
 
 	public function test_layout_error() {
-		$label       = __CLASS__ . '::' . __FUNCTION__;
-		$name        = __FUNCTION__;
-		$description = __FUNCTION__ . ':' . __LINE__;
-
 		$valid = true;
 
 		try {
 			new Checkbox( [
-				'label'        => $label,
-				'name'         => $name,
-				'description'  => $description,
-				'default'      => [ 'second' => 1 ],
-				'options'      => [
-					'first'  => 'First Option',
-					'second' => 'Second Option',
-				],
 				'layout'       => 'foobar',
-				'option_width' => 8,
 			] );
 		} catch ( \LogicException $e ) {
 			$valid = false;
