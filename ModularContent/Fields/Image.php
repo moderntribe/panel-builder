@@ -18,6 +18,7 @@ use ModularContent\Panel;
 class Image extends Field {
 
 	protected $default = 0;
+	protected $layout  = 'compact';
 
 	protected $default_mime_types = [
 		'image/svg',
@@ -44,12 +45,21 @@ class Image extends Field {
 	 * ) );
 	 */
 	public function __construct( $args = array() ) {
+		$this->check_layout( $args );
+
 		$this->defaults[ 'strings' ] = [
 			'button.remove' => __( 'Remove', 'modular-content' ),
 			'button.select' => __( 'Select Files', 'modular-content' ),
 		];
 		$this->defaults['allowed_image_mime_types'] = isset( $args['allowed_image_mime_types'] ) ? $args['allowed_image_mime_types'] : apply_filters( 'panels_default_allowed_mime_types', $this->default_mime_types );
+		$this->defaults['layout'] = $this->layout;
 		parent::__construct($args);
+	}
+
+	protected function check_layout( $args ) {
+		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' ) {
+			throw new \LogicException( 'Layout argument can only be "compact" or "full".' );
+		}
 	}
 
 	public function get_vars_for_api( $data, $panel ) {
@@ -112,6 +122,7 @@ class Image extends Field {
 	public function get_blueprint() {
 		$blueprint = parent::get_blueprint();
 		$blueprint['allowed_image_mime_types'] = $this->allowed_image_mime_types;
+		$blueprint['layout'] = $this->layout;
 		return $blueprint;
 	}
 
