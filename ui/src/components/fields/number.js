@@ -1,28 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NumericInput from 'react-numeric-input';
 
 import field from '../shared/field';
 import * as styleUtil from '../../util/dom/styles';
 import styles from './number.pcss';
 
 export const Number = (props) => {
-	const handleChange = (e) => {
-		props.updateValue(e.currentTarget.value);
-	};
+	const handleChange = value => props.updateValue(value);
+
 	const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 
 	return (
 		<div className={fieldClasses}>
 			<label className={labelClasses}>{props.label}</label>
 			<span className={styles.container}>
-				<input
+				<NumericInput
 					className={styles.input}
-					type="number"
 					value={props.value}
 					onChange={handleChange}
 					min={props.min}
 					max={props.max}
 					step={props.step}
+					style={false} // eslint-disable-line
+					snap
 				/>
 			</span>
 			<p className={descriptionClasses}>{props.description}</p>

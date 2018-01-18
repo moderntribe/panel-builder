@@ -58,6 +58,7 @@
     "react-dom": "^15.4.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-modal": "^1.6.5",
+    "react-numeric-input": "^2.2.3",
     "react-redux": "^5.0.1",
     "react-select-plus": "1.0.0-rc.3.patch1",
     "react-sortablejs": "1.3.1",
