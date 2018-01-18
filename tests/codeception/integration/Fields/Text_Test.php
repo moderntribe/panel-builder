@@ -5,16 +5,19 @@ namespace ModularContent\Fields;
 use Codeception\TestCase\WPTestCase;
 
 class Text_Test extends WPTestCase {
+
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$default = __LINE__;
-		$field = new Text( [
+		$default     = __LINE__;
+		$field       = new Text( [
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
 			'default'     => $default,
+			'input_width' => 5,
+			'layout'      => 'compact',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -24,10 +27,40 @@ class Text_Test extends WPTestCase {
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
-			'strings'     => [ ],
+			'strings'     => [],
 			'default'     => $default,
+			'input_width' => 5,
+			'layout'      => 'compact',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_input_width_error() {
+		$valid = true;
+
+		try {
+			new Text( [
+				'input_width' => 14,
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
+	}
+
+	public function test_layout_error() {
+		$valid = true;
+
+		try {
+			new Text( [
+				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }
