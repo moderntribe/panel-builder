@@ -175,6 +175,9 @@ class Repeater extends Group {
 		$blueprint = parent::get_blueprint();
 		$blueprint['min'] = $this->min;
 		$blueprint['max'] = $this->max;
+
+		unset( $blueprint['layout'] );
+
 		return $blueprint;
 	}
 

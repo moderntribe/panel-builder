@@ -34,6 +34,9 @@ class Toggle extends Checkbox {
 		$blueprint['default']  = (int) $this->default;
 		$blueprint['stylized'] = (bool) $this->stylized;
 
+		unset( $blueprint['layout'] );
+		unset( $blueprint['option_width'] );
+
 		return $blueprint;
 	}
 
