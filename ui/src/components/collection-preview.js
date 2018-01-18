@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import zenscroll from 'zenscroll';
 import wpautop from 'wpautop';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
@@ -11,6 +10,7 @@ import { IFRAME_SCROLL_OFFSET } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import scrollTo from '../util/dom/scroll-to';
 import * as ajax from '../util/ajax';
 import * as previewTools from '../util/dom/preview';
 import * as heartbeat from '../util/data/heartbeat';
@@ -19,6 +19,8 @@ import * as tests from '../util/tests';
 import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
+
+const $ = window.jQuery;
 
 class CollectionPreview extends Component {
 	constructor(props) {
@@ -159,14 +161,21 @@ class CollectionPreview extends Component {
 			});
 			return;
 		}
-		this.iframeScroller.to(target, 500, () => {
-			if (!activate) {
-				return;
-			}
 
-			target.classList.add(styles.active);
-			target.classList.add(styles.noTransition);
-			this.activePanelNode = target;
+		scrollTo({
+			afterScroll: () => {
+				if (!activate) {
+					return;
+				}
+
+				target.classList.add(styles.active);
+				target.classList.add(styles.noTransition);
+				this.activePanelNode = target;
+			},
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(target),
 		});
 	}
 
@@ -235,7 +244,12 @@ class CollectionPreview extends Component {
 				index,
 			},
 		});
-		this.iframeScroller.center(panel, 500, 0);
+		scrollTo({
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(panel),
+		});
 	}
 
 	injectUpdatedPanelHtml(panelHtml) {
@@ -277,7 +291,7 @@ class CollectionPreview extends Component {
 		if (!this.activePanelNode || this.saving) {
 			return;
 		}
-		const nestedEvent = this.nestedEvent;
+		const { nestedEvent } = this;
 		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
 		const selector = previewTools.getLiveTextSelector(e.detail);
 		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
@@ -435,7 +449,12 @@ class CollectionPreview extends Component {
 		const position = e.target.classList.contains(styles.addPanelAbove) ? 'beforebegin' : 'afterend';
 
 		panel.insertAdjacentHTML(position, placeholder);
-		this.iframeScroller.center(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0], 500, 0);
+		scrollTo({
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0]),
+		});
 		this.panelCollection.classList.add(styles.placeholderActive);
 		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 		_.delay(() => {
@@ -448,7 +467,7 @@ class CollectionPreview extends Component {
 		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
 		// or do other index based opts.
 		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
-		const nestedEvent = this.nestedEvent;
+		const { nestedEvent } = this;
 		ajax.getPanelHTML(e.detail.panels, panelIndex)
 			.done((data) => {
 				if (e.detail.index === -1) {
@@ -567,7 +586,6 @@ class CollectionPreview extends Component {
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		this.iframeScroller = zenscroll.createScroller(this.iframe.querySelectorAll('html')[0], null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
 		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();
