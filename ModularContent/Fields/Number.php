@@ -28,6 +28,7 @@ class Number extends Field {
 	protected $unit_display = '';
 	protected $input_width  = 12;
 	protected $layout       = 'full';
+	protected $show_arrows  = false;
 
 	public function __construct( $args = [] ) {
 		$this->check_layout( $args );
@@ -39,6 +40,7 @@ class Number extends Field {
 		$this->defaults['unit_display'] = $this->unit_display;
 		$this->defaults['input_width']  = $this->input_width;
 		$this->defaults['layout']       = $this->layout;
+		$this->defaults['show_arrows']  = $this->show_arrows;
 
 		parent::__construct( $args );
 	}
@@ -67,6 +69,7 @@ class Number extends Field {
 		$blueprint['unit_display'] = $this->unit_display;
 		$blueprint['input_width']  = (int) $this->input_width;
 		$blueprint['layout']       = $this->layout;
+		$blueprint['show_arrows']  = (bool) $this->show_arrows;
 
 		return $blueprint;
 	}
