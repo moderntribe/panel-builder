@@ -130,8 +130,14 @@ class Group extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.compact]: this.props.layout === 'compact',
 			'panel-field': true,
 			'group-field': true,
+		});
+
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
 		});
 
 		const descriptionClasses = classNames({
@@ -139,7 +145,13 @@ class Group extends Component {
 			'panel-field-description': true,
 		});
 
-		return (
+		return this.props.layout === 'compact' ? (
+			<div className={fieldClasses} data-group-active="true">
+				<label className={labelClasses}>{this.props.label}</label>
+				{this.getFields()}
+				<p className={descriptionClasses}>{this.props.description}</p>
+			</div>
+		) : (
 			<div className={fieldClasses} data-group-active={this.state.active}>
 				{this.getHeader()}
 				{this.state.active ? this.getFields() : null}
@@ -147,11 +159,11 @@ class Group extends Component {
 			</div>
 		);
 	}
-
 }
 
 Group.propTypes = {
 	depth: PropTypes.number,
+	layout: PropTypes.string,
 	parentIndex: PropTypes.number,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
@@ -171,6 +183,7 @@ Group.propTypes = {
 
 Group.defaultProps = {
 	depth: 0,
+	layout: 'full',
 	parentIndex: 0,
 	indexMap: [],
 	data: {},
