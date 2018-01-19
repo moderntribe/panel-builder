@@ -6,6 +6,7 @@ import componentMap from './field-map';
 import Children from '../fields/children';
 
 import getTypeCheckedData from '../../util/data/get-typechecked-data';
+import * as styleUtil from '../../util/dom/styles';
 
 import styles from './field-builder.pcss';
 
@@ -24,6 +25,7 @@ const FieldBuilder = (props) => {
 
 		const classes = classNames({
 			[styles.field]: true,
+			[styles.compact]: styleUtil.isCompactField(field),
 			'panel-input': true,
 			[`input-name-${field.name.toLowerCase()}`]: true,
 			[`input-type-${field.type.toLowerCase()}`]: true,
@@ -34,6 +36,7 @@ const FieldBuilder = (props) => {
 				className={classes}
 				key={_.uniqueId('field-id-')}
 				data-settings={props.settings_fields.indexOf(field.name) !== -1}
+				style={styleUtil.fieldStyles(field)}
 			>
 				<Field
 					{...field}
@@ -102,7 +105,6 @@ FieldBuilder.propTypes = {
 FieldBuilder.defaultProps = {
 	name: '',
 	children: {},
-	childPanels: [],
 	depth: 0,
 	index: 0,
 	indexMap: [],

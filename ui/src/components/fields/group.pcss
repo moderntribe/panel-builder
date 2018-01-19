@@ -66,6 +66,18 @@
 		.compact & {
 			padding: 0;
 		}
+
+		&:after {
+
+			.compact & {
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
+	}
+	.compact & {
+		position: static;
 	}
 	[data-live-edit="false"] & {
 		position:relative;

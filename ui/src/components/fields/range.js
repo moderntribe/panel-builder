@@ -36,7 +36,6 @@ export const Range = (props) => {
 		} else {
 			arr.push(value);
 		}
-		console.log(arr);
 		props.updateValue(arr);
 	};
 

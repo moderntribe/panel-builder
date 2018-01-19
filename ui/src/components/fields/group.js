@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 import styles from './group.pcss';
 
@@ -19,6 +20,10 @@ class Group extends Component {
 	state = {
 		active: false,
 	};
+
+	isCompact() {
+		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
+	}
 
 	/**
 	 * Gets the header which toggles the group into view
@@ -62,12 +67,14 @@ class Group extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<AccordionBack
-					title={this.props.label}
-					panelLabel={this.props.panelLabel}
-					handleClick={this.handleBackClick}
-					handleExpanderClick={this.props.handleExpanderClick}
-				/>
+				{!this.isCompact() &&
+					<AccordionBack
+						title={this.props.label}
+						panelLabel={this.props.panelLabel}
+						handleClick={this.handleBackClick}
+						handleExpanderClick={this.props.handleExpanderClick}
+					/>
+				}
 				<div className={styles.fieldWrap}>
 					<FieldBuilder
 						fields={this.props.fields}
@@ -130,7 +137,7 @@ class Group extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
-			[styles.compact]: this.props.layout === 'compact',
+			[styles.compact]: this.isCompact(),
 			'panel-field': true,
 			'group-field': true,
 		});
