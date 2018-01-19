@@ -23,6 +23,27 @@ const FieldBuilder = (props) => {
 			return null;
 		}
 
+		let isActive = _.isEmpty(props.tabs);
+
+		if (props.activeTab === 'content_fields') {
+			isActive = true;
+			Object.keys(props.tabs).forEach((tab) => {
+				if (props[tab].indexOf(field.name) >= 0) {
+					isActive = false;
+				}
+			});
+		} else {
+			Object.keys(props.tabs).forEach((tab) => {
+				if (props[tab].indexOf(field.name) >= 0 && tab === props.activeTab) {
+					isActive = true;
+				}
+			});
+		}
+
+		if (!isActive) {
+			return null;
+		}
+
 		const classes = classNames({
 			[styles.field]: true,
 			[styles.compact]: styleUtil.isCompactField(field),
@@ -35,7 +56,6 @@ const FieldBuilder = (props) => {
 			<div
 				className={classes}
 				key={_.uniqueId('field-id-')}
-				data-settings={props.settings_fields.indexOf(field.name) !== -1}
 				style={styleUtil.fieldStyles(field)}
 			>
 				<Field
@@ -87,6 +107,7 @@ FieldBuilder.propTypes = {
 	depth: PropTypes.number,
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
+	activeTab: PropTypes.string,
 	label: PropTypes.string,
 	parent: PropTypes.string,
 	fields: PropTypes.array,
@@ -95,6 +116,7 @@ FieldBuilder.propTypes = {
 	liveEdit: PropTypes.bool,
 	hasChildren: PropTypes.bool,
 	data: PropTypes.object,
+	tabs: PropTypes.object,
 	updatePanelData: PropTypes.func,
 	settings_fields: React.PropTypes.array,
 	hidePanel: PropTypes.func,
@@ -108,6 +130,7 @@ FieldBuilder.defaultProps = {
 	depth: 0,
 	index: 0,
 	indexMap: [],
+	activeTab: '',
 	label: '',
 	fields: [],
 	panels: [],
@@ -116,6 +139,7 @@ FieldBuilder.defaultProps = {
 	liveEdit: false,
 	hasChildren: false,
 	data: {},
+	tabs: {},
 	settings_fields: [],
 	updatePanelData: () => {},
 	hidePanel: () => {},
