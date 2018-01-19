@@ -6,19 +6,22 @@
 	transform: translate3d(0, 0, 0);
 }
 
-.input {
-	composes: input from "../../shared/inputs.pcss";
+.container {
+
+	.input {
+		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+		width: 100%;
+		height: auto;
+	}
+}
+
+.tooltip {
+	z-index: 100000009;
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
-
-	.compact & {
-		color: #646262;
-		font-size: 10px;
-		text-align: center;
-		font-weight: 600;
-	}
+	margin-bottom: 20px;
 }
 
 .description {

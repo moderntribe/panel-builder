@@ -9,6 +9,10 @@
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	padding-left: 0;
+
+	.compact & {
+		margin-bottom: 20px;
+	}
 }
 
 .arrow{
@@ -58,6 +62,22 @@
 	top:0;
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+
+		.compact & {
+			padding: 0;
+		}
+
+		&:after {
+
+			.compact & {
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
+	}
+	.compact & {
+		position: static;
 	}
 	[data-live-edit="false"] & {
 		position:relative;
@@ -77,18 +97,39 @@
 			border-top: 0;
 			margin-bottom: var(--panel-margin-vertical);
 		}
+
+		&.compact {
+
+			.fields{
+				border: 0;
+			}
+		}
 	}
 }
 
 [data-live-edit="true"]{
+
 	.fields{
 		height:calc(100vh - 50px);
 		overflow: visible;
 	}
+
 	.fieldWrap{
 		padding-top: 25px;
 		height: calc(100vh - 125px);
 		overflow-y: auto;
+	}
+
+	.compact {
+
+		.fields{
+			height:auto;
+		}
+
+		.fieldWrap{
+			padding-top: 0;
+			height: auto;
+		}
 	}
 }
 

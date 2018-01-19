@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 import styles from './group.pcss';
 
@@ -19,6 +20,10 @@ class Group extends Component {
 	state = {
 		active: false,
 	};
+
+	isCompact() {
+		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
+	}
 
 	/**
 	 * Gets the header which toggles the group into view
@@ -62,12 +67,14 @@ class Group extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<AccordionBack
-					title={this.props.label}
-					panelLabel={this.props.panelLabel}
-					handleClick={this.handleBackClick}
-					handleExpanderClick={this.props.handleExpanderClick}
-				/>
+				{!this.isCompact() &&
+					<AccordionBack
+						title={this.props.label}
+						panelLabel={this.props.panelLabel}
+						handleClick={this.handleBackClick}
+						handleExpanderClick={this.props.handleExpanderClick}
+					/>
+				}
 				<div className={styles.fieldWrap}>
 					<FieldBuilder
 						fields={this.props.fields}
@@ -130,8 +137,14 @@ class Group extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.compact]: this.isCompact(),
 			'panel-field': true,
 			'group-field': true,
+		});
+
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
 		});
 
 		const descriptionClasses = classNames({
@@ -139,7 +152,13 @@ class Group extends Component {
 			'panel-field-description': true,
 		});
 
-		return (
+		return this.props.layout === 'compact' ? (
+			<div className={fieldClasses} data-group-active="true">
+				<label className={labelClasses}>{this.props.label}</label>
+				{this.getFields()}
+				<p className={descriptionClasses}>{this.props.description}</p>
+			</div>
+		) : (
 			<div className={fieldClasses} data-group-active={this.state.active}>
 				{this.getHeader()}
 				{this.state.active ? this.getFields() : null}
@@ -147,11 +166,11 @@ class Group extends Component {
 			</div>
 		);
 	}
-
 }
 
 Group.propTypes = {
 	depth: PropTypes.number,
+	layout: PropTypes.string,
 	parentIndex: PropTypes.number,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
@@ -171,6 +190,7 @@ Group.propTypes = {
 
 Group.defaultProps = {
 	depth: 0,
+	layout: 'full',
 	parentIndex: 0,
 	indexMap: [],
 	data: {},

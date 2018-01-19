@@ -44,6 +44,7 @@ const getTypeCheckedData = (type = '', fieldData) => {
 		}
 		break;
 	case FIELD_TYPES.IMAGE_GALLERY:
+	case FIELD_TYPES.RANGE:
 	case FIELD_TYPES.REPEATER:
 		if (!_.isArray(fieldData)) {
 			checkedData = _.toArray(fieldData);
