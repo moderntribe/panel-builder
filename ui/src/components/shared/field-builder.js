@@ -25,20 +25,11 @@ const FieldBuilder = (props) => {
 
 		let isActive = _.isEmpty(props.tabs);
 
-		if (props.activeTab === 'content_fields') {
-			isActive = true;
-			Object.keys(props.tabs).forEach((tab) => {
-				if (props[tab].indexOf(field.name) >= 0) {
-					isActive = false;
-				}
-			});
-		} else {
-			Object.keys(props.tabs).forEach((tab) => {
-				if (props[tab].indexOf(field.name) >= 0 && tab === props.activeTab) {
-					isActive = true;
-				}
-			});
-		}
+		Object.keys(props.tabs).forEach((tab) => {
+			if (props[tab].indexOf(field.name) >= 0 && tab === props.activeTab) {
+				isActive = true;
+			}
+		});
 
 		if (!isActive) {
 			return null;
@@ -67,6 +58,8 @@ const FieldBuilder = (props) => {
 					parent={props.parent}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
+					tabs={props.tabs}
+					activeTab={props.activeTab}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
 					handleExpanderClick={props.handleExpanderClick}
@@ -77,13 +70,15 @@ const FieldBuilder = (props) => {
 		);
 	});
 
-	const ChildPanels = props.hasChildren ? (
+	const ChildPanels = props.hasChildren && props.activeTab === 'content_fields' ? (
 		<Children
 			childData={props.children}
 			panels={props.panels}
 			depth={props.depth}
 			parentIndex={props.index}
 			indexMap={props.indexMap}
+			tabs={props.tabs}
+			activeTab={props.activeTab}
 			liveEdit={props.liveEdit}
 			data={props.panels}
 			updatePanelData={props.updatePanelData}
@@ -130,7 +125,7 @@ FieldBuilder.defaultProps = {
 	depth: 0,
 	index: 0,
 	indexMap: [],
-	activeTab: '',
+	activeTab: 'content_fields',
 	label: '',
 	fields: [],
 	panels: [],
