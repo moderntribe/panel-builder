@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import alphabetize from 'alphabetize-object-keys';
 import _ from 'lodash';
 import delegate from 'delegate';
 import autobind from 'autobind-decorator';
@@ -33,7 +34,7 @@ class PanelContainer extends Component {
 		super(props);
 		this.state = {
 			active: this.props.active,
-			hidden: false,
+			activeTab: 'content_fields',
 		};
 		this.el = null;
 		this.inputDelegates = null;
@@ -86,6 +87,7 @@ class PanelContainer extends Component {
 					hasChildren={this.props.children.max > 0 && this.props.children.types.length > 0}
 					hidePanel={this.hideFields}
 					indexMap={indexMap}
+					activeTab={this.state.activeTab}
 				/>
 			) :
 			null;
@@ -124,7 +126,7 @@ class PanelContainer extends Component {
 					{BackButton}
 					<div className={styles.fieldWrap}>
 						{this.renderPanelInfo()}
-						{PERMISSIONS.can_edit_panel_settings && this.renderSettingsToggle()}
+						{PERMISSIONS.can_edit_panel_settings && this.renderTabs()}
 						{Fields}
 						{DeleteButton}
 					</div>
@@ -340,30 +342,43 @@ class PanelContainer extends Component {
 		this.el.classList.remove(styles.settingsActive);
 	}
 
+	@autobind
+	enableCurrentTabMode(e) {
+		this.setState({ activeTab: e.currentTarget.dataset.id });
+	}
+
+	getTabs() {
+		const content = {
+			content_fields: UI_I18N['tab.content'],
+		};
+		const tabs = Object.assign({}, content, this.props.tabs);
+
+		return Object.entries(alphabetize(tabs)).map(([tabKey, tabLabel]) => (
+			<Button
+				ref={r => this[tabKey] = r}
+				text={tabLabel}
+				full={false}
+				key={`${tabKey}`}
+				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
+				handleClick={this.enableCurrentTabMode}
+				dataID={tabKey}
+			/>
+		));
+	}
+
 	renderPanelInfo() {
 		return this.props.thumbnail.length || this.props.description.length ? (
 			<div className={styles.info}>
 				{this.props.description.length && <div className={styles.infoDesc}>{this.props.description}</div>}
-				{this.props.thumbnail.length && <div className={styles.infoThumb}><img src={this.props.thumbnail} role="presentation" /></div>}
+				{this.props.thumbnail.length && <div className={styles.infoThumb}><img src={this.props.thumbnail} alt="" /></div>}
 			</div>
 		) : null;
 	}
 
-	renderSettingsToggle() {
-		return this.props.settings_fields.length ? (
+	renderTabs() {
+		return !_.isEmpty(this.props.tabs) ? (
 			<div className={styles.settings}>
-				<Button
-					text={UI_I18N['tab.content']}
-					full={false}
-					classes={styles.contentButton}
-					handleClick={this.enableContentMode}
-				/>
-				<Button
-					text={UI_I18N['tab.settings']}
-					full={false}
-					classes={styles.settingsButton}
-					handleClick={this.enableSettingsMode}
-				/>
+				{this.getTabs()}
 			</div>
 		) : null;
 	}
@@ -409,29 +424,30 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
-	active: React.PropTypes.bool,
-	children: React.PropTypes.object,
-	classesWrapper: React.PropTypes.string,
-	classesFields: React.PropTypes.string,
-	data: React.PropTypes.object,
-	depth: React.PropTypes.number,
-	index: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
-	type: React.PropTypes.string,
-	label: React.PropTypes.string,
-	description: React.PropTypes.string,
-	thumbnail: React.PropTypes.string,
-	icon: React.PropTypes.object,
-	fields: React.PropTypes.array,
-	liveEdit: React.PropTypes.bool,
-	settings_fields: React.PropTypes.array,
-	panelsActive: React.PropTypes.bool,
+	active: PropTypes.bool,
+	children: PropTypes.object,
+	classesWrapper: PropTypes.string,
+	classesFields: PropTypes.string,
+	data: PropTypes.object,
+	depth: PropTypes.number,
+	index: PropTypes.number,
+	indexMap: PropTypes.array,
+	type: PropTypes.string,
+	label: PropTypes.string,
+	description: PropTypes.string,
+	thumbnail: PropTypes.string,
+	icon: PropTypes.object,
+	fields: PropTypes.array,
+	liveEdit: PropTypes.bool,
+	settings_fields: PropTypes.array,
+	panelsActive: PropTypes.bool,
 	nestedGroupActive: PropTypes.func,
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	deletePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	tabs: PropTypes.object,
 };
 
 PanelContainer.defaultProps = {
@@ -452,6 +468,7 @@ PanelContainer.defaultProps = {
 	liveEdit: false,
 	panelsActive: false,
 	settings_fields: [],
+	tabs: {},
 	nestedGroupActive: () => {},
 	panelsActivate: () => {},
 	movePanel: () => {},

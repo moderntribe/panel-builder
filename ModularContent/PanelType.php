@@ -100,7 +100,7 @@ class PanelType {
 	/**
 	 * @param Field $field
 	 */
-	public function add_field( Field $field ) {
+	public function add_field_to_fieldset( Field $field ) {
 		$this->fields[$field->get_name()] = $field;
 	}
 
@@ -132,7 +132,7 @@ class PanelType {
 	 * @param       $tab
 	 */
 	public function add_tabbed_field( Field $field, $tab ) {
-		$this->add_field( $field );
+		$this->add_field_to_fieldset( $field );
 
 		if ( ! isset( $this->tabs[ $tab ] ) ) {
 			$this->tabs[ $tab ] = [];
@@ -195,7 +195,18 @@ class PanelType {
 	}
 
 	/**
+	 * Alias for add_tabbed_field( $field, 'content' );
+	 *
+	 * @param Field $field
+	 */
+	public function add_field( Field $field ) {
+		$this->add_tabbed_field( $field, 'content' );
+	}
+
+	/**
 	 * Add a field to the Settings tab of the panel type
+	 *
+	 * Alias for add_tabbed_field( $field, 'settings' );
 	 *
 	 * @param Field $field
 	 * @return void
