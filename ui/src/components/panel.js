@@ -12,6 +12,7 @@ import Button from './shared/button';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import sortObj from '../util/data/sort-obj';
 import * as domTools from '../util/dom/tools';
 import * as panelConditionals from '../util/dom/panel-conditionals';
 
@@ -347,7 +348,7 @@ class PanelContainer extends Component {
 	}
 
 	getTabs() {
-		return Object.entries(this.props.tabs).map(([tabKey, tabLabel]) => (
+		return Object.entries(sortObj(this.props.tabs)).map(([tabKey, tabLabel]) => (
 			<Button
 				ref={r => this[tabKey] = r}
 				text={tabLabel}
