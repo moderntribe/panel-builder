@@ -61,11 +61,14 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	protected function get_tabbed_fields( &$blueprint, PanelType $type ) {
-		$tabbed_fields = $type->get_tabbed_field_names();
+		$tabbed_fields     = $type->get_tabbed_field_names();
+		$blueprint['tabs'] = [];
 
 		foreach ( $tabbed_fields as $tab => $fields ) {
-			$tab_name               = sprintf( '%s_fields', $tab );
-			$blueprint[ $tab_name ] = $fields;
+			$tab_label                      = str_replace( '_', ' ', ucwords( $tab, '_' ) );
+			$tab_name                       = sprintf( '%s_fields', $tab );
+			$blueprint['tabs'][ $tab_name ] = $tab_label;
+			$blueprint[ $tab_name ]         = $fields;
 		}
 	}
 
