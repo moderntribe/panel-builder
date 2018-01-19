@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import alphabetize from 'alphabetize-object-keys';
 import _ from 'lodash';
 import delegate from 'delegate';
 import autobind from 'autobind-decorator';
@@ -346,12 +345,7 @@ class PanelContainer extends Component {
 	}
 
 	getTabs() {
-		const content = {
-			content_fields: UI_I18N['tab.content'],
-		};
-		const tabs = Object.assign({}, content, this.props.tabs);
-
-		return Object.entries(alphabetize(tabs)).map(([tabKey, tabLabel]) => (
+		return Object.entries(this.props.tabs).map(([tabKey, tabLabel]) => (
 			<Button
 				ref={r => this[tabKey] = r}
 				text={tabLabel}
