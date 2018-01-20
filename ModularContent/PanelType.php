@@ -99,9 +99,16 @@ class PanelType {
 
 	/**
 	 * @param Field $field
+	 * @param string $tab
 	 */
-	public function add_field_to_fieldset( Field $field ) {
+	public function add_field( Field $field, $tab = 'content' ) {
 		$this->fields[$field->get_name()] = $field;
+
+		if ( ! isset( $this->tabs[ $tab ] ) ) {
+			$this->tabs[ $tab ] = [];
+		}
+
+		$this->tabs[ $tab ][] = $field->get_name();
 	}
 
 	/**
@@ -126,22 +133,6 @@ class PanelType {
 	}
 
 	/**
-	 * Adds a field to the specified tab.
-	 *
-	 * @param Field $field
-	 * @param       $tab
-	 */
-	public function add_tabbed_field( Field $field, $tab ) {
-		$this->add_field_to_fieldset( $field );
-
-		if ( ! isset( $this->tabs[ $tab ] ) ) {
-			$this->tabs[ $tab ] = [];
-		}
-
-		$this->tabs[ $tab ][] = $field->get_name();
-	}
-
-	/**
 	 * Determine if a given field name is in the specified tab.
 	 *
 	 * @param $field_name
@@ -149,7 +140,7 @@ class PanelType {
 	 *
 	 * @return bool
 	 */
-	public function is_tabbed_field( $field_name, $tab ) {
+	public function is_field_in_tab( $field_name, $tab ) {
 		return isset( $this->tabs[ $tab ] ) && in_array( $field_name, $this->tabs[ $tab ] );
 	}
 
@@ -176,7 +167,7 @@ class PanelType {
 			$default_tabbed_fields = apply_filters( $filter_name, $default_tabbed_fields, $this->id );
 
 			foreach ( $default_tabbed_fields as $tabbed_field ) {
-				$this->add_tabbed_field( $tabbed_field, $tab_name );
+				$this->add_field( $tabbed_field, $tab_name );
 			}
 		}
 	}
@@ -195,24 +186,15 @@ class PanelType {
 	}
 
 	/**
-	 * Alias for add_tabbed_field( $field, 'content' );
-	 *
-	 * @param Field $field
-	 */
-	public function add_field( Field $field ) {
-		$this->add_tabbed_field( $field, 'content' );
-	}
-
-	/**
 	 * Add a field to the Settings tab of the panel type
 	 *
-	 * Alias for add_tabbed_field( $field, 'settings' );
+	 * Alias for add_field( $field, 'settings' );
 	 *
 	 * @param Field $field
 	 * @return void
 	 */
 	public function add_settings_field( Field $field ) {
-		$this->add_tabbed_field( $field, 'settings' );
+		$this->add_field( $field, 'settings' );
 	}
 
 	/**
