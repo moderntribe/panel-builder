@@ -62,6 +62,7 @@ const Button = (props) => {
 			className={buttonClasses}
 			onClick={props.handleClick}
 			data-loading={props.showLoader}
+			data-id={props.dataID}
 			disabled={props.disabled}
 		>
 			{getLoader()}
@@ -83,6 +84,7 @@ Button.propTypes = {
 	disabled: PropTypes.bool,
 	rounded: PropTypes.bool,
 	handleClick: PropTypes.func,
+	dataID: PropTypes.string,
 	useLoader: PropTypes.bool,
 	showLoader: PropTypes.bool,
 };
@@ -99,6 +101,7 @@ Button.defaultProps = {
 	disabled: false,
 	rounded: false,
 	handleClick: () => {},
+	dataID: '',
 	useLoader: false,
 	showLoader: false,
 };

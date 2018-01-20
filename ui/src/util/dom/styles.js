@@ -36,14 +36,11 @@ export const defaultFieldClasses = (styles, props = {}) => {
 export const isCompactField = (field = {}) => {
 	let isCompact;
 	switch (field.type) {
-	case FIELD_TYPES.GROUP:
-		isCompact = false;
+	case FIELD_TYPES.NUMBER:
+		isCompact = field.layout && field.layout === DATA_KEYS.COMPACT_LAYOUT;
 		break;
 	default:
-		isCompact = (
-			field.layout &&
-			field.layout === DATA_KEYS.COMPACT_LAYOUT
-		);
+		isCompact = false;
 	}
 	return isCompact;
 };

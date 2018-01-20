@@ -23,6 +23,18 @@ const FieldBuilder = (props) => {
 			return null;
 		}
 
+		let isActive = _.isEmpty(props.tabs);
+
+		Object.keys(props.tabs).forEach((tab) => {
+			if (props[tab].indexOf(field.name) >= 0 && tab === props.activeTab) {
+				isActive = true;
+			}
+		});
+
+		if (!isActive) {
+			return null;
+		}
+
 		const classes = classNames({
 			[styles.field]: true,
 			[styles.compact]: styleUtil.isCompactField(field),
@@ -35,7 +47,6 @@ const FieldBuilder = (props) => {
 			<div
 				className={classes}
 				key={_.uniqueId('field-id-')}
-				data-settings={props.settings_fields.indexOf(field.name) !== -1}
 				style={styleUtil.fieldStyles(field)}
 			>
 				<Field
@@ -47,6 +58,8 @@ const FieldBuilder = (props) => {
 					parent={props.parent}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
+					tabs={props.tabs}
+					activeTab={props.activeTab}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
 					handleExpanderClick={props.handleExpanderClick}
@@ -57,13 +70,15 @@ const FieldBuilder = (props) => {
 		);
 	});
 
-	const ChildPanels = props.hasChildren ? (
+	const ChildPanels = props.hasChildren && props.activeTab === 'content_fields' ? (
 		<Children
 			childData={props.children}
 			panels={props.panels}
 			depth={props.depth}
 			parentIndex={props.index}
 			indexMap={props.indexMap}
+			tabs={props.tabs}
+			activeTab={props.activeTab}
 			liveEdit={props.liveEdit}
 			data={props.panels}
 			updatePanelData={props.updatePanelData}
@@ -87,6 +102,7 @@ FieldBuilder.propTypes = {
 	depth: PropTypes.number,
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
+	activeTab: PropTypes.string,
 	label: PropTypes.string,
 	parent: PropTypes.string,
 	fields: PropTypes.array,
@@ -95,6 +111,7 @@ FieldBuilder.propTypes = {
 	liveEdit: PropTypes.bool,
 	hasChildren: PropTypes.bool,
 	data: PropTypes.object,
+	tabs: PropTypes.object,
 	updatePanelData: PropTypes.func,
 	settings_fields: React.PropTypes.array,
 	hidePanel: PropTypes.func,
@@ -108,6 +125,7 @@ FieldBuilder.defaultProps = {
 	depth: 0,
 	index: 0,
 	indexMap: [],
+	activeTab: 'content_fields',
 	label: '',
 	fields: [],
 	panels: [],
@@ -116,6 +134,7 @@ FieldBuilder.defaultProps = {
 	liveEdit: false,
 	hasChildren: false,
 	data: {},
+	tabs: {},
 	settings_fields: [],
 	updatePanelData: () => {},
 	hidePanel: () => {},
