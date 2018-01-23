@@ -13,6 +13,7 @@
 	}
 
 	.imagePreview {
+		background: var(--border-color);
 		text-align: center;
 		padding: 10px 10px 0;
 		border: 1px solid var(--picker-border);
@@ -32,7 +33,12 @@
 	display: none;
 
 	&.uploaderOpen {
+		background-color: var(--button-primary-bg-color);
 		display: block;
+
+		span {
+			color: var(--panel-label-color);
+		}
 	}
 }
 
@@ -45,12 +51,12 @@
 		border-top: none;
 		border-bottom-right-radius: 2px;
 		border-bottom-left-radius: 2px;
-		color: var(--button-image-remove-color);
+		color: var(--dialog-error);
 
 		&:hover,
 		&:focus {
 			background-color: transparent;
-			color: var(--button-image-remove-color);
+			color: var(--dialog-error);
 		}
 	}
 }

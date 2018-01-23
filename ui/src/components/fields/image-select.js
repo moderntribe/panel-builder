@@ -1,20 +1,67 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import { injectColumns } from '../../actions/panels';
 import styles from './image-select.pcss';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
+import { UI_I18N } from '../../globals/i18n';
 
-class ImageSelect extends Component {
-	state = {
-		value: this.props.data,
-	};
+export class ImageSelect extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			id: _.uniqueId('image-select-'),
+			hidden: this.props.can_add_columns,
+			layoutRequest: null,
+			value: this.props.data,
+		};
+		this.confirmColumnInjection = this.confirmColumnInjection.bind(this);
+	}
+
+	componentDidMount() {
+		document.addEventListener(EVENTS.INJECT_LAYOUT, this.confirmColumnInjection);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener(EVENTS.INJECT_LAYOUT, this.confirmColumnInjection);
+	}
 
 	@autobind
-	handleChange(e) {
-		const value = e.currentTarget.value;
-		this.setState({ value });
+	handleHeader() {
+		this.setState({ hidden: !this.state.hidden });
+	}
+
+	confirmColumnInjection(e) {
+		if (e.detail.id !== this.state.id) {
+			return;
+		}
+		this.updateState(this.state.layoutRequest);
+	}
+
+	updateState(value) {
+		if (this.props.can_add_columns) {
+			this.props.injectColumns({
+				indexMap: this.props.indexMap,
+				value,
+			});
+		}
+		this.setState({
+			value,
+			hidden: this.props.can_add_columns,
+		}, () => {
+			if (!this.props.can_add_columns) {
+				return;
+			}
+			trigger({
+				event: EVENTS.COLUMNS_UPDATED,
+				native: false,
+			});
+		});
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
@@ -23,14 +70,38 @@ class ImageSelect extends Component {
 		});
 	}
 
+	@autobind
+	handleChange(e) {
+		const value = e.currentTarget.value;
+		if (this.props.can_add_columns) {
+			trigger({
+				event: EVENTS.OPEN_DIALOG,
+				native: false,
+				data: {
+					type: 'error',
+					confirm: true,
+					heading: UI_I18N['message.confirm_layout'],
+					data: {
+						id: this.state.id,
+					},
+					confirmCallback: EVENTS.INJECT_LAYOUT,
+				},
+			});
+			this.setState({ layoutRequest: value });
+			return;
+		}
+		this.updateState(value);
+	}
+
 	render() {
 		const imgSelectLabelClasses = classNames({
 			'plimageselect-label': true,
 			[styles.imageSelectLabel]: true,
+			[styles.isColumnImg]: this.props.can_add_columns,
 		});
 
-		const Options = _.map(this.props.options, option =>
-			(<label
+		const Options = _.map(this.props.options, option => (
+			<label
 				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
 			>
@@ -50,28 +121,47 @@ class ImageSelect extends Component {
 						<img src={option.src} alt={option.label} />
 					</span>
 				</div>
-				{option.label}
-			</label>),
+				{!this.props.can_add_columns && option.label}
+			</label>
+			),
 		);
 
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
+
+		const arrowClasses = classNames({
+			'dashicons': true,
+			'dashicons-arrow-right-alt2': true,
+			[styles.arrow]: this.props.can_add_columns,
+			[styles.arrowUp]: this.state.hidden,
+		});
+
 		const descriptionClasses = classNames({
 			[styles.description]: true,
 			'panel-field-description': true,
 		});
+		const containerClasses = classNames({
+			[styles.container]: true,
+			[styles.hidden]: this.state.hidden,
+			[styles.isColumn]: this.props.can_add_columns,
+		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.hidden]: this.state.hidden,
+			[styles.isColumnType]: this.props.can_add_columns,
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
-				<div className={styles.container}>
+				<label className={labelClasses} onClick={this.handleHeader}>
+					{this.props.label}
+					{this.props.can_add_columns && <i className={arrowClasses} />}
+				</label>
+				<div className={containerClasses}>
 					{Options}
 				</div>
 				<p className={descriptionClasses}>{this.props.description}</p>
@@ -80,7 +170,12 @@ class ImageSelect extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => ({
+	injectColumns: data => dispatch(injectColumns(data)),
+});
+
 ImageSelect.propTypes = {
+	can_add_columns: PropTypes.bool,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -91,10 +186,12 @@ ImageSelect.propTypes = {
 	options: PropTypes.array,
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
+	injectColumns: PropTypes.func,
 	updatePanelData: PropTypes.func,
 };
 
 ImageSelect.defaultProps = {
+	can_add_columns: false,
 	label: '',
 	name: '',
 	description: '',
@@ -105,7 +202,8 @@ ImageSelect.defaultProps = {
 	options: [],
 	data: '',
 	panelIndex: 0,
+	injectColumns: () => {},
 	updatePanelData: () => {},
 };
 
-export default ImageSelect;
+export default connect(null, mapDispatchToProps)(ImageSelect);

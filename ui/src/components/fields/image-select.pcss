@@ -1,6 +1,7 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 @import '../../shared/mq.pcss';
+@import '../../shared/transitions.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
@@ -12,12 +13,32 @@
 	display: block;
 }
 
+.arrow {
+	transition: transform 200ms ease-in-out;
+	transform: rotate(-90deg);
+	margin-left: 6px;
+
+	&.arrowUp {
+		transform: rotate(90deg);
+	}
+}
+
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
+
+	.isColumnType & {
+		transition: color 600ms ease-in-out;
+		color: var(--dialog-error);
+	}
+
+	.hidden.isColumnType & {
+		color: var(--description-text-color);
+	}
 }
 
 .optionImage{
 	width:100%;
+
 	img {
 		background: var(--border-color-dark);
 		opacity: 0.4;
@@ -29,38 +50,45 @@
 		height:auto;
 		box-sizing:border-box;
 		margin-bottom:5px;
+
+		.isColumnImg & {
+			padding: 25px 5px;
+		}
 	}
 }
 
 .container {
-	lost-flex-container: row;
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+	transition: max-height 600ms ease-in-out;
+
+	&.isColumn {
+		max-height: 1000px;
+	}
+
+	&.hidden {
+		max-height: 0;
+	}
 }
 
 [data-live-edit="false"] {
+
 	.imageSelectLabel {
-		lost-column: 1/2 2 10px;
-
-		@media (--viewport-xsmall) {
-			lost-column: 1/4 4 10px;
-		}
-
-		@media (--viewport-medium) {
-			lost-column: 1/6 6 10px;
-		}
-
-		@media (--viewport-large) {
-			lost-column: 1/8 8 10px;
-		}
+		flex: 1;
 	}
 }
 
 [data-live-edit="true"] {
+
 	.imageSelectLabel {
-		lost-column: 1/2 2 10px;
+		flex: 1;
 	}
+
 	[data-expanded="true"] {
+
 		.imageSelectLabel {
-			lost-column: 1/4 4 10px;
+			flex: 1;
 		}
 	}
 }
@@ -81,6 +109,7 @@
 	.optionImage .optInner {
 		display: block;
 		border: 2px solid transparent;
+
 		img {
 			display: block;
 			margin: 0;
@@ -97,6 +126,7 @@
 	}
 
 	input[type="radio"]:checked + .optionImage {
+
 		&:before {
 			content: '';
 			width:25px;
@@ -109,6 +139,7 @@
 			border-radius: 100%;
 			background-color: color(var(--black) a(40%)) ;
 		}
+
 		&:after{
 			content: "\f147";
 			font-family:dashicons;
@@ -123,6 +154,7 @@
 			line-height: 25px;
 			color: var(--white);
 		}
+
 		img {
 			opacity: 1;
 		}
