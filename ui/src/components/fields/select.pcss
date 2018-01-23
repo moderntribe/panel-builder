@@ -1,17 +1,43 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
 	transform: translate3d(0, 0, 0);
+
+	> div {
+		width: 50%;
+
+		> div {
+			background-color: var(--color-white) !important;
+			border: 1px solid var(--border-input) !important;
+			border-radius: 2px;
+			color: var(--input-placeholder);
+			font-weight: normal;
+
+			> span + span {
+				padding-right: 0 !important;
+
+				> span {
+					border-width: 3px 3px 2px !important;
+					font-size: 12px !important;
+					position: relative;
+					right: -2px !important;
+					top: -1px;
+				}
+			}
+		}
+	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	overflow: visible;
+	width: calc(50% - 10px);
 }
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
-
-

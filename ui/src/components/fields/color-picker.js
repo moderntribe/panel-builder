@@ -182,7 +182,7 @@ class ColorPicker extends Component {
 		return this.props.allow_clear && this.state.value.length ? (
 			<Button
 				classes={styles.colorClear}
-				icon="dashicons-dismiss"
+				icon="dashicons-no-alt"
 				bare
 				handleClick={this.handleChange}
 			/>

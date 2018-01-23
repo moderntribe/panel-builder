@@ -248,7 +248,7 @@ class Repeater extends Component {
 		if (this.state.data.length < this.props.max && PERMISSIONS.can_add_rows) {
 			AddRow = (
 				<Button
-					icon="dashicons-plus-alt"
+					icon=""
 					classes="repeater-add-row"
 					text={this.props.strings['button.new']}
 					primary={false}
