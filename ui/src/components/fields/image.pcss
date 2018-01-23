@@ -1,13 +1,21 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
 
-.label {
-	composes: inputLabel from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
-}
-
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
+	display: flex;
+	width: 99%;
+
+	> div {
+		flex: 1;
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	transform: translate3d(0, 0, 0);
+	width: calc(50% - 10px);
 }
 
 .description {

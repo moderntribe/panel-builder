@@ -5,17 +5,20 @@
 	max-width: 340px;
 }
 
-.currentUploadedFile{
-	display:none;
-	&.currentOpen{
-		display:block;
+.currentUploadedFile {
+	display: none;
+
+	&.currentOpen {
+		display: block;
 	}
+
 	.imagePreview {
 		text-align: center;
-		padding: 10px;
-		background: var(--picker-bg);
+		padding: 10px 10px 0;
 		border: 1px solid var(--picker-border);
 		border-bottom: 0;
+		border-radius: 2px;
+
 		img {
 			display: inline-block;
 			max-width: 100%;
@@ -25,13 +28,29 @@
 	}
 }
 
-.uploaderSection{
-	display:none;
-	&.uploaderOpen{
-		display:block;
+.uploaderSection {
+	display: none;
+
+	&.uploaderOpen {
+		display: block;
 	}
 }
 
-.removeButtonContainer{
-	margin:0 0 20px 0;
+.removeButtonContainer {
+	margin: 0 0 20px 0;
+
+	button {
+		background-color: transparent;
+		border: 1px solid var(--picker-border);
+		border-top: none;
+		border-bottom-right-radius: 2px;
+		border-bottom-left-radius: 2px;
+		color: var(--button-image-remove-color);
+
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			color: var(--button-image-remove-color);
+		}
+	}
 }
