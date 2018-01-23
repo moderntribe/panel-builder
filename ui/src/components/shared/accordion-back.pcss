@@ -2,32 +2,37 @@
 @import '../../shared/colors.pcss';
 
 @svg-load info url('../../img/icons/info.svg') {
+
 	path {
 		fill: var(--light-heading);
 	}
 }
 
 @svg-load infoHover url('../../img/icons/info.svg') {
+
 	path {
 		fill: var(--button-new-blue);
 	}
 }
 
 @svg-load close url('../../img/icons/close.svg') {
+
 	path {
 		fill: var(--light-heading);
 	}
 }
 
 @svg-load closeHover url('../../img/icons/close.svg') {
+
 	path {
 		fill: var(--button-new-blue);
 	}
 }
 
-.back{
+.back {
 	border: 1px solid var(--border-color);
 	margin: 0;
+
 	h3 {
 		font-size: 20px;
 		font-weight: 200;
@@ -36,10 +41,11 @@
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		margin:0;
-		padding:10px 30px 0 15px;
-		height:74px;
+		margin: 0;
+		padding: 10px 30px 0 15px;
+		height: 74px;
 		text-align: left;
+
 		> span {
 			display: block;
 			overflow: hidden;
@@ -50,23 +56,26 @@
 }
 
 [data-live-edit="false"] {
-	.back{
+
+	.back {
 		display: none;
 	}
 }
 
 [data-live-edit="true"] {
+
 	.back {
 		border-right: 0;
 	}
 }
 
-.action{
+.action {
 	display: block;
 	font-size: 13px;
 	font-weight: 400;
 	color: var(--light-heading);
 	cursor: pointer;
+
 	i {
 		display: inline-block;
 		width: 14px;
@@ -77,6 +86,7 @@
 		background: svg-inline(info) 50% 50% no-repeat;
 		background-size: contain;
 	}
+
 	&:hover {
 		color: var(--button-new-blue);
 
@@ -88,7 +98,9 @@
 }
 
 [data-info-active="true"] {
-	.action{
+
+	.action {
+
 		i {
 			top: 1px;
 			width: 10px;
@@ -96,6 +108,7 @@
 			background: svg-inline(close) 50% 50% no-repeat;
 			background-size: contain;
 		}
+
 		&:hover {
 			i {
 				background: svg-inline(closeHover) 50% 50% no-repeat;
@@ -105,20 +118,21 @@
 	}
 }
 
-.backButton{
-	display:block;
-	float:left;
+.backButton {
+	display: block;
+	float: left;
 	height: 74px;
-	background:var(--button-primary-bg-color);
+	background: var(--button-primary-bg-color);
 	width: 49px;
-	border:0;
+	border: 0;
 	border-right: 1px solid var(--border-color);
 	border-radius: 0;
-	&:before{
+
+	&:before {
 		font: normal 20px/72px dashicons;
 		content: "\f341";
 		position: relative;
 		left: 0;
-		top:-9px;
+		top: -9px;
 	}
 }

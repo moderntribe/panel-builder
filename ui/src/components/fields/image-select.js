@@ -157,7 +157,7 @@ export class ImageSelect extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses} onClick={this.handleHeader}> //eslint-disable-line
+				<label className={labelClasses} onClick={this.handleHeader}>
 					{this.props.label}
 					{this.props.can_add_columns && <i className={arrowClasses} />}
 				</label>
