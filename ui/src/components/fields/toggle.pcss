@@ -4,7 +4,7 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	padding: 0 var(--field-padding-vertical) 15px;
+	padding: 0 var(--field-padding-vertical) 15px 0;
 	width: 100%;
 
 	> label + div {
@@ -37,10 +37,10 @@
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	display: inline-block;
-	margin: 0 5px 0 0;
+	margin: 0 15px 0 0;
 	position: relative;
 	top: -10px;
-	width: 50%;
+	width: auto;
 }
 
 .description {

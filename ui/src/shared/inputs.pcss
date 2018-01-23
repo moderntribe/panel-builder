@@ -2,10 +2,16 @@
 @import './spacing.pcss';
 
 .input {
+	border-radius: 2px;
+	background-color: var(--color-white);
+	border: 1px solid var(--border-input);
+	box-shadow: none !important;
+	color: var(--input-placeholder);
+	height: auto;
+	font-size: 13px;
+	font-weight: 300;
 	padding: var(--field-padding-vertical) var(--field-padding-horizontal);
 	width: 100%;
-	height: auto;
-	border-radius: 2px;
 }
 
 .full {
@@ -24,37 +30,44 @@
 	overflow: hidden;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
+
 	&.checkbox {
 		opacity: 0;
 		width: 27px;
+
 		+ span {
 			position: absolute;
-			width:23px;
-			height: 23px;
+			width: 17px;
+			height: 17px;
 			border-radius: 2px;
-			top: 4px;
+			top: 6px;
 			left: 0;
 			border: 1px solid var(--border-color);
 		}
+
 		&:focus {
+
 			+ span {
 				border: 1px solid var(--panel-label-color);
 			}
 		}
+
 		&:checked {
+
 			+ span {
 				border-color: var(--button-new-blue);
+
 				&:after {
 					content: "\f147";
-					font-family:dashicons;
+					font-family: dashicons;
 					position: absolute;
 					display: block;
-					right:1px;
-					top:-3px;
-					width:23px;
-					height: 23px;
-					font-size:26px;
+					right: 1px;
+					top: -3px;
+					width: 17px;
+					height: 17px;
+					font-size: 20px;
 					color: var(--button-new-blue);
 				}
 			}
@@ -62,37 +75,44 @@ input[type="checkbox"]{
 	}
 }
 
-input[type="radio"]{
+input[type="radio"] {
+
 	&.radio {
 		opacity: 0;
 		width: 27px;
+
 		+ span {
 			position: absolute;
-			width:23px;
-			height: 23px;
+			width: 17px;
+			height: 17px;
 			border-radius: 100%;
-			top: 4px;
+			top: 6px;
 			left: 0;
 			border: 1px solid var(--border-color);
 		}
+
 		&:focus {
+
 			+ span {
 				border: 1px solid var(--panel-label-color);
 			}
 		}
+
 		&:checked {
+
 			+ span {
 				border-color: var(--button-new-blue);
+
 				&:after {
 					background: var(--button-new-blue);
 					position: absolute;
 					content: '';
 					display: block;
-					right:6px;
-					top:6px;
+					right: -2px;
+					top: -1px;
 					border-radius: 100%;
-					width:9px;
-					height: 9px;
+					width: 17px;
+					height: 17px;
 				}
 			}
 		}
