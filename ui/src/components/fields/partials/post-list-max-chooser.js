@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
 
@@ -54,7 +55,7 @@ PostListMaxChooser.propTypes = {
 	min: PropTypes.number,
 	maxSelected: PropTypes.number,
 	onChange: PropTypes.func,
-	strings: React.PropTypes.object,
+	strings: PropTypes.object,
 };
 
 PostListMaxChooser.defaultProps = {

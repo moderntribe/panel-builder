@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
@@ -186,7 +187,7 @@ class Children extends Component {
 		this.props.liveEdit ?
 			<div
 				key={`${this.state.keyPrefix}-${index}`}
-				data-rowIndex={index}
+				data-row-index={index}
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
@@ -197,7 +198,7 @@ class Children extends Component {
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
-					data-rowIndex={index}
+					data-row-index={index}
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
@@ -426,7 +427,7 @@ class Children extends Component {
 
 	@autobind
 	handleHeaderClick(e) {
-		const activeIndex = parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10);
+		const activeIndex = parseInt(e.currentTarget.getAttribute('data-row-index'), 10);
 		const newState = {
 			activeIndex,
 		};

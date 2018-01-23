@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import Button from '../../shared/button';
 import BlankPostUi from '../../shared/blank-post-ui';
@@ -49,4 +50,3 @@ PostListManualTypeChooser.defaultProps = {
 };
 
 export default PostListManualTypeChooser;
-

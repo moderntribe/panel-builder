@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
@@ -113,7 +114,7 @@ FieldBuilder.propTypes = {
 	data: PropTypes.object,
 	tabs: PropTypes.object,
 	updatePanelData: PropTypes.func,
-	settings_fields: React.PropTypes.array,
+	settings_fields: PropTypes.array,
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,

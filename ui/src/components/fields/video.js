@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import styles from './video.pcss';
@@ -70,8 +71,8 @@ Video.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	data: PropTypes.string,

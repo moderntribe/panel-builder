@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -99,7 +100,7 @@ export class ImageSelect extends Component {
 			[styles.isColumnImg]: this.props.can_add_columns,
 		});
 
-		const Options = _.map(this.props.options, option =>
+		const Options = _.map(this.props.options, option => (
 			<label
 				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
@@ -121,7 +122,8 @@ export class ImageSelect extends Component {
 					</span>
 				</div>
 				{!this.props.can_add_columns && option.label}
-			</label>,
+			</label>
+			),
 		);
 
 		const labelClasses = classNames({
@@ -155,7 +157,7 @@ export class ImageSelect extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses} onClick={this.handleHeader}>
+				<label className={labelClasses} onClick={this.handleHeader}> //eslint-disable-line
 					{this.props.label}
 					{this.props.can_add_columns && <i className={arrowClasses} />}
 				</label>
@@ -173,19 +175,19 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ImageSelect.propTypes = {
-	can_add_columns: React.PropTypes.bool,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	indexMap: React.PropTypes.array,
-	depth: React.PropTypes.number,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	injectColumns: React.PropTypes.func,
-	updatePanelData: React.PropTypes.func,
+	can_add_columns: PropTypes.bool,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.object,
+	indexMap: PropTypes.array,
+	depth: PropTypes.number,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	injectColumns: PropTypes.func,
+	updatePanelData: PropTypes.func,
 };
 
 ImageSelect.defaultProps = {

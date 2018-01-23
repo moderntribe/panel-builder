@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
@@ -574,17 +575,17 @@ PostQuacker.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
 	default: PropTypes.object,
 	post_id: PropTypes.number,
 	editor_settings_reference: PropTypes.string,
-	data: React.PropTypes.object,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
-	size: React.PropTypes.string,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
+	size: PropTypes.string,
 };
 
 PostQuacker.defaultProps = {

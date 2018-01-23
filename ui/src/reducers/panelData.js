@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import update from 'react/lib/update';
+import update from 'immutability-helper';
 import {
 	ADD_PANEL,
 	ADD_PANEL_SET,

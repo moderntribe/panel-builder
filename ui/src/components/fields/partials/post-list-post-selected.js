@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactSelect from 'react-select-plus';
 import autobind from 'autobind-decorator';
 import request from 'superagent';

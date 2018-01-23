@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -150,19 +151,19 @@ class Icons extends Component {
 }
 
 Icons.propTypes = {
-	label: React.PropTypes.string,
-	class_string: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	indexMap: React.PropTypes.array,
-	depth: React.PropTypes.number,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	search: React.PropTypes.bool,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	class_string: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.object,
+	indexMap: PropTypes.array,
+	depth: PropTypes.number,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	search: PropTypes.bool,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Icons.defaultProps = {

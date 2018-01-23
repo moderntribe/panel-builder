@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -113,17 +114,17 @@ class Image extends Component {
 }
 
 Image.propTypes = {
-	allowed_image_mime_types: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	indexMap: React.PropTypes.array,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	data: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.number,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	allowed_image_mime_types: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	indexMap: PropTypes.array,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	data: PropTypes.number,
+	strings: PropTypes.object,
+	default: PropTypes.number,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Image.defaultProps = {

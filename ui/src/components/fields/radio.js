@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -27,7 +28,7 @@ class Radio extends Component {
 			'plradio-label': true,
 		});
 
-		const Options = _.map(this.props.options, option =>
+		const Options = _.map(this.props.options, option => (
 			<label
 				className={radioLabelClasses}
 				key={_.uniqueId('option-id-')}
@@ -45,7 +46,8 @@ class Radio extends Component {
 				/>
 				<span />
 				{option.label}
-			</label>,
+			</label>
+			),
 		);
 		const labelClasses = classNames({
 			[styles.label]: true,
@@ -72,17 +74,17 @@ class Radio extends Component {
 }
 
 Radio.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	strings: PropTypes.object,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Radio.defaultProps = {

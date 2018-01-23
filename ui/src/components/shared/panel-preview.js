@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classNames from 'classnames';
 
 import { BLUEPRINT_CATEGORIES } from '../../globals/config';
@@ -29,7 +30,7 @@ const PanelPreview = (props) => {
 	});
 
 	return (
-		<article
+		<article //eslint-disable-line
 			className={containerClasses}
 			onClick={addPanel}
 		>
@@ -58,4 +59,3 @@ PanelPreview.defaultProps = {
 };
 
 export default PanelPreview;
-

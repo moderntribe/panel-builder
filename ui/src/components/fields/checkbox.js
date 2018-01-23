@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -41,7 +42,7 @@ class Checkbox extends Component {
 			'panel-conditional-field': true,
 		});
 		const Options = _.map(this.props.options, option =>
-			<li key={_.uniqueId('checkbox-id-')}>
+			(<li key={_.uniqueId('checkbox-id-')}>
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
@@ -57,7 +58,7 @@ class Checkbox extends Component {
 					<span />
 					{option.label}
 				</label>
-			</li>,
+			</li>),
 		);
 
 		return (
@@ -73,17 +74,17 @@ class Checkbox extends Component {
 }
 
 Checkbox.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.object,
-	options: React.PropTypes.array,
-	data: React.PropTypes.object,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	description: PropTypes.string,
+	strings: PropTypes.object,
+	default: PropTypes.object,
+	options: PropTypes.array,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Checkbox.defaultProps = {

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
@@ -20,10 +21,6 @@ class Group extends Component {
 	state = {
 		active: false,
 	};
-
-	isCompact() {
-		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
-	}
 
 	/**
 	 * Gets the header which toggles the group into view
@@ -87,6 +84,10 @@ class Group extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	isCompact() {
+		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
 	}
 
 	/**

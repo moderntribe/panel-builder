@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -20,7 +21,7 @@ const HTML = (props) => {
 };
 
 HTML.propTypes = {
-	description: React.PropTypes.string,
+	description: PropTypes.string,
 };
 
 HTML.defaultProps = {

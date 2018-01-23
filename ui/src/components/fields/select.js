@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import ReactSelect from 'react-select-plus';
@@ -59,7 +60,7 @@ Select.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	options: PropTypes.array,

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -77,11 +78,11 @@ class Link extends Component {
 Link.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	description: PropTypes.string,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
 	strings: PropTypes.object,
-	default: React.PropTypes.object,
+	default: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
 	updatePanelData: PropTypes.func,

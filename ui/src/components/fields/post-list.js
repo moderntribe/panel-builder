@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
@@ -309,14 +310,15 @@ class PostList extends Component {
 		// Shows the empties if less than min
 		if (this.state.manualPostData.length < this.props.min) {
 			const remaining = this.props.min - this.state.manualPostData.length;
-			MaybeChooser = _.times(remaining, i =>
+			MaybeChooser = _.times(remaining, i => (
 				<PostListManualTypeChooser
 					key={_.uniqueId('add-manual-post-')}
 					index={i}
 					showHeading={this.state.manualPostData.length !== 0}
 					handleClick={this.addManualPost}
 					strings={this.props.strings}
-				/>,
+				/>
+				),
 			);
 		} else if (this.state.manualPostData.length < this.props.max) {
 			// shows one empty if more than min but less than max
@@ -387,8 +389,10 @@ class PostList extends Component {
 						key={filter.filterID}
 						filterID={filter.filterID}
 						label={filter.label}
-						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
-						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
+						onChangeTaxonomy={this.onChangeFilterGeneric}
+						options={taxonomy}
+						onRemoveClick={this.onRemoveFilter}
+						selection={filter.selection}
 						strings={this.props.strings}
 					/>
 				);
@@ -976,7 +980,7 @@ PostList.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.object,
 	indexMap: PropTypes.array,
@@ -990,7 +994,7 @@ PostList.propTypes = {
 	taxonomies: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	updatePanelData: PropTypes.func,
 };
 
 PostList.defaultProps = {

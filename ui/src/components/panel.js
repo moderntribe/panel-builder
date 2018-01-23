@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import delegate from 'delegate';
@@ -167,37 +168,27 @@ class PanelContainer extends Component {
 		);
 	}
 
-	@autobind
-	maybeActivate(e) {
-		if (!this.mounted) {
-			return;
-		}
-
-		if (e.detail.index !== this.props.index) {
-			this.setState({ active: false });
-			return;
-		}
-
-		if (this.props.panelsActive) {
-			this.props.panelsActivate(false);
-		}
-
-		_.delay(() => {
-			this.props.panelsActivate(true);
-			this.setState({ active: true }, () => {
-				this.handleHeights();
-			});
-		}, 300);
+	getTabs() {
+		return Object.entries(sortObj(this.props.tabs)).map(([tabKey, tabLabel]) => (
+			<Button
+				text={tabLabel}
+				full={false}
+				key={`${tabKey}`}
+				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
+				handleClick={this.enableCurrentTabMode}
+				dataID={tabKey}
+			/>
+		));
 	}
 
 	@autobind
-	maybeDeActivate() {
-		if (!this.state.active) {
-			return;
-		}
+	enableCurrentTabMode(e) {
+		this.setState({ activeTab: e.currentTarget.dataset.id });
+	}
 
-		this.setState({ active: false });
-		this.props.panelsActivate(false);
+	@autobind
+	enableContentMode() {
+		this.el.classList.remove(styles.settingsActive);
 	}
 
 	@autobind
@@ -338,27 +329,36 @@ class PanelContainer extends Component {
 	}
 
 	@autobind
-	enableContentMode() {
-		this.el.classList.remove(styles.settingsActive);
+	maybeDeActivate() {
+		if (!this.state.active) {
+			return;
+		}
+
+		this.setState({ active: false });
+		this.props.panelsActivate(false);
 	}
 
 	@autobind
-	enableCurrentTabMode(e) {
-		this.setState({ activeTab: e.currentTarget.dataset.id });
-	}
+	maybeActivate(e) {
+		if (!this.mounted) {
+			return;
+		}
 
-	getTabs() {
-		return Object.entries(sortObj(this.props.tabs)).map(([tabKey, tabLabel]) => (
-			<Button
-				ref={r => this[tabKey] = r}
-				text={tabLabel}
-				full={false}
-				key={`${tabKey}`}
-				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
-				handleClick={this.enableCurrentTabMode}
-				dataID={tabKey}
-			/>
-		));
+		if (e.detail.index !== this.props.index) {
+			this.setState({ active: false });
+			return;
+		}
+
+		if (this.props.panelsActive) {
+			this.props.panelsActivate(false);
+		}
+
+		_.delay(() => {
+			this.props.panelsActivate(true);
+			this.setState({ active: true }, () => {
+				this.handleHeights();
+			});
+		}, 300);
 	}
 
 	renderPanelInfo() {

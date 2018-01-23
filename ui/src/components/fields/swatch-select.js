@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -85,17 +86,17 @@ class SwatchSelect extends Component {
 }
 
 SwatchSelect.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	indexMap: React.PropTypes.array,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	depth: PropTypes.number,
+	strings: PropTypes.object,
+	indexMap: PropTypes.array,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 SwatchSelect.defaultProps = {

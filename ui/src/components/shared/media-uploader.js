@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classNames from 'classnames';
 
 import Button from './button';
@@ -19,7 +20,7 @@ const MediaUploader = (props) => {
 	case 'image':
 		Preview = (
 			<div className={styles.imagePreview}>
-				<img onClick={props.handleAddMedia} src={props.file} role="presentation" />
+				<img onClick={props.handleAddMedia} src={props.file} alt="" />
 			</div>
 		);
 		break;
