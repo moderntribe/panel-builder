@@ -22,11 +22,6 @@ describe('Text field', () => {
 		expect(wrapper.find('label').length).toEqual(1);
 	});
 
-	it('renders a text input', () => {
-		const wrapper = shallow(<Number />);
-		expect(wrapper.find('input[type="number"]').length).toEqual(1);
-	});
-
 	it('has a description paragraph', () => {
 		const wrapper = shallow(<Number />);
 		expect(wrapper.find('p').length).toEqual(1);

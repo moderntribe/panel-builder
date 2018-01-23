@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import tinycolor from 'tinycolor2';
@@ -265,21 +266,21 @@ class ColorPicker extends Component {
 }
 
 ColorPicker.propTypes = {
-	allow_clear: React.PropTypes.bool,
-	color_mode: React.PropTypes.string,
-	data: React.PropTypes.string,
-	default: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	input_active: React.PropTypes.bool,
-	indexMap: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	picker_type: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	swatches: React.PropTypes.array,
-	updatePanelData: React.PropTypes.func,
+	allow_clear: PropTypes.bool,
+	color_mode: PropTypes.string,
+	data: PropTypes.string,
+	default: PropTypes.string,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	input_active: PropTypes.bool,
+	indexMap: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	panelIndex: PropTypes.number,
+	picker_type: PropTypes.string,
+	strings: PropTypes.object,
+	swatches: PropTypes.array,
+	updatePanelData: PropTypes.func,
 };
 
 ColorPicker.defaultProps = {

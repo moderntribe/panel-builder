@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import escape from 'escape-html';
 import _ from 'lodash';
@@ -159,11 +160,11 @@ class ImageGallery extends Component {
 
 	render() {
 		const previewItems = _.map(this.state.gallery, (attachment, index) =>
-			<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
+			(<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
 				<input type="hidden" name={`${this.props.name}[${index}][id]`} value={attachment.id} />
 				<input type="hidden" name={`${this.props.name}[${index}][thumbnail]`} value={attachment.thumbnail} />
 				<img src={attachment.thumbnail} alt={`thumnbail${attachment.id}`} />
-			</div>,
+			</div>),
 		);
 
 		const descriptionClasses = classNames({
@@ -203,9 +204,9 @@ class ImageGallery extends Component {
 ImageGallery.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	description: PropTypes.string,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.array,
 	data: PropTypes.array,

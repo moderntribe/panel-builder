@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
@@ -64,7 +65,7 @@ Title.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	updatePanelData: PropTypes.func,

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
@@ -196,7 +197,7 @@ PostListQueryRelatedFilter.propTypes = {
 	filterID: PropTypes.string,
 	label: PropTypes.string,
 	selection: PropTypes.string,
-	strings: React.PropTypes.object,
+	strings: PropTypes.object,
 };
 
 PostListQueryRelatedFilter.defaultProps = {

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import request from 'superagent';
 import param from 'jquery-param';
@@ -204,13 +205,13 @@ class PostPreviewContainer extends Component {
 
 PostPreviewContainer.propTypes = {
 	post: PropTypes.object,
-	post_id: React.PropTypes.string,
-	post_type: React.PropTypes.string,
-	thumbnailId: React.PropTypes.number,
-	onRemoveClick: React.PropTypes.func,
-	onEditClick: React.PropTypes.func,
-	editableId: React.PropTypes.string,
-	onGetPostDetails: React.PropTypes.func,
+	post_id: PropTypes.string,
+	post_type: PropTypes.string,
+	thumbnailId: PropTypes.number,
+	onRemoveClick: PropTypes.func,
+	onEditClick: PropTypes.func,
+	editableId: PropTypes.string,
+	onGetPostDetails: PropTypes.func,
 };
 
 PostPreviewContainer.defaultProps = {

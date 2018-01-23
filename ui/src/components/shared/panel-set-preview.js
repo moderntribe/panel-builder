@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import { UI_I18N } from '../../globals/i18n';
@@ -35,7 +36,7 @@ class PanelSetPreview extends Component {
 		});
 
 		return (
-			<article
+			<article // eslint-disable-line
 				className={containerClasses}
 				onClick={this.addSet}
 				onMouseOver={this.handleOnMouseover}

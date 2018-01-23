@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -29,7 +30,7 @@ class ImageSelect extends Component {
 		});
 
 		const Options = _.map(this.props.options, option =>
-			<label
+			(<label
 				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
 			>
@@ -50,7 +51,7 @@ class ImageSelect extends Component {
 					</span>
 				</div>
 				{option.label}
-			</label>,
+			</label>),
 		);
 
 		const labelClasses = classNames({
@@ -80,17 +81,17 @@ class ImageSelect extends Component {
 }
 
 ImageSelect.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	indexMap: React.PropTypes.array,
-	depth: React.PropTypes.number,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	strings: PropTypes.object,
+	indexMap: PropTypes.array,
+	depth: PropTypes.number,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 ImageSelect.defaultProps = {

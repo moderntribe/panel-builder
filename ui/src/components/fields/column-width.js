@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -78,17 +79,17 @@ class ColumnWidth extends Component {
 }
 
 ColumnWidth.propTypes = {
-	data: React.PropTypes.number,
-	default: React.PropTypes.number,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	indexMap: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	options: React.PropTypes.array,
-	panelIndex: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	updatePanelData: React.PropTypes.func,
+	data: PropTypes.number,
+	default: PropTypes.number,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	indexMap: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	options: PropTypes.array,
+	panelIndex: PropTypes.number,
+	strings: PropTypes.object,
+	updatePanelData: PropTypes.func,
 };
 
 ColumnWidth.defaultProps = {

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -60,11 +61,11 @@ class Picker extends Component {
 
 	renderPicks() {
 		return this.props.activate ? _.map(this.props.types, (blueprint, i) =>
-			<PanelPreview
+			(<PanelPreview
 				key={`panel-preview-${i}`}
 				{...blueprint}
 				handleAddPanel={this.handleAddPanel}
-			/>,
+			/>),
 		) : null;
 	}
 
