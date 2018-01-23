@@ -2,11 +2,11 @@
 @import '../shared/colors.pcss';
 @import '../shared/easings.pcss';
 
-.wrapper{
+.wrapper {
 	background: var(--live-edit-background);
-	height:50px;
-	position:relative;
-	z-index:100004;
+	height: 50px;
+	position: relative;
+	z-index: 100004;
 	top: -50px;
 	transition: all 300ms var(--easeInOutSine);
 	&.loaded {
@@ -15,25 +15,30 @@
 }
 
 .left {
-	width:40%;
-	float:left;
-	nav{
-		width:50px;
-		float:left;
-	}
-	button,
-	button i{
+	width: 40%;
+	float: left;
+
+	nav {
 		width: 50px;
-		height:50px;
-		line-height:50px;
-		padding:0;
-		text-align:center;
+		float: left;
 	}
+
+	button,
+	button i {
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+		padding: 0;
+		text-align: center;
+	}
+
 	button {
 		border-right: 1px solid var(--panel-type-heading);
+
 		&:hover {
 			background: var(--close-color);
 		}
+
 		i {
 			font-size: 26px;
 			color: #fff;
@@ -42,15 +47,16 @@
 	}
 }
 
-.title{
-	height:50px;
-	line-height:50px;
+.title {
+	height: 50px;
+	line-height: 50px;
 	float: left;
 	color: #fff;
 	padding-left: 15px;
 	width: calc(100% - 51px);
 	position: relative;
-	h4{
+
+	h4 {
 		margin: 0;
 	}
 }
@@ -66,7 +72,7 @@
 	width: calc(100% - 51px);
 }
 
-.editing{
+.editing {
 	font-size: 12px;
 	font-style: italic;
 	padding-right: 6px;
@@ -77,84 +83,98 @@
 }
 
 @svg-load desktop url('../img/icons/desktop-resize.svg') {
+
 	path {
-		fill: #fff;
+		fill: var(--color-white);
 	}
 }
 
 @svg-load tablet url('../img/icons/tablet-resize.svg') {
+
 	path {
-		fill: #fff;
+		fill: var(--color-white);
 	}
 }
 
 @svg-load mobile url('../img/icons/mobile-resize.svg') {
+
 	path {
-		fill: #fff;
+		fill: var(--color-white);
 	}
 }
 
 @svg-load desktopHover url('../img/icons/desktop-resize.svg') {
+
 	path {
 		fill: var(--button-new-blue);
 	}
 }
 
 @svg-load tabletHover url('../img/icons/tablet-resize.svg') {
+
 	path {
 		fill: var(--button-new-blue);
 	}
 }
 
 @svg-load mobileHover url('../img/icons/mobile-resize.svg') {
+
 	path {
 		fill: var(--button-new-blue);
 	}
 }
 
-.resizer{
+.resizer {
 	position: absolute;
-	height:50px;
-	line-height:50px;
-	width:250px;
-	margin-left:-125px;
-	top:0;
+	height: 50px;
+	line-height: 50px;
+	width: 250px;
+	margin-left: -125px;
+	top: 0;
 	left: 50%;
 	text-align: center;
-	button{
+
+	button {
 		display: inline-block;
-		padding:0;
+		padding: 0;
 		position: relative;
 	}
+
 	button,
-	button i{
+	button i {
 		width: 50px;
-		height:50px;
-		line-height:50px;
-		padding:0;
-		text-align:center;
+		height: 50px;
+		line-height: 50px;
+		padding: 0;
+		text-align: center;
 	}
-	.desktop{
+
+	.desktop {
 		background: svg-inline(desktop) 50% 50% no-repeat;
 		background-size: auto 35px;
+
 		&:hover,
 		[data-mode="full"] & {
 			background: svg-inline(desktopHover) 50% 50% no-repeat;
 			background-size: auto 35px;
 		}
 	}
-	.tablet{
+
+	.tablet {
 		background: svg-inline(tablet) 20px 50% no-repeat;
 		background-size: auto 28px;
+
 		&:hover,
-		[data-mode="tablet"] &{
+		[data-mode="tablet"] & {
 			background: svg-inline(tabletHover) 20px 50% no-repeat;
 			background-size: auto 28px;
 		}
 	}
-	.mobile{
+
+	.mobile {
 		background: svg-inline(mobile) 50% 50% no-repeat;
 		background-size: auto 22px;
+
 		&:hover,
 		[data-mode="mobile"] & {
 			background: svg-inline(mobileHover) 50% 50% no-repeat;
@@ -164,50 +184,66 @@
 }
 
 [data-browser="ie"] {
+
 	&[data-mode="full"] {
+
 		.resizer {
+
 			.desktop {
 				background: url('../img/icons/desktop-resize-hover.png') 50% 50% no-repeat;
 				background-size: auto 35px;
 			}
 		}
 	}
+
 	&[data-mode="tablet"] {
+
 		.resizer {
+
 			.tablet {
 				background: url('../img/icons/tablet-resize-hover.png') 20px 50% no-repeat;
 				background-size: auto 28px;
 			}
 		}
 	}
+
 	&[data-mode="mobile"] {
+
 		.resizer {
+
 			.mobile {
 				background: url('../img/icons/mobile-resize-hover.png') 50% 50% no-repeat;
 				background-size: auto 22px;
 			}
 		}
 	}
-	.resizer{
-		.desktop{
+
+	.resizer {
+
+		.desktop {
 			background: url('../img/icons/desktop-resize.png') 50% 50% no-repeat;
 			background-size: auto 35px;
-			&:hover{
+
+			&:hover {
 				background: url('../img/icons/desktop-resize-hover.png') 50% 50% no-repeat;
 				background-size: auto 35px;
 			}
 		}
-		.tablet{
+
+		.tablet {
 			background: url('../img/icons/tablet-resize.png') 20px 50% no-repeat;
 			background-size: auto 28px;
+
 			&:hover {
 				background: url('../img/icons/tablet-resize-hover.png') 20px 50% no-repeat;
 				background-size: auto 28px;
 			}
 		}
-		.mobile{
+
+		.mobile {
 			background: url('../img/icons/mobile-resize.png') 50% 50% no-repeat;
 			background-size: auto 22px;
+
 			&:hover {
 				background: url('../img/icons/mobile-resize-hover.png') 50% 50% no-repeat;
 				background-size: auto 22px;
@@ -218,17 +254,16 @@
 
 .resizerHeading {
 	display: inline-block;
-	height:50px;
-	line-height:50px;
+	height: 50px;
+	line-height: 50px;
 	color: #fff;
 	padding: 0 20px 0 0;
 	vertical-align: top;
 }
 
-
 .right {
-	width:40%;
-	float:right;
+	width: 40%;
+	float: right;
 	text-align: right;
 	padding: 9px 10px 0 0;
 }
