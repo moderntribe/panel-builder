@@ -558,7 +558,7 @@ Repeater.propTypes = {
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
-	settings_fields: React.PropTypes.array,
+	settings_fields: PropTypes.array,
 	updatePanelData: PropTypes.func,
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
