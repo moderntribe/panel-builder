@@ -9,9 +9,11 @@
 .input {
 	composes: input from "../../shared/inputs.pcss";
 	color: var(--input-placeholder) !important;
-	text-align: center;
+	text-align: left;
 
-	/* This will be aligned to the left on number fields that are full width. waiting for class to target. */
+	.compact & {
+		text-align: center;
+	}
 }
 
 .label {
