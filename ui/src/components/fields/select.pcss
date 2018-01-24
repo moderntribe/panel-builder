@@ -7,7 +7,6 @@
 	transform: translate3d(0, 0, 0);
 
 	> div {
-		width: 50%;
 
 		> div {
 			background-color: var(--color-white) !important;
@@ -33,6 +32,14 @@
 
 .compact {
 
+	> div {
+		width: 50%;
+	}
+
+	.label {
+		margin-right: 10px;
+		width: calc(50% - 10px);
+	}
 }
 
 .label {
