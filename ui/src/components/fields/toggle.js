@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import field from '../shared/field';
 import * as styleUtil from '../../util/dom/styles';
 import styles from './toggle.pcss';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 export const Toggle = (props) => {
 	const handleChange = e => props.updateValue(parseInt(e.currentTarget.value, 10) === 0 ? 1 : 0);
@@ -41,7 +42,12 @@ export const Toggle = (props) => {
 		);
 	};
 
-	const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+	const { descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+
+	const fieldClasses = classNames({
+		[styles.field]: true,
+		[styles.simple]: props.stylized,
+	});
 
 	return (
 		<div className={fieldClasses}>
@@ -60,6 +66,7 @@ Toggle.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	options: PropTypes.array,
+	stylized: PropTypes.bool,
 	updateValue: PropTypes.func,
 	value: PropTypes.number,
 };
@@ -70,6 +77,7 @@ Toggle.defaultProps = {
 	label: '',
 	name: '',
 	options: [],
+	stylized: true,
 	updateValue: () => {},
 	value: 0,
 };
