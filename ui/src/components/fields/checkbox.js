@@ -5,6 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import styles from './checkbox.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Checkbox extends Component {
 	state = {
@@ -38,11 +39,13 @@ class Checkbox extends Component {
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.vertical]: this.props.layout === 'vertical',
+			[styles.horizontal]: this.props.layout === 'horizontal',
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
-		const Options = _.map(this.props.options, option =>
-			(<li key={_.uniqueId('checkbox-id-')}>
+		const Options = _.map(this.props.options, option => (
+			<li key={_.uniqueId('checkbox-id-')} className={styles.item} style={styleUtil.optionStyles(this.props)}>
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
@@ -58,8 +61,8 @@ class Checkbox extends Component {
 					<span />
 					{option.label}
 				</label>
-			</li>),
-		);
+			</li>
+		));
 
 		return (
 			<div className={fieldClasses}>
@@ -84,6 +87,8 @@ Checkbox.propTypes = {
 	options: PropTypes.array,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
+	option_width: PropTypes.number,
 	updatePanelData: PropTypes.func,
 };
 
@@ -98,6 +103,8 @@ Checkbox.defaultProps = {
 	options: [],
 	data: {},
 	panelIndex: 0,
+	layout: 'vertical',
+	option_width: 4,
 	updatePanelData: () => {},
 };
 

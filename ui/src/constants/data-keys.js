@@ -10,3 +10,4 @@ export const CONTENT_TAB = 'content';
 export const FULL_LAYOUT = 'full';
 export const COMPACT_LAYOUT = 'compact';
 export const INPUT_WIDTH = 'input_width';
+export const OPTION_WIDTH = 'option_width';
