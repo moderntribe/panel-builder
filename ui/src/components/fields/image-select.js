@@ -10,6 +10,7 @@ import styles from './image-select.pcss';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
 import { UI_I18N } from '../../globals/i18n';
+import * as styleUtil from '../../util/dom/styles';
 
 export class ImageSelect extends Component {
 	constructor(props) {
@@ -99,11 +100,13 @@ export class ImageSelect extends Component {
 			[styles.imageSelectLabel]: true,
 			[styles.isColumnImg]: this.props.can_add_columns,
 		});
+		const itemStyles = styleUtil.optionStyles(this.props);
 
 		const Options = _.map(this.props.options, option => (
 			<label
 				className={imgSelectLabelClasses}
 				key={_.uniqueId('option-img-sel-id-')}
+				style={itemStyles}
 			>
 				<input
 					type="radio"
@@ -123,8 +126,7 @@ export class ImageSelect extends Component {
 				</div>
 				{!this.props.can_add_columns && option.label}
 			</label>
-			),
-		);
+		));
 
 		const labelClasses = classNames({
 			[styles.label]: true,
@@ -183,6 +185,7 @@ ImageSelect.propTypes = {
 	indexMap: PropTypes.array,
 	depth: PropTypes.number,
 	default: PropTypes.string,
+	option_width: PropTypes.number,
 	options: PropTypes.array,
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
@@ -199,6 +202,7 @@ ImageSelect.defaultProps = {
 	strings: {},
 	depth: 0,
 	default: '',
+	option_width: 6,
 	options: [],
 	data: '',
 	panelIndex: 0,
