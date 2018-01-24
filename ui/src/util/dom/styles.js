@@ -45,6 +45,15 @@ export const isCompactField = (field = {}) => {
 	return isCompact;
 };
 
+export const optionStyles = (props = {}) => {
+	const styles = {};
+	if (props[DATA_KEYS.OPTION_WIDTH] && props[DATA_KEYS.OPTION_WIDTH] < 12) {
+		styles.width = `${parseFloat((props[DATA_KEYS.OPTION_WIDTH] / 12 * 100).toFixed(10))}%`;
+	}
+
+	return styles;
+};
+
 export const fieldStyles = (field = {}) => {
 	const styles = {};
 	if (field[DATA_KEYS.INPUT_WIDTH] && field[DATA_KEYS.INPUT_WIDTH] < 12) {
