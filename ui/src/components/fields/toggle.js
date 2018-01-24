@@ -46,7 +46,7 @@ export const Toggle = (props) => {
 
 	const fieldClasses = classNames({
 		[styles.field]: true,
-		[styles.simple]: props.stylized,
+		[styles.simple]: ! props.stylized,
 	});
 
 	return (
