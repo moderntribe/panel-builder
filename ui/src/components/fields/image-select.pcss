@@ -76,23 +76,26 @@
 [data-live-edit="false"] {
 
 	.imageSelectLabel {
-		margin-right: 5px;
-		width: calc(25% - 5px);
+		font-size: 12px;
+		margin-bottom: 20px;
+		margin-right: 10px;
+		max-width: 150px;
 	}
 }
 
 [data-live-edit="true"] {
 
 	.imageSelectLabel {
-		margin-right: 5px;
-		width: calc(25% - 5px);
+		font-size: 10px;
+		line-height: 1.4;
+		margin-bottom: 16px;
+		max-width: none;
 	}
 
 	[data-expanded="true"] {
 
 		.imageSelectLabel {
-			margin-right: 5px;
-			width: calc(25% - 5px);
+			font-size: 12px;
 		}
 	}
 }
@@ -126,7 +129,7 @@
 
 		&:hover,
 		&:focus {
-			border: 1px solid var(--border-img-select-hover);
+			border: 1px solid var(--button-new-blue);
 		}
 	}
 
