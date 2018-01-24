@@ -4,34 +4,80 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	padding: 0 var(--field-padding-vertical) 15px 0;
+	margin-bottom: 12px;
+	padding: 0 var(--field-padding-vertical) 0 0;
 	width: 100%;
 
 	> label + div {
 		display: inline-block;
-		margin-bottom: 10px;
 		position: relative;
 		top: 8px;
 	}
 }
 
-.toggleLabel {
-	color: var(--white);
-	width: 60px;
+.simple {
+	composes: checkbox from "../../shared/inputs.pcss";
+	margin: -1px 4px 12px 0;
+	vertical-align: middle;
 }
 
 .toggleLabel {
 	composes: label from "../../shared/inputs.pcss";
+	color: var(--white);
 	top: -5px;
 	position: relative;
+	width: 60px;
 
 	input[type="checkbox"] {
 		visibility: hidden;
 	}
-}
 
-.simple {
-	/* here nicholas */
+	.simple & {
+
+		input[type="checkbox"] {
+			opacity: 0;
+			visibility: visible;
+			width: 22px;
+
+			+ div + span {
+				position: absolute;
+				width: 17px;
+				height: 17px;
+				border-radius: 2px;
+				top: 6px;
+				left: 0;
+				border: 1px solid var(--border-color);
+			}
+
+			&:focus {
+
+				+ div + span {
+					border: 1px solid var(--panel-label-color);
+				}
+			}
+
+			&:checked {
+
+				+ div + span {
+					background: var(--button-new-blue);
+					border-color: var(--button-new-blue);
+
+					&:after {
+						content: "\f147";
+						font-family: dashicons;
+						position: absolute;
+						display: block;
+						right: 2px;
+						top: -7px;
+						width: 17px;
+						height: 17px;
+						font-size: 20px;
+						color: var(--color-white);
+					}
+				}
+			}
+		}
+	}
 }
 
 .list {
@@ -67,6 +113,10 @@
 	top: 9px;
 	border-radius: 6px;
 	transition: var(--transition-toggle);
+
+	.simple & {
+		display: none;
+	}
 }
 
 .toggleSlider:before {
@@ -83,6 +133,10 @@
 	border: 1px solid var(--toggle-border-color);
 	border-radius: 100px;
 	box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.07);
+
+	.simple & {
+		display: none;
+	}
 }
 
 .toggleSlider[data-string]:after {
@@ -92,6 +146,10 @@
 	position: absolute;
 	right: 7px;
 	text-transform: uppercase;
+
+	.simple & {
+		display: none;
+	}
 }
 
 input:focus + .toggleSlider {
