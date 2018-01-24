@@ -18,13 +18,24 @@
 
 .horizontal {
 
-	.item {
-		/* list item */
+	.list {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+		.item {
+			/* list item */
+
+			.checkboxLabel {
+				padding-right: 2px;
+			}
+		}
 	}
 }
 
 .checkboxLabel {
 	composes: label from "../../shared/inputs.pcss";
+	font-size: 11px;
 }
 
 .list {
