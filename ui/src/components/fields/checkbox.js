@@ -44,8 +44,13 @@ class Checkbox extends Component {
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
+		const itemStyles = this.props.layout === 'horizontal' && styleUtil.optionStyles(this.props) || {};
 		const Options = _.map(this.props.options, option => (
-			<li key={_.uniqueId('checkbox-id-')} className={styles.item} style={styleUtil.optionStyles(this.props)}>
+			<li
+				key={_.uniqueId('checkbox-id-')}
+				className={styles.item}
+				style={itemStyles}
+			>
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"

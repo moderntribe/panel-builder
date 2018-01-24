@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './radio.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Radio extends Component {
 	state = {
@@ -12,7 +13,7 @@ class Radio extends Component {
 
 	@autobind
 	handleChange(e) {
-		const value = e.currentTarget.value;
+		const { value } = e.currentTarget;
 		this.setState({ value });
 		this.props.updatePanelData({
 			depth: this.props.depth,
@@ -28,27 +29,31 @@ class Radio extends Component {
 			'plradio-label': true,
 		});
 
+		const itemStyles = this.props.layout === 'horizontal' && styleUtil.optionStyles(this.props) || {};
+
 		const Options = _.map(this.props.options, option => (
-			<label
-				className={radioLabelClasses}
+			<li
 				key={_.uniqueId('option-id-')}
+				className={styles.item}
+				style={itemStyles}
 			>
-				<input
-					type="radio"
-					name={`modular-content-${this.props.name}`}
-					value={option.value}
-					tabIndex={0}
-					onChange={this.handleChange}
-					className={styles.radio}
-					checked={this.state.value === option.value}
-					data-option-type="single"
-					data-field="radio"
-				/>
-				<span />
-				{option.label}
-			</label>
-			),
-		);
+				<label className={radioLabelClasses}>
+					<input
+						type="radio"
+						name={`modular-content-${this.props.name}`}
+						value={option.value}
+						tabIndex={0}
+						onChange={this.handleChange}
+						className={styles.radio}
+						checked={this.state.value === option.value}
+						data-option-type="single"
+						data-field="radio"
+					/>
+					<span />
+					{option.label}
+				</label>
+			</li>
+		));
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
@@ -59,6 +64,8 @@ class Radio extends Component {
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.vertical]: this.props.layout === 'vertical',
+			[styles.horizontal]: this.props.layout === 'horizontal',
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
@@ -66,7 +73,9 @@ class Radio extends Component {
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>
-				{Options}
+				<ul className={styles.list}>
+					{Options}
+				</ul>
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
@@ -84,6 +93,8 @@ Radio.propTypes = {
 	options: PropTypes.array,
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
+	option_width: PropTypes.number,
 	updatePanelData: PropTypes.func,
 };
 
@@ -98,6 +109,8 @@ Radio.defaultProps = {
 	options: [],
 	data: '',
 	panelIndex: 0,
+	layout: 'vertical',
+	option_width: 4,
 	updatePanelData: () => {},
 };
 
