@@ -5,7 +5,8 @@
 	margin-bottom: 1.5em;
 	clear: both;
 	transform: translate3d(0, 0, 0);
-	h3{
+
+	h3 {
 		color: var(--light-heading);
 		font-size: 13px;
 		margin: 0 0 var(--panel-margin-vertical) 0;
@@ -16,40 +17,48 @@
 	composes: inputLabel from "../../shared/fields.pcss";
 }
 
-.tabs{
+.tabs {
 	composes: group from "../../shared/helpers.pcss";
-	button{
+
+	button {
+		background-color: var(--border-bottom-settings);
+		color: var(--panel-label-color);
 		margin-right: 3px;
 		margin-bottom: -1px;
-		&.active{
-			border-bottom-color: #fff;
-			background: #fff;
+
+		&.active {
+			border-bottom-color: var(--button-primary-bg-hover-color);
+			background: var(--button-primary-bg-hover-color);
+			color: var(--button-new-blue);
 		}
 	}
 }
 
 .filters {
-	margin:20px 0 0px;
+	margin: 20px 0 0;
+
 	& > div {
 		border-top: 1px var(--border-color-alt) solid;
 		padding: 10px 0;
 	}
+
 	label {
 		pointer-events: none;
 	}
 }
 
-.tabWrapper{
+.tabWrapper {
 
 }
 
-.tabContent{
-	padding: 20px 10px;
-	background: #fff;
+.tabContent {
+	padding: 20px 28px;
+	background: var(--button-primary-bg-hover-color);
 	border: 1px solid var(--tabs-border-color);
-	display:none;
-	&.active{
-		display:block;
+	display: none;
+
+	&.active {
+		display: block;
 	}
 }
 
@@ -57,18 +66,21 @@
 	composes: inputDescription from "../../shared/fields.pcss";
 }
 
-.row{
-	margin-bottom:10px;
+.row {
+	margin-bottom: 10px;
 	position: relative;
-	img{
+
+	img {
 		max-width: 100%;
-		height:auto;
+		height: auto;
 	}
+
 	input {
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
 		width: 100%;
 	}
-	legend{
-		color:grey;
+
+	legend {
+		color: grey;
 	}
 }

@@ -36,8 +36,8 @@
 	}
 }
 
-.optionImage{
-	width:100%;
+.optionImage {
+	width: 100%;
 
 	img {
 		background: var(--border-color-dark);
@@ -46,10 +46,10 @@
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
 		display: block;
-		width:100%;
-		height:auto;
-		box-sizing:border-box;
-		margin-bottom:5px;
+		width: 100%;
+		height: auto;
+		box-sizing: border-box;
+		margin-bottom: 5px;
 
 		.isColumnImg & {
 			padding: 25px 5px;
@@ -60,6 +60,7 @@
 .container {
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	overflow: hidden;
 	transition: max-height 600ms ease-in-out;
 
@@ -75,20 +76,23 @@
 [data-live-edit="false"] {
 
 	.imageSelectLabel {
-		flex: 1;
+		margin-right: 5px;
+		width: calc(25% - 5px);
 	}
 }
 
 [data-live-edit="true"] {
 
 	.imageSelectLabel {
-		flex: 1;
+		margin-right: 5px;
+		width: calc(25% - 5px);
 	}
 
 	[data-expanded="true"] {
 
 		.imageSelectLabel {
-			flex: 1;
+			margin-right: 5px;
+			width: calc(25% - 5px);
 		}
 	}
 }
@@ -97,10 +101,10 @@
 	display: inline-block;
 	vertical-align: top;
 	text-align: center;
-	font-weight:bold;
-	box-sizing:border-box;
+	font-weight: bold;
+	box-sizing: border-box;
 	position: relative;
-	margin-bottom:5px;
+	margin-bottom: 5px;
 
 	input[type="radio"] {
 		display: none;
@@ -118,7 +122,12 @@
 	}
 
 	input[type="radio"]:checked + .optionImage .optInner, .optionImage .optInner:hover {
-		border: 2px solid var(--border-color-dark-alt);
+		border: 1px solid var(--border-img-select);
+
+		&:hover,
+		&:focus {
+			border: 1px solid var(--border-img-select-hover);
+		}
 	}
 
 	.optionImage .optInner:hover img {
@@ -129,29 +138,29 @@
 
 		&:before {
 			content: '';
-			width:25px;
-			height:25px;
+			width: 20px;
+			height: 20px;
 			position: absolute;
 			display: block;
-			right:5px;
-			top:5px;
+			right: 5px;
+			top: 5px;
 			z-index: 10;
 			border-radius: 100%;
-			background-color: color(var(--black) a(40%)) ;
+			background-color: color(var(--black) a(50%));
 		}
 
-		&:after{
+		&:after {
 			content: "\f147";
-			font-family:dashicons;
-			width:25px;
-			height:25px;
+			font-family: dashicons;
+			width: 20px;
+			height: 20px;
 			position: absolute;
 			display: block;
-			right:6px;
-			top:6px;
+			right: 6px;
+			top: 6px;
 			z-index: 11;
-			font-size:20px;
-			line-height: 25px;
+			font-size: 16px;
+			line-height: 20px;
 			color: var(--white);
 		}
 
