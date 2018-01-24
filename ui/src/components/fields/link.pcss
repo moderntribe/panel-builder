@@ -14,16 +14,43 @@
 		font-size: 13px;
 		font-weight: 300;
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
-		width: 100%;
+		width: 99%;
 	}
 
 	select {
-
+		width: 99%;
 	}
 }
 
 .compact {
-	/* crunchy */
+
+	.fieldset > div {
+		display: flex;
+		flex-direction: row;
+
+		> div {
+			flex: 1;
+			margin-right: 5px;
+			width: calc(100%/3 - 5px);
+
+			> div > div {
+				border-radius: 2px;
+				top: 1px;
+
+				> span + span {
+					padding-right: 0 !important;
+
+					> span {
+						border-width: 3px 3px 2px !important;
+						font-size: 12px !important;
+						position: relative;
+						right: -2px !important;
+						top: -1px;
+					}
+				}
+			}
+		}
+	}
 }
 
 .label {
@@ -40,14 +67,54 @@
 	padding: 0;
 }
 
+.fieldset > div {
+
+	> div {
+
+		> div > div {
+			border-radius: 2px;
+			top: 1px;
+
+			> span + span {
+				padding-right: 0 !important;
+
+				> span {
+					border-width: 3px 3px 2px !important;
+					font-size: 12px !important;
+					position: relative;
+					right: -2px !important;
+					top: -1px;
+				}
+			}
+		}
+	}
+}
+
 .inputGeneric {
 	margin-bottom: 5px;
+
 	input {
-		width:100%;
+		width: 99%;
 		padding: 8px 10px;
 	}
+
 	select {
 		width:100%;
 	}
 }
 
+::-webkit-input-placeholder {
+	color: var(--input-placeholder);
+}
+
+::-moz-placeholder {
+	color: var(--input-placeholder);
+}
+
+:-ms-input-placeholder {
+	color: var(--input-placeholder);
+}
+
+:-moz-placeholder {
+	color: var(--input-placeholder);
+}
