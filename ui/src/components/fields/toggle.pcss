@@ -61,6 +61,7 @@
 				+ div + span {
 					background: var(--button-new-blue);
 					border-color: var(--button-new-blue);
+					transition: background 0.15s ease-in-out;
 
 					&:after {
 						content: "\f147";
@@ -74,6 +75,14 @@
 						font-size: 20px;
 						line-height: 17px;
 						color: var(--color-white);
+					}
+				}
+
+				&:hover {
+
+					+ div + span {
+						background: var(--button-new-blue-hover);
+						transition: background 0.15s ease-in-out;
 					}
 				}
 			}
@@ -155,6 +164,9 @@
 
 input:focus + .toggleSlider {
 
+	&:before {
+		border-color: var(--button-new-blue);
+	}
 }
 
 input:checked + .toggleSlider {
