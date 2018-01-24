@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 class Link extends Component {
 	state = {
@@ -52,6 +53,7 @@ class Link extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.compact]: this.props.layout === DATA_KEYS.COMPACT_LAYOUT,
 			'panel-field': true,
 		});
 		const labelClasses = classNames({
@@ -85,6 +87,7 @@ Link.propTypes = {
 	default: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
 
@@ -98,6 +101,7 @@ Link.defaultProps = {
 	default: {},
 	data: {},
 	panelIndex: 0,
+	layout: '',
 	updatePanelData: () => {},
 };
 

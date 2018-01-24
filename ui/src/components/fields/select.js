@@ -5,6 +5,7 @@ import _ from 'lodash';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
 import styles from './select.pcss';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 class Select extends Component {
 	state = {
@@ -34,6 +35,7 @@ class Select extends Component {
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.compact]: this.props.layout === DATA_KEYS.COMPACT_LAYOUT,
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
@@ -64,6 +66,7 @@ Select.propTypes = {
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	options: PropTypes.array,
+	layout: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
 
@@ -78,6 +81,7 @@ Select.defaultProps = {
 	strings: {},
 	default: '',
 	options: [],
+	layout: 'compact',
 	updatePanelData: () => {},
 };
 
