@@ -18,6 +18,7 @@
 	border: 1px solid var(--button-primary-border-color);
 	color: var(--button-primary-text-color);
 	transition: var(--transition-button-primary);
+
 	&:hover,
 	&:focus {
 		background-color: var(--button-primary-bg-hover-color);
@@ -28,24 +29,28 @@
 
 .secondary {
 	composes: reset;
-	background-color: var(--button-secondary-bg-color);
+	background-color: var(--button-new-blue);
 	color: var(--button-secondary-text-color);
 	transition: var(--transition-button-primary);
 
 	&.loading {
 		padding-left: 43px;
 	}
+
 	&:hover,
 	&:focus {
-		background-color: var(--button-secondary-bg-hover-color);
+		background-color: var(--button-new-blue-hover);
 		color: var(--button-secondary-text-hover-color);
 	}
+
 	&:focus {
-		background-color: var(--button-secondary-bg-focus-color);
+		background-color: var(--button-new-blue-hover);
 	}
+
 	&:disabled {
 		background-color: var(--button-secondary-disabled-bg-color);
 		color: var(--button-secondary-disabled-text-hover-color);
+
 		&:hover,
 		&:focus {
 			background-color: var(--button-secondary-disabled-bg-color);
