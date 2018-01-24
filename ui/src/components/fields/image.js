@@ -8,6 +8,7 @@ import { wpMedia } from '../../globals/wp';
 import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './image.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Image extends Component {
 	state = {
@@ -84,18 +85,7 @@ class Image extends Component {
 	 */
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-		});
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
@@ -124,6 +114,7 @@ Image.propTypes = {
 	strings: PropTypes.object,
 	default: PropTypes.number,
 	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
 
@@ -138,6 +129,7 @@ Image.defaultProps = {
 	strings: {},
 	default: 0,
 	panelIndex: 0,
+	layout: '',
 	updatePanelData: () => {},
 };
 
