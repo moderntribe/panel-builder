@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
 import * as DATA_KEYS from '../../constants/data-keys';
+import * as styleUtil from '../../util/dom/styles';
 
 class Link extends Component {
 	state = {
@@ -51,25 +52,21 @@ class Link extends Component {
 	}
 
 	render() {
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			[styles.compact]: this.props.layout === DATA_KEYS.COMPACT_LAYOUT,
-			'panel-field': true,
-		});
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} strings={this.props.strings} />
+					<LinkGroup
+						handleTargetChange={this.handleSelectChange}
+						handleLabelChange={this.handleLabelChange}
+						handleURLChange={this.handleURLChange}
+						valueTarget={this.state.target}
+						valueUrl={this.state.url}
+						valueLabel={this.state.label}
+						strings={this.props.strings}
+					/>
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
