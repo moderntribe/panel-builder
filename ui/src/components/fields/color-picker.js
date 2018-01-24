@@ -11,6 +11,7 @@ import * as domTools from '../../util/dom/tools';
 import colorPickers from '../shared/color-picker-map';
 
 import styles from './color-picker.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 /**
  * A Color Picker field
@@ -239,19 +240,7 @@ class ColorPicker extends Component {
 	}
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-			'panel-conditional-field': true,
-		});
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props, true);
 
 		return (
 			<div ref={r => this.el = r} className={fieldClasses}>
@@ -280,6 +269,7 @@ ColorPicker.propTypes = {
 	picker_type: PropTypes.string,
 	strings: PropTypes.object,
 	swatches: PropTypes.array,
+	layout: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
 
@@ -298,6 +288,7 @@ ColorPicker.defaultProps = {
 	picker_type: 'BlockPicker',
 	strings: {},
 	swatches: [],
+	layout: '',
 	updatePanelData: () => {},
 };
 

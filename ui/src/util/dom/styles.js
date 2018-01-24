@@ -8,10 +8,11 @@ import * as DATA_KEYS from '../../constants/data-keys';
  *
  * @param styles
  * @param props
+ * @param conditional
  * @returns {{fieldClasses: *, descriptionClasses: *, labelClasses: *}}
  */
 
-export const defaultFieldClasses = (styles, props = {}) => {
+export const defaultFieldClasses = (styles, props = {}, conditional = false) => {
 	const labelClasses = classNames({
 		[styles.label]: true,
 		'panel-field-label': true,
@@ -24,6 +25,7 @@ export const defaultFieldClasses = (styles, props = {}) => {
 		[styles.field]: true,
 		[styles.compact]: props.layout && props.layout === DATA_KEYS.COMPACT_LAYOUT,
 		'panel-field': true,
+		'panel-conditional-field': conditional,
 	});
 
 	return {
