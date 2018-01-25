@@ -19,7 +19,7 @@ export const animate = (collection, sidebar) => {
 	collection.style.height = `${verge.viewportH()}px`;
 	collection.style.top = '0px';
 	collection.style.left = '0px';
-	sidebar.style.width = '300px';
+	sidebar.style.width = '340px';
 };
 
 export const reset = (collection, sidebar) => {
