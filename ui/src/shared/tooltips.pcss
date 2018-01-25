@@ -2,8 +2,10 @@
 @import './transitions.pcss';
 @import './typography.pcss';
 
-.tooltip {
-	background: var(--live-edit-background);
+.rc-slider-tooltip {
+	background: var(--color-white);
+	box-shadow: 0 4px 16px -1px rgba(0,0,0,0.13);
+	border: 1px solid var(--tooltip-border);
 	position: absolute;
 	top: calc(100% + 10px);
 	left: -100%;
@@ -11,7 +13,7 @@
 	white-space: nowrap;
 	line-height: 16px;
 	font-size: 13px;
-	color: #fff;
+	color: var(--color-white);
 	border-radius: 3px;
 	font-weight: 600;
 	font-family: var(--sans-serif-font-family);
