@@ -6,6 +6,14 @@
 	transform: translate3d(0, 0, 0);
 }
 
+.compact {
+	display: flex;
+
+	> div {
+		flex: 1;
+	}
+}
+
 .inputContainer {
 
 	input {
@@ -28,6 +36,9 @@
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	transform: translate3d(0, 0, 0);
+	width: calc(50% - 10px);
 }
 
 .description {
