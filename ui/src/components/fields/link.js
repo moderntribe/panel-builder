@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
+import Tooltip from 'rc-tooltip';
 
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
@@ -12,6 +13,7 @@ class Link extends Component {
 	state = {
 		url: this.props.data.url,
 		label: this.props.data.label,
+		description: this.props.data.description,
 		target: this.props.data.target,
 	};
 
@@ -20,6 +22,7 @@ class Link extends Component {
 			url: this.state.url,
 			target: this.state.target,
 			label: this.state.label,
+			description: this.state.description,
 		};
 	}
 
@@ -52,12 +55,26 @@ class Link extends Component {
 	}
 
 	render() {
-		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
+		const { fieldClasses, tooltipClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
-					<legend className={labelClasses}>{this.props.label}</legend>
+					<legend className={labelClasses}>
+						{this.props.label}
+						{this.props.description ?
+							<Tooltip
+								id={this.props.label}
+								overlayClassName={tooltipClasses}
+								trigger="click"
+								placement="bottom"
+								overlay={<div style={{ width: 200, borderRadius: 2 }}>{this.props.description}</div>}
+							>
+								<span className="dashicons dashicons-editor-help" />
+							</Tooltip>
+							: null
+						}
+					</legend>
 					<LinkGroup
 						handleTargetChange={this.handleSelectChange}
 						handleLabelChange={this.handleLabelChange}
@@ -65,9 +82,9 @@ class Link extends Component {
 						valueTarget={this.state.target}
 						valueUrl={this.state.url}
 						valueLabel={this.state.label}
+						valueDescription={this.state.description}
 						strings={this.props.strings}
 					/>
-					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
 		);

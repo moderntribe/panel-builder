@@ -33,7 +33,6 @@
 	}
 
 	button {
-		border-right: 1px solid var(--panel-type-heading);
 
 		&:hover {
 			background: var(--close-color);
@@ -125,24 +124,26 @@
 }
 
 .resizer {
+	align-items: center;
+	display: flex;
 	position: absolute;
 	height: 50px;
 	line-height: 50px;
 	width: 250px;
 	margin-left: -125px;
+	justify-content: center;
 	top: 0;
 	left: 50%;
 	text-align: center;
 
 	button {
-		display: inline-block;
 		padding: 0;
 		position: relative;
 	}
 
 	button,
 	button i {
-		width: 50px;
+		width: 40px;
 		height: 50px;
 		line-height: 50px;
 		padding: 0;
@@ -151,34 +152,34 @@
 
 	.desktop {
 		background: svg-inline(desktop) 50% 50% no-repeat;
-		background-size: auto 35px;
+		background-size: auto 30px;
 
 		&:hover,
 		[data-mode="full"] & {
 			background: svg-inline(desktopHover) 50% 50% no-repeat;
-			background-size: auto 35px;
+			background-size: auto 30px;
 		}
 	}
 
 	.tablet {
 		background: svg-inline(tablet) 20px 50% no-repeat;
-		background-size: auto 28px;
+		background-size: auto 23px;
 
 		&:hover,
 		[data-mode="tablet"] & {
 			background: svg-inline(tabletHover) 20px 50% no-repeat;
-			background-size: auto 28px;
+			background-size: auto 23px;
 		}
 	}
 
 	.mobile {
 		background: svg-inline(mobile) 50% 50% no-repeat;
-		background-size: auto 22px;
+		background-size: auto 17px;
 
 		&:hover,
 		[data-mode="mobile"] & {
 			background: svg-inline(mobileHover) 50% 50% no-repeat;
-			background-size: auto 22px;
+			background-size: auto 17px;
 		}
 	}
 }
@@ -253,7 +254,7 @@
 }
 
 .resizerHeading {
-	display: inline-block;
+	display: none;
 	height: 50px;
 	line-height: 50px;
 	color: #fff;

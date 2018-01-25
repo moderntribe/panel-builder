@@ -40,7 +40,7 @@
 	width: 100%;
 
 	img {
-		background: var(--border-color-dark);
+		background: var(--button-primary-bg-color);
 		opacity: 0.4;
 		transition: all 0.1s ease-out;
 		-webkit-backface-visibility: hidden;
@@ -113,6 +113,7 @@
 }
 
 .imageSelectLabel {
+	color: var(--compact-label);
 	display: inline-block;
 	vertical-align: top;
 	text-align: center;
@@ -130,7 +131,8 @@
 		border: 2px solid transparent;
 
 		img {
-			border: 1px solid var(--color-white);
+			border: 1px solid var(--border-input);
+			border-radius: 2px;
 			display: block;
 			margin: 0;
 			pointer-events: none;
@@ -144,36 +146,9 @@
 
 	input[type="radio"]:checked + .optionImage {
 
-		&:before {
-			content: '';
-			width: 17px;
-			height: 17px;
-			position: absolute;
-			display: block;
-			right: 7px;
-			top: 7px;
-			z-index: 10;
-			border-radius: 100%;
-			background-color: color(var(--button-new-blue) a(100%));
-		}
-
-		&:after {
-			content: "\f147";
-			font-family: dashicons;
-			width: 17px;
-			height: 17px;
-			position: absolute;
-			display: block;
-			right: 8px;
-			top: 8px;
-			z-index: 11;
-			font-size: 13px;
-			font-weight: 300;
-			line-height: 17px;
-			color: var(--white);
-		}
-
 		img {
+			background: var(--color-white);
+			border-color: var(--button-new-blue);
 			opacity: 1;
 		}
 	}
