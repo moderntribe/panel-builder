@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import classNames from 'classnames';
-import Tooltip from 'rc-tooltip';
+import LabelTooltip from './partials/label-tooltip';
 
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
@@ -55,25 +54,17 @@ class Link extends Component {
 	}
 
 	render() {
-		const { fieldClasses, tooltipClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>
 						{this.props.label}
-						{this.props.description ?
-							<Tooltip
-								id={this.props.label}
-								overlayClassName={tooltipClasses}
-								trigger="click"
-								placement="bottom"
-								overlay={<div style={{ width: 200, borderRadius: 2 }}>{this.props.description}</div>}
-							>
-								<span className="dashicons dashicons-editor-help" />
-							</Tooltip>
-							: null
-						}
+						<LabelTooltip
+							label={this.props.label}
+							description={this.props.description}
+						/>
 					</legend>
 					<LinkGroup
 						handleTargetChange={this.handleSelectChange}
