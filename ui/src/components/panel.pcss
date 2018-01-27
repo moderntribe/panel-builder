@@ -237,11 +237,12 @@
 }
 
 .fieldWrap {
-	padding: 0 var(--panel-padding-horizontal) var(--panel-padding-vertical);
+	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
 
 	[data-live-edit="true"] & {
 		height: calc(100vh - 167px);
 		overflow-y: auto;
+		padding-top: 0;
 	}
 }
 

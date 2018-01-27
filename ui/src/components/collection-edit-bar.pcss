@@ -151,35 +151,36 @@
 	}
 
 	.desktop {
-		background: svg-inline(desktop) 50% 50% no-repeat;
+		background: svg-inline(desktop) center center no-repeat;
 		background-size: auto 30px;
+		width: 60px;
 
 		&:hover,
 		[data-mode="full"] & {
-			background: svg-inline(desktopHover) 50% 50% no-repeat;
+			background: svg-inline(desktopHover) center center no-repeat;
 			background-size: auto 30px;
 		}
 	}
 
 	.tablet {
-		background: svg-inline(tablet) 20px 50% no-repeat;
+		background: svg-inline(tablet) center center no-repeat;
 		background-size: auto 23px;
 
 		&:hover,
 		[data-mode="tablet"] & {
-			background: svg-inline(tabletHover) 20px 50% no-repeat;
+			background: svg-inline(tabletHover) center center no-repeat;
 			background-size: auto 23px;
 		}
 	}
 
 	.mobile {
-		background: svg-inline(mobile) 50% 50% no-repeat;
-		background-size: auto 17px;
+		background: svg-inline(mobile) center center no-repeat;
+		background-size: auto 20px;
 
 		&:hover,
 		[data-mode="mobile"] & {
-			background: svg-inline(mobileHover) 50% 50% no-repeat;
-			background-size: auto 17px;
+			background: svg-inline(mobileHover) center center no-repeat;
+			background-size: auto 20px;
 		}
 	}
 }
