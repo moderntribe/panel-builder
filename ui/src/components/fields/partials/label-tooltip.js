@@ -18,7 +18,6 @@ const tooltipStyles = {
  */
 
 class LabelTooltip extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
