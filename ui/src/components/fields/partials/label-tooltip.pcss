@@ -1,20 +1,18 @@
 @import '../../../shared/colors.pcss';
 
-@svg-load infoIcon url('../../../img/icons/info.svg') {
+@svg-load info url('../../../img/icons/info.svg') {
 
-	polygon {
+	path {
 		fill: var(--button-bare-text-color);
 	}
 }
 
 .icon {
-	display: inline-block;
-
-	i {
-		display: inline-block;
-		width: 12px;
-		height: 12px;
-		background: var(--color-white) svg-inline(infoIcon) 50% 50% no-repeat;
-		background-size: contain;
-	}
+	width: 12px;
+	height: 20px;
+	background: var(--color-white) svg-inline(info) 50% 50% no-repeat;
+	background-size: contain;
+	position: relative;
+	top: 5px;
+	z-index: 10;
 }

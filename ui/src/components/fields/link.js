@@ -60,10 +60,12 @@ class Link extends Component {
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>
 						{this.props.label}
-						<LabelTooltip
-							label={this.props.label}
-							description={this.props.description}
-						/>
+						{this.props.description ?
+							<LabelTooltip
+								label={this.props.label}
+								description={this.props.description}
+							/>
+							: null}
 					</legend>
 					<LinkGroup
 						handleTargetChange={this.handleSelectChange}

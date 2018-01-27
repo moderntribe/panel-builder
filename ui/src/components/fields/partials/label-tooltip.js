@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'rc-tooltip';
+import styles from './label-tooltip.pcss';
 
 const tooltipStyles = {
 	display: 'inline-block',
@@ -35,7 +36,7 @@ class LabelTooltip extends Component {
 				arrowContent={<div className="rc-tooltip-arrow-inner" />}
 				overlay={<div style={tooltipStyles}>{this.state.description}</div>}
 			>
-				<span className="dashicons dashicons-editor-help" />
+				<span className={styles.icon} />
 			</Tooltip>);
 	}
 }
