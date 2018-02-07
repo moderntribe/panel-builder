@@ -40,7 +40,7 @@
 	width: 100%;
 
 	img {
-		background: var(--border-color-dark);
+		background: var(--button-primary-bg-color);
 		opacity: 0.4;
 		transition: all 0.1s ease-out;
 		-webkit-backface-visibility: hidden;
@@ -77,9 +77,21 @@
 
 	.imageSelectLabel {
 		font-size: 12px;
-		margin-bottom: 20px;
-		margin-right: 10px;
-		max-width: 150px;
+		line-height: 1.4;
+		margin-bottom: 12px;
+		min-width: 50%;
+		max-width: 50%;
+
+		@media (--viewport-small) {
+			min-width: auto !important;
+			max-width: none !important;
+		}
+
+		@media (--viewport-large) {
+			font-size: 11px;
+			margin-right: 5px;
+			max-width: calc(12.5% - 5px) !important;
+		}
 	}
 }
 
@@ -101,6 +113,7 @@
 }
 
 .imageSelectLabel {
+	color: var(--compact-label);
 	display: inline-block;
 	vertical-align: top;
 	text-align: center;
@@ -118,56 +131,24 @@
 		border: 2px solid transparent;
 
 		img {
+			border: 1px solid var(--border-input);
+			border-radius: 2px;
 			display: block;
 			margin: 0;
 			pointer-events: none;
 		}
 	}
 
-	input[type="radio"]:checked + .optionImage .optInner, .optionImage .optInner:hover {
-		border: 1px solid var(--border-img-select);
-
-		&:hover,
-		&:focus {
-			border: 1px solid var(--button-new-blue);
-		}
-	}
-
 	.optionImage .optInner:hover img {
+		border: 1px solid var(--button-new-blue);
 		opacity: 0.65;
 	}
 
 	input[type="radio"]:checked + .optionImage {
 
-		&:before {
-			content: '';
-			width: 20px;
-			height: 20px;
-			position: absolute;
-			display: block;
-			right: 5px;
-			top: 5px;
-			z-index: 10;
-			border-radius: 100%;
-			background-color: color(var(--black) a(50%));
-		}
-
-		&:after {
-			content: "\f147";
-			font-family: dashicons;
-			width: 20px;
-			height: 20px;
-			position: absolute;
-			display: block;
-			right: 6px;
-			top: 6px;
-			z-index: 11;
-			font-size: 16px;
-			line-height: 20px;
-			color: var(--white);
-		}
-
 		img {
+			background: var(--color-white);
+			border-color: var(--button-new-blue);
 			opacity: 1;
 		}
 	}

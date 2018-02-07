@@ -7,6 +7,9 @@
 }
 
 .container {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
 
 	.input {
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
@@ -14,8 +17,19 @@
 		height: auto;
 	}
 
+	> div {
+		flex: 2;
+		margin-right: 20px;
+	}
+
+	> div + span > input {
+		flex: 0.5;
+		max-width: 80px;
+	}
+
 	> div div[role="slider"] {
-		box-shadow: none !important;
+		height: 27px;
+		width: 27px;
 	}
 }
 
@@ -26,6 +40,7 @@
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	margin-bottom: 20px;
+	width: 100%;
 }
 
 .description {

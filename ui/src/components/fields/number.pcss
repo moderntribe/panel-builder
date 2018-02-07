@@ -4,20 +4,51 @@
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
 	transform: translate3d(0, 0, 0);
+
+	span {
+		position: relative;
+	}
 }
 
 .input {
 	composes: input from "../../shared/inputs.pcss";
 	color: var(--input-placeholder) !important;
-	text-align: left;
+	text-align: center;
+	max-width: 200px;
 
 	&:focus {
 		border-color: var(--button-new-blue);
 		box-shadow: none;
 	}
 
-	.compact & {
-		text-align: center;
+	+ b i {
+		cursor: pointer;
+		height: 10px;
+		right: 5px;
+		position: absolute;
+		top: 0;
+		width: 10px;
+
+		&:after {
+			color: var(--input-placeholder);
+			content: "+";
+			font-style: normal;
+		}
+	}
+
+	+ b + b i {
+		cursor: pointer;
+		height: 10px;
+		left: 10px;
+		position: absolute;
+		top: 0;
+		width: 10px;
+
+		&:after {
+			color: var(--input-placeholder);
+			content: "-";
+			font-style: normal;
+		}
 	}
 }
 
@@ -28,7 +59,7 @@
 		color: var(--compact-label);
 		font-size: 10px;
 		text-align: center;
-		font-weight: 600;
+		font-weight: 300;
 	}
 }
 

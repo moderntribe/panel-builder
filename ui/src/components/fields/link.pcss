@@ -14,10 +14,9 @@
 		font-size: 13px;
 		font-weight: 300;
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
-		width: 99%;
 
 		&:focus {
-			box-shadow: none;
+			box-shadow: none !important;
 		}
 	}
 }
@@ -30,22 +29,34 @@
 
 		> div {
 			flex: 1;
-			margin-right: 5px;
-			width: calc(100%/3 - 5px);
+			margin: 0 !important;
+			width: calc(100%/3);
 
-			> div > div {
-				border-radius: 2px;
-				top: 1px;
+			input {
+				border-radius: 0;
+				height: 37px;
+				margin: 0;
+				width: 100%;
+				border-right: none;
+			}
 
-				> span + span {
-					padding-right: 0 !important;
+			div {
 
-					> span {
-						border-width: 3px 3px 2px !important;
-						font-size: 12px !important;
-						position: relative;
-						right: -2px !important;
-						top: -1px;
+				div {
+					border-radius: 0;
+					left: -1px;
+					top: 0;
+
+					> span + span {
+						padding-right: 0 !important;
+
+						> span {
+							border-width: 3px 3px 2px !important;
+							font-size: 12px !important;
+							position: relative;
+							right: -2px !important;
+							top: -1px;
+						}
 					}
 				}
 			}
@@ -55,6 +66,14 @@
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+
+	span {
+		color: var(--tooltip-icon);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 18px;
+		margin-left: 5px;
+	}
 }
 
 .description {
@@ -73,8 +92,11 @@
 
 		div {
 
+			&:hover {
+				box-shadow: none !important;
+			}
+
 			div {
-				width: 99%;
 
 				div {
 					border-radius: 2px;

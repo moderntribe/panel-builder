@@ -6,6 +6,14 @@
 	transform: translate3d(0, 0, 0);
 }
 
+.compact {
+	display: flex;
+
+	> div {
+		flex: 1;
+	}
+}
+
 .inputContainer {
 
 	input {
@@ -17,7 +25,7 @@
 		font-size: 13px;
 		font-weight: 300;
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
-		width: 99%;
+		width: 100%;
 
 		&:focus {
 			border-color: var(--button-new-blue);
@@ -28,6 +36,9 @@
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	transform: translate3d(0, 0, 0);
+	width: calc(50% - 10px);
 }
 
 .description {
