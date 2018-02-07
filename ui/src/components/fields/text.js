@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import styles from './text.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Text extends Component {
 
@@ -30,18 +31,7 @@ class Text extends Component {
 	}
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-		});
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 		return (
 			<div className={fieldClasses}>
 				<label className={labelClasses}>{this.props.label}</label>

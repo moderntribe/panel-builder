@@ -39,6 +39,7 @@ export const isCompactField = (field = {}) => {
 	let isCompact;
 	switch (field.type) {
 	case FIELD_TYPES.NUMBER:
+	case FIELD_TYPES.TEXT:
 		isCompact = field.layout && field.layout === DATA_KEYS.COMPACT_LAYOUT;
 		break;
 	default:
