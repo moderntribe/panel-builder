@@ -21,7 +21,7 @@ class AccordionBack extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: this.props.title,
+			title: this.props.title.length ? this.props.title : UI_I18N['heading.no_title'],
 		};
 	}
 
@@ -72,7 +72,7 @@ AccordionBack.propTypes = {
 };
 
 AccordionBack.defaultProps = {
-	title: UI_I18N['heading.no_title'],
+	title: '',
 	panelLabel: '',
 	handleClick: () => {},
 	handleInfoClick: () => {},
