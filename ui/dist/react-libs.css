@@ -229,7 +229,6 @@
     margin-bottom: 20px;
     max-height: 200px;
     position: relative;
-    top: 100%;
     width: 100%;
     z-index: 50;
     -webkit-overflow-scrolling: touch;

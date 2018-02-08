@@ -24,6 +24,7 @@ export const defaultFieldClasses = (styles, props = {}, conditional = false) => 
 	const fieldClasses = classNames({
 		[styles.field]: true,
 		[styles.compact]: props.layout && props.layout === DATA_KEYS.COMPACT_LAYOUT,
+		[styles.showArrows]: props.show_arrows,
 		'panel-field': true,
 		'panel-conditional-field': conditional,
 	});

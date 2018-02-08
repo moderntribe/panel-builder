@@ -8,7 +8,15 @@ import * as DATA_KEYS from '../../constants/data-keys';
 import styles from './number.pcss';
 
 export const Number = (props) => {
-	const handleChange = value => props.updateValue(value);
+	const handleChange = (value) => {
+		let val = value;
+		if (val < props.min) {
+			val = props.min;
+		} else if (val > props.max) {
+			val = props.max;
+		}
+		props.updateValue(val);
+	};
 
 	const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, props);
 
@@ -41,6 +49,7 @@ Number.propTypes = {
 	max: PropTypes.number,
 	min: PropTypes.number,
 	name: PropTypes.string,
+	show_arrows: PropTypes.bool,
 	step: PropTypes.oneOfType([
 		PropTypes.number,
 		PropTypes.string,
@@ -61,6 +70,7 @@ Number.defaultProps = {
 	max: 0,
 	min: 0,
 	name: '',
+	show_arrows: false,
 	step: 'any',
 	unit_display: 'px',
 	updateValue: () => {},

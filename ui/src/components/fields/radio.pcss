@@ -29,12 +29,18 @@
 
 .list {
 	composes: list from "../../shared/fields.pcss";
+
+	li {
+		margin-bottom: 0;
+	}
 }
 
 .radioLabel {
 	composes: label from "../../shared/inputs.pcss";
 	color: var(--compact-label);
 	font-size: 11px;
+	height: 25px;
+	line-height: 27px;
 }
 
 .radio {

@@ -35,15 +35,20 @@
 .checkboxLabel {
 	composes: label from "../../shared/inputs.pcss";
 	font-size: 11px;
+	height: 25px;
+	line-height: 27px;
 }
 
 .list {
 	composes: list from "../../shared/fields.pcss";
+
+	li {
+		margin-bottom: 0;
+	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
-	margin-bottom: 12px;
 }
 
 .description {

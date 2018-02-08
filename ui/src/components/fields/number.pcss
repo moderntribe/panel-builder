@@ -4,9 +4,29 @@
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
 	transform: translate3d(0, 0, 0);
+	display: flex;
 
-	span {
+	> span {
+		width: calc(100% - 110px);
 		position: relative;
+		max-width: 500px;
+	}
+
+	.label {
+		margin-right: 10px;
+		width: 100px;
+	}
+
+	&.compact {
+		flex-direction: column;
+
+		> span {
+			width: auto;
+		}
+
+		.label {
+			width: 100%;
+		}
 	}
 }
 
@@ -19,6 +39,22 @@
 	&:focus {
 		border-color: var(--button-new-blue);
 		box-shadow: none;
+	}
+
+	+ b {
+		display: none;
+
+		.showArrows & {
+			display: inline;
+		}
+	}
+
+	+ b + b {
+		display: none;
+
+		.showArrows & {
+			display: inline;
+		}
 	}
 
 	+ b i {
