@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
-import field from '../shared/field';
 import * as styleUtil from '../../util/dom/styles';
 import styles from './toggle.pcss';
-import * as DATA_KEYS from '../../constants/data-keys';
 
-export const Toggle = (props) => {
-	const handleChange = e => props.updateValue(parseInt(e.currentTarget.value, 10) === 0 ? 1 : 0);
+class Toggle extends Component {
+	state = {
+		value: this.props.data,
+	};
 
-	const renderOptions = () => {
+	@autobind
+	handleChange(e) {
+		const value = parseInt(e.currentTarget.value, 10) === 0 ? 1 : 0;
+		this.setState({ value });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			name: this.props.name,
+			value,
+		});
+	}
+
+	renderOptions() {
 		const toggleLabelClasses = classNames({
 			'modular-content-toggle-label': false,
 			'toggle': true,
@@ -27,12 +40,12 @@ export const Toggle = (props) => {
 			>
 				<input
 					type="checkbox"
-					value={props.value}
+					value={this.state.value}
 					tabIndex={0}
-					name={`modular-content-${props.name}`}
+					name={`modular-content-${this.props.name}`}
 					className={styles.toggleInput}
-					onChange={handleChange}
-					checked={props.value === 1}
+					onChange={this.handleChange}
+					checked={this.state.value === 1}
 				/>
 				<div
 					className={sliderClasses}
@@ -40,46 +53,52 @@ export const Toggle = (props) => {
 				<span />
 			</label>
 		);
-	};
+	}
 
-	const { descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+	render() {
+		const { descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 
-	const fieldClasses = classNames({
-		[styles.field]: true,
-		[styles.simple]: !props.stylized,
-	});
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			[styles.simple]: !this.props.stylized,
+		});
 
-	return (
-		<div className={fieldClasses}>
-			<label className={labelClasses}>{props.label}</label>
-			<div className={styles.container}>
-				{renderOptions()}
+		return (
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
+				<div className={styles.container}>
+					{this.renderOptions()}
+				</div>
+				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
-			<p className={descriptionClasses}>{props.description}</p>
-		</div>
-	);
-};
+		);
+	}
+}
 
 Toggle.propTypes = {
+	data: PropTypes.number,
 	default: PropTypes.number,
+	depth: PropTypes.number,
 	description: PropTypes.string,
+	indexMap: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	options: PropTypes.array,
 	stylized: PropTypes.bool,
-	updateValue: PropTypes.func,
-	value: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Toggle.defaultProps = {
+	data: 0,
 	default: 0,
+	depth: 0,
 	description: '',
+	indexMap: [],
 	label: '',
 	name: '',
 	options: [],
 	stylized: true,
-	updateValue: () => {},
-	value: 0,
+	updatePanelData: () => {},
 };
 
-export default field(Toggle);
+export default Toggle;

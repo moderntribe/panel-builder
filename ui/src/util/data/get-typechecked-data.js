@@ -37,7 +37,7 @@ const getTypeCheckedData = (type = '', fieldData) => {
 		break;
 	case FIELD_TYPES.IMAGE:
 	case FIELD_TYPES.COLUMN_WIDTH:
-	case FIELD_TYPES.NUMBER:
+	case FIELD_TYPES.NUMERIC_INPUT:
 	case FIELD_TYPES.TOGGLE:
 		if (!_.isInteger(fieldData)) {
 			checkedData = _.toInteger(fieldData);
