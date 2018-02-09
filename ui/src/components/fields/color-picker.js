@@ -5,6 +5,7 @@ import _ from 'lodash';
 import tinycolor from 'tinycolor2';
 import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 
 import * as domTools from '../../util/dom/tools';
@@ -240,15 +241,17 @@ class ColorPicker extends Component {
 	}
 
 	render() {
-		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props, true);
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props, true);
 
 		return (
 			<div ref={r => this.el = r} className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container} data-js="modular-content-color-picker">
 					{this.renderToggle()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

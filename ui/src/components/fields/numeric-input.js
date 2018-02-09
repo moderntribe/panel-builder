@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import ReactNumericInput from 'react-numeric-input';
 
+import LabelTooltip from './partials/label-tooltip';
 import * as styleUtil from '../../util/dom/styles';
 import * as DATA_KEYS from '../../constants/data-keys';
 import styles from './numeric-input.pcss';
@@ -27,12 +28,15 @@ class NumericInput extends Component {
 	}
 
 	render() {
-		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
 				{this.props.layout !== DATA_KEYS.COMPACT_LAYOUT &&
-				<label className={labelClasses}>{this.props.label}</label>}
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>}
 				<span className={styles.container}>
 					<ReactNumericInput
 						className={styles.input}
@@ -47,7 +51,6 @@ class NumericInput extends Component {
 				</span>
 				{this.props.layout === DATA_KEYS.COMPACT_LAYOUT &&
 				<label className={labelClasses}>{this.props.label}</label>}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

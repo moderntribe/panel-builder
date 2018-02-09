@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
+
+import LabelTooltip from './partials/label-tooltip';
 import styles from './text.pcss';
 import * as styleUtil from '../../util/dom/styles';
 
 class Text extends Component {
-
 	state = {
 		text: this.props.data,
 	};
@@ -33,7 +34,10 @@ class Text extends Component {
 		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={`modular-content-${this.props.name}`} value={this.state.text} size="40" onChange={this.handleChange} />
 				</span>

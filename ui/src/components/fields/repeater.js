@@ -12,6 +12,7 @@ import striptags from 'striptags';
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import LabelTooltip from './partials/label-tooltip';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
@@ -465,18 +466,15 @@ class Repeater extends Component {
 			'panel-field-legend': true,
 		});
 
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-
 		return (
 			<div ref={r => this.el = r} className={fieldClasses} data-depth={this.props.depth} data-active={this.state.active}>
-				<label className={legendClasses}>{this.props.label}</label>
+				<label className={legendClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.getAddRow()}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

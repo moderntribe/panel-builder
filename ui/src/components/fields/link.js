@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import LabelTooltip from './partials/label-tooltip';
 
+import LabelTooltip from './partials/label-tooltip';
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
 import * as DATA_KEYS from '../../constants/data-keys';
@@ -12,7 +12,6 @@ class Link extends Component {
 	state = {
 		url: this.props.data.url,
 		label: this.props.data.label,
-		description: this.props.data.description,
 		target: this.props.data.target,
 	};
 
@@ -21,7 +20,6 @@ class Link extends Component {
 			url: this.state.url,
 			target: this.state.target,
 			label: this.state.label,
-			description: this.state.description,
 		};
 	}
 
@@ -61,12 +59,7 @@ class Link extends Component {
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>
 						{this.props.label}
-						{this.props.description ?
-							<LabelTooltip
-								label={this.props.label}
-								description={this.props.description}
-							/>
-							: null}
+						{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
 					</legend>
 					<LinkGroup
 						handleTargetChange={this.handleSelectChange}
@@ -75,7 +68,6 @@ class Link extends Component {
 						valueTarget={this.state.target}
 						valueUrl={this.state.url}
 						valueLabel={this.state.label}
-						valueDescription={this.state.description}
 						strings={this.props.strings}
 					/>
 				</fieldset>

@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import styles from './checkbox.pcss';
 import * as styleUtil from '../../util/dom/styles';
 
@@ -32,10 +33,6 @@ class Checkbox extends Component {
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -71,11 +68,13 @@ class Checkbox extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<ul className={styles.list}>
 					{Options}
 				</ul>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

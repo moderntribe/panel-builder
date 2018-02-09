@@ -5,6 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import styles from './radio.pcss';
 import * as styleUtil from '../../util/dom/styles';
+import LabelTooltip from './partials/label-tooltip';
 
 class Radio extends Component {
 	state = {
@@ -58,10 +59,6 @@ class Radio extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			[styles.vertical]: this.props.layout === 'vertical',
@@ -72,11 +69,13 @@ class Radio extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<ul className={styles.list}>
 					{Options}
 				</ul>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

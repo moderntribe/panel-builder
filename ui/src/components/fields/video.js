@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import styles from './video.pcss';
+import LabelTooltip from './partials/label-tooltip';
 
 class Video extends Component {
 
@@ -46,10 +47,6 @@ class Video extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -57,11 +54,13 @@ class Video extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={videoSpanClasses}>
 					<input type="text" className={videoInputClasses} name={`modular-content-${this.props.name}`} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

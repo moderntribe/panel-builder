@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import LabelTooltip from './partials/label-tooltip';
 import styles from './column-width.pcss';
 
 class ColumnWidth extends Component {
@@ -56,10 +57,6 @@ class ColumnWidth extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -68,11 +65,13 @@ class ColumnWidth extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container}>
 					{Options}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import RichtextEditor from '../shared/richtext-editor';
+import LabelTooltip from './partials/label-tooltip';
 import * as RichtextEvents from '../../util/dom/tinymce';
 
 import styles from './textarea.pcss';
@@ -147,19 +148,17 @@ class TextArea extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{Editor}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

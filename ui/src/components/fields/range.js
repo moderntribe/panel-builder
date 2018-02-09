@@ -7,6 +7,7 @@ import NumericInput from 'react-numeric-input';
 import Tooltip from 'rc-tooltip';
 
 import * as styleUtil from '../../util/dom/styles';
+import LabelTooltip from './partials/label-tooltip';
 import styles from './range.pcss';
 
 const { createSliderWithTooltip } = Slider;
@@ -51,11 +52,14 @@ class Range extends Component {
 	}
 
 	render() {
-		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={styles.container}>
 					{this.props.handles.length === 1 &&
 					<Slider
@@ -92,7 +96,6 @@ class Range extends Component {
 					/>
 					}
 				</span>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

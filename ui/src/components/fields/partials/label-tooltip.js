@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'rc-tooltip';
 import styles from './label-tooltip.pcss';
@@ -18,37 +18,23 @@ const tooltipStyles = {
  * @constructor
  */
 
-class LabelTooltip extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			label: this.props.label,
-			description: this.props.description,
-		};
-	}
-
-	render() {
-		return (
-			<Tooltip
-				id={this.state.label}
-				trigger="hover"
-				placement="bottom"
-				arrowContent={<div className="rc-tooltip-arrow-inner" />}
-				overlay={<div style={tooltipStyles}>{this.state.description}</div>}
-			>
-				<span className={styles.icon} />
-			</Tooltip>);
-	}
-}
+const LabelTooltip = props => (
+	<Tooltip
+		trigger="hover"
+		placement="bottom"
+		arrowContent={<div className="rc-tooltip-arrow-inner" />}
+		overlay={<div style={tooltipStyles}>{props.content}</div>}
+	>
+		<span className={styles.icon} />
+	</Tooltip>
+);
 
 LabelTooltip.propTypes = {
-	label: PropTypes.string,
-	description: PropTypes.string,
+	content: PropTypes.string,
 };
 
 LabelTooltip.defaultProps = {
-	label: '',
-	description: '',
+	content: '',
 };
 
 export default LabelTooltip;
