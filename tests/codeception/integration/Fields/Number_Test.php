@@ -16,7 +16,7 @@ class Number_Test extends WPTestCase {
 		$step         = 0.1;
 		$unit_display = 'px';
 
-		$field = new Number( [
+		$field = new Numeric_Input( [
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
@@ -33,7 +33,7 @@ class Number_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'Number',
+			'type'         => 'Numeric_Input',
 			'label'        => $label,
 			'name'         => $name,
 			'description'  => $description,
@@ -55,7 +55,7 @@ class Number_Test extends WPTestCase {
 		$valid = true;
 
 		try {
-			new Number( [
+			new Numeric_Input( [
 				'input_width' => 14,
 			] );
 		} catch ( \LogicException $e ) {
@@ -69,7 +69,7 @@ class Number_Test extends WPTestCase {
 		$valid = true;
 
 		try {
-			new Number( [
+			new Numeric_Input( [
 				'layout' => 'foobar',
 			] );
 		} catch ( \LogicException $e ) {
@@ -83,7 +83,7 @@ class Number_Test extends WPTestCase {
 		$valid = true;
 
 		try {
-			new Number( [
+			new Numeric_Input( [
 				'layout'      => 'full',
 				'input_width' => 12,
 			] );
