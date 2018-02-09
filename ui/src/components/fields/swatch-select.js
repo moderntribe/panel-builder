@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import styles from './swatch-select.pcss';
+import LabelTooltip from './partials/label-tooltip';
 
 class SwatchSelect extends Component {
 	state = {
@@ -63,10 +64,6 @@ class SwatchSelect extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -75,11 +72,13 @@ class SwatchSelect extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container}>
 					{Options}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

@@ -9,6 +9,7 @@ import zenscroll from 'zenscroll';
 import _ from 'lodash';
 
 import Button from '../shared/button';
+import LabelTooltip from './partials/label-tooltip';
 import Panel from '../panel';
 import AccordionBack from '../shared/accordion-back';
 import PanelPicker from '../panel-picker';
@@ -548,11 +549,6 @@ class Children extends Component {
 			'panel-field-legend': true,
 		});
 
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-
 		return (
 			<div
 				ref={r => this.childPanels = r}
@@ -563,12 +559,14 @@ class Children extends Component {
 				data-settings="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
-				<label className={legendClasses}>{this.childData.label.plural}</label>
+				<label className={legendClasses}>
+					{this.childData.label.plural}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.state.pickerActive ? this.getPicker() : null}
 				{this.getAddRow()}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

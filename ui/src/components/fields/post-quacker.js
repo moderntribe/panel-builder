@@ -14,6 +14,7 @@ import BlankPostUi from '../shared/blank-post-ui';
 import PostPreviewContainer from '../shared/post-preview-container';
 import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
+import LabelTooltip from './partials/label-tooltip';
 
 import * as RichtextEvents from '../../util/dom/tinymce';
 import * as AdminCache from '../../util/data/admin-cache';
@@ -549,23 +550,21 @@ class PostQuacker extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 		return (
 			<fieldset className={fieldClasses}>
-				<legend className={labelClasses}>{this.props.label}</legend>
+				<legend className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</legend>
 				{this.getTabButtons()}
 				<div className={styles.tabWrapper}>
 					{this.getSelectionTemplate()}
 					{this.getManualTemplate()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</fieldset>
 		);
 	}

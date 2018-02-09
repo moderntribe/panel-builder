@@ -4,6 +4,8 @@ import autobind from 'autobind-decorator';
 import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
+
+import LabelTooltip from './partials/label-tooltip';
 import styles from './image-gallery.pcss';
 import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
@@ -166,11 +168,6 @@ class ImageGallery extends Component {
 				<img src={attachment.thumbnail} alt={`thumnbail${attachment.id}`} />
 			</div>),
 		);
-
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
@@ -183,7 +180,10 @@ class ImageGallery extends Component {
 		// Edit Gallery button to be translated
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
@@ -195,7 +195,6 @@ class ImageGallery extends Component {
 						{previewItems}
 					</div>
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

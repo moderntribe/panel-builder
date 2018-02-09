@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import * as styleUtil from '../../util/dom/styles';
+import LabelTooltip from './partials/label-tooltip';
 import styles from './toggle.pcss';
 
 class Toggle extends Component {
@@ -56,7 +57,7 @@ class Toggle extends Component {
 	}
 
 	render() {
-		const { descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+		const { labelClasses } = styleUtil.defaultFieldClasses(styles);
 
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -65,11 +66,13 @@ class Toggle extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container}>
 					{this.renderOptions()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

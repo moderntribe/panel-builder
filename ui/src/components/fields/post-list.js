@@ -17,6 +17,7 @@ import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
 import PostListQueryGeneralFilter from './partials/post-list-query-general-filter';
 import PostListMaxChooser from './partials/post-list-max-chooser';
+import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
@@ -964,13 +965,15 @@ class PostList extends Component {
 	render() {
 		return (
 			<div className={styles.field}>
-				<legend className={styles.label}>{this.props.label}</legend>
+				<legend className={styles.label}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</legend>
 				{this.getTabButtons()}
 				<div className={styles.tabWrapper}>
 					{this.getManualTemplate()}
 					{this.getQueryTemplate()}
 				</div>
-				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}

@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import styles from './title.pcss';
+import LabelTooltip from './partials/label-tooltip';
 
 import * as events from '../../util/events';
 
@@ -37,10 +38,6 @@ class Title extends Component {
 			'panel-input-label-title': true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -48,11 +45,13 @@ class Title extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={`modular-content-${this.props.name}`} value={this.state.text} onChange={this.handleChange} />
 				</span>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

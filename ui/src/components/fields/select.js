@@ -5,6 +5,7 @@ import _ from 'lodash';
 import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
 import styles from './select.pcss';
+import LabelTooltip from './partials/label-tooltip';
 import * as DATA_KEYS from '../../constants/data-keys';
 
 class Select extends Component {
@@ -29,10 +30,6 @@ class Select extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			[styles.compact]: this.props.layout === DATA_KEYS.COMPACT_LAYOUT,
@@ -42,14 +39,16 @@ class Select extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<ReactSelect
 					name={`modular-content-${this.props.name}`}
 					options={this.props.options}
 					onChange={this.handleChange}
 					value={this.state.value}
 				/>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

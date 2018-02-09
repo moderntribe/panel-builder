@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import MediaUploader from '../shared/media-uploader';
 import { wpMedia } from '../../globals/wp';
 import * as AdminCache from '../../util/data/admin-cache';
@@ -85,11 +85,14 @@ class Image extends Component {
 	 */
 
 	render() {
-		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<MediaUploader
 					label={this.props.label}
 					file={this.state.image}
@@ -97,7 +100,6 @@ class Image extends Component {
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
 				/>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

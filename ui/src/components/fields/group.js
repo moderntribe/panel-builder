@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
+import LabelTooltip from './partials/label-tooltip';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
 import * as DATA_KEYS from '../../constants/data-keys';
@@ -155,7 +156,10 @@ class Group extends Component {
 
 		return this.props.layout === 'compact' ? (
 			<div className={fieldClasses} data-group-active="true">
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{this.getFields()}
 				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
@@ -163,7 +167,6 @@ class Group extends Component {
 			<div className={fieldClasses} data-group-active={this.state.active}>
 				{this.getHeader()}
 				{this.state.active ? this.getFields() : null}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

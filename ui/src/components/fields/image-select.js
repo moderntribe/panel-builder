@@ -11,6 +11,7 @@ import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
 import { UI_I18N } from '../../globals/i18n';
 import * as styleUtil from '../../util/dom/styles';
+import LabelTooltip from './partials/label-tooltip';
 
 export class ImageSelect extends Component {
 	constructor(props) {
@@ -34,6 +35,9 @@ export class ImageSelect extends Component {
 
 	@autobind
 	handleHeader() {
+		if (!this.props.can_add_columns) {
+			return;
+		}
 		this.setState({ hidden: !this.state.hidden });
 	}
 
@@ -140,10 +144,6 @@ export class ImageSelect extends Component {
 			[styles.arrowUp]: this.state.hidden,
 		});
 
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const containerClasses = classNames({
 			[styles.container]: true,
 			[styles.hidden]: this.state.hidden,
@@ -161,12 +161,12 @@ export class ImageSelect extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses} onClick={this.handleHeader}>
 					{this.props.label}
+					{!this.props.can_add_columns && this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
 					{this.props.can_add_columns && <i className={arrowClasses} />}
 				</label>
 				<div className={containerClasses}>
 					{Options}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
