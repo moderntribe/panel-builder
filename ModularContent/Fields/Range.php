@@ -22,7 +22,7 @@ namespace ModularContent\Fields;
  *   'has_input' => false, // whether to show the number input next to the slider
  * ) );
  */
-class Range extends Number {
+class Range extends Numeric_Input {
 
 	protected $handles   = [ 0 ];
 	protected $has_input = false;

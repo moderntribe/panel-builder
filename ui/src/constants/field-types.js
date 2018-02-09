@@ -26,4 +26,4 @@ export const GROUP = 'Group';
 export const ACCORDION = 'Accordion';
 export const REPEATER = 'Repeater';
 export const COLUMN_WIDTH = 'Column_Width';
-export const NUMBER = 'Number';
+export const NUMERIC_INPUT = 'Numeric_Input';

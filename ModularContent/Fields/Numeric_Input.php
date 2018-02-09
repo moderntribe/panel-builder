@@ -4,13 +4,13 @@
 namespace ModularContent\Fields;
 
 /**
- * Class Number
+ * Class Numeric_Input
  *
  * @package ModularContent\Fields
  *
  * A basic number field.
  *
- * $field = new Number( array(
+ * $field = new Numeric_Input( array(
  *   'label' => __('Width'),
  *   'name' => 'width',
  *   'description' => __( 'How wide should this be?' ),
@@ -20,7 +20,7 @@ namespace ModularContent\Fields;
  *   'unit_display' => '%',
  * ) );
  */
-class Number extends Field {
+class Numeric_Input extends Field {
 
 	protected $min          = 0;
 	protected $max          = 100;

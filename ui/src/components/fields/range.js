@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import autobind from 'autobind-decorator';
 import Slider from 'rc-slider';
 import NumericInput from 'react-numeric-input';
 import Tooltip from 'rc-tooltip';
 
-import field from '../shared/field';
 import * as styleUtil from '../../util/dom/styles';
 import styles from './range.pcss';
 
@@ -28,68 +28,84 @@ const handle = (props) => {
 	);
 };
 
-export const Range = (props) => {
-	const handleChange = (value) => {
+class Range extends Component {
+	state = {
+		value: this.props.data,
+	};
+
+	@autobind
+	handleChange(value) {
 		let arr = [];
 		if (_.isArray(value)) {
 			arr = value.filter(Number);
 		} else {
 			arr.push(value);
 		}
-		props.updateValue(arr);
-	};
+		this.setState({ value: arr });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			name: this.props.name,
+			value: arr,
+		});
+	}
 
-	const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
+	render() {
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 
-	return (
-		<div className={fieldClasses}>
-			<label className={labelClasses}>{props.label}</label>
-			<span className={styles.container}>
-				{props.handles.length === 1 &&
+		return (
+			<div className={fieldClasses}>
+				<label className={labelClasses}>{this.props.label}</label>
+				<span className={styles.container}>
+					{this.props.handles.length === 1 &&
 					<Slider
-						min={props.min}
-						max={props.max}
-						step={props.step}
-						value={props.value[0]}
+						min={this.props.min}
+						max={this.props.max}
+						step={this.props.step}
+						value={this.state.value[0]}
 						handle={handle}
-						onChange={handleChange}
-						tipFormatter={value => `${value}${props.unit_display}`}
+						onChange={this.handleChange}
+						tipFormatter={value => `${value}${this.props.unit_display}`}
 					/>
-				}
-				{props.handles.length > 1 &&
+					}
+					{this.props.handles.length > 1 &&
 					<RangeSlider
-						handles={props.handles}
-						min={props.min}
-						max={props.max}
-						step={props.step}
-						value={props.value}
-						onChange={handleChange}
-						tipFormatter={value => `${value}${props.unit_display}`}
+						handles={this.props.handles}
+						min={this.props.min}
+						max={this.props.max}
+						step={this.props.step}
+						value={this.state.value}
+						onChange={this.handleChange}
+						tipFormatter={value => `${value}${this.props.unit_display}`}
 					/>
-				}
-				{props.has_input && props.handles.length === 1 &&
+					}
+					{this.props.has_input && this.props.handles.length === 1 &&
 					<NumericInput
 						className={styles.input}
-						value={props.value[0]}
-						onChange={handleChange}
-						min={props.min}
-						max={props.max}
-						step={props.step}
+						value={this.state.value[0]}
+						onChange={this.handleChange}
+						min={this.props.min}
+						max={this.props.max}
+						step={this.props.step}
 						style={false} // eslint-disable-line
 						snap
 					/>
-				}
-			</span>
-			<p className={descriptionClasses}>{props.description}</p>
-		</div>
-	);
-};
+					}
+				</span>
+				<p className={descriptionClasses}>{this.props.description}</p>
+			</div>
+		);
+	}
+}
 
 Range.propTypes = {
+	data: PropTypes.array,
 	default: PropTypes.array,
 	description: PropTypes.string,
+	depth: PropTypes.number,
 	handles: PropTypes.array,
 	has_input: PropTypes.bool,
+	indexMap: PropTypes.array,
 	label: PropTypes.string,
 	max: PropTypes.number,
 	min: PropTypes.number,
@@ -99,23 +115,24 @@ Range.propTypes = {
 		PropTypes.string,
 	]),
 	unit_display: PropTypes.string,
-	updateValue: PropTypes.func,
-	value: PropTypes.array,
+	updatePanelData: PropTypes.func,
 };
 
 Range.defaultProps = {
+	data: [],
 	default: [],
 	description: '',
+	depth: 0,
 	handles: [],
 	has_input: false,
+	indexMap: [],
 	label: '',
 	max: 0,
 	min: 0,
 	name: '',
 	step: 'any',
 	unit_display: 'px',
-	updateValue: () => {},
-	value: [],
+	updatePanelData: () => {},
 };
 
-export default field(Range);
+export default Range;
