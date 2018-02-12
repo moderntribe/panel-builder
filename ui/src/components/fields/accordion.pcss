@@ -4,9 +4,19 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	border-bottom: 1px solid var(--border-color);
 	transform: translate3d(0, 0, 0);
 	margin-bottom: 0;
+	position: relative;
+
+	&:after {
+		border-bottom: 1px solid var(--border-color);
+		bottom: 0;
+		content: "";
+		height: 1px;
+		left: -15px;
+		position: absolute;
+		width: calc(100% + 30px);
+	}
 }
 
 .label {
@@ -16,12 +26,17 @@
 .arrow {
 	composes: arrow from "../../shared/accordion.pcss";
 	transition: var(--transition-accordion);
-	transform: rotate(90deg);
-	right: 0;
-	top: 25px;
+	left: 0;
+	top: 24px;
+
+	&:before {
+		content: "\f139";
+		font-family: 'dashicons';
+		color: #4A4A4A;
+	}
 
 	.active & {
-		transform: rotate(-90deg);
+		transform: rotate(90deg);
 	}
 }
 
@@ -31,6 +46,10 @@
 	background: none;
 	padding: 25px 0;
 	border: 0;
+
+	h3 {
+		margin-left: 25px;
+	}
 
 	.description {
 		margin-bottom: 0;
@@ -68,6 +87,8 @@
 .fieldWrap {
 	overflow-y: visible;
 	height: auto;
+	padding-bottom: 25px;
+	padding-left: 25px;
 }
 
 .description {
