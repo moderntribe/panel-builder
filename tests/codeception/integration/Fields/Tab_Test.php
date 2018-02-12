@@ -47,6 +47,8 @@ class Tab_Test extends WPTestCase {
 					'description' => $description . '1',
 					'strings'     => [],
 					'default'     => '',
+					'input_width' => 12,
+					'layout'      => 'full',
 				],
 				[
 					'type'        => 'Text',
@@ -55,6 +57,8 @@ class Tab_Test extends WPTestCase {
 					'description' => $description . '2',
 					'strings'     => [],
 					'default'     => '',
+					'input_width' => 12,
+					'layout'      => 'full',
 				],
 			],
 		];
