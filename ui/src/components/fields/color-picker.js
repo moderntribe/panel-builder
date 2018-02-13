@@ -126,6 +126,7 @@ class ColorPicker extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -266,6 +267,7 @@ ColorPicker.propTypes = {
 	description: PropTypes.string,
 	input_active: PropTypes.bool,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	panelIndex: PropTypes.number,
@@ -285,6 +287,7 @@ ColorPicker.defaultProps = {
 	description: '',
 	input_active: false,
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	name: '',
 	panelIndex: 0,

@@ -24,6 +24,7 @@ class Video extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: videoURL,
 		});
@@ -72,6 +73,7 @@ Video.propTypes = {
 	description: PropTypes.string,
 	depth: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	data: PropTypes.string,
@@ -85,6 +87,7 @@ Video.defaultProps = {
 	description: '',
 	depth: 0,
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	default: '',
 	data: '',

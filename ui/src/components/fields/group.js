@@ -84,7 +84,7 @@ class Group extends Component {
 						parentMap={parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
-						updatePanelData={this.updateGroupFieldData}
+						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
 			</div>
@@ -93,24 +93,6 @@ class Group extends Component {
 
 	isCompact() {
 		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
-	}
-
-	/**
-	 * Updates group field data in redux store, needs parent key sent along
-	 * @param data
-	 */
-
-	@autobind
-	updateGroupFieldData(data) {
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: data.index,
-			indexMap: this.props.indexMap,
-			parentMap: data.parentMap,
-			name: data.name,
-			value: data.value,
-			parent: this.props.name,
-		});
 	}
 
 	/**

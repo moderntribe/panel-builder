@@ -96,6 +96,7 @@ class TextArea extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: text,
 		});
@@ -172,6 +173,7 @@ TextArea.propTypes = {
 	description: PropTypes.string,
 	depth: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	richtext: PropTypes.bool,
@@ -187,6 +189,7 @@ TextArea.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: '',

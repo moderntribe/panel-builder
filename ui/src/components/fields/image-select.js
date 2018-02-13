@@ -70,6 +70,7 @@ export class ImageSelect extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -183,6 +184,7 @@ ImageSelect.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.object,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	depth: PropTypes.number,
 	default: PropTypes.string,
 	option_width: PropTypes.number,
@@ -199,6 +201,7 @@ ImageSelect.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	depth: 0,
 	default: '',

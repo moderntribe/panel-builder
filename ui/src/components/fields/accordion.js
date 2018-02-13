@@ -77,29 +77,11 @@ class Accordion extends Component {
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						type={this.props.type}
-						updatePanelData={this.updateGroupFieldData}
+						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
 			</div>
 		);
-	}
-
-	/**
-	 * Updates group field data in redux store, needs parent key sent along
-	 * @param data
-	 */
-
-	@autobind
-	updateGroupFieldData(data) {
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: data.index,
-			indexMap: this.props.indexMap,
-			parentMap: data.parentMap,
-			name: data.name,
-			parent: this.props.name,
-			value: data.value,
-		});
 	}
 
 	maybeAnimateFields() {

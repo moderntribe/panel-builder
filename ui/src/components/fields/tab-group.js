@@ -82,7 +82,7 @@ class TabGroup extends Component {
 			<Tab
 				fields={tab[0].fields}
 				name={tab[0].name}
-				data={this.props.data}
+				data={this.props.data[tab[0].name]}
 				parent={this.props.name}
 				parentMap={parentMap}
 				index={this.props.panelIndex}
