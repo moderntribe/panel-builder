@@ -31,19 +31,24 @@ import cloneDeep from '../util/data/clone-deep';
 import randomString from '../util/data/random-string';
 
 class PanelCollection extends Component {
-	state = {
-		active: false,
-		injectionIndex: -1,
-		initialData: cloneDeep(PANELS),
-		keyPrefix: randomString(10),
-		liveEdit: this.isActiveOnInit(),
-		panelSetPickerActive: false,
-		panelSetPickerEditLink: '',
-		panelSetSaveError: false,
-		pickerActive: false,
-		refreshRate: this.getRefreshDelay(),
-		triggerLiveEdit: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			active: false,
+			injectionIndex: -1,
+			initialData: cloneDeep(PANELS),
+			keyPrefix: randomString(10),
+			liveEdit: this.isActiveOnInit(),
+			panelSetPickerActive: false,
+			panelSetPickerEditLink: '',
+			panelSetSaveError: false,
+			pickerActive: false,
+			refreshRate: this.getRefreshDelay(),
+			triggerLiveEdit: false,
+		};
+
+		this.dataInput = document.getElementById('modular-content-data');
+	}
 
 	componentWillMount() {
 		if (!this.shouldActivatePanelSets()) {
@@ -301,6 +306,7 @@ class PanelCollection extends Component {
 			if (MODULAR_CONTENT.autosave === newData) {
 				return;
 			}
+			console.log('doesnt match');
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
@@ -526,18 +532,6 @@ class PanelCollection extends Component {
 		) : null;
 	}
 
-	renderDataStorageInput() {
-		return (
-			<input
-				ref={r => this.dataInput = r}
-				type="hidden"
-				name="panels"
-				id="panels"
-				value={JSON.stringify({ panels: this.props.panels })}
-			/>
-		);
-	}
-
 	render() {
 		const collectionClasses = classNames({
 			[styles.main]: true,
@@ -568,7 +562,6 @@ class PanelCollection extends Component {
 					{this.renderPanelSetPicker()}
 				</div>
 				{this.renderIframe()}
-				{this.renderDataStorageInput()}
 				<Dialog />
 			</div>
 		);
