@@ -14,7 +14,7 @@ const getGroupDefaults = (fields = []) => {
 		return {};
 	}
 	const groupData = {};
-	_.forEach(fields, groupField => groupData[groupField.name] = groupField.default);
+	_.forEach(fields, groupField => groupData[groupField.name] = 'undefined' !== typeof groupField.fields ? getGroupDefaults(groupField.fields) : groupField.default);
 	return groupData;
 };
 
