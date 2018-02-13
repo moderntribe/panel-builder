@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 
 import Tab from './tab';
 
-import styles from './group.pcss';
+import styles from './tab-group.pcss';
 
 /**
  * Class TabGroup
@@ -20,16 +20,39 @@ class TabGroup extends Component {
 		activeTab: this.props.fields[0].name,
 	};
 
+	@autobind
+	handleTabClick(e) {
+		this.setState({
+			activeTab: e.currentTarget.dataset.name,
+		});
+	}
+
 	getTabs() {
-		return this.props.fields.map(tab => (
-			<li
-				key={_.uniqueId('tab-id-')}
-			>
-				<button>
-					{tab.icon.length ? <img src={tab.icon} alt="" /> : tab.label}
-				</button>
-			</li>
-		));
+		return this.props.fields.map((tab) => {
+			const liClasses = classNames({
+				[styles.tab]: true,
+				[styles.tabActive]: tab.name === this.state.activeTab,
+			});
+			const iconClasses = classNames({
+				[styles.icon]: true,
+				[styles.iconSvg]: tab.icon.substr(tab.icon.lastIndexOf('.') + 1) === 'svg',
+			});
+			return (
+				<li
+					key={_.uniqueId('tab-id-')}
+					className={liClasses}
+				>
+					<button
+						className={styles.tabButton}
+						onClick={this.handleTabClick}
+						data-name={tab.name}
+						type="button"
+					>
+						{tab.icon.length ? <img src={tab.icon} className={iconClasses} alt=""/> : tab.label}
+					</button>
+				</li>
+			);
+		});
 	}
 
 	/**
@@ -38,14 +61,9 @@ class TabGroup extends Component {
 	 */
 
 	getHeader() {
-		const headerClasses = classNames({
-			[styles.header]: true,
-			'panel-tab-header': true,
-		});
-
 		return (
-			<div className={headerClasses}>
-				<ul>{this.getTabs()}</ul>
+			<div className={styles.header}>
+				<ul className={styles.tabList}>{this.getTabs()}</ul>
 			</div>
 		);
 	}
@@ -59,18 +77,12 @@ class TabGroup extends Component {
 		const tab = this.props.fields.filter(field => field.name === this.state.activeTab);
 		const parentMap = this.props.parentMap.slice();
 		parentMap.push(this.props.name);
-		const fieldClasses = classNames({
-			[styles.fields]: true,
-			'panel-tab-group-fields': true,
-		});
 
 		return (
-			<div className={fieldClasses}>
-				<Tab
-					fields={tab[0].fields}
-					parentMap={parentMap}
-				/>
-			</div>
+			<Tab
+				fields={tab[0].fields}
+				parentMap={parentMap}
+			/>
 		);
 	}
 

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import autobind from 'autobind-decorator';
 
 import FieldBuilder from '../shared/field-builder';
 
-import styles from './group.pcss';
+import styles from './tab.pcss';
 
 /**
  * Class TabGroup
@@ -14,64 +13,26 @@ import styles from './group.pcss';
  *
  */
 
-class Tab extends Component {
-	state = {
-		activeTab: this.props.fields[0].name,
-	};
+const Tab = (props) => {
+	const fieldClasses = classNames({
+		[styles.field]: true,
+		'panel-field': true,
+		'tab-group-field': true,
+	});
 
-	/**
-	 * Gets the header which toggles the group into view
-	 * @returns {XML}
-	 */
-
-	getHeader() {
-		const headerClasses = classNames({
-			[styles.header]: true,
-			'panel-tab-header': true,
-		});
-
-		return <div className={headerClasses}>Header</div>;
-	}
-
-	/**
-	 * Gets the fields, called when state is active.
-	 * @returns {XML}
-	 */
-
-	renderActiveTab() {
-		const fieldClasses = classNames({
-			[styles.fields]: true,
-			'panel-group-fields': true,
-		});
-
-		return (
-			<div className={fieldClasses}>
-				<FieldBuilder
-					fields={this.props.fields}
-					data={this.props.data}
-					parent={this.props.name}
-					index={this.props.panelIndex}
-					indexMap={this.props.indexMap}
-					updatePanelData={this.props.updatePanelData}
-				/>
-			</div>
-		);
-	}
-
-	render() {
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-			'tab-group-field': true,
-		});
-
-		return (
-			<div className={fieldClasses}>
-				{this.renderActiveTab()}
-			</div>
-		);
-	}
-}
+	return (
+		<div className={fieldClasses}>
+			<FieldBuilder
+				fields={props.fields}
+				data={props.data}
+				parent={props.name}
+				index={props.panelIndex}
+				indexMap={props.indexMap}
+				updatePanelData={props.updatePanelData}
+			/>
+		</div>
+	);
+};
 
 Tab.propTypes = {
 	data: PropTypes.object,
