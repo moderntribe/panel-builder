@@ -63,6 +63,9 @@ class Group extends Component {
 			'panel-group-fields': true,
 		});
 
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
+
 		return (
 			<div className={fieldClasses}>
 				{!this.isCompact() &&
@@ -78,6 +81,7 @@ class Group extends Component {
 						fields={this.props.fields}
 						data={this.props.data}
 						parent={this.props.name}
+						parentMap={parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateGroupFieldData}
@@ -102,6 +106,7 @@ class Group extends Component {
 			depth: this.props.depth,
 			index: data.index,
 			indexMap: this.props.indexMap,
+			parentMap: data.parentMap,
 			name: data.name,
 			value: data.value,
 			parent: this.props.name,
@@ -179,6 +184,7 @@ Group.propTypes = {
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
 	label: PropTypes.string,
@@ -197,6 +203,7 @@ Group.defaultProps = {
 	layout: 'full',
 	parentIndex: 0,
 	indexMap: [],
+	parentMap: [],
 	data: {},
 	panelIndex: 0,
 	panelLabel: '',

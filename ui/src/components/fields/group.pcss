@@ -6,6 +6,23 @@
 	composes: fieldContainer from "../../shared/fields.pcss";
 }
 
+[data-live-edit="true"] {
+
+	.field {
+
+		&.compact {
+			margin-bottom: 5px;
+		}
+	}
+
+	.compact {
+
+		.label {
+			margin-bottom: 10px;
+		}
+	}
+}
+
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	padding-left: 0;
@@ -17,23 +34,21 @@
 
 .arrow {
 	composes: arrow from "../../shared/accordion.pcss";
-
-	[data-live-edit="false"] & {
-		transform: rotate(90deg);
-	}
 }
 
 [data-live-edit="false"] [data-group-active="true"] {
 
-	.arrow {
-		transform: rotate(-90deg);
-	}
 }
 
 .header {
 	composes: header from "../../shared/accordion.pcss";
 	margin-bottom: var(--panel-margin-vertical);
 	transform: translate3d(0, 0, 0);
+
+	h3 {
+		color: #4A4A4A;
+		font-size: 16px;
+	}
 }
 
 [data-live-edit="false"] {
@@ -82,10 +97,6 @@
 		}
 	}
 
-	.compact & {
-		position: static;
-	}
-
 	[data-live-edit="false"] & {
 		position: relative;
 		left: 0;
@@ -95,6 +106,11 @@
 		left: 0;
 		background: var(--white);
 		z-index: 1;
+	}
+
+	.compact & {
+		position: static;
+		background: transparent;
 	}
 }
 

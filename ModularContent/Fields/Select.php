@@ -42,7 +42,7 @@ class Select extends Field {
 	}
 
 	protected function check_layout( $args ) {
-		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' ) {
+		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' && $args['layout'] !== 'inline' ) {
 			throw new \LogicException( 'Layout argument can only be "compact" or "full".' );
 		}
 	}

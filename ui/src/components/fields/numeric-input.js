@@ -22,6 +22,7 @@ class NumericInput extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -66,6 +67,7 @@ NumericInput.propTypes = {
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
 	label: PropTypes.string,
+	parentMap: PropTypes.array,
 	layout: PropTypes.string,
 	max: PropTypes.number,
 	min: PropTypes.number,
@@ -85,6 +87,7 @@ NumericInput.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	layout: 'full',
 	max: 0,

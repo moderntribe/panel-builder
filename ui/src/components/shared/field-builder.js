@@ -56,6 +56,7 @@ const FieldBuilder = (props) => {
 					panelIndex={props.index}
 					parentIndex={props.parentIndex}
 					indexMap={props.indexMap}
+					parentMap={props.parentMap}
 					parent={props.parent}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
@@ -77,6 +78,7 @@ const FieldBuilder = (props) => {
 			panels={props.panels}
 			depth={props.depth}
 			parentIndex={props.index}
+			parentMap={props.parentMap}
 			indexMap={props.indexMap}
 			tabs={props.tabs}
 			activeTab={props.activeTab}
@@ -103,6 +105,7 @@ FieldBuilder.propTypes = {
 	depth: PropTypes.number,
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	activeTab: PropTypes.string,
 	label: PropTypes.string,
 	parent: PropTypes.string,
@@ -126,6 +129,7 @@ FieldBuilder.defaultProps = {
 	depth: 0,
 	index: 0,
 	indexMap: [],
+	parentMap: [],
 	activeTab: 'content_fields',
 	label: '',
 	fields: [],

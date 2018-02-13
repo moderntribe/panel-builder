@@ -119,12 +119,16 @@ class TextArea extends Field {
 		$blueprint['media_buttons']             = $this->media_buttons;
 		$blueprint['editor_settings_reference'] = '';
 		$blueprint['editor_type']               = $this->editor_type;
-		if ( $this->richtext ) {
+		if ( $this->richtext && $this->editor_type !== 'draftjs' ) {
 			$blueprint['editor_settings_reference'] = $this->setup_editor_settings();
 		}
 
 		if ( $blueprint['editor_type'] === 'draftjs' ) {
 			$blueprint['editor_options'] = $this->editor_options;
+		}
+
+		if ( isset( $blueprint['editor_options'] ) ) {
+			$blueprint['editor_options'] = apply_filters( 'panels_text_area_editor_options', $blueprint['editor_options'] );
 		}
 
 		return $blueprint;
