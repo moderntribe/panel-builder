@@ -81,7 +81,13 @@ class TabGroup extends Component {
 		return (
 			<Tab
 				fields={tab[0].fields}
+				name={tab[0].name}
+				data={this.props.data}
+				parent={this.props.name}
 				parentMap={parentMap}
+				index={this.props.panelIndex}
+				indexMap={this.props.indexMap}
+				updatePanelData={this.props.updatePanelData}
 			/>
 		);
 	}

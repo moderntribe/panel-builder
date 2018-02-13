@@ -61,6 +61,8 @@ class Accordion extends Component {
 			[styles.description]: true,
 			'panel-builder__field-description': true,
 		});
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
 
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
@@ -70,6 +72,7 @@ class Accordion extends Component {
 						fields={this.props.fields}
 						data={this.props.data}
 						parent={this.props.name}
+						parentMap={parentMap}
 						parentType={this.props.name}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
@@ -92,6 +95,7 @@ class Accordion extends Component {
 			depth: this.props.depth,
 			index: data.index,
 			indexMap: this.props.indexMap,
+			parentMap: data.parentMap,
 			name: data.name,
 			parent: this.props.name,
 			value: data.value,
@@ -147,6 +151,7 @@ Accordion.propTypes = {
 	handleExpanderClick: PropTypes.func,
 	hidePanel: PropTypes.func,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
@@ -168,6 +173,7 @@ Accordion.defaultProps = {
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	liveEdit: false,
 	name: '',
