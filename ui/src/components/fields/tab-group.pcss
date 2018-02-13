@@ -1,0 +1,63 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	padding-left: 0;
+}
+
+.arrow {
+	composes: arrow from "../../shared/accordion.pcss";
+}
+
+[data-live-edit="false"] [data-group-active="true"] {
+
+}
+
+.header {
+
+}
+
+.action {
+	composes: action from "../../shared/accordion.pcss";
+}
+
+.fields {
+	padding: 0;
+	width: 100%;
+
+	> div {
+		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+
+	}
+}
+
+[data-live-edit="false"] {
+
+	[data-group-active="true"] {
+
+		.fields {
+
+		}
+	}
+}
+
+[data-live-edit="true"] {
+
+	.fields {
+
+	}
+
+	.fieldWrap {
+
+	}
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
