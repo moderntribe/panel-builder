@@ -9,11 +9,15 @@ import * as DATA_KEYS from '../../constants/data-keys';
  * @param name
  * @param parent
  * @param data
+ * @param parentMap
  * @returns {Array}
  */
 
-export const traverse = (indexMap = [], panels = [], name = '', parent = '', data = '') => {
+export const traverse = (indexMap = [], panels = [], name = '', parent = '', data = '', parentMap = []) => {
 	const thisIndex = indexMap.shift();
+
+	console.log(parentMap);
+	console.log(thisIndex);
 
 	if (indexMap.length === 0) {
 		if (name === DATA_KEYS.PANELS) {

@@ -20,12 +20,16 @@ const Tab = (props) => {
 		'tab-group-field': true,
 	});
 
+	const parentMap = props.parentMap.slice();
+	parentMap.push(props.name);
+
 	return (
 		<div className={fieldClasses}>
 			<FieldBuilder
 				fields={props.fields}
 				data={props.data}
 				parent={props.name}
+				parentMap={parentMap}
 				index={props.panelIndex}
 				indexMap={props.indexMap}
 				updatePanelData={props.updatePanelData}
@@ -43,6 +47,7 @@ Tab.propTypes = {
 	handleExpanderClick: PropTypes.func,
 	hidePanel: PropTypes.func,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
@@ -62,6 +67,7 @@ Tab.defaultProps = {
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	liveEdit: false,
 	name: '',

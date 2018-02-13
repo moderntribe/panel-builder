@@ -118,6 +118,8 @@ class Repeater extends Component {
 		const rowIndexLabel = this.getRowIndexLabel(this.state.activeIndex);
 		const title = rowData.title && rowData.title.length ? rowData.title : rowIndexLabel;
 		const deleteLabel = this.props.strings['button.delete'];
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
 		const fieldClasses = classNames({
 			[styles.fields]: true,
 			'panel-row-fields': true,
@@ -136,6 +138,7 @@ class Repeater extends Component {
 						fields={this.props.fields}
 						data={rowData}
 						parent={this.props.name}
+						parentMap={parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
@@ -491,6 +494,7 @@ Repeater.propTypes = {
 	panelLabel: PropTypes.string,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	fields: PropTypes.array,
 	strings: PropTypes.object,
 	label: PropTypes.string,
@@ -515,6 +519,7 @@ Repeater.defaultProps = {
 	panels: [],
 	panelIndex: 0,
 	indexMap: [],
+	parentMap: [],
 	panelLabel: '',
 	fields: [],
 	strings: {},
