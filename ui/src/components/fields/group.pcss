@@ -6,6 +6,23 @@
 	composes: fieldContainer from "../../shared/fields.pcss";
 }
 
+[data-live-edit="true"] {
+
+	.field {
+
+		&.compact {
+			margin-bottom: 5px;
+		}
+	}
+
+	.compact {
+
+		.label {
+			margin-bottom: 10px;
+		}
+	}
+}
+
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	padding-left: 0;
@@ -80,10 +97,6 @@
 		}
 	}
 
-	.compact & {
-		position: static;
-	}
-
 	[data-live-edit="false"] & {
 		position: relative;
 		left: 0;
@@ -93,6 +106,11 @@
 		left: 0;
 		background: var(--white);
 		z-index: 1;
+	}
+
+	.compact & {
+		position: static;
+		background: transparent;
 	}
 }
 

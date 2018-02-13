@@ -2,7 +2,7 @@ import * as FIELD_TYPES from '../../constants/field-types';
 
 import Text from '../fields/text';
 import Title from '../fields/title';
-import Tab_Group from '../fields/tab-group';
+import TabGroup from '../fields/tab-group';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
 import ColorPicker from '../fields/color-picker';
@@ -30,7 +30,7 @@ import NumericInput from '../fields/numeric-input';
 export default {
 	[FIELD_TYPES.TEXT]: Text,
 	[FIELD_TYPES.TITLE]: Title,
-	[FIELD_TYPES.TAB_GROUP]: Tab_Group,
+	[FIELD_TYPES.TAB_GROUP]: TabGroup,
 	[FIELD_TYPES.RADIO]: Radio,
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
 	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
