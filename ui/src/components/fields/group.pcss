@@ -17,17 +17,10 @@
 
 .arrow {
 	composes: arrow from "../../shared/accordion.pcss";
-
-	[data-live-edit="false"] & {
-		transform: rotate(90deg);
-	}
 }
 
 [data-live-edit="false"] [data-group-active="true"] {
 
-	.arrow {
-		transform: rotate(-90deg);
-	}
 }
 
 .header {
