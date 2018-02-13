@@ -495,19 +495,14 @@ class Children extends Component {
 	/**
 	 * Handles receiving data from child panel updates and updating redux store
 	 *
-	 * todo: group fields should be handled differently. when moving to index map consolidate with other method.
-	 *
 	 * @param data passed up from the panel
 	 */
 
 	@autobind
 	handleDataUpdate(data) {
 		const newData = this.state.data;
-		if (data.parent) {
-			if (!_.isObject(newData[this.state.activeIndex].data[data.parent])) {
-				newData[this.state.activeIndex].data[data.parent] = {};
-			}
-			newData[this.state.activeIndex].data[data.parent][data.name] = data.value;
+		if (data.parentMap && data.parentMap.length) {
+			_.set(newData[this.state.activeIndex].data, `${data.parentMap.join('.')}.${data.name}`, data.value);
 		} else {
 			newData[this.state.activeIndex].data[data.name] = data.value;
 		}
@@ -518,7 +513,7 @@ class Children extends Component {
 			childName: data.name,
 			childValue: data.value,
 			indexMap: this.props.indexMap,
-			parent: data.parent,
+			parentMap: data.parentMap ? data.parentMap : [],
 			name: 'panels',
 			value: newData,
 		};

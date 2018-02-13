@@ -27,6 +27,7 @@ class Link extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -81,6 +82,7 @@ Link.propTypes = {
 	depth: PropTypes.number,
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.object,
 	data: PropTypes.object,
@@ -95,6 +97,7 @@ Link.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	default: {},
 	data: {},

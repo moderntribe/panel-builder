@@ -46,6 +46,7 @@ class Range extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: arr,
 		});
@@ -109,6 +110,7 @@ Range.propTypes = {
 	handles: PropTypes.array,
 	has_input: PropTypes.bool,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	max: PropTypes.number,
 	min: PropTypes.number,
@@ -129,6 +131,7 @@ Range.defaultProps = {
 	handles: [],
 	has_input: false,
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	max: 0,
 	min: 0,

@@ -86,8 +86,14 @@ export function panelData(state = initialData, action) {
 
 	case UPDATE_PANEL_DATA:
 		const indexMap = action.data.indexMap.slice();
-		const parentMap = action.data.parentMap ? action.data.parentMap.slice() : [];
-		newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.parent, action.data.value, parentMap);
+		const parentMap = _.isArray(action.data.parentMap) ? action.data.parentMap.slice() : [];
+		newState.panels = storeTools.traverse(
+			indexMap,
+			parentMap,
+			newState.panels,
+			action.data.name,
+			action.data.value
+		);
 		return newState;
 
 	default:
