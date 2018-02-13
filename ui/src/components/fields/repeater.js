@@ -90,6 +90,7 @@ class Repeater extends Component {
 				depth: this.props.depth,
 				index: this.props.panelIndex,
 				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				name: this.props.name,
 				value: fieldData,
 			});
@@ -270,6 +271,7 @@ class Repeater extends Component {
 			index: this.props.panelIndex,
 			rowIndex: e.newIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -288,7 +290,7 @@ class Repeater extends Component {
 
 	@autobind
 	handleDeleteRow() {
-		const data = this.state.data;
+		const { data } = this.state;
 		data.splice(this.state.activeIndex, 1);
 		this.props.hidePanel(false);
 		this.props.nestedGroupActive(false);
@@ -302,6 +304,7 @@ class Repeater extends Component {
 			index: this.props.panelIndex,
 			rowIndex: this.state.activeIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -339,6 +342,7 @@ class Repeater extends Component {
 				index: this.props.panelIndex,
 				rowIndex: newState.activeIndex,
 				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				name: this.props.name,
 				value: newState.data,
 			};
@@ -438,6 +442,7 @@ class Repeater extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: data.parentMap,
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,

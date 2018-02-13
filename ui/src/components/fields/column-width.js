@@ -18,6 +18,7 @@ class ColumnWidth extends Component {
 		this.setState({ value });
 		this.props.updatePanelData({
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -83,6 +84,7 @@ ColumnWidth.propTypes = {
 	depth: PropTypes.number,
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	options: PropTypes.array,
@@ -97,6 +99,7 @@ ColumnWidth.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	name: '',
 	options: [],

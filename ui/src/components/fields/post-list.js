@@ -642,6 +642,7 @@ class PostList extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -987,6 +988,7 @@ PostList.propTypes = {
 	strings: PropTypes.object,
 	default: PropTypes.object,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	min: PropTypes.number,
 	max: PropTypes.number,
 	suggested: PropTypes.number,
@@ -1008,6 +1010,7 @@ PostList.defaultProps = {
 	strings: {},
 	default: {},
 	indexMap: [],
+	parentMap: [],
 	min: 1,
 	max: 12,
 	suggested: 6,

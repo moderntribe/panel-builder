@@ -20,6 +20,7 @@ class Title extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: text,
 		});
@@ -61,6 +62,7 @@ Title.propTypes = {
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -74,6 +76,7 @@ Title.defaultProps = {
 	data: '',
 	panelIndex: 0,
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	name: '',
 	description: '',

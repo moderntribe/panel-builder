@@ -24,6 +24,7 @@ class Checkbox extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		});
@@ -85,6 +86,7 @@ Checkbox.propTypes = {
 	name: PropTypes.string,
 	depth: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	description: PropTypes.string,
 	strings: PropTypes.object,
 	default: PropTypes.object,
@@ -101,6 +103,7 @@ Checkbox.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: {},

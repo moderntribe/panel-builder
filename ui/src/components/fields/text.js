@@ -25,6 +25,7 @@ class Text extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: text,
 		});
@@ -55,6 +56,7 @@ Text.propTypes = {
 	description: PropTypes.string,
 	depth: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	updatePanelData: PropTypes.func,
@@ -67,6 +69,7 @@ Text.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: '',

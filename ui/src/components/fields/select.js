@@ -20,6 +20,7 @@ class Select extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -61,6 +62,7 @@ Select.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	depth: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.string,
@@ -76,6 +78,7 @@ Select.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: '',
