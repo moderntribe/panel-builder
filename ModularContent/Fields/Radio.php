@@ -46,8 +46,8 @@ class Radio extends Select {
 	}
 
 	protected function check_layout( $args ) {
-		if ( isset( $args['layout'] ) && $args['layout'] !== 'vertical' && $args['layout'] !== 'horizontal' ) {
-			throw new \LogicException( 'Layout argument can only be "vertical" or "horizontal".' );
+		if ( isset( $args['layout'] ) && $args['layout'] !== 'vertical' && $args['layout'] !== 'horizontal' && $args['layout'] !== 'inline' ) {
+			throw new \LogicException( 'Layout argument can only be "vertical", "horizontal", or "inline".' );
 		}
 	}
 
