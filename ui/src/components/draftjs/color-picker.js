@@ -16,8 +16,8 @@ class ColorPicker extends Component {
 		const { color } = this.props.currentState;
 		const wrapperStyles = {
 			position: 'absolute',
-			marginTop: '5px',
-			marginLeft: '-40px',
+			marginTop: '15px',
+			marginLeft: '-73px',
 			zIndex: '10',
 		};
 		return (
@@ -28,6 +28,7 @@ class ColorPicker extends Component {
 				<BlockPicker
 					color={color}
 					colors={this.props.config.colors}
+					presetColors={this.props.config.colors}
 					onChangeComplete={this.onChange}
 				/>
 			</div>
