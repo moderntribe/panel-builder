@@ -306,7 +306,6 @@ class PanelCollection extends Component {
 			if (MODULAR_CONTENT.autosave === newData) {
 				return;
 			}
-			console.log('doesnt match');
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
