@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SketchPicker } from 'react-color';
+import { BlockPicker } from 'react-color';
 
 class ColorPicker extends Component {
 	onChange = (color) => {
@@ -25,8 +25,9 @@ class ColorPicker extends Component {
 				onClick={this.stopPropagation}
 				style={wrapperStyles}
 			>
-				<SketchPicker
+				<BlockPicker
 					color={color}
+					colors={this.props.config.colors}
 					onChangeComplete={this.onChange}
 				/>
 			</div>
@@ -60,6 +61,7 @@ class ColorPicker extends Component {
 ColorPicker.propTypes = {
 	expanded: PropTypes.bool,
 	onExpandEvent: PropTypes.func,
+	config: PropTypes.object,
 	onChange: PropTypes.func,
 	currentState: PropTypes.object,
 };
@@ -67,6 +69,7 @@ ColorPicker.propTypes = {
 ColorPicker.defaultProps = {
 	expanded: false,
 	onExpandEvent: () => {},
+	config: {},
 	onChange: () => {},
 	currentState: {},
 };
