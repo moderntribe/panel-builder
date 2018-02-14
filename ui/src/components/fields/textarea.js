@@ -114,7 +114,8 @@ class TextArea extends Component {
 		} else if (this.props.editor_type === DATA_KEYS.EDITOR_TYPE_DRAFTJS) {
 			const toolbarOptions = this.props.editor_options;
 			if (_.isArray(toolbarOptions.options) && toolbarOptions.options.indexOf('colorPicker') !== -1) {
-				toolbarOptions.colorPicker = { component: DraftColorPicker };
+				const colors = toolbarOptions.colorPicker && toolbarOptions.colorPicker.colors ? toolbarOptions.colorPicker.colors : [];
+				toolbarOptions.colorPicker = { component: DraftColorPicker, colors };
 			}
 			FieldEditor = (
 				<Editor

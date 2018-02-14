@@ -168,7 +168,7 @@ class ColorPicker extends Component {
 		return this.state.pickerActive ? (
 			<Picker
 				color={this.getActiveColor()}
-				colors={this.props.swatches}
+				colors={this.props.colors}
 				presetColors={this.props.swatches}
 				onChange={this.handleChange}
 			/>
