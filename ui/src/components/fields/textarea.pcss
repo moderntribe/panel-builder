@@ -4,7 +4,7 @@
 
 .field{
 	composes: fieldContainer from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
+	transform: none;
 }
 
 .rawTextarea{
@@ -19,4 +19,27 @@
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.draftWrapper {
+	position: relative;
+}
+
+.draftToolbar {
+	position: absolute;
+	top: -43px;
+	width: 292px;
+	border-radius: 2px;
+	background: var(--white);
+	border: 1px solid var(--border-color);
+	z-index: 10;
+}
+
+.draftEditor {
+	background-color: var(--color-white);
+	border: 1px solid var(--border-input);
+	color: var(--input-placeholder);
+	font-weight: 300;
+	padding: 0 8px;
+	border-radius: 2px;
 }
