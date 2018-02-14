@@ -12,6 +12,8 @@ import * as events from '../util/events';
 
 const wpWrap = document.getElementById('wpwrap');
 
+Modal.setAppElement('#modular-content-app');
+
 /**
  * Class Panel Dialog
  *
