@@ -4,7 +4,6 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import * as styleUtil from '../../util/dom/styles';
-import { trigger } from '../../util/events';
 import LabelTooltip from './partials/label-tooltip';
 import styles from './toggle.pcss';
 
@@ -17,15 +16,7 @@ class Toggle extends Component {
 	handleChange(e) {
 		const target = e.currentTarget;
 		const value = parseInt(target.value, 10) === 0 ? 1 : 0;
-		this.setState({ value }, () => {
-			trigger({
-				event: 'modular_content/conditional_field_changed',
-				native: false,
-				data: {
-					target,
-				},
-			});
-		});
+		this.setState({ value });
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
