@@ -49,6 +49,7 @@ class ColumnWidth extends Component {
 						checked={this.state.value === option.value}
 						data-option-type="single"
 						data-field="column-width"
+						data-depth={this.props.depth}
 					/>
 				</label>
 			);

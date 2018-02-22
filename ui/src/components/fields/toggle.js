@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 
 import * as styleUtil from '../../util/dom/styles';
+import { trigger } from '../../util/events';
 import LabelTooltip from './partials/label-tooltip';
 import styles from './toggle.pcss';
 
@@ -14,8 +15,17 @@ class Toggle extends Component {
 
 	@autobind
 	handleChange(e) {
-		const value = parseInt(e.currentTarget.value, 10) === 0 ? 1 : 0;
-		this.setState({ value });
+		const target = e.currentTarget;
+		const value = parseInt(target.value, 10) === 0 ? 1 : 0;
+		this.setState({ value }, () => {
+			trigger({
+				event: 'modular_content/conditional_field_changed',
+				native: false,
+				data: {
+					target,
+				},
+			});
+		});
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
@@ -48,6 +58,9 @@ class Toggle extends Component {
 					className={styles.toggleInput}
 					onChange={this.handleChange}
 					checked={this.state.value === 1}
+					data-field-type="toggle"
+					data-field="checkbox"
+					data-depth={this.props.depth}
 				/>
 				<div
 					className={sliderClasses}
@@ -63,6 +76,7 @@ class Toggle extends Component {
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			[styles.simple]: !this.props.stylized,
+			'panel-conditional-field': true,
 		});
 
 		return (

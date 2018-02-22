@@ -48,7 +48,6 @@ class PanelContainer extends Component {
 		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', e => _.delay(() => {
 			this.handleConditionalFields(e);
 		}, 100));
-
 		if (this.props.depth > 0) {
 			return;
 		}
@@ -61,7 +60,6 @@ class PanelContainer extends Component {
 		this.mounted = false;
 
 		this.inputDelegates.destroy();
-
 		if (this.props.depth > 0) {
 			return;
 		}
@@ -306,7 +304,7 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleConditionalFields(e) {
-		const input = e.delegateTarget ? e.delegateTarget : e.target;
+		const input = e.delegateTarget ? e.delegateTarget : e.detail.target;
 		// exit for repeater
 		if (domTools.closest(input, '.repeater-field')) {
 			return;

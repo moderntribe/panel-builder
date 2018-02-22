@@ -50,6 +50,7 @@ class Radio extends Component {
 						checked={this.state.value === option.value}
 						data-option-type="single"
 						data-field="radio"
+						data-depth={this.props.depth}
 					/>
 					<span />
 					{option.label}

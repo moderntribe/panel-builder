@@ -6,6 +6,9 @@ export const setConditionalClass = (panel, input) => {
 	if (!panel) {
 		return;
 	}
+	if (panel.dataset.depth !== input.dataset.depth) {
+		return;
+	}
 	const cssClassKey = getFieldClass(input);
 
 	if (input.getAttribute('data-option-type') === 'single') {
@@ -13,10 +16,11 @@ export const setConditionalClass = (panel, input) => {
 		panel.className = classes.join(' ').trim();
 		panel.classList.add(`${cssClassKey}-${input.value}`);
 	} else if (input.getAttribute('data-field') === 'checkbox') {
+		const value = input.dataset.fieldType === 'toggle' ? '1' : input.value;
 		if (input.checked) {
-			panel.classList.add(`${cssClassKey}-${input.value}`);
+			panel.classList.add(`${cssClassKey}-${value}`);
 		} else {
-			panel.classList.remove(`${cssClassKey}-${input.value}`);
+			panel.classList.remove(`${cssClassKey}-${value}`);
 		}
 	}
 };
@@ -27,6 +31,9 @@ export const initConditionalFields = (panel) => {
 	}
 	domTools.convertElements(panel.querySelectorAll('.panel-conditional-field input:checked')).forEach((input) => {
 		if (domTools.closest(input, '.repeater-field')) {
+			return;
+		}
+		if (panel.dataset.depth !== input.dataset.depth) {
 			return;
 		}
 		panel.classList.add(`${getFieldClass(input)}-${input.value}`);

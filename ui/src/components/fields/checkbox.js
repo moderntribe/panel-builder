@@ -60,6 +60,7 @@ class Checkbox extends Component {
 						checked={this.state.data && this.state.data[option.value]} // eslint-disable-line
 						data-option-type="multiple"
 						data-field="checkbox"
+						data-depth={this.props.depth}
 					/>
 					<span />
 					{option.label}
