@@ -74,8 +74,9 @@ class Repeater extends Component {
 			target = (i + 1) === this.props.indexMap.length ? target[val] : target[val].panels;
 		});
 		let store;
-		if (this.props.parent.length) {
-			store = target && target.data ? target.data[this.props.parent][this.props.name] : {};
+		// todo confirm multi nested repeaters in groups
+		if (this.props.parentMap.length) {
+			store = target && target.data ? _.get(target.data, `${this.props.parentMap.join('.')}.${this.props.name}`) : {};
 		} else {
 			store = target && target.data ? target.data[this.props.name] : {};
 		}
@@ -123,8 +124,6 @@ class Repeater extends Component {
 		const rowIndexLabel = this.getRowIndexLabel(this.state.activeIndex);
 		const title = rowData.title && rowData.title.length ? rowData.title : rowIndexLabel;
 		const deleteLabel = this.props.strings['button.delete'];
-		const parentMap = this.props.parentMap.slice();
-		parentMap.push(this.props.name);
 		const fieldClasses = classNames({
 			[styles.fields]: true,
 			'panel-row-fields': true,
@@ -145,7 +144,7 @@ class Repeater extends Component {
 						settings_fields={this.props.settings_fields}
 						data={rowData}
 						parent={this.props.name}
-						parentMap={parentMap}
+						parentMap={this.props.parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
