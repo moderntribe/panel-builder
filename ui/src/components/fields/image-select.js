@@ -121,6 +121,7 @@ export class ImageSelect extends Component {
 					checked={this.state.value === option.value}
 					data-option-type="single"
 					data-field="image-select"
+					data-depth={this.props.depth}
 				/>
 				<div
 					className={styles.optionImage}
