@@ -304,7 +304,7 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleConditionalFields(e) {
-		const input = e.delegateTarget ? e.delegateTarget : e.detail.target;
+		const input = e.delegateTarget ? e.delegateTarget : e.target;
 		// exit for repeater
 		if (domTools.closest(input, '.repeater-field')) {
 			return;
