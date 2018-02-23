@@ -20,6 +20,7 @@ import _ from 'lodash';
 import RichtextEditor from '../shared/richtext-editor';
 import LabelTooltip from './partials/label-tooltip';
 import DraftColorPicker from '../draftjs/color-picker';
+import DraftAllCaps from '../draftjs/all-caps';
 import { wpEditor } from '../../globals/wp';
 import * as RichtextEvents from '../../util/dom/tinymce';
 import * as DATA_KEYS from '../../constants/data-keys';
@@ -126,6 +127,7 @@ class TextArea extends Component {
 					toolbarOnFocus
 					toolbar={this.props.editor_options}
 					onEditorStateChange={this.onDraftJSChange}
+					toolbarCustomButtons={[<DraftAllCaps />]}
 				/>
 			);
 		}
