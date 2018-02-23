@@ -29,6 +29,7 @@
     "delegate": "^3.0.1",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.2",
+    "draftjs-utils": "^0.9.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "escape-html": "^1.0.3",
