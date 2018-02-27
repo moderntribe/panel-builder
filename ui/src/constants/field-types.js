@@ -11,6 +11,7 @@ export const RADIO = 'Radio';
 export const CHECKBOX = 'Checkbox';
 export const COLOR_PICKER = 'Color_Picker';
 export const IMAGE_SELECT = 'ImageSelect';
+export const STYLE_FAMILY_SELECT = 'Style_Family_Select';
 export const SELECT = 'Select';
 export const RANGE = 'Range';
 export const TEXTAREA = 'TextArea';
