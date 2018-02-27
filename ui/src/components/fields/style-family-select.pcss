@@ -53,3 +53,39 @@
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
+
+.controls {
+	margin-left: auto;
+	display: flex;
+	flex-direction: row;
+	height: 36px;
+	padding-left: 6px;
+
+	button {
+		height: 100%;
+		padding: 0 0 0 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&:disabled {
+			opacity: 0.5;
+
+			&:hover {
+				color: var(--link-color);
+			}
+		}
+
+		&:hover {
+			color: var(--button-new-blue);
+		}
+
+		i {
+			margin-right: 0;
+		}
+
+		span {
+			display: none;
+		}
+	}
+}

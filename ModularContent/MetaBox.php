@@ -155,8 +155,9 @@ class MetaBox {
 				'heading.start_from_scr'  => __( 'Create Page From Scratch', 'modular-content' ),
 				'dialog.panel_set_title'  => __( 'Panel Set Title', 'modular-content' ),
 
-				// panel
-				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
+				// style family select
+				'button.edit_style_family' => __( 'Edit this family', 'modular-content' ),
+				'button.copy_style_family' => __( 'Copy this family', 'modular-content' ),
 
 				// live edit
 				'heading.edit_panel_type'      => __( 'Active Panels', 'modular-content' ),
