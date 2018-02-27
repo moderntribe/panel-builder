@@ -6,12 +6,19 @@ import ReactSelect from 'react-select-plus';
 import classNames from 'classnames';
 import styles from './style-family-select.pcss';
 import LabelTooltip from './partials/label-tooltip';
+import Button from '../shared/button';
 import * as DATA_KEYS from '../../constants/data-keys';
+import { UI_I18N } from '../../globals/i18n';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
 
 class StyleFamilySelect extends Component {
-	state = {
-		value: this.props.data,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: this.props.data,
+		};
+	}
 
 	@autobind
 	handleChange(data) {
@@ -24,6 +31,24 @@ class StyleFamilySelect extends Component {
 			name: this.props.name,
 			value,
 		});
+	}
+
+	/**
+	 * Allows external editor to react and enter edit mode for style family
+	 */
+
+	@autobind
+	editFamily() {
+		trigger({ event: EVENTS.EDIT_STYLE_FAMILY, native: false, data: { familyID: this.state.value } });
+	}
+
+	/**
+	 * Allows external editor to react and enter edit mode for copy of this style family
+	 */
+
+	@autobind
+	copyFamily() {
+		trigger({ event: EVENTS.COPY_STYLE_FAMILY, native: false, data: { familyID: this.state.value } });
 	}
 
 	render() {
@@ -50,6 +75,24 @@ class StyleFamilySelect extends Component {
 					onChange={this.handleChange}
 					value={this.state.value}
 				/>
+				<nav className={styles.controls}>
+					<Button
+						bare
+						text={UI_I18N['button.edit_style_family']}
+						full={false}
+						handleClick={this.editFamily}
+						icon="dashicons-edit"
+						disabled={this.state.value.length === 0}
+					/>
+					<Button
+						bare
+						text={UI_I18N['button.copy_style_family']}
+						full={false}
+						handleClick={this.copyFamily}
+						icon="dashicons-admin-page"
+						disabled={this.state.value.length === 0}
+					/>
+				</nav>
 			</div>
 		);
 	}

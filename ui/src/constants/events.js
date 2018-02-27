@@ -19,3 +19,6 @@ export const COLUMNS_UPDATED = 'modern_tribe/columns_updated';
 export const INJECT_LAYOUT = 'modern_tribe/inject_layout';
 
 export const OPEN_DIALOG = 'modern_tribe/open_dialog';
+
+export const EDIT_STYLE_FAMILY = 'modular_content/edit_style_family';
+export const COPY_STYLE_FAMILY = 'modular_content/copy_style_family';
