@@ -87,7 +87,7 @@ class StyleFamilySelect extends Component {
 						bare
 						text={UI_I18N['button.copy_style_family']}
 						full={false}
-						handleClick={this.copyFamily}
+						handleClick={this.emitExternalEvent}
 						dataID="copy"
 						icon="dashicons-admin-page"
 						disabled={this.state.value.length === 0}
