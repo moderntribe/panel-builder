@@ -20,4 +20,19 @@ namespace ModularContent\Fields;
  *   )
  * ) );
  */
-class Style_Family_Select extends Select {}
+class Style_Family_Select extends Select {
+
+	protected $activation_triggers = [];
+
+	public function __construct( $args = [] ) {
+		$this->defaults[ 'activation_triggers' ] = $this->activation_triggers;
+		parent::__construct( $args );
+	}
+
+	public function get_blueprint() {
+		$blueprint                          = parent::get_blueprint();
+		$blueprint[ 'activation_triggers' ] = $this->activation_triggers;
+
+		return $blueprint;
+	}
+}
