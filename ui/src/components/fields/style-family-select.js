@@ -38,17 +38,13 @@ class StyleFamilySelect extends Component {
 	 */
 
 	@autobind
-	editFamily() {
-		trigger({ event: EVENTS.EDIT_STYLE_FAMILY, native: false, data: { familyID: this.state.value } });
-	}
-
-	/**
-	 * Allows external editor to react and enter edit mode for copy of this style family
-	 */
-
-	@autobind
-	copyFamily() {
-		trigger({ event: EVENTS.COPY_STYLE_FAMILY, native: false, data: { familyID: this.state.value } });
+	emitExternalEvent(e) {
+		const data = {
+			action: e.currentTarget.dataset.id,
+			activationTriggers: this.props.activation_triggers,
+			familyID: this.props.options.filter(opt => opt.value === this.state.value)[0].label,
+		};
+		trigger({ event: EVENTS.LAUNCH_STYLE_FAMILY_EDITOR, native: false, data });
 	}
 
 	render() {
@@ -62,6 +58,8 @@ class StyleFamilySelect extends Component {
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
+		const activeOption = this.props.options.filter(opt => opt.value === this.state.value)[0];
+		const optionLabel = activeOption ? activeOption.label : '';
 
 		return (
 			<div className={fieldClasses}>
@@ -80,15 +78,17 @@ class StyleFamilySelect extends Component {
 						bare
 						text={UI_I18N['button.edit_style_family']}
 						full={false}
-						handleClick={this.editFamily}
+						handleClick={this.emitExternalEvent}
+						dataID="edit"
 						icon="dashicons-edit"
-						disabled={this.state.value.length === 0}
+						disabled={this.state.value.length === 0 || optionLabel === 'default-styles'}
 					/>
 					<Button
 						bare
 						text={UI_I18N['button.copy_style_family']}
 						full={false}
 						handleClick={this.copyFamily}
+						dataID="copy"
 						icon="dashicons-admin-page"
 						disabled={this.state.value.length === 0}
 					/>
@@ -99,6 +99,7 @@ class StyleFamilySelect extends Component {
 }
 
 StyleFamilySelect.propTypes = {
+	activation_triggers: PropTypes.array,
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
 	label: PropTypes.string,
@@ -115,6 +116,7 @@ StyleFamilySelect.propTypes = {
 };
 
 StyleFamilySelect.defaultProps = {
+	activation_triggers: [],
 	data: '',
 	panelIndex: 0,
 	label: '',
