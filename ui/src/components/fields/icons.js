@@ -51,6 +51,7 @@ class Icons extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: '',
 		});
@@ -58,7 +59,7 @@ class Icons extends Component {
 
 	@autobind
 	handleChange(e) {
-		const value = e.currentTarget.value;
+		const { value } = e.currentTarget;
 		this.updateState(value);
 	}
 
@@ -73,6 +74,7 @@ class Icons extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -157,6 +159,7 @@ Icons.propTypes = {
 	description: PropTypes.string,
 	strings: PropTypes.object,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	depth: PropTypes.number,
 	default: PropTypes.string,
 	options: PropTypes.array,
@@ -172,6 +175,7 @@ Icons.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	depth: 0,
 	default: '',
