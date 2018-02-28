@@ -104,6 +104,7 @@ class MetaBox {
 					'tool_arg'    => Plugin::TOOL_ARG,
 					'tool_arg_id' => Plugin::CONTENT_TOOL_ID,
 				],
+                'google_fonts' => apply_filters( 'panels_google_fonts', [] ),
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
