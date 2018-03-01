@@ -4,6 +4,7 @@ export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
 export const URL_CONFIG = CONFIG.url_config || {};
 // todo: when Jonathan adds in the defaults at the php level we can avoid this defaults merge
 export const PERMISSIONS = CONFIG.permissions ? Object.assign({}, CONFIG_DEFAULTS.permissions, CONFIG.permissions) : CONFIG_DEFAULTS.permissions;
+export const STYLE_FAMILIES = CONFIG.style_families || {};
 export const CSS_FILE = CONFIG.css_file || '';
 export const IFRAME_SCROLL_OFFSET = CONFIG.iframe_scroll_offset || '';
 
