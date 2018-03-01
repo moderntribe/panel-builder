@@ -100,11 +100,12 @@ class MetaBox {
 			$data = [
 				'iframe_scroll_offset' => 10,
 				'css_file'             => Plugin::plugin_url( 'ui/dist/master.css' ),
-				'url_config' => [
+				'url_config'           => [
 					'tool_arg'    => Plugin::TOOL_ARG,
 					'tool_arg_id' => Plugin::CONTENT_TOOL_ID,
 				],
-                'google_fonts' => apply_filters( 'panels_google_fonts', [] ),
+				'google_fonts'         => apply_filters( 'panels_google_fonts', [] ),
+				'style_families'       => apply_filters( 'panels_style_families', [] ),
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
