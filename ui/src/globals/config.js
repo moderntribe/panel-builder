@@ -2,6 +2,7 @@ import { CONFIG_DEFAULTS } from './defaults/config';
 
 export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
 export const URL_CONFIG = CONFIG.url_config || {};
+export const STYLE_FAMILIES = CONFIG.style_families || {};
 export const CSS_FILE = CONFIG.css_file || '';
 export const IFRAME_SCROLL_OFFSET = CONFIG.iframe_scroll_offset || '';
 
