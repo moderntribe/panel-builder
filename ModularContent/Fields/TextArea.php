@@ -12,11 +12,12 @@ namespace ModularContent\Fields;
  */
 class TextArea extends Field {
 
-	protected $richtext        = false;
-	protected $media_buttons   = true;
-	protected $editor_settings = [];
-	protected $editor_type     = 'tinymce';
-	protected $editor_options  = [];
+	protected $richtext               = false;
+	protected $media_buttons          = true;
+	protected $editor_settings        = [];
+	protected $editor_type            = 'tinymce';
+	protected $editor_options         = [];
+	protected $enable_fonts_injection = false;
 
 	protected static $global_index            = 0;
 	protected        $index                   = 0;
@@ -37,11 +38,12 @@ class TextArea extends Field {
 	public function __construct( $args = [] ) {
 		$this->validate_editor_type( $args );
 
-		$this->defaults['richtext']        = $this->richtext;
-		$this->defaults['media_buttons']   = $this->media_buttons;
-		$this->defaults['editor_settings'] = $this->editor_settings;
-		$this->defaults['editor_type']     = $this->editor_type;
-		$this->defaults['editor_options']  = $this->editor_options;
+		$this->defaults[ 'richtext' ]               = $this->richtext;
+		$this->defaults[ 'media_buttons' ]          = $this->media_buttons;
+		$this->defaults[ 'editor_settings' ]        = $this->editor_settings;
+		$this->defaults[ 'editor_type' ]            = $this->editor_type;
+		$this->defaults[ 'editor_options' ]         = $this->editor_options;
+		$this->defaults[ 'enable_fonts_injection' ] = $this->enable_fonts_injection;
 
 		$this->defaults['strings'] = [
 			'tab.visual' => __( 'Visual', 'modular-content' ),
@@ -130,6 +132,8 @@ class TextArea extends Field {
 		if ( isset( $blueprint['editor_options'] ) ) {
 			$blueprint['editor_options'] = apply_filters( 'panels_text_area_editor_options', $blueprint['editor_options'] );
 		}
+
+		$blueprint[ 'enable_fonts_injection' ] = $this->enable_fonts_injection;
 
 		return $blueprint;
 	}
