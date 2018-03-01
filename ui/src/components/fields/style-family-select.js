@@ -8,6 +8,7 @@ import styles from './style-family-select.pcss';
 import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 import * as DATA_KEYS from '../../constants/data-keys';
+import { STYLE_FAMILIES } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
@@ -16,7 +17,7 @@ class StyleFamilySelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			options: this.props.options,
+			options: STYLE_FAMILIES[this.props.family_id],
 			value: this.props.data,
 		};
 		this.handleFamilyAdded = this.handleFamilyAdded.bind(this);
@@ -37,6 +38,7 @@ class StyleFamilySelect extends Component {
 		const { label, value } = e.detail;
 		const options = this.state.options.slice();
 		options.push({ label, value });
+		STYLE_FAMILIES[this.props.family_id].push({ label, value });
 		this.setState({ options, value }, () => {
 			this.props.updatePanelData({
 				depth: this.props.depth,
@@ -132,6 +134,7 @@ StyleFamilySelect.propTypes = {
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
 	label: PropTypes.string,
+	family_id: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
 	indexMap: PropTypes.array,
@@ -149,6 +152,7 @@ StyleFamilySelect.defaultProps = {
 	data: '',
 	panelIndex: 0,
 	label: '',
+	family_id: '',
 	name: '',
 	description: '',
 	indexMap: [],
