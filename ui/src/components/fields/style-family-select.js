@@ -16,9 +16,38 @@ class StyleFamilySelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			options: this.props.options,
 			value: this.props.data,
 		};
+		this.handleFamilyAdded = this.handleFamilyAdded.bind(this);
 	}
+
+	componentDidMount() {
+		document.addEventListener('modern_tribe/style_family_added', this.handleFamilyAdded);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('modern_tribe/style_family_added', this.handleFamilyAdded);
+	}
+
+	handleFamilyAdded(e) {
+		if (e.detail.name !== this.props.name) {
+			return;
+		}
+		const { label, value } = e.detail;
+		const options = this.state.options.slice();
+		options.push({ label, value });
+		this.setState({ options, value }, () => {
+			this.props.updatePanelData({
+				depth: this.props.depth,
+				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
+				name: this.props.name,
+				value,
+			});
+		});
+	}
+
 
 	@autobind
 	handleChange(data) {
@@ -42,7 +71,7 @@ class StyleFamilySelect extends Component {
 		const data = {
 			action: e.currentTarget.dataset.id,
 			activationTriggers: this.props.activation_triggers,
-			familyID: this.props.options.filter(opt => opt.value === this.state.value)[0].label,
+			familyID: this.state.options.filter(opt => opt.value === this.state.value)[0].label,
 		};
 		trigger({ event: EVENTS.LAUNCH_STYLE_FAMILY_EDITOR, native: false, data });
 	}
@@ -58,7 +87,7 @@ class StyleFamilySelect extends Component {
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
-		const activeOption = this.props.options.filter(opt => opt.value === this.state.value)[0];
+		const activeOption = this.state.options.filter(opt => opt.value === this.state.value)[0];
 		const optionLabel = activeOption ? activeOption.label : '';
 
 		return (
@@ -69,7 +98,7 @@ class StyleFamilySelect extends Component {
 				</label>
 				<ReactSelect
 					name={`modular-content-${this.props.name}`}
-					options={this.props.options}
+					options={this.state.options}
 					onChange={this.handleChange}
 					value={this.state.value}
 				/>
