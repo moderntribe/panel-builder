@@ -23,15 +23,15 @@ class StyleFamilySelect extends Component {
 			value: this.getInitialData(),
 		};
 		this.launchAction = '';
-		this.handleFamilyAdded = this.handleFamilyAdded.bind(this);
+		this.handleFamilyUpdated = this.handleFamilyUpdated.bind(this);
 	}
 
 	componentDidMount() {
-		document.addEventListener('modern_tribe/style_family_added', this.handleFamilyAdded);
+		document.addEventListener('modern_tribe/style_family_added', this.handleFamilyUpdated);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('modern_tribe/style_family_added', this.handleFamilyAdded);
+		document.removeEventListener('modern_tribe/style_family_added', this.handleFamilyUpdated);
 	}
 
 	getInitialData() {
@@ -39,14 +39,17 @@ class StyleFamilySelect extends Component {
 		return savedFamily && savedFamily.value ? savedFamily.value : '';
 	}
 
-	handleFamilyAdded(e) {
+	handleFamilyUpdated(e) {
 		if (e.detail.name !== this.props.name) {
 			return;
 		}
 		const { label, value } = e.detail;
 		const options = this.state.options.slice();
-		options.push({ label, value });
-		STYLE_FAMILIES[this.props.family_id].push({ label, value });
+		const previouslySavedOption = options.filter(option => option.value === value).length;
+		if (!previouslySavedOption) {
+			options.push({ label, value });
+			STYLE_FAMILIES[this.props.family_id].push({ label, value });
+		}
 		this.setState({ options, value }, () => {
 			this.props.updatePanelData({
 				depth: this.props.depth,
