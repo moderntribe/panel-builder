@@ -17,7 +17,7 @@ class AllCaps extends Component {
 
 	render() {
 		return (
-			<div className="rdw-storybook-custom-option" onClick={this.toggleCaps}>B</div>
+			<div className="rdw-storybook-custom-option" onClick={this.toggleCaps} />
 		);
 	}
 }
