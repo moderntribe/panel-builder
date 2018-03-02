@@ -4,7 +4,12 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
+	display: flex;
+	padding: 6px var(--field-padding-vertical) 6px 0;
+
+	&.isCondition {
+		padding: 5px 0;
+	}
 
 	> div {
 
@@ -14,6 +19,7 @@
 			border-radius: 2px;
 			color: var(--input-placeholder);
 			font-weight: normal;
+			height: 10px !important;
 
 			> span + span {
 				padding-right: 0 !important;
@@ -22,8 +28,34 @@
 					border-width: 3px 3px 2px !important;
 					font-size: 12px !important;
 					position: relative;
-					right: -2px !important;
-					top: -1px;
+				}
+			}
+		}
+	}
+}
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	display: flex;
+	padding: 6px var(--field-padding-vertical) 6px 0;
+
+	> div {
+		width: 50%;
+
+		> div {
+			background-color: var(--color-white) !important;
+			border: 1px solid var(--border-input) !important;
+			border-radius: 2px;
+			color: var(--select-font-color);
+			font-weight: normal;
+			height: 10px !important;
+
+			> span + span {
+				padding-right: 0 !important;
+
+				> span {
+					border-width: 3px 3px 2px !important;
+					position: relative;
 				}
 			}
 		}

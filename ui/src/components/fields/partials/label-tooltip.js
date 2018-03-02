@@ -21,7 +21,7 @@ const tooltipStyles = {
 const LabelTooltip = props => (
 	<Tooltip
 		trigger="hover"
-		placement="bottom"
+		placement="right"
 		arrowContent={<div className="rc-tooltip-arrow-inner" />}
 		overlay={<div style={tooltipStyles}>{props.content}</div>}
 	>
