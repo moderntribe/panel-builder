@@ -4,7 +4,7 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	padding: 6px var(--field-padding-vertical) 6px 0;
+	padding: 6px 0 6px 0;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -26,8 +26,8 @@
 .field {
 
 	[class="sketch-picker"] {
-		margin-top: 10px;
 		margin-left: -65px;
+		margin-top: 10px;
 		position: absolute;
 		width: 180px !important;
 		background: var(--white);
@@ -46,6 +46,17 @@
 			border-bottom-color: var(--white);
 			border-width: 8px;
 			margin-left: -8px;
+		}
+	}
+}
+
+[data-live-edit="false"] {
+
+	[class="sketch-picker"] {
+		margin-left: 0;
+
+		&:after {
+			left: 0;
 		}
 	}
 }
@@ -79,10 +90,19 @@
 
 	&.hasInput {
 
+		[class="sketch-picker"] {
+
+			input {
+				display: block;
+				width: 100% !important;
+			}
+		}
+
 		[class="block-picker"] {
 
 			input {
 				display: block;
+				width: 100%;
 			}
 		}
 	}
@@ -101,6 +121,7 @@
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	align-self: flex-start;
 	margin-right: 10px;
 	overflow: visible;
 	width: calc(50% - 10px);
