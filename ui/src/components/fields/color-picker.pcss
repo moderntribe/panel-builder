@@ -4,14 +4,49 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	margin-bottom: 12px;
-	padding: 0;
-	transform: translate3d(0, 0, 0);
+	padding: 6px var(--field-padding-vertical) 6px 0;
 	display: flex;
-	width: 100%;
+	flex-direction: row;
+	align-items: center;
+
+	&.isCondition {
+		padding: 6px 0 6px 0;
+	}
 
 	> div {
+		height: 100%;
 		flex: 1;
+	}
+
+	p {
+		display: none; /* Might still use these, but for now, hide. */
+	}
+}
+
+.field {
+
+	[class="sketch-picker"] {
+		margin-top: 10px;
+		margin-left: -65px;
+		position: absolute;
+		width: 180px !important;
+		background: var(--white);
+		z-index: 10;
+		border-radius: 2px;
+
+		&:after {
+			bottom: 100%;
+			left: 50%;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(35, 40, 45, 0);
+			border-bottom-color: var(--white);
+			border-width: 8px;
+			margin-left: -8px;
+		}
 	}
 }
 
@@ -20,14 +55,15 @@
 	color: var(--white);
 	height: auto;
 	overflow: visible;
-	max-width: 600px;
+	max-width: 100%;
+	position: relative;
+	right: -1px;
 
 	[class="block-picker"] {
 		margin-top: 12px;
-		position: relative !important;
+		position: absolute !important;
 		z-index: 12;
 		width: 100% !important;
-		box-shadow: 0 11px 33px 0 rgba(0,0,0,0.20) !important;
 
 		> div + div {
 			height: 50px !important;
@@ -41,43 +77,10 @@
 		}
 	}
 
-	[class="sketch-picker"] {
-		margin-top: 12px;
-		position: relative !important;
-		box-sizing: border-box !important;
-		width: 100% !important;
-		box-shadow: 0 11px 33px 0 rgba(0,0,0,0.20) !important;
-
-		> div:first-child {
-			padding-bottom: 25% !important;
-
-			[data-live-edit="true"] & {
-				padding-bottom: 50% !important;
-			}
-		}
-
-		> div:last-child {
-
-			> div {
-				width: 25px !important;
-				height: 25px !important;
-
-				[data-live-edit="true"] & {
-					width: 16px !important;
-					height: 16px !important;
-				}
-			}
-		}
-
-		div div span {
-			text-align: left !important;
-			font-weight: bold !important;
-			font-size: 12px !important;
-		}
-	}
-
 	&.hasInput {
+
 		[class="block-picker"] {
+
 			input {
 				display: block;
 			}
@@ -85,10 +88,11 @@
 	}
 
 	[class="block-picker"] div:first-child + div + div > div > div:not(:last-of-type) {
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--border-color-dark);
 	}
 
 	&.isLight {
+
 		[class="block-picker"] div:first-child + div > div {
 			color: var(--picker-label) !important;
 		}
