@@ -9,8 +9,10 @@ let settings = {};
 let triggeredSave = false;
 let currentRevision = 0;
 let heartbeat = () => {};
+let autosaveCallback = () => {};
 
 const handleAutosaveSuccess = (e, data = {}) => {
+	autosaveCallback();
 	settings.success();
 	const revisionId = parseInt(data.revision_id, 10);
 	if (isNaN(revisionId) || currentRevision === revisionId) {
@@ -35,10 +37,11 @@ const bindEvents = () => {
 
 export const iframePreviewUrl = () => previewUrl;
 
-export const triggerAutosave = () => {
+export const triggerAutosave = (callback = () => {}) => {
 	if (!wpAutosave) {
 		return;
 	}
+	autosaveCallback = callback;
 	const timestamp = new Date().getTime();
 	MODULAR_CONTENT.needs_save = false;
 	titleText = title.value;

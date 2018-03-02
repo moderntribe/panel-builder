@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import styles from './style-family-select.pcss';
 import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
+import * as heartbeat from '../../util/data/heartbeat';
 import * as DATA_KEYS from '../../constants/data-keys';
-import { STYLE_FAMILIES } from '../../globals/config';
+import { MODULAR_CONTENT, STYLE_FAMILIES } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
@@ -17,9 +18,11 @@ class StyleFamilySelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			launching: '',
 			options: STYLE_FAMILIES[this.props.family_id],
-			value: this.props.data,
+			value: this.getInitialData(),
 		};
+		this.launchAction = '';
 		this.handleFamilyAdded = this.handleFamilyAdded.bind(this);
 	}
 
@@ -29,6 +32,11 @@ class StyleFamilySelect extends Component {
 
 	componentWillUnmount() {
 		document.removeEventListener('modern_tribe/style_family_added', this.handleFamilyAdded);
+	}
+
+	getInitialData() {
+		const savedFamily = STYLE_FAMILIES[this.props.family_id].filter(style => this.props.data === style.value)[0];
+		return savedFamily && savedFamily.value ? savedFamily.value : '';
 	}
 
 	handleFamilyAdded(e) {
@@ -69,13 +77,28 @@ class StyleFamilySelect extends Component {
 	 */
 
 	@autobind
-	emitExternalEvent(e) {
+	emitExternalEvent() {
+		this.setState({ launching: '' });
+		console.log('running callback');
 		const data = {
-			action: e.currentTarget.dataset.id,
+			action: this.launchAction,
 			activationTriggers: this.props.activation_triggers,
 			familyID: this.state.options.filter(opt => opt.value === this.state.value)[0].label,
+			iframeUrlArgs: heartbeat.iframePreviewUrl().split('?')[1],
 		};
 		trigger({ event: EVENTS.LAUNCH_STYLE_FAMILY_EDITOR, native: false, data });
+	}
+
+	@autobind
+	launchExternalEditor(e) {
+		this.launchAction = e.currentTarget.dataset.id;
+		if (MODULAR_CONTENT.needs_save) {
+			this.setState({ launching: e.currentTarget.dataset.id });
+			console.log('triggering autosave');
+			heartbeat.triggerAutosave(this.emitExternalEvent);
+			return;
+		}
+		this.emitExternalEvent();
 	}
 
 	render() {
@@ -109,18 +132,22 @@ class StyleFamilySelect extends Component {
 						bare
 						text={UI_I18N['button.edit_style_family']}
 						full={false}
-						handleClick={this.emitExternalEvent}
+						handleClick={this.launchExternalEditor}
 						dataID="edit"
 						icon="dashicons-edit"
+						useLoader
+						showLoader={this.state.launching === 'edit'}
 						disabled={this.state.value.length === 0 || optionLabel === 'default-styles'}
 					/>
 					<Button
 						bare
 						text={UI_I18N['button.copy_style_family']}
 						full={false}
-						handleClick={this.emitExternalEvent}
+						handleClick={this.launchExternalEditor}
 						dataID="copy"
 						icon="dashicons-admin-page"
+						useLoader
+						showLoader={this.state.launching === 'copy'}
 						disabled={this.state.value.length === 0}
 					/>
 				</nav>

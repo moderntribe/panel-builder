@@ -15,12 +15,13 @@ class TextArea_Test extends WPTestCase {
 		$editor_options = [ 'wrapperClassName' => 'foobar' ];
 
 		$plaintext = new TextArea( [
-			'label'          => $label,
-			'name'           => $name,
-			'description'    => $description,
-			'default'        => $default,
-			'editor_type'    => $editor_type,
-			'editor_options' => $editor_options,
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'default'                => $default,
+			'editor_type'            => $editor_type,
+			'editor_options'         => $editor_options,
+			'enable_fonts_injection' => true,
 		] );
 
 		$blueprint = $plaintext->get_blueprint();
@@ -40,6 +41,7 @@ class TextArea_Test extends WPTestCase {
 			'editor_settings_reference' => '',
 			'editor_type'               => $editor_type,
 			'editor_options'            => $editor_options,
+			'enable_fonts_injection'    => true,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
@@ -62,18 +64,19 @@ class TextArea_Test extends WPTestCase {
 		$blueprint = $plaintext->get_blueprint();
 
 		$expected = [
-			'type'          => 'TextArea',
-			'label'         => $label,
-			'name'          => $name,
-			'description'   => $description,
-			'strings'       => [
+			'type'                   => 'TextArea',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [
 				'tab.visual' => 'Visual',
 				'tab.text'   => 'Text',
 			],
-			'default'       => $default,
-			'richtext'      => true,
-			'media_buttons' => true,
-			'editor_type'   => 'tinymce',
+			'default'                => $default,
+			'richtext'               => true,
+			'media_buttons'          => true,
+			'editor_type'            => 'tinymce',
+			'enable_fonts_injection' => false,
 		];
 
 		$reference = $blueprint['editor_settings_reference'];
