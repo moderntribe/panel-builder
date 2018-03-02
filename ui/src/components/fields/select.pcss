@@ -7,23 +7,14 @@
 	display: flex;
 	padding: 6px var(--field-padding-vertical) 6px 0;
 
-	&.isCondition {
-		padding: 5px 0;
-	}
-
 	> div {
 		width: 50%;
 
 		> div {
 			background-color: var(--color-white) !important;
 			border-radius: 2px;
-			color: var(--select-font-color);
 			font-weight: normal;
-<<<<<<< Updated upstream
-			height: 10px !important;
-=======
 			height: 0 !important;
->>>>>>> Stashed changes
 
 			> span + span {
 				padding-right: 0 !important;
@@ -31,37 +22,6 @@
 				> span {
 					border-width: 3px 3px 2px !important;
 					position: relative;
-<<<<<<< Updated upstream
-				}
-			}
-		}
-	}
-}
-
-.field {
-	composes: fieldContainer from "../../shared/fields.pcss";
-	display: flex;
-	padding: 6px var(--field-padding-vertical) 6px 0;
-
-	> div {
-		width: 50%;
-
-		> div {
-			background-color: var(--color-white) !important;
-			border: 1px solid var(--border-input) !important;
-			border-radius: 2px;
-			color: var(--select-font-color);
-			font-weight: normal;
-			height: 10px !important;
-
-			> span + span {
-				padding-right: 0 !important;
-
-				> span {
-					border-width: 3px 3px 2px !important;
-					position: relative;
-=======
->>>>>>> Stashed changes
 				}
 			}
 		}
@@ -69,10 +29,18 @@
 
 	[class="Sketch-menu-outer"] {
 		margin-bottom: 0 !important;
-		position: absolute !important;
 
-		[class="is-selected"] {
-			background: #ebf5ff !important;
+		> div {
+			border: 1px solid #eee !important;
+			height: 100px !important;
+
+			[class="Select-option is-selected"] {
+				background: #ebf5ff !important;
+			}
+
+			[class="Select-option is-focused"] {
+				background: #ebf5ff !important;
+			}
 		}
 	}
 }
