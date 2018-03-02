@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import striptags from 'striptags';
 import delegate from 'delegate';
 import autobind from 'autobind-decorator';
 import zenscroll from 'zenscroll';
@@ -380,7 +381,7 @@ class PanelContainer extends Component {
 		let Title = null;
 		if (this.props.data.title && this.props.data.title.length) {
 			Title = (
-				<h3>{this.props.data.title}</h3>
+				<h3>{striptags(this.props.data.title)}</h3>
 			);
 		} else {
 			Title = (

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import striptags from 'striptags';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
@@ -45,7 +46,7 @@ class Group extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{this.props.label}</h3>
+				<h3>{striptags(this.props.label)}</h3>
 				<i className={arrowClasses} />
 			</div>
 		);
