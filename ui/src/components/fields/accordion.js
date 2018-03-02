@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import striptags from 'striptags';
 import autobind from 'autobind-decorator';
 import TweenMax, { Power3 } from 'gsap';
 
@@ -40,7 +41,7 @@ class Accordion extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{this.props.label}</h3>
+				<h3>{striptags(this.props.label)}</h3>
 				<i className={arrowClasses} />
 			</div>
 		);

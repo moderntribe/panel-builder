@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import striptags from 'striptags';
 import deepAssign from 'deep-assign';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
@@ -167,7 +168,7 @@ class Children extends Component {
 				onClick={this.handleHeaderClick}
 			>
 				<h3>
-					{title}
+					{striptags(title)}
 					<span className={styles.typeHeading}>({blueprint.label})</span>
 				</h3>
 				<i className={arrowClasses} />
@@ -178,7 +179,7 @@ class Children extends Component {
 					onClick={this.handleHeaderClick}
 				>
 					<h3>
-						{title}
+						{striptags(title)}
 						<span className={styles.typeHeading}>({blueprint.label})</span>
 					</h3>
 					<i className={arrowClasses} />

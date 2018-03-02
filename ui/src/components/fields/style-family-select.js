@@ -79,7 +79,6 @@ class StyleFamilySelect extends Component {
 	@autobind
 	emitExternalEvent() {
 		this.setState({ launching: '' });
-		console.log('running callback');
 		const data = {
 			action: this.launchAction,
 			activationTriggers: this.props.activation_triggers,
@@ -94,7 +93,6 @@ class StyleFamilySelect extends Component {
 		this.launchAction = e.currentTarget.dataset.id;
 		if (MODULAR_CONTENT.needs_save) {
 			this.setState({ launching: e.currentTarget.dataset.id });
-			console.log('triggering autosave');
 			heartbeat.triggerAutosave(this.emitExternalEvent);
 			return;
 		}
