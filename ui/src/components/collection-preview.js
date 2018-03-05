@@ -53,6 +53,8 @@ class CollectionPreview extends Component {
 	}
 
 	bindPanelEvents() {
+		// iframe events
+		document.addEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
 		// panel events
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -254,17 +256,7 @@ class CollectionPreview extends Component {
 		this.scrollToPanel(parseInt(el.getAttribute('data-index'), 10), false);
 	}
 
-	handlePanelUpdated(e) {
-		if (!this.activePanelNode || this.saving) {
-			return;
-		}
-		const { nestedEvent } = this;
-		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
-		const selector = previewTools.getLiveTextSelector(e.detail);
-		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
-			return;
-		}
-
+	refreshPanelHtml(e, nestedEvent = false) {
 		this.saving = true;
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
@@ -281,6 +273,20 @@ class CollectionPreview extends Component {
 				this.props.panelsSaving(false);
 				this.saving = false;
 			});
+	}
+
+	handlePanelUpdated(e) {
+		if (!this.activePanelNode || this.saving) {
+			return;
+		}
+		const { nestedEvent } = this;
+		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
+		const selector = previewTools.getLiveTextSelector(e.detail);
+		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
+			return;
+		}
+
+		this.refreshPanelHtml(e, nestedEvent);
 	}
 
 	@autobind
@@ -305,6 +311,10 @@ class CollectionPreview extends Component {
 
 			livetextField.innerHTML = value;
 		}
+	}
+
+	handleUpdateAssetRequest(e) {
+		console.log(e);
 	}
 
 	@autobind
