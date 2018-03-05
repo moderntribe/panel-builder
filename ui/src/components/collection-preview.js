@@ -19,6 +19,7 @@ import * as domTools from '../util/dom/tools';
 import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
+import randomString from '../util/data/random-string';
 
 const $ = window.jQuery;
 
@@ -95,6 +96,8 @@ class CollectionPreview extends Component {
 	}
 
 	unBindEvents() {
+		// iframe events
+		document.removeEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
 		// panel events
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -313,8 +316,30 @@ class CollectionPreview extends Component {
 		}
 	}
 
+	/**
+	 * An external app can request some arbitrary asset in the iframe preview be reloaded. Useful
+	 * for js or css that has changed dynamically inside another app
+	 *
+	 * @param e selector, assetUrl and type should be passed
+	 */
+
+	@autobind
 	handleUpdateAssetRequest(e) {
-		console.log(e);
+		const {
+			selector,
+			assetUrl,
+			type,
+		} = e.detail;
+		const target = this.iframe.querySelectorAll(selector)[0];
+		if (!target) {
+			return;
+		}
+		const url = `${assetUrl}?ver=${randomString(10)}`;
+		if (type === 'stylesheet') {
+			target.href = url;
+		} else if (type === 'javascript') {
+			target.src = url;
+		}
 	}
 
 	@autobind
