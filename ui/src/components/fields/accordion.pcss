@@ -3,20 +3,11 @@
 @import '../../shared/transitions.pcss';
 
 .field {
+	border-bottom: 1px solid var(--border-color);
 	composes: fieldContainer from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
-	margin-bottom: 0;
-	position: relative;
-
-	&:after {
-		border-bottom: 1px solid var(--border-color);
-		bottom: 0;
-		content: "";
-		height: 1px;
-		left: -15px;
-		position: absolute;
-		width: calc(100% + 30px);
-	}
+	margin: 0 -15px;
+	padding: 0 10px;
+	width: calc(100% + 30px);
 }
 
 .label {
@@ -93,6 +84,7 @@
 	height: auto;
 	padding-bottom: 25px;
 	padding-left: 25px;
+	width: calc(100% - 25px);
 }
 
 .description {

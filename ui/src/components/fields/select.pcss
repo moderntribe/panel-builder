@@ -4,7 +4,6 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
 
 	> div {
 
@@ -14,6 +13,7 @@
 			border-radius: 2px;
 			color: var(--input-placeholder);
 			font-weight: normal;
+			height: 0 !important;
 
 			> span + span {
 				padding-right: 0 !important;
@@ -26,6 +26,23 @@
 					top: -1px;
 				}
 			}
+		}
+	}
+
+	[class="Select-menu-outer"] {
+		margin-bottom: 0 !important;
+
+		> div {
+			border: 1px solid #eee !important;
+			border-top: none !important;
+		}
+
+		[class="Select-option is-focused"] {
+			background: #f5faff !important;
+		}
+
+		[class="Select-option is-selected"] {
+			background: #f5faff !important;
 		}
 	}
 }
