@@ -83,6 +83,7 @@
     "sweet-scroll": "^1.0.3",
     "tinycolor2": "^1.4.1",
     "verge": "^1.9.1",
+    "voca": "^1.4.0",
     "webpack": "2",
     "webpack-dev-server": "2",
     "wpautop": "^0.2.2",

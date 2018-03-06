@@ -24,8 +24,11 @@ import DraftAllCaps from '../draftjs/all-caps';
 import { wpEditor } from '../../globals/wp';
 import * as RichtextEvents from '../../util/dom/tinymce';
 import * as DATA_KEYS from '../../constants/data-keys';
+import getAllMatches from '../../util/data/get-all-matches';
 
 import styles from './textarea.pcss';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
 
 class TextArea extends Component {
 	/**
@@ -67,13 +70,17 @@ class TextArea extends Component {
 	@autobind
 	onDraftJSChange(text) {
 		this.setState({ text });
+		const value = wpEditor.removep(draftToHtml(convertToRaw(text.getCurrentContent())));
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
 			parentMap: this.props.parentMap,
 			name: this.props.name,
-			value: wpEditor.removep(draftToHtml(convertToRaw(text.getCurrentContent()))),
+			value,
 		});
+		if (this.props.enable_fonts_injection) {
+			trigger({ event: EVENTS.INJECT_IFRAME_FONT, native: false, data: getAllMatches(value, /font-family:([^;]+);/g) });
+		}
 	}
 
 	/**
@@ -220,6 +227,7 @@ class TextArea extends Component {
 TextArea.propTypes = {
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
+	enable_fonts_injection: PropTypes.bool,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -239,6 +247,7 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
 	data: '',
 	panelIndex: 0,
+	enable_fonts_injection: false,
 	label: '',
 	name: '',
 	description: '',
