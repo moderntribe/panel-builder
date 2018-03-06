@@ -4,10 +4,11 @@ import _ from 'lodash';
 import wpautop from 'wpautop';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
+import slugify from 'voca/slugify';
 
 import Loader from './shared/loader';
 
-import { IFRAME_SCROLL_OFFSET } from '../globals/config';
+import { IFRAME_SCROLL_OFFSET, CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
@@ -57,6 +58,7 @@ class CollectionPreview extends Component {
 	bindPanelEvents() {
 		// iframe events
 		document.addEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
+		document.addEventListener(EVENTS.INJECT_IFRAME_FONT, this.maybeInjectFont);
 		// panel events
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -99,6 +101,7 @@ class CollectionPreview extends Component {
 	unBindEvents() {
 		// iframe events
 		document.removeEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
+		document.removeEventListener(EVENTS.INJECT_IFRAME_FONT, this.maybeInjectFont);
 		// panel events
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -265,6 +268,30 @@ class CollectionPreview extends Component {
 		this.initializePanels();
 		this.activePanelNode.classList.add(styles.active);
 		this.activePanelNode.classList.add(styles.noTransition);
+	}
+
+	@autobind
+	maybeInjectFont(e) {
+		if (!_.isArray(e.detail)) {
+			return;
+		}
+		if (!CONFIG.google_fonts) {
+			return;
+		}
+		e.detail.forEach((entry) => {
+			entry.groups.forEach((family) => {
+				const fontData = CONFIG.google_fonts.filter(font => font.l === family.trim())[0];
+				if (!fontData) {
+					return;
+				}
+				const id = slugify(`font-family-${fontData.l}`);
+				if (this.iframe.getElementById(id)) {
+					return;
+				}
+				const fontEnqueue = `<link rel="stylesheet" id="${id}" href="https://fonts.googleapis.com/css?family=${fontData.u}&amp;ver=4.9.4" type="text/css" media="all">`;
+				this.iframe.querySelectorAll('head')[0].insertAdjacentHTML('beforeend', fontEnqueue);
+			});
+		});
 	}
 
 	@autobind
