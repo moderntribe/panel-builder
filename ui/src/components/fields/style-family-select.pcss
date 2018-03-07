@@ -28,6 +28,13 @@
 		}
 	}
 
+	[class="Select-value"] {
+
+		[data-live-edit="true"] & {
+			padding-right: 35px !important;
+		}
+	}
+
 	[class="Select-menu-outer"] {
 		margin-bottom: 0 !important;
 		position: absolute !important;
@@ -77,6 +84,12 @@
 	flex-direction: row;
 	height: 36px;
 	padding-left: 6px;
+
+	[data-live-edit="true"] & {
+		position: relative;
+		margin-left: -20px;
+		left: 20px;
+	}
 
 	button {
 		height: 100%;
