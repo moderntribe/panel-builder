@@ -291,7 +291,7 @@ class CollectionPreview extends Component {
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
 
-		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0])
+		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0], e.detail.indexMap)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPreviewUpdatedEvent(e, nestedEvent);

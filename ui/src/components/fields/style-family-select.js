@@ -86,6 +86,9 @@ class StyleFamilySelect extends Component {
 			action: this.launchAction,
 			activationTriggers: this.props.activation_triggers,
 			familyID: this.state.options.filter(opt => opt.value === this.state.value)[0].label,
+			panelVariables: {
+				indexMap: this.props.indexMap,
+			},
 			iframeUrlArgs: heartbeat.iframePreviewUrl().split('?')[1],
 		};
 		trigger({ event: EVENTS.LAUNCH_STYLE_FAMILY_EDITOR, native: false, data });
