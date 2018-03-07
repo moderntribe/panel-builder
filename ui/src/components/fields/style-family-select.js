@@ -19,6 +19,7 @@ class StyleFamilySelect extends Component {
 		super(props);
 		this.state = {
 			launching: '',
+			launched: false,
 			options: STYLE_FAMILIES[this.props.family_id],
 			value: this.getInitialData(),
 		};
@@ -50,14 +51,13 @@ class StyleFamilySelect extends Component {
 			options.push({ label, value });
 			STYLE_FAMILIES[this.props.family_id].push({ label, value });
 		}
-		this.setState({ options, value }, () => {
-			this.props.updatePanelData({
-				depth: this.props.depth,
-				indexMap: this.props.indexMap,
-				parentMap: this.props.parentMap,
-				name: this.props.name,
-				value,
-			});
+		this.setState({ options, value, launched: false });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
+			name: this.props.name,
+			value,
 		});
 	}
 
@@ -81,7 +81,10 @@ class StyleFamilySelect extends Component {
 
 	@autobind
 	emitExternalEvent() {
-		this.setState({ launching: '' });
+		if (this.state.launched) {
+			return;
+		}
+		this.setState({ launching: '', launched: true });
 		const data = {
 			action: this.launchAction,
 			activationTriggers: this.props.activation_triggers,
@@ -98,11 +101,11 @@ class StyleFamilySelect extends Component {
 	launchExternalEditor(e) {
 		this.launchAction = e.currentTarget.dataset.id;
 		if (MODULAR_CONTENT.needs_save) {
-			this.setState({ launching: e.currentTarget.dataset.id });
+			this.setState({ launching: e.currentTarget.dataset.id, launched: false });
 			heartbeat.triggerAutosave(this.emitExternalEvent);
 			return;
 		}
-		this.emitExternalEvent();
+		this.setState({ launched: false }, () => this.emitExternalEvent());
 	}
 
 	render() {
