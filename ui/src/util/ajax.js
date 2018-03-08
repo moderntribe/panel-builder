@@ -1,3 +1,4 @@
+import request from 'superagent';
 import { TEMPLATE_SAVER } from '../globals/config';
 import { wpAjax } from '../globals/wp';
 
@@ -15,14 +16,15 @@ export const savePanelSet = (panels = '', title = '') => {
 };
 
 export const getPanelHTML = (panels = [], index = 0, indexMap = []) => {
-	const request = {
-		data: {
-			post_id,
-			panels,
-			index,
-			index_map: indexMap,
-		},
+	const data = {
+		post_id,
+		panels,
+		index,
+		index_map: indexMap,
 	};
 
-	return wpAjax.send('panel_preview', request);
+	return request
+		.post(`${window.ajaxurl}?action=panel_preview`)
+		.set('Content-Type', 'application/json')
+		.send(data);
 };
