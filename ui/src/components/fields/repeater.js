@@ -413,6 +413,8 @@ class Repeater extends Component {
 				depth: this.props.depth,
 				index: this.props.panelIndex,
 				name: this.props.name,
+				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				value: this.state.data,
 			};
 			this.scrollToActive();
@@ -435,6 +437,8 @@ class Repeater extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			value: this.state.data,
 		};
 		this.props.hidePanel(false);
@@ -483,6 +487,8 @@ class Repeater extends Component {
 			data: {
 				rowIndex: this.state.activeIndex,
 				depth: this.props.depth,
+				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				index: this.props.panelIndex,
 				name: this.props.name,
 				value: this.state.data,
