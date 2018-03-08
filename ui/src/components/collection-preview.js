@@ -533,9 +533,11 @@ class CollectionPreview extends Component {
 	handlePanelsAdded(e) {
 		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
 		// or do other index based opts.
-		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
+		const topLevelPanels = this.panelCollection.querySelectorAll('[data-modular-content]');
+		const panelIndex = e.detail.index === -1 && !topLevelPanels[0] ? 0 : e.detail.index;
+		const indexMap = panelIndex === -1 ? [topLevelPanels.length] : [panelIndex];
 		const { nestedEvent } = this;
-		ajax.getPanelHTML(e.detail.panels, panelIndex)
+		ajax.getPanelHTML(e.detail.panels, panelIndex, indexMap)
 			.done((data) => {
 				if (e.detail.index === -1) {
 					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
