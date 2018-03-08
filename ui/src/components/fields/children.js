@@ -488,19 +488,14 @@ class Children extends Component {
 			indexMap: this.props.indexMap,
 			parentMap: data.parentMap ? data.parentMap : [],
 			name: 'panels',
+			rowIndex: this.state.activeIndex,
 			value: newData,
 		};
 		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_UPDATED,
 			native: false,
-			data: {
-				rowIndex: this.state.activeIndex,
-				depth: data.depth,
-				index: this.props.parentIndex,
-				name: 'panels',
-				value: newData,
-			},
+			data: payload,
 		});
 		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
