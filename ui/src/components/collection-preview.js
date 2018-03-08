@@ -330,11 +330,10 @@ class CollectionPreview extends Component {
 		}
 
 		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0], indexMap)
-			.then((data) => {
-				console.log(data);
+			.then((res) => {
 				this.props.panelsSaving(false);
 				this.saving = false;
-				this.injectUpdatedPanelHtml(data.panels);
+				this.injectUpdatedPanelHtml(res.body.data.panels);
 				this.emitPreviewUpdatedEvent(e, nestedEvent);
 			})
 			.catch(() => {
@@ -539,14 +538,13 @@ class CollectionPreview extends Component {
 		const indexMap = panelIndex === -1 ? [topLevelPanels.length] : [panelIndex];
 		const { nestedEvent } = this;
 		ajax.getPanelHTML(e.detail.panels, panelIndex, indexMap)
-			.then((data) => {
-				console.log(data);
+			.then((res) => {
 				if (e.detail.index === -1) {
-					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
+					this.panelCollection.insertAdjacentHTML('beforeend', res.body.data.panels);
 					this.updateNewPanels();
 					this.activateLastPanel();
 				} else {
-					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
+					this.injectPanelAtPlaceholder(res.body.data.panels, e.detail.index);
 				}
 				this.emitPreviewUpdatedEvent(e, nestedEvent);
 			})
