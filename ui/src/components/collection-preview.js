@@ -290,8 +290,12 @@ class CollectionPreview extends Component {
 		this.saving = true;
 		this.props.panelsSaving(true);
 		this.activePanelNode.classList.add(styles.loadingPanel);
+		const indexMap = e.detail.indexMap.slice();
+		if (_.isInteger(e.detail.childIndex)) {
+			indexMap.push(e.detail.childIndex);
+		}
 
-		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0], e.detail.indexMap)
+		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0], indexMap)
 			.done((data) => {
 				this.injectUpdatedPanelHtml(data.panels);
 				this.emitPreviewUpdatedEvent(e, nestedEvent);
