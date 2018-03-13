@@ -79,11 +79,15 @@
 
 .checkbox {
 	padding-top: 10px;
+
+	input {
+		margin-right: 5px;
+	}
 }
 
 .buttons {
-	padding-top:15px;
-	border-top: 1px solid var(--picker-border);
+	padding-top: 20px;
+	border: 0;
 }
 
 .input {
@@ -103,8 +107,15 @@
 }
 
 .confirmButton {
-	background: var(--dialog-info);
 	margin-right: 10px;
+}
+
+.exitButton {
+	background: var(--post-list-text-color);
+
+	&:hover {
+		background: var(--description-text-color);
+	}
 }
 
 .cancelButton {
@@ -126,7 +137,8 @@
 
 .message {
 	padding:15px 15px 0 15px;
-	border-top: 1px solid var(--picker-border);
+	border: 0;
+
 	p {
 		color: var(--picker-description);
 		font-size: 14px;

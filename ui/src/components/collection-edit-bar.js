@@ -78,9 +78,13 @@ class EditBar extends Component {
 					callbackOnClose: true,
 					checkBoxCallback: e => this.toggleUnsavedDataMessage(e),
 					checkBoxMessage: UI_I18N['message.unsaved_toggle'],
+					contentStyles: { height: '360px', marginTop: '-180px' },
 					heading: UI_I18N['heading.unsaved_data'],
 					largeModal: true,
 					message: UI_I18N['message.unsaved_data'],
+					saveConfirm: true,
+					shouldCloseOnEsc: false,
+					shouldCloseOnOverlayClick: false,
 					type: 'confirm',
 				},
 			});

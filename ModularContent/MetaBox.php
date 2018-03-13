@@ -177,6 +177,8 @@ class MetaBox {
 				'tooltip.delete_panel'         => __( 'Delete this panel', 'modular-content' ),
 				'tooltip.add_above'            => __( 'Add panel above', 'modular-content' ),
 				'tooltip.add_below'            => __( 'Add panel below', 'modular-content' ),
+				'button.confirm_exit_preview'  => __( 'Stay in Live Preview', 'modular-content' ),
+				'button.cancel_exit_preview'   => __( 'Continue and Close', 'modular-content' ),
 			]
 		];
 
