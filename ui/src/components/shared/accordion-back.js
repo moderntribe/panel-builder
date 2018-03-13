@@ -55,7 +55,7 @@ class AccordionBack extends Component {
 				/>
 				<h3>
 					{striptags(this.state.title)}
-					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
+					<span className={styles.action}>{this.props.panelLabel}</span>
 					<Expander handleClick={this.props.handleExpanderClick} />
 				</h3>
 			</nav>
