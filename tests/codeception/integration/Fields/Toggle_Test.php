@@ -21,19 +21,21 @@ class Toggle_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'        => 'Toggle',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [],
-			'default'     => 0,
-			'options'     => [
+			'type'                   => 'Toggle',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [],
+			'default'                => 0,
+			'options'                => [
 				[
 					'label' => 'Enabled',
 					'value' => '1',
 				],
 			],
-			'stylized'    => false,
+			'stylized'               => false,
+			'global_options'         => false,
+			'enable_fonts_injection' => false,
 		];
 
 		$this->assertEquals( $expected, $blueprint );

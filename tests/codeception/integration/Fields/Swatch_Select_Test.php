@@ -31,13 +31,13 @@ class Swatch_Select_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'Swatch_Select',
-			'label'        => $label,
-			'name'         => $name,
-			'description'  => $description,
-			'strings'      => [],
-			'default'      => 'blue',
-			'options'      => [
+			'type'                   => 'Swatch_Select',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [],
+			'default'                => 'blue',
+			'options'                => [
 				[
 					'color' => '#0000BB',
 					'label' => 'Blue',
@@ -49,7 +49,9 @@ class Swatch_Select_Test extends WPTestCase {
 					'value' => 'green-blue',
 				],
 			],
-			'option_width' => 3,
+			'option_width'           => 3,
+			'global_options'         => false,
+			'enable_fonts_injection' => false,
 		];
 
 		$this->assertEquals( $expected, $blueprint );

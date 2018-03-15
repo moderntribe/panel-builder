@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+
 use ModularContent\Panel;
 
 
@@ -14,9 +15,11 @@ use ModularContent\Panel;
  */
 class Select extends Field {
 
-	protected $options       = [];
-	protected $options_cache = NULL;
-	protected $layout        = 'compact';
+	protected $options                = [];
+	protected $options_cache          = NULL;
+	protected $layout                 = 'compact';
+	protected $global_options         = false;
+	protected $enable_fonts_injection = false;
 
 	/**
 	 * @param array $args
@@ -36,8 +39,10 @@ class Select extends Field {
 	public function __construct( $args = [] ) {
 		$this->check_layout( $args );
 
-		$this->defaults['options'] = $this->options;
-		$this->defaults['layout']  = $this->layout;
+		$this->defaults['options']                = $this->options;
+		$this->defaults['layout']                 = $this->layout;
+		$this->defaults['global_options']         = $this->global_options;
+		$this->defaults['enable_fonts_injection'] = $this->enable_fonts_injection;
 		parent::__construct( $args );
 	}
 
@@ -48,14 +53,14 @@ class Select extends Field {
 	}
 
 	protected function get_options() {
-		if ( isset($this->options_cache) ) {
+		if ( isset( $this->options_cache ) ) {
 			return $this->options_cache;
 		}
-		if ( empty($this->options) ) {
+		if ( empty( $this->options ) ) {
 			return array();
 		}
-		if ( is_callable($this->options) ) {
-			$this->options_cache = call_user_func($this->options);
+		if ( is_callable( $this->options ) ) {
+			$this->options_cache = call_user_func( $this->options );
 		} else {
 			$this->options_cache = $this->options;
 		}
@@ -63,8 +68,8 @@ class Select extends Field {
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
-		$options = $this->get_options();
+		$blueprint            = parent::get_blueprint();
+		$options              = $this->get_options();
 		$blueprint['options'] = [];
 		foreach ( $options as $key => $label ) {
 			$blueprint['options'][] = [
@@ -72,7 +77,9 @@ class Select extends Field {
 				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
 			];
 		}
-		$blueprint['layout'] = $this->layout;
+		$blueprint['layout']                 = $this->layout;
+		$blueprint['global_options']         = $this->global_options;
+		$blueprint['enable_fonts_injection'] = $this->enable_fonts_injection;
 		return $blueprint;
 	}
 
@@ -80,6 +87,7 @@ class Select extends Field {
 	 * Massage submitted data before it's saved.
 	 *
 	 * @param mixed $data
+	 *
 	 * @return string
 	 */
 	public function prepare_data_for_save( $data ) {
@@ -87,6 +95,6 @@ class Select extends Field {
 		if ( strlen( $data ) === 0 && (string) $this->default ) {
 			$data = (string) $this->default;
 		}
-		return  $data;
+		return $data;
 	}
 } 
