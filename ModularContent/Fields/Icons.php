@@ -12,30 +12,34 @@ namespace ModularContent\Fields;
 class Icons extends Radio {
 
 	protected $class_string = '';
-	protected $search  = false;
+	protected $search       = false;
+	protected $ajax_option  = false;
+	protected $categories   = [];
 
 	/**
 	 * @param array $args
 	 *
 	 * Usage example:
 	 *
-	$field = new Icons( array(
-		'label'        => __( 'List Icon' ),
-		'name'         => 'list-icon',
-		'description'  => __( 'The icon to use for each list item.' ),
-	    'options'      => [ 'fa-user', 'fa-access-denied', 'fa-list' ],
-	    'search'       => true, // whether to display a search field for searching through the available options
-	    'class_string' => 'fa %s', // the class string to be added to the element; %s will be replaced with the selected option
-	) );
+	 * $field = new Icons( array(
+	 * 'label'        => __( 'List Icon' ),
+	 * 'name'         => 'list-icon',
+	 * 'description'  => __( 'The icon to use for each list item.' ),
+	 * 'options'      => [ 'fa-user', 'fa-access-denied', 'fa-list' ],
+	 * 'search'       => true, // whether to display a search field for searching through the available options
+	 * 'class_string' => 'fa %s', // the class string to be added to the element; %s will be replaced with the selected option
+	 * ) );
 	 */
 
 	public function __construct( $args = [] ) {
-		$this->defaults[ 'strings' ] = [
+		$this->defaults['strings']      = [
 			'placeholder.search' => __( 'Search Icon Library', 'modular-content' ),
 			'label.selected'     => __( 'Selected Icon:', 'modular-content' ),
 		];
 		$this->defaults['class_string'] = $this->class_string;
 		$this->defaults['search']       = $this->search;
+		$this->defaults['ajax_option']  = $this->ajax_option;
+		$this->defaults['categories']   = $this->categories;
 		parent::__construct( $args );
 	}
 
@@ -54,6 +58,8 @@ class Icons extends Radio {
 				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
 			];
 		}
+		$blueprint['ajax_option'] = $this->ajax_option;
+		$blueprint['categories']  = $this->categories;
 
 		unset( $blueprint['layout'] );
 		unset( $blueprint['option_width'] );

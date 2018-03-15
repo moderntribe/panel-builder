@@ -19,6 +19,8 @@ class MetaBox {
 	const NONCE_ACTION = 'ModularContent_meta_box';
 	const NONCE_NAME = 'ModularContent_meta_box_nonce';
 	const PANELS_LOADED_FLAG = 'ModularContent_meta_box_loaded';
+	const ICONS_ACTION = 'panels-fetch-icon-options';
+	const ICONS_OPTIONS_FILTER = 'panels_icons_options';
 
 	public function add_hooks() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
@@ -26,6 +28,7 @@ class MetaBox {
 		add_filter( '_wp_post_revision_fields', array( $this, 'filter_post_revision_fields' ) );
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
+		add_action( 'wp_ajax_' . self::ICONS_ACTION, array( $this, 'ajax_fetch_icon_options' ), 10, 0 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -106,6 +109,7 @@ class MetaBox {
 				],
 				'google_fonts'         => apply_filters( 'panels_google_fonts', [] ),
 				'style_families'       => apply_filters( 'panels_style_families', [] ),
+				'icons_ajax_action'    => self::ICONS_ACTION,
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
@@ -470,5 +474,16 @@ class MetaBox {
 			$response['posts'] = Fields\Post_List::get_post_data($post_ids);
 		}
 		wp_send_json_success($response);
+	}
+
+	public function ajax_fetch_icon_options() {
+		$data = apply_filters( self::ICONS_OPTIONS_FILTER, [] );
+		$key  = filter_input( INPUT_POST, 'key', FILTER_SANITIZE_STRING );
+
+		if ( ! isset( $data[ $key ] ) ) {
+			return [];
+		}
+
+		return $data[ $key ];
 	}
 }
