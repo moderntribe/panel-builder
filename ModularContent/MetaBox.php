@@ -481,9 +481,9 @@ class MetaBox {
 		$key  = filter_input( INPUT_POST, 'key', FILTER_SANITIZE_STRING );
 
 		if ( ! isset( $data[ $key ] ) ) {
-			return [];
+			wp_send_json_success( [] );
 		}
 
-		return $data[ $key ];
+		wp_send_json_success( $data[ $key ] );
 	}
 }
