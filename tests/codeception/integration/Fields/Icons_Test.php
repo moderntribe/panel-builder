@@ -22,20 +22,25 @@ class Icons_Test extends WPTestCase {
 				'fa-two',
 				'fa-three' => 'Three',
 			],
+			'ajax_option'  => 'foobar',
+			'categories'   => [ 'foo', 'bar', 'bash' ],
 		] );
 
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'Icons',
-			'label'        => $label,
-			'name'         => $name,
-			'description'  => $description,
-			'strings'      => [],
-			'default'      => 'fa-one',
-			'class_string' => 'fa %s',
-			'search'       => true,
-			'options'      => [
+			'type'                   => 'Icons',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [
+				'placeholder.search' => __( 'Search Icon Library', 'modular-content' ),
+				'label.selected'     => __( 'Selected Icon:', 'modular-content' ),
+			],
+			'default'                => 'fa-one',
+			'class_string'           => 'fa %s',
+			'search'                 => true,
+			'options'                => [
 				[
 					'label' => 'fa-one',
 					'value' => 'fa-one',
@@ -49,6 +54,12 @@ class Icons_Test extends WPTestCase {
 					'value' => 'fa-three',
 				],
 			],
+			'layout'                 => 'vertical',
+			'option_width'           => 12,
+			'global_options'         => false,
+			'enable_fonts_injection' => false,
+			'ajax_option'            => 'foobar',
+			'categories'             => [ 'foo', 'bar', 'bash' ],
 		];
 
 		$this->assertEquals( $expected, $blueprint );
