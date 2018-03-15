@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
+import _ from 'lodash';
 import ReactNumericInput from 'react-numeric-input';
 
 import LabelTooltip from './partials/label-tooltip';
@@ -9,14 +9,21 @@ import * as DATA_KEYS from '../../constants/data-keys';
 import styles from './numeric-input.pcss';
 
 class NumericInput extends Component {
-	state = {
-		value: this.props.data,
-	};
+	constructor(props) {
+		super(props);
+		this.handleChange = _.debounce(this.handleChange.bind(this), 450);
+		this.state = {
+			value: this.props.data,
+		};
+	}
 
-	@autobind
-	handleChange(value) {
-		if (value < this.props.min || value > this.props.max) {
+	handleChange(initialValue) {
+		if (initialValue < this.props.min || initialValue > this.props.max) {
 			return;
+		}
+		let value = initialValue;
+		if (_.isInteger(this.props.step)) {
+			value = Math.round(value / this.props.step) * this.props.step;
 		}
 		this.setState({ value });
 		this.props.updatePanelData({
