@@ -26,13 +26,13 @@ class Checkbox_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'Checkbox',
-			'label'        => $label,
-			'name'         => $name,
-			'description'  => $description,
-			'strings'      => [],
-			'default'      => (object) [ 'second' => 1 ],
-			'options'      => [
+			'type'                   => 'Checkbox',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [],
+			'default'                => (object) [ 'second' => 1 ],
+			'options'                => [
 				[
 					'label' => 'First Option',
 					'value' => 'first',
@@ -42,8 +42,10 @@ class Checkbox_Test extends WPTestCase {
 					'value' => 'second',
 				],
 			],
-			'layout'       => 'horizontal',
-			'option_width' => 8,
+			'layout'                 => 'horizontal',
+			'option_width'           => 8,
+			'global_options'         => false,
+			'enable_fonts_injection' => false,
 		];
 
 		$this->assertEquals( $expected, $blueprint );

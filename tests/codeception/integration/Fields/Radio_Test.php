@@ -26,13 +26,13 @@ class Radio_Test extends WPTestCase {
 		$blueprint = $field->get_blueprint();
 
 		$expected = [
-			'type'         => 'Radio',
-			'label'        => $label,
-			'name'         => $name,
-			'description'  => $description,
-			'strings'      => [],
-			'default'      => 'second',
-			'options'      => [
+			'type'                   => 'Radio',
+			'label'                  => $label,
+			'name'                   => $name,
+			'description'            => $description,
+			'strings'                => [],
+			'default'                => 'second',
+			'options'                => [
 				[
 					'label' => 'First Option',
 					'value' => 'first',
@@ -42,8 +42,10 @@ class Radio_Test extends WPTestCase {
 					'value' => 'second',
 				],
 			],
-			'layout'       => 'vertical',
-			'option_width' => 6,
+			'layout'                 => 'vertical',
+			'option_width'           => 6,
+			'global_options'         => false,
+			'enable_fonts_injection' => false,
 		];
 
 		$this->assertEquals( $expected, $blueprint );
