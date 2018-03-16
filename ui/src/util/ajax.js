@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { TEMPLATE_SAVER } from '../globals/config';
+import { TEMPLATE_SAVER, ICONS_AJAX_ACTION } from '../globals/config';
 import { wpAjax } from '../globals/wp';
 
 const post_id = parseInt(document.getElementById('post_ID').value, 10); // eslint-disable-line
@@ -27,4 +27,13 @@ export const getPanelHTML = (panels = [], index = 0, indexMap = []) => {
 		.post(`${window.ajaxurl}?action=panel_preview`)
 		.set('Content-Type', 'application/json')
 		.send(data);
+};
+
+export const getIconLibrary = (key = '') => {
+	const data = {
+		action: ICONS_AJAX_ACTION,
+		key,
+	};
+
+	return wpAjax.send({ data });
 };

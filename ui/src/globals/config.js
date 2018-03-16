@@ -15,6 +15,10 @@ export const PANELS = MODULAR_CONTENT.panels;
 export const TEMPLATES = MODULAR_CONTENT.templates;
 export const TEMPLATE_SAVER = MODULAR_CONTENT.template_saver;
 
+CONFIG.icon_libraries = {};
+export const ICON_LIBRARIES = CONFIG.icon_libraries;
+export const ICONS_AJAX_ACTION = CONFIG.icons_ajax_action || '';
+
 export const mediaButtonsHTML = MODULAR_CONTENT.media_buttons_html;
 export const previewUrl = MODULAR_CONTENT.preview_url;
 
