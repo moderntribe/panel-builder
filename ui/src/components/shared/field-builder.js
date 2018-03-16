@@ -8,6 +8,7 @@ import Children from '../fields/children';
 
 import getTypeCheckedData from '../../util/data/get-typechecked-data';
 import * as styleUtil from '../../util/dom/styles';
+import * as FIELD_TYPES from '../../constants/field-types';
 
 import styles from './field-builder.pcss';
 
@@ -48,6 +49,7 @@ const FieldBuilder = (props) => {
 			<div
 				className={classes}
 				key={_.uniqueId('field-id-')}
+				data-settings={props.settings_fields.indexOf(field.name) !== -1}
 				style={styleUtil.fieldStyles(field)}
 			>
 				<Field

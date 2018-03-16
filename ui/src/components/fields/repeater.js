@@ -516,7 +516,7 @@ class Repeater extends Component {
 					handleClick={this.enableContentMode}
 				/>
 				<Button
-					text={UI_I18N['tab.settings']}
+					text={UI_I18N['tab.design']}
 					full={false}
 					classes={styles.settingsButton}
 					handleClick={this.enableSettingsMode}

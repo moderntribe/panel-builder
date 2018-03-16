@@ -17,6 +17,10 @@
 			color: var(--button-new-blue-hover);
 		}
 	}
+
+	[data-settings="true"] {
+		display: none;
+	}
 }
 
 .label {
@@ -138,65 +142,52 @@
 }
 
 .contentButton {
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+	flex: 1;
 	width: 50%;
-	color: #fff;
 	padding: 7px;
-	border-color: var(--button-sidebar-active);
-	background: var(--button-sidebar-active);
-
-	.settingsActive & {
-		color: var(--button-primary-text-color);
-		border-color: var(--button-primary-border-color);
-		background: var(--button-primary-bg-color);
-	}
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	text-transform: uppercase;
+	border-bottom: 2px solid var(--border-bottom-settings-active);
 
 	&:hover,
-	&:active,
-	&:focus {
-		color: var(--color-white);
-		border-color: var(--button-sidebar-active);
-		background: var(--button-sidebar-active);
+	&:focus,
+	&:active {
+		background: transparent !important;
+		color: var(--border-bottom-settings-active);
+		border-color: var(--border-bottom-settings-active);
+	}
 
-		.settingsActive & {
-			color: var(--button-primary-text-color);
-			border-color: var(--button-primary-border-color);
-			background: var(--button-primary-bg-color);
-		}
+	.settingsActive & {
+		background: transparent;
+		border-color: var(--border-bottom-settings);
 	}
 }
 
 .settingsButton {
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+	flex: 1;
 	width: 50%;
 	padding: 7px;
-
-	.settingsActive & {
-		color: var(--color-white);
-		border-color: var(--button-sidebar-active);
-		background: var(--button-sidebar-active);
-	}
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	text-transform: uppercase;
+	border-bottom: 2px solid var(--border-bottom-settings);
 
 	&:hover,
-	&:active,
-	&:focus {
-
-		.settingsActive & {
-			color: var(--color-white);
-			border-color: var(--button-sidebar-active);
-			background: var(--button-sidebar-active);
-		}
+	&:focus,
+	&:active {
+		color: var(--border-bottom-settings-active) !important;
+		background: transparent !important;
+		border-color: var(--border-bottom-settings-active) !important;
 	}
-}
 
-[data-settings="true"] {
-	display: none;
+	.settingsActive & {
+		color: var(--button-primary-text-color) !important;
+		background: transparent !important;
+		border-color: var(--border-bottom-settings-active) !important;
+	}
 }
 
 .settingsActive {
