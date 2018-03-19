@@ -12,6 +12,7 @@ namespace ModularContent\Fields;
 class Icons extends Radio {
 
 	protected $class_string = '';
+	protected $icon_prefix  = '';
 	protected $search       = false;
 	protected $ajax_option  = false;
 	protected $categories   = [];
@@ -40,6 +41,7 @@ class Icons extends Radio {
 		$this->defaults['search']       = $this->search;
 		$this->defaults['ajax_option']  = $this->ajax_option;
 		$this->defaults['categories']   = $this->categories;
+		$this->defaults['icon_prefix']  = $this->icon_prefix;
 		parent::__construct( $args );
 	}
 
@@ -49,6 +51,8 @@ class Icons extends Radio {
 		$blueprint['class_string'] = $this->class_string;
 		$blueprint['search']       = $this->search;
 		$blueprint['options']      = [];
+		$blueprint['icon_prefix']  = $this->icon_prefix;
+
 		foreach ( $options as $key => $label ) {
 
 			$key = is_int( $key ) ? $label : $key; // convert non-associative array keys to the value instead.
