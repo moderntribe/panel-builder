@@ -184,6 +184,10 @@ class MetaBox {
 				'tooltip.add_below'            => __( 'Add panel below', 'modular-content' ),
 				'button.confirm_exit_preview'  => __( 'Stay in Live Preview', 'modular-content' ),
 				'button.cancel_exit_preview'   => __( 'Continue and Close', 'modular-content' ),
+
+				// fields
+				'label.uncategorized' => __( 'Uncategorized', 'modular-content' ),
+				'button.show_all'     => __( 'Show All', 'modular-content' ),
 			]
 		];
 

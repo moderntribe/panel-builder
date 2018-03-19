@@ -10,12 +10,14 @@ import styles from './icons.pcss';
 import Button from '../shared/button';
 import Loader from '../shared/loader';
 import * as ajax from '../../util/ajax';
+import { UI_I18N } from '../../globals/i18n';
 
 class Icons extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			id: _.uniqueId('icon-library-'),
+			loadedCategories: [],
 			mode: _.isEmpty(this.props.categories) ? 'single' : 'categorized',
 			loading: this.needsToFetchIcons(),
 			options: this.getInitialOptions(),
@@ -36,15 +38,15 @@ class Icons extends Component {
 		this.mounted = false;
 	}
 
-	getOptionsForState() {
+	getOptionsForState(key = 'value') {
 		if (!this.state.search.length) {
 			return this.state.options;
 		}
-		return this.state.options.filter(icon => icon.value.indexOf(this.state.search) !== -1);
+		return this.state.options.filter(icon => icon[key].indexOf(this.state.search) !== -1);
 	}
 
 	getSelectedIcon() {
-		const externalClasses = this.props.class_string.replace('%s', this.state.value);
+		const externalClasses = this.props.class_string.replace('%s', `${this.props.icon_prefix}${this.state.value}`);
 		const iconClasses = classNames({
 			[externalClasses]: true,
 			[styles.selectedIcon]: true,
@@ -88,6 +90,14 @@ class Icons extends Component {
 		this.setState({ search });
 	}
 
+	@autobind
+	revealCategory(e) {
+		const category = e.currentTarget.dataset.id;
+		const { loadedCategories } = this.state;
+		loadedCategories.push(category);
+		this.setState({ loadedCategories });
+	}
+
 	updateState(value) {
 		this.setState({ value });
 		this.props.updatePanelData({
@@ -100,7 +110,7 @@ class Icons extends Component {
 	}
 
 	getOption(option, iconLabelClasses) {
-		const externalClasses = this.props.class_string.replace('%s', option.value);
+		const externalClasses = this.props.class_string.replace('%s', `${this.props.icon_prefix}${option.value}`);
 		const iconClasses = classNames({
 			[externalClasses]: true,
 			[styles.icon]: true,
@@ -124,15 +134,60 @@ class Icons extends Component {
 		);
 	}
 
-	getCategorizedOptions() {
-		const uncategorized = this.state.options.filter(option => !option.categories.length);
-		console.log(uncategorized);
-		Object.entries(this.props.categories).forEach(([key, label]) => {
-
+	getCategory({ category = 'uncategorized', label = UI_I18N['label.uncategorized'], icons }) {
+		const iconLabelClasses = classNames({
+			'plicons-label': true,
+			[styles.iconLabel]: true,
 		});
+		return (
+			<div className={styles.category} key={_.uniqueId('category-')}>
+				<h4 className={styles.categoryHeading}>{label}</h4>
+				{icons.map((icon, i) => {
+					if (this.state.loadedCategories.indexOf(category) === -1 && !this.state.search.length && i === 18 && icons.length > 18) {
+						return (
+							<div className={styles.showMoreWrap}>
+								<Button
+									text={UI_I18N['button.show_all']}
+									icon="dashicons-arrow-down"
+									classes={styles.showMore}
+									dataID={category}
+									handleClick={this.revealCategory}
+									secondary
+									rounded
+								/>
+							</div>
+						);
+					}
+					if (this.state.loadedCategories.indexOf(category) === -1 && !this.state.search.length && i > 17) {
+						return null;
+					}
+					return this.getOption({ value: icon.name }, iconLabelClasses);
+				})}
+			</div>
+		);
+	}
+
+	getCategorizedOptions() {
+		if (this.state.loading) {
+			return null;
+		}
+		const options = this.getOptionsForState('name');
+		const uncategorizedIcons = options.filter(option => !option.categories.length);
+		const uncategorized = uncategorizedIcons.length ? this.getCategory({ icons: uncategorizedIcons }) : null;
+		const categories = Object.entries(this.props.categories).map(([key, label]) => {
+			const icons = options.filter(option => option.categories[0] === key);
+			if (!icons.length) {
+				return null;
+			}
+			return this.getCategory({ category: key, icons, label });
+		});
+		return [uncategorized, categories];
 	}
 
 	getSingleOptions() {
+		if (this.state.loading) {
+			return null;
+		}
 		const iconLabelClasses = classNames({
 			'plicons-label': true,
 			[styles.iconLabel]: true,
@@ -185,6 +240,7 @@ class Icons extends Component {
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.categoryMode]: this.state.mode === 'categorized',
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
@@ -218,6 +274,7 @@ Icons.propTypes = {
 	categories: PropTypes.object,
 	label: PropTypes.string,
 	class_string: PropTypes.string,
+	icon_prefix: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.object,
@@ -237,6 +294,7 @@ Icons.defaultProps = {
 	categories: {},
 	label: '',
 	class_string: 'icon %s',
+	icon_prefix: '',
 	name: '',
 	description: '',
 	indexMap: [],
