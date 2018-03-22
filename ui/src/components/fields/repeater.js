@@ -272,7 +272,6 @@ class Repeater extends Component {
 			return null;
 		}
 		const iconClasses = classNames({
-			fa: true,
 			[data[FINDLAW.FIELD_ICON_LIBRARY]]: true,
 			[styles.iconIcon]: true,
 		});
