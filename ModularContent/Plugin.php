@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent;
+use ModularContent\Preview\Autosaver;
 use ModularContent\Preview\Preview_Request_Handler;
 use ModularContent\Preview\Preview_Revision_Indicator;
 
@@ -112,6 +113,8 @@ class Plugin {
 		$preview->hook();
 		$revision_tracker = new Preview_Revision_Indicator();
 		$revision_tracker->hook();
+		$autosaver = new Autosaver();
+		$autosaver->hook();
 	}
 
 	private function init_panel_sets() {
