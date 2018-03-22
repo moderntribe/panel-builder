@@ -9,6 +9,8 @@ import TweenMax, { Power3 } from 'gsap';
 import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
+import * as domTools from '../../util/dom/tools';
+import * as panelConditionals from '../../util/dom/panel-conditionals';
 
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
@@ -17,6 +19,10 @@ class Accordion extends Component {
 	constructor(props) {
 		super(props);
 		this.active = false;
+	}
+
+	componentDidMount() {
+		panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
 	}
 
 	/**
@@ -72,6 +78,7 @@ class Accordion extends Component {
 					<FieldBuilder
 						fields={this.props.fields}
 						data={this.props.data}
+						depth={this.props.depth}
 						parent={this.props.name}
 						parentMap={parentMap}
 						parentType={this.props.name}

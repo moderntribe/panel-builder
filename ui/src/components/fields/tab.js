@@ -28,6 +28,7 @@ const Tab = (props) => {
 			<FieldBuilder
 				fields={props.fields}
 				data={props.data}
+				depth={props.depth}
 				parent={props.name}
 				parentMap={parentMap}
 				index={props.panelIndex}

@@ -181,7 +181,9 @@ class PanelContainer extends Component {
 
 	@autobind
 	enableCurrentTabMode(e) {
-		this.setState({ activeTab: e.currentTarget.dataset.id });
+		this.setState({ activeTab: e.currentTarget.dataset.id }, () => {
+			panelConditionals.initConditionalFields(this.el);
+		});
 	}
 
 	@autobind
@@ -310,8 +312,9 @@ class PanelContainer extends Component {
 		if (domTools.closest(input, '.repeater-field')) {
 			return;
 		}
-
-		e.stopPropagation();
+		if (this.props.depth !== parseInt(input.dataset.depth, 10)) {
+			return;
+		}
 		panelConditionals.setConditionalClass(this.el, input);
 
 		trigger({
