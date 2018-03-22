@@ -38,11 +38,11 @@ class Icons extends Component {
 		this.mounted = false;
 	}
 
-	getOptionsForState(key = 'value') {
+	getOptionsForState() {
 		if (!this.state.search.length) {
 			return this.state.options;
 		}
-		return this.state.options.filter(icon => icon[key].indexOf(this.state.search) !== -1);
+		return this.state.options.filter(icon => icon.value.indexOf(this.state.search) !== -1);
 	}
 
 	getSelectedIcon() {
@@ -110,7 +110,7 @@ class Icons extends Component {
 	}
 
 	getOption(option, iconLabelClasses) {
-		const externalClasses = this.props.class_string.replace('%s', `${this.props.icon_prefix}${option.value}`);
+		const externalClasses = `${this.props.icon_prefix}${option.value}`;
 		const iconClasses = classNames({
 			[externalClasses]: true,
 			[styles.icon]: true,
@@ -162,7 +162,9 @@ class Icons extends Component {
 					if (this.state.loadedCategories.indexOf(category) === -1 && !this.state.search.length && i > 17) {
 						return null;
 					}
-					return this.getOption({ value: icon.name }, iconLabelClasses);
+					const localValue = icon.class_string ? icon.class_string : icon.value;
+					const value = this.props.class_string.replace('%s', localValue);
+					return this.getOption({ value }, iconLabelClasses);
 				})}
 			</div>
 		);
@@ -172,7 +174,7 @@ class Icons extends Component {
 		if (this.state.loading) {
 			return null;
 		}
-		const options = this.getOptionsForState('name');
+		const options = this.getOptionsForState();
 		const uncategorizedIcons = options.filter(option => !option.categories.length);
 		const uncategorized = uncategorizedIcons.length ? this.getCategory({ icons: uncategorizedIcons }) : null;
 		const categories = Object.entries(this.props.categories).map(([key, label]) => {
@@ -193,7 +195,10 @@ class Icons extends Component {
 			'plicons-label': true,
 			[styles.iconLabel]: true,
 		});
-		return _.map(this.getOptionsForState(), option => this.getOption(option, iconLabelClasses));
+		return _.map(this.getOptionsForState(), (icon) => {
+			const value = this.props.class_string.replace('%s', icon.value);
+			return this.getOption({ value }, iconLabelClasses);
+		});
 	}
 
 	fetchIcons() {
@@ -243,7 +248,6 @@ class Icons extends Component {
 			[styles.field]: true,
 			[styles.categoryMode]: this.state.mode === 'categorized',
 			'panel-field': true,
-			'panel-conditional-field': true,
 		});
 
 		return (
