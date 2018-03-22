@@ -128,6 +128,7 @@ class Icons extends Component {
 					checked={this.state.value === option.value}
 					data-option-type="single"
 					data-field="icon-select"
+					data-depth={this.props.depth}
 				/>
 				<i title={option.value} className={iconClasses} />
 			</label>

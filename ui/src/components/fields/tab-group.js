@@ -7,6 +7,8 @@ import autobind from 'autobind-decorator';
 import Tab from './tab';
 
 import styles from './tab-group.pcss';
+import * as panelConditionals from '../../util/dom/panel-conditionals';
+import * as domTools from '../../util/dom/tools';
 
 /**
  * Class TabGroup
@@ -24,6 +26,8 @@ class TabGroup extends Component {
 	handleTabClick(e) {
 		this.setState({
 			activeTab: e.currentTarget.dataset.name,
+		}, () => {
+			panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
 		});
 	}
 
@@ -85,6 +89,7 @@ class TabGroup extends Component {
 				data={this.props.data[tab[0].name]}
 				parent={this.props.name}
 				parentMap={parentMap}
+				depth={this.props.depth}
 				index={this.props.panelIndex}
 				indexMap={this.props.indexMap}
 				updatePanelData={this.props.updatePanelData}
@@ -100,7 +105,7 @@ class TabGroup extends Component {
 		});
 
 		return (
-			<div className={fieldClasses}>
+			<div className={fieldClasses} ref={r => this.tab = r}>
 				{this.getHeader()}
 				{this.renderActiveTab()}
 			</div>
