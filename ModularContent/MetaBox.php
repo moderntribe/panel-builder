@@ -86,7 +86,7 @@ class MetaBox {
 			add_action( "admin_footer-" . $GLOBALS['hook_suffix'], '_wp_footer_scripts' );
 		}, 60, 0 );
 
-		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('ui/dist/react-libs.css'), ['font-awesome'] );
+		wp_enqueue_style( 'modular-content-meta-box', Plugin::plugin_url('ui/dist/react-libs.css'), [] );
 		add_action( 'admin_head', array( $this, 'print_admin_theme_css' ), 10, 0 );
 	}
 
