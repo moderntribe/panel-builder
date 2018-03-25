@@ -7,6 +7,9 @@ import classNames from 'classnames';
 import styles from './select.pcss';
 import LabelTooltip from './partials/label-tooltip';
 import * as DATA_KEYS from '../../constants/data-keys';
+import { CONFIG } from '../../globals/config';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
 
 class Select extends Component {
 	state = {
@@ -14,8 +17,8 @@ class Select extends Component {
 	};
 
 	@autobind
-	handleChange(data) {
-		const value = data ? _.toString(data.value) : _.toString(this.props.default);
+	handleChange(option) {
+		const value = option ? _.toString(option.value) : _.toString(this.props.default);
 		this.setState({ value });
 		this.props.updatePanelData({
 			depth: this.props.depth,
@@ -24,6 +27,15 @@ class Select extends Component {
 			name: this.props.name,
 			value,
 		});
+		if (this.props.enable_fonts_injection) {
+			const data = [];
+			data.push({ groups: [option.label] });
+			trigger({ event: EVENTS.INJECT_IFRAME_FONT, native: false, data });
+		}
+	}
+
+	getOptions() {
+		return this.props.global_options ? CONFIG[this.props.global_options] : this.props.options;
 	}
 
 	render() {
@@ -46,7 +58,7 @@ class Select extends Component {
 				</label>
 				<ReactSelect
 					name={`modular-content-${this.props.name}`}
-					options={this.props.options}
+					options={this.getOptions()}
 					onChange={this.handleChange}
 					value={this.state.value}
 				/>
@@ -61,6 +73,14 @@ Select.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
+	enable_fonts_injection: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.bool,
+	]),
+	global_options: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.bool,
+	]),
 	indexMap: PropTypes.array,
 	parentMap: PropTypes.array,
 	depth: PropTypes.number,
@@ -77,6 +97,8 @@ Select.defaultProps = {
 	label: '',
 	name: '',
 	description: '',
+	enable_fonts_injection: false,
+	global_options: false,
 	indexMap: [],
 	parentMap: [],
 	depth: 0,
