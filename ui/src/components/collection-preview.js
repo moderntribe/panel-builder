@@ -280,11 +280,11 @@ class CollectionPreview extends Component {
 		}
 		e.detail.forEach((entry) => {
 			entry.groups.forEach((family) => {
-				const fontData = CONFIG.google_fonts.filter(font => font.l === family.trim())[0];
+				const fontData = CONFIG.google_fonts.filter(font => font.label === family.trim())[0];
 				if (!fontData) {
 					return;
 				}
-				const id = slugify(`font-family-${fontData.l}`);
+				const id = slugify(`font-family-${fontData.label}`);
 				if (this.iframe.getElementById(id)) {
 					return;
 				}
