@@ -11,11 +11,12 @@ namespace ModularContent\Fields;
  */
 class Icons extends Radio {
 
-	protected $class_string = '';
-	protected $icon_prefix  = '';
-	protected $search       = false;
-	protected $ajax_option  = false;
-	protected $categories   = [];
+	protected $class_string       = '';
+	protected $icon_prefix        = '';
+	protected $search             = false;
+	protected $show_uncategorized = false;
+	protected $ajax_option        = false;
+	protected $categories         = [];
 
 	/**
 	 * @param array $args
@@ -37,11 +38,12 @@ class Icons extends Radio {
 			'placeholder.search' => __( 'Search Icon Library', 'modular-content' ),
 			'label.selected'     => __( 'Selected Icon:', 'modular-content' ),
 		];
-		$this->defaults['class_string'] = $this->class_string;
-		$this->defaults['search']       = $this->search;
-		$this->defaults['ajax_option']  = $this->ajax_option;
-		$this->defaults['categories']   = $this->categories;
-		$this->defaults['icon_prefix']  = $this->icon_prefix;
+		$this->defaults['class_string']       = $this->class_string;
+		$this->defaults['search']             = $this->search;
+		$this->defaults['ajax_option']        = $this->ajax_option;
+		$this->defaults['show_uncategorized'] = $this->show_uncategorized;
+		$this->defaults['categories']         = $this->categories;
+		$this->defaults['icon_prefix']        = $this->icon_prefix;
 		parent::__construct( $args );
 	}
 
@@ -62,8 +64,9 @@ class Icons extends Radio {
 				'value' => (string) $key, // cast to string so react-select has consistent types for comparison
 			];
 		}
-		$blueprint['ajax_option'] = $this->ajax_option;
-		$blueprint['categories']  = $this->categories;
+		$blueprint['ajax_option']         = $this->ajax_option;
+		$blueprint['categories']          = $this->categories;
+		$blueprint['show_uncategorized']  = $this->show_uncategorized;
 
 		return $blueprint;
 	}

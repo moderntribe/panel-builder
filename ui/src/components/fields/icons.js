@@ -175,7 +175,7 @@ class Icons extends Component {
 			return null;
 		}
 		const options = this.getOptionsForState();
-		const uncategorizedIcons = options.filter(option => !option.categories.length);
+		const uncategorizedIcons = this.props.show_uncategorized ? options.filter(option => !option.categories.length) : [];
 		const uncategorized = uncategorizedIcons.length ? this.getCategory({ icons: uncategorizedIcons }) : null;
 		const categories = Object.entries(this.props.categories).map(([key, label]) => {
 			const icons = options.filter(option => option.categories[0] === key);
@@ -280,6 +280,7 @@ Icons.propTypes = {
 	label: PropTypes.string,
 	class_string: PropTypes.string,
 	icon_prefix: PropTypes.string,
+	show_uncategorized: PropTypes.bool,
 	name: PropTypes.string,
 	description: PropTypes.string,
 	strings: PropTypes.object,
@@ -300,6 +301,7 @@ Icons.defaultProps = {
 	label: '',
 	class_string: 'icon %s',
 	icon_prefix: '',
+	show_uncategorized: false,
 	name: '',
 	description: '',
 	indexMap: [],
