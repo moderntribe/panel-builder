@@ -2,6 +2,7 @@ export const PANEL_UPDATED = 'modern_tribe/panel_updated';
 
 export const UPDATE_IFRAME_ASSET = 'modern_tribe/update_panels_preview_asset';
 export const INJECT_IFRAME_FONT = 'modular_content/inject_iframe_font';
+export const IFRAME_CHANGE_VIEWPORT = 'modular_content/iframe_change_viewport';
 
 export const REPEATER_ROW_ADDED = 'modular_content/repeater_row_added';
 export const REPEATER_ROW_MOVED = 'modular_content/repeater_row_moved';
