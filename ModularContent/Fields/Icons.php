@@ -13,6 +13,8 @@ class Icons extends Radio {
 
 	protected $class_string       = '';
 	protected $icon_prefix        = '';
+	protected $font_size          = '';
+	protected $label_size         = '';
 	protected $search             = false;
 	protected $show_uncategorized = false;
 	protected $ajax_option        = false;
@@ -41,6 +43,8 @@ class Icons extends Radio {
 		$this->defaults['class_string']       = $this->class_string;
 		$this->defaults['search']             = $this->search;
 		$this->defaults['ajax_option']        = $this->ajax_option;
+		$this->defaults['font_size']          = $this->font_size;
+		$this->defaults['label_size']         = $this->label_size;
 		$this->defaults['show_uncategorized'] = $this->show_uncategorized;
 		$this->defaults['categories']         = $this->categories;
 		$this->defaults['icon_prefix']        = $this->icon_prefix;
@@ -54,6 +58,8 @@ class Icons extends Radio {
 		$blueprint['search']       = $this->search;
 		$blueprint['options']      = [];
 		$blueprint['icon_prefix']  = $this->icon_prefix;
+		$blueprint['font_size']    = $this->font_size;
+		$blueprint['label_size']   = $this->label_size;
 
 		foreach ( $options as $key => $label ) {
 

@@ -115,8 +115,18 @@ class Icons extends Component {
 			[externalClasses]: true,
 			[styles.icon]: true,
 		});
+		const labelStyles = {};
+		const iconStyles = {};
+		if (this.props.label_size.length) {
+			labelStyles.width = this.props.label_size;
+			labelStyles.height = this.props.label_size;
+		}
+		if (this.props.font_size.length) {
+			iconStyles.fontSize = this.props.font_size;
+		}
 		return (
 			<label
+				style={labelStyles}
 				className={iconLabelClasses}
 				key={_.uniqueId('option-icon-id-')}
 			>
@@ -130,7 +140,7 @@ class Icons extends Component {
 					data-field="icon-select"
 					data-depth={this.props.depth}
 				/>
-				<i title={option.value} className={iconClasses} />
+				<i style={iconStyles} title={option.value} className={iconClasses} />
 			</label>
 		);
 	}
@@ -280,6 +290,8 @@ Icons.propTypes = {
 	label: PropTypes.string,
 	class_string: PropTypes.string,
 	icon_prefix: PropTypes.string,
+	font_size: PropTypes.string,
+	label_size: PropTypes.string,
 	show_uncategorized: PropTypes.bool,
 	name: PropTypes.string,
 	description: PropTypes.string,
@@ -301,6 +313,8 @@ Icons.defaultProps = {
 	label: '',
 	class_string: 'icon %s',
 	icon_prefix: '',
+	font_size: '',
+	label_size: '',
 	show_uncategorized: false,
 	name: '',
 	description: '',
