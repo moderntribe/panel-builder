@@ -9,6 +9,8 @@ import Tab from './tab';
 import styles from './tab-group.pcss';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
 import * as domTools from '../../util/dom/tools';
+import { trigger } from '../../util/events';
+import { IFRAME_CHANGE_VIEWPORT } from '../../constants/events';
 
 /**
  * Class TabGroup
@@ -24,10 +26,14 @@ class TabGroup extends Component {
 
 	@autobind
 	handleTabClick(e) {
+		const target = e.currentTarget;
 		this.setState({
-			activeTab: e.currentTarget.dataset.name,
+			activeTab: target.dataset.name,
 		}, () => {
 			panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
+			if (target.dataset.viewport && target.dataset.viewport.length) {
+				trigger({ event: IFRAME_CHANGE_VIEWPORT, native: false, data: { viewport: target.dataset.viewport } });
+			}
 		});
 	}
 
@@ -50,9 +56,10 @@ class TabGroup extends Component {
 						className={styles.tabButton}
 						onClick={this.handleTabClick}
 						data-name={tab.name}
+						data-viewport={tab.viewport}
 						type="button"
 					>
-						{tab.icon.length ? <img src={tab.icon} className={iconClasses} alt=""/> : tab.label}
+						{tab.icon.length ? <img src={tab.icon} className={iconClasses} alt="" /> : tab.label}
 					</button>
 				</li>
 			);

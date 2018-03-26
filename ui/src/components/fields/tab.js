@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+import delegate from 'delegate';
 import classNames from 'classnames';
 
 import FieldBuilder from '../shared/field-builder';
 
 import styles from './tab.pcss';
+import * as panelConditionals from '../../util/dom/panel-conditionals';
 
 /**
  * Class TabGroup
@@ -13,31 +16,70 @@ import styles from './tab.pcss';
  *
  */
 
-const Tab = (props) => {
-	const fieldClasses = classNames({
-		[styles.field]: true,
-		'panel-field': true,
-		'tab-group-field': true,
-	});
+class Tab extends Component {
+	constructor(props) {
+		super(props);
 
-	const parentMap = props.parentMap.slice();
-	parentMap.push(props.name);
+		this.el = null;
+		this.inputDelegates = null;
+		this.mounted = false;
+	}
 
-	return (
-		<div className={fieldClasses}>
-			<FieldBuilder
-				fields={props.fields}
-				data={props.data}
-				depth={props.depth}
-				parent={props.name}
-				parentMap={parentMap}
-				index={props.panelIndex}
-				indexMap={props.indexMap}
-				updatePanelData={props.updatePanelData}
-			/>
-		</div>
-	);
-};
+	componentDidMount() {
+		this.mounted = true;
+		panelConditionals.initConditionalFields(this.el);
+		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', e => _.delay(() => {
+			this.handleConditionalFields(e);
+		}, 100));
+	}
+
+	componentDidUpdate() {
+		this.el.className.split(' ').forEach((c) => {
+			if (c.indexOf('condition-input-name') === -1) {
+				return;
+			}
+			this.el.classList.remove(c);
+		});
+		panelConditionals.initConditionalFields(this.el);
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
+		this.inputDelegates.destroy();
+	}
+
+	handleConditionalFields(e) {
+		const input = e.delegateTarget ? e.delegateTarget : e.target;
+		panelConditionals.setConditionalClass(this.el, input);
+	}
+
+	render() {
+		const fieldClasses = classNames({
+			[styles.field]: true,
+			'panel-field': true,
+			'tab-group-field': true,
+			[`tab-name-${this.props.name}`]: true,
+		});
+
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
+
+		return (
+			<div ref={r => this.el = r} className={fieldClasses} data-depth={this.props.depth}>
+				<FieldBuilder
+					fields={this.props.fields}
+					data={this.props.data}
+					depth={this.props.depth}
+					parent={this.props.name}
+					parentMap={parentMap}
+					index={this.props.panelIndex}
+					indexMap={this.props.indexMap}
+					updatePanelData={this.props.updatePanelData}
+				/>
+			</div>
+		);
+	}
+}
 
 Tab.propTypes = {
 	data: PropTypes.object,
@@ -57,6 +99,7 @@ Tab.propTypes = {
 	panelLabel: PropTypes.string,
 	parentIndex: PropTypes.number,
 	updatePanelData: PropTypes.func,
+	viewport: PropTypes.string,
 };
 
 Tab.defaultProps = {
@@ -77,6 +120,7 @@ Tab.defaultProps = {
 	panelLabel: '',
 	parentIndex: 0,
 	updatePanelData: () => {},
+	viewport: '',
 };
 
 export default Tab;
