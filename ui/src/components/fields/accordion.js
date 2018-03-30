@@ -11,6 +11,7 @@ import FieldBuilder from '../shared/field-builder';
 import styles from './accordion.pcss';
 import * as domTools from '../../util/dom/tools';
 import * as panelConditionals from '../../util/dom/panel-conditionals';
+import * as events from '../../util/events';
 
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
@@ -18,11 +19,22 @@ const p3 = window.Power3 ? window.Power3 : Power3;
 class Accordion extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			id: _.uniqueId('accordion-'),
+		};
 		this.active = false;
+		this.animating = false;
 	}
 
 	componentDidMount() {
 		panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
+		this.mounted = true;
+		document.addEventListener('modern_tribe/panel_builder/close_accordions', this.maybeCloseAccordion);
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
+		document.removeEventListener('modern_tribe/panel_builder/close_accordions', this.maybeCloseAccordion);
 	}
 
 	/**
@@ -93,16 +105,22 @@ class Accordion extends Component {
 	}
 
 	maybeAnimateFields() {
+		this.animating = true;
 		if (!this.active) {
 			this.el.classList.remove(styles.active);
 			this.fields.classList.remove(styles.animated);
 			tw.to(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
+			_.delay(() => { this.animating = false; }, 600);
 			return;
 		}
 		this.el.classList.add(styles.active);
 		tw.set(this.fields, { height: 'auto' });
 		tw.from(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
-		_.delay(() => this.fields.classList.add(styles.animated), 600);
+		_.delay(() => {
+			this.animating = false;
+			this.fields.classList.add(styles.animated);
+		}, 600);
+		events.trigger({ event: 'modern_tribe/panel_builder/close_accordions', native: false, data: { id: this.state.id } });
 	}
 
 	/**
@@ -111,8 +129,33 @@ class Accordion extends Component {
 
 	@autobind
 	handleHeaderClick() {
+		if (this.animating) {
+			return;
+		}
 		this.active = !this.active;
 		this.maybeAnimateFields();
+	}
+
+	/**
+	 * Listen to level 1 accordion open events. If the id does not match the one that triggered the open event,
+	 * close this instance
+	 *
+	 * @param e Contains the id of the one that triggered the open event
+	 */
+
+	@autobind
+	maybeCloseAccordion(e) {
+		if (!this.mounted) {
+			return;
+		}
+		if (this.state.id === e.detail.id) {
+			return;
+		}
+		if (!this.active) {
+			return;
+		}
+
+		this.handleHeaderClick();
 	}
 
 	render() {
@@ -129,7 +172,6 @@ class Accordion extends Component {
 			</div>
 		);
 	}
-
 }
 
 Accordion.propTypes = {
