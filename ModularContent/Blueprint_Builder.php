@@ -23,6 +23,9 @@ class Blueprint_Builder implements \JsonSerializable {
 			'categories' => array_values( $this->registry->registered_categories() ),
 		];
 		$this->registered_panels = $this->registry->registered_panels( $for_post_type );
+		
+		$this->registered_panels = apply_filters('panels_registered_panels', $this->registered_panels, $for_post_type);
+
 		foreach ( $this->registered_panels as $type ) {
 			if ( $this->is_top_level( $type ) ) {
 				$blueprint[ 'types' ][] = $this->single_panel_type_blueprint( $type );
