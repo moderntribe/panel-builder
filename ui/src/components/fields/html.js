@@ -6,7 +6,6 @@ import styles from './html.pcss';
 
 const HTML = (props) => {
 	const descriptionClasses = classNames({
-		[styles.description]: true,
 		'panel-field-description': true,
 	});
 	const fieldClasses = classNames({
