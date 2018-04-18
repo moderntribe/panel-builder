@@ -9,7 +9,7 @@ import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 import * as heartbeat from '../../util/data/heartbeat';
 import * as DATA_KEYS from '../../constants/data-keys';
-import { MODULAR_CONTENT, STYLE_FAMILIES } from '../../globals/config';
+import { MODULAR_CONTENT } from '../../globals/config';
 import { UI_I18N } from '../../globals/i18n';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';
@@ -17,13 +17,14 @@ import * as EVENTS from '../../constants/events';
 class StyleFamilySelect extends Component {
 	constructor(props) {
 		super(props);
+		this.launchAction = '';
+		this.styleFamilies = window.ModularContentConfig.style_families;
 		this.state = {
 			launching: '',
 			launched: false,
-			options: STYLE_FAMILIES[this.props.family_id],
+			options: this.styleFamilies[this.props.family_id],
 			value: this.getInitialData(),
 		};
-		this.launchAction = '';
 		this.handleFamilyUpdated = this.handleFamilyUpdated.bind(this);
 	}
 
@@ -36,7 +37,7 @@ class StyleFamilySelect extends Component {
 	}
 
 	getInitialData() {
-		const savedFamily = STYLE_FAMILIES[this.props.family_id].filter(style => this.props.data === style.value)[0];
+		const savedFamily = this.styleFamilies[this.props.family_id].filter(style => this.props.data === style.value)[0];
 		return savedFamily && savedFamily.value ? savedFamily.value : '';
 	}
 
@@ -49,7 +50,7 @@ class StyleFamilySelect extends Component {
 		const previouslySavedOption = options.filter(option => option.value === value).length;
 		if (!previouslySavedOption) {
 			options.push({ label, value });
-			STYLE_FAMILIES[this.props.family_id].push({ label, value });
+			this.styleFamilies[this.props.family_id].push({ label, value });
 		}
 		this.setState({ options, value, launched: false });
 		this.props.updatePanelData({
