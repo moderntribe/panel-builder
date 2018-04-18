@@ -18,6 +18,9 @@ class NumericInput extends Component {
 	}
 
 	handleChange(initialValue) {
+		if (!initialValue) {
+			return;
+		}
 		if (initialValue < this.props.min || initialValue > this.props.max) {
 			return;
 		}
