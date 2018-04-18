@@ -84,9 +84,13 @@ class Repeater extends Component {
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
 			const remaining = this.props.min - fieldData.length;
-			_.times(remaining, () =>
-				fieldData.push(defaultData.repeater(this.props.fields)),
-			);
+			_.times(remaining, (i) => {
+				// if the arg update_index is false, we will set the title in default data to the row index label
+				// if you supply a text field of name title to this repeater group it will be autopopulated, and then
+				// the user can adjust the auto gen afterwards
+				const title = !this.props.update_index ? this.getRowIndexLabel(i) : '';
+				fieldData.push(defaultData.repeater(this.props.fields, title));
+			});
 			shouldUpdate = true;
 		}
 
@@ -188,18 +192,9 @@ class Repeater extends Component {
 		});
 
 		return (
-		this.props.liveEdit ?
-			<div
-				key={`${this.state.keyPrefix}-${index}`}
-				data-row-index={index}
-				className={headerClasses}
-				onClick={this.handleHeaderClick}
-			>
-				{this.maybeGetIcon(data)}
-				<h3 className={styles.rowHeading}>{striptags(title)}</h3>
-				<i className={arrowClasses} />
-			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
+			this.props.liveEdit ?
 				<div
+					key={`${this.state.keyPrefix}-${index}`}
 					data-row-index={index}
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
@@ -207,9 +202,22 @@ class Repeater extends Component {
 					{this.maybeGetIcon(data)}
 					<h3 className={styles.rowHeading}>{striptags(title)}</h3>
 					<i className={arrowClasses} />
+				</div> :
+				<div
+					data-row-active={this.state.active && index === this.state.activeIndex}
+					key={`${this.state.keyPrefix}-${index}`}
+				>
+					<div
+						data-row-index={index}
+						className={headerClasses}
+						onClick={this.handleHeaderClick}
+					>
+						{this.maybeGetIcon(data)}
+						<h3 className={styles.rowHeading}>{striptags(title)}</h3>
+						<i className={arrowClasses} />
+					</div>
+					{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
 				</div>
-				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
-			</div>
 		);
 	}
 
@@ -356,7 +364,8 @@ class Repeater extends Component {
 	@autobind
 	handleAddRow() {
 		const newState = this.state;
-		newState.data.push(defaultData.repeater(this.props.fields));
+		const title = !this.props.update_index ? this.getRowIndexLabel(newState.data.length) : '';
+		newState.data.push(defaultData.repeater(this.props.fields, title));
 		newState.active = true;
 		newState.activeIndex = newState.data.length - 1;
 		if (this.props.liveEdit) {
@@ -567,6 +576,7 @@ Repeater.propTypes = {
 	label: PropTypes.string,
 	description: PropTypes.string,
 	liveEdit: PropTypes.bool,
+	update_index: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
 	settings_fields: PropTypes.array,
@@ -594,6 +604,7 @@ Repeater.defaultProps = {
 	label: '',
 	description: '',
 	liveEdit: false,
+	update_index: true,
 	name: '',
 	default: [],
 	settings_fields: [],

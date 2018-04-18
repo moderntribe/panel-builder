@@ -6,15 +6,19 @@ import * as FIELD_TYPES from '../../constants/field-types';
  * Return default field data for an array of fields. used by group and repeater
  *
  * @param fields
+ * @param title
  * @returns {{}}
  */
 
-const getGroupDefaults = (fields = []) => {
+const getGroupDefaults = (fields = [], title = '') => {
 	if (!_.isArray(fields)) {
 		return {};
 	}
 	const groupData = {};
-	_.forEach(fields, groupField => groupData[groupField.name] = 'undefined' !== typeof groupField.fields ? getGroupDefaults(groupField.fields) : groupField.default);
+	_.forEach(fields, groupField => groupData[groupField.name] = typeof groupField.fields !== 'undefined' ? getGroupDefaults(groupField.fields) : groupField.default);
+	if (title) {
+		groupData.title = title;
+	}
 	return groupData;
 };
 
@@ -53,6 +57,7 @@ export const panel = (blueprint = {}) => getPanelDefaults(blueprint.fields);
  * Return default field data for a repeater
  *
  * @param fields
+ * @param title
  */
 
-export const repeater = (fields = []) => getGroupDefaults(fields);
+export const repeater = (fields = [], title = '') => getGroupDefaults(fields, title);
