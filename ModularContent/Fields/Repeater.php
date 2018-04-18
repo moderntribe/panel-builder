@@ -25,6 +25,7 @@ use ModularContent\Panel;
 class Repeater extends Group {
 	protected $min = 0;
 	protected $max = 0;
+	protected $update_index = true;
 	protected $new_button_label = '';
 
 	/**
@@ -43,6 +44,7 @@ class Repeater extends Group {
 	 * $group = new Repeater( array(
 	 *   'label' => __('Contacts'),
 	 *   'name' => 'contacts',
+	 *   'update_index' => false, // whether or not to dynamically update the index of fields with no title when they are sorted
 	 *   'max' => 5,
 	 * ) );
 	 * $group->add_field( $name );
@@ -51,6 +53,7 @@ class Repeater extends Group {
 	public function __construct( $args = array() ) {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
+		$this->defaults['update_index'] = $this->update_index;
 		$this->defaults[ 'strings' ] = [
 			'button.new' => __( 'Add Row', 'modular-content' ),
 			'button.delete' => __( 'Delete Row', 'modular-content' ),
@@ -172,9 +175,10 @@ class Repeater extends Group {
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
-		$blueprint['min'] = $this->min;
-		$blueprint['max'] = $this->max;
+		$blueprint                    = parent::get_blueprint();
+		$blueprint['update_index']    = $this->update_index;
+		$blueprint['min']             = $this->min;
+		$blueprint['max']             = $this->max;
 
 		unset( $blueprint['layout'] );
 
