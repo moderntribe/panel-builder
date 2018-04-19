@@ -33,10 +33,6 @@ const FieldBuilder = (props) => {
 			}
 		});
 
-		if (!isActive) {
-			return null;
-		}
-
 		const classes = classNames({
 			[styles.field]: true,
 			[styles.compact]: styleUtil.isCompactField(field),
@@ -49,8 +45,7 @@ const FieldBuilder = (props) => {
 			<div
 				className={classes}
 				key={_.uniqueId('field-id-')}
-				data-settings={props.settings_fields.indexOf(field.name) !== -1}
-				style={styleUtil.fieldStyles(field)}
+				style={styleUtil.fieldStyles(field, isActive)}
 			>
 				<Field
 					{...field}
@@ -74,7 +69,7 @@ const FieldBuilder = (props) => {
 		);
 	});
 
-	const ChildPanels = props.hasChildren && props.activeTab === 'content_fields' ? (
+	const ChildPanels = (
 		<Children
 			childData={props.children}
 			panels={props.panels}
@@ -90,8 +85,9 @@ const FieldBuilder = (props) => {
 			handleExpanderClick={props.handleExpanderClick}
 			nestedGroupActive={props.nestedGroupActive}
 			hidePanel={props.hidePanel}
+			visible={props.hasChildren && props.activeTab === 'content_fields'}
 		/>
-	) : null;
+	);
 
 	return (
 		<div>
