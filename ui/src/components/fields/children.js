@@ -519,7 +519,6 @@ class Children extends Component {
 				className={fieldClasses}
 				data-info-active="false"
 				data-show-nested="false"
-				data-settings="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
 				<label className={legendClasses}>
