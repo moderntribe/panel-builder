@@ -503,6 +503,7 @@ class Children extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.hidden]: !this.props.visible,
 			'panel-field': true,
 			'children-field': true,
 		});
@@ -552,6 +553,7 @@ Children.propTypes = {
 	parentIndex: PropTypes.number,
 	updateChildPanelData: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func,
+	visible: PropTypes.bool,
 };
 
 Children.defaultProps = {
@@ -569,6 +571,7 @@ Children.defaultProps = {
 	parentIndex: 0,
 	updateChildPanelData: () => {},
 	updatePanelData: () => {},
+	visible: true,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Children);

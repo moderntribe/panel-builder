@@ -58,11 +58,14 @@ export const optionStyles = (props = {}) => {
 	return styles;
 };
 
-export const fieldStyles = (field = {}) => {
+export const fieldStyles = (field = {}, isActive = true) => {
 	const styles = {};
 	if (field[DATA_KEYS.INPUT_WIDTH] && field[DATA_KEYS.INPUT_WIDTH] < 12) {
 		styles.width = `calc(${parseFloat((field[DATA_KEYS.INPUT_WIDTH] / 12 * 100).toFixed(10))}% - 5px)`;
 		styles.marginRight = '5px';
+	}
+	if (!isActive) {
+		styles.display = 'none';
 	}
 
 	return styles;
