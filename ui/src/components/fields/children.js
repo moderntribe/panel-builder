@@ -553,7 +553,6 @@ class Children extends Component {
 				data-refresh={this.state.refreshKey}
 				data-info-active="false"
 				data-show-nested="false"
-				data-settings="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
 				<label className={legendClasses}>
