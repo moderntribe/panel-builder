@@ -65,7 +65,7 @@ export const fieldStyles = (field = {}, isActive = true) => {
 		styles.marginRight = '5px';
 	}
 	if (!isActive) {
-		styles.display = 'none';
+		styles.display = 'none !important';
 	}
 
 	return styles;
