@@ -166,8 +166,26 @@ class PanelContainer extends Component {
 		);
 	}
 
+	getFilteredTabArray() {
+		const permittedTabs = PERMISSIONS.can_access_panel_tabs;
+		// problem with data
+		if (!_.isArray(permittedTabs)) {
+			return [];
+		}
+		// no perms at all, check your config for new role
+		if (!permittedTabs.length) {
+			return [];
+		}
+		// all access pass
+		if (!permittedTabs.length || permittedTabs.indexOf('all') !== -1) {
+			return this.props.tabs;
+		}
+		// filtered tabs
+		return _.pick(this.props.tabs, permittedTabs);
+	}
+
 	getTabs() {
-		return Object.entries(sortObj(this.props.tabs)).map(([tabKey, tabLabel]) => (
+		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabLabel]) => (
 			<Button
 				text={tabLabel}
 				full={false}
