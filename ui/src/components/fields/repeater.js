@@ -50,6 +50,7 @@ class Repeater extends Component {
 		super(props);
 		this.state = {
 			active: false,
+			activeTab: 'content_fields',
 			activeIndex: 0,
 			data: this.getPaddedFieldData(),
 			keyPrefix: randomString(10),
@@ -144,6 +145,7 @@ class Repeater extends Component {
 				<div className={styles.fieldWrap}>
 					{PERMISSIONS.can_edit_panel_settings && this.renderSettingsToggle()}
 					<FieldBuilder
+						activeTab={this.state.activeTab}
 						fields={this.props.fields}
 						settings_fields={this.props.settings_fields}
 						data={rowData}
@@ -506,11 +508,13 @@ class Repeater extends Component {
 
 	@autobind
 	enableSettingsMode() {
+		this.setState({ activeTab: 'settings_fields' });
 		this.el.classList.add(styles.settingsActive);
 	}
 
 	@autobind
 	enableContentMode() {
+		this.setState({ activeTab: 'content_fields' });
 		this.el.classList.remove(styles.settingsActive);
 	}
 

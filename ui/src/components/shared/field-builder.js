@@ -8,7 +8,6 @@ import Children from '../fields/children';
 
 import getTypeCheckedData from '../../util/data/get-typechecked-data';
 import * as styleUtil from '../../util/dom/styles';
-import * as FIELD_TYPES from '../../constants/field-types';
 
 import styles from './field-builder.pcss';
 
@@ -33,9 +32,17 @@ const FieldBuilder = (props) => {
 			}
 		});
 
+		if (props.settings_fields.length) {
+			if (props.activeTab === 'settings_fields') {
+				isActive = props.settings_fields.indexOf(field.name) !== -1;
+			} else {
+				isActive = props.settings_fields.indexOf(field.name) === -1;
+			}
+		}
+
 		const classes = classNames({
 			[styles.field]: true,
-			[styles.hidden]: ! isActive,
+			[styles.hidden]: !isActive,
 			[styles.compact]: styleUtil.isCompactField(field),
 			'panel-input': true,
 			[`input-name-${field.name.toLowerCase()}`]: true,
