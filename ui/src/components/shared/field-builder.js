@@ -34,7 +34,8 @@ const FieldBuilder = (props) => {
 
 		const classes = classNames({
 			[styles.field]: true,
-			[styles.hidden]: ! isActive,
+			[styles.builder]: true,
+			[styles.hidden]: !isActive,
 			[styles.compact]: styleUtil.isCompactField(field),
 			'panel-input': true,
 			[`input-name-${field.name.toLowerCase()}`]: true,
@@ -45,6 +46,7 @@ const FieldBuilder = (props) => {
 			<div
 				className={classes}
 				data-field="true"
+				data-builder="true"
 				key={_.uniqueId('field-id-')}
 				style={styleUtil.fieldStyles(field)}
 			>
