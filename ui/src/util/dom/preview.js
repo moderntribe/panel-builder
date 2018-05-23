@@ -11,10 +11,12 @@ export const createMask = (type = '') => {
 
 	return `
 			<div class="${styles.mask}">
-				<header class="${styles.maskHeader}">
+				<header class="${styles.maskHeaderLeft}">
 					<span class="${styles.maskLabel}">
 						<span class="${styles.maskEdit}">${UI_I18N['heading.edit_type']}</span><span class="${styles.maskEditing}">${UI_I18N['heading.editing_type']}</span> ${label}
 					</span>
+				</header>
+				<header class="${styles.maskHeaderRight}">
 					<button class="${styles.maskButton} ${styles.maskButtonUp}">
 						<span data-tooltip class="${styles.tooltip}">
 							<span class="${styles.maskScreenReaderText}">${UI_I18N['tooltip.panel_up']}</span>
