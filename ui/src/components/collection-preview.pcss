@@ -186,7 +186,8 @@
 			background: transparent;
 			opacity: 1;
 
-			.maskHeader {
+			.maskHeaderLeft,
+			.maskHeaderRight {
 				opacity: 0;
 			}
 
@@ -200,7 +201,8 @@
 
 			&:hover {
 
-				.maskHeader {
+				.maskHeaderLeft,
+				.maskHeaderRight {
 					opacity: 1;
 				}
 			}
@@ -232,11 +234,11 @@
 			}
 
 			.maskTop {
-				top: -50px;
+				top: 0;
 			}
 
 			.maskBottom {
-				bottom: -50px;
+				bottom: 0;
 			}
 		}
 	}
@@ -246,16 +248,17 @@
 	}
 
 	.maskAdd {
-		display: none;
-		height: calc(50% + 50px);
+		opacity: 0;
+		height: 50%;
 		position: absolute;
 		left: 0;
 		width: 100%;
 
 		&:hover {
+			opacity: 1;
 
 			.maskButtonAdd {
-				opacity: 1;
+				opacity: 1 !important;
 			}
 		}
 	}
@@ -324,17 +327,17 @@
 	}
 
 	.addPanelAbove {
-		top: 27px;
+		top: -27px;
 	}
 
 	.addPanelBelow {
-		bottom: 27px;
+		bottom: -27px;
 	}
 
-	.maskHeader {
+	.maskHeaderLeft,
+	.maskHeaderRight {
 		font-family: var(--sans-serif-font-family);
 		position: absolute;
-		width: 100%;
 		top: 0;
 		left: 0;
 		text-align: center;
@@ -350,11 +353,17 @@
 		}
 	}
 
+	.maskHeaderRight {
+		left: auto;
+		right: 0;
+	}
+
 	.maskLabel {
 		background: var(--button-new-blue);
 		display: block;
 		padding: 10px;
 		margin-bottom: 10px;
+		white-space: nowrap;
 
 		@media (--viewport-medium) {
 			position: absolute;
