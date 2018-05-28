@@ -19,6 +19,8 @@ import * as domTools from '../util/dom/tools';
 import * as panelConditionals from '../util/dom/panel-conditionals';
 
 import styles from './panel.pcss';
+import { PERMISSIONS } from '../globals/config';
+
 
 zenscroll.setup(100, 40);
 
