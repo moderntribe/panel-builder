@@ -22,7 +22,9 @@ export const init = (opts = {}, callback = () => {}) => {
 		return;
 	}
 
-	tinyMCE.on('SetupEditor', (editor) => {
+	tinyMCE.on('SetupEditor', (instance) => {
+		// pre wp 4.9.6 editor instance here is the directly passed object, after, its a sub entry
+		const editor = instance.editor ? instance.editor : instance;
 		if (editor.id === options.fid) {
 			editor.on('change keyup paste', () => {
 				callback(wpEditor.removep(editor.getContent()));
