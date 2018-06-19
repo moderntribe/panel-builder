@@ -24,7 +24,7 @@ class Preview_Revision_Indicator {
 		add_action( '_wp_put_post_revision', [ $this, 'copy_post_meta_to_autosaves' ], 10, 1 );
 		add_action( 'wp_creating_autosave', [ $this, 'track_updated_post_revisions' ], 10, 1 );
 
-        return $response;
+		return $response;
 	}
 
 	public function add_post_revision_to_heartbeat_response( $response, $data, $screen_id ) {
