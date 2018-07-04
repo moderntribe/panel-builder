@@ -62,6 +62,12 @@ class Blueprint_Builder implements \JsonSerializable {
 		return $blueprint;
 	}
 
+	/**
+	 * Loop through each tabbed field and add it to the blueprint.
+	 *
+	 * @param           $blueprint
+	 * @param PanelType $type
+	 */
 	protected function get_tabbed_fields( &$blueprint, PanelType $type ) {
 		$tabbed_fields     = $type->get_tabbed_field_names();
 		$blueprint['tabs'] = [];

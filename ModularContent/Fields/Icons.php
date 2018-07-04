@@ -7,7 +7,7 @@ namespace ModularContent\Fields;
  *
  * @package ModularContent\Fields
  *
- * An color picker field.
+ * A field for selecting an icon from an icon library.
  */
 class Icons extends Radio {
 

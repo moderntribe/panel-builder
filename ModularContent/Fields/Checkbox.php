@@ -9,7 +9,7 @@ namespace ModularContent\Fields;
  *
  * @package ModularContent\Fields
  *
- * A group of radio buttons.
+ * A group of checkboxes
  *
  * $field = new Checkbox( array(
  *   'label' => __('Pick Options'),
@@ -46,12 +46,22 @@ class Checkbox extends Select {
 		return $blueprint;
 	}
 
+	/**
+	 * Ensure that the values for layout are valid.
+	 *
+	 * @param $args
+	 */
 	protected function check_layout( $args ) {
 		if ( isset( $args['layout'] ) && $args['layout'] !== 'vertical' && $args['layout'] !== 'horizontal' && $args['layout'] !== 'inline' ) {
 			throw new \LogicException( 'Layout argument can only be "vertical", "horizontal", or "inline".' );
 		}
 	}
 
+	/**
+	 * Ensure that the option_width value is valid.
+	 *
+	 * @param $args
+	 */
 	protected function check_option_width( $args ) {
 		if ( isset( $args['option_width'] ) && ( $args['option_width'] < 1 || $args['option_width'] > 12 ) ) {
 			throw new \LogicException( 'option_width argument must be between 1-12.' );
