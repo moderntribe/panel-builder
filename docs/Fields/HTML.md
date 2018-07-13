@@ -8,4 +8,4 @@ Simple HTML output. Nothing is submitted. Nothing is saved. Just HTML to display
 |---|---|---|
 | `label`       | `string` | The __() translated label for this field       |
 | `name`        | `string` | The unique name for this field                 |
-| `description` | `string` | The __() translated description for this field |
+| `description` | `string` | The HTML body to use in the field |

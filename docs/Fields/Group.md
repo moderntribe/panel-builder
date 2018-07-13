@@ -1,6 +1,6 @@
-## Checkbox
+## Group
 
-A group of checkboxes.
+A group of other Field Types.
 
 ### Parameters
 
@@ -9,8 +9,10 @@ A group of checkboxes.
 | `label`       | `string` | The __() translated label for this field       |
 | `name`        | `string` | The unique name for this field                 |
 | `description` | `string` | The __() translated description for this field |
+| `layout` | `string` | The layout for this group, either `full` or `compact` |
 
-### Creating a group:
+### Example
+
 ```php
  $first_name = new Text( array(
    'label' => __('First Name'),
@@ -23,10 +25,12 @@ A group of checkboxes.
  $group = new Group( array(
    'label' => __('Name'),
    'name' => 'name',
+   'layout' => 'full',
  ) );
  $group->add_field( $first_name );
  $group->add_field( $last_name );
 ```
+
 ### Using data from a group in a template:
 
 ```php

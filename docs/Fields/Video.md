@@ -1,11 +1,5 @@
 ## Video
 
-A field for adding video embed URLs.
+Functionally the same as a `Text` field, but the data returned is an `oembed`.
 
-### Parameters
-
-||||
-|---|---|---|
-| `label`       | `string` | The __() translated label for this field       |
-| `name`        | `string` | The unique name for this field                 |
-| `description` | `string` | The __() translated description for this field |
+See `Text` for more details.

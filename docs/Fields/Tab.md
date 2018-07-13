@@ -1,9 +1,12 @@
 ## Tab
 
+Functionally the same as a Group, but is only ever used as a child of the Tab Group field type.
+
+See `Group` for more details.
+
 ### Parameters
 
 ||||
 |---|---|---|
-| `label`       | `string` | The __() translated label for this field       |
-| `name`        | `string` | The unique name for this field                 |
-| `description` | `string` | The __() translated description for this field |
+| `icon`       | `string` | The path to the icon to use for this tab |
+| `viewport` | `string` | The viewport to which this tab applies |
