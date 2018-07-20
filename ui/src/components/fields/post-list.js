@@ -21,7 +21,7 @@ import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
 import * as AdminCache from '../../util/data/admin-cache';
 import * as tools from '../../util/dom/tools';
-import queryToJson from "../../util/data/query-to-json";
+import queryToJson from '../../util/data/query-to-json';
 
 import styles from './post-list.pcss';
 
