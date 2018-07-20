@@ -26,7 +26,7 @@ class PostListPostSelected extends Component {
 
 	getRequestParams(input) {
 		const queryParams = queryToJson();
-		const postId = 'undefined' === typeof queryParams.post ? 'new' : queryParams.post;
+		const postId = typeof queryParams.post === 'undefined' ? 'new' : queryParams.post;
 
 		return objectToParams({
 			action: 'posts-field-posts-search',
