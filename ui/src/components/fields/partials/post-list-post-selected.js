@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import request from 'superagent';
 
 import objectToParams from '../../../util/data/object-to-params';
+import queryToJson from '../../../util/data/query-to-json';
 import Button from '../../shared/button';
 
 import styles from './post-list-post-selected.pcss';
@@ -24,6 +25,9 @@ class PostListPostSelected extends Component {
 	}
 
 	getRequestParams(input) {
+		const queryParams = queryToJson();
+		const postId = 'undefined' === typeof queryParams.post ? 'new' : queryParams.post;
+
 		return objectToParams({
 			action: 'posts-field-posts-search',
 			s: input,
@@ -31,6 +35,7 @@ class PostListPostSelected extends Component {
 			paged: 1,
 			post_type: this.state.searchPostType,
 			field_name: 'items',
+			post_id: postId,
 		});
 	}
 
