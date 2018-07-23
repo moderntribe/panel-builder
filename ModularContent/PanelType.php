@@ -190,6 +190,8 @@ class PanelType {
 	 *
 	 * Alias for add_field( $field, 'settings' );
 	 *
+	 * @deprecated 3.4 Used for backwards compatibility only.
+	 *
 	 * @param Field $field
 	 * @return void
 	 */
@@ -198,6 +200,8 @@ class PanelType {
 	}
 
 	/**
+	 * @deprecated 3.4 Used for backwards compatibility only.
+	 *
 	 * @return array The names of all registered settings fields
 	 */
 	public function get_settings_field_names() {
@@ -208,11 +212,14 @@ class PanelType {
 	 * Determine if the field with the given name should
 	 * be displayed in the Settings tab
 	 *
+	 * @deprecated 3.4 Used for backwards compatibility only.
+	 * @see is_field_in_tab
+	 *
 	 * @param string $field_name
 	 * @return bool
 	 */
 	public function is_settings_field( $field_name ) {
-		return isset( $this->tabs['settings'] ) && in_array( $field_name, $this->tabs['settings'] );
+		return $this->is_field_in_tab( $field_name, 'settings' );
 	}
 
 	/**
