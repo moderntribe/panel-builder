@@ -4,9 +4,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Link from 'components/fields/link';
 import LinkGroup from 'components/shared/link-group';
+import renderer from 'react-test-renderer';
 
 
 describe('Link field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Link />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Link />);
 		expect(wrapper.type()).toEqual('div');

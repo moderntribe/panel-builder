@@ -4,6 +4,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import ColorPicker from 'components/fields/color-picker';
+import renderer from 'react-test-renderer';
 
 const props =  {
 	allow_clear: true,
@@ -36,6 +37,13 @@ const render = (overrideProps) => {
 };
 
 describe('Color Picker field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<ColorPicker {...props} />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('calls componentDidMount', () => {
 		sinon.spy(ColorPicker.prototype, 'componentDidMount');
 		const { colorPicker } = render();

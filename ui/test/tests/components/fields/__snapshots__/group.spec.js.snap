@@ -1,0 +1,15 @@
+exports[`Group field renders correctly 1`] = `
+<div
+  className="field panel-field group-field"
+  data-group-active={false}>
+  <div
+    className="header panel-row-header"
+    onClick={[Function]}>
+    <h3>
+      
+    </h3>
+    <i
+      className="dashicons arrow panel-row-arrow dashicons-arrow-right-alt2" />
+  </div>
+</div>
+`;

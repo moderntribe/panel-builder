@@ -1,0 +1,29 @@
+exports[`Video field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-field-label">
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <span
+    className="panel-input-field inputContainer">
+    <input
+      className="video-url"
+      name="modular-content-"
+      onChange={[Function]}
+      size="40"
+      type="text"
+      value="" />
+  </span>
+</div>
+`;

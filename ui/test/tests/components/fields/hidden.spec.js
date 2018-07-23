@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Hidden from 'components/fields/hidden';
+import renderer from 'react-test-renderer';
 
 describe('Hidden field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Hidden />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Hidden />);
 		expect(wrapper.type()).toEqual('div');

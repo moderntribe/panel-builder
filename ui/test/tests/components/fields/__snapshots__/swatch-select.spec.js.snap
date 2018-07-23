@@ -1,0 +1,21 @@
+exports[`SwatchSelect field renders correctly 1`] = `
+<div
+  className="field panel-field panel-conditional-field">
+  <label
+    className="label panel-field-label">
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <div
+    className="container" />
+</div>
+`;

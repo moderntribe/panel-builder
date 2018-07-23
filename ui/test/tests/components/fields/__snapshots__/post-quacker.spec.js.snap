@@ -1,0 +1,390 @@
+exports[`PostQuacker field renders correctly 1`] = `
+<fieldset
+  className="field panel-field">
+  <legend
+    className="label panel-field-label">
+    
+  </legend>
+  <div
+    className="tabs">
+    <button
+      className="panel-button primary inline pl-show-query"
+      data-id=""
+      data-loading={false}
+      disabled={false}
+      onClick={[Function]}
+      title=""
+      type="button">
+      <span>
+        
+      </span>
+    </button>
+    <button
+      className="panel-button primary inline pq-show-manual"
+      data-id=""
+      data-loading={false}
+      disabled={false}
+      onClick={[Function]}
+      title=""
+      type="button">
+      <span>
+        
+      </span>
+    </button>
+  </div>
+  <div
+    className="tabWrapper">
+    <div
+      className="tabContent">
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <div
+          className="Select post-type-select term-select Select--multi is-clearable is-searchable"
+          style={undefined}>
+          <div
+            className="Select-control"
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={undefined}>
+            <span
+              className="Select-multi-value-wrapper"
+              id="react-select-2--value">
+              <div
+                className="Select-placeholder">
+                Select...
+              </div>
+              <div
+                className="Select-input"
+                style={
+                  Object {
+                    "display": "inline-block",
+                  }
+                }>
+                <input
+                  aria-activedescendant="react-select-2--value"
+                  aria-describedby={undefined}
+                  aria-expanded="false"
+                  aria-haspopup="false"
+                  aria-label={undefined}
+                  aria-labelledby={undefined}
+                  aria-owns=""
+                  className={undefined}
+                  id={undefined}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  required={false}
+                  role="combobox"
+                  style={
+                    Object {
+                      "boxSizing": "content-box",
+                      "width": "5px",
+                    }
+                  }
+                  tabIndex={undefined}
+                  value="" />
+                <div
+                  style={
+                    Object {
+                      "height": 0,
+                      "left": 0,
+                      "overflow": "scroll",
+                      "position": "absolute",
+                      "top": 0,
+                      "visibility": "hidden",
+                      "whiteSpace": "pre",
+                    }
+                  }>
+                  
+                </div>
+              </div>
+            </span>
+            <span
+              className="Select-arrow-zone"
+              onMouseDown={[Function]}>
+              <span
+                className="Select-arrow"
+                onMouseDown={[Function]} />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <div
+          className="Select Select--single is-clearable is-disabled is-searchable"
+          style={undefined}>
+          <div
+            className="Select-control"
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={undefined}>
+            <span
+              className="Select-multi-value-wrapper"
+              id="react-select-3--value">
+              <div
+                className="Select-placeholder">
+                Select...
+              </div>
+              <div
+                aria-activedescendant="react-select-3--value"
+                aria-disabled="true"
+                aria-expanded={false}
+                aria-label={undefined}
+                aria-labelledby={undefined}
+                aria-owns=""
+                className="Select-input"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "border": 0,
+                    "display": "inline-block",
+                    "width": 1,
+                  }
+                }
+                tabIndex={0} />
+            </span>
+            <span
+              className="Select-arrow-zone"
+              onMouseDown={[Function]}>
+              <span
+                className="Select-arrow"
+                onMouseDown={[Function]} />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="panelFilterRow">
+        <button
+          className="panel-button secondary inline rounded"
+          data-id=""
+          data-loading={false}
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="button">
+          <span>
+            
+          </span>
+        </button>
+      </div>
+      <div
+        className="panelFilterRow">
+        <div
+          className="blankPostContainer">
+          <div>
+            <div
+              className="container">
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <b />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="tabContent">
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <input
+          name="quacker-field-title-2"
+          onChange={[Function]}
+          size="40"
+          type="text"
+          value={undefined} />
+      </div>
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <div
+          className="container">
+          <div
+            className="current-file currentUploadedFile">
+            <div
+              className="imagePreview">
+              <img
+                alt=""
+                onClick={[Function]}
+                src="" />
+            </div>
+            <p
+              className="removeButtonContainer">
+              <button
+                className="panel-button secondary full"
+                data-id=""
+                data-loading={false}
+                disabled={false}
+                onClick={[Function]}
+                title=""
+                type="button">
+                <span>
+                  
+                </span>
+              </button>
+            </p>
+          </div>
+          <div
+            className="file-uploader uploaderOpen uploaderSection">
+            <button
+              className="panel-button primary full attachment_helper_library_button"
+              data-id=""
+              data-loading={false}
+              disabled={false}
+              onClick={[Function]}
+              title=""
+              type="button">
+              <span>
+                
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <div
+          className="wp-core-ui wp-editor-wrap tmce-active"
+          id="wp-quacker-field-textfield-1-wrap">
+          <article
+            className="editor">
+            <div
+              className="wp-editor-tools hide-if-no-js"
+              id="wp-quacker-field-textfield-1-editor-tools">
+              <div
+                className="wp-editor-tabs">
+                <button
+                  className="wp-switch-editor switch-tmce"
+                  data-wp-editor-id="quacker-field-textfield-1"
+                  id="quacker-field-textfield-1-tmce"
+                  type="button" />
+                <button
+                  className="wp-switch-editor switch-html"
+                  data-wp-editor-id="quacker-field-textfield-1"
+                  id="quacker-field-textfield-1-html"
+                  type="button" />
+              </div>
+            </div>
+            <div
+              className="wp-editor-container"
+              data-settings_id="quacker-field-textfield-1"
+              id="wp-quacker-field-textfield-1-editor-container">
+              <div
+                className="quicktags-toolbar"
+                data-settings_id="quacker-field-textfield-1"
+                id="qt_quacker-field-textfield-1_toolbar" />
+              <textarea
+                className="wysiwyg-quacker-field-textfield-1 wp-editor-area"
+                cols="40"
+                id="quacker-field-textfield-1"
+                name="quacker-field-textfield-1-content"
+                onChange={[Function]}
+                rows="15"
+                value="" />
+            </div>
+          </article>
+        </div>
+      </div>
+      <div
+        className="panelFilterRow">
+        <label
+          className="tabLabel" />
+        <div>
+          <div
+            className="inputGeneric panel-group-url">
+            <input
+              name="url"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="text"
+              value="" />
+          </div>
+          <div
+            className="inputGeneric panel-group-label">
+            <input
+              name="label"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="text"
+              value="" />
+          </div>
+          <div
+            className="inputGeneric panel-group-link-target">
+            <div
+              className="Select Select--single"
+              style={undefined}>
+              <div
+                className="Select-control"
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                style={undefined}>
+                <span
+                  className="Select-multi-value-wrapper"
+                  id="react-select-4--value">
+                  <div
+                    className="Select-placeholder">
+                    Select...
+                  </div>
+                  <div
+                    aria-activedescendant="react-select-4--value"
+                    aria-disabled="false"
+                    aria-expanded={false}
+                    aria-label={undefined}
+                    aria-labelledby={undefined}
+                    aria-owns=""
+                    className="Select-input"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    role="combobox"
+                    style={
+                      Object {
+                        "border": 0,
+                        "display": "inline-block",
+                        "width": 1,
+                      }
+                    }
+                    tabIndex={0} />
+                </span>
+                <span
+                  className="Select-arrow-zone"
+                  onMouseDown={[Function]}>
+                  <span
+                    className="Select-arrow"
+                    onMouseDown={[Function]} />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+`;

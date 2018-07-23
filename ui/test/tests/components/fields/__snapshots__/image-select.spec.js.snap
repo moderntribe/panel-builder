@@ -1,0 +1,104 @@
+exports[`ImageSelect field renders correctly 1`] = `
+<div
+  className="field panel-field panel-conditional-field">
+  <label
+    className="label panel-field-label"
+    onClick={[Function]}>
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <div
+    className="container">
+    <label
+      className="plimageselect-label imageSelectLabel"
+      style={
+        Object {
+          "width": "50%",
+        }
+      }>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="image-select"
+        data-option-type="single"
+        name="modular-content-layout"
+        onChange={[Function]}
+        type="radio"
+        value="standard" />
+      <div
+        className="optionImage">
+        <span
+          className="optInner">
+          <img
+            alt="Standard"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==" />
+        </span>
+      </div>
+      Standard
+    </label>
+    <label
+      className="plimageselect-label imageSelectLabel"
+      style={
+        Object {
+          "width": "50%",
+        }
+      }>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="image-select"
+        data-option-type="single"
+        name="modular-content-layout"
+        onChange={[Function]}
+        type="radio"
+        value="cards" />
+      <div
+        className="optionImage">
+        <span
+          className="optInner">
+          <img
+            alt="Cards"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==" />
+        </span>
+      </div>
+      Cards
+    </label>
+    <label
+      className="plimageselect-label imageSelectLabel"
+      style={
+        Object {
+          "width": "50%",
+        }
+      }>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="image-select"
+        data-option-type="single"
+        name="modular-content-layout"
+        onChange={[Function]}
+        type="radio"
+        value="full" />
+      <div
+        className="optionImage">
+        <span
+          className="optInner">
+          <img
+            alt="Full"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==" />
+        </span>
+      </div>
+      Full
+    </label>
+  </div>
+</div>
+`;

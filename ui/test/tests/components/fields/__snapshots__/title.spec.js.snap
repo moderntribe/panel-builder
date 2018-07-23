@@ -1,0 +1,27 @@
+exports[`Title field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-input-label-title panel-field-label">
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <span
+    className="inputContainer">
+    <input
+      name="modular-content-"
+      onChange={[Function]}
+      type="text"
+      value="" />
+  </span>
+</div>
+`;

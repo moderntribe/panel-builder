@@ -3,6 +3,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Checkbox from 'components/fields/checkbox';
+import renderer from 'react-test-renderer';
 
 // test data
 const OPTIONS1 = [
@@ -37,6 +38,13 @@ const DEFAULT2 = {
 };
 
 describe('Checkbox field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Checkbox description="This is a test description" name="layout" label="Some test label" options={OPTIONS1} default={DEFAULT1} />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Checkbox />);
 		expect(wrapper.type()).toEqual('div');

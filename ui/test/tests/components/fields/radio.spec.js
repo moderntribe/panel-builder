@@ -3,6 +3,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Radio from 'components/fields/radio';
+import renderer from 'react-test-renderer';
 
 // test data
 const OPTIONS1 = [
@@ -33,6 +34,13 @@ const OPTIONS2 = [
 
 
 describe('Radio field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Radio description="This is a test description" label="Some test label" options={OPTIONS1} />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Radio />);
 		expect(wrapper.type()).toEqual('div');

@@ -1,0 +1,26 @@
+exports[`Image Gallery field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-field-label">
+    
+  </label>
+  <div
+    data-label="Gallery"
+    data-name="">
+    <input
+      name="gallery-field-name"
+      type="hidden"
+      value="" />
+    <p
+      className="galleryFieldControls">
+      <button
+        className="button button-large"
+        onClick={[Function]} />
+    </p>
+    <div
+      className="galleryFieldSelection"
+      onClick={[Function]} />
+  </div>
+</div>
+`;
