@@ -23,7 +23,7 @@
 * Nested conditional classes have been added
 * Close other accordions at that level when opening one
 * Implemented panel permissions system
-*
+* Many bugfixes.
 
 
 ## 3.3.0 (September 27, 2017)

@@ -21,7 +21,6 @@ import * as panelConditionals from '../util/dom/panel-conditionals';
 import styles from './panel.pcss';
 import { PERMISSIONS } from '../globals/config';
 
-
 zenscroll.setup(100, 40);
 
 /**
@@ -111,7 +110,7 @@ class PanelContainer extends Component {
 				/>
 			) : null;
 
-			const DeleteButton = this.props.depth === 0 ? (
+			const DeleteButton = this.props.depth === 0 && PERMISSIONS.can_delete_panels ? (
 				<Button
 					icon="dashicons-trash"
 					text={UI_I18N['button.delete_panel']}

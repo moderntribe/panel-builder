@@ -6,7 +6,7 @@ import Expander from './shared/expander';
 import Button from './shared/button';
 
 import { UI_I18N } from '../globals/i18n';
-import { TEMPLATE_SAVER } from '../globals/config';
+import { TEMPLATE_SAVER, PERMISSIONS } from '../globals/config';
 
 import styles from './collection-header.pcss';
 
@@ -23,8 +23,8 @@ const CollectionHeader = (props) => {
 	const shouldRender = () => !props.active && props.liveEdit || !props.liveEdit;
 	const shouldRenderLiveEdit = () => !props.liveEdit;
 	const shouldRenderExpander = () => props.liveEdit;
-	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length && !props.pickerActive;
-	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length && !props.pickerActive;
+	const canSavePanelSet = () => TEMPLATE_SAVER.enabled && props.count > 0 && !props.panelSetPickerEditLink.length && !props.pickerActive && PERMISSIONS.can_save_panel_sets;
+	const canEditPanelSet = () => TEMPLATE_SAVER.enabled && props.panelSetPickerEditLink.length && !props.pickerActive && PERMISSIONS.can_edit_panel_sets;
 
 	// dynamic classes
 	const wrapperClasses = classNames({

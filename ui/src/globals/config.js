@@ -1,9 +1,9 @@
 import { CONFIG_DEFAULTS } from './defaults/config';
 
 export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
-export const PERMISSIONS = CONFIG.permissions ? Object.assign({}, CONFIG_DEFAULTS.permissions, CONFIG.permissions) : CONFIG_DEFAULTS.permissions;
 export const URL_CONFIG = CONFIG.url_config || {};
 export const STYLE_FAMILIES = CONFIG.style_families || {};
+export const PERMISSIONS = CONFIG.permissions ? Object.assign({}, CONFIG_DEFAULTS.permissions, CONFIG.permissions) : CONFIG_DEFAULTS.permissions;
 export const CSS_FILE = CONFIG.css_file || '';
 export const IFRAME_SCROLL_OFFSET = CONFIG.iframe_scroll_offset || '';
 export const AUTOSAVE_AJAX_ENDPOINT = CONFIG.autosave_ajax_endpoint || '';
