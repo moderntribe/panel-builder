@@ -1,4 +1,4 @@
-// this is the config object supplied by wp to js. i simulate defaults here for what i need in here for the karma tests.
+// this is the config object supplied by wp to js. i simulate defaults here for what i need in here for the tests.
 
 export const CONFIG_DEFAULTS = {
 	blueprint: {

@@ -1,7 +1,6 @@
 import { CONFIG_DEFAULTS } from './defaults/config';
 
 export const CONFIG = window.ModularContentConfig || CONFIG_DEFAULTS;
-// todo: when Jonathan adds in the defaults at the php level we can avoid this defaults merge
 export const PERMISSIONS = CONFIG.permissions ? Object.assign({}, CONFIG_DEFAULTS.permissions, CONFIG.permissions) : CONFIG_DEFAULTS.permissions;
 export const URL_CONFIG = CONFIG.url_config || {};
 export const STYLE_FAMILIES = CONFIG.style_families || {};
