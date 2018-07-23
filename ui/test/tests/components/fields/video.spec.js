@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Video from 'components/fields/video';
+import renderer from 'react-test-renderer';
 
 describe('Video field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Video description="This is a test description" label="Some test label" />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Video />);
 		expect(wrapper.type()).toEqual('div');

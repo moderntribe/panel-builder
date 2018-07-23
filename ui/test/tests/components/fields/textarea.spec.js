@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TextArea from 'components/fields/textarea';
+import renderer from 'react-test-renderer';
 
 describe('TextArea field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<TextArea description="This is a test description" label="Some test label" />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<TextArea />);
 		expect(wrapper.type()).toEqual('div');

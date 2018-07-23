@@ -1,0 +1,12 @@
+exports[`HTML field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <div
+    className="panel-field-description"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "",
+      }
+    } />
+</div>
+`;

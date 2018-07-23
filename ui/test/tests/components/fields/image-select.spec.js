@@ -3,6 +3,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { ImageSelect } from 'components/fields/image-select';
+import renderer from 'react-test-renderer';
 
 // test data
 const OPTIONS1 = [
@@ -36,6 +37,20 @@ const OPTIONS2 = [
 ];
 
 describe('ImageSelect field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(
+				<ImageSelect
+					description="This is a test description"
+					label="Some test label"
+					options={OPTIONS1}
+					name="layout"
+					default="cards"
+				/>,
+			).toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<ImageSelect />);
 		expect(wrapper.type()).toEqual('div');

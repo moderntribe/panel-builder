@@ -1,0 +1,9 @@
+exports[`Hidden field renders correctly 1`] = `
+<div
+  className="panel-field">
+  <input
+    name=""
+    type="hidden"
+    value="" />
+</div>
+`;

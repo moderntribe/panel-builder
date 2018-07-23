@@ -1,0 +1,82 @@
+exports[`Radio field renders correctly 1`] = `
+<div
+  className="field vertical panel-field panel-conditional-field">
+  <label
+    className="label panel-field-label">
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <ul
+    className="list">
+    <li
+      className="item"
+      style={Object {}}>
+      <label
+        className="radioLabel plradio-label">
+        <input
+          checked={false}
+          className="radio"
+          data-depth={0}
+          data-field="radio"
+          data-option-type="single"
+          name="modular-content-"
+          onChange={[Function]}
+          tabIndex={0}
+          type="radio"
+          value="standard" />
+        <span />
+        Standard
+      </label>
+    </li>
+    <li
+      className="item"
+      style={Object {}}>
+      <label
+        className="radioLabel plradio-label">
+        <input
+          checked={false}
+          className="radio"
+          data-depth={0}
+          data-field="radio"
+          data-option-type="single"
+          name="modular-content-"
+          onChange={[Function]}
+          tabIndex={0}
+          type="radio"
+          value="cards" />
+        <span />
+        Cards
+      </label>
+    </li>
+    <li
+      className="item"
+      style={Object {}}>
+      <label
+        className="radioLabel plradio-label">
+        <input
+          checked={false}
+          className="radio"
+          data-depth={0}
+          data-field="radio"
+          data-option-type="single"
+          name="modular-content-"
+          onChange={[Function]}
+          tabIndex={0}
+          type="radio"
+          value="full" />
+        <span />
+        Full
+      </label>
+    </li>
+  </ul>
+</div>
+`;

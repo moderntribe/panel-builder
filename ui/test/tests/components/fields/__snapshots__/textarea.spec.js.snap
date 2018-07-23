@@ -1,0 +1,25 @@
+exports[`TextArea field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-field-label">
+    Some test label
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <textarea
+    className="rawTextarea"
+    id="textarea-field-1"
+    name="modular-content-"
+    onChange={[Function]}
+    value="" />
+</div>
+`;

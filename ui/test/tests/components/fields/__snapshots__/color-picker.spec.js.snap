@@ -1,0 +1,62 @@
+exports[`Color Picker field renders correctly 1`] = `
+<div
+  className="field panel-field panel-conditional-field">
+  <label
+    className="label panel-field-label">
+    Background Color
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <div
+    className="container"
+    data-js="modular-content-color-picker">
+    <div
+      className="site-builder__color-field-label colorLabel hasColor hasInput">
+      <div
+        className="selectedColor"
+        style={
+          Object {
+            "backgroundColor": "#4a7ef2",
+          }
+        }>
+        <i
+          className="site-builder__color-arrow selectedColorArrow dashicons dashicons-arrow-down" />
+        <button
+          className="panel-button full bare colorTrigger"
+          data-id=""
+          data-loading={false}
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="button">
+          <span>
+            
+          </span>
+        </button>
+        <button
+          className="panel-button full bare colorClear"
+          data-id=""
+          data-loading={false}
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="button">
+          <i
+            className="dashicons dashicons-no-alt icon" />
+          <span>
+            
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

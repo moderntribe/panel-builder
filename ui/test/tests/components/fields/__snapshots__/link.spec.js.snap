@@ -1,0 +1,82 @@
+exports[`Link field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <fieldset
+    className="fieldset">
+    <legend
+      className="label panel-field-label">
+      
+    </legend>
+    <div>
+      <div
+        className="inputGeneric panel-group-url">
+        <input
+          name="url"
+          onChange={[Function]}
+          placeholder={undefined}
+          type="text"
+          value="" />
+      </div>
+      <div
+        className="inputGeneric panel-group-label">
+        <input
+          name="label"
+          onChange={[Function]}
+          placeholder={undefined}
+          type="text"
+          value="" />
+      </div>
+      <div
+        className="inputGeneric panel-group-link-target">
+        <div
+          className="Select Select--single"
+          style={undefined}>
+          <div
+            className="Select-control"
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={undefined}>
+            <span
+              className="Select-multi-value-wrapper"
+              id="react-select-2--value">
+              <div
+                className="Select-placeholder">
+                Select...
+              </div>
+              <div
+                aria-activedescendant="react-select-2--value"
+                aria-disabled="false"
+                aria-expanded={false}
+                aria-label={undefined}
+                aria-labelledby={undefined}
+                aria-owns=""
+                className="Select-input"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "border": 0,
+                    "display": "inline-block",
+                    "width": 1,
+                  }
+                }
+                tabIndex={0} />
+            </span>
+            <span
+              className="Select-arrow-zone"
+              onMouseDown={[Function]}>
+              <span
+                className="Select-arrow"
+                onMouseDown={[Function]} />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;

@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ImageGallery from 'components/fields/image-gallery';
+import renderer from 'react-test-renderer';
 
 describe('Image Gallery field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<ImageGallery />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<ImageGallery />);
 		expect(wrapper.type()).toEqual('div');
