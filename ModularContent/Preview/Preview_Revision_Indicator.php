@@ -17,12 +17,14 @@ class Preview_Revision_Indicator {
 
 	public function setup_autosave_tracking_hooks( $response, $data, $screen_id ) {
 		if ( empty( $data[ 'wp_autosave' ] ) ) {
-			return;
+			return $response;
 		}
 		$this->autosave_parent_id = (int) $data[ 'wp_autosave' ][ 'post_id' ];
 		add_action( '_wp_put_post_revision', [ $this, 'track_saved_post_revisions' ], 10, 1 );
 		add_action( '_wp_put_post_revision', [ $this, 'copy_post_meta_to_autosaves' ], 10, 1 );
 		add_action( 'wp_creating_autosave', [ $this, 'track_updated_post_revisions' ], 10, 1 );
+
+		return $response;
 	}
 
 	public function add_post_revision_to_heartbeat_response( $response, $data, $screen_id ) {

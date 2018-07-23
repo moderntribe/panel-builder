@@ -23,6 +23,7 @@ import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
 import * as AdminCache from '../../util/data/admin-cache';
 import * as tools from '../../util/dom/tools';
+import queryToJson from '../../util/data/query-to-json';
 
 import styles from './post-list.pcss';
 
@@ -574,6 +575,9 @@ class PostList extends Component {
 	getPreviewRequestParams() {
 		const filters = {};
 		const types = [];
+		const queryParams = queryToJson();
+		const postId = typeof queryParams.post === 'undefined' ? 'new' : queryParams.post;
+
 		_.forEach(this.state.postTypes, (type) => {
 			types.push(type.value);
 		});
@@ -597,6 +601,7 @@ class PostList extends Component {
 			filters,
 			max: this.props.max,
 			context: 1,
+			post_id: postId,
 		});
 	}
 
