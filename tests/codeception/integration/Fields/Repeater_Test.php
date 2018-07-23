@@ -6,10 +6,10 @@ use Codeception\TestCase\WPTestCase;
 
 class Repeater_Test extends WPTestCase {
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$group = new Repeater( [
+		$group       = new Repeater( [
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
@@ -35,18 +35,18 @@ class Repeater_Test extends WPTestCase {
 		$blueprint = $group->get_blueprint();
 
 		$expected = [
-			'type'        => 'Repeater',
-			'label'       => $label,
-			'name'        => $name,
-			'description' => $description,
-			'strings'     => [
+			'type'         => 'Repeater',
+			'label'        => $label,
+			'name'         => $name,
+			'description'  => $description,
+			'strings'      => [
 				'button.new'      => 'Add Another',
 				'button.delete'   => 'Delete Row',
 				'label.row_index' => 'Row %{index} |||| Row %{index}',
 				'notice.max_rows' => 'You have reached the row limit of this field',
 			],
-			'default'     => [ ],
-			'fields'      => [
+			'default'      => [],
+			'fields'       => [
 				[
 					'type'        => 'Text',
 					'label'       => $label . '1',
@@ -68,8 +68,9 @@ class Repeater_Test extends WPTestCase {
 					'layout'      => 'full',
 				],
 			],
-			'min'         => 1,
-			'max'         => 6,
+			'min'          => 1,
+			'max'          => 6,
+			'update_index' => true,
 		];
 
 		$this->assertEquals( $expected, $blueprint );

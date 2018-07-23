@@ -103,12 +103,7 @@ class Post_List_Test extends WPTestCase {
 				],
 			],
 			'taxonomies'       => [
-				'post_tag' => [
-					[
-						'value' => $tag->term_id,
-						'label' => $tag->name,
-					],
-				],
+				'post_tag' => [],
 			],
 		];
 

@@ -60,6 +60,10 @@ class Icons_Test extends WPTestCase {
 			'enable_fonts_injection' => false,
 			'ajax_option'            => 'foobar',
 			'categories'             => [ 'foo', 'bar', 'bash' ],
+			'icon_prefix'            => '',
+			'font_size'              => '',
+			'label_size'             => '',
+			'show_uncategorized'     => false,
 		];
 
 		$this->assertEquals( $expected, $blueprint );

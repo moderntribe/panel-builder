@@ -61,6 +61,7 @@ class Tab_Test extends WPTestCase {
 					'layout'      => 'full',
 				],
 			],
+			'viewport'    => '',
 		];
 
 		$this->assertEquals( $expected, $blueprint );

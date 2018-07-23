@@ -27,52 +27,55 @@ use ModularContent\Fields\Video;
 class Blueprint_Builder_Test extends WPTestCase {
 	public function test_basic_blueprint() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
 		$type->set_max_children( 6 );
 		$registry->register( $type );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
 		$expected = [
 			[
-				'type'            => 'test_type',
-				'label'           => 'Test Panel',
-				'description'     => 'A test panel',
-				'thumbnail'       => 'active_icon.png',
-				'fields'          => [
+				'type'           => 'test_type',
+				'label'          => 'Test Panel',
+				'description'    => 'A test panel',
+				'thumbnail'      => 'active_icon.png',
+				'fields'         => [
 					[
 						'type'        => 'Title',
 						'label'       => 'Title',
 						'name'        => 'title',
 						'description' => '',
-						'strings'     => [ ],
+						'strings'     => [],
 						'default'     => '',
+						'input_width' => 12,
+						'layout'      => 'full',
 					],
 				],
-				'settings_fields' => [ ],
-				'children'        => [
+				'children'       => [
 					'max'   => 6,
 					'label' => [
 						'singular' => 'Module',
 						'plural'   => 'Modules',
-						'add'    => 'Add Module',
-						'delete' => 'Delete Module',
+						'add'      => 'Add Module',
+						'delete'   => 'Delete Module',
 					],
-					'types' => [ ],
+					'types' => [],
 				],
+				'tabs'           => [ 'content_fields' => 'Content' ],
+				'content_fields' => [ 'title' ],
 			],
 		];
 
-		$this->assertEquals( $expected, $blueprint[ 'types' ] );
+		$this->assertEquals( $expected, $blueprint['types'] );
 	}
 
 	public function test_settings_field_blueprint() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
@@ -91,16 +94,16 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$registry->register( $type );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
-		$this->assertCount( 2, $blueprint[ 'types' ][ 0 ][ 'fields' ] ); // title field and layout field
-		$this->assertEqualSets( [ 'layout' ], $blueprint[ 'types' ][ 0 ][ 'settings_fields' ] );
+		$this->assertCount( 2, $blueprint['types'][0]['fields'] ); // title field and layout field
+		$this->assertEqualSets( [ 'layout' ], $blueprint['types'][0]['settings_fields'] );
 	}
 
 	public function test_nested_blueprint() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
@@ -115,75 +118,81 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$child->set_context( 'test_type', true );
 		$registry->register( $child );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
 		$expected = [
 			[
-				'type'            => 'test_type',
-				'label'           => 'Test Panel',
-				'description'     => 'A test panel',
-				'thumbnail'       => 'active_icon.png',
-				'fields'          => [
+				'type'           => 'test_type',
+				'label'          => 'Test Panel',
+				'description'    => 'A test panel',
+				'thumbnail'      => 'active_icon.png',
+				'fields'         => [
 					[
 						'type'        => 'Title',
 						'label'       => 'Title',
 						'name'        => 'title',
 						'description' => '',
-						'strings'     => [ ],
+						'strings'     => [],
 						'default'     => '',
+						'input_width' => 12,
+						'layout'      => 'full',
 					],
 				],
-				'settings_fields' => [ ],
-				'children'        => [
+				'children'       => [
 					'max'   => 6,
 					'label' => [
 						'singular' => 'Module',
 						'plural'   => 'Modules',
-						'add'    => 'Add Module',
-						'delete' => 'Delete Module',
+						'add'      => 'Add Module',
+						'delete'   => 'Delete Module',
 					],
 					'types' => [
 						[
-							'type'            => 'test_child',
-							'label'           => 'Test Child',
-							'description'     => 'A child panel',
-							'thumbnail'       => 'active_child.png',
-							'fields'          => [
+							'type'           => 'test_child',
+							'label'          => 'Test Child',
+							'description'    => 'A child panel',
+							'thumbnail'      => 'active_child.png',
+							'fields'         => [
 								[
 									'type'        => 'Title',
 									'label'       => 'Title',
 									'name'        => 'title',
 									'description' => '',
-									'strings'     => [ ],
+									'strings'     => [],
 									'default'     => '',
+									'input_width' => 12,
+									'layout'      => 'full',
 								],
 							],
-							'settings_fields' => [ ],
-							'children'        => [
+							'children'       => [
 								'max'   => 0,
 								'label' => [
 									'singular' => 'Module',
 									'plural'   => 'Modules',
-									'add'    => 'Add Module',
-									'delete' => 'Delete Module',
+									'add'      => 'Add Module',
+									'delete'   => 'Delete Module',
 								],
-								'types' => [ ],
+								'types' => [],
 							],
+							'tabs'           => [ 'content_fields' => 'Content' ],
+							'content_fields' => [ 'title' ],
 						],
 					],
 				],
+				'tabs'           => [ 'content_fields' => 'Content' ],
+				'content_fields' => [ 'title' ],
 			],
 		];
 
-		$this->assertCount( 1, $blueprint[ 'types' ], 'only one top-level panel type expected' );
-		$this->assertEquals( $expected, $blueprint[ 'types' ] );
+		$this->assertCount( 1, $blueprint['types'], 'only one top-level panel type expected' );
+		$this->assertEquals( $expected, $blueprint['types'] );
 	}
 
 
 	public function test_forbidden_nested_panel() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
@@ -199,17 +208,17 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$child->set_context( 'test_child', false );
 		$registry->register( $child );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
-		$this->assertCount( 2, $blueprint[ 'types' ], 'two top-level panel types expected' );
-		$this->assertCount( 0, $blueprint[ 'types' ][ 0 ][ 'children' ][ 'types' ], 'not expecting a child panel type' );
-		$this->assertCount( 0, $blueprint[ 'types' ][ 1 ][ 'children' ][ 'types' ], 'not expecting a child panel type' );
+		$this->assertCount( 2, $blueprint['types'], 'two top-level panel types expected' );
+		$this->assertCount( 0, $blueprint['types'][0]['children']['types'], 'not expecting a child panel type' );
+		$this->assertCount( 0, $blueprint['types'][1]['children']['types'], 'not expecting a child panel type' );
 	}
 
 	public function test_recursive_nested_panel() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
@@ -217,29 +226,29 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$type->set_max_depth( 6 );
 		$registry->register( $type );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
-		$this->assertCount( 1, $blueprint[ 'types' ], 'one top-level panel type expected' );
+		$this->assertCount( 1, $blueprint['types'], 'one top-level panel type expected' );
 
-		$top = $blueprint[ 'types' ];
+		$top = $blueprint['types'];
 		for ( $i = 0; $i < 6; $i++ ) {
-			$this->assertCount( 1, $top[ 0 ][ 'children' ][ 'types' ], 'expecting a child panel type' );
-			$this->assertEquals( 'test_type', $top[ 0 ][ 'children' ][ 'types' ][ 0 ][ 'type' ], 'expecting a child panel type' );
-			$top = $top[ 0 ][ 'children' ][ 'types' ];
+			$this->assertCount( 1, $top[0]['children']['types'], 'expecting a child panel type' );
+			$this->assertEquals( 'test_type', $top[0]['children']['types'][0]['type'], 'expecting a child panel type' );
+			$top = $top[0]['children']['types'];
 		}
-		$this->assertCount( 0, $top[ 0 ][ 'children' ][ 'types' ], 'not expecting a child panel type' );
+		$this->assertCount( 0, $top[0]['children']['types'], 'not expecting a child panel type' );
 	}
 
 	public function test_fields() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$default = __LINE__;
+		$default     = __LINE__;
 		$type->add_field( new Text( [
 			'label'       => $label,
 			'name'        => $name,
@@ -249,19 +258,19 @@ class Blueprint_Builder_Test extends WPTestCase {
 
 		$registry->register( $type );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
-		$this->assertCount( 1, $blueprint[ 'types' ] );
-		$fields = $blueprint[ 'types' ][ 0 ][ 'fields' ];
+		$this->assertCount( 1, $blueprint['types'] );
+		$fields = $blueprint['types'][0]['fields'];
 		$this->assertCount( 2, $fields );
-		$this->assertEquals( 'Title', $fields[ 0 ][ 'type' ] );
-		$this->assertEquals( 'Text', $fields[ 1 ][ 'type' ] );
+		$this->assertEquals( 'Title', $fields[0]['type'] );
+		$this->assertEquals( 'Text', $fields[1]['type'] );
 	}
 
 	public function test_categorized_panels() {
 		$registry = new TypeRegistry();
-		$type = new PanelType( 'test_type' );
+		$type     = new PanelType( 'test_type' );
 		$type->set_label( 'Test Panel' );
 		$type->set_description( 'A test panel' );
 		$type->set_thumbnail( 'active_icon.png' );
@@ -271,7 +280,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$registry->add_category( 'test_cat', 'Test Category', 'A category for testing' );
 		$registry->categorize( 'test_type', 'test_cat' );
 
-		$builder = new Blueprint_Builder( $registry );
+		$builder   = new Blueprint_Builder( $registry );
 		$blueprint = $builder->get_blueprint();
 
 		$expected_categories = [
@@ -284,7 +293,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 			],
 		];
 
-		$this->assertEquals( $expected_categories, $blueprint[ 'categories' ] );
+		$this->assertEquals( $expected_categories, $blueprint['categories'] );
 	}
 
 	/**
@@ -297,7 +306,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 	public function test_build_json() {
 		$this->factory()->tag->create();
 		$this->factory()->tag->create();
-		$registry = new TypeRegistry();
+		$registry   = new TypeRegistry();
 		$collection = new PanelCollection();
 
 
@@ -324,15 +333,15 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$this->add_sample_tabgroup( $collection, $registry->get( 'tabgroup' ), $registry->get( 'wysiwyg' ) );
 		$this->add_sample_wysiwyg( $collection, $registry->get( 'wysiwyg' ) );
 
-		$builder = new Blueprint_Builder( $registry );
-		$json = json_encode( $builder, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
+		$builder     = new Blueprint_Builder( $registry );
+		$json        = json_encode( $builder, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
 		$output_file = codecept_data_dir() . '/blueprint.json';
-		$return = file_put_contents( $output_file, $json );
+		$return      = file_put_contents( $output_file, $json );
 		$this->assertNotEmpty( $return, 'no data written to blueprint.json' );
 
-		$samples = json_encode( $collection, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
+		$samples     = json_encode( $collection, JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR );
 		$output_file = codecept_data_dir() . '/sample_panels.json';
-		$return = file_put_contents( $output_file, $samples );
+		$return      = file_put_contents( $output_file, $samples );
 		$this->assertNotEmpty( $return, 'no data written to sample_panels.json' );
 	}
 
@@ -460,7 +469,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 			'description' => 'Select a background color',
 			'default'     => 'blue',
 			'options'     => [
-				'blue'  => [
+				'blue'       => [
 					'color' => '#0000BB',
 					'label' => 'Blue',
 				],
@@ -793,8 +802,8 @@ class Blueprint_Builder_Test extends WPTestCase {
 			'content' => 'Preface to the links',
 			'items'   => [
 				'type'    => 'manual',
-				'posts'   => [ ],
-				'filters' => [ ],
+				'posts'   => [],
+				'filters' => [],
 				'max'     => 0,
 			],
 		] );
