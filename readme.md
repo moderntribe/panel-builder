@@ -48,6 +48,3 @@ on the front end.
   * [Title](/docs/Fields/Title.md)
   * [Toggle](/docs/Fields/Toggle.md)
   * [Video](/docs/Fields/Video.md)
-  * [](/docs/Fields/)
-  * [](/docs/Fields/)
-  * [](/docs/Fields/)
