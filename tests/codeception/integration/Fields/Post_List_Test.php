@@ -7,8 +7,8 @@ use ModularContent\AdminPreCache;
 
 class Post_List_Test extends WPTestCase {
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
 
 		$tag = $this->factory()->tag->create_and_get();
@@ -71,7 +71,7 @@ class Post_List_Test extends WPTestCase {
 				'label.thumbnail'                            => 'Thumbnail',
 				'notice.min_posts'                           => 'This field requires %{count} more item |||| This field requires %{count} more items',
 			],
-			'default'          => [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ],
+			'default'          => [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ],
 			'min'              => 5,
 			'max'              => 18,
 			'suggested'        => 8,
@@ -102,23 +102,28 @@ class Post_List_Test extends WPTestCase {
 					'post_type'   => [ 'post', 'page', 'attachment' ],
 				],
 			],
-			'taxonomies'       => [
-				'post_tag' => [],
+			'taxonomies' => [
+				'post_tag' => [
+					[
+						'value' => $tag->term_id,
+						'label' => $tag->name,
+					],
+				],
 			],
 		];
 
-		$this->assertEqualSetsWithIndex( $expected[ 'strings' ], $blueprint[ 'strings' ] );
-		unset( $expected[ 'strings' ] );
-		unset( $blueprint[ 'strings' ] );
+		$this->assertEqualSetsWithIndex( $expected['strings'], $blueprint['strings'] );
+		unset( $expected['strings'] );
+		unset( $blueprint['strings'] );
 
 		$this->assertEquals( $expected, $blueprint );
 	}
 
 	public function test_precache() {
-		$post_id = $this->factory()->post->create();
-		$file_path = codecept_data_dir( '300x250.png' );
-		$size = 'thumbnail';
-		$attachment_id = $this->factory()->attachment->create_upload_object( $file_path, $post_id );
+		$post_id               = $this->factory()->post->create();
+		$file_path             = codecept_data_dir( '300x250.png' );
+		$size                  = 'thumbnail';
+		$attachment_id         = $this->factory()->attachment->create_upload_object( $file_path, $post_id );
 		$another_attachment_id = $this->factory()->attachment->create_upload_object( $file_path, $post_id );
 		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
 
@@ -128,7 +133,7 @@ class Post_List_Test extends WPTestCase {
 			'name'        => __FUNCTION__,
 			'description' => __FUNCTION__,
 		] );
-		$data = [
+		$data  = [
 			'type'  => 'manual',
 			'posts' => [
 				[
@@ -143,10 +148,10 @@ class Post_List_Test extends WPTestCase {
 		];
 		$field->precache( $data, $cache );
 		$output = $cache->get_cache();
-		$posts = (array) $output[ 'posts' ];
-		$images = (array) $output[ 'images' ];
+		$posts  = (array) $output['posts'];
+		$images = (array) $output['images'];
 		$this->assertCount( 1, $posts );
-		$this->assertEquals( get_the_title( $post_id ), $posts[ $post_id ][ 'post_title' ] );
+		$this->assertEquals( get_the_title( $post_id ), $posts[ $post_id ]['post_title'] );
 		$this->assertCount( 2, $images );
 		$this->assertNotEmpty( $images[ $attachment_id ][ $size ] );
 		$this->assertNotEmpty( $images[ $another_attachment_id ][ $size ] );
