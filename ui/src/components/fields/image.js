@@ -128,7 +128,7 @@ Image.defaultProps = {
 	label: '',
 	name: '',
 	indexMap: [],
-	parentMap: '',
+	parentMap: [],
 	description: '',
 	depth: 0,
 	data: 0,

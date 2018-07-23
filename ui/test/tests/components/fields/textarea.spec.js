@@ -15,11 +15,6 @@ describe('TextArea field', () => {
 		expect(wrapper.find('label').length).toEqual(1);
 	});
 
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<TextArea />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
-
 	it('has a textarea', () => {
 		const wrapper = shallow(<TextArea />);
 		expect(wrapper.find('textarea').length).toEqual(1);

@@ -10,8 +10,4 @@ describe('Image field', () => {
 	it('renders as a <div>', () => {
 		expect(wrapper.type()).toEqual('div');
 	});
-
-	it('has a container for the description.', () => {
-		expect(wrapper.find('.panel-field-description').length).toEqual(1);
-	});
 });

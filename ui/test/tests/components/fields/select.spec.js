@@ -46,11 +46,6 @@ describe('Select field', () => {
 		expect(wrapper.find('label').length).toEqual(1);
 	});
 
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Select />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
-
 	it('allows us to set and edit props', () => {
 		const wrapper = mount(<Select description="This is a test description" label="Some test label" options={OPTIONS1} name="layout" default="cards" />);
 		expect(wrapper.props().description).toEqual('This is a test description');

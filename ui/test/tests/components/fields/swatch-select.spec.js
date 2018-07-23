@@ -20,9 +20,4 @@ describe('SwatchSelect field', () => {
 		const wrapper = shallow(<SwatchSelect />);
 		expect(wrapper.find('label').length).toEqual(1);
 	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<SwatchSelect />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
 });

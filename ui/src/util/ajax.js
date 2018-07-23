@@ -2,8 +2,11 @@ import request from 'superagent';
 import { TEMPLATE_SAVER, ICONS_AJAX_ACTION, AUTOSAVE_AJAX_ENDPOINT } from '../globals/config';
 import { wpAjax } from '../globals/wp';
 
-const post_id = parseInt(document.getElementById('post_ID').value, 10); // eslint-disable-line
-const _wpnonce = document.getElementById('_wpnonce').value; // eslint-disable-line
+const postEl = document.getElementById('post_ID');
+const nonceEl = document.getElementById('_wpnonce');
+
+const post_id = postEl ? parseInt(postEl.value, 10) : 0; //eslint-disable-line
+const _wpnonce = nonceEl ? nonceEl.value : ''; //eslint-disable-line
 
 export const savePanelSet = (panels = '', title = '') => {
 	const data = {

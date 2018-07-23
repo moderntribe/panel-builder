@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import ImageSelect from 'components/fields/image-select';
+import { ImageSelect } from 'components/fields/image-select';
 
 // test data
 const OPTIONS1 = [
@@ -50,11 +50,6 @@ describe('ImageSelect field', () => {
 	it('has a label', () => {
 		const wrapper = shallow(<ImageSelect />);
 		expect(wrapper.find('label').length).toEqual(1);
-	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<ImageSelect />);
-		expect(wrapper.find('p').length).toEqual(1);
 	});
 
 	it('allows us to set and edit props', () => {

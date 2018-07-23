@@ -15,11 +15,6 @@ describe('Image Gallery field', () => {
 		expect(wrapper.find('label.panel-field-label').length).toEqual(1);
 	});
 
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<ImageGallery />);
-		expect(wrapper.find('p.panel-field-description').length).toEqual(1);
-	});
-
 	it('has a gallery field name', () => {
 		const wrapper = shallow(<ImageGallery />);
 		expect(wrapper.find('input[name="gallery-field-name"]').length).toEqual(1);

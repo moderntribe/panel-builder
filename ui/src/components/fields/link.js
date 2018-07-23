@@ -5,7 +5,6 @@ import autobind from 'autobind-decorator';
 import LabelTooltip from './partials/label-tooltip';
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
-import * as DATA_KEYS from '../../constants/data-keys';
 import * as styleUtil from '../../util/dom/styles';
 
 class Link extends Component {

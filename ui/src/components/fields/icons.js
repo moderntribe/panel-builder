@@ -9,6 +9,7 @@ import { ICON_LIBRARIES } from '../../globals/config';
 import styles from './icons.pcss';
 import Button from '../shared/button';
 import Loader from '../shared/loader';
+import LabelTooltip from './partials/label-tooltip';
 import * as ajax from '../../util/ajax';
 import { UI_I18N } from '../../globals/i18n';
 
@@ -64,49 +65,6 @@ class Icons extends Component {
 				/>
 			</div>
 		);
-	}
-
-	@autobind
-	handleDeleteIcon() {
-		this.setState({ value: '' });
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			indexMap: this.props.indexMap,
-			parentMap: this.props.parentMap,
-			name: this.props.name,
-			value: '',
-		});
-	}
-
-	@autobind
-	handleChange(e) {
-		const { value } = e.currentTarget;
-		this.updateState(value);
-	}
-
-	@autobind
-	handleSearch(e) {
-		const search = e.currentTarget.value;
-		this.setState({ search });
-	}
-
-	@autobind
-	revealCategory(e) {
-		const category = e.currentTarget.dataset.id;
-		const { loadedCategories } = this.state;
-		loadedCategories.push(category);
-		this.setState({ loadedCategories });
-	}
-
-	updateState(value) {
-		this.setState({ value });
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			indexMap: this.props.indexMap,
-			parentMap: this.props.parentMap,
-			name: this.props.name,
-			value,
-		});
 	}
 
 	getOption(option, iconLabelClasses) {
@@ -211,6 +169,53 @@ class Icons extends Component {
 		});
 	}
 
+	getInitialOptions() {
+		return _.isArray(ICON_LIBRARIES[this.props.ajax_option]) ? ICON_LIBRARIES[this.props.ajax_option] : this.props.options;
+	}
+
+	@autobind
+	handleDeleteIcon() {
+		this.setState({ value: '' });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
+			name: this.props.name,
+			value: '',
+		});
+	}
+
+	@autobind
+	handleChange(e) {
+		const { value } = e.currentTarget;
+		this.updateState(value);
+	}
+
+	@autobind
+	handleSearch(e) {
+		const search = e.currentTarget.value;
+		this.setState({ search });
+	}
+
+	@autobind
+	revealCategory(e) {
+		const category = e.currentTarget.dataset.id;
+		const { loadedCategories } = this.state;
+		loadedCategories.push(category);
+		this.setState({ loadedCategories });
+	}
+
+	updateState(value) {
+		this.setState({ value });
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
+			name: this.props.name,
+			value,
+		});
+	}
+
 	fetchIcons() {
 		ajax.getIconLibrary(this.props.ajax_option)
 			.done((options) => {
@@ -228,10 +233,6 @@ class Icons extends Component {
 			});
 	}
 
-	getInitialOptions() {
-		return _.isArray(ICON_LIBRARIES[this.props.ajax_option]) ? ICON_LIBRARIES[this.props.ajax_option] : this.props.options;
-	}
-
 	needsToFetchIcons() {
 		return this.props.ajax_option.length && !ICON_LIBRARIES[this.props.ajax_option];
 	}
@@ -240,11 +241,6 @@ class Icons extends Component {
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
-		});
-
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
 		});
 		const containerClasses = classNames({
 			'panel-icon-container': true,
@@ -264,6 +260,7 @@ class Icons extends Component {
 			<div className={fieldClasses}>
 				<label className={labelClasses}>
 					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
 				</label>
 				{this.state.value.length > 0 && this.getSelectedIcon()}
 				{this.props.search && <div className={searchClasses}>
@@ -278,7 +275,6 @@ class Icons extends Component {
 					{this.state.mode === 'categorized' && this.getCategorizedOptions()}
 					{this.state.mode === 'single' && this.getSingleOptions()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}

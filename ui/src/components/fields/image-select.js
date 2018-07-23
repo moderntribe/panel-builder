@@ -5,7 +5,6 @@ import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import { injectColumns } from '../../actions/panels';
 import styles from './image-select.pcss';
 import { trigger } from '../../util/events';
 import * as EVENTS from '../../constants/events';

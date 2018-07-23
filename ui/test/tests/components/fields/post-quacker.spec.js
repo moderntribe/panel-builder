@@ -14,9 +14,4 @@ describe('PostQuacker field', () => {
 		const wrapper = shallow(<PostQuacker />);
 		expect(wrapper.find('legend').length).toEqual(1);
 	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<PostQuacker />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
 });

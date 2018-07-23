@@ -39,6 +39,7 @@
     "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
     "no-param-reassign": [2, {"props": false}],
     "no-script-url": 0,
+    "prefer-rest-params": 0,
     "no-return-assign": 0,
     "no-mixed-operators": 0,
     "no-use-before-define": [2, "nofunc"],

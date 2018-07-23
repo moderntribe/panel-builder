@@ -34,9 +34,4 @@ describe('Video field', () => {
 		const wrapper = shallow(<Video />);
 		expect(wrapper.find('input[type="text"]').length).toEqual(1);
 	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Video />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
 });

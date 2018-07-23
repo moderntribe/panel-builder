@@ -24,19 +24,6 @@ class TabGroup extends Component {
 		activeTab: this.props.fields[0].name,
 	};
 
-	@autobind
-	handleTabClick(e) {
-		const target = e.currentTarget;
-		this.setState({
-			activeTab: target.dataset.name,
-		}, () => {
-			panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
-			if (target.dataset.viewport && target.dataset.viewport.length) {
-				trigger({ event: IFRAME_CHANGE_VIEWPORT, native: false, data: { viewport: target.dataset.viewport } });
-			}
-		});
-	}
-
 	getTabs() {
 		return this.props.fields.map((tab) => {
 			const liClasses = classNames({
@@ -77,6 +64,19 @@ class TabGroup extends Component {
 				<ul className={styles.tabList}>{this.getTabs()}</ul>
 			</div>
 		);
+	}
+
+	@autobind
+	handleTabClick(e) {
+		const target = e.currentTarget;
+		this.setState({
+			activeTab: target.dataset.name,
+		}, () => {
+			panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
+			if (target.dataset.viewport && target.dataset.viewport.length) {
+				trigger({ event: IFRAME_CHANGE_VIEWPORT, native: false, data: { viewport: target.dataset.viewport } });
+			}
+		});
 	}
 
 	/**

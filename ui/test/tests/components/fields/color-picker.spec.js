@@ -51,9 +51,4 @@ describe('Color Picker field', () => {
 		const { colorPicker } = render();
 		expect(colorPicker.find('label').length).toEqual(1);
 	});
-
-	it('has a description paragraph', () => {
-		const { colorPicker } = render();
-		expect(colorPicker.find('p').length).toEqual(1);
-	});
 });

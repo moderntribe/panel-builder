@@ -52,11 +52,6 @@ describe('Checkbox field', () => {
 		expect(wrapper.find('label').length).toEqual(1);
 	});
 
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Checkbox />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
-
 	it('allows us to set and edit props', () => {
 		const wrapper = mount(<Checkbox description="This is a test description" name="layout" label="Some test label" options={OPTIONS1} default={DEFAULT1} />);
 		expect(wrapper.props().description).toEqual('This is a test description');

@@ -16,6 +16,10 @@ class Select extends Component {
 		value: this.props.data,
 	};
 
+	getOptions() {
+		return this.props.global_options ? CONFIG[this.props.global_options] : this.props.options;
+	}
+
 	@autobind
 	handleChange(option) {
 		const value = option ? _.toString(option.value) : _.toString(this.props.default);
@@ -32,10 +36,6 @@ class Select extends Component {
 			data.push({ groups: [option.label] });
 			trigger({ event: EVENTS.INJECT_IFRAME_FONT, native: false, data });
 		}
-	}
-
-	getOptions() {
-		return this.props.global_options ? CONFIG[this.props.global_options] : this.props.options;
 	}
 
 	render() {

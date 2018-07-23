@@ -17,11 +17,6 @@ describe('Link field', () => {
 		expect(wrapper.find('legend').length).toEqual(1);
 	});
 
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Link />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
-
 	it('has a LinkGroup', () => {
 		const wrapper = shallow(<Link />);
 		expect(wrapper.find('fieldset').childAt(1).type()).toEqual(LinkGroup);

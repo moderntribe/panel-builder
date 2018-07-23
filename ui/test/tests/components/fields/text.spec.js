@@ -26,9 +26,4 @@ describe('Text field', () => {
 		const wrapper = shallow(<Text />);
 		expect(wrapper.find('input[type="text"]').length).toEqual(1);
 	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Text />);
-		expect(wrapper.find('p').length).toEqual(1);
-	});
 });
