@@ -8,7 +8,6 @@ on the front end.
 
 ## Table of Contents
 
-* [React Development](/docs/ReactDevelopment.md)
 * **PHP**
   * [Defining Panels](/docs/PHP/DefiningPanels.md)
   * [Nested Panels](/docs/PHP/NestedPanels.md)
@@ -17,6 +16,7 @@ on the front end.
 * **Javascript**
   * [Events](/docs/Javascript/Events.md)
   * [Livetext](/docs/Javascript/Livetext.md)
+  * [React Development](/docs/Javascript/ReactDevelopment.md)
 * **Fields**
   * [Overview](/docs/Fields/Overview.md)
   * [Accordion](/docs/Fields/Accordion.md)
