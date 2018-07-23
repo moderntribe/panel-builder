@@ -1,4 +1,9 @@
 <?php
+/**
+ * Provides functionality for doing custom autosave actions against Panels data to avoid reliance upon WordPress' built-in
+ * autosave/heartbeat functionality.
+ */
+
 
 namespace ModularContent\Preview;
 
