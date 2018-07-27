@@ -5,11 +5,11 @@ namespace ModularContent\Fields;
 
 
 /**
- * Class Radio
+ * Class Toggle
  *
  * @package ModularContent\Fields
  *
- * A group of radio buttons.
+ * A field which returns a simple true/false value. Can be rendered with a stylized UI to visually resemble a toggle switch.
  */
 class Toggle extends Checkbox {
 

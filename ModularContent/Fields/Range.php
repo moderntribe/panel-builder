@@ -8,7 +8,7 @@ namespace ModularContent\Fields;
  *
  * @package ModularContent\Fields
  *
- * A range slider field. Can return a single value or a range of multiple values.
+ * A range slider field.
  */
 class Range extends Numeric_Input {
 

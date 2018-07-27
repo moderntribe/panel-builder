@@ -3,9 +3,6 @@
 
 namespace ModularContent\Fields;
 
-use ModularContent\Panel;
-
-
 /**
  * Class ImageSelect
  *

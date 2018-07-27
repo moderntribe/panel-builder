@@ -34,8 +34,6 @@ class Checkbox extends Select {
 		$blueprint                 = parent::get_blueprint();
 		$blueprint['default']      = (object) $this->default;
 		$blueprint['layout']       = $this->layout;
-
-		// option_width defines how many "columns" this field will take up in relation to its parent. Can be 1-12.
 		$blueprint['option_width'] = $this->option_width;
 
 		return $blueprint;
