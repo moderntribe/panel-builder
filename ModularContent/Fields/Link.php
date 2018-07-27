@@ -12,11 +12,6 @@ use ModularContent\Panel;
  *
  * A group of fields for creating a link. Includes form controls for
  * the link title, URL, and optionally open in a new window.
- *
- * $field = new Link( array(
- *   'label' => __('Link'),
- *   'name' => 'link',
- * ) );
  */
 class Link extends Field {
 

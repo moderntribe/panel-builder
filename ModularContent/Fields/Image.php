@@ -35,14 +35,6 @@ class Image extends Field {
 
 	/**
 	 * @param array $args
-	 *
-	 * Usage example:
-	 *
-	 * $field = new Image( array(
-	 *   'label' => __('Featured Image'),
-	 *   'name' => 'featured-image',
-	 *   'description' => __( 'An image to feature' ),
-	 * ) );
 	 */
 	public function __construct( $args = array() ) {
 		$this->check_layout( $args );

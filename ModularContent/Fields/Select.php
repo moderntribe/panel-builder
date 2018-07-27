@@ -23,18 +23,6 @@ class Select extends Field {
 
 	/**
 	 * @param array $args
-	 *
-	 * Example usage:
-	 *
-	 * $field = new Select( array(
-	 *   'label' => __('Pick One'),
-	 *   'name' => 'my-field',
-	 *   'description' => __( 'Pick the thing that you pick' )
-	 *   'options' => array(
-	 *     'first' => __( 'The First Option' ),
-	 *     'second' => __( 'The Second Option' ),
-	 *   )
-	 * ) );
 	 */
 	public function __construct( $args = [] ) {
 		$this->check_layout( $args );

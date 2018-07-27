@@ -20,21 +20,6 @@ class Icons extends Radio {
 	protected $ajax_option        = false;
 	protected $categories         = [];
 
-	/**
-	 * @param array $args
-	 *
-	 * Usage example:
-	 *
-	 * $field = new Icons( array(
-	 * 'label'        => __( 'List Icon' ),
-	 * 'name'         => 'list-icon',
-	 * 'description'  => __( 'The icon to use for each list item.' ),
-	 * 'options'      => [ 'fa-user', 'fa-access-denied', 'fa-list' ],
-	 * 'search'       => true, // whether to display a search field for searching through the available options
-	 * 'class_string' => 'fa %s', // the class string to be added to the element; %s will be replaced with the selected option
-	 * ) );
-	 */
-
 	public function __construct( $args = [] ) {
 		$this->defaults['strings']      = [
 			'placeholder.search' => __( 'Search Icon Library', 'modular-content' ),

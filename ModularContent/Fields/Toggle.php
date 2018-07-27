@@ -10,14 +10,6 @@ namespace ModularContent\Fields;
  * @package ModularContent\Fields
  *
  * A group of radio buttons.
- *
- * $field = new Checkbox( array(
- *   'label' => __('Enable Widget'),
- *   'name' => 'enable-widget',
- *   'description' => __( 'Enable the Widget?' ),
- *   'stylized' => true // Whether to show a stylized toggle switch in the UI or a basic checkbox
- *   'default' => 1,
- * ) );
  */
 class Toggle extends Checkbox {
 

@@ -11,13 +11,6 @@ use ModularContent\Panel;
  * @package ModularContent\Fields
  *
  * A field for adding video embed URLs.
- *
- *
- * $field = new Video( array(
- *   'label' => __('Video URL'),
- *   'name' => 'video',
- *   'description' => __( 'The URL for the video' )
- * ) );
  */
 class Video extends Text {
 	/**

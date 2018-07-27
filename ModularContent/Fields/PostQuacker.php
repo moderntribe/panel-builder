@@ -12,11 +12,6 @@ use ModularContent\Panel;
  *
  * A complex field for selecting a post, or making something that looks like one
  *
- * $field = new PostQuacker( array(
- *   'label' => __( 'Featured Post' ),
- *   'name' => 'featured-post',
- * ) );
- *
  * Returns an array with data for the selected post or the simulated post
  *
  * $post = get_panel_var( 'featured-post' );
@@ -43,6 +38,13 @@ class PostQuacker extends Field {
 		],
 	];
 
+	/**
+	 * PostQuacker constructor.
+	 *
+	 * @param $args
+	 * @deprecated
+	 * @see Post_List
+	 */
 	public function __construct( $args ) {
 		$this->defaults[ 'strings' ] = [
 			'button.add_to_module'         => __( 'Add to Module', 'modular-content' ),

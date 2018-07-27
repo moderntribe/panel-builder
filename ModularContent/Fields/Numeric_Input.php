@@ -9,16 +9,6 @@ namespace ModularContent\Fields;
  * @package ModularContent\Fields
  *
  * A basic number field.
- *
- * $field = new Numeric_Input( array(
- *   'label' => __('Width'),
- *   'name' => 'width',
- *   'description' => __( 'How wide should this be?' ),
- *   'min' => 0,
- *   'max' => 100,
- *   'step' => 10,
- *   'unit_display' => '%',
- * ) );
  */
 class Numeric_Input extends Field {
 

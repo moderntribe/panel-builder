@@ -27,13 +27,6 @@ class TextArea extends Field {
 	 * @param array $args
 	 *
 	 * Usage example:
-	 *
-	 * $field = new TextArea( array(
-	 *   'label' => __('Description'),
-	 *   'name' => 'description',
-	 *   'description' => __( 'How would you describe it?' ),
-	 *   'richtext' => TRUE,
-	 * ) );
 	 */
 	public function __construct( $args = [] ) {
 		$this->validate_editor_type( $args );

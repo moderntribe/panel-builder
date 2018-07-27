@@ -14,13 +14,6 @@ use ModularContent\Panel;
  *
  * An image gallery field.
  *
- *
- * $field = new ImageGallery( array(
- *   'label' => __('Gallery Images'),
- *   'name' => 'images',
- *   'description' => __( 'Images to display in the gallery' )
- * ) );
- *
  * get_panel_var() will return an array of attachment IDs
  */
 class ImageGallery extends Field {

@@ -11,12 +11,6 @@ use ModularContent\Panel;
  * @package ModularContent\Fields
  *
  * A basic text field.
- *
- * $field = new Text( array(
- *   'label' => __('Name'),
- *   'name' => 'name',
- *   'description' => __( 'What are you called?' )
- * ) );
  */
 class Text extends Field {
 
