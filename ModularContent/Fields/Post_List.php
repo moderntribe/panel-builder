@@ -236,7 +236,7 @@ class Post_List extends Field {
 					$cache->add_post( $post_data[ 'id' ] );
 				}
 				if ( !empty( $post_data[ 'image' ] ) ) {
-					$cache->add_image( $post_data[ 'image' ], 'thumbnail' );
+					$cache->add_file( $post_data[ 'image' ] );
 				}
 			}
 		}

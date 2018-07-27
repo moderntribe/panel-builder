@@ -204,7 +204,7 @@ class PostQuacker extends Field {
 				$cache->add_post( $data[ 'post_id' ] );
 			}
 			if ( $data[ 'image' ] && $data[ 'image' ] !== 0 ) {
-				$cache->add_image( $data[ 'image' ], 'thumbnail' );
+				$cache->add_file( $data[ 'image' ] );
 			}
 		}
 	}

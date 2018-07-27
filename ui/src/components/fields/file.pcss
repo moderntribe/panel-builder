@@ -1,0 +1,26 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	width: 100%;
+}
+
+.compact {
+	display: flex;
+
+	> div {
+		flex: 1;
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	transform: translate3d(0, 0, 0);
+	width: calc(50% - 10px);
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}

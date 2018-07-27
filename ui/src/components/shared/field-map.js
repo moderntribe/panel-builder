@@ -16,6 +16,7 @@ import Link from '../fields/link';
 import Hidden from '../fields/hidden';
 import HTML from '../fields/html';
 import Toggle from '../fields/toggle';
+import File from '../fields/file';
 import Image from '../fields/image';
 import Video from '../fields/video';
 import ImageGallery from '../fields/image-gallery';
@@ -44,6 +45,7 @@ export default {
 	[FIELD_TYPES.HIDDEN]: Hidden,
 	[FIELD_TYPES.HTML]: HTML,
 	[FIELD_TYPES.TOGGLE]: Toggle,
+	[FIELD_TYPES.FILE]: File,
 	[FIELD_TYPES.IMAGE]: Image,
 	[FIELD_TYPES.IMAGE_GALLERY]: ImageGallery,
 	[FIELD_TYPES.VIDEO]: Video,

@@ -156,7 +156,7 @@ class PostQuacker extends Component {
 					<MediaUploader
 						label={this.props.strings['label.manual_image']}
 						size={this.props.size}
-						file={AdminCache.getImageSrcById(this.state.image)}
+						file={AdminCache.getFilePropertyById(this.state.image)}
 						strings={this.props.strings}
 						handleAddMedia={this.handleAddMedia}
 						handleRemoveMedia={this.handleRemoveMedia}
@@ -458,7 +458,7 @@ class PostQuacker extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.cacheSrcByAttachment(attachment);
+			AdminCache.cacheDataByAttachment(attachment);
 			this.setState({ image: attachment.id }, this.initiateUpdatePanelData);
 		});
 		frame.open();

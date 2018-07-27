@@ -12,7 +12,7 @@ import * as styleUtil from '../../util/dom/styles';
 
 class Image extends Component {
 	state = {
-		image: AdminCache.getImageSrcById(this.props.data),
+		image: AdminCache.getFilePropertyById(this.props.data),
 		imageId: this.props.data,
 	};
 
@@ -32,7 +32,8 @@ class Image extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			const image = AdminCache.cacheSrcByAttachment(attachment, this.props.allowed_image_mime_types);
+			const imageData = AdminCache.cacheDataByAttachment(attachment, this.props.allowed_mime_types);
+			const image = imageData.url ? imageData.url : '';
 
 			this.setState({
 				image,
@@ -108,7 +109,7 @@ class Image extends Component {
 }
 
 Image.propTypes = {
-	allowed_image_mime_types: PropTypes.array,
+	allowed_mime_types: PropTypes.array,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	indexMap: PropTypes.array,
@@ -124,7 +125,7 @@ Image.propTypes = {
 };
 
 Image.defaultProps = {
-	allowed_image_mime_types: [],
+	allowed_mime_types: [],
 	label: '',
 	name: '',
 	indexMap: [],

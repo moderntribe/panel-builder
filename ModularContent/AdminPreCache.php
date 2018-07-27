@@ -13,7 +13,7 @@ class AdminPreCache implements \JsonSerializable {
 	private $posts  = [ ];
 	private $terms  = [ ];
 	private $data   = [ ];
-	private $images = [ ];
+	private $files  = [ ];
 
 	public function add_post( $post_id ) {
 		$post = self::get_post_array( $post_id );
@@ -22,7 +22,7 @@ class AdminPreCache implements \JsonSerializable {
 		}
 		$thumbnail_id = get_post_thumbnail_id( $post_id );
 		if ( $thumbnail_id ) {
-			$this->add_image( $thumbnail_id );
+			$this->add_file( $thumbnail_id );
 		}
 	}
 
@@ -37,24 +37,36 @@ class AdminPreCache implements \JsonSerializable {
 		$this->data[ $key ] = $data;
 	}
 
-	// todo: @jbrinley please review. default to thumb, still allow for other sizes if something needs it, grab full if size not found for cache.
-
-	public function add_image( $image_id, $size = 'thumbnail' ) {
-		$image = wp_get_attachment_image_src( $image_id, $size );
-		if ( $image ) {
-			$this->images[ $image_id ][ $size ] = $image[ 0 ];
-		} else {
-			$image = wp_get_attachment_image_src( $image_id, 'full' );
-			$this->images[ $image_id ][ 'full' ] = $image[ 0 ];
+	public function add_file( $file_id = 0, $size = 'thumbnail' ) {
+		if ( empty( $file_id ) ) {
+			return;
 		}
+
+		$data = wp_prepare_attachment_for_js( $file_id );
+
+		if ( empty( $data ) ) {
+			return;
+		}
+
+		if ( ! empty( $data[ 'sizes' ] ) && ! empty( $data[ 'sizes' ][ $size ] ) ) {
+			$this->files[ $file_id ][ 'url' ] = $data[ 'sizes' ][ $size ][ 'url' ];
+		} else {
+			$this->files[ $file_id ][ 'url' ] = $data[ 'url' ];
+		}
+
+		$this->files[ $file_id ][ 'id' ]      = $data[ 'id' ];
+		$this->files[ $file_id ][ 'name' ]    = $data[ 'name' ];
+		$this->files[ $file_id ][ 'mime' ]    = $data[ 'mime' ];
+		$this->files[ $file_id ][ 'subtype' ] = $data[ 'subtype' ];
+		$this->files[ $file_id ][ 'type' ]    = $data[ 'type' ];
 	}
 
 	public function get_cache() {
 		return [
 			'posts'  => (object)$this->posts,
 			'terms'  => (object)$this->terms,
-			'images' => (object)$this->images,
 			'data'   => (object)$this->data,
+			'files'  => (object)$this->files,
 		];
 	}
 

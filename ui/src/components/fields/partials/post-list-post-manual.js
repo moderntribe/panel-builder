@@ -44,7 +44,7 @@ class PostListPostManual extends Component {
 
 		frame.on('select', () => {
 			const attachment = frame.state().get('selection').first().toJSON();
-			AdminCache.cacheSrcByAttachment(attachment);
+			AdminCache.cacheDataByAttachment(attachment);
 			this.setState({ imageId: attachment.id });
 		});
 
@@ -192,7 +192,7 @@ class PostListPostManual extends Component {
 				{!this.isFieldHidden('thumbnail_id') && <MediaUploader
 					label={this.props.label}
 					size="large"
-					file={AdminCache.getImageSrcById(this.state.imageId)}
+					file={AdminCache.getFilePropertyById(this.state.imageId)}
 					strings={this.props.strings}
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}

@@ -74,7 +74,7 @@ class ImageGallery extends Field {
 
 		if ( is_array( $data ) ) {
 			foreach ( $data as $image ) {
-				$cache->add_image( $image[ 'id' ], $size );
+				$cache->add_file( $image[ 'id' ], $size );
 			}
 		}
 	}

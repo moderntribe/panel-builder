@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import { ADMIN_CACHE } from '../../globals/config';
 
-ADMIN_CACHE.images = ADMIN_CACHE.images || {};
+ADMIN_CACHE.files = ADMIN_CACHE.files || {};
 ADMIN_CACHE.posts = ADMIN_CACHE.posts || {};
 
-export const addImage = (attachment = 0) => {
-	ADMIN_CACHE.images[attachment.id.toString()] = attachment;
+export const addFile = (attachment = 0) => {
+	ADMIN_CACHE.files[attachment.id.toString()] = attachment;
 };
 
 export const addPost = (post = 0) => {
@@ -16,7 +16,7 @@ export const addPosts = (postsObj = {}) => {
 	ADMIN_CACHE.posts = _.extend(ADMIN_CACHE.posts, postsObj);
 };
 
-export const getImageById = (id = 0) => ADMIN_CACHE.images[id.toString()];
+export const getFileById = (id = 0) => ADMIN_CACHE.files[id.toString()];
 export const getPostById = (id = 0) => ADMIN_CACHE.posts[id.toString()];
 
 /**
@@ -24,54 +24,55 @@ export const getPostById = (id = 0) => ADMIN_CACHE.posts[id.toString()];
  * It tries to get a thumb from cache, then tries to get full if not founds. Returns empty string if nothing there.
  *
  * @param id
+ * @param property
  * @returns {string}
  */
 
-export const getImageSrcById = (id = 0) => {
-	let image = '';
+export const getFilePropertyById = (id = 0, property = 'url') => {
+	let prop = '';
 	if (id) {
-		const cache = getImageById(id);
-		if (cache && cache.thumbnail) {
-			image = cache.thumbnail;
-		} else if (cache && cache.full) {
-			image = cache.full;
-		}
+		const cache = getFileById(id);
+		prop = cache ? cache[property] : '';
 	}
 
-	return image;
+	return prop;
 };
 
 /**
- * Gets/caches a thumbnail or full src from an attachment object.
+ * Gets/caches attachment data.
  *
  * @param attachment {Object} The attachment object
  * @param types {Array} The mime types array
- * @returns {string}
+ * @returns {Object}
  */
 
-export const cacheSrcByAttachment = (attachment = {}, types = []) => {
+export const cacheDataByAttachment = (attachment = {}, types = []) => {
 	if (_.isEmpty(attachment)) {
-		return '';
+		return {};
 	}
+	const { id, sizes, url, mime, name, subtype, type } = attachment;
 
 	// make sure this mime type is allowed
-	if (types.length && !types.filter(mime => attachment.mime === mime).length) {
+	if (types.length && !types.filter(m => mime === m).length) {
 		console.error(`
 				This attachment type is not allowed for this field instance. 
 				You can filter "panels_default_allowed_mime_types" if you wish to allow a new type globally, or by field instance.
 				Use a mime type string.
 			`);
-		return '';
+		return {};
 	}
 
-	const hasThumbnail = attachment.sizes && attachment.sizes.thumbnail;
-	const image = hasThumbnail ? attachment.sizes.thumbnail.url : attachment.url;
-	const size = hasThumbnail ? 'thumbnail' : 'full';
+	const hasThumbnail = sizes && sizes.thumbnail;
+	const link = hasThumbnail ? sizes.thumbnail.url : url;
+	const data = {
+		id,
+		name,
+		mime,
+		subtype,
+		type,
+		url: link,
+	};
 
-	addImage({
-		id: attachment.id,
-		[size]: image,
-	});
-
-	return image;
+	addFile(data);
+	return data;
 };

@@ -1,0 +1,60 @@
+exports[`Image field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-field-label">
+    
+  </label>
+  <div
+    className="container">
+    <div
+      className="current-file currentUploadedFile">
+      <div
+        className="filePreview"
+        onClick={[Function]}>
+        <i
+          className="icon"
+          data-type="zip" />
+        <span
+          className="subtype">
+          
+        </span>
+        <span
+          className="label">
+          
+        </span>
+      </div>
+      <p
+        className="removeButtonContainer">
+        <button
+          className="panel-button secondary full"
+          data-id=""
+          data-loading={false}
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="button">
+          <span>
+            
+          </span>
+        </button>
+      </p>
+    </div>
+    <div
+      className="file-uploader uploaderOpen uploaderSection">
+      <button
+        className="panel-button primary full attachment_helper_library_button"
+        data-id=""
+        data-loading={false}
+        disabled={false}
+        onClick={[Function]}
+        title=""
+        type="button">
+        <span>
+          
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

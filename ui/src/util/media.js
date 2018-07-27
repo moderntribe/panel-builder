@@ -14,7 +14,7 @@ export const getThumbnailPath = (thumbnailID, callback) => {
 	if (!thumbnailID || !callback) {
 		return false;
 	}
-	const image = AdminCache.getImageById(thumbnailID);
+	const image = AdminCache.getFileById(thumbnailID);
 	if (image) {
 		if (image.thumbnail) {
 			callback(image.thumbnail);
@@ -27,7 +27,8 @@ export const getThumbnailPath = (thumbnailID, callback) => {
 			{
 				success: (att) => {
 					if (att.attributes && att.attributes.type === 'image') {
-						const imageUrl = AdminCache.cacheSrcByAttachment(att.attributes);
+						const imageData = AdminCache.cacheDataByAttachment(att.attributes);
+						const imageUrl = imageData.url ? imageData.url : '';
 						if (imageUrl) {
 							callback(imageUrl);
 						}
