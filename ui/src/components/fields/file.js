@@ -28,9 +28,12 @@ class File extends Component {
 	 */
 	@autobind
 	handleAddMedia() {
-		const { allowed_mime_types } = this.props;
+		const { allowed_mime_types, library_type } = this.props;
 		const frame = wpMedia({
 			multiple: false,
+			library: {
+				type: library_type,
+			},
 		});
 
 		frame.on('select', () => {
@@ -142,6 +145,7 @@ File.propTypes = {
 	parentMap: PropTypes.array,
 	depth: PropTypes.number,
 	description: PropTypes.string,
+	library_type: PropTypes.string,
 	data: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.number,
@@ -157,6 +161,7 @@ File.defaultProps = {
 	indexMap: [],
 	parentMap: [],
 	description: '',
+	library_type: '',
 	depth: 0,
 	data: 0,
 	strings: {},

@@ -17,6 +17,7 @@ class File extends Field {
 
 	protected $default            = 0;
 	protected $layout             = 'compact';
+	protected $library_type       = ''; // can be video, image, audio, application, text
 	protected $allowed_mime_types;
 	protected $default_mime_types = [];
 
@@ -41,8 +42,9 @@ class File extends Field {
 			'button.select' => __( 'Select Files', 'modular-content' ),
 		];
 
-		$this->allowed_mime_types = $this->get_panel_allowed_mime_types( $args );
-		$this->defaults['layout'] = $this->layout;
+		$this->allowed_mime_types         = $this->get_panel_allowed_mime_types( $args );
+		$this->defaults[ 'library_type' ] = $this->library_type;
+		$this->defaults[ 'layout' ]       = $this->layout;
 		parent::__construct( $args );
 	}
 
@@ -66,6 +68,7 @@ class File extends Field {
 	public function get_blueprint() {
 		$blueprint                       = parent::get_blueprint();
 		$blueprint['allowed_mime_types'] = $this->allowed_mime_types;
+		$blueprint['library_type']       = $this->library_type;
 		$blueprint['layout']             = $this->layout;
 		return $blueprint;
 	}
