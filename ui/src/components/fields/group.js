@@ -73,6 +73,7 @@ class Group extends Component {
 						fields={this.props.fields}
 						data={this.props.data}
 						parent={this.props.name}
+						panelType={this.props.panelType}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateGroupFieldData}
@@ -157,6 +158,7 @@ Group.propTypes = {
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
 	panelLabel: PropTypes.string,
+	panelType: PropTypes.string,
 	fields: PropTypes.array,
 	label: PropTypes.string,
 	description: PropTypes.string,
@@ -176,6 +178,7 @@ Group.defaultProps = {
 	data: {},
 	panelIndex: 0,
 	panelLabel: '',
+	panelType: '',
 	fields: [],
 	label: '',
 	description: '',

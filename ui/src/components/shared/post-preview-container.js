@@ -123,6 +123,7 @@ class PostPreviewContainer extends Component {
 					lock: true,
 				},
 			};
+			filters.panel_type = this.props.panelType;
 			const params = param({
 				action: 'posts-field-fetch-preview',
 				filters,
@@ -211,6 +212,7 @@ PostPreviewContainer.propTypes = {
 	onEditClick: React.PropTypes.func,
 	editableId: React.PropTypes.string,
 	onGetPostDetails: React.PropTypes.func,
+	panelType: PropTypes.string,
 };
 
 PostPreviewContainer.defaultProps = {
@@ -222,6 +224,7 @@ PostPreviewContainer.defaultProps = {
 	onEditClick: null,
 	onGetPostDetails: null,
 	editableId: '',
+	panelType: '',
 };
 
 export default PostPreviewContainer;
