@@ -230,7 +230,7 @@ class PostList extends Component {
 									key={_.uniqueId('manual-post-preview-')}
 									post_id={data.id.toString()}
 									post_type={data.post_type}
-                                    panelType={this.props.panelType}
+									panelType={this.props.panelType}
 									editableId={data.editableId}
 									onRemoveClick={this.handleRemovePostClick}
 									onGetPostDetails={this.handleGetPostDetails}
@@ -244,7 +244,8 @@ class PostList extends Component {
 									editableId={data.editableId}
 									strings={this.props.strings}
 									post_type={this.props.post_type}
-                                    panelType={this.props.panelType}
+									panelType={this.props.panelType}
+									indexMap={this.props.indexMap}
 									handleCancelClick={this.handleCancelClick}
 									handleAddClick={this.handleAddUpdateClick}
 								/>
@@ -273,7 +274,7 @@ class PostList extends Component {
 							editableId={data.editableId}
 							strings={this.props.strings}
 							post_type={this.props.post_type}
-                            panelType={this.props.panelType}
+							panelType={this.props.panelType}
 							handleCancelClick={this.handleCancelClick}
 							handleAddClick={this.handleAddUpdateClick}
 						/>
@@ -406,7 +407,8 @@ class PostList extends Component {
 					<PostListQueryRelatedFilter
 						key={filter.filterID}
 						filterID={filter.filterID}
-                        panelType={this.props.panelType}
+						panelType={this.props.panelType}
+						indexMap={this.props.indexMap}
 						postTypes={postTypesArray}
 						label={filter.label}
 						selection={filter.selection}
@@ -587,7 +589,6 @@ class PostList extends Component {
 				selection: types,
 				lock: true,
 			};
-			filters.panel_type = this.props.panelType;
 		}
 		// filters
 		this.state.filters.forEach((filter) => {
@@ -603,6 +604,8 @@ class PostList extends Component {
 			max: this.props.max,
 			context: 1,
 			post_id: postId,
+			panel_type: this.props.panelType,
+			index_map: JSON.stringify(this.props.indexMap),
 		});
 	}
 

@@ -267,8 +267,9 @@ class PostQuacker extends Component {
 			s: input,
 			type: 'query-panel',
 			paged: 1,
-			panelType: this.props.panelType,
 			post_type: types,
+			panel_type: this.props.panelType,
+			index_map: JSON.stringify(this.props.indexMap),
 			field_name: 'items',
 		});
 	}
