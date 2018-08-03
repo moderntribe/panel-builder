@@ -36,6 +36,7 @@ class PostListPostSelected extends Component {
 			post_type: this.state.searchPostType,
 			field_name: 'items',
 			post_id: postId,
+			panel_type: this.props.panelType,
 		});
 	}
 
@@ -181,6 +182,7 @@ PostListPostSelected.propTypes = {
 	handleAddClick: PropTypes.func,
 	editableId: PropTypes.string,
 	strings: PropTypes.object,
+	panelType: PropTypes.string,
 };
 
 PostListPostSelected.defaultProps = {
@@ -190,6 +192,7 @@ PostListPostSelected.defaultProps = {
 	handleAddClick: () => {},
 	editableId: '',
 	strings: {},
+	panelType: '',
 };
 
 export default PostListPostSelected;

@@ -85,6 +85,7 @@ class PostListQueryRelatedFilter extends Component {
 			paged: 1,
 			post_type: types,
 			field_name: 'items',
+			panel_type: this.props.panelType,
 		});
 	}
 
@@ -197,6 +198,7 @@ PostListQueryRelatedFilter.propTypes = {
 	label: PropTypes.string,
 	selection: PropTypes.string,
 	strings: React.PropTypes.object,
+	panelType: PropTypes.string,
 };
 
 PostListQueryRelatedFilter.defaultProps = {
@@ -207,6 +209,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	label: '',
 	selection: null,
 	strings: {},
+	panelType: '',
 };
 
 export default PostListQueryRelatedFilter;

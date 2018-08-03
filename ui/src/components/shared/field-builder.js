@@ -43,6 +43,7 @@ const FieldBuilder = (props) => {
 					indexMap={props.indexMap}
 					parent={props.parent}
 					panelLabel={props.label}
+					panelType={props.type}
 					liveEdit={props.liveEdit}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
@@ -97,6 +98,7 @@ FieldBuilder.propTypes = {
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	type: PropTypes.string,
 };
 
 FieldBuilder.defaultProps = {
@@ -119,6 +121,7 @@ FieldBuilder.defaultProps = {
 	hidePanel: () => {},
 	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},
+	type: '',
 };
 
 export default FieldBuilder;

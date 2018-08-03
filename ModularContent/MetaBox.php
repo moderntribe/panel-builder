@@ -413,6 +413,8 @@ class MetaBox {
 			'type' => '',
 			'paged' => 1,
 			'post_type' => 'any',
+            'panel_type' => '',
+            'post_id' => 0,
 		));
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
