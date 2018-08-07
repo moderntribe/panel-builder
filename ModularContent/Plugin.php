@@ -62,6 +62,10 @@ class Plugin {
 		return $this->loop;
 	}
 
+	public function set_loop( Loop $loop = null ) {
+		$this->loop = $loop;
+	}
+
 	private function setup() {
 		\AttachmentHelper\Plugin::init();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
