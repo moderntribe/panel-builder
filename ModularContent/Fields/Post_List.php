@@ -411,7 +411,7 @@ class Post_List extends Field {
 	public static function get_posts_for_filters( $filters, $max = 10, $context = 0 ) {
 		$query = self::get_query_for_filters( $filters, $max, $context );
 		$cache = self::get_cache( $query );
-		if ( false && !empty( $cache ) ) {
+		if ( ! empty( $cache ) && $cache !== false ) {
 			return $cache;
 		}
 
@@ -618,7 +618,7 @@ class Post_List extends Field {
 		];
 
 		$blueprint[ 'taxonomies' ] = [ ];
-		
+
 		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
 			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
 			$options = [ ];
