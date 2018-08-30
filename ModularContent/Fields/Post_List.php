@@ -411,7 +411,7 @@ class Post_List extends Field {
 	public static function get_posts_for_filters( $filters, $max = 10, $context = 0 ) {
 		$query = self::get_query_for_filters( $filters, $max, $context );
 		$cache = self::get_cache( $query );
-		if ( ! empty( $cache ) && $cache !== false ) {
+		if ( ! empty( $cache ) ) {
 			return $cache;
 		}
 
