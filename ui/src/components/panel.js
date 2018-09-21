@@ -36,7 +36,7 @@ class PanelContainer extends Component {
 		super(props);
 		this.state = {
 			active: this.props.active,
-			activeTab: 'content_fields',
+			activeTab: 'content',
 		};
 		this.el = null;
 		this.inputDelegates = null;
@@ -186,9 +186,9 @@ class PanelContainer extends Component {
 	}
 
 	getTabs() {
-		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabLabel]) => (
+		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabData]) => (
 			<Button
-				text={tabLabel}
+				text={tabData.label}
 				full={false}
 				key={`${tabKey}`}
 				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
