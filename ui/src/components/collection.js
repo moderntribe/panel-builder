@@ -28,8 +28,6 @@ import * as animateWindow from '../util/dom/animate-collection';
 import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
 
-import integrations from '../integrations/index';
-
 import randomString from '../util/data/random-string';
 
 class PanelCollection extends Component {
@@ -64,7 +62,6 @@ class PanelCollection extends Component {
 
 	componentDidMount() {
 		this.bindEvents();
-		integrations();
 	}
 
 	componentWillUnmount() {
