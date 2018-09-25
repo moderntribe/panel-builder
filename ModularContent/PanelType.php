@@ -72,7 +72,7 @@ class PanelType {
 		foreach ( $default_fields as $field ) {
 			$this->add_field( $field );
 		}
-		$this->get_default_tabbed_fields();
+		$this->setup_default_tabbed_fields();
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
 		call_user_func_array( array($this, 'set_child_labels'), apply_filters( 'modular_content_default_child_labels', array( 'singular' => Plugin::instance()->get_label(), 'plural' => Plugin::instance()->get_label('plural') ) ) );
@@ -145,7 +145,7 @@ class PanelType {
 	}
 
 	/**
-	 * Get all of the tabbed fields.
+	 * Get all of the tabbed field names, grouped by tab ID.
 	 *
 	 * @return array[]
 	 */
@@ -156,7 +156,7 @@ class PanelType {
 	/**
 	 * Loop through applied default filters and add the specified fields to the correct tabs.
 	 */
-	private function get_default_tabbed_fields() {
+	private function setup_default_tabbed_fields() {
 		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
 		foreach ( $tabs as $tab ) {
 			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [] ) as $field ) {
@@ -465,4 +465,4 @@ class PanelType {
 		}
 		return '';
 	}
-} 
+}

@@ -2,8 +2,6 @@
 
 An image field.
 
-**Note**: this depends on the Attachment Helper library.
-
 The image is stored in the field as an attachment ID.
 
 ### Parameters

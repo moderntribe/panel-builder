@@ -21,12 +21,13 @@ class Autosaver {
 	}
 
 	public function handle_request() {
-		$body      = empty( $_POST['panels'] ) ? $this->get_json_body() : $_POST;
-		$post_data = $body['post_data'];
+		$body = empty( $_POST['panels'] ) ? $this->get_json_body() : $_POST;
 
-		if ( empty( $post_data ) ) {
+		if ( empty( $body['post_data'] ) ) {
 			wp_send_json_error( 'Missing required parameter.', 400 );
 		}
+
+		$post_data = $body['post_data'];
 
 		$revision_id = wp_autosave( $post_data );
 
