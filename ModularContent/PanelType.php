@@ -157,17 +157,10 @@ class PanelType {
 	 * Loop through applied default filters and add the specified fields to the correct tabs.
 	 */
 	private function get_default_tabbed_fields() {
-		global $wp_filter;
-
-		$filters = $this->preg_grep_keys( '/modular_content_default_[^_]*_fields/', $wp_filter );
-
-		foreach ( $filters as $filter_name => $filter ) {
-			$tab_name              = str_replace( [ 'modular_content_default_', '_fields' ], '', $filter_name );
-			$default_tabbed_fields = [];
-			$default_tabbed_fields = apply_filters( $filter_name, $default_tabbed_fields, $this->id );
-
-			foreach ( $default_tabbed_fields as $tabbed_field ) {
-				$this->add_field( $tabbed_field, $tab_name );
+		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
+		foreach ( $tabs as $tab ) {
+			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [] ) as $field ) {
+				$this->add_field( $field, $tab );
 			}
 		}
 	}
