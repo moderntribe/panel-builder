@@ -8,6 +8,7 @@ use ModularContent\Fields\Post_List;
 use ModularContent\Fields\PostQuacker;
 use ModularContent\Fields\Repeater;
 use ModularContent\Fields\TextArea;
+use ModularContent\Sets\Set;
 
 /**
  * Class MetaBox
@@ -127,22 +128,30 @@ class MetaBox {
 	 * @return array
 	 */
 	protected function get_default_permissions() {
+        $set_pto = get_post_type_object( Set::POST_TYPE );
+
 		$permissions = [
-			'can_sort_panels'         => true,
-			'can_add_panels'          => true,
-			'can_delete_panels'       => true,
-			'can_add_rows'            => true,
-			'can_delete_rows'         => true,
-			'can_sort_rows'           => true,
-			'can_add_child_panels'    => true,
-			'can_delete_child_panels' => true,
-			'can_sort_child_panels'   => true,
-			'can_add_panel_sets'      => true,
-			'can_edit_panel_sets'     => true,
-			'can_save_panel_sets'     => true,
+			'sort_panels'         => true,
+			'add_panels'          => true,
+			'delete_panels'       => true,
+			'add_rows'            => true,
+			'delete_rows'         => true,
+			'sort_rows'           => true,
+			'add_child_panels'    => true,
+			'delete_child_panels' => true,
+			'sort_child_panels'   => true,
+			'add_panel_sets'      => current_user_can( $set_pto->cap->create_posts ),
+			'edit_panel_sets'     => current_user_can( $set_pto->cap->edit_posts ),
+			'save_panel_sets'     => current_user_can( $set_pto->cap->edit_posts ),
 		];
 
-		$permissions['can_access_panel_tabs'] = [ 'all' ];
+		$permissions['access_all_panel_tabs'] = true;
+
+		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
+
+		foreach ( $tabs as $tab ) {
+            $permissions[ 'access_panel_tab/' . $tab ] = true;
+        }
 
 		return $permissions;
 	}
