@@ -110,7 +110,7 @@ class PanelContainer extends Component {
 				/>
 			) : null;
 
-			const DeleteButton = this.props.depth === 0 && PERMISSIONS.can_delete_panels ? (
+			const DeleteButton = this.props.depth === 0 && PERMISSIONS.delete_panels ? (
 				<Button
 					icon="dashicons-trash"
 					text={UI_I18N['button.delete_panel']}
@@ -168,7 +168,7 @@ class PanelContainer extends Component {
 	}
 
 	getFilteredTabArray() {
-		const permittedTabs = PERMISSIONS.can_access_panel_tabs;
+		const permittedTabs = PERMISSIONS.access_panel_tabs;
 		// problem with data
 		if (!_.isArray(permittedTabs)) {
 			return [];

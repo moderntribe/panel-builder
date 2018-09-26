@@ -121,7 +121,7 @@ class Children extends Component {
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				{PERMISSIONS.can_delete_child_panels && <Button
+				{PERMISSIONS.delete_child_panels && <Button
 					icon="dashicons-trash"
 					text={deleteLabel}
 					bare
@@ -208,7 +208,7 @@ class Children extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return PERMISSIONS.can_sort_child_panels ? (
+		return PERMISSIONS.sort_child_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
@@ -226,7 +226,7 @@ class Children extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.childData.max && PERMISSIONS.can_add_child_panels) {
+		if (this.state.data.length < this.childData.max && PERMISSIONS.add_child_panels) {
 			const classes = classNames({
 				'children-add-row': true,
 				[styles.addRow]: true,

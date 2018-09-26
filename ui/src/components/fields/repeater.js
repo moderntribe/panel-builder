@@ -148,7 +148,7 @@ class Repeater extends Component {
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
 					/>
-					{PERMISSIONS.can_delete_rows && <Button
+					{PERMISSIONS.delete_rows && <Button
 						icon="dashicons-trash"
 						text={deleteLabel}
 						bare
@@ -231,7 +231,7 @@ class Repeater extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return PERMISSIONS.can_sort_rows ? (
+		return PERMISSIONS.sort_rows ? (
 			<Sortable
 				options={sortOptions}
 			>
@@ -249,7 +249,7 @@ class Repeater extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.props.max && PERMISSIONS.can_add_rows) {
+		if (this.state.data.length < this.props.max && PERMISSIONS.add_rows) {
 			AddRow = (
 				<Button
 					icon=""
