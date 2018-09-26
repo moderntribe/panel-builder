@@ -54,7 +54,7 @@ class PanelContainer extends Component {
 			return;
 		}
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -66,7 +66,7 @@ class PanelContainer extends Component {
 			return;
 		}
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -348,7 +348,7 @@ class PanelContainer extends Component {
 	}
 
 	@autobind
-	maybeDeActivate() {
+	maybeDeactivate() {
 		if (!this.state.active) {
 			return;
 		}

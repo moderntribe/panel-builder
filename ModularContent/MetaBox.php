@@ -122,13 +122,14 @@ class MetaBox {
 	}
 
 	/**
-     * Apply default permissions to allow access to all levels. Can be overwritten in the panel_js_config filter for specific
-     * role-based permissions.
-     *
+	 * Apply default permissions to allow access to all levels. Can be overwritten in the panel_js_config filter for specific
+	 * role-based permissions.
+	 *
 	 * @return array
 	 */
+
 	protected function get_default_permissions() {
-        $set_pto = get_post_type_object( Set::POST_TYPE );
+		$set_pto = get_post_type_object( Set::POST_TYPE );
 
 		$permissions = [
 			'sort_panels'         => true,
@@ -145,13 +146,13 @@ class MetaBox {
 			'save_panel_sets'     => current_user_can( $set_pto->cap->edit_posts ),
 		];
 
-		$permissions['access_all_panel_tabs'] = true;
+		$permissions[ 'access_all_panel_tabs' ] = true;
 
 		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
 
 		foreach ( $tabs as $tab ) {
-            $permissions[ 'access_panel_tab/' . $tab ] = true;
-        }
+			$permissions[ 'access_panel_tab/' . $tab ] = true;
+		}
 
 		return $permissions;
 	}
