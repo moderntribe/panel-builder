@@ -503,7 +503,7 @@ class PanelCollection extends Component {
 			);
 		});
 
-		return PERMISSIONS.can_sort_panels ? (
+		return PERMISSIONS.sort_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
@@ -513,7 +513,7 @@ class PanelCollection extends Component {
 	}
 
 	renderPicker() {
-		return !this.state.panelSetPickerActive && PERMISSIONS.can_add_panels ? (
+		return !this.state.panelSetPickerActive && PERMISSIONS.add_panels ? (
 			<Picker
 				activate={this.state.pickerActive}
 				handlePickerUpdate={this.togglePicker}
@@ -523,7 +523,7 @@ class PanelCollection extends Component {
 	}
 
 	renderPanelSetPicker() {
-		return this.state.panelSetPickerActive && PERMISSIONS.can_add_panel_sets ? (
+		return this.state.panelSetPickerActive && PERMISSIONS.add_panel_sets ? (
 			<PanelSetsPicker
 				handleAddPanelSet={this.handleAddPanelSet}
 				handleStartNewPage={this.handleStartNewPage}

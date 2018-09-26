@@ -49,7 +49,4 @@ match the ID you gave to your `PanelType` (`type-one.php` for the above `PanelTy
 * Every panel will have a `Title` field. It's automatically added when you create your `PanelType`.
 If you want additional fields included on all `PanelType`s, use the `modular_content_default_fields`
 filter.
-* Fields can be divided into "Content" and "Settings" fields. All fields default to "Content", but once
-a "Settings" field has been added, it will show up in a separate tab in the panel editor. `Group` and
-`Repeater` fields are not supported as settings fields, nor can you add a settings field inside of a
-`Group` or `Repeater`.
+* Fields may be divided into tabs of your designation. Simply add them as a text string on the second arg of add_field, like so `$panel->add_field( $panel_config, 'design' );`. The default tab of "content" will appear for any fields not assigned a tab once there is on in play.

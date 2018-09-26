@@ -47,7 +47,7 @@ class MetaBox {
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 		add_action( 'wp_ajax_' . self::ICONS_ACTION, array( $this, 'ajax_fetch_icon_options' ), 10, 0 );
-        add_filter( 'user_has_cap', array( $this, 'apply_default_permissions' ), 10, 2 );
+		add_filter( 'user_has_cap', array( $this, 'apply_default_permissions' ), 10, 2 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -139,12 +139,37 @@ class MetaBox {
 	}
 
 	/**
-	 * Apply default permissions to allow access to all levels. Can be overwritten in the panel_js_config filter for specific
-	 * role-based permissions.
+	 * Get an array of Panels-specific permissions formatted for JS. Arranges tab-specific permissions into an array of
+     * values for easier consumption within the App.
 	 *
 	 * @return array
 	 */
-	protected function get_default_permissions() {
+	protected function get_permissions_for_js() {
+		$permissions                          = $this->get_base_panel_permissions();
+		$tabs                                 = $this->get_panel_tabs_permissions();
+		$permissions['can_access_panel_tabs'] = [];
+
+		if ( $permissions['access_panel_tab/all'] ) {
+			$permissions['can_access_panel_tabs'][] = 'access_panel_tab/all';
+		}
+
+		foreach ( $tabs as $key => $can ) {
+			if ( ! $can ) {
+				continue;
+			}
+
+			$permissions['can_access_panel_tabs'][] = $key;
+		}
+
+		return $permissions;
+	}
+
+	/**
+     * Get the base panel permissions for the current user.
+     *
+	 * @return array
+	 */
+	protected function get_base_panel_permissions() {
 		$set_pto     = get_post_type_object( Set::POST_TYPE );
 		$permissions = [];
 
@@ -162,7 +187,17 @@ class MetaBox {
 			}
 		}
 
-		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
+		return $permissions;
+	}
+
+	/**
+     * Get the tabs-specific permissions for the current user.
+     *
+	 * @return array
+	 */
+	protected function get_panel_tabs_permissions() {
+		$permissions = [];
+		$tabs        = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
 
 		foreach ( $tabs as $tab ) {
 			$permissions[ 'access_panel_tab/' . $tab ] = current_user_can( 'access_panel_tab/' . $tab );
@@ -171,9 +206,19 @@ class MetaBox {
 		return $permissions;
 	}
 
+	/**
+     * Filter user permissions to allow all by default, while respecting explicitly-defined capabilities where present.
+     *
+	 * @param $allcaps
+	 * @param $cap
+     *
+     * @filter user_has_cap 10 2
+	 *
+	 * @return mixed
+	 */
 	function apply_default_permissions( $allcaps, $cap ) {
 
-	    // Bail if cap isn't in our list.
+		// Bail if cap isn't in our list.
 		if ( ! in_array( $cap[0], $this->capabilities ) && strpos( $cap[0], 'access_panel_tab' ) === false ) {
 			return $allcaps;
 		}
