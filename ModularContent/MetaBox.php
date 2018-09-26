@@ -129,7 +129,7 @@ class MetaBox {
 				'google_fonts'         => apply_filters( 'panels_google_fonts', [] ),
 				'style_families'       => apply_filters( 'panels_style_families', [] ),
 				'icons_ajax_action'    => self::ICONS_ACTION,
-				'permissions'          => $this->get_default_permissions(),
+				'permissions'          => $this->get_permissions_for_js(),
 			];
 			$data = apply_filters( 'panels_js_config', $data );
 		}
@@ -147,18 +147,14 @@ class MetaBox {
 	protected function get_permissions_for_js() {
 		$permissions                          = $this->get_base_panel_permissions();
 		$tabs                                 = $this->get_panel_tabs_permissions();
-		$permissions['can_access_panel_tabs'] = [];
-
-		if ( $permissions['access_panel_tab/all'] ) {
-			$permissions['can_access_panel_tabs'][] = 'access_panel_tab/all';
-		}
+		$permissions['access_panel_tabs'] = [];
 
 		foreach ( $tabs as $key => $can ) {
 			if ( ! $can ) {
 				continue;
 			}
 
-			$permissions['can_access_panel_tabs'][] = $key;
+			$permissions['access_panel_tabs'][] = $key;
 		}
 
 		return $permissions;
