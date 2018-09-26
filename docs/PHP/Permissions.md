@@ -2,7 +2,6 @@
 
 There are various permissions capabilities available for you to enable/disable. 
 To use them you would filter `panels_js_config`, maybe in your Initializer class in the core plugin or from permissions classes.
-todo: @jbrinley if this doesnt apply anymore when you do your part please augment 
 Example:
 
 ```php
