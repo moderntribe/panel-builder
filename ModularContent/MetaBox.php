@@ -24,6 +24,22 @@ class MetaBox {
 	const ICONS_ACTION         = 'panels-fetch-icon-options';
 	const ICONS_OPTIONS_FILTER = 'panels_icons_options';
 
+	protected $capabilities = [
+		'sort_panels',
+		'add_panels',
+		'delete_panels',
+		'add_rows',
+		'delete_rows',
+		'sort_rows',
+		'add_child_panels',
+		'delete_child_panels',
+		'sort_child_panels',
+		'access_panel_tab/all',
+		'add_panel_sets',
+		'edit_panel_sets',
+		'save_panel_sets',
+	];
+
 	public function add_hooks() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'display_nonce' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'maybe_filter_post_data' ), 10, 2 );
@@ -31,6 +47,7 @@ class MetaBox {
 		add_action( 'wp_ajax_posts-field-posts-search', array( $this, 'get_post_field_search_results' ), 10, 0 );
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 		add_action( 'wp_ajax_' . self::ICONS_ACTION, array( $this, 'ajax_fetch_icon_options' ), 10, 0 );
+        add_filter( 'user_has_cap', array( $this, 'apply_default_permissions' ), 10, 2 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -122,38 +139,58 @@ class MetaBox {
 	}
 
 	/**
-     * Apply default permissions to allow access to all levels. Can be overwritten in the panel_js_config filter for specific
-     * role-based permissions.
-     *
+	 * Apply default permissions to allow access to all levels. Can be overwritten in the panel_js_config filter for specific
+	 * role-based permissions.
+	 *
 	 * @return array
 	 */
 	protected function get_default_permissions() {
-        $set_pto = get_post_type_object( Set::POST_TYPE );
+		$set_pto     = get_post_type_object( Set::POST_TYPE );
+		$permissions = [];
 
-		$permissions = [
-			'sort_panels'         => true,
-			'add_panels'          => true,
-			'delete_panels'       => true,
-			'add_rows'            => true,
-			'delete_rows'         => true,
-			'sort_rows'           => true,
-			'add_child_panels'    => true,
-			'delete_child_panels' => true,
-			'sort_child_panels'   => true,
-			'add_panel_sets'      => current_user_can( $set_pto->cap->create_posts ),
-			'edit_panel_sets'     => current_user_can( $set_pto->cap->edit_posts ),
-			'save_panel_sets'     => current_user_can( $set_pto->cap->edit_posts ),
-		];
-
-		$permissions['access_all_panel_tabs'] = true;
+		foreach ( $this->capabilities as $capability ) {
+			switch ( $capability ) {
+				case 'add_panel_sets':
+					$permissions[ $capability ] = current_user_can( $set_pto->cap->create_posts );
+					break;
+				case 'edit_panel_sets':
+				case 'save_panel_sets':
+					$permissions[ $capability ] = current_user_can( $set_pto->cap->edit_posts );
+					break;
+				default:
+					$permissions[ $capability ] = current_user_can( $capability );
+			}
+		}
 
 		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
 
 		foreach ( $tabs as $tab ) {
-            $permissions[ 'access_panel_tab/' . $tab ] = true;
-        }
+			$permissions[ 'access_panel_tab/' . $tab ] = current_user_can( 'access_panel_tab/' . $tab );
+		}
 
 		return $permissions;
+	}
+
+	function apply_default_permissions( $allcaps, $cap ) {
+
+	    // Bail if cap isn't in our list.
+		if ( ! in_array( $cap[0], $this->capabilities ) && strpos( $cap[0], 'access_panel_tab' ) === false ) {
+			return $allcaps;
+		}
+
+		// Bail out for users who already have the capability set.
+		if ( $allcaps[ $cap[0] ] ) {
+			return $allcaps;
+		}
+
+		// Bail out for users who already explicitly have been denied.
+		if ( isset( $allcaps[ $cap[0] ] ) && $allcaps[ $cap[0] ] === false ) {
+			return $allcaps;
+		}
+
+		$allcaps[ $cap[0] ] = true;
+
+		return $allcaps;
 	}
 
 	/**
