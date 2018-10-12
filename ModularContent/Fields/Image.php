@@ -124,7 +124,7 @@ class Image extends Field {
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
 		if ( $data ) {
-			$cache->add_image( $data );
+			$cache->add_file( $data );
 		}
 	}
 
