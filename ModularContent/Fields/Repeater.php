@@ -30,25 +30,6 @@ class Repeater extends Group {
 
 	/**
 	 * @param array $args
-	 *
-	 * Creating a repeater:
-	 *
-	 * $name = new Text( array(
-	 *   'label' => __('Name'),
-	 *   'name' => 'name',
-	 * ) );
-	 * $email = new Text( array(
-	 *   'label' => __('Email'),
-	 *   'name' => 'email',
-	 * ) );
-	 * $group = new Repeater( array(
-	 *   'label' => __('Contacts'),
-	 *   'name' => 'contacts',
-	 *   'update_index' => false, // whether or not to dynamically update the index of fields with no title when they are sorted
-	 *   'max' => 5,
-	 * ) );
-	 * $group->add_field( $name );
-	 * $group->add_field( $email );
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['min'] = $this->min;

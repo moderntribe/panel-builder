@@ -36,7 +36,7 @@ class PanelContainer extends Component {
 		super(props);
 		this.state = {
 			active: this.props.active,
-			activeTab: 'content_fields',
+			activeTab: 'content',
 		};
 		this.el = null;
 		this.inputDelegates = null;
@@ -54,7 +54,7 @@ class PanelContainer extends Component {
 			return;
 		}
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -66,7 +66,7 @@ class PanelContainer extends Component {
 			return;
 		}
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -110,7 +110,7 @@ class PanelContainer extends Component {
 				/>
 			) : null;
 
-			const DeleteButton = this.props.depth === 0 && PERMISSIONS.can_delete_panels ? (
+			const DeleteButton = this.props.depth === 0 && PERMISSIONS.delete_panels ? (
 				<Button
 					icon="dashicons-trash"
 					text={UI_I18N['button.delete_panel']}
@@ -168,7 +168,7 @@ class PanelContainer extends Component {
 	}
 
 	getFilteredTabArray() {
-		const permittedTabs = PERMISSIONS.can_access_panel_tabs;
+		const permittedTabs = PERMISSIONS.access_panel_tabs;
 		// problem with data
 		if (!_.isArray(permittedTabs)) {
 			return [];
@@ -186,9 +186,9 @@ class PanelContainer extends Component {
 	}
 
 	getTabs() {
-		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabLabel]) => (
+		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabData]) => (
 			<Button
-				text={tabLabel}
+				text={tabData.label}
 				full={false}
 				key={`${tabKey}`}
 				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
@@ -348,7 +348,7 @@ class PanelContainer extends Component {
 	}
 
 	@autobind
-	maybeDeActivate() {
+	maybeDeactivate() {
 		if (!this.state.active) {
 			return;
 		}

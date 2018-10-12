@@ -11,7 +11,7 @@ class Blueprint_Builder implements \JsonSerializable {
 	private $registry;
 
 	/** @var PanelType[] */
-	private $registered_panels = [ ];
+	private $registered_panels = [];
 
 	public function __construct( TypeRegistry $registry ) {
 		$this->registry = $registry;
@@ -19,18 +19,18 @@ class Blueprint_Builder implements \JsonSerializable {
 
 	public function get_blueprint( $for_post_type = null ) {
 		$blueprint = [
-			'types'      => [ ],
+			'types'      => [],
 			'categories' => array_values( $this->registry->registered_categories() ),
 		];
 
-		$this->registered_panels = apply_filters('panels_registered_panels', $this->registry->registered_panels( $for_post_type ), $for_post_type);
+		$this->registered_panels = apply_filters( 'panels_registered_panels', $this->registry->registered_panels( $for_post_type ), $for_post_type );
 
 		foreach ( $this->registered_panels as $type ) {
 			if ( $this->is_top_level( $type ) ) {
-				$blueprint[ 'types' ][] = $this->single_panel_type_blueprint( $type );
+				$blueprint['types'][] = $this->single_panel_type_blueprint( $type );
 			}
 		}
-		
+
 		return $blueprint;
 	}
 
@@ -73,15 +73,16 @@ class Blueprint_Builder implements \JsonSerializable {
 		$blueprint['tabs'] = [];
 
 		foreach ( $tabbed_fields as $tab => $fields ) {
-			$tab_label                      = str_replace( '_', ' ', ucwords( $tab, '_' ) );
-			$tab_name                       = sprintf( '%s_fields', $tab );
-			$blueprint['tabs'][ $tab_name ] = $tab_label;
-			$blueprint[ $tab_name ]         = $fields;
+			$tab_label                 = str_replace( '_', ' ', ucwords( $tab, '_' ) );
+			$blueprint['tabs'][ $tab ] = [
+				'label'  => $tab_label,
+				'fields' => $fields,
+			];
 		}
 	}
 
 	private function get_fields( PanelType $type ) {
-		$fields = [ ];
+		$fields = [];
 		foreach ( $type->all_fields() as $field ) {
 			$fields[] = $field->get_blueprint();
 		}
@@ -89,20 +90,20 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	private function get_child_types( PanelType $parent, $depth ) {
-		$children = [ ];
+		$children  = [];
 		$parent_id = $parent->get_id();
 		foreach ( $this->registered_panels as $type ) {
 			$max_depth = $type->get_max_depth();
-			$allowed = $type->allowed_contexts();
+			$allowed   = $type->allowed_contexts();
 			$forbidden = $type->forbidden_contexts();
 
 			if ( $max_depth < $depth ) {
 				continue; // too deep
 			}
-			if ( !empty( $allowed ) && !in_array( $parent_id, $allowed ) ) {
+			if ( ! empty( $allowed ) && ! in_array( $parent_id, $allowed ) ) {
 				continue; // not an allowed context
 			}
-			if ( !empty( $forbidden ) && in_array( $parent_id, $forbidden ) ) {
+			if ( ! empty( $forbidden ) && in_array( $parent_id, $forbidden ) ) {
 				continue; // not an allowed context
 			}
 
@@ -112,10 +113,10 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	public function jsonSerialize() {
-		$type = $this->get_current_post_type();
+		$type      = $this->get_current_post_type();
 		$blueprint = $this->get_blueprint( $type );
-		foreach ( $blueprint[ 'types' ] as $index => $panel ) {
-			$blueprint[ 'types' ][ $index ] = $this->normalize_string_arrays( $panel );
+		foreach ( $blueprint['types'] as $index => $panel ) {
+			$blueprint['types'][ $index ] = $this->normalize_string_arrays( $panel );
 		}
 		return $blueprint;
 	}
@@ -128,7 +129,7 @@ class Blueprint_Builder implements \JsonSerializable {
 		global $pagenow;
 		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			return $type;
-	  	}
+		}
 		$type = get_post_type( get_queried_object_id() );
 
 		// Return null so all panel types are available to Panel Sets.
@@ -139,17 +140,17 @@ class Blueprint_Builder implements \JsonSerializable {
 	}
 
 	private function normalize_string_arrays( $blueprint ) {
-		foreach ( $blueprint[ 'fields' ] as $index => $field ) {
-			$field[ 'strings' ] = (object)$field[ 'strings' ];
-			if ( isset( $field[ 'fields' ] ) ) {
+		foreach ( $blueprint['fields'] as $index => $field ) {
+			$field['strings'] = (object) $field['strings'];
+			if ( isset( $field['fields'] ) ) {
 				$field = $this->normalize_string_arrays( $field );
 			}
-			if ( isset( $blueprint[ 'children' ][ 'types' ] ) ) {
-				foreach ( $blueprint[ 'children' ][ 'types' ] as $child_index => $child ) {
-					$blueprint[ 'children' ][ 'types' ][ $child_index ] = $this->normalize_string_arrays( $child );
+			if ( isset( $blueprint['children']['types'] ) ) {
+				foreach ( $blueprint['children']['types'] as $child_index => $child ) {
+					$blueprint['children']['types'][ $child_index ] = $this->normalize_string_arrays( $child );
 				}
 			}
-			$blueprint[ 'fields' ][ $index ] = $field;
+			$blueprint['fields'][ $index ] = $field;
 		}
 		return $blueprint;
 	}

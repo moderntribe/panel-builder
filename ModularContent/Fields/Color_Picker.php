@@ -11,6 +11,10 @@ namespace ModularContent\Fields;
  */
 class Color_Picker extends Field {
 
+	const LAYOUT_COMPACT = 'compact';
+	const LAYOUT_FULL    = 'full';
+	const LAYOUT_INLINE  = 'inline';
+
 	protected $default = '';
 
 	protected $default_swatches = [];
@@ -20,27 +24,13 @@ class Color_Picker extends Field {
 	protected $color_mode   = 'hex';
 	protected $input_active = false;
 	protected $allow_clear  = false;
-	protected $layout       = 'compact';
+	protected $layout       = self::LAYOUT_COMPACT;
 
 	/**
 	 * @param array $args
-	 *
-	 * Usage example:
-	 *
-	 * $field = new Color_Picker( array(
-	 * 'label'        => __( 'Background Color' ),
-	 * 'name'         => 'background-color',
-	 * 'description'  => __( 'The color to use as the background.' ),
-	 * 'swatches'     => [ '#000000', '#fcfcfc' ], // must be hex
-	 * 'picker_type'  => 'BlockPicker', // supported types AlphaPicker, BlockPicker, ChromePicker, CirclePicker, CompactPicker, GithubPicker, HuePicker, MaterialPicker, PhotoshopPicker, SketchPicker, SliderPicker, SwatchesPicker, TwitterPicker. More info at https://casesandberg.github.io/react-color/
-	 * 'color_mode'   => 'hex', // support hex or rgb. Rgba has alpha channel and must be used if you wish to use the alpha capable pickers. Again, check the site above for more info.
-	 * 'input_active' => false, // if true, displays a text input to define a custom swatch in the field. Only applies to some picker types, please check https://casesandberg.github.io/react-color/ for details
-	 * ) );
 	 */
-
-
 	public function __construct( $args = [] ) {
-		$this->check_layout( $args );
+		$this->validate_layout( $args );
 
 		$this->defaults['strings']      = [
 			'input.placeholder' => __( 'Enter Hex Code', 'modular-content' ),
@@ -67,14 +57,18 @@ class Color_Picker extends Field {
 		return $blueprint;
 	}
 
+	protected function get_valid_layouts() {
+		return [ self::LAYOUT_COMPACT, self::LAYOUT_FULL, self::LAYOUT_INLINE ];
+	}
+
 	/**
 	 * Ensure that the layout arg has proper values.
 	 *
 	 * @param $args
 	 */
-	protected function check_layout( $args ) {
-		if ( isset( $args['layout'] ) && $args['layout'] !== 'compact' && $args['layout'] !== 'full' && $args['layout'] !== 'inline' ) {
-			throw new \LogicException( 'Layout argument can only be "compact" or "full".' );
+	protected function validate_layout( $args ) {
+		if ( isset( $args['layout'] ) && ! in_array( $args['layout'], $this->get_valid_layouts() ) ) {
+			throw new \InvalidArgumentException( 'Layout argument can only be "compact" or "full".' );
 		}
 	}
 

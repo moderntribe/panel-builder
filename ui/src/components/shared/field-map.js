@@ -7,7 +7,6 @@ import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
 import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
-import StyleFamilySelect from '../fields/style-family-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
 import Range from '../fields/range';
@@ -39,7 +38,6 @@ export default {
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
 	[FIELD_TYPES.RANGE]: Range,
 	[FIELD_TYPES.SELECT]: Select,
-	[FIELD_TYPES.STYLE_FAMILY_SELECT]: StyleFamilySelect,
 	[FIELD_TYPES.TEXTAREA]: TextArea,
 	[FIELD_TYPES.LINK]: Link,
 	[FIELD_TYPES.HIDDEN]: Hidden,

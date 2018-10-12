@@ -3,9 +3,6 @@
 
 namespace ModularContent\Fields;
 
-use ModularContent\Panel;
-
-
 /**
  * Class ImageSelect
  *
@@ -15,24 +12,6 @@ use ModularContent\Panel;
  *
  * Also supports an image with a text label. The option value should
  * be an array with 'src' and 'label' keys.
- *
- *
- * $field = new ImageGallery( [
- *   'label'       => __('Layout'),
- *   'name'        => 'layout',
- *   'description' => __( 'Images to display in the gallery' ),
- *   'options'     => [
- *     'left'        => [
- *       'src'         => 'http://example.com/path/to/module-layout-left.png',
- *       'label'       => __( 'Left' ),
- *     ],
- *     'right'       => [
- *       'src'         => 'http://example.com/path/to/module-layout-right.png',
- *       'label'       => __( 'Right' ),
- *     ],
- *   )
- * ) );
- *
  */
 class ImageSelect extends Radio {
 

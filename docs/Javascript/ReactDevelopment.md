@@ -2,13 +2,13 @@
 
 ### Node and Dependencies
 
-This system uses node version 6.9.4. If you don't already have that plus some system to control node versions (eg NVM) it
-is recommended you install one. For your convenience this project has an .nvmrc file at its root. Once you have installed Node 6.9.4
+This system uses node version 8.9.3. If you don't already have that plus some system to control node versions (eg NVM) it
+is recommended you install one. For your convenience this project has an .nvmrc file at its root. Once you have installed Node 8.9.3
 you can either set it as your default OR every time you come to this project just type `nvm use` to load the correct version.
 
 Next you will need yarn installed globally with `npm install yarn -g`.
 
-After getting your node version ready, installing yarn and making sure you are on 6.9.4, first delete an existing node_modules folder if 
+After getting your node version ready, installing yarn and making sure you are on 8.9.3, first delete an existing node_modules folder if 
 you still have one in place. Then `yarn install`. 
 
 After yarn install has completed you can run the npm scripts that define the tasks for this project. They are currently:

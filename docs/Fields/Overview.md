@@ -1,6 +1,6 @@
 ### Field Overview
 
-View a live interactive field demo [here](https://sq1-panel-field-preview.moderntribe.qa/).
+[View a live interactive field demo](https://sq1-panel-field-preview.moderntribe.qa/).
 
 The plugin comes with a number of pre-defined `Field` types, which can be added to panels in any combination.
 You can find the complete collection of fields in the plugin's `ModularContent\Fields` directory.

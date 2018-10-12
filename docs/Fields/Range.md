@@ -1,6 +1,6 @@
 ## Range
 
-A range slider field. Can return a single value or a range of multiple values.
+A range slider field. Defining a single handle value will result in a single value being returned, while multiple handles will return a range of multiple values.
 
 ### Parameters
 

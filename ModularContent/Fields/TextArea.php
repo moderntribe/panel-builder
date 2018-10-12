@@ -11,11 +11,13 @@ namespace ModularContent\Fields;
  * a WordPress visual editor.
  */
 class TextArea extends Field {
+	const EDITOR_TYPE_DRAFTJS = 'draftjs';
+	const EDITOR_TYPE_TINYMCE = 'tinymce';
 
 	protected $richtext               = false;
 	protected $media_buttons          = true;
 	protected $editor_settings        = [];
-	protected $editor_type            = 'tinymce';
+	protected $editor_type            = self::EDITOR_TYPE_TINYMCE;
 	protected $editor_options         = [];
 	protected $enable_fonts_injection = false;
 
@@ -27,30 +29,23 @@ class TextArea extends Field {
 	 * @param array $args
 	 *
 	 * Usage example:
-	 *
-	 * $field = new TextArea( array(
-	 *   'label' => __('Description'),
-	 *   'name' => 'description',
-	 *   'description' => __( 'How would you describe it?' ),
-	 *   'richtext' => TRUE,
-	 * ) );
 	 */
 	public function __construct( $args = [] ) {
 		$this->validate_editor_type( $args );
 
-		$this->defaults[ 'richtext' ]               = $this->richtext;
-		$this->defaults[ 'media_buttons' ]          = $this->media_buttons;
-		$this->defaults[ 'editor_settings' ]        = $this->editor_settings;
-		$this->defaults[ 'editor_type' ]            = $this->editor_type;
-		$this->defaults[ 'editor_options' ]         = $this->editor_options;
-		$this->defaults[ 'enable_fonts_injection' ] = $this->enable_fonts_injection;
+		$this->defaults['richtext']               = $this->richtext;
+		$this->defaults['media_buttons']          = $this->media_buttons;
+		$this->defaults['editor_settings']        = $this->editor_settings;
+		$this->defaults['editor_type']            = $this->editor_type;
+		$this->defaults['editor_options']         = $this->editor_options;
+		$this->defaults['enable_fonts_injection'] = $this->enable_fonts_injection;
 
 		$this->defaults['strings'] = [
 			'tab.visual' => __( 'Visual', 'modular-content' ),
 			'tab.text'   => __( 'Text', 'modular-content' ),
 		];
 		parent::__construct( $args );
-		$this->index = sprintf( '%04d', self::$global_index ++ );
+		$this->index = sprintf( '%04d', self::$global_index++ );
 
 		// slight chance that this ends up with a harmless enqueued style, but no
 		// better place to put it to ensure that WP doesn't print the styles in
@@ -61,22 +56,18 @@ class TextArea extends Field {
 		}
 	}
 
+	protected function get_valid_editor_types() {
+		return [ self::EDITOR_TYPE_DRAFTJS, self::EDITOR_TYPE_TINYMCE ];
+	}
+
 	protected function validate_editor_type( $args ) {
 		if ( ! $this->is_valid_editor_type( $args ) ) {
 			throw new \InvalidArgumentException( 'editor_type may only be "tinymce" or "draftjs"' );
 		}
-
-		if ( ! $this->is_draftjs( $args ) && ! empty( $args['editor_options'] ) ) {
-			throw new \LogicException( 'editor_options only apply to draftjs editor_type.' );
-		}
 	}
 
 	protected function is_valid_editor_type( $args ) {
-		return empty( $args['editor_type'] ) || $args['editor_type'] === 'tinymce' || $args['editor_type'] === 'draftjs';
-	}
-
-	protected function is_draftjs( $args ) {
-		return ! empty( $args['editor_type'] ) && $args['editor_type'] === 'draftjs';
+		return empty( $args['editor_type'] ) || ( in_array( $args['editor_type'], $this->get_valid_editor_types() ) );
 	}
 
 	public function add_data_atts_to_editor( $editor_html ) {
@@ -121,11 +112,11 @@ class TextArea extends Field {
 		$blueprint['media_buttons']             = $this->media_buttons;
 		$blueprint['editor_settings_reference'] = '';
 		$blueprint['editor_type']               = $this->editor_type;
-		if ( $this->richtext && $this->editor_type !== 'draftjs' ) {
+		if ( $this->richtext && $this->editor_type === self::EDITOR_TYPE_TINYMCE ) {
 			$blueprint['editor_settings_reference'] = $this->setup_editor_settings();
 		}
 
-		if ( $blueprint['editor_type'] === 'draftjs' ) {
+		if ( $blueprint['editor_type'] === self::EDITOR_TYPE_DRAFTJS ) {
 			$blueprint['editor_options'] = $this->editor_options;
 		}
 
@@ -133,7 +124,7 @@ class TextArea extends Field {
 			$blueprint['editor_options'] = apply_filters( 'panels_text_area_editor_options', $blueprint['editor_options'] );
 		}
 
-		$blueprint[ 'enable_fonts_injection' ] = $this->enable_fonts_injection;
+		$blueprint['enable_fonts_injection'] = $this->enable_fonts_injection;
 
 		return $blueprint;
 	}

@@ -17,6 +17,7 @@ import CollectionPreview from './collection-preview';
 import Dialog from './panel-dialog';
 import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
+import updateQueryVar from '../util/data/update-query-var';
 import styles from './collection.pcss';
 
 import * as ajax from '../util/ajax';
@@ -27,8 +28,6 @@ import * as storage from '../util/storage/local';
 import * as animateWindow from '../util/dom/animate-collection';
 import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
-
-import integrations from '../integrations/index';
 
 import randomString from '../util/data/random-string';
 
@@ -50,6 +49,12 @@ class PanelCollection extends Component {
 		};
 
 		this.dataInput = document.getElementById('modular-content-data');
+		this.previewButton = document.getElementById('post-preview');
+
+		if (this.previewButton) {
+			this.previewUrl = this.previewButton.href;
+			this.previewEnabled = false;
+		}
 	}
 
 	componentWillMount() {
@@ -63,8 +68,8 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
+		this.updatePreviewButton();
 		this.bindEvents();
-		integrations();
 	}
 
 	componentWillUnmount() {
@@ -92,7 +97,19 @@ class PanelCollection extends Component {
 	}
 
 	/**
+	 * Modify preview id of button on panels enabled pages so we can take over handling
+	 */
+
+	updatePreviewButton() {
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.id = 'post-with-panels-preview';
+	}
+
+	/**
 	 * Setups the autosave and heartbeat state on mount.
+	 * Also intercept the preview button to save a revision before launching it
 	 */
 
 	bindEvents() {
@@ -102,6 +119,40 @@ class PanelCollection extends Component {
 		heartbeat.init({
 			success: this.handleAutosaveSuccess,
 		});
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.addEventListener('click', e => this.handlePreviewRequest(e));
+	}
+
+	/**
+	 * Load a new tab with the preview after autosave success
+	 *
+	 * @param revisionId
+	 */
+
+	@autobind
+	loadPreview(revisionId) {
+		this.previewEnabled = true;
+		this.previewButton.href = updateQueryVar('revision_id', revisionId, this.previewUrl);
+		this.previewButton.click();
+		this.previewEnabled = false;
+	}
+
+	/**
+	 * Trigger an autosave and then load the preview window
+	 *
+	 * @param e
+	 */
+
+	@autobind
+	handlePreviewRequest(e) {
+		if (this.previewEnabled) {
+			return;
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		heartbeat.triggerAutosave(this.loadPreview);
 	}
 
 	/**
@@ -140,6 +191,10 @@ class PanelCollection extends Component {
 
 	unBindEvents() {
 		clearInterval(this.heartbeat);
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.removeEventListener('click', e => this.handlePreviewRequest(e));
 	}
 
 	/**
@@ -506,7 +561,7 @@ class PanelCollection extends Component {
 			);
 		});
 
-		return PERMISSIONS.can_sort_panels ? (
+		return PERMISSIONS.sort_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
@@ -516,7 +571,7 @@ class PanelCollection extends Component {
 	}
 
 	renderPicker() {
-		return !this.state.panelSetPickerActive && PERMISSIONS.can_add_panels ? (
+		return !this.state.panelSetPickerActive && PERMISSIONS.add_panels ? (
 			<Picker
 				activate={this.state.pickerActive}
 				handlePickerUpdate={this.togglePicker}
@@ -526,7 +581,7 @@ class PanelCollection extends Component {
 	}
 
 	renderPanelSetPicker() {
-		return this.state.panelSetPickerActive && PERMISSIONS.can_add_panel_sets ? (
+		return this.state.panelSetPickerActive && PERMISSIONS.add_panel_sets ? (
 			<PanelSetsPicker
 				handleAddPanelSet={this.handleAddPanelSet}
 				handleStartNewPage={this.handleStartNewPage}

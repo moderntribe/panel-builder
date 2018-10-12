@@ -10,10 +10,6 @@ use ModularContent\Panel;
  * @package ModularContent\Fields
  *
  * A hidden field. It will be in the HTML, but not visible to the user.
- *
- * $field = new Hidden( array(
- *   'name' => 'secret',
- * ) );
  */
 class Hidden extends Field {
 	/**

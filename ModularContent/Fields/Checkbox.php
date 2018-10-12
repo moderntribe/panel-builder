@@ -10,27 +10,20 @@ namespace ModularContent\Fields;
  * @package ModularContent\Fields
  *
  * A group of checkboxes
- *
- * $field = new Checkbox( array(
- *   'label' => __('Pick Options'),
- *   'name' => 'my-field',
- *   'description' => __( 'Pick the things that you pick' )
- *   'options' => array(
- *     'first' => __( 'The First Option' ),
- *     'second' => __( 'The Second Option' ),
- *   ),
- *   'default' => array( 'second' => 1 ),
- * ) );
  */
 class Checkbox extends Select {
 
+	const LAYOUT_VERTICAL   = 'vertical';
+	const LAYOUT_HORIZONTAL = 'horizontal';
+	const LAYOUT_INLINE     = 'inline';
+
 	protected $default      = [];
-	protected $layout       = 'vertical';
+	protected $layout       = self::LAYOUT_VERTICAL;
 	protected $option_width = 12;
 
 	public function __construct( $args = [] ) {
-		$this->check_layout( $args );
-		$this->check_option_width( $args );
+		$this->validate_layout( $args );
+		$this->validate_option_width( $args );
 
 		$this->defaults['layout']       = $this->layout;
 		$this->defaults['option_width'] = $this->option_width;
@@ -47,13 +40,22 @@ class Checkbox extends Select {
 	}
 
 	/**
+	 * Get valid layouts for this field.
+	 *
+	 * @return array
+	 */
+	protected function get_valid_layouts() {
+		return [ self::LAYOUT_VERTICAL, self::LAYOUT_HORIZONTAL, self::LAYOUT_INLINE ];
+	}
+
+	/**
 	 * Ensure that the values for layout are valid.
 	 *
 	 * @param $args
 	 */
-	protected function check_layout( $args ) {
-		if ( isset( $args['layout'] ) && $args['layout'] !== 'vertical' && $args['layout'] !== 'horizontal' && $args['layout'] !== 'inline' ) {
-			throw new \LogicException( 'Layout argument can only be "vertical", "horizontal", or "inline".' );
+	protected function validate_layout( $args ) {
+		if ( isset( $args['layout'] ) && ! in_array( $args['layout'], $this->get_valid_layouts() ) ) {
+			throw new \InvalidArgumentException( 'Layout argument can only be "vertical", "horizontal", or "inline".' );
 		}
 	}
 
@@ -62,9 +64,9 @@ class Checkbox extends Select {
 	 *
 	 * @param $args
 	 */
-	protected function check_option_width( $args ) {
+	protected function validate_option_width( $args ) {
 		if ( isset( $args['option_width'] ) && ( $args['option_width'] < 1 || $args['option_width'] > 12 ) ) {
-			throw new \LogicException( 'option_width argument must be between 1-12.' );
+			throw new \InvalidArgumentException( 'option_width argument must be between 1-12.' );
 		}
 	}
 

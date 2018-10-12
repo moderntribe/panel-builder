@@ -11,6 +11,7 @@ Also supports a color with a text label. The option value should be an array wit
 | `label`       | `string` | The __() translated label for this field       |
 | `name`        | `string` | The unique name for this field                 |
 | `description` | `string` | The __() translated description for this field |
+| `option_width` | `int` | Defines how many "columns" this field will take up in relation to its parent. Can be 1-12. |
 | `options` | `array` | An array of key => value pairs, where the `key` is the option name and the `value` is an array with `color` and `label` keys. |
 
 
@@ -31,5 +32,6 @@ $field = new Swatch_Select( [
             'label'       => __( 'Green to Blue Gradient' ),
         ],
     ],
+    'option_width' => 6,
 ] );
 ```

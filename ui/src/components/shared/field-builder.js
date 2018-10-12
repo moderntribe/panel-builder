@@ -26,11 +26,9 @@ const FieldBuilder = (props) => {
 
 		let isActive = _.isEmpty(props.tabs);
 
-		Object.keys(props.tabs).forEach((tab) => {
-			if (props[tab].indexOf(field.name) >= 0 && tab === props.activeTab) {
-				isActive = true;
-			}
-		});
+		if (props.tabs[props.activeTab] && props.tabs[props.activeTab].fields.indexOf(field.name) >= 0) {
+			isActive = true;
+		}
 
 		const classes = classNames({
 			[styles.field]: true,
@@ -88,7 +86,7 @@ const FieldBuilder = (props) => {
 			handleExpanderClick={props.handleExpanderClick}
 			nestedGroupActive={props.nestedGroupActive}
 			hidePanel={props.hidePanel}
-			visible={props.hasChildren && props.activeTab === 'content_fields'}
+			visible={props.hasChildren && props.activeTab === 'content'}
 		/>
 	);
 
@@ -131,7 +129,7 @@ FieldBuilder.defaultProps = {
 	index: 0,
 	indexMap: [],
 	parentMap: [],
-	activeTab: 'content_fields',
+	activeTab: 'content',
 	label: '',
 	fields: [],
 	panels: [],

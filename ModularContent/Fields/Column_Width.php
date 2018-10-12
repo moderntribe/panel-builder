@@ -10,13 +10,6 @@ namespace ModularContent\Fields;
  * @package ModularContent\Fields
  *
  * A group of radio buttons laid out into an intuitive ui for selecting grid widths a panel/group of panels may take up.
- *
- * $field = new Column_Width( array(
- *   'label' => __('Column Width'),
- *   'name' => 'my-field',
- *   'description' => __( 'Select width for this column' )
- *   'columns' => 12
- * ) );
  */
 class Column_Width extends Radio {
 
