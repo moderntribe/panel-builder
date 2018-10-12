@@ -7,7 +7,7 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS, previewUrl } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -50,9 +50,11 @@ class PanelCollection extends Component {
 
 		this.dataInput = document.getElementById('modular-content-data');
 		this.previewButton = document.getElementById('post-preview');
+		this.postId = document.getElementById('post_ID').value;
+		this.revisionId = 0;
 
 		if (this.previewButton) {
-			this.previewUrl = this.previewButton.href;
+			this.previewButtonText = this.previewButton.innerHTML;
 			this.previewEnabled = false;
 		}
 	}
@@ -117,6 +119,7 @@ class PanelCollection extends Component {
 		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
 		heartbeat.init({
+			begin: this.handleAutosaveBegin,
 			success: this.handleAutosaveSuccess,
 		});
 		if (!this.previewButton) {
@@ -132,9 +135,10 @@ class PanelCollection extends Component {
 	 */
 
 	@autobind
-	loadPreview(revisionId) {
+	loadPreview(revisionId = 0) {
+		const rId = !revisionId ? this.revisionId : revisionId;
 		this.previewEnabled = true;
-		this.previewButton.href = updateQueryVar('revision_id', revisionId, this.previewUrl);
+		this.previewButton.href = rId ? updateQueryVar('revision_id', rId, previewUrl) : previewUrl;
 		this.previewButton.click();
 		this.previewEnabled = false;
 	}
@@ -147,12 +151,19 @@ class PanelCollection extends Component {
 
 	@autobind
 	handlePreviewRequest(e) {
+		if (this.previewButton.classList.contains('disabled')) {
+			return;
+		}
 		if (this.previewEnabled) {
 			return;
 		}
 		e.preventDefault();
 		e.stopPropagation();
-		heartbeat.triggerAutosave(this.loadPreview);
+		if (MODULAR_CONTENT.needs_save) {
+			heartbeat.triggerAutosave();
+		} else {
+			this.loadPreview();
+		}
 	}
 
 	/**
@@ -202,12 +213,27 @@ class PanelCollection extends Component {
 	 */
 
 	@autobind
-	handleAutosaveSuccess() {
+	handleAutosaveSuccess(revisionId) {
+		this.revisionId = revisionId;
+		if (this.previewButton) {
+			this.previewButton.classList.remove('disabled');
+		}
 		if (this.state.triggerLiveEdit) {
 			this.animateToLiveEdit({
 				liveEdit: true,
 				triggerLiveEdit: false,
 			});
+		}
+	}
+
+	/**
+	 * Anything that needs to run at autosave start
+	 */
+
+	@autobind
+	handleAutosaveBegin() {
+		if (this.previewButton) {
+			this.previewButton.classList.add('disabled');
 		}
 	}
 
@@ -362,10 +388,14 @@ class PanelCollection extends Component {
 			const panels = cloneDeep(this.props.panels);
 			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
+				if (!MODULAR_CONTENT.needs_save) {
+					this.previewButton.innerHTML = this.previewButtonText;
+				}
 				return;
 			}
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
+			this.previewButton.innerHTML = UI_I18N['button.save_revision'];
 			dataInput.value = newData;
 		}, 1000);
 	}

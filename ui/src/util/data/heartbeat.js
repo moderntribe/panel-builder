@@ -23,6 +23,7 @@ export const iframePreviewUrl = () => previewUrl;
  */
 
 export const triggerAutosave = (callback = () => {}) => {
+	settings.begin();
 	MODULAR_CONTENT.needs_save = false;
 	ajax.saveRevision(MODULAR_CONTENT.autosave)
 		.then((res) => {
@@ -35,7 +36,7 @@ export const triggerAutosave = (callback = () => {}) => {
 			previewUrl = updateQueryVar('revision_id', revisionId, previewUrl);
 
 			callback(revisionId);
-			settings.success();
+			settings.success(revisionId);
 
 			console.log('Saved panel data as revision and executed any callbacks.');
 		})
@@ -63,6 +64,7 @@ const runHeartbeat = () => {
 
 export const init = (opts = {}) => {
 	settings = Object.assign({}, {
+		begin: () => {},
 		rate: wpHeartbeat ? wpHeartbeat.interval() * 1000 : 60000,
 		success: () => {},
 	}, opts);

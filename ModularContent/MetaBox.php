@@ -244,6 +244,9 @@ class MetaBox {
 
 		$js_i18n_array = [
 			'ui' => [
+				// WP Ui
+				'button.save_revision'          => __( 'Save Revision Data', 'modular-content' ),
+
 				// Live edit bar
 				'heading.resizer'              => __( 'Resize', 'modular-content' ),
 
