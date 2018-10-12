@@ -27,12 +27,14 @@ export const triggerAutosave = (callback = () => {}) => {
 	ajax.saveRevision(MODULAR_CONTENT.autosave)
 		.then((res) => {
 			if (!res.body.success) {
+				callback();
 				console.error('Error saving revision for panel data.');
 				return;
 			}
-			previewUrl = updateQueryVar('revision_id', parseInt(res.body.data, 10), previewUrl);
+			const revisionId = parseInt(res.body.data, 10);
+			previewUrl = updateQueryVar('revision_id', revisionId, previewUrl);
 
-			callback();
+			callback(revisionId);
 			settings.success();
 
 			console.log('Saved panel data as revision and executed any callbacks.');
