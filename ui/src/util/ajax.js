@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { TEMPLATE_SAVER, ICONS_AJAX_ACTION, AUTOSAVE_AJAX_ENDPOINT } from '../globals/config';
-import { wpAjax } from '../globals/wp';
+import { wpAjax, wpAutosave } from '../globals/wp';
 
 const postEl = document.getElementById('post_ID');
 const nonceEl = document.getElementById('_wpnonce');
@@ -24,6 +24,7 @@ export const saveRevision = (panels = {}) => {
 		post_data: {
 			post_id,
 			_wpnonce,
+			post_content: JSON.stringify(wpAutosave.getPostData('remote')),
 			post_content_filtered: panels,
 		},
 	};

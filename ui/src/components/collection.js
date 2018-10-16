@@ -274,13 +274,9 @@ class PanelCollection extends Component {
 					injectionIndex: -1,
 				});
 			}, 150);
-		} else if (MODULAR_CONTENT.needs_save) {
+		} else {
 			this.setState({ triggerLiveEdit: true });
 			heartbeat.triggerAutosave();
-		} else {
-			this.animateToLiveEdit({
-				liveEdit: true,
-			});
 		}
 	}
 
