@@ -7,7 +7,8 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS, previewUrl } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS } from '../globals/config';
+import { wpAutosave } from '../globals/wp';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -17,7 +18,6 @@ import CollectionPreview from './collection-preview';
 import Dialog from './panel-dialog';
 import Picker from './panel-picker';
 import PanelSetsPicker from './panel-sets-picker';
-import updateQueryVar from '../util/data/update-query-var';
 import styles from './collection.pcss';
 
 import * as ajax from '../util/ajax';
@@ -30,6 +30,8 @@ import * as defaultData from '../util/data/default-data';
 import cloneDeep from '../util/data/clone-deep';
 
 import randomString from '../util/data/random-string';
+
+const $ = window.jQuery;
 
 class PanelCollection extends Component {
 	constructor(props) {
@@ -48,15 +50,7 @@ class PanelCollection extends Component {
 			triggerLiveEdit: false,
 		};
 
-		this.dataInput = document.getElementById('modular-content-data');
-		this.previewButton = document.getElementById('post-preview');
-		this.postId = document.getElementById('post_ID').value;
-		this.revisionId = 0;
-
-		if (this.previewButton) {
-			this.previewButtonText = this.previewButton.innerHTML;
-			this.previewEnabled = false;
-		}
+		this.storeExternalDomComponents();
 	}
 
 	componentWillMount() {
@@ -87,6 +81,21 @@ class PanelCollection extends Component {
 	getRefreshDelay() {
 		const savedRate = storage.get('modular-content-refresh-delay');
 		return savedRate ? parseInt(savedRate, 10) : 1000;
+	}
+
+	storeExternalDomComponents() {
+		this.dataInput = document.getElementById('modular-content-data');
+		this.previewButton = document.getElementById('post-preview');
+		this.postId = document.getElementById('post_ID').value;
+		this.revisionId = 0;
+
+		if (this.previewButton) {
+			this.previewField = document.querySelectorAll('input#wp-preview')[0];
+			this.postForm = document.querySelectorAll('form#post')[0];
+			this.previewButtonText = this.previewButton.innerHTML;
+			this.previewButtonTarget = this.previewButton.target;
+			this.previewEnabled = false;
+		}
 	}
 
 	/**
@@ -130,16 +139,30 @@ class PanelCollection extends Component {
 
 	/**
 	 * Load a new tab with the preview after autosave success
+	 * Emulates the wordpress internal approach
 	 *
-	 * @param revisionId
 	 */
 
 	@autobind
-	loadPreview(revisionId = 0) {
-		const rId = !revisionId ? this.revisionId : revisionId;
+	loadPreview() {
 		this.previewEnabled = true;
-		this.previewButton.href = rId ? updateQueryVar('revision_id', rId, previewUrl) : previewUrl;
-		this.previewButton.click();
+		const target = this.previewButtonTarget || 'wp-preview';
+		const ua = navigator.userAgent.toLowerCase();
+
+		if (wpAutosave) {
+			wpAutosave.server.tempBlockSave();
+		}
+
+		this.previewField.value = 'dopreview';
+		this.postForm.setAttribute('target', target);
+		this.postForm.submit();
+		this.postForm.setAttribute('target', '');
+
+		if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
+			$(this.postForm).attr('action', (index, value) => `${value}?t=${(new Date()).getTime()}`);
+		}
+
+		this.previewField.value = '';
 		this.previewEnabled = false;
 	}
 
