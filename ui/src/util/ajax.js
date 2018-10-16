@@ -24,7 +24,7 @@ export const saveRevision = (panels = {}) => {
 		post_data: {
 			post_id,
 			_wpnonce,
-			post_content: JSON.stringify(wpAutosave.getPostData('remote')),
+			...wpAutosave.getPostData('remote'),
 			post_content_filtered: panels,
 		},
 	};
