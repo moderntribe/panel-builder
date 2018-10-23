@@ -407,15 +407,17 @@ class PanelCollection extends Component {
 			const panels = cloneDeep(this.props.panels);
 			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
-				if (!MODULAR_CONTENT.needs_save) {
+				if (!MODULAR_CONTENT.needs_save && this.previewButton) {
 					this.previewButton.innerHTML = this.previewButtonText;
 				}
 				return;
 			}
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
-			this.previewButton.innerHTML = UI_I18N['button.save_revision'];
 			dataInput.value = newData;
+			if (this.previewButton) {
+				this.previewButton.innerHTML = UI_I18N['button.save_revision'];
+			}
 		}, 1000);
 	}
 
