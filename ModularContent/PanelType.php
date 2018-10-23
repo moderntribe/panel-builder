@@ -159,7 +159,7 @@ class PanelType {
 	private function setup_default_tabbed_fields() {
 		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
 		foreach ( $tabs as $tab ) {
-			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [] ) as $field ) {
+			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [], $this->id ) as $field ) {
 				$this->add_field( $field, $tab );
 			}
 		}
