@@ -299,7 +299,8 @@ class Post_List extends Field {
 	protected function filter_posts( $filters, $fields = 'ids', $max = 0 ) {
 		$context = get_queried_object_id();
 		$max = $max ? $max : $this->max;
-		$ids = self::get_posts_for_filters( $filters, $max, $context );
+		$values = self::get_posts_for_filters( $filters, $max, $context );
+		$ids = wp_list_pluck( $values, 'ID' );
 		if ( $fields == 'ids' || empty( $ids ) ) {
 			return $ids;
 		}
@@ -419,7 +420,6 @@ class Post_List extends Field {
 			'meta_query'        => [
 				'relation' => 'AND',
 			],
-			'fields'           => 'ids',
 			'suppress_filters' => false,
 		];
 		foreach ( $filters as $type => $filter ) {
@@ -605,7 +605,7 @@ class Post_List extends Field {
 		];
 
 		$blueprint[ 'taxonomies' ] = [ ];
-		
+
 		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
 			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
 			$options = [ ];

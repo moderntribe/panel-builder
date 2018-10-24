@@ -597,7 +597,8 @@ class MetaBox {
 		} elseif ( ! empty( $_POST['filters'] ) ) {
 			$max      = ! empty( $_POST['max'] ) ? $_POST['max'] : 12;
 			$context  = empty( $_POST['context'] ) ? 0 : $_POST['context'];
-			$post_ids = Fields\Post_List::get_posts_for_filters( $_POST['filters'], $max, $context );
+			$posts    = Fields\Post_List::get_posts_for_filters( $_POST['filters'], $max, $context );
+			$post_ids = wp_list_pluck( $posts, 'ID' );
 		}
 		if ( ! empty( $post_ids ) ) {
 			$response['post_ids'] = $post_ids;
