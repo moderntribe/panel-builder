@@ -138,7 +138,7 @@ class MetaBox {
 
 	/**
 	 * Get an array of Panels-specific permissions formatted for JS. Arranges tab-specific permissions into an array of
-     * values for easier consumption within the App.
+	 * values for easier consumption within the App.
 	 *
 	 * @return array
 	 */
@@ -159,8 +159,8 @@ class MetaBox {
 	}
 
 	/**
-     * Get the base panel permissions for the current user.
-     *
+	 * Get the base panel permissions for the current user.
+	 *
 	 * @return array
 	 */
 	protected function get_base_panel_permissions() {
@@ -185,8 +185,8 @@ class MetaBox {
 	}
 
 	/**
-     * Get the tabs-specific permissions for the current user.
-     *
+	 * Get the tabs-specific permissions for the current user.
+	 *
 	 * @return array
 	 */
 	protected function get_panel_tabs_permissions() {
@@ -201,12 +201,12 @@ class MetaBox {
 	}
 
 	/**
-     * Filter user permissions to allow all by default, while respecting explicitly-defined capabilities where present.
-     *
+	 * Filter user permissions to allow all by default, while respecting explicitly-defined capabilities where present.
+	 *
 	 * @param $allcaps
 	 * @param $cap
-     *
-     * @filter user_has_cap 10 2
+	 *
+	 * @filter user_has_cap 10 2
 	 *
 	 * @return mixed
 	 */
@@ -339,19 +339,19 @@ class MetaBox {
 					break;
 			}
 			?>
-            <style id='panel-builder-colors'>
-                .panel-builder-text-color {
-                    color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
-                }
+			<style id='panel-builder-colors'>
+				.panel-builder-text-color {
+					color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
+				}
 
-                .panel-builder-bg-color {
-                    background-color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
-                }
+				.panel-builder-bg-color {
+					background-color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
+				}
 
-                .panel-builder-border-color {
-                    border-color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
-                }
-            </style>
+				.panel-builder-border-color {
+					border-color: <?php echo $user_color_scheme->colors[$primary_color_index]; ?>;
+				}
+			</style>
 			<?php
 		}
 	}
