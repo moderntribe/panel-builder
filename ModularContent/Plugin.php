@@ -114,6 +114,8 @@ class Plugin {
 		$revision_tracker->hook();
 		$autosaver = new Autosaver();
 		$autosaver->hook();
+		$icon_handler = new Icon_Request_Handler();
+		$icon_handler->hook();
 	}
 
 	private function init_panel_sets() {
