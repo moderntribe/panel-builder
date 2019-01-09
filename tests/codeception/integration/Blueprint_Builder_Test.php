@@ -5,6 +5,7 @@ namespace ModularContent;
 
 
 use Codeception\TestCase\WPTestCase;
+use Codeception\Util\Debug;
 use ModularContent\Fields\Checkbox;
 use ModularContent\Fields\Group;
 use ModularContent\Fields\Hidden;
@@ -23,8 +24,18 @@ use ModularContent\Fields\Swatch_Select;
 use ModularContent\Fields\Text;
 use ModularContent\Fields\TextArea;
 use ModularContent\Fields\Video;
+use tad\FunctionMocker\FunctionMocker;
 
 class Blueprint_Builder_Test extends WPTestCase {
+	public function _before() {
+		FunctionMocker::replace( 'is_admin', true );
+
+		Plugin::init(dirname( __FILE__ ) . '/../../../template-tags.php' );
+		Plugin::instance()->init_panels();
+
+		parent::_before();
+	}
+
 	public function test_basic_blueprint() {
 		$registry = new TypeRegistry();
 		$type     = new PanelType( 'test_type' );
@@ -65,8 +76,16 @@ class Blueprint_Builder_Test extends WPTestCase {
 					],
 					'types' => [],
 				],
-				'tabs'           => [ 'content_fields' => 'Content' ],
-				'content_fields' => [ 'title' ],
+				'tabs' => [
+					'content' => [
+						'label'  => 'Content',
+						'fields' => [ 'title' ],
+					],
+					'settings' => [
+						'label' => 'Settings',
+						'fields' => [],
+					],
+				],
 			],
 		];
 
@@ -98,7 +117,7 @@ class Blueprint_Builder_Test extends WPTestCase {
 		$blueprint = $builder->get_blueprint();
 
 		$this->assertCount( 2, $blueprint['types'][0]['fields'] ); // title field and layout field
-		$this->assertEqualSets( [ 'layout' ], $blueprint['types'][0]['settings_fields'] );
+		$this->assertEqualSets( [ 'layout' ], $blueprint['types'][0]['tabs']['settings']['fields'] );
 	}
 
 	public function test_nested_blueprint() {
@@ -175,13 +194,29 @@ class Blueprint_Builder_Test extends WPTestCase {
 								],
 								'types' => [],
 							],
-							'tabs'           => [ 'content_fields' => 'Content' ],
-							'content_fields' => [ 'title' ],
+							'tabs' => [
+								'content' => [
+									'label'  => 'Content',
+									'fields' => [ 'title' ],
+								],
+								'settings' => [
+									'label' => 'Settings',
+									'fields' => [],
+								],
+							],
 						],
 					],
 				],
-				'tabs'           => [ 'content_fields' => 'Content' ],
-				'content_fields' => [ 'title' ],
+				'tabs' => [
+					'content' => [
+						'label'  => 'Content',
+						'fields' => [ 'title' ],
+					],
+					'settings' => [
+						'label' => 'Settings',
+						'fields' => [],
+					],
+				],
 			],
 		];
 

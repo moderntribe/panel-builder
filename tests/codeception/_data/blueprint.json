@@ -224,7 +224,16 @@
                         }
                     ],
                     "taxonomies": {
-                        "post_tag": []
+                        "post_tag": [
+                            {
+                                "value": 2,
+                                "label": "Term 18"
+                            },
+                            {
+                                "value": 3,
+                                "label": "Term 19"
+                            }
+                        ]
                     }
                 },
                 {
@@ -795,20 +804,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -872,30 +885,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -1128,20 +1151,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -1205,50 +1232,66 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content",
-                "settings_fields": "Settings"
-            },
-            "content_fields": [
-                "title",
-                "help",
-                "alignment",
-                "partner",
-                "links",
-                "gallery",
-                "posts",
-                "quack",
-                "budget",
-                "name",
-                "secret",
-                "bio",
-                "content",
-                "discontent",
-                "cat_video"
-            ],
-            "settings_fields": [
-                "layout",
-                "background"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "help",
+                        "alignment",
+                        "partner",
+                        "links",
+                        "gallery",
+                        "posts",
+                        "quack",
+                        "budget",
+                        "name",
+                        "secret",
+                        "bio",
+                        "content",
+                        "discontent",
+                        "cat_video"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": [
+                        "layout",
+                        "background"
+                    ]
+                }
+            }
         },
         {
             "type": "contentgrid",
@@ -1743,20 +1786,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -1820,30 +1867,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -2076,20 +2133,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -2153,37 +2214,53 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content",
-                "settings_fields": "Settings"
-            },
-            "content_fields": [
-                "title",
-                "content",
-                "columns"
-            ],
-            "settings_fields": [
-                "layout"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "content",
+                        "columns"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": [
+                        "layout"
+                    ]
+                }
+            }
         },
         {
             "type": "gallery",
@@ -2577,20 +2654,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -2654,30 +2735,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -2910,20 +3001,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -2987,33 +3082,51 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content"
-            },
-            "content_fields": [
-                "title",
-                "content",
-                "gallery"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "content",
+                        "gallery"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": []
+                }
+            }
         },
         {
             "type": "imagetext",
@@ -3524,20 +3637,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -3601,30 +3718,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -3857,20 +3984,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -3934,40 +4065,56 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content",
-                "settings_fields": "Settings"
-            },
-            "content_fields": [
-                "title",
-                "content",
-                "image",
-                "cta"
-            ],
-            "settings_fields": [
-                "layout",
-                "overlay",
-                "cta_style"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "content",
+                        "image",
+                        "cta"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": [
+                        "layout",
+                        "overlay",
+                        "cta_style"
+                    ]
+                }
+            }
         },
         {
             "type": "micronav",
@@ -4111,7 +4258,16 @@
                         }
                     ],
                     "taxonomies": {
-                        "post_tag": []
+                        "post_tag": [
+                            {
+                                "value": 2,
+                                "label": "Term 18"
+                            },
+                            {
+                                "value": 3,
+                                "label": "Term 19"
+                            }
+                        ]
                     }
                 }
             ],
@@ -4464,20 +4620,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -4541,30 +4701,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -4797,20 +4967,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -4874,37 +5048,53 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content",
-                "settings_fields": "Settings"
-            },
-            "content_fields": [
-                "title",
-                "content",
-                "items"
-            ],
-            "settings_fields": [
-                "layout"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "content",
+                        "items"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": [
+                        "layout"
+                    ]
+                }
+            }
         },
         {
             "type": "wysiwyg",
@@ -5306,20 +5496,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -5383,30 +5577,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -5639,20 +5843,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -5716,32 +5924,50 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content"
-            },
-            "content_fields": [
-                "title",
-                "repeater"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title",
+                        "repeater"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": []
+                }
+            }
         },
         {
             "type": "tabgroup",
@@ -6109,20 +6335,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -6186,30 +6416,40 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content",
-                            "settings_fields": "Settings"
-                        },
-                        "content_fields": [
-                            "title",
-                            "content",
-                            "image",
-                            "cta"
-                        ],
-                        "settings_fields": [
-                            "layout",
-                            "overlay",
-                            "cta_style"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "content",
+                                    "image",
+                                    "cta"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": [
+                                    "layout",
+                                    "overlay",
+                                    "cta_style"
+                                ]
+                            }
+                        }
                     },
                     {
                         "type": "wysiwyg",
@@ -6442,20 +6682,24 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content",
-                                        "settings_fields": "Settings"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "content",
-                                        "image",
-                                        "cta"
-                                    ],
-                                    "settings_fields": [
-                                        "layout",
-                                        "overlay",
-                                        "cta_style"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "content",
+                                                "image",
+                                                "cta"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": [
+                                                "layout",
+                                                "overlay",
+                                                "cta_style"
+                                            ]
+                                        }
+                                    }
                                 },
                                 {
                                     "type": "wysiwyg",
@@ -6519,31 +6763,49 @@
                                         "types": []
                                     },
                                     "tabs": {
-                                        "content_fields": "Content"
-                                    },
-                                    "content_fields": [
-                                        "title",
-                                        "repeater"
-                                    ]
+                                        "content": {
+                                            "label": "Content",
+                                            "fields": [
+                                                "title",
+                                                "repeater"
+                                            ]
+                                        },
+                                        "settings": {
+                                            "label": "Settings",
+                                            "fields": []
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "tabs": {
-                            "content_fields": "Content"
-                        },
-                        "content_fields": [
-                            "title",
-                            "repeater"
-                        ]
+                            "content": {
+                                "label": "Content",
+                                "fields": [
+                                    "title",
+                                    "repeater"
+                                ]
+                            },
+                            "settings": {
+                                "label": "Settings",
+                                "fields": []
+                            }
+                        }
                     }
                 ]
             },
             "tabs": {
-                "content_fields": "Content"
-            },
-            "content_fields": [
-                "title"
-            ]
+                "content": {
+                    "label": "Content",
+                    "fields": [
+                        "title"
+                    ]
+                },
+                "settings": {
+                    "label": "Settings",
+                    "fields": []
+                }
+            }
         }
     ],
     "categories": [

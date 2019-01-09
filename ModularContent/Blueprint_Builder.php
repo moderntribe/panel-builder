@@ -57,7 +57,7 @@ class Blueprint_Builder implements \JsonSerializable {
 			'types' => $this->get_child_types( $type, $depth + 1 ),
 		];
 
-		$this->get_tabbed_fields( $blueprint, $type );
+		$blueprint['tabs'] = $this->get_tabbed_fields( $type );
 
 		return $blueprint;
 	}
@@ -65,20 +65,30 @@ class Blueprint_Builder implements \JsonSerializable {
 	/**
 	 * Loop through each tabbed field and add it to the blueprint.
 	 *
-	 * @param           $blueprint
 	 * @param PanelType $type
 	 */
-	protected function get_tabbed_fields( &$blueprint, PanelType $type ) {
-		$tabbed_fields     = $type->get_tabbed_field_names();
-		$blueprint['tabs'] = [];
+	protected function get_tabbed_fields( PanelType $type ) {
+		$registered_tabs = apply_filters( 'modular_content_tabs', [] );
+		$tabs            = [];
 
-		foreach ( $tabbed_fields as $tab => $fields ) {
-			$tab_label                 = str_replace( '_', ' ', ucwords( $tab, '_' ) );
-			$blueprint['tabs'][ $tab ] = [
+		foreach ( $registered_tabs as $tab_name => $tab_label ) {
+			$tabs[ $tab_name ] = [
 				'label'  => $tab_label,
-				'fields' => $fields,
+				'fields' => [],
 			];
 		}
+
+		$tabbed_fields = $type->get_tabbed_field_names();
+
+		foreach ( $tabbed_fields as $tab => $fields ) {
+			if ( ! array_key_exists( $tab, $tabs ) ) {
+				throw new \InvalidArgumentException( $tab . ' is not a registered tab type. Please add it using the modular_content_tabs filter.' );
+			}
+
+			$tabs[ $tab ]['fields'] = $fields;
+		}
+
+		return $tabs;
 	}
 
 	private function get_fields( PanelType $type ) {

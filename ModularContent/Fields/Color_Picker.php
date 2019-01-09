@@ -39,8 +39,7 @@ class Color_Picker extends Field {
 		$this->defaults['picker_type']  = $this->picker_type;
 		$this->defaults['color_mode']   = $this->color_mode;
 		$this->defaults['allow_clear']  = $this->allow_clear;
-		$this->defaults['swatches']     = isset( $args['swatches'] ) ? $args['swatches'] : apply_filters( 'panels_default_color_picker_swatches',
-			$this->default_swatches );
+		$this->defaults['swatches']     = isset( $args['swatches'] ) ? $args['swatches'] : apply_filters( 'panels_default_color_picker_swatches', $this->default_swatches );
 		$this->defaults['layout']       = $this->layout;
 		parent::__construct( $args );
 	}

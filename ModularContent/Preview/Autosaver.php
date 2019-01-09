@@ -36,7 +36,7 @@ class Autosaver {
 		wp_send_json_success( $revision_id, 200 );
 	}
 
-	protected function get_json_body(): array {
+	protected function get_json_body() {
 		$body = json_decode( file_get_contents( 'php://input' ), true );
 		if ( empty( $body ) ) {
 			return [];

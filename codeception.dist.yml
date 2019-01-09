@@ -33,16 +33,16 @@ modules:
             checkExistence: true
             update: true
         WPLoader:
-            wpRootFolder: /srv/www
-            dbName: panels-tests
-            dbHost: localhost
+            wpRootFolder: ~/Documents/sites/clients/m/moderntribe/wp-tests/
+            dbName: wp_test_site
+            dbHost: mysql.tribe
             dbUser: root
             dbPassword: password
             wpDebug: true
             dbCharset: utf8
             dbCollate: ''
             tablePrefix: wp_
-            domain: wp.local
+            domain: wp-test.tribe
             adminEmail: admin@wp.local
             title: 'Panel Builder Tests'
             phpBinary: php

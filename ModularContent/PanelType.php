@@ -157,25 +157,12 @@ class PanelType {
 	 * Loop through applied default filters and add the specified fields to the correct tabs.
 	 */
 	private function setup_default_tabbed_fields() {
-		$tabs = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
-		foreach ( $tabs as $tab ) {
+		$tabs = apply_filters( 'modular_content_tabs', [] );
+		foreach ( $tabs as $tab => $label ) {
 			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [], $this->id ) as $field ) {
 				$this->add_field( $field, $tab );
 			}
 		}
-	}
-
-	/**
-	 * Call preg_grep against the keys of an array to match the pattern.
-	 *
-	 * @param     $pattern
-	 * @param     $input
-	 * @param int $flags
-	 *
-	 * @return array
-	 */
-	function preg_grep_keys( $pattern, $input, $flags = 0 ) {
-		return array_intersect_key( $input, array_flip( preg_grep( $pattern, array_keys( $input ), $flags ) ) );
 	}
 
 	/**

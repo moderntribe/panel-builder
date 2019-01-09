@@ -19,7 +19,7 @@ class Checkbox extends Select {
 
 	protected $default      = [];
 	protected $layout       = self::LAYOUT_VERTICAL;
-	protected $option_width = 12;
+	protected $option_width = 12; // Fields are laid out in a 12-column grid. This defines how many columns wide this field should be.
 
 	public function __construct( $args = [] ) {
 		$this->validate_layout( $args );

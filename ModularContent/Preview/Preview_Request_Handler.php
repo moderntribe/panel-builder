@@ -41,7 +41,7 @@ class Preview_Request_Handler {
 		}
 	}
 
-	protected function get_json_body(): array {
+	protected function get_json_body() {
 		$body = json_decode( file_get_contents( 'php://input' ), true );
 		if ( empty( $body ) ) {
 			return [];

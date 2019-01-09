@@ -48,6 +48,7 @@ class MetaBox {
 		add_action( 'wp_ajax_posts-field-fetch-preview', array( $this, 'ajax_fetch_preview' ), 10, 0 );
 		add_action( 'wp_ajax_' . self::ICONS_ACTION, array( $this, 'ajax_fetch_icon_options' ), 10, 0 );
 		add_filter( 'user_has_cap', array( $this, 'apply_default_permissions' ), 10, 2 );
+		add_filter( 'modular_content_tabs', array( $this, 'add_default_tabs' ), 0, 1 );
 	}
 
 	public function filter_post_revision_fields( $fields ) {
@@ -193,9 +194,9 @@ class MetaBox {
 	 */
 	protected function get_panel_tabs_permissions() {
 		$permissions = [];
-		$tabs        = apply_filters( 'modular_content_tabs', [ 'content', 'settings' ] );
+		$tabs        = apply_filters( 'modular_content_tabs', [] );
 
-		foreach ( $tabs as $tab ) {
+		foreach ( $tabs as $tab => $label ) {
 			$permissions[ 'access_panel_tab/' . $tab ] = current_user_can( 'access_panel_tab/' . $tab );
 		}
 
@@ -614,5 +615,12 @@ class MetaBox {
 		}
 
 		wp_send_json_success( $data[ $key ] );
+	}
+
+	public function add_default_tabs( $tabs ) {
+		$tabs['content']  = __( 'Content', 'modular-content' );
+		$tabs['settings'] = __( 'Settings', 'modular-content' );
+
+		return $tabs;
 	}
 }
