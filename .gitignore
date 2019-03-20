@@ -21,8 +21,9 @@ npm-debug.log
 
 codeception.yml
 tests/codeception/_output/*
-vendor/*
+vendor/**/*
 !vendor/autoload.php
 !vendor/composer
 !vendor/moderntribe
 **/__coverage__/
+
