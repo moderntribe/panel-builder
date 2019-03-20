@@ -19,7 +19,7 @@ const Text = ( {
 	/>
 );
 
-Input.propTypes = {
+Text.propTypes = {
 	className: PropTypes.string,
 	value: PropTypes.string,
 	name: PropTypes.string,

@@ -1,24 +1,22 @@
+import { Text } from '../common/elements';
+
 const TITLE = 'Title';
 const IMAGE_SELECT = 'ImageSelect';
 const TEXT_AREA = 'TextArea';
 const LINK = 'Link';
 
-export const configElementMap = ( config ) => {
-	switch ( config ) {
-		case TITLE:
-			return 'Text';
-		case IMAGE_SELECT:
-			return 'Image Select';
-		case TEXT_AREA:
-			return 'Text Area';
-		case LINK:
-			return 'Link';
-		default:
-			return '';
-	}
-}
+const configElementMap = {
+	[ TITLE ]: Text,
+	[ IMAGE_SELECT ]: '',
+	[ TEXT_AREA ]: '',
+	[ LINK ]: '',
+};
 
-export const configFieldsMap = ( config ) => {
+export const mapConfigToElement = ( config ) => {
+	return configElementMap[ config.type ] || null;
+};
+
+export const mapConfigToFields = ( config ) => {
 	return config.reduce( ( acc, current ) => {
 		acc[ current.name ] = {
 			type: current.type,

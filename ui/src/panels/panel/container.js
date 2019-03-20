@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { withStore } from '../../common/hoc';
 import { actions } from '../../data/panels';
 import { getPanelType } from '../../configs/settings';
-import { configFieldsMap } from '../../configs/maps';
+import { mapConfigToFields } from '../../configs/maps';
 import Template from './template';
 
 const mapStateToProps = ( state, ownProps ) => {
@@ -17,7 +17,7 @@ const mapDispatchToProps = ( dispatch, ownProps ) => {
 		onMount: () => {
 			const type = ownProps.name.split( '/' ).pop();
 			const config = getPanelType( type );
-			const fields = configFieldsMap( config.fields );
+			const fields = mapConfigToFields( config.fields );
 			const payload = {
 				clientId: ownProps.clientId,
 				type,

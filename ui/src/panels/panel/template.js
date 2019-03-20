@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { PanelBody } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/editor';
+import { mapConfigToElement } from '../../configs/maps';
 
 class Panel extends PureComponent {
 	componentDidMount() {
@@ -20,8 +21,12 @@ class Panel extends PureComponent {
 						<PanelBody title="Content">
 							{
 								Object.keys( this.props.panel.fields ).map( ( fieldKey ) => {
-									this.props.panel.fields[fieldKey];
-									// return <Component />
+									// this.props.panel.fields[fieldKey]
+									const Component = mapConfigToElement( this.props.panel.fields[fieldKey] );
+									if ( Component ) {
+										return <Component />
+									}
+									return null;
 								} )
 							}
 						</PanelBody>

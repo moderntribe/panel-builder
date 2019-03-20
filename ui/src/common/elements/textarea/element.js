@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { TextControl } from '@wordpress/components';
+import { TextareaControl } from '@wordpress/components';
 
 const TextArea = ( {
 	className,
@@ -19,7 +19,7 @@ const TextArea = ( {
 	/>
 );
 
-Input.propTypes = {
+TextArea.propTypes = {
 	className: PropTypes.string,
 	value: PropTypes.string,
 	name: PropTypes.string,

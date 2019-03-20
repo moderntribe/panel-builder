@@ -173,11 +173,11 @@ export default class FreeformEdit extends PureComponent {
 			/>,
 		];
 		/* eslint-enable jsx-a11y/no-static-element-interactions */
-}
+	}
 }
 
 
-Input.propTypes = {
+FreeFormEdit.propTypes = {
 	className: PropTypes.string,
 	value: PropTypes.string,
 	name: PropTypes.string,

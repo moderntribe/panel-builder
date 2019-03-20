@@ -49,7 +49,7 @@ const ImageUpload = ( {
 );
 
 
-Input.propTypes = {
+ImageUpload.propTypes = {
 	className: PropTypes.string,
 	value: PropTypes.integer,
 	name: PropTypes.string,
