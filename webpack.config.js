@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const externals = require( './webpack/externals' );
 
 const DEBUG = process.env.NODE_ENV !== 'production';
 
@@ -62,6 +63,7 @@ module.exports = {
 	entry,
 	externals: {
 		jquery: 'jQuery',
+		...externals,
 	},
 	resolveLoader: {
 		modules: [
