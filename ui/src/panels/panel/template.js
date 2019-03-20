@@ -22,9 +22,14 @@ class Panel extends PureComponent {
 							{
 								Object.keys( this.props.panel.fields ).map( ( fieldKey ) => {
 									// this.props.panel.fields[fieldKey]
-									const Component = mapConfigToElement( this.props.panel.fields[fieldKey] );
+									const Component = mapConfigToElement( this.props.panel.fields[ fieldKey ] );
 									if ( Component ) {
-										return <Component />
+										return (
+											<Component
+												onChange={ this.props.onUpdate( fieldKey ) }
+												{ ...this.props.panel.fields[ fieldKey ] }
+											/>
+										);
 									}
 									return null;
 								} )

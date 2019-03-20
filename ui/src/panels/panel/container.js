@@ -31,10 +31,41 @@ const mapDispatchToProps = ( dispatch, ownProps ) => {
 			};
 			dispatch( actions.removePanel( payload ) );
 		},
-	}
+		dispatch,
+	};
 };
+
+const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
+	const { dispatch, ...restDispatchProps } = dispatchProps;
+
+	return {
+		...ownProps,
+		...stateProps,
+		...restDispatchProps,
+		onUpdate: ( fieldKey ) => ( value ) => {
+			const clientId = ownProps.clientId;
+			const type = stateProps.panel.type;
+			const fields = Object.assign(
+				{},
+				stateProps.panel.fields,
+				{
+					[ fieldKey ]: {
+						...stateProps.panel.fields[ fieldKey ],
+						value,
+					}
+				},
+			);
+			const payload = {
+				clientId,
+				type,
+				fields,
+			};
+			dispatch( actions.updatePanel( payload ) );
+		},
+	}
+}
 
 export default compose(
 	withStore(),
-	connect( mapStateToProps, mapDispatchToProps ),
+	connect( mapStateToProps, mapDispatchToProps, mergeProps ),
 )( Template );

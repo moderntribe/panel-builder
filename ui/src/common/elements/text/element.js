@@ -8,21 +8,24 @@ import { TextControl } from '@wordpress/components';
 
 const Text = ( {
 	className,
+	label,
 	value,
-	name
+	onChange,
 } ) => (
 	<TextControl
 		className={ classNames( 'blockpanels__text', className ) }
 		type='text'
-		name={ name }
+		label={ label }
 		value={ value }
+		onChange={ onChange }
 	/>
 );
 
 Text.propTypes = {
 	className: PropTypes.string,
+	label: PropTypes.string,
 	value: PropTypes.string,
-	name: PropTypes.string,
+	onChange: PropTypes.func,
 };
 
 export default Text;
