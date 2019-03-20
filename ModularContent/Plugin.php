@@ -100,7 +100,7 @@ class Plugin {
 		}
 		\AttachmentHelper\Plugin::init();
 		$this->setup_ajax_handler();
-		$this->init_panel_sets();
+		//$this->init_panel_sets();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
 		//add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
 		//add_filter( 'wp_before_admin_bar_render', array( $this, 'add_customize_menu_item' ), 11 );
@@ -122,18 +122,22 @@ class Plugin {
 	}
 
 	private function init_panel_sets() {
-		//$initializer = new Sets\Initializer();
-		//$initializer->hook();
+		$initializer = new Sets\Initializer();
+		$initializer->hook();
 	}
 
 	public function init_panels() {
-		//require_once(self::plugin_path('template-tags.php'));
+		require_once(self::plugin_path('template-tags.php'));
 		//add_post_type_support( 'post', 'modular-content' );
 		//add_filter( 'the_content', array( $this, 'filter_the_content' ), 100, 1 );
 		//add_action( 'the_panels', array( $this, 'do_the_panels' ), 10, 0 );
 		//add_action( 'pre_get_posts', array( $this, 'filter_search_queries' ) );
 		//$this->wrap_kses();
 		do_action( 'panels_init', $this->registry );
+		foreach ( $this->registry->registered_panels() as $panel_type ) {
+			$block = new Gutenberg\Block( $panel_type );
+			$block->register();
+		}
 //		if ( is_admin() ) {
 //			$this->metabox->add_hooks();
 //			$post_types = $this->supported_post_types();
