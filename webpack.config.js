@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const externals = require( './webpack/externals' );
+const webpackExternals = require( './webpack/externals' );
 
 const DEBUG = process.env.NODE_ENV !== 'production';
 
@@ -58,13 +58,12 @@ if (DEBUG) {
 	});
 }
 
+const externals = Object.assign( {}, webpackExternals, { jQuery: 'jQuery' } );
+
 module.exports = {
 	devtool,
 	entry,
-	externals: {
-		jquery: 'jQuery',
-		...externals,
-	},
+	externals,
 	resolveLoader: {
 		modules: [
 			path.resolve(__dirname, 'node_modules'),
