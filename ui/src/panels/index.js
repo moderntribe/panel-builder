@@ -1,15 +1,8 @@
 import { registerBlockType } from '@wordpress/blocks';
-
-// import accordion from './accordion';
-// import imageText from './imageText';
+import panelTypes from './config';
 
 const initPanels = () => {
-	const panels = [
-
-	];
-
-	panels.forEach( panel => registerBlockType( `tribe/${ panel.id }`, panel ) );
-}
-
+	panelTypes.forEach( panel => registerBlockType( `tribe-panel/${ panel.id }`, panel ) );
+};
 
 export default initPanels;
