@@ -1,4 +1,4 @@
-import { Text } from '../common/elements';
+import { Radio, Text } from '../common/elements';
 
 const TITLE = 'Title';
 const IMAGE_SELECT = 'ImageSelect';
@@ -7,7 +7,7 @@ const LINK = 'Link';
 
 const configElementMap = {
 	[ TITLE ]: Text,
-	[ IMAGE_SELECT ]: '',
+	[ IMAGE_SELECT ]: Radio,
 	[ TEXT_AREA ]: '',
 	[ LINK ]: '',
 };
@@ -23,6 +23,11 @@ export const mapConfigToFields = ( config ) => {
 			label: current.label,
 			value: current.default,
 		};
+
+		if ( current.options ) {
+			acc[ current.name ].options = current.options;
+		}
+
 		return acc;
 	}, {} );
 };

@@ -52,7 +52,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 					[ fieldKey ]: {
 						...stateProps.panel.fields[ fieldKey ],
 						value,
-					}
+					},
 				},
 			);
 			const payload = {
