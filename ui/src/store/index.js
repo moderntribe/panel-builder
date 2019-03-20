@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import rootReducer from '../reducers/index';
+import rootReducer from '../data';
 
 export default function configureStore(initialState) {
 	const logger = createLogger({
@@ -17,9 +17,9 @@ export default function configureStore(initialState) {
 	));
 
 	if (module.hot) {
-		module.hot.accept('../reducers/index', () => {
+		module.hot.accept('../data', () => {
 			/* eslint-disable global-require */
-			const nextRootReducer = require('../reducers/index').default;
+			const nextRootReducer = require('../data').default;
 			/* eslint-enable */
 			store.replaceReducer(nextRootReducer);
 		});
