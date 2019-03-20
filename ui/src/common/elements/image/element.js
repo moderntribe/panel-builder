@@ -20,9 +20,9 @@ const Image = ( {
 );
 
 Image.propTypes = {
-	alt: PropTypes.string.isRequired,
+	alt: PropTypes.string,
 	className: PropTypes.string,
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 };
 
 export default Image;
