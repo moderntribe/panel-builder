@@ -11,17 +11,12 @@ const Radio = ( {
 	options,
 	onChange,
 } ) => {
-	const selected = options.filter( ( option ) => {
-		return option.value === value;
-	} )[ 0 ] || {};
-	const onUpdate = ( selectedOption ) => onChange( selectedOption.value );
-
 	return (
 		<RadioControl
 			label={ label }
-			selected={ selected }
+			selected={ value }
 			options={ options }
-			onChange={ onUpdate }
+			onChange={ onChange }
 		/>
 	);
 };
