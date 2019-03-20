@@ -61,6 +61,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 				fields,
 			};
 			dispatch( actions.updatePanel( payload ) );
+			ownProps.setAttributes( { [ fieldKey ]: value } );
 		},
 	}
 }

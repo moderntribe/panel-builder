@@ -26,6 +26,8 @@ class Panel extends PureComponent {
 										return (
 											<Component
 												onChange={ this.props.onUpdate( fieldKey ) }
+												tagName="p"
+												identifier="content"
 												{ ...this.props.panel.fields[ fieldKey ] }
 											/>
 										);

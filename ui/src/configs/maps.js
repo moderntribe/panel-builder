@@ -1,4 +1,5 @@
 import { Radio, Text } from '../common/elements';
+import { RichText } from '@wordpress/editor';
 
 const TITLE = 'Title';
 const IMAGE_SELECT = 'ImageSelect';
@@ -8,7 +9,7 @@ const LINK = 'Link';
 const configElementMap = {
 	[ TITLE ]: Text,
 	[ IMAGE_SELECT ]: Radio,
-	[ TEXT_AREA ]: '',
+	[ TEXT_AREA ]: RichText,
 	[ LINK ]: '',
 };
 
