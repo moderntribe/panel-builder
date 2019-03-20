@@ -25,7 +25,7 @@ class Block {
 	private function registration_args() {
 		return [
 			'render_callback' => [ $this, 'render' ],
-			'editor_script'   => 'bigcommerce-gutenberg-scripts',
+			'editor_script'   => 'panels-admin-scripts',
 		];
 	}
 

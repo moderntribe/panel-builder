@@ -46,7 +46,5 @@ class Scripts {
 			'wp-components',
 		], $this->version, true );
 		wp_localize_script( 'panels-admin-scripts', 'panels_admin_config', $this->config->get_data() );
-
-		wp_enqueue_script( 'panels-admin-scripts' );
 	}
 }
