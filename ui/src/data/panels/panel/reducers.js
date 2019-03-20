@@ -1,4 +1,5 @@
-import * as types from './types';
+import * as types from '../types';
+import fields from './fields/reducers';
 
 const INITIAL_STATE = {};
 

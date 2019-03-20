@@ -46,7 +46,7 @@ const panelTypes = PANEL_TYPES.map( panelType => {
 		title: panelType.label,
 		description: panelType.description,
 		icon: panelType.thumbnail,
-		category: 'tribe-panels',
+		category: 'common',
 		keywords: [],
 		supports: {
 			html: false,
