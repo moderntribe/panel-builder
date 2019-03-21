@@ -1,12 +1,11 @@
 /**
  * External Dependencies
  */
-import { React } from 'react';
-import { PureComponent } from React;
+import React, { PureComponent } from 'react';
 import { __ } from '@wordpress/i18n';
-import { RichText } from '@wordpress/editor';
-import { BACKSPACE, DELETE, F10 } from '@wordpress/keycodes';
 import PropTypes from 'prop-types';
+
+const { BACKSPACE, DELETE, F10 } = wp.keycodes;
 
 function isTmceEmpty( editor ) {
 	// When tinyMce is empty the content seems to be:
@@ -24,7 +23,7 @@ function isTmceEmpty( editor ) {
 	return /^\n?$/.test( body.innerText || body.textContent );
 }
 
-export default class FreeformEdit extends PureComponent {
+class FreeFormEdit extends PureComponent {
 	constructor( props ) {
 		super( props );
 		this.initialize = this.initialize.bind( this );
@@ -53,12 +52,12 @@ export default class FreeformEdit extends PureComponent {
 	}
 
 	componentDidUpdate( prevProps ) {
-		const { id, attributes: { content } } = this.props;
+		const { id, value } = this.props;
 
 		const editor = window.tinymce.get( `editor-${ id }` );
 
-		if ( prevProps.attributes.content !== content ) {
-			editor.setContent( content || '' );
+		if ( prevProps.value !== value ) {
+			editor.setContent( value || '' );
 		}
 	}
 
@@ -73,23 +72,21 @@ export default class FreeformEdit extends PureComponent {
 				fixed_toolbar_container: `#toolbar-${ id }`,
 				setup: this.onSetup,
 			},
-		} );g
+		} );
 	}
 
 	onSetup( editor ) {
-		const { attributes: { content }, setAttributes } = this.props;
+		const { value, onChange } = this.props;
 		const { ref } = this;
 
 		this.editor = editor;
 
-		if ( content ) {
-			editor.on( 'loadContent', () => editor.setContent( content ) );
+		if ( value ) {
+			editor.on( 'loadContent', () => editor.setContent( value ) );
 		}
 
 		editor.on( 'blur', () => {
-			setAttributes( {
-				content: editor.getContent(),
-			} );
+			onChange( editor.getContent() );
 			return false;
 		} );
 
@@ -183,4 +180,4 @@ FreeFormEdit.propTypes = {
 	name: PropTypes.string,
 };
 
-export default RichText;
+export default FreeFormEdit;

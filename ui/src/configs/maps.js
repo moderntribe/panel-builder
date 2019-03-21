@@ -1,5 +1,4 @@
-import { Radio, Text } from '../common/elements';
-import { RichText } from '@wordpress/editor';
+import { Radio, RichText, Text } from '../common/elements';
 
 const TITLE = 'Title';
 const IMAGE_SELECT = 'ImageSelect';
