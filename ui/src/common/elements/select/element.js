@@ -1,26 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect, { components } from 'react-select';
-import { Dashicon } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 
-const DropdownIndicator = ( props ) => (
-	components.DropdownIndicator && (
-		<components.DropdownIndicator { ...props }>
-			<Dashicon icon="arrow-down" />
-		</components.DropdownIndicator>
-	)
-);
-
-const IndicatorSeparator = () => null;
-
-const Select = ( props ) => (
-	<ReactSelect
-		components={ { DropdownIndicator, IndicatorSeparator } }
-		{ ...props }
+const Select = ( {
+	label,
+	options,
+	value,
+	onChange,
+} ) => (
+	<SelectControl
+		label={ label }
+		options={ options }
+		value={ value }
+		onChange={ onChange }
 	/>
 );
 
 Select.propTypes = {
+	label: PropTypes.string,
+	options: PropTypes.arrayOf( PropTypes.shape( {
+		label: PropTypes.string,
+		value: PropTypes.any,
+	} ) ),
+	value: PropTypes.any,
 	className: PropTypes.string,
 };
 

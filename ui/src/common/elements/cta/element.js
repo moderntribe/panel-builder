@@ -11,10 +11,6 @@ const TARGET_OPTIONS = [
 	{ label: __( 'Stay in Window', 'modular_content' ), value: '' },
 ];
 
-const getOptionByValue = ( value ) => {
-	return find( TARGET_OPTIONS, { value } ) || {};
-};
-
 const CTA = ( {
 	label,
 	description,
@@ -37,10 +33,10 @@ const CTA = ( {
 		onChange( newValue );
 	};
 
-	const updateSelect = ( option ) => {
+	const updateSelect = ( target ) => {
 		const newValue = {
 			...value,
-			target: option.value,
+			target,
 		};
 		onChange( newValue );
 	};
@@ -60,11 +56,9 @@ const CTA = ( {
 				onChange={ updateLabel }
 			/>
 			<Select
-				backspaceRemovesValue={ false }
-				isSearchable={ false }
 				onChange={ updateSelect }
 				options={ TARGET_OPTIONS }
-				value={ getOptionByValue( value.target ) }
+				value={ value.target }
 			/>
 		</div>
 	);
