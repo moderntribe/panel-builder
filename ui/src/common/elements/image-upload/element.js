@@ -51,9 +51,7 @@ class ImageUpload extends PureComponent {
 		return (
 			<div>
 				{ label && <h3>{ label }</h3> }
-				{ description && (
-					<p>{ description }</p>
-				) }
+				{ description && <p>{ description }</p> }
 				{
 					value
 						? this.renderImage( this.state.url, this.onRemove )
