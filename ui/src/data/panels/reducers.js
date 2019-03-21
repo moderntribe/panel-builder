@@ -13,8 +13,8 @@ const reducer = ( state = INITIAL_STATE, action ) => {
 				{ [ action.payload.clientId ]: panel( state[ action.payload.clientId ], action ) },
 			);
 		case types.REMOVE_PANEL:
-			const newKeys = Object.keys( state ).filter( ( panel ) => {
-				return panel.clientId !== action.payload.clientId;
+			const newKeys = Object.keys( state ).filter( ( key ) => {
+				return key !== action.payload.clientId;
 			} );
 			const newState = newKeys.reduce( ( acc, current ) => {
 				acc[ current ] = state[ current ];
