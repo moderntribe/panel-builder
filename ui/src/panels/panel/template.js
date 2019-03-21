@@ -27,7 +27,6 @@ class Panel extends PureComponent {
 											<Component
 												onChange={ this.props.onUpdate( fieldKey ) }
 												{ ...this.props.panel.fields[ fieldKey ] }
-												id={ this.props.panel.fields[ fieldKey ].name }
 											/>
 										);
 									}

@@ -1,14 +1,16 @@
-import { Radio, RichText, Text } from '../common/elements';
+import { ImageUpload, Radio, RichText, Text } from '../common/elements';
 
 const TITLE = 'Title';
 const IMAGE_SELECT = 'ImageSelect';
 const TEXT_AREA = 'TextArea';
+const IMAGE = 'Image';
 const LINK = 'Link';
 
 const configElementMap = {
 	[ TITLE ]: Text,
 	[ IMAGE_SELECT ]: Radio,
 	[ TEXT_AREA ]: RichText,
+	[ IMAGE ]: ImageUpload,
 	[ LINK ]: '',
 };
 

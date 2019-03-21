@@ -1,58 +1,74 @@
 /**
  * External dependencies
  */
-import { React } from 'react';
-import { PropTypes } from 'prop-types';
-import { classNames } from 'classnames';
-import { noop } from 'lodash';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import { MediaUpload } from '@wordpress/editor';
 
-/**
- * WordPress dependencies
- */
-import { MediaUpload } from '@wordpress/components';
+class ImageUpload extends PureComponent {
+	static propTypes = {
+		label: PropTypes.string,
+		description: PropTypes.string,
+		value: PropTypes.string,
+		onChange: PropTypes.func,
+	};
 
-const getImageButton = ( openEvent ) => {
-	if ( attributes.imageUrl ) {
-		return (
-		<img
-			src={ attributes.imageUrl }
-			onClick={ openEvent }
-			className="image"
-		/>
-		);
+	constructor( props ) {
+		super( props );
+		this.state = {
+			url: '',
+		};
 	}
-	else {
-		return (
-		<div className="button-container">
-			<Button
-			onClick={ openEvent }
-			className="button button-large"
-			>
-			Pick an image
-			</Button>
+
+	onRemove = () => {
+		this.props.onChange( 0 );
+	};
+
+	onSelect = ( image ) => {
+		this.setState( { url: image.sizes.medium.url } );
+		this.props.onChange( image.id );
+	};
+
+	renderImageUploadButton = ( { open } ) => (
+		<button onClick={ open }>
+			{ __( 'Select Image', 'modular_content' ) }
+		</button>
+	);
+
+	renderImage = ( imageId, onRemove ) => (
+		<div className="tribe-editor__image-upload__image-wrapper">
+			<img src={ imageId } />
+			<button onClick={ onRemove }>
+				{ __( 'remove', 'modular_content' ) }
+			</button>
 		</div>
+	);
+
+	render() {
+		const { label, description, value } = this.props;
+
+		return (
+			<div>
+				{ label && <h3>{ label }</h3> }
+				{ description && (
+					<p>{ description }</p>
+				) }
+				{
+					value
+						? this.renderImage( this.state.url, this.onRemove )
+						: (
+							<MediaUpload
+								onSelect={ this.onSelect }
+								type="image"
+								render={ this.renderImageUploadButton }
+								value={ value }
+							/>
+						)
+				}
+			</div>
 		);
 	}
-};
-
-const ImageUpload = ( {
-	attributes,
-	name
-} ) => (
-	<MediaUpload
-	onSelect={ media => { setAttributes({ imageAlt: media.alt, imageUrl: media.url }); } }
-	name={ name }
-	type="image"
-	value={ attributes.imageID }
-	render={ ({ open }) => getImageButton(open) }
-	/>
-);
-
-
-ImageUpload.propTypes = {
-	className: PropTypes.string,
-	value: PropTypes.integer,
-	name: PropTypes.string,
-};
+}
 
 export default ImageUpload;
