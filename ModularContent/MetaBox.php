@@ -408,15 +408,12 @@ class MetaBox {
 			'more' => false,
 		);
 
-		$request = wp_parse_args( $_REQUEST, [
-			's'          => '',
-			'type'       => '',
-			'paged'      => 1,
-			'post_type'  => 'any',
-			'panel_type' => '',
-			'post_id'    => 0,
-			'index_map'  => '',
-		] );
+		$request = wp_parse_args( $_REQUEST, array(
+			's' => '',
+			'type' => '',
+			'paged' => 1,
+			'post_type' => 'any',
+		));
 
 		if ( !empty($request['s']) || !empty($request['post_type']) ) {
 			$args = array(

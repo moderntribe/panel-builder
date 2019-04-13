@@ -217,7 +217,6 @@ class PostList extends Component {
 								key={_.uniqueId('manual-post-preview-')}
 								post={post}
 								editableId={data.editableId}
-								panelType={this.props.panelType}
 								onRemoveClick={this.handleRemovePostClick}
 								onEditClick={this.handleEditPostClick}
 							/>
@@ -230,7 +229,6 @@ class PostList extends Component {
 									key={_.uniqueId('manual-post-preview-')}
 									post_id={data.id.toString()}
 									post_type={data.post_type}
-									panelType={this.props.panelType}
 									editableId={data.editableId}
 									onRemoveClick={this.handleRemovePostClick}
 									onGetPostDetails={this.handleGetPostDetails}
@@ -244,8 +242,6 @@ class PostList extends Component {
 									editableId={data.editableId}
 									strings={this.props.strings}
 									post_type={this.props.post_type}
-									panelType={this.props.panelType}
-									indexMap={this.props.indexMap}
 									handleCancelClick={this.handleCancelClick}
 									handleAddClick={this.handleAddUpdateClick}
 								/>
@@ -274,7 +270,6 @@ class PostList extends Component {
 							editableId={data.editableId}
 							strings={this.props.strings}
 							post_type={this.props.post_type}
-							panelType={this.props.panelType}
 							handleCancelClick={this.handleCancelClick}
 							handleAddClick={this.handleAddUpdateClick}
 						/>
@@ -407,8 +402,6 @@ class PostList extends Component {
 					<PostListQueryRelatedFilter
 						key={filter.filterID}
 						filterID={filter.filterID}
-						panelType={this.props.panelType}
-						indexMap={this.props.indexMap}
 						postTypes={postTypesArray}
 						label={filter.label}
 						selection={filter.selection}
@@ -604,8 +597,6 @@ class PostList extends Component {
 			max: this.props.max,
 			context: 1,
 			post_id: postId,
-			panel_type: this.props.panelType,
-			index_map: JSON.stringify(this.props.indexMap),
 		});
 	}
 
@@ -998,7 +989,6 @@ PostList.propTypes = {
 	max: PropTypes.number,
 	suggested: PropTypes.number,
 	show_max_control: PropTypes.bool,
-	panelType: PropTypes.string,
 	post_type: PropTypes.array,
 	filters: PropTypes.array,
 	hidden_fields: PropTypes.array,
@@ -1020,7 +1010,6 @@ PostList.defaultProps = {
 	max: 12,
 	suggested: 6,
 	show_max_control: false,
-	panelType: '',
 	post_type: [],
 	filters: [],
 	hidden_fields: [],

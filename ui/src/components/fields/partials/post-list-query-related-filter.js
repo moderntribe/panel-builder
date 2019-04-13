@@ -8,7 +8,6 @@ import param from 'jquery-param';
 import * as AdminCache from '../../../util/data/admin-cache';
 
 import styles from './post-list-query-related-filter.pcss';
-import queryToJson from '../../../util/data/query-to-json';
 
 class PostListQueryRelatedFilter extends Component {
 	constructor(props) {
@@ -75,8 +74,6 @@ class PostListQueryRelatedFilter extends Component {
 	 * @method getSearchRequestParams
 	 */
 	getSearchRequestParams(input) {
-		const queryParams = queryToJson();
-		const postId = typeof queryParams.post === 'undefined' ? 'new' : queryParams.post;
 		const types = [];
 		_.forEach(this.state.postTypes, (type) => {
 			types.push(type.value);
@@ -87,10 +84,7 @@ class PostListQueryRelatedFilter extends Component {
 			type: 'query-panel',
 			paged: 1,
 			post_type: types,
-			post_id: postId,
 			field_name: 'items',
-			panel_type: this.props.panelType,
-			index_map: this.props.indexMap,
 		});
 	}
 
@@ -202,9 +196,7 @@ PostListQueryRelatedFilter.propTypes = {
 	filterID: PropTypes.string,
 	label: PropTypes.string,
 	selection: PropTypes.string,
-	strings: PropTypes.object,
-	panelType: PropTypes.string,
-	indexMap: PropTypes.array,
+	strings: React.PropTypes.object,
 };
 
 PostListQueryRelatedFilter.defaultProps = {
@@ -215,8 +207,6 @@ PostListQueryRelatedFilter.defaultProps = {
 	label: '',
 	selection: null,
 	strings: {},
-	panelType: '',
-	indexMap: [],
 };
 
 export default PostListQueryRelatedFilter;

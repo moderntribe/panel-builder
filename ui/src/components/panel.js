@@ -85,7 +85,6 @@ class PanelContainer extends Component {
 					hasChildren={this.props.children.max > 0 && this.props.children.types.length > 0}
 					hidePanel={this.hideFields}
 					indexMap={indexMap}
-					panelType={this.props.type}
 				/>
 			) :
 			null;
