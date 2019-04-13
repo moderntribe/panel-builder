@@ -134,6 +134,9 @@ class Plugin {
 				add_action('add_meta_boxes_'.$post_type, array($this->metabox, 'register_meta_box'), 10, 0);
 			}
 		}
+
+		// Fix issue with post_content_filtered getting messed up by rel=noopener
+		remove_filter( 'content_filtered_save_pre', 'wp_targeted_link_rel' );
 	}
 
 	public function supported_post_types() {
