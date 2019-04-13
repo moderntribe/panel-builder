@@ -268,6 +268,8 @@ class PostQuacker extends Component {
 			type: 'query-panel',
 			paged: 1,
 			post_type: types,
+			panel_type: this.props.panelType,
+			index_map: JSON.stringify(this.props.indexMap),
 			field_name: 'items',
 		});
 	}
@@ -583,6 +585,7 @@ PostQuacker.propTypes = {
 	editor_settings_reference: PropTypes.string,
 	data: React.PropTypes.object,
 	panelIndex: React.PropTypes.number,
+	panelType: PropTypes.string,
 	updatePanelData: React.PropTypes.func,
 	size: React.PropTypes.string,
 };
@@ -600,6 +603,7 @@ PostQuacker.defaultProps = {
 	editor_settings_reference: 'content',
 	data: {},
 	panelIndex: 0,
+	panelType: '',
 	updatePanelData: () => {},
 	size: 'thumbnail',
 };
