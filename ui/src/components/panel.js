@@ -168,21 +168,27 @@ class PanelContainer extends Component {
 	}
 
 	getFilteredTabArray() {
-		const permittedTabs = PERMISSIONS.access_panel_tabs;
 		// problem with data
-		if (!_.isArray(permittedTabs)) {
+		if (!_.isArray(PERMISSIONS.access_panel_tabs)) {
 			return [];
 		}
 		// no perms at all, check your config for new role
-		if (!permittedTabs.length) {
+		if (!PERMISSIONS.access_panel_tabs.length) {
 			return [];
 		}
+		const activeTabs = {};
+		Object.keys(this.props.tabs).forEach((tabKey) => {
+			if (this.props.tabs[tabKey].fields.length) {
+				activeTabs[tabKey] = this.props.tabs[tabKey];
+			}
+		});
 		// all access pass
-		if (!permittedTabs.length || permittedTabs.indexOf('all') !== -1) {
-			return this.props.tabs;
+		if (PERMISSIONS.access_panel_tabs.indexOf('access_panel_tab/all') !== -1) {
+			return activeTabs;
 		}
+		const permittedTabTypes = PERMISSIONS.access_panel_tabs.map(tab => tab.replace('access_panel_tab/', ''));
 		// filtered tabs
-		return _.pick(this.props.tabs, permittedTabs);
+		return _.pick(activeTabs, permittedTabTypes);
 	}
 
 	getTabs() {
