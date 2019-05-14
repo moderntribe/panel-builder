@@ -6,7 +6,7 @@ Description: A framework for building modular content components
 Author: Modern Tribe, Inc.
 Author URI: http://tri.be
 Contributors: jbrinley
-Version: 3.3
+Version: 3.4
 */
 
 /**
