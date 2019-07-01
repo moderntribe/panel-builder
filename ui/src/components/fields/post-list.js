@@ -120,8 +120,7 @@ class PostList extends Component {
 			};
 		}
 		// add other filters
-		filters.push(this.getFilterValue());
-
+		_.merge(filters, this.getFilterValue());
 		return {
 			filters,
 			type: this.state.type,
