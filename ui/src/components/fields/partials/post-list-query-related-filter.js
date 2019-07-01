@@ -90,6 +90,7 @@ class PostListQueryRelatedFilter extends Component {
 			post_id: postId,
 			field_name: 'items',
 			panel_type: this.props.panelType,
+			active_filters: this.props.activeFilters,
 			index_map: this.props.indexMap,
 		});
 	}
@@ -204,6 +205,7 @@ PostListQueryRelatedFilter.propTypes = {
 	selection: PropTypes.string,
 	strings: PropTypes.object,
 	panelType: PropTypes.string,
+	activeFilters: PropTypes.array,
 	indexMap: PropTypes.array,
 };
 
@@ -216,6 +218,7 @@ PostListQueryRelatedFilter.defaultProps = {
 	selection: null,
 	strings: {},
 	panelType: '',
+	activeFilters: [],
 	indexMap: [],
 };
 

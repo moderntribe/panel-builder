@@ -88,6 +88,23 @@ class PostList extends Component {
 	}
 
 	/**
+	 * Extra filter values before calling panel data update
+	 *
+	 * @method getFilterValue
+	 */
+	getFilterValue() {
+		const filters = {};
+		for (const filter of this.state.filters) { // eslint-disable-line
+			filters[filter.value] = {
+				lock: true,
+				selection: filter.selection,
+			};
+		}
+
+		return filters;
+	}
+
+	/**
 	 *  Extracting value before calling panel data update
 	 *  Post type, filters, posts, max, etc
 	 *
@@ -103,12 +120,8 @@ class PostList extends Component {
 			};
 		}
 		// add other filters
-		for (const filter of this.state.filters) { // eslint-disable-line
-			filters[filter.value] = {
-				lock: true,
-				selection: filter.selection,
-			};
-		}
+		filters.push(this.getFilterValue());
+
 		return {
 			filters,
 			type: this.state.type,
@@ -412,6 +425,7 @@ class PostList extends Component {
 						postTypes={postTypesArray}
 						label={filter.label}
 						selection={filter.selection}
+						activeFilters={this.getFilterValue()}
 						onChangeRelatedPosts={this.onChangeFilterGeneric}
 						onRemoveClick={this.onRemoveFilter}
 						strings={this.props.strings}
