@@ -7,7 +7,7 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 const devtool = DEBUG ? 'eval' : 'source-map';
 const entry = DEBUG ? [
 	'react-hot-loader/patch',
-	'webpack-dev-server/client?http://localhost:3000',
+	'webpack-dev-server/client?https://localhost:3000',
 	'webpack/hot/only-dev-server',
 	path.resolve(__dirname, 'ui/src/index'),
 ] : [
@@ -78,7 +78,7 @@ module.exports = {
 	output: {
 		path: DEBUG ? path.join(__dirname, '/') : path.join(__dirname, '/ui/dist/'),
 		filename: DEBUG ? 'ui/dist/master.js' : 'master.js',
-		publicPath: DEBUG ? 'http://localhost:3000/' : '',
+		publicPath: DEBUG ? 'https://localhost:3000/' : '',
 	},
 	plugins,
 	module: {
