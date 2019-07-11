@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
@@ -11,6 +12,7 @@ import striptags from 'striptags';
 import Button from '../shared/button';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import LabelTooltip from './partials/label-tooltip';
 
 import arrayMove from '../../util/data/array-move';
 import randomString from '../../util/data/random-string';
@@ -19,6 +21,7 @@ import * as EVENTS from '../../constants/events';
 import { trigger } from '../../util/events';
 
 import styles from './repeater.pcss';
+import { PERMISSIONS } from '../../globals/config';
 
 zenscroll.setup(200, 40);
 
@@ -68,8 +71,9 @@ class Repeater extends Component {
 			target = (i + 1) === this.props.indexMap.length ? target[val] : target[val].panels;
 		});
 		let store;
-		if (this.props.parent.length) {
-			store = target && target.data ? target.data[this.props.parent][this.props.name] : {};
+		// todo confirm multi nested repeaters in groups
+		if (this.props.parentMap.length) {
+			store = target && target.data ? _.get(target.data, `${this.props.parentMap.join('.')}.${this.props.name}`) : {};
 		} else {
 			store = target && target.data ? target.data[this.props.name] : {};
 		}
@@ -77,9 +81,13 @@ class Repeater extends Component {
 		let shouldUpdate = false;
 		if (fieldData.length < this.props.min) {
 			const remaining = this.props.min - fieldData.length;
-			_.times(remaining, () =>
-				fieldData.push(defaultData.repeater(this.props.fields)),
-			);
+			_.times(remaining, (i) => {
+				// if the arg update_index is false, we will set the title in default data to the row index label
+				// if you supply a text field of name title to this repeater group it will be autopopulated, and then
+				// the user can adjust the auto gen afterwards
+				const title = !this.props.update_index ? this.getRowIndexLabel(i) : '';
+				fieldData.push(defaultData.repeater(this.props.fields, title));
+			});
 			shouldUpdate = true;
 		}
 
@@ -88,6 +96,7 @@ class Repeater extends Component {
 				depth: this.props.depth,
 				index: this.props.panelIndex,
 				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				name: this.props.name,
 				value: fieldData,
 			});
@@ -134,18 +143,19 @@ class Repeater extends Component {
 						fields={this.props.fields}
 						data={rowData}
 						parent={this.props.name}
+						parentMap={this.props.parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
 					/>
-					<Button
+					{PERMISSIONS.delete_rows && <Button
 						icon="dashicons-trash"
 						text={deleteLabel}
 						bare
 						full={false}
 						classes={styles.deleteRow}
 						handleClick={this.handleDeleteRow}
-					/>
+					/>}
 				</div>
 			</div>
 		);
@@ -176,26 +186,30 @@ class Repeater extends Component {
 		});
 
 		return (
-		this.props.liveEdit ?
-			<div
-				key={`${this.state.keyPrefix}-${index}`}
-				data-rowIndex={index}
-				className={headerClasses}
-				onClick={this.handleHeaderClick}
-			>
-				<h3>{striptags(title)}</h3>
-				<i className={arrowClasses} />
-			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
+			this.props.liveEdit ?
 				<div
-					data-rowIndex={index}
+					key={`${this.state.keyPrefix}-${index}`}
+					data-row-index={index}
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
 					<h3>{striptags(title)}</h3>
 					<i className={arrowClasses} />
+				</div> :
+				<div
+					data-row-active={this.state.active && index === this.state.activeIndex}
+					key={`${this.state.keyPrefix}-${index}`}
+				>
+					<div
+						data-row-index={index}
+						className={headerClasses}
+						onClick={this.handleHeaderClick}
+					>
+						<h3>{striptags(title)}</h3>
+						<i className={arrowClasses} />
+					</div>
+					{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
 				</div>
-				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
-			</div>
 		);
 	}
 
@@ -217,13 +231,13 @@ class Repeater extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return (
+		return PERMISSIONS.sort_rows ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Headers}
 			</Sortable>
-		);
+		) : <div>{Headers}</div>;
 	}
 
 	/**
@@ -235,10 +249,10 @@ class Repeater extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.props.max) {
+		if (this.state.data.length < this.props.max && PERMISSIONS.add_rows) {
 			AddRow = (
 				<Button
-					icon="dashicons-plus-alt"
+					icon=""
 					classes="repeater-add-row"
 					text={this.props.strings['button.new']}
 					primary={false}
@@ -265,6 +279,7 @@ class Repeater extends Component {
 			index: this.props.panelIndex,
 			rowIndex: e.newIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -283,7 +298,7 @@ class Repeater extends Component {
 
 	@autobind
 	handleDeleteRow() {
-		const data = this.state.data;
+		const { data } = this.state;
 		data.splice(this.state.activeIndex, 1);
 		this.props.hidePanel(false);
 		this.props.nestedGroupActive(false);
@@ -297,6 +312,7 @@ class Repeater extends Component {
 			index: this.props.panelIndex,
 			rowIndex: this.state.activeIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		};
@@ -321,7 +337,8 @@ class Repeater extends Component {
 	@autobind
 	handleAddRow() {
 		const newState = this.state;
-		newState.data.push(defaultData.repeater(this.props.fields));
+		const title = !this.props.update_index ? this.getRowIndexLabel(newState.data.length) : '';
+		newState.data.push(defaultData.repeater(this.props.fields, title));
 		newState.active = true;
 		newState.activeIndex = newState.data.length - 1;
 		if (this.props.liveEdit) {
@@ -334,6 +351,7 @@ class Repeater extends Component {
 				index: this.props.panelIndex,
 				rowIndex: newState.activeIndex,
 				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				name: this.props.name,
 				value: newState.data,
 			};
@@ -356,7 +374,7 @@ class Repeater extends Component {
 
 	@autobind
 	handleHeaderClick(e) {
-		const activeIndex = parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10);
+		const activeIndex = parseInt(e.currentTarget.getAttribute('data-row-index'), 10);
 		const newState = {
 			activeIndex,
 		};
@@ -376,6 +394,8 @@ class Repeater extends Component {
 				depth: this.props.depth,
 				index: this.props.panelIndex,
 				name: this.props.name,
+				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				value: this.state.data,
 			};
 			this.scrollToActive();
@@ -398,6 +418,8 @@ class Repeater extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			name: this.props.name,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			value: this.state.data,
 		};
 		this.props.hidePanel(false);
@@ -433,6 +455,7 @@ class Repeater extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: data.parentMap,
 			childIndex: this.state.activeIndex,
 			childName: data.name,
 			childValue: data.value,
@@ -445,6 +468,8 @@ class Repeater extends Component {
 			data: {
 				rowIndex: this.state.activeIndex,
 				depth: this.props.depth,
+				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				index: this.props.panelIndex,
 				name: this.props.name,
 				value: this.state.data,
@@ -464,18 +489,15 @@ class Repeater extends Component {
 			'panel-field-legend': true,
 		});
 
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-
 		return (
 			<div ref={r => this.el = r} className={fieldClasses} data-depth={this.props.depth} data-active={this.state.active}>
-				<label className={legendClasses}>{this.props.label}</label>
+				<label className={legendClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.getAddRow()}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -492,11 +514,13 @@ Repeater.propTypes = {
 	panelLabel: PropTypes.string,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	fields: PropTypes.array,
 	strings: PropTypes.object,
 	label: PropTypes.string,
 	description: PropTypes.string,
 	liveEdit: PropTypes.bool,
+	update_index: PropTypes.bool,
 	name: PropTypes.string,
 	default: PropTypes.array,
 	updatePanelData: PropTypes.func,
@@ -516,12 +540,14 @@ Repeater.defaultProps = {
 	panels: [],
 	panelIndex: 0,
 	indexMap: [],
+	parentMap: [],
 	panelLabel: '',
 	fields: [],
 	strings: {},
 	label: '',
 	description: '',
 	liveEdit: false,
+	update_index: true,
 	name: '',
 	default: [],
 	updatePanelData: () => {},

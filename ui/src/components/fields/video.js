@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import styles from './video.pcss';
+import LabelTooltip from './partials/label-tooltip';
 
 class Video extends Component {
 
@@ -22,6 +24,7 @@ class Video extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: videoURL,
 		});
@@ -45,10 +48,6 @@ class Video extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -56,11 +55,13 @@ class Video extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={videoSpanClasses}>
 					<input type="text" className={videoInputClasses} name={`modular-content-${this.props.name}`} value={this.state.videoURL} size="40" onChange={this.handleChange} />
 				</span>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -70,8 +71,9 @@ Video.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	data: PropTypes.string,
@@ -85,6 +87,7 @@ Video.defaultProps = {
 	description: '',
 	depth: 0,
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	default: '',
 	data: '',

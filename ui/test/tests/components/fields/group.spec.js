@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Group from 'components/fields/group';
+import renderer from 'react-test-renderer';
 
 describe('Group field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Group />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Group />);
 		expect(wrapper.type()).toEqual('div');

@@ -1,9 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import striptags from 'striptags';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
+import LabelTooltip from './partials/label-tooltip';
 import FieldBuilder from '../shared/field-builder';
 import AccordionBack from '../shared/accordion-back';
+import * as DATA_KEYS from '../../constants/data-keys';
 
 import styles from './group.pcss';
 
@@ -42,7 +46,7 @@ class Group extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{this.props.label}</h3>
+				<h3>{striptags(this.props.label)}</h3>
 				<i className={arrowClasses} />
 			</div>
 		);
@@ -60,43 +64,36 @@ class Group extends Component {
 			'panel-group-fields': true,
 		});
 
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
+
 		return (
 			<div className={fieldClasses}>
-				<AccordionBack
-					title={this.props.label}
-					panelLabel={this.props.panelLabel}
-					handleClick={this.handleBackClick}
-					handleExpanderClick={this.props.handleExpanderClick}
-				/>
+				{!this.isCompact() &&
+					<AccordionBack
+						title={this.props.label}
+						panelLabel={this.props.panelLabel}
+						handleClick={this.handleBackClick}
+						handleExpanderClick={this.props.handleExpanderClick}
+					/>
+				}
 				<div className={styles.fieldWrap}>
 					<FieldBuilder
 						fields={this.props.fields}
 						data={this.props.data}
 						parent={this.props.name}
+						parentMap={parentMap}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
-						updatePanelData={this.updateGroupFieldData}
+						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
 			</div>
 		);
 	}
 
-	/**
-	 * Updates group field data in redux store, needs parent key sent along
-	 * @param data
-	 */
-
-	@autobind
-	updateGroupFieldData(data) {
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: data.index,
-			indexMap: this.props.indexMap,
-			name: data.name,
-			value: data.value,
-			parent: this.props.name,
-		});
+	isCompact() {
+		return this.props.layout === DATA_KEYS.COMPACT_LAYOUT;
 	}
 
 	/**
@@ -130,8 +127,14 @@ class Group extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.compact]: this.isCompact(),
 			'panel-field': true,
 			'group-field': true,
+		});
+
+		const labelClasses = classNames({
+			[styles.label]: true,
+			'panel-field-label': true,
 		});
 
 		const descriptionClasses = classNames({
@@ -139,23 +142,32 @@ class Group extends Component {
 			'panel-field-description': true,
 		});
 
-		return (
+		return this.props.layout === 'compact' ? (
+			<div className={fieldClasses} data-group-active="true">
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
+				{this.getFields()}
+				<p className={descriptionClasses}>{this.props.description}</p>
+			</div>
+		) : (
 			<div className={fieldClasses} data-group-active={this.state.active}>
 				{this.getHeader()}
 				{this.state.active ? this.getFields() : null}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
-
 }
 
 Group.propTypes = {
 	depth: PropTypes.number,
+	layout: PropTypes.string,
 	parentIndex: PropTypes.number,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	panelLabel: PropTypes.string,
 	fields: PropTypes.array,
 	label: PropTypes.string,
@@ -171,8 +183,10 @@ Group.propTypes = {
 
 Group.defaultProps = {
 	depth: 0,
+	layout: 'full',
 	parentIndex: 0,
 	indexMap: [],
+	parentMap: [],
 	data: {},
 	panelIndex: 0,
 	panelLabel: '',

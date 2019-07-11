@@ -25,7 +25,8 @@
     "moderntribe/ajax-queue": "dev-master"
   },
   "require-dev": {
-    "lucatume/wp-browser": "^1.10"
+    "lucatume/wp-browser": "^1.10",
+    "lucatume/function-mocker": "~1.0"
   },
   "autoload": {
     "psr-4": {

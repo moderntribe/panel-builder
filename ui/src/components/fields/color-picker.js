@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import tinycolor from 'tinycolor2';
 import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 
 import * as domTools from '../../util/dom/tools';
 import colorPickers from '../shared/color-picker-map';
 
 import styles from './color-picker.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 /**
  * A Color Picker field
@@ -123,6 +126,7 @@ class ColorPicker extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -181,7 +185,7 @@ class ColorPicker extends Component {
 		return this.props.allow_clear && this.state.value.length ? (
 			<Button
 				classes={styles.colorClear}
-				icon="dashicons-dismiss"
+				icon="dashicons-no-alt"
 				bare
 				handleClick={this.handleChange}
 			/>
@@ -238,48 +242,40 @@ class ColorPicker extends Component {
 	}
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-			'panel-conditional-field': true,
-		});
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props, true);
 
 		return (
 			<div ref={r => this.el = r} className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container} data-js="modular-content-color-picker">
 					{this.renderToggle()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
 }
 
 ColorPicker.propTypes = {
-	allow_clear: React.PropTypes.bool,
-	color_mode: React.PropTypes.string,
-	data: React.PropTypes.string,
-	default: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	input_active: React.PropTypes.bool,
-	indexMap: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	picker_type: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	swatches: React.PropTypes.array,
-	updatePanelData: React.PropTypes.func,
+	allow_clear: PropTypes.bool,
+	color_mode: PropTypes.string,
+	data: PropTypes.string,
+	default: PropTypes.string,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	input_active: PropTypes.bool,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	panelIndex: PropTypes.number,
+	picker_type: PropTypes.string,
+	strings: PropTypes.object,
+	swatches: PropTypes.array,
+	layout: PropTypes.string,
+	updatePanelData: PropTypes.func,
 };
 
 ColorPicker.defaultProps = {
@@ -291,12 +287,14 @@ ColorPicker.defaultProps = {
 	description: '',
 	input_active: false,
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	name: '',
 	panelIndex: 0,
 	picker_type: 'BlockPicker',
 	strings: {},
 	swatches: [],
+	layout: '',
 	updatePanelData: () => {},
 };
 

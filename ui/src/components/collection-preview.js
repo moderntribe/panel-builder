@@ -1,16 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
-import zenscroll from 'zenscroll';
 import wpautop from 'wpautop';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
+import slugify from 'voca/slugify';
 
 import Loader from './shared/loader';
 
-import { IFRAME_SCROLL_OFFSET } from '../globals/config';
+import { IFRAME_SCROLL_OFFSET, CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import scrollTo from '../util/dom/scroll-to';
 import * as ajax from '../util/ajax';
 import * as previewTools from '../util/dom/preview';
 import * as heartbeat from '../util/data/heartbeat';
@@ -18,6 +20,9 @@ import * as domTools from '../util/dom/tools';
 import * as EVENTS from '../constants/events';
 
 import styles from './collection-preview.pcss';
+import randomString from '../util/data/random-string';
+
+const $ = window.jQuery;
 
 class CollectionPreview extends Component {
 	constructor(props) {
@@ -50,6 +55,9 @@ class CollectionPreview extends Component {
 	}
 
 	bindPanelEvents() {
+		// iframe events
+		document.addEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
+		document.addEventListener(EVENTS.INJECT_IFRAME_FONT, this.maybeInjectFont);
 		// panel events
 		document.addEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.addEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -90,6 +98,9 @@ class CollectionPreview extends Component {
 	}
 
 	unBindEvents() {
+		// iframe events
+		document.removeEventListener(EVENTS.UPDATE_IFRAME_ASSET, this.handleUpdateAssetRequest);
+		document.removeEventListener(EVENTS.INJECT_IFRAME_FONT, this.maybeInjectFont);
 		// panel events
 		document.removeEventListener('modern_tribe/panel_moved', this.handlePanelMoved);
 		document.removeEventListener('modern_tribe/panel_toggled', this.handlePanelToggled);
@@ -133,14 +144,21 @@ class CollectionPreview extends Component {
 			console.warn(`Couldn't find panel to scroll to at index ${index}`);
 			return;
 		}
-		this.iframeScroller.to(target, 500, () => {
-			if (!activate) {
-				return;
-			}
 
-			target.classList.add(styles.active);
-			target.classList.add(styles.noTransition);
-			this.activePanelNode = target;
+		scrollTo({
+			afterScroll: () => {
+				if (!activate) {
+					return;
+				}
+
+				target.classList.add(styles.active);
+				target.classList.add(styles.noTransition);
+				this.activePanelNode = target;
+			},
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(target),
 		});
 	}
 
@@ -201,7 +219,12 @@ class CollectionPreview extends Component {
 				index,
 			},
 		});
-		this.iframeScroller.center(panel, 500, 0);
+		scrollTo({
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(panel),
+		});
 	}
 
 	injectUpdatedPanelHtml(panelHtml) {
@@ -211,6 +234,30 @@ class CollectionPreview extends Component {
 		this.initializePanels();
 		this.activePanelNode.classList.add(styles.active);
 		this.activePanelNode.classList.add(styles.noTransition);
+	}
+
+	@autobind
+	maybeInjectFont(e) {
+		if (!_.isArray(e.detail)) {
+			return;
+		}
+		if (!CONFIG.google_fonts) {
+			return;
+		}
+		e.detail.forEach((entry) => {
+			entry.groups.forEach((family) => {
+				const fontData = CONFIG.google_fonts.filter(font => font.label === family.trim())[0];
+				if (!fontData) {
+					return;
+				}
+				const id = slugify(`font-family-${fontData.label}`);
+				if (this.iframe.getElementById(id)) {
+					return;
+				}
+				const fontEnqueue = `<link rel="stylesheet" id="${id}" href="https://fonts.googleapis.com/css?family=${fontData.u}&amp;ver=4.9.4" type="text/css" media="all">`;
+				this.iframe.querySelectorAll('head')[0].insertAdjacentHTML('beforeend', fontEnqueue);
+			});
+		});
 	}
 
 	@autobind
@@ -239,33 +286,41 @@ class CollectionPreview extends Component {
 		this.scrollToPanel(parseInt(el.getAttribute('data-index'), 10), false);
 	}
 
+	refreshPanelHtml(e, nestedEvent = false) {
+		this.saving = true;
+		this.props.panelsSaving(true);
+		this.activePanelNode.classList.add(styles.loadingPanel);
+		const indexMap = e.detail.indexMap.slice();
+		if (_.isInteger(e.detail.childIndex)) {
+			indexMap.push(e.detail.childIndex);
+		}
+
+		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0], indexMap)
+			.then((res) => {
+				this.props.panelsSaving(false);
+				this.saving = false;
+				this.injectUpdatedPanelHtml(res.body.data.panels);
+				this.emitPreviewUpdatedEvent(e, nestedEvent);
+			})
+			.catch(() => {
+				this.props.panelsSaving(false);
+				this.saving = false;
+				this.activePanelNode.classList.remove(styles.loadingPanel);
+			});
+	}
+
 	handlePanelUpdated(e) {
 		if (!this.activePanelNode || this.saving) {
 			return;
 		}
-		const nestedEvent = this.nestedEvent;
+		const { nestedEvent } = this;
 		const value = _.isNumber(e.detail.childIndex) ? e.detail.childValue : e.detail.value;
 		const selector = previewTools.getLiveTextSelector(e.detail);
 		if (this.activePanelNode.querySelectorAll(selector)[0] && _.isString(value)) {
 			return;
 		}
 
-		this.saving = true;
-		this.props.panelsSaving(true);
-		this.activePanelNode.classList.add(styles.loadingPanel);
-
-		ajax.getPanelHTML([this.props.panels[e.detail.indexMap[0]]], e.detail.indexMap[0])
-			.done((data) => {
-				this.injectUpdatedPanelHtml(data.panels);
-				this.emitPreviewUpdatedEvent(e, nestedEvent);
-			})
-			.fail(() => {
-				this.activePanelNode.classList.remove(styles.loadingPanel);
-			})
-			.always(() => {
-				this.props.panelsSaving(false);
-				this.saving = false;
-			});
+		this.refreshPanelHtml(e, nestedEvent);
 	}
 
 	@autobind
@@ -289,6 +344,32 @@ class CollectionPreview extends Component {
 			}
 
 			livetextField.innerHTML = value;
+		}
+	}
+
+	/**
+	 * An external app can request some arbitrary asset in the iframe preview be reloaded. Useful
+	 * for js or css that has changed dynamically inside another app
+	 *
+	 * @param e selector, assetUrl and type should be passed
+	 */
+
+	@autobind
+	handleUpdateAssetRequest(e) {
+		const {
+			selector,
+			assetUrl,
+			type,
+		} = e.detail;
+		const target = this.iframe.querySelectorAll(selector)[0];
+		if (!target) {
+			return;
+		}
+		const url = `${assetUrl}?ver=${randomString(10)}`;
+		if (type === 'stylesheet') {
+			target.href = url;
+		} else if (type === 'javascript') {
+			target.src = url;
 		}
 	}
 
@@ -401,7 +482,12 @@ class CollectionPreview extends Component {
 		const position = e.target.classList.contains(styles.addPanelAbove) ? 'beforebegin' : 'afterend';
 
 		panel.insertAdjacentHTML(position, placeholder);
-		this.iframeScroller.center(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0], 500, 0);
+		scrollTo({
+			duration: 500,
+			offset: IFRAME_SCROLL_OFFSET,
+			$scrollable: $(this.iframe).contents(),
+			$target: $(this.panelCollection.querySelectorAll(`.${styles.placeholder}`)[0]),
+		});
 		this.panelCollection.classList.add(styles.placeholderActive);
 		trigger({ event: 'modern_tribe/deactivate_panels', native: false });
 		_.delay(() => {
@@ -413,20 +499,26 @@ class CollectionPreview extends Component {
 	handlePanelsAdded(e) {
 		// send along an index the ajax handler can use to determine if the panel is the first in set or not,
 		// or do other index based opts.
-		const panelIndex = e.detail.index === -1 && !this.panelCollection.querySelectorAll('[data-modular-content]')[0] ? 0 : e.detail.index;
-		const nestedEvent = this.nestedEvent;
-		ajax.getPanelHTML(e.detail.panels, panelIndex)
-			.done((data) => {
+		this.saving = true;
+		this.props.panelsSaving(true);
+		const topLevelPanels = this.panelCollection.querySelectorAll('[data-modular-content]');
+		const panelIndex = e.detail.index === -1 && !topLevelPanels[0] ? 0 : e.detail.index;
+		const indexMap = panelIndex === -1 ? [topLevelPanels.length] : [panelIndex];
+		const { nestedEvent } = this;
+		ajax.getPanelHTML(e.detail.panels, panelIndex, indexMap)
+			.then((res) => {
+				this.props.panelsSaving(false);
+				this.saving = false;
 				if (e.detail.index === -1) {
-					this.panelCollection.insertAdjacentHTML('beforeend', data.panels);
+					this.panelCollection.insertAdjacentHTML('beforeend', res.body.data.panels);
 					this.updateNewPanels();
 					this.activateLastPanel();
 				} else {
-					this.injectPanelAtPlaceholder(data.panels, e.detail.index);
+					this.injectPanelAtPlaceholder(res.body.data.panels, e.detail.index);
 				}
 				this.emitPreviewUpdatedEvent(e, nestedEvent);
 			})
-			.fail((err) => {
+			.catch((err) => {
 				console.log(err);
 			});
 	}
@@ -533,7 +625,6 @@ class CollectionPreview extends Component {
 			console.error('Front end missing required collection html attribute "data-modular-content-collection", exiting.');
 			return;
 		}
-		this.iframeScroller = zenscroll.createScroller(this.iframe.querySelectorAll('html')[0], null, IFRAME_SCROLL_OFFSET);
 		this.panelCollection.id = 'panel-collection-preview';
 		previewTools.setupIframe(this.iframe, styles);
 		this.bindIframeEvents();

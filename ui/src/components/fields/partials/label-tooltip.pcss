@@ -1,0 +1,19 @@
+@import '../../../shared/colors.pcss';
+
+@svg-load info url('../../../img/icons/info.svg') {
+
+	path {
+		fill: var(--button-bare-text-color);
+	}
+}
+
+.icon {
+	width: 20px;
+	height: 12px;
+	display: inline-block;
+	background: svg-inline(info) 50% 50% no-repeat;
+	background-size: contain;
+	position: relative;
+	top: 1px;
+	z-index: 10;
+}

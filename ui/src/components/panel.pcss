@@ -3,19 +3,21 @@
 @import '../shared/colors.pcss';
 @import '../shared/transitions.pcss';
 
-
 .row {
 	composes: group from "../shared/helpers.pcss";
 	margin-top: var(--panel-margin-vertical);
 	margin-bottom: var(--panel-margin-vertical);
-	left:0;
+	left: 0;
 	transition: var(--transition-accordion);
-	&.active{
-		left:-100%;
+
+	&.active {
+		left: -100%;
 	}
+
 	.header {
 		transition: var(--transition-button-primary);
 	}
+
 	&:not(.editing) {
 		.header:hover {
 			background-color: var(--panel-post-bg-color);
@@ -26,70 +28,42 @@
 		outline: none;
 	}
 
-  	.row {
-		margin-left: -var(--panel-padding-horizontal);
-		margin-right: -var(--panel-padding-horizontal);
+	.row {
+		margin-left: var(--panel-padding-horizontal);
+		margin-right: var(--panel-padding-horizontal);
 	}
 
 	.fieldWrap {
 		padding-left: var(--panel-padding-horizontal);
 		padding-right: var(--panel-padding-horizontal);
-  	}
+	}
 
 }
 
 .settings {
-	margin-bottom: 20px;
-}
+	display: flex;
+	flex-direction: row;
+	width: calc(100% + 30px);
+	margin: 0 -15px 20px;
 
-.contentButton {
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	width: 50%;
-	color: #fff;
-	padding: 7px;
-	border-color: var(--button-sidebar-active);
-	background: var(--button-sidebar-active);
-	.settingsActive & {
-		color: var(--button-primary-text-color);
-		border-color: var(--button-primary-border-color);
-		background: var(--button-primary-bg-color);
-	}
-	&:hover,
-	&:active,
-	&:focus {
-		color: #fff;
-		border-color: var(--button-sidebar-active);
-		background: var(--button-sidebar-active);
-		.settingsActive & {
-			color: var(--button-primary-text-color);
-			border-color: var(--button-primary-border-color);
-			background: var(--button-primary-bg-color);
+	.settingsButton {
+		flex: 1;
+		width: 50%;
+		padding: 7px;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		text-transform: uppercase;
+		border-bottom: 2px solid var(--border-bottom-settings);
+
+		&:hover,
+		&:active {
+			color: var(--border-bottom-settings-active);
 		}
-	}
-}
 
-.settingsButton {
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	width: 50%;
-	padding: 7px;
-	.settingsActive & {
-		color: #fff;
-		border-color: var(--button-sidebar-active);
-		background: var(--button-sidebar-active);
-	}
-	&:hover,
-	&:active,
-	&:focus {
-		.settingsActive & {
-			color: #fff;
-			border-color: var(--button-sidebar-active);
-			background: var(--button-sidebar-active);
+		&:focus,
+		&.settingsButtonActive {
+			border-color: var(--border-bottom-settings-active);
 		}
 	}
 }
@@ -99,23 +73,27 @@
 }
 
 .settingsActive {
+
 	[data-settings="true"] {
 		display: block;
 	}
+
 	[data-settings="false"] {
 		display: none;
 	}
 }
 
 .deletePanel {
-	float:right;
-	margin-right:5px;
+	float: right;
+	margin-right: 5px;
+
 	&:hover {
 		color: var(--delete-panel-hover-color-alt);
 	}
 }
 
 [data-live-edit="true"] {
+
 	.deletePanel {
 		position: absolute;
 		text-align: left;
@@ -127,19 +105,16 @@
 	}
 }
 
-.noTitle{
-	font-weight: 400;
-	font-style: italic;
-}
-
 .type {
 	font-size: 12px;
 	color: var(--panel-type-heading);
 }
 
-.arrow{
+.arrow {
 	composes: arrow from "../shared/accordion.pcss";
 	top: 22px;
+	pointer-events: none;
+
 	[data-live-edit="false"] & {
 		transform: rotate(90deg);
 	}
@@ -149,19 +124,21 @@
 	z-index: 10;
 	position: relative;
 
-	.arrow{
+	.arrow {
 		transform: rotate(-90deg);
 	}
 }
 
-.header{
+.header {
 	composes: header from "../shared/accordion.pcss";
 }
 
 [data-live-edit="true"] {
+
 	.row {
-		padding:0 15px;
-		&:first-child{
+		padding: 0 15px;
+
+		&:first-child {
 			padding-top: 15px;
 			margin-top: 0;
 		}
@@ -173,11 +150,14 @@
 }
 
 [data-live-edit="false"] {
+
 	.fields {
-		position:relative;
+		position: relative;
 		margin-top: 0 !important;
 	}
+
 	&[data-live-active="true"] {
+
 		.fields {
 			border: 1px solid var(--border-color);
 			border-top: 0;
@@ -186,10 +166,13 @@
 }
 
 [data-live-active="true"][data-live-edit="false"] {
+
 	.row:not(.panelActive) {
 		display: none;
 	}
+
 	.panelActive {
+
 		.header {
 			display: block;
 		}
@@ -209,13 +192,14 @@
 
 .infoThumb {
 	padding-bottom: 20px;
-	max-width:350px;
+	max-width: 350px;
 	img {
 		max-width: 100%;
 	}
 }
 
 [data-info-active="true"] {
+
 	.info {
 		display: block;
 	}
@@ -228,36 +212,40 @@
 	left: 100%;
 	top: 0;
 	transition: var(--transition-accordion);
-	&[data-hidden="true"]{
+
+	&[data-hidden="true"] {
 		transform: none;
 	}
+
 	[data-live-edit="false"] & {
 		transform: translate(0, 0);
 		left: 0;
 	}
-	&.fieldsEdit{
-		height:calc(100vh - 50px);
+
+	&.fieldsEdit {
+		height: calc(100vh - 50px);
 		overflow-y: visible;
 	}
 }
 
-.fieldWrap{
+.fieldWrap {
 	padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+
 	[data-live-edit="true"] & {
-		padding-top: 25px;
 		height: calc(100vh - 167px);
 		overflow-y: auto;
+		padding-top: 0;
 	}
 }
 
-.back{
+.back {
 	composes: back from "../shared/accordion.pcss";
 }
 
-.action{
+.action {
 	composes: action from "../shared/accordion.pcss";
 }
 
-.backButton{
+.backButton {
 	composes: backButton from "../shared/accordion.pcss";
 }

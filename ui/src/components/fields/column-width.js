@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import LabelTooltip from './partials/label-tooltip';
 import styles from './column-width.pcss';
 
 class ColumnWidth extends Component {
@@ -16,6 +18,7 @@ class ColumnWidth extends Component {
 		this.setState({ value });
 		this.props.updatePanelData({
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -46,6 +49,7 @@ class ColumnWidth extends Component {
 						checked={this.state.value === option.value}
 						data-option-type="single"
 						data-field="column-width"
+						data-depth={this.props.depth}
 					/>
 				</label>
 			);
@@ -55,10 +59,6 @@ class ColumnWidth extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -67,28 +67,31 @@ class ColumnWidth extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container}>
 					{Options}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
 }
 
 ColumnWidth.propTypes = {
-	data: React.PropTypes.number,
-	default: React.PropTypes.number,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	indexMap: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	options: React.PropTypes.array,
-	panelIndex: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	updatePanelData: React.PropTypes.func,
+	data: PropTypes.number,
+	default: PropTypes.number,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	options: PropTypes.array,
+	panelIndex: PropTypes.number,
+	strings: PropTypes.object,
+	updatePanelData: PropTypes.func,
 };
 
 ColumnWidth.defaultProps = {
@@ -97,6 +100,7 @@ ColumnWidth.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	name: '',
 	options: [],

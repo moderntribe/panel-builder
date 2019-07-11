@@ -1,11 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import classNames from 'classnames';
 
+
+import LabelTooltip from './partials/label-tooltip';
 import styles from './text.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Text extends Component {
-
 	state = {
 		text: this.props.data,
 	};
@@ -23,27 +25,20 @@ class Text extends Component {
 			depth: this.props.depth,
 			index: this.props.panelIndex,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: text,
 		});
 	}
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-		});
+		const { fieldClasses, descriptionClasses, labelClasses } = styleUtil.defaultFieldClasses(styles);
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<span className={styles.inputContainer}>
 					<input type="text" name={`modular-content-${this.props.name}`} value={this.state.text} size="40" onChange={this.handleChange} />
 				</span>
@@ -59,8 +54,9 @@ Text.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	updatePanelData: PropTypes.func,
@@ -73,6 +69,7 @@ Text.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: '',

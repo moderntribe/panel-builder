@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Html from 'components/fields/html';
+import renderer from 'react-test-renderer';
 
 describe('HTML field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Html />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Html />);
 		expect(wrapper.type()).toEqual('div');

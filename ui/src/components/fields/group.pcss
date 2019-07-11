@@ -6,89 +6,156 @@
 	composes: fieldContainer from "../../shared/fields.pcss";
 }
 
+[data-live-edit="true"] {
+
+	.field {
+
+		&.compact {
+			margin-bottom: 5px;
+		}
+	}
+
+	.compact {
+
+		.label {
+			margin-bottom: 10px;
+		}
+	}
+}
+
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
 	padding-left: 0;
+
+	.compact & {
+		margin-bottom: 20px;
+	}
 }
 
-.arrow{
+.arrow {
 	composes: arrow from "../../shared/accordion.pcss";
-	[data-live-edit="false"] & {
-		transform: rotate(90deg);
-	}
 }
 
 [data-live-edit="false"] [data-group-active="true"] {
-	.arrow{
-		transform: rotate(-90deg);
-	}
+
 }
 
-.header{
+.header {
 	composes: header from "../../shared/accordion.pcss";
 	margin-bottom: var(--panel-margin-vertical);
 	transform: translate3d(0, 0, 0);
+
+	h3 {
+		color: #4A4A4A;
+		font-size: 16px;
+	}
 }
 
 [data-live-edit="false"] {
+
 	[data-group-active="true"] {
-		.header{
+
+		.header {
 			margin-bottom: 0;
 		}
 	}
 }
 
-.back{
+.back {
 	composes: back from "../../shared/accordion.pcss";
 }
 
-.action{
+.action {
 	composes: action from "../../shared/accordion.pcss";
 }
 
-.backButton{
+.backButton {
 	composes: backButton from "../../shared/accordion.pcss";
 }
 
-.fields{
+.fields {
 	padding: 0;
 	width: 100%;
-	position:absolute;
-	left:100%;
-	top:0;
+	position: absolute;
+	left: 100%;
+	top: 0;
+
 	> div {
 		padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+
+		.compact & {
+			padding: 0;
+		}
+
+		&:after {
+
+			.compact & {
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
 	}
+
 	[data-live-edit="false"] & {
-		position:relative;
-		left:0;
+		position: relative;
+		left: 0;
 	}
+
 	[data-live-edit="true"] & {
 		left: 0;
 		background: var(--white);
 		z-index: 1;
 	}
+
+	.compact & {
+		position: static;
+		background: transparent;
+	}
 }
 
 [data-live-edit="false"] {
+
 	[data-group-active="true"] {
-		.fields{
+
+		.fields {
 			border: 1px solid var(--border-color);
 			border-top: 0;
 			margin-bottom: var(--panel-margin-vertical);
 		}
+
+		&.compact {
+
+			.fields {
+				border: 0;
+			}
+		}
 	}
 }
 
-[data-live-edit="true"]{
-	.fields{
-		height:calc(100vh - 50px);
+[data-live-edit="true"] {
+
+	.fields {
+		height: calc(100vh - 50px);
 		overflow: visible;
 	}
-	.fieldWrap{
+
+	.fieldWrap {
 		padding-top: 25px;
 		height: calc(100vh - 125px);
 		overflow-y: auto;
+	}
+
+	.compact {
+
+		.fields {
+			height: auto;
+		}
+
+		.fieldWrap {
+			padding-top: 0;
+			height: auto;
+		}
 	}
 }
 

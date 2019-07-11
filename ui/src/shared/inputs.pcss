@@ -1,4 +1,18 @@
 @import './colors.pcss';
+@import './spacing.pcss';
+
+.input {
+	border-radius: 2px;
+	background-color: var(--color-white);
+	border: 1px solid var(--border-input);
+	box-shadow: none !important;
+	color: var(--input-placeholder);
+	height: 40px;
+	font-size: 13px;
+	font-weight: 300;
+	padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+	width: 100%;
+}
 
 .full {
 	width: 100%;
@@ -14,77 +28,118 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+	width: 100%;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
+	margin-right: 2px;
+
 	&.checkbox {
 		opacity: 0;
-		width: 27px;
+		width: 22px;
+
 		+ span {
 			position: absolute;
-			width:23px;
-			height: 23px;
+			width: 17px;
+			height: 17px;
 			border-radius: 2px;
-			top: 4px;
+			top: 6px;
 			left: 0;
 			border: 1px solid var(--border-color);
 		}
+
 		&:focus {
+
 			+ span {
-				border: 1px solid var(--panel-label-color);
+				border: 1px solid var(--button-new-blue);
 			}
 		}
+
 		&:checked {
+
 			+ span {
+				background: var(--button-new-blue);
 				border-color: var(--button-new-blue);
+				transition: background 0.15s ease-in-out;
+
 				&:after {
 					content: "\f147";
-					font-family:dashicons;
+					font-family: dashicons;
 					position: absolute;
 					display: block;
-					right:1px;
-					top:-3px;
-					width:23px;
-					height: 23px;
-					font-size:26px;
-					color: var(--button-new-blue);
+					right: 1px;
+					top: 0;
+					width: 17px;
+					height: 17px;
+					line-height: 17px;
+					font-size: 20px;
+					color: var(--color-white);
+				}
+			}
+
+			&:hover {
+
+				+ span {
+					background: var(--button-new-blue-hover);
+					transition: background 0.15s ease-in-out;
 				}
 			}
 		}
 	}
 }
 
-input[type="radio"]{
+input[type="radio"] {
+	margin-right: 2px;
+
 	&.radio {
 		opacity: 0;
-		width: 27px;
+		width: 22px;
+
 		+ span {
 			position: absolute;
-			width:23px;
-			height: 23px;
+			width: 17px;
+			height: 17px;
 			border-radius: 100%;
-			top: 4px;
+			background: var(--white);
+			top: 6px;
 			left: 0;
 			border: 1px solid var(--border-color);
 		}
+
 		&:focus {
+
 			+ span {
-				border: 1px solid var(--panel-label-color);
+				border: 1px solid var(--border-color);
 			}
 		}
+
 		&:checked {
+
 			+ span {
-				border-color: var(--button-new-blue);
+				border: 1px solid var(--border-color);
+
 				&:after {
 					background: var(--button-new-blue);
 					position: absolute;
 					content: '';
 					display: block;
-					right:6px;
-					top:6px;
+					right: -2px;
+					top: -1px;
 					border-radius: 100%;
-					width:9px;
-					height: 9px;
+					width: 17px;
+					height: 17px;
+					transition: background 0.15s ease-in-out;
+				}
+			}
+
+			&:hover {
+
+				+ span {
+
+					&:after {
+						background: var(--button-new-blue-hover);
+						transition: background 0.15s ease-in-out;
+					}
 				}
 			}
 		}

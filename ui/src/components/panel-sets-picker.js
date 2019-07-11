@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
 
@@ -37,13 +38,14 @@ class PanelSetsPicker extends Component {
 	}
 
 	renderPanelSets() {
-		const PanelSetPreviews = _.map(TEMPLATES, (template, i) =>
+		const PanelSetPreviews = _.map(TEMPLATES, (template, i) => (
 			<PanelSetPreview
 				key={`panel-preview-${i}`}
 				{...template}
 				togglePreview={this.togglePreview}
 				handleAddPanelSet={this.props.handleAddPanelSet}
-			/>,
+			/>
+			),
 		);
 
 		return (
@@ -56,7 +58,7 @@ class PanelSetsPicker extends Component {
 	renderActivePreview() {
 		return this.state.preview ? (
 			<div className={styles.preview}>
-				<img src={this.state.preview} role="presentation" />
+				<img src={this.state.preview} alt="" />
 			</div>
 		) : null;
 	}

@@ -56,6 +56,9 @@ class PanelType {
 	/** @var string[] */
 	protected $strings = [];
 
+	/** @var array[] */
+	protected $tabs = [];
+
 	/**
 	 * @param string $id A unique string identifying this panel type
 	 */
@@ -69,11 +72,7 @@ class PanelType {
 		foreach ( $default_fields as $field ) {
 			$this->add_field( $field );
 		}
-		$default_settings_fields = array();
-		$default_settings_fields = apply_filters('modular_content_default_settings_fields', $default_settings_fields, $this->id);
-		foreach ( $default_settings_fields as $settings_field ) {
-			$this->add_settings_field( $settings_field );
-		}
+		$this->setup_default_tabbed_fields();
 		$this->max_depth = apply_filters( 'modular_content_default_max_depth', $this->max_depth );
 		$this->max_children = apply_filters( 'modular_content_default_max_children', $this->max_children );
 		call_user_func_array( array($this, 'set_child_labels'), apply_filters( 'modular_content_default_child_labels', array( 'singular' => Plugin::instance()->get_label(), 'plural' => Plugin::instance()->get_label('plural') ) ) );
@@ -100,9 +99,16 @@ class PanelType {
 
 	/**
 	 * @param Field $field
+	 * @param string $tab
 	 */
-	public function add_field( Field $field ) {
+	public function add_field( Field $field, $tab = 'content' ) {
 		$this->fields[$field->get_name()] = $field;
+
+		if ( ! isset( $this->tabs[ $tab ] ) ) {
+			$this->tabs[ $tab ] = [];
+		}
+
+		$this->tabs[ $tab ][] = $field->get_name();
 	}
 
 	/**
@@ -127,32 +133,73 @@ class PanelType {
 	}
 
 	/**
+	 * Determine if a given field name is in the specified tab.
+	 *
+	 * @param $field_name
+	 * @param $tab
+	 *
+	 * @return bool
+	 */
+	public function is_field_in_tab( $field_name, $tab ) {
+		return isset( $this->tabs[ $tab ] ) && in_array( $field_name, $this->tabs[ $tab ] );
+	}
+
+	/**
+	 * Get all of the tabbed field names, grouped by tab ID.
+	 *
+	 * @return array[]
+	 */
+	public function get_tabbed_field_names() {
+		return $this->tabs;
+	}
+
+	/**
+	 * Loop through applied default filters and add the specified fields to the correct tabs.
+	 */
+	private function setup_default_tabbed_fields() {
+		$tabs = apply_filters( 'modular_content_tabs', [] );
+		foreach ( $tabs as $tab => $label ) {
+			foreach( apply_filters( 'modular_content_default_fields/tab=' . $tab, [], $this->id ) as $field ) {
+				$this->add_field( $field, $tab );
+			}
+		}
+	}
+
+	/**
 	 * Add a field to the Settings tab of the panel type
+	 *
+	 * Alias for add_field( $field, 'settings' );
+	 *
+	 * @deprecated 3.4 Used for backwards compatibility only.
 	 *
 	 * @param Field $field
 	 * @return void
 	 */
 	public function add_settings_field( Field $field ) {
-		$this->add_field( $field );
-		$this->settings_fields[] = $field->get_name();
+		$this->add_field( $field, 'settings' );
 	}
 
 	/**
+	 * @deprecated 3.4 Used for backwards compatibility only.
+	 *
 	 * @return array The names of all registered settings fields
 	 */
 	public function get_settings_field_names() {
-		return $this->settings_fields;
+		return isset( $this->tabs['settings'] ) ? $this->tabs['settings'] : [];
 	}
 
 	/**
 	 * Determine if the field with the given name should
 	 * be displayed in the Settings tab
 	 *
+	 * @deprecated 3.4 Used for backwards compatibility only.
+	 * @see is_field_in_tab
+	 *
 	 * @param string $field_name
 	 * @return bool
 	 */
 	public function is_settings_field( $field_name ) {
-		return in_array( $field_name, $this->settings_fields );
+		return $this->is_field_in_tab( $field_name, 'settings' );
 	}
 
 	/**
@@ -405,4 +452,4 @@ class PanelType {
 		}
 		return '';
 	}
-} 
+}

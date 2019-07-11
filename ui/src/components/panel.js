@@ -1,6 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import striptags from 'striptags';
 import delegate from 'delegate';
 import autobind from 'autobind-decorator';
 import zenscroll from 'zenscroll';
@@ -12,10 +14,12 @@ import Button from './shared/button';
 import { UI_I18N } from '../globals/i18n';
 
 import { trigger } from '../util/events';
+import sortObj from '../util/data/sort-obj';
 import * as domTools from '../util/dom/tools';
 import * as panelConditionals from '../util/dom/panel-conditionals';
 
 import styles from './panel.pcss';
+import { PERMISSIONS } from '../globals/config';
 
 zenscroll.setup(100, 40);
 
@@ -32,7 +36,7 @@ class PanelContainer extends Component {
 		super(props);
 		this.state = {
 			active: this.props.active,
-			hidden: false,
+			activeTab: 'content',
 		};
 		this.el = null;
 		this.inputDelegates = null;
@@ -46,12 +50,11 @@ class PanelContainer extends Component {
 		this.inputDelegates = delegate(this.el, '.panel-conditional-field input', 'click', e => _.delay(() => {
 			this.handleConditionalFields(e);
 		}, 100));
-
 		if (this.props.depth > 0) {
 			return;
 		}
 		document.addEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.addEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.addEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -59,12 +62,11 @@ class PanelContainer extends Component {
 		this.mounted = false;
 
 		this.inputDelegates.destroy();
-
 		if (this.props.depth > 0) {
 			return;
 		}
 		document.removeEventListener('modern_tribe/panel_activated', this.maybeActivate);
-		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeActivate);
+		document.removeEventListener('modern_tribe/deactivate_panels', this.maybeDeactivate);
 		document.removeEventListener('modern_tribe/delete_panel', this.maybeDeletePanel);
 	}
 
@@ -85,6 +87,7 @@ class PanelContainer extends Component {
 					hasChildren={this.props.children.max > 0 && this.props.children.types.length > 0}
 					hidePanel={this.hideFields}
 					indexMap={indexMap}
+					activeTab={this.state.activeTab}
 				/>
 			) :
 			null;
@@ -107,7 +110,7 @@ class PanelContainer extends Component {
 				/>
 			) : null;
 
-			const DeleteButton = this.props.depth === 0 ? (
+			const DeleteButton = this.props.depth === 0 && PERMISSIONS.delete_panels ? (
 				<Button
 					icon="dashicons-trash"
 					text={UI_I18N['button.delete_panel']}
@@ -123,7 +126,7 @@ class PanelContainer extends Component {
 					{BackButton}
 					<div className={styles.fieldWrap}>
 						{this.renderPanelInfo()}
-						{this.renderSettingsToggle()}
+						{this.renderTabs()}
 						{Fields}
 						{DeleteButton}
 					</div>
@@ -164,37 +167,53 @@ class PanelContainer extends Component {
 		);
 	}
 
-	@autobind
-	maybeActivate(e) {
-		if (!this.mounted) {
-			return;
+	getFilteredTabArray() {
+		// problem with data
+		if (!_.isArray(PERMISSIONS.access_panel_tabs)) {
+			return [];
 		}
-
-		if (e.detail.index !== this.props.index) {
-			this.setState({ active: false });
-			return;
+		// no perms at all, check your config for new role
+		if (!PERMISSIONS.access_panel_tabs.length) {
+			return [];
 		}
-
-		if (this.props.panelsActive) {
-			this.props.panelsActivate(false);
+		const activeTabs = {};
+		Object.keys(this.props.tabs).forEach((tabKey) => {
+			if (this.props.tabs[tabKey].fields.length) {
+				activeTabs[tabKey] = this.props.tabs[tabKey];
+			}
+		});
+		// all access pass
+		if (PERMISSIONS.access_panel_tabs.indexOf('access_panel_tab/all') !== -1) {
+			return activeTabs;
 		}
+		const permittedTabTypes = PERMISSIONS.access_panel_tabs.map(tab => tab.replace('access_panel_tab/', ''));
+		// filtered tabs
+		return _.pick(activeTabs, permittedTabTypes);
+	}
 
-		_.delay(() => {
-			this.props.panelsActivate(true);
-			this.setState({ active: true }, () => {
-				this.handleHeights();
-			});
-		}, 300);
+	getTabs() {
+		return Object.entries(sortObj(this.getFilteredTabArray())).map(([tabKey, tabData]) => (
+			<Button
+				text={tabData.label}
+				full={false}
+				key={`${tabKey}`}
+				classes={`${styles.settingsButton} ${this.state.activeTab === tabKey && styles.settingsButtonActive}`}
+				handleClick={this.enableCurrentTabMode}
+				dataID={tabKey}
+			/>
+		));
 	}
 
 	@autobind
-	maybeDeActivate() {
-		if (!this.state.active) {
-			return;
-		}
+	enableCurrentTabMode(e) {
+		this.setState({ activeTab: e.currentTarget.dataset.id }, () => {
+			panelConditionals.initConditionalFields(this.el);
+		});
+	}
 
-		this.setState({ active: false });
-		this.props.panelsActivate(false);
+	@autobind
+	enableContentMode() {
+		this.el.classList.remove(styles.settingsActive);
 	}
 
 	@autobind
@@ -318,8 +337,9 @@ class PanelContainer extends Component {
 		if (domTools.closest(input, '.repeater-field')) {
 			return;
 		}
-
-		e.stopPropagation();
+		if (this.props.depth !== parseInt(input.dataset.depth, 10)) {
+			return;
+		}
 		panelConditionals.setConditionalClass(this.el, input);
 
 		trigger({
@@ -334,34 +354,51 @@ class PanelContainer extends Component {
 	}
 
 	@autobind
-	enableContentMode() {
-		this.el.classList.remove(styles.settingsActive);
+	maybeDeactivate() {
+		if (!this.state.active) {
+			return;
+		}
+
+		this.setState({ active: false });
+		this.props.panelsActivate(false);
+	}
+
+	@autobind
+	maybeActivate(e) {
+		if (!this.mounted) {
+			return;
+		}
+
+		if (e.detail.index !== this.props.index) {
+			this.setState({ active: false });
+			return;
+		}
+
+		if (this.props.panelsActive) {
+			this.props.panelsActivate(false);
+		}
+
+		_.delay(() => {
+			this.props.panelsActivate(true);
+			this.setState({ active: true }, () => {
+				this.handleHeights();
+			});
+		}, 300);
 	}
 
 	renderPanelInfo() {
 		return this.props.thumbnail.length || this.props.description.length ? (
 			<div className={styles.info}>
 				{this.props.description.length && <div className={styles.infoDesc}>{this.props.description}</div>}
-				{this.props.thumbnail.length && <div className={styles.infoThumb}><img src={this.props.thumbnail} role="presentation" /></div>}
+				{this.props.thumbnail.length && <div className={styles.infoThumb}><img src={this.props.thumbnail} alt="" /></div>}
 			</div>
 		) : null;
 	}
 
-	renderSettingsToggle() {
-		return this.props.settings_fields.length ? (
+	renderTabs() {
+		return !_.isEmpty(this.props.tabs) ? (
 			<div className={styles.settings}>
-				<Button
-					text={UI_I18N['tab.content']}
-					full={false}
-					classes={styles.contentButton}
-					handleClick={this.enableContentMode}
-				/>
-				<Button
-					text={UI_I18N['tab.settings']}
-					full={false}
-					classes={styles.settingsButton}
-					handleClick={this.enableSettingsMode}
-				/>
+				{this.getTabs()}
 			</div>
 		) : null;
 	}
@@ -370,7 +407,7 @@ class PanelContainer extends Component {
 		let Title = null;
 		if (this.props.data.title && this.props.data.title.length) {
 			Title = (
-				<h3>{this.props.data.title}</h3>
+				<h3>{striptags(this.props.data.title)}</h3>
 			);
 		} else {
 			Title = (
@@ -407,29 +444,30 @@ class PanelContainer extends Component {
 }
 
 PanelContainer.propTypes = {
-	active: React.PropTypes.bool,
-	children: React.PropTypes.object,
-	classesWrapper: React.PropTypes.string,
-	classesFields: React.PropTypes.string,
-	data: React.PropTypes.object,
-	depth: React.PropTypes.number,
-	index: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
-	type: React.PropTypes.string,
-	label: React.PropTypes.string,
-	description: React.PropTypes.string,
-	thumbnail: React.PropTypes.string,
-	icon: React.PropTypes.object,
-	fields: React.PropTypes.array,
-	liveEdit: React.PropTypes.bool,
-	settings_fields: React.PropTypes.array,
-	panelsActive: React.PropTypes.bool,
+	active: PropTypes.bool,
+	children: PropTypes.object,
+	classesWrapper: PropTypes.string,
+	classesFields: PropTypes.string,
+	data: PropTypes.object,
+	depth: PropTypes.number,
+	index: PropTypes.number,
+	indexMap: PropTypes.array,
+	type: PropTypes.string,
+	label: PropTypes.string,
+	description: PropTypes.string,
+	thumbnail: PropTypes.string,
+	icon: PropTypes.object,
+	fields: PropTypes.array,
+	liveEdit: PropTypes.bool,
+	settings_fields: PropTypes.array,
+	panelsActive: PropTypes.bool,
 	nestedGroupActive: PropTypes.func,
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	deletePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	tabs: PropTypes.object,
 };
 
 PanelContainer.defaultProps = {
@@ -450,6 +488,7 @@ PanelContainer.defaultProps = {
 	liveEdit: false,
 	panelsActive: false,
 	settings_fields: [],
+	tabs: {},
 	nestedGroupActive: () => {},
 	panelsActivate: () => {},
 	movePanel: () => {},

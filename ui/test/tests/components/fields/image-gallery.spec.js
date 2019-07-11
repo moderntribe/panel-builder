@@ -3,8 +3,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ImageGallery from 'components/fields/image-gallery';
+import renderer from 'react-test-renderer';
 
 describe('Image Gallery field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<ImageGallery />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<ImageGallery />);
 		expect(wrapper.type()).toEqual('div');
@@ -13,11 +21,6 @@ describe('Image Gallery field', () => {
 	it('has a label', () => {
 		const wrapper = shallow(<ImageGallery />);
 		expect(wrapper.find('label.panel-field-label').length).toEqual(1);
-	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<ImageGallery />);
-		expect(wrapper.find('p.panel-field-description').length).toEqual(1);
 	});
 
 	it('has a gallery field name', () => {

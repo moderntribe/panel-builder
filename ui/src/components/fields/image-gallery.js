@@ -1,8 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import escape from 'escape-html';
 import _ from 'lodash';
 import classNames from 'classnames';
+
+import LabelTooltip from './partials/label-tooltip';
 import styles from './image-gallery.pcss';
 import { wpMedia, WPShortcode, panelBackbone } from '../../globals/wp';
 
@@ -74,6 +77,7 @@ class ImageGallery extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: gallery,
 		});
@@ -159,17 +163,12 @@ class ImageGallery extends Component {
 
 	render() {
 		const previewItems = _.map(this.state.gallery, (attachment, index) =>
-			<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
+			(<div className={styles.galleryFieldItem} key={_.uniqueId('gallery-field-item-')}>
 				<input type="hidden" name={`${this.props.name}[${index}][id]`} value={attachment.id} />
 				<input type="hidden" name={`${this.props.name}[${index}][thumbnail]`} value={attachment.thumbnail} />
 				<img src={attachment.thumbnail} alt={`thumnbail${attachment.id}`} />
-			</div>,
+			</div>),
 		);
-
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
@@ -182,7 +181,10 @@ class ImageGallery extends Component {
 		// Edit Gallery button to be translated
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div data-label="Gallery" data-name={escape(this.props.name)}>
 					<input type="hidden" name="gallery-field-name" value={this.props.name} />
 					<p className={styles.galleryFieldControls}>
@@ -194,7 +196,6 @@ class ImageGallery extends Component {
 						{previewItems}
 					</div>
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -203,9 +204,10 @@ class ImageGallery extends Component {
 ImageGallery.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	description: PropTypes.string,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.array,
 	data: PropTypes.array,
@@ -219,6 +221,7 @@ ImageGallery.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	default: [],
 	data: [],

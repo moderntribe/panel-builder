@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import styles from './checkbox.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Checkbox extends Component {
 	state = {
@@ -21,6 +24,7 @@ class Checkbox extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: data,
 		});
@@ -31,17 +35,20 @@ class Checkbox extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.vertical]: this.props.layout === 'vertical',
+			[styles.horizontal]: this.props.layout === 'horizontal',
 			'panel-field': true,
 			'panel-conditional-field': true,
 		});
-		const Options = _.map(this.props.options, option =>
-			<li key={_.uniqueId('checkbox-id-')}>
+		const itemStyles = this.props.layout === 'horizontal' && styleUtil.optionStyles(this.props) || {};
+		const Options = _.map(this.props.options, option => (
+			<li
+				key={_.uniqueId('checkbox-id-')}
+				className={styles.item}
+				style={itemStyles}
+			>
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
@@ -53,37 +60,43 @@ class Checkbox extends Component {
 						checked={this.state.data && this.state.data[option.value]} // eslint-disable-line
 						data-option-type="multiple"
 						data-field="checkbox"
+						data-depth={this.props.depth}
 					/>
 					<span />
 					{option.label}
 				</label>
-			</li>,
-		);
+			</li>
+		));
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<ul className={styles.list}>
 					{Options}
 				</ul>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
 }
 
 Checkbox.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
-	description: React.PropTypes.string,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.object,
-	options: React.PropTypes.array,
-	data: React.PropTypes.object,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	description: PropTypes.string,
+	strings: PropTypes.object,
+	default: PropTypes.object,
+	options: PropTypes.array,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
+	option_width: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 Checkbox.defaultProps = {
@@ -91,12 +104,15 @@ Checkbox.defaultProps = {
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: {},
 	options: [],
 	data: {},
 	panelIndex: 0,
+	layout: 'vertical',
+	option_width: 4,
 	updatePanelData: () => {},
 };
 

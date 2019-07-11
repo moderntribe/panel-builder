@@ -1,0 +1,105 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	transform: translate3d(0, 0, 0);
+	display: flex;
+
+	> span {
+		width: calc(100% - 110px);
+		position: relative;
+		max-width: 500px;
+	}
+
+	.label {
+		margin-right: 10px;
+		width: 100px;
+	}
+
+	&.compact {
+		flex-direction: column;
+		margin-bottom: 0;
+
+		> span {
+			width: auto;
+		}
+
+		.label {
+			width: 100%;
+		}
+	}
+}
+
+.input {
+	composes: input from "../../shared/inputs.pcss";
+	color: var(--input-placeholder) !important;
+	text-align: center;
+	max-width: 200px;
+
+	&:focus {
+		border-color: var(--button-new-blue);
+		box-shadow: none;
+	}
+
+	+ b {
+		display: none;
+
+		.showArrows & {
+			display: inline;
+		}
+	}
+
+	+ b + b {
+		display: none;
+
+		.showArrows & {
+			display: inline;
+		}
+	}
+
+	+ b i {
+		cursor: pointer;
+		height: 10px;
+		right: 5px;
+		position: absolute;
+		top: 0;
+		width: 10px;
+
+		&:after {
+			color: var(--input-placeholder);
+			content: "+";
+			font-style: normal;
+		}
+	}
+
+	+ b + b i {
+		cursor: pointer;
+		height: 10px;
+		left: 10px;
+		position: absolute;
+		top: 0;
+		width: 10px;
+
+		&:after {
+			color: var(--input-placeholder);
+			content: "-";
+			font-style: normal;
+		}
+	}
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+
+	.compact & {
+		color: var(--compact-label);
+		font-size: 10px;
+		text-align: center;
+		font-weight: 300;
+	}
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}

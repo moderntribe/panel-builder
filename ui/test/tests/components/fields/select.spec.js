@@ -3,6 +3,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Select from 'components/fields/select';
+import renderer from 'react-test-renderer';
 
 // test data
 const OPTIONS1 = [
@@ -31,6 +32,13 @@ const OPTIONS2 = [
 ];
 
 describe('Select field', () => {
+	it('renders correctly', () => {
+		const tree = renderer
+			.create(<Select description="This is a test description" label="Some test label" options={OPTIONS1} />)
+			.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
 	it('renders as a <div>', () => {
 		const wrapper = shallow(<Select />);
 		expect(wrapper.type()).toEqual('div');
@@ -44,11 +52,6 @@ describe('Select field', () => {
 	it('has a label', () => {
 		const wrapper = shallow(<Select />);
 		expect(wrapper.find('label').length).toEqual(1);
-	});
-
-	it('has a description paragraph', () => {
-		const wrapper = shallow(<Select />);
-		expect(wrapper.find('p').length).toEqual(1);
 	});
 
 	it('allows us to set and edit props', () => {

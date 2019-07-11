@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -113,7 +114,7 @@ PostListQueryDateFilter.propTypes = {
 	selection: PropTypes.object,
 	filterID: PropTypes.string,
 	label: PropTypes.string,
-	strings: React.PropTypes.object,
+	strings: PropTypes.object,
 };
 
 PostListQueryDateFilter.defaultProps = {

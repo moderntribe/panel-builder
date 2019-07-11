@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
@@ -10,6 +11,7 @@ import * as events from '../util/events';
 import * as storage from '../util/storage/local';
 
 import styles from './collection-edit-bar.pcss';
+import * as EVENTS from '../constants/events';
 
 /**
  * Stateless component for top bar when in live edit mode
@@ -23,10 +25,12 @@ class EditBar extends Component {
 
 	componentDidMount() {
 		this.setup();
+		document.addEventListener(EVENTS.IFRAME_CHANGE_VIEWPORT, this.changeViewport);
 	}
 
 	componentWillUnmount() {
 		this.reset();
+		document.removeEventListener(EVENTS.IFRAME_CHANGE_VIEWPORT, this.changeViewport);
 	}
 
 	setup() {
@@ -47,6 +51,11 @@ class EditBar extends Component {
 	@autobind
 	setSizeMobile() {
 		this.props.handleResizeClick('mobile');
+	}
+
+	@autobind
+	changeViewport(e) {
+		this.props.handleResizeClick(e.detail.viewport);
 	}
 
 	toggleUnsavedDataMessage(e) {
@@ -77,9 +86,13 @@ class EditBar extends Component {
 					callbackOnClose: true,
 					checkBoxCallback: e => this.toggleUnsavedDataMessage(e),
 					checkBoxMessage: UI_I18N['message.unsaved_toggle'],
+					contentStyles: { height: '360px', marginTop: '-180px' },
 					heading: UI_I18N['heading.unsaved_data'],
 					largeModal: true,
 					message: UI_I18N['message.unsaved_data'],
+					saveConfirm: true,
+					shouldCloseOnEsc: false,
+					shouldCloseOnOverlayClick: false,
 					type: 'confirm',
 				},
 			});

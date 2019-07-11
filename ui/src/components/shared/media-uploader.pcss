@@ -2,36 +2,59 @@
 @import '../../shared/colors.pcss';
 
 .container {
-	max-width: 300px;
+	max-width: 340px;
 }
 
-.currentUploadedFile{
-	display:none;
-	&.currentOpen{
-		display:block;
-	}
-	.imagePreview {
-		text-align: center;
-		padding: 10px;
-		background: var(--picker-bg);
+.currentUploadedFile {
+	display: none;
+
+	&.currentOpen {
 		border: 1px solid var(--picker-border);
-		border-bottom: 0;
+		display: block;
+	}
+
+	.imagePreview {
+		align-items: center;
+		text-align: center;
+		padding: 8px 8px 0;
+		border-radius: 2px;
+		display: flex;
+		justify-content: center;
+
 		img {
 			display: inline-block;
 			max-width: 100%;
-			width: 100px;
 			cursor: pointer;
 		}
 	}
 }
 
-.uploaderSection{
-	display:none;
-	&.uploaderOpen{
-		display:block;
+.uploaderSection {
+	display: none;
+
+	&.uploaderOpen {
+		background-color: var(--button-primary-bg-color);
+		display: block;
+
+		span {
+			color: var(--panel-label-color);
+		}
 	}
 }
 
-.removeButtonContainer{
-	margin:0 0 20px 0;
+.removeButtonContainer {
+	margin: 0;
+
+	button {
+		background-color: transparent;
+		border-bottom-right-radius: 2px;
+		border-bottom-left-radius: 2px;
+		color: var(--dialog-error);
+
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			color: var(--dialog-error);
+		}
+	}
 }

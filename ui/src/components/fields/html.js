@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -5,7 +6,6 @@ import styles from './html.pcss';
 
 const HTML = (props) => {
 	const descriptionClasses = classNames({
-		[styles.description]: true,
 		'panel-field-description': true,
 	});
 	const fieldClasses = classNames({
@@ -20,7 +20,7 @@ const HTML = (props) => {
 };
 
 HTML.propTypes = {
-	description: React.PropTypes.string,
+	description: PropTypes.string,
 };
 
 HTML.defaultProps = {

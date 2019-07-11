@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import Polyglot from 'node-polyglot';
@@ -16,6 +17,7 @@ import PostListQueryDateFilter from './partials/post-list-query-date-filter';
 import PostListQueryRelatedFilter from './partials/post-list-query-related-filter';
 import PostListQueryGeneralFilter from './partials/post-list-query-general-filter';
 import PostListMaxChooser from './partials/post-list-max-chooser';
+import LabelTooltip from './partials/label-tooltip';
 import Button from '../shared/button';
 import Notification from '../shared/notification';
 import PostPreviewContainer from '../shared/post-preview-container';
@@ -310,14 +312,15 @@ class PostList extends Component {
 		// Shows the empties if less than min
 		if (this.state.manualPostData.length < this.props.min) {
 			const remaining = this.props.min - this.state.manualPostData.length;
-			MaybeChooser = _.times(remaining, i =>
+			MaybeChooser = _.times(remaining, i => (
 				<PostListManualTypeChooser
 					key={_.uniqueId('add-manual-post-')}
 					index={i}
 					showHeading={this.state.manualPostData.length !== 0}
 					handleClick={this.addManualPost}
 					strings={this.props.strings}
-				/>,
+				/>
+				),
 			);
 		} else if (this.state.manualPostData.length < this.props.max) {
 			// shows one empty if more than min but less than max
@@ -388,8 +391,10 @@ class PostList extends Component {
 						key={filter.filterID}
 						filterID={filter.filterID}
 						label={filter.label}
-						onChangeTaxonomy={this.onChangeFilterGeneric} options={taxonomy}
-						onRemoveClick={this.onRemoveFilter} selection={filter.selection}
+						onChangeTaxonomy={this.onChangeFilterGeneric}
+						options={taxonomy}
+						onRemoveClick={this.onRemoveFilter}
+						selection={filter.selection}
 						strings={this.props.strings}
 					/>
 				);
@@ -642,6 +647,7 @@ class PostList extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -965,13 +971,15 @@ class PostList extends Component {
 	render() {
 		return (
 			<div className={styles.field}>
-				<legend className={styles.label}>{this.props.label}</legend>
+				<legend className={styles.label}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</legend>
 				{this.getTabButtons()}
 				<div className={styles.tabWrapper}>
 					{this.getManualTemplate()}
 					{this.getQueryTemplate()}
 				</div>
-				<p className={styles.description}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -981,10 +989,11 @@ PostList.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	strings: PropTypes.object,
 	default: PropTypes.object,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	min: PropTypes.number,
 	max: PropTypes.number,
 	suggested: PropTypes.number,
@@ -995,7 +1004,7 @@ PostList.propTypes = {
 	taxonomies: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	updatePanelData: PropTypes.func,
 };
 
 PostList.defaultProps = {
@@ -1006,6 +1015,7 @@ PostList.defaultProps = {
 	strings: {},
 	default: {},
 	indexMap: [],
+	parentMap: [],
 	min: 1,
 	max: 12,
 	suggested: 6,

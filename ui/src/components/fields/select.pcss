@@ -1,17 +1,73 @@
 @import '../../shared/spacing.pcss';
 @import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
-	transform: translate3d(0, 0, 0);
+	max-width: 575px;
+
+	> div {
+
+		> div {
+			background-color: var(--color-white) !important;
+			border: 1px solid var(--border-input) !important;
+			border-radius: 2px;
+			color: var(--input-placeholder);
+			font-weight: normal;
+
+			> span + span {
+				padding-right: 0 !important;
+
+				> span {
+					border-width: 3px 3px 2px !important;
+					font-size: 12px !important;
+					position: relative;
+					right: -2px !important;
+					top: -1px;
+				}
+			}
+		}
+	}
+
+	[class="Select-menu-outer"] {
+		margin-bottom: 0 !important;
+		position: absolute !important;
+
+		> div {
+			border: 1px solid #eee !important;
+			border-top: none !important;
+		}
+
+		[class="Select-option is-focused"] {
+			background: #f5faff !important;
+		}
+
+		[class="Select-option is-selected"] {
+			background: #f5faff !important;
+		}
+	}
+}
+
+.compact {
+	display: flex;
+
+	> div {
+		width: calc(100% - 110px);
+	}
+
+	.label {
+		margin-right: 10px;
+		width: 100px;
+	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	margin-right: 10px;
+	overflow: visible;
+	width: calc(50% - 10px);
 }
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
-
-

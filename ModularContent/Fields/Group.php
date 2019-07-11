@@ -2,6 +2,7 @@
 
 
 namespace ModularContent\Fields;
+
 use ModularContent\Panel;
 use ModularContent\AdminPreCache;
 
@@ -11,54 +12,27 @@ use ModularContent\AdminPreCache;
  * A container for a group of fields. It wraps fields in the admin
  * in a fieldset to show logical groupings.
  *
- * Creating a group:
- *
- * $first_name = new Text( array(
- *   'label' => __('First Name'),
- *   'name' => 'first',
- * ) );
- * $last_name = new Text( array(
- *   'label' => __('Last Name'),
- *   'name' => 'last',
- * ) );
- * $group = new Group( array(
- *   'label' => __('Name'),
- *   'name' => 'name',
- * ) );
- * $group->add_field( $first_name );
- * $group->add_field( $last_name );
- *
- *
- * Using data from a group in a template:
- *
- * $first_name = get_panel_var( 'name.first' );
- * $last_name = get_panel_var( 'name.last' );
- *
- * OR
- *
- * $name = get_panel_var( 'name' );
- * $first_name = $name['first'];
- * $last_name = $name['last'];
- *
- * OR
- *
- * $vars = get_panel_vars();
- * $first_name = $vars['name']['first'];
- * $last_name = $vars['name']['last'];
  */
 class Group extends Field {
 
 	/** @var Field[] */
-	protected $fields = array();
+	protected $fields = [];
 
 	protected $default = [];
+
+	protected $layout = 'full';
+
+	public function __construct( $args = [] ) {
+		$this->defaults['layout'] = $this->layout;
+		parent::__construct( $args );
+	}
 
 	/**
 	 * @param Field $field
 	 *
 	 */
 	public function add_field( Field $field ) {
-		$this->fields[$field->get_name()] = $field;
+		$this->fields[ $field->get_name() ] = $field;
 	}
 
 	/**
@@ -67,12 +41,13 @@ class Group extends Field {
 	 * @return Field|NULL
 	 */
 	public function get_field( $name ) {
-		foreach( $this->fields as $field ) {
-			if ( $field->get_name() == $name || $this->get_name().'.'.$field->get_name() == $name ) {
+		foreach ( $this->fields as $field ) {
+			if ( $field->get_name() == $name || $this->get_name() . '.' . $field->get_name() == $name ) {
 				return $field;
 			}
 		}
-		return NULL;
+
+		return null;
 	}
 
 	/**
@@ -80,14 +55,15 @@ class Group extends Field {
 	 *
 	 * @param mixed $data
 	 * @param Panel $panel
+	 *
 	 * @return array
 	 */
 	public function get_vars( $data, $panel ) {
-		$vars = array();
+		$vars = [];
 		foreach ( $this->fields as $field ) {
 			$name = $field->get_name();
-			if ( isset($data[$name]) ) {
-				$vars[$name] = $field->get_vars($data[$name], $panel);
+			if ( isset( $data[ $name ] ) ) {
+				$vars[ $name ] = $field->get_vars( $data[ $name ], $panel );
 			}
 		}
 
@@ -101,10 +77,11 @@ class Group extends Field {
 	 *
 	 * @param mixed $data
 	 * @param Panel $panel
+	 *
 	 * @return array
 	 */
 	public function get_vars_for_api( $data, $panel ) {
-		$vars = array();
+		$vars = [];
 		foreach ( $this->fields as $field ) {
 			$name = $field->get_name();
 			if ( isset( $data[ $name ] ) ) {
@@ -120,7 +97,7 @@ class Group extends Field {
 	/**
 	 * Add data relevant to this field to the precache
 	 *
-	 * @param mixed $data
+	 * @param mixed         $data
 	 * @param AdminPreCache $cache
 	 *
 	 * @return void
@@ -128,18 +105,20 @@ class Group extends Field {
 	public function precache( $data, AdminPreCache $cache ) {
 		foreach ( $this->fields as $field ) {
 			$name = $field->get_name();
-			if ( isset($data[$name]) ) {
-				$field->precache( $data[$name], $cache );
+			if ( isset( $data[ $name ] ) ) {
+				$field->precache( $data[ $name ], $cache );
 			}
 		}
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
+		$blueprint           = parent::get_blueprint();
 		$blueprint['fields'] = [];
-		foreach( $this->fields as $field ) {
+		foreach ( $this->fields as $field ) {
 			$blueprint['fields'][] = $field->get_blueprint();
 		}
+		$blueprint['layout'] = $this->layout;
+
 		return $blueprint;
 	}
 
@@ -147,6 +126,7 @@ class Group extends Field {
 	 * Ensure that the submitted array is keyless
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
@@ -157,6 +137,7 @@ class Group extends Field {
 			}
 			$data[ $name ] = $field->prepare_data_for_save( $data[ $name ] );
 		}
+
 		return $data;
 	}
 } 

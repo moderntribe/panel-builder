@@ -42,19 +42,6 @@ class Post_List extends Field {
 
 	/**
 	 * @param array $args
-	 *
-	 * Usage example:
-	 *
-	 * $field = new Post_List( array(
-	 *   'label' => __( 'Select some posts' ),
-	 *   'name' => 'some-posts',
-	 *   'max' => 12, // the maximum number of posts the user can pick, or the max returned by a query
-	 *   'min' => 3, // a warning message is displayed to the user until the required number of posts is selected
-	 *   'suggested' => 6, // the number of empty slots that will be shown in the admin,
-	 *   'show_max_control' => false, // if true, the user can pick the max number of posts (between min and max)
-	 *   'hidden_fields' => array( 'post_title, 'post_content', 'url', 'thumbnail_id' ), // Hide the selected fields from
-	 *   previews and from manual input
-	 * ) );
 	 */
 	public function __construct( $args = [ ] ) {
 		$this->defaults[ 'max' ] = $this->max;

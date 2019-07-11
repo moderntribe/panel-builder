@@ -2,16 +2,19 @@ import * as FIELD_TYPES from '../../constants/field-types';
 
 import Text from '../fields/text';
 import Title from '../fields/title';
+import TabGroup from '../fields/tab-group';
 import Radio from '../fields/radio';
 import Checkbox from '../fields/checkbox';
 import ColorPicker from '../fields/color-picker';
 import ImageSelect from '../fields/image-select';
 import SwatchSelect from '../fields/swatch-select';
 import Select from '../fields/select';
+import Range from '../fields/range';
 import TextArea from '../fields/textarea';
 import Link from '../fields/link';
 import Hidden from '../fields/hidden';
 import HTML from '../fields/html';
+import Toggle from '../fields/toggle';
 import Image from '../fields/image';
 import Video from '../fields/video';
 import ImageGallery from '../fields/image-gallery';
@@ -21,19 +24,24 @@ import Group from '../fields/group';
 import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
 import ColumnWidth from '../fields/column-width';
+import NumericInput from '../fields/numeric-input';
+import Icons from '../fields/icons';
 
 export default {
 	[FIELD_TYPES.TEXT]: Text,
 	[FIELD_TYPES.TITLE]: Title,
+	[FIELD_TYPES.TAB_GROUP]: TabGroup,
 	[FIELD_TYPES.RADIO]: Radio,
 	[FIELD_TYPES.CHECKBOX]: Checkbox,
 	[FIELD_TYPES.COLOR_PICKER]: ColorPicker,
 	[FIELD_TYPES.IMAGE_SELECT]: ImageSelect,
+	[FIELD_TYPES.RANGE]: Range,
 	[FIELD_TYPES.SELECT]: Select,
 	[FIELD_TYPES.TEXTAREA]: TextArea,
 	[FIELD_TYPES.LINK]: Link,
 	[FIELD_TYPES.HIDDEN]: Hidden,
 	[FIELD_TYPES.HTML]: HTML,
+	[FIELD_TYPES.TOGGLE]: Toggle,
 	[FIELD_TYPES.IMAGE]: Image,
 	[FIELD_TYPES.IMAGE_GALLERY]: ImageGallery,
 	[FIELD_TYPES.VIDEO]: Video,
@@ -44,4 +52,6 @@ export default {
 	[FIELD_TYPES.ACCORDION]: Accordion,
 	[FIELD_TYPES.REPEATER]: Repeater,
 	[FIELD_TYPES.COLUMN_WIDTH]: ColumnWidth,
+	[FIELD_TYPES.NUMERIC_INPUT]: NumericInput,
+	[FIELD_TYPES.ICONS]: Icons,
 };

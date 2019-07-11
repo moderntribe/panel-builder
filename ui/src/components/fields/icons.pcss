@@ -1,0 +1,159 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/mq.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	transform: translate3d(0, 0, 0);
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: block;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	max-height: 400px;
+	overflow: auto;
+}
+
+[data-live-edit="true"] {
+
+	.container {
+		max-height: none;
+		overflow: visible;
+	}
+}
+
+.selectedWrap {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+
+	&:hover {
+
+		.deleteIcon {
+			opacity: 1;
+		}
+	}
+}
+
+.selectedIcon {
+	margin-left: 12px;
+}
+
+.deleteIcon {
+	opacity: 0;
+}
+
+.search {
+	width: 100%;
+	padding: 8px 10px;
+	margin: 10px 0;
+}
+
+.iconLabel {
+	width: 48px;
+	height: 48px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	input {
+		position: absolute;
+		left: -9999px;
+		opacity: 0;
+
+		&:checked + i {
+			color: var(--button-new-blue);
+		}
+	}
+
+	&:hover i {
+		color: var(--button-new-blue);
+	}
+}
+
+.loaderWrap {
+	width: 100%;
+	height: 300px;
+	position: relative;
+}
+
+.loading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -20px 0 0 -50px;
+
+	> div {
+		top: 0;
+		left: 0;
+	}
+}
+
+.category {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.categoryHeading {
+	width: 100%;
+	padding-left: 10px;
+}
+
+.showMoreWrap {
+	padding-top: 10px;
+	width: 100%;
+}
+
+.showMore {
+	position: relative;
+	background: var(--button-new-blue);
+	border-color: var(--button-new-blue);
+	width: auto;
+	margin: 0 auto;
+	padding: 6px 25px 6px 10px;
+	color: var(--white);
+
+	&:hover,
+	&:focus {
+		background: var(--button-new-blue-hover);
+		border-color: var(--button-new-blue-hover);
+		color: var(--white);
+	}
+
+	i {
+		position: absolute;
+		right: -2px;
+		top: 8px;
+	}
+}
+
+[data-live-edit="false"] {
+	.iconLabel {
+
+	}
+}
+
+[data-live-edit="true"] {
+	.iconLabel {
+
+	}
+	[data-expanded="true"] {
+		.iconLabel {
+
+		}
+	}
+}

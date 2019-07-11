@@ -3,18 +3,31 @@
  * @package ModularContent\Fields
  *
  * A textarea. Set the argument 'richtext' to TRUE to use
- * a WordPress visual editor.
+ * a WordPress visual editor. Use editor_type of 'draftjs' to use
+ * a react powered customizable wysiwyg
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import RichtextEditor from '../shared/richtext-editor';
+import LabelTooltip from './partials/label-tooltip';
+import DraftColorPicker from '../draftjs/color-picker';
+import { wpEditor } from '../../globals/wp';
 import * as RichtextEvents from '../../util/dom/tinymce';
+import * as DATA_KEYS from '../../constants/data-keys';
+import getAllMatches from '../../util/data/get-all-matches';
 
 import styles from './textarea.pcss';
+import { trigger } from '../../util/events';
+import * as EVENTS from '../../constants/events';
 
 class TextArea extends Component {
 	/**
@@ -26,35 +39,59 @@ class TextArea extends Component {
 		super(props);
 		this.fid = _.uniqueId('textarea-field-');
 		this.state = {
-			text: this.props.data,
+			text: this.getInitialState(),
 		};
+	}
+
+	getInitialState() {
+		if (this.props.editor_type === DATA_KEYS.EDITOR_TYPE_DRAFTJS) {
+			const contentBlock = htmlToDraft(this.props.data);
+			const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+			return EditorState.createWithContent(contentState);
+		}
+		return this.props.data;
 	}
 
 	componentDidMount() {
 		if (!this.props.richtext) {
 			return;
 		}
-
-		// delay for smooth animations, framerate killa
-		_.delay(() => {
-			this.initTinyMCE();
-		}, 100);
+		if (this.props.editor_type === DATA_KEYS.EDITOR_TYPE_TINYMCE) {
+			// delay for smooth animations, framerate killa
+			_.delay(() => this.initTinyMCE(), 100);
+		}
 	}
 
 	componentWillUnmount() {
 		this.cleanUp();
 	}
 
+	@autobind
+	onDraftJSChange(text) {
+		this.setState({ text });
+		const value = wpEditor.removep(draftToHtml(convertToRaw(text.getCurrentContent())));
+		this.props.updatePanelData({
+			depth: this.props.depth,
+			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
+			name: this.props.name,
+			value,
+		});
+		if (this.props.enable_fonts_injection) {
+			trigger({ event: EVENTS.INJECT_IFRAME_FONT, native: false, data: getAllMatches(value, /font-family:([^;]+);/g) });
+		}
+	}
+
 	/**
-	 * Depending on prop "richtext" this will return the jsx for a simple textarea or a dom ready to spin up a tinymce instance.
+	 * Depending on prop "richtext" this will return the jsx for a simple textarea or a dom ready to spin up a tinymce instance or a customized draftjs one.
 	 *
 	 * @method getTemplate
 	 */
 
 	getTemplate() {
-		let Editor;
+		let FieldEditor;
 		if (!this.props.richtext) {
-			Editor = (
+			FieldEditor = (
 				<textarea
 					className={styles.rawTextarea}
 					id={this.fid}
@@ -64,8 +101,8 @@ class TextArea extends Component {
 					onChange={this.handleChange}
 				/>
 			);
-		} else {
-			Editor = (
+		} else if (this.props.editor_type === DATA_KEYS.EDITOR_TYPE_TINYMCE) {
+			FieldEditor = (
 				<div
 					id={`wp-${this.fid}-wrap`}
 					ref={r => this.editor = r}
@@ -81,9 +118,26 @@ class TextArea extends Component {
 					/>
 				</div>
 			);
+		} else if (this.props.editor_type === DATA_KEYS.EDITOR_TYPE_DRAFTJS) {
+			const toolbarOptions = this.props.editor_options;
+			if (_.isArray(toolbarOptions.options) && toolbarOptions.options.indexOf('colorPicker') !== -1) {
+				const colors = toolbarOptions.colorPicker && toolbarOptions.colorPicker.colors ? toolbarOptions.colorPicker.colors : [];
+				toolbarOptions.colorPicker = { component: DraftColorPicker, colors };
+			}
+			FieldEditor = (
+				<Editor
+					editorState={this.state.text}
+					toolbarClassName={styles.draftToolbar}
+					wrapperClassName={styles.draftWrapper}
+					editorClassName={styles.draftEditor}
+					toolbarOnFocus
+					toolbar={this.props.editor_options}
+					onEditorStateChange={this.onDraftJSChange}
+				/>
+			);
 		}
 
-		return Editor;
+		return FieldEditor;
 	}
 
 	@autobind
@@ -94,6 +148,7 @@ class TextArea extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: text,
 		});
@@ -107,6 +162,9 @@ class TextArea extends Component {
 
 	initTinyMCE() {
 		if (!this.props.richtext) {
+			return;
+		}
+		if (this.props.editor_type !== DATA_KEYS.EDITOR_TYPE_TINYMCE) {
 			return;
 		}
 
@@ -127,6 +185,9 @@ class TextArea extends Component {
 		if (!this.props.richtext) {
 			return;
 		}
+		if (this.props.editor_type !== DATA_KEYS.EDITOR_TYPE_TINYMCE) {
+			return;
+		}
 
 		RichtextEvents.destroy({
 			editor: this.editor,
@@ -141,14 +202,9 @@ class TextArea extends Component {
 	 */
 
 	render() {
-		const Editor = this.getTemplate();
 		const labelClasses = classNames({
 			[styles.label]: true,
 			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
 		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
@@ -156,9 +212,11 @@ class TextArea extends Component {
 		});
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
-				{Editor}
-				<p className={descriptionClasses}>{this.props.description}</p>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
+				{this.getTemplate()}
 			</div>
 		);
 	}
@@ -167,14 +225,18 @@ class TextArea extends Component {
 TextArea.propTypes = {
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
+	enable_fonts_injection: PropTypes.bool,
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
-	indexMap: React.PropTypes.array,
+	depth: PropTypes.number,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
 	default: PropTypes.string,
 	richtext: PropTypes.bool,
+	editor_type: PropTypes.string,
+	editor_options: PropTypes.object,
 	media_buttons: PropTypes.bool,
 	editor_settings_reference: PropTypes.string,
 	updatePanelData: PropTypes.func,
@@ -183,15 +245,19 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
 	data: '',
 	panelIndex: 0,
+	enable_fonts_injection: false,
 	label: '',
 	name: '',
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	depth: 0,
 	strings: {},
 	default: '',
 	richtext: false,
 	media_buttons: true,
+	editor_type: DATA_KEYS.EDITOR_TYPE_TINYMCE,
+	editor_options: {},
 	editor_settings_reference: 'content',
 	updatePanelData: () => {},
 };

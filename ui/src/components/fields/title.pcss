@@ -3,23 +3,41 @@
 
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
+	position: relative;
 	transform: translate3d(0, 0, 0);
+
+	.label + div[data-id="tooltip"] {
+		position: absolute;
+		right: 0;
+		top: 50%;
+	}
 }
 
 .inputContainer {
+
 	input {
+		background-color: var(--color-white);
+		border: 1px solid var(--border-input);
+		border-radius: 2px;
+		box-shadow: none;
+		color: var(--input-placeholder);
+		font-size: 13px;
+		font-weight: 300;
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
 		width: 100%;
+
+		&:focus {
+			border-color: var(--button-new-blue);
+			box-shadow: none;
+		}
 	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	position: relative;
 }
-
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
-
-

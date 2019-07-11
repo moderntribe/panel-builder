@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import styles from './swatch-select.pcss';
+import LabelTooltip from './partials/label-tooltip';
 
 class SwatchSelect extends Component {
 	state = {
@@ -17,6 +19,7 @@ class SwatchSelect extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value,
 		});
@@ -46,6 +49,7 @@ class SwatchSelect extends Component {
 						checked={this.state.value === option.value}
 						data-option-type="single"
 						data-field="swatch-select"
+						data-depth={this.props.depth}
 					/>
 					<div
 						className={styles.optionColor}
@@ -62,10 +66,6 @@ class SwatchSelect extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
@@ -74,28 +74,31 @@ class SwatchSelect extends Component {
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<div className={styles.container}>
 					{Options}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
 }
 
 SwatchSelect.propTypes = {
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	description: React.PropTypes.string,
-	depth: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	indexMap: React.PropTypes.array,
-	default: React.PropTypes.string,
-	options: React.PropTypes.array,
-	data: React.PropTypes.string,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	description: PropTypes.string,
+	depth: PropTypes.number,
+	strings: PropTypes.object,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	default: PropTypes.string,
+	options: PropTypes.array,
+	data: PropTypes.string,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
 };
 
 SwatchSelect.defaultProps = {
@@ -105,6 +108,7 @@ SwatchSelect.defaultProps = {
 	depth: 0,
 	strings: {},
 	indexMap: [],
+	parentMap: [],
 	default: '',
 	options: [],
 	data: '',

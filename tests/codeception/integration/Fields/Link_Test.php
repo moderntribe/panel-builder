@@ -5,14 +5,16 @@ namespace ModularContent\Fields;
 use Codeception\TestCase\WPTestCase;
 
 class Link_Test extends WPTestCase {
+
 	public function test_blueprint() {
-		$label = __CLASS__ . '::' . __FUNCTION__;
-		$name = __FUNCTION__;
+		$label       = __CLASS__ . '::' . __FUNCTION__;
+		$name        = __FUNCTION__;
 		$description = __FUNCTION__ . ':' . __LINE__;
-		$field = new Link( [
+		$field       = new Link( [
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
+			'layout'      => 'full',
 		] );
 
 		$blueprint = $field->get_blueprint();
@@ -31,8 +33,23 @@ class Link_Test extends WPTestCase {
 				'target' => '',
 				'label'  => '',
 			],
+			'layout'      => 'full',
 		];
 
 		$this->assertEquals( $expected, $blueprint );
+	}
+
+	public function test_layout_error() {
+		$valid = true;
+
+		try {
+			new Link( [
+				'layout' => 'foobar',
+			] );
+		} catch ( \LogicException $e ) {
+			$valid = false;
+		}
+
+		$this->assertFalse( $valid );
 	}
 }

@@ -24,8 +24,10 @@ class Title_Test extends WPTestCase {
 			'label'       => $label,
 			'name'        => $name,
 			'description' => $description,
-			'strings'     => [ ],
+			'strings'     => [],
 			'default'     => $default,
+			'input_width' => 12,
+			'layout'      => 'full',
 		];
 
 		$this->assertEquals( $expected, $blueprint );

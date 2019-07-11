@@ -1,0 +1,51 @@
+exports[`Numeric input field renders correctly 1`] = `
+<div
+  className="field compact panel-field">
+  <span
+    className="container">
+    <span
+      className="react-numeric-input"
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      style={null}>
+      <input
+        className="input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onInput={[Function]}
+        onKeyDown={[Function]}
+        onSelect={[Function]}
+        style={null}
+        type="text"
+        value="0" />
+      <b
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+        style={null}>
+        <i
+          style={null} />
+      </b>
+      <b
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+        style={null}>
+        <i
+          style={null} />
+      </b>
+    </span>
+  </span>
+  <label
+    className="label panel-field-label">
+    Top
+  </label>
+</div>
+`;

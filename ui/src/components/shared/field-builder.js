@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
@@ -6,6 +7,7 @@ import componentMap from './field-map';
 import Children from '../fields/children';
 
 import getTypeCheckedData from '../../util/data/get-typechecked-data';
+import * as styleUtil from '../../util/dom/styles';
 
 import styles from './field-builder.pcss';
 
@@ -22,8 +24,17 @@ const FieldBuilder = (props) => {
 			return null;
 		}
 
+		let isActive = _.isEmpty(props.tabs);
+
+		if (props.tabs[props.activeTab] && props.tabs[props.activeTab].fields.indexOf(field.name) >= 0) {
+			isActive = true;
+		}
+
 		const classes = classNames({
 			[styles.field]: true,
+			[styles.builder]: true,
+			[styles.hidden]: !isActive,
+			[styles.compact]: styleUtil.isCompactField(field),
 			'panel-input': true,
 			[`input-name-${field.name.toLowerCase()}`]: true,
 			[`input-type-${field.type.toLowerCase()}`]: true,
@@ -32,8 +43,10 @@ const FieldBuilder = (props) => {
 		return (
 			<div
 				className={classes}
+				data-field="true"
+				data-builder="true"
 				key={_.uniqueId('field-id-')}
-				data-settings={props.settings_fields.indexOf(field.name) !== -1}
+				style={styleUtil.fieldStyles(field)}
 			>
 				<Field
 					{...field}
@@ -41,9 +54,12 @@ const FieldBuilder = (props) => {
 					panelIndex={props.index}
 					parentIndex={props.parentIndex}
 					indexMap={props.indexMap}
+					parentMap={props.parentMap}
 					parent={props.parent}
 					panelLabel={props.label}
 					liveEdit={props.liveEdit}
+					tabs={props.tabs}
+					activeTab={props.activeTab}
 					data={getTypeCheckedData(field.type, props.data[field.name])}
 					updatePanelData={props.updatePanelData}
 					handleExpanderClick={props.handleExpanderClick}
@@ -54,21 +70,25 @@ const FieldBuilder = (props) => {
 		);
 	});
 
-	const ChildPanels = props.hasChildren ? (
+	const ChildPanels = (
 		<Children
 			childData={props.children}
 			panels={props.panels}
 			depth={props.depth}
 			parentIndex={props.index}
+			parentMap={props.parentMap}
 			indexMap={props.indexMap}
+			tabs={props.tabs}
+			activeTab={props.activeTab}
 			liveEdit={props.liveEdit}
 			data={props.panels}
 			updatePanelData={props.updatePanelData}
 			handleExpanderClick={props.handleExpanderClick}
 			nestedGroupActive={props.nestedGroupActive}
 			hidePanel={props.hidePanel}
+			visible={props.hasChildren && props.activeTab === 'content'}
 		/>
-	) : null;
+	);
 
 	return (
 		<div>
@@ -84,6 +104,8 @@ FieldBuilder.propTypes = {
 	depth: PropTypes.number,
 	index: PropTypes.number,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	activeTab: PropTypes.string,
 	label: PropTypes.string,
 	parent: PropTypes.string,
 	fields: PropTypes.array,
@@ -92,8 +114,9 @@ FieldBuilder.propTypes = {
 	liveEdit: PropTypes.bool,
 	hasChildren: PropTypes.bool,
 	data: PropTypes.object,
+	tabs: PropTypes.object,
 	updatePanelData: PropTypes.func,
-	settings_fields: React.PropTypes.array,
+	settings_fields: PropTypes.array,
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
@@ -102,10 +125,11 @@ FieldBuilder.propTypes = {
 FieldBuilder.defaultProps = {
 	name: '',
 	children: {},
-	childPanels: [],
 	depth: 0,
 	index: 0,
 	indexMap: [],
+	parentMap: [],
+	activeTab: 'content',
 	label: '',
 	fields: [],
 	panels: [],
@@ -114,6 +138,7 @@ FieldBuilder.defaultProps = {
 	liveEdit: false,
 	hasChildren: false,
 	data: {},
+	tabs: {},
 	settings_fields: [],
 	updatePanelData: () => {},
 	hidePanel: () => {},

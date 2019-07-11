@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import MediaUploader from '../shared/media-uploader';
 import { wpMedia } from '../../globals/wp';
 import * as AdminCache from '../../util/data/admin-cache';
 
 import styles from './image.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Image extends Component {
 	state = {
@@ -40,6 +42,7 @@ class Image extends Component {
 			this.props.updatePanelData({
 				depth: this.props.depth,
 				indexMap: this.props.indexMap,
+				parentMap: this.props.parentMap,
 				name: this.props.name,
 				value: attachment.id,
 			});
@@ -71,6 +74,7 @@ class Image extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: 0,
 		});
@@ -83,22 +87,14 @@ class Image extends Component {
 	 */
 
 	render() {
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-		});
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
-				<label className={labelClasses}>{this.props.label}</label>
+				<label className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				<MediaUploader
 					label={this.props.label}
 					file={this.state.image}
@@ -106,24 +102,25 @@ class Image extends Component {
 					handleAddMedia={this.handleAddMedia}
 					handleRemoveMedia={this.handleRemoveMedia}
 				/>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
 }
 
 Image.propTypes = {
-	allowed_image_mime_types: React.PropTypes.array,
-	label: React.PropTypes.string,
-	name: React.PropTypes.string,
-	indexMap: React.PropTypes.array,
-	depth: React.PropTypes.number,
-	description: React.PropTypes.string,
-	data: React.PropTypes.number,
-	strings: React.PropTypes.object,
-	default: React.PropTypes.number,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
+	allowed_image_mime_types: PropTypes.array,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
+	depth: PropTypes.number,
+	description: PropTypes.string,
+	data: PropTypes.number,
+	strings: PropTypes.object,
+	default: PropTypes.number,
+	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
+	updatePanelData: PropTypes.func,
 };
 
 Image.defaultProps = {
@@ -131,12 +128,14 @@ Image.defaultProps = {
 	label: '',
 	name: '',
 	indexMap: [],
+	parentMap: [],
 	description: '',
 	depth: 0,
 	data: 0,
 	strings: {},
 	default: 0,
 	panelIndex: 0,
+	layout: '',
 	updatePanelData: () => {},
 };
 

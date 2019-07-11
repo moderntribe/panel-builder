@@ -4,10 +4,76 @@
 .field {
 	composes: fieldContainer from "../../shared/fields.pcss";
 	transform: translate3d(0, 0, 0);
+
+	input {
+		background-color: var(--color-white);
+		border: 1px solid var(--border-input);
+		border-radius: 2px;
+		box-shadow: none;
+		color: var(--input-placeholder);
+		font-size: 13px;
+		font-weight: 300;
+		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+
+		&:focus {
+			box-shadow: none !important;
+		}
+	}
+}
+
+.compact {
+
+	.fieldset > div {
+		display: flex;
+		flex-direction: row;
+
+		> div {
+			flex: 1;
+			margin: 0 !important;
+			width: calc(100%/3);
+
+			input {
+				border-radius: 0;
+				height: 37px;
+				margin: 0;
+				width: 100%;
+				border-right: none;
+			}
+
+			div {
+
+				div {
+					border-radius: 0;
+					left: -1px;
+					top: 0;
+
+					> span + span {
+						padding-right: 0 !important;
+
+						> span {
+							border-width: 3px 3px 2px !important;
+							font-size: 12px !important;
+							position: relative;
+							right: -2px !important;
+							top: -1px;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+
+	span {
+		color: var(--tooltip-icon);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 18px;
+		margin-left: 5px;
+	}
 }
 
 .description {
@@ -20,14 +86,61 @@
 	padding: 0;
 }
 
-.inputGeneric {
-	margin-bottom: 5px;
-	input {
-		width:100%;
-		padding: 8px 10px;
-	}
-	select {
-		width:100%;
+.fieldset {
+
+	div {
+
+		div {
+
+			&:hover {
+				box-shadow: none !important;
+			}
+
+			div {
+
+				div {
+					border-radius: 2px;
+					color: var(--input-placeholder) !important;
+					left: 1px;
+					top: 1px;
+
+					> span + span {
+						padding-right: 0 !important;
+
+						> span {
+							border-width: 3px 3px 2px !important;
+							font-size: 12px !important;
+							position: relative;
+							right: -2px !important;
+							top: -1px;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
+.inputGeneric {
+	margin-bottom: 5px;
+
+	input {
+		padding: 8px 10px;
+	}
+}
+
+::-webkit-input-placeholder {
+	color: var(--input-placeholder);
+}
+
+::-moz-placeholder {
+	color: var(--input-placeholder);
+}
+
+:-ms-input-placeholder {
+	color: var(--input-placeholder);
+}
+
+:-moz-placeholder {
+	color: var(--input-placeholder);
+}

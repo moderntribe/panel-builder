@@ -1,0 +1,49 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	transform: translate3d(0, 0, 0);
+}
+
+.container {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+
+	.input {
+		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+		width: 100%;
+		height: auto;
+	}
+
+	> div {
+		flex: 2;
+		margin-right: 20px;
+	}
+
+	> div + span > input {
+		flex: 0.5;
+		max-width: 80px;
+	}
+
+	> div div[role="slider"] {
+		margin-left: 0 !important;
+		height: 27px;
+		width: 27px;
+	}
+}
+
+.tooltip {
+	z-index: 100000009;
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}

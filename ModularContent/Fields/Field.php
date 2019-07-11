@@ -39,13 +39,6 @@ abstract class Field {
 
 	/**
 	 * @param array $args Configuration options for this field.
-	 *
-	 * $field = new Field_Subclass( array(
-	 *   'label' => __('The label for the field'),
-	 *   'name' => 'string-identifier',
-	 *   'description' => __( 'Helpful text describing the field' ),
-	 *   'default' => 'the default value',
-	 * ) );
 	 */
 	public function __construct( $args = array() ) {
 		// this allows subclasses to set defaults by overriding the property declaration

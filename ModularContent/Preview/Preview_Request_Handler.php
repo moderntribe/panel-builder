@@ -26,7 +26,8 @@ class Preview_Request_Handler {
 	 */
 	public function handle_request() {
 		try {
-			$data = stripslashes_deep( $_POST );
+			$body = empty( $_POST['panels'] ) ? $this->get_json_body() : $_POST;
+			$data = stripslashes_deep( $body );
 			$preview_builder = new Preview_Builder( $data, new Ajax_Preview_Loop() );
 			$panels = $preview_builder->render();
 			wp_send_json_success( [
@@ -38,6 +39,15 @@ class Preview_Request_Handler {
 				'message' => $e->getMessage(),
 			] );
 		}
+	}
+
+	protected function get_json_body() {
+		$body = json_decode( file_get_contents( 'php://input' ), true );
+		if ( empty( $body ) ) {
+			return [];
+		}
+
+		return $body;
 	}
 
 	/**

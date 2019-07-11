@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993
 {
     public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'ModularContent\\' => 15,
+        ),
         'A' => 
         array (
             'AttachmentHelper\\' => 17,
@@ -14,9 +18,23 @@ class ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993
     );
 
     public static $prefixDirsPsr4 = array (
+        'ModularContent\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/ModularContent',
+        ),
         'AttachmentHelper\\' => 
         array (
             0 => __DIR__ . '/..' . '/moderntribe/attachment-helper/AttachmentHelper',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'A' => 
+        array (
+            'AJAXQueue' => 
+            array (
+                0 => __DIR__ . '/..' . '/moderntribe/ajax-queue/src',
+            ),
         ),
     );
 
@@ -25,6 +43,7 @@ class ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf85c06cb6dbdcb9d93fbe856998b5993::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

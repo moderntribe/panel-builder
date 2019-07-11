@@ -1,0 +1,184 @@
+@import '../../shared/spacing.pcss';
+@import '../../shared/colors.pcss';
+@import '../../shared/transitions.pcss';
+
+.field {
+	composes: fieldContainer from "../../shared/fields.pcss";
+	margin-bottom: 12px;
+	padding: 0 var(--field-padding-vertical) 0 0;
+	width: 100%;
+
+	> label + div {
+		display: inline-block;
+		position: relative;
+		top: 8px;
+	}
+
+	label {
+		margin-right: 10px;
+		width: 100px;
+	}
+}
+
+.simple {
+	composes: checkbox from "../../shared/inputs.pcss";
+	margin: -1px 4px 12px 0;
+	vertical-align: middle;
+}
+
+.toggleLabel {
+	composes: label from "../../shared/inputs.pcss";
+	color: var(--white);
+	top: -5px;
+	position: relative;
+	width: 60px;
+
+	input[type="checkbox"] {
+		visibility: hidden;
+	}
+
+	.simple & {
+
+		input[type="checkbox"] {
+			opacity: 0;
+			visibility: visible;
+			width: 22px;
+
+			+ div + span {
+				position: absolute;
+				width: 17px;
+				height: 17px;
+				border-radius: 2px;
+				top: 6px;
+				left: 0;
+				border: 1px solid var(--border-color);
+			}
+
+			&:focus {
+
+				+ div + span {
+					border: 1px solid var(--panel-label-color);
+				}
+			}
+
+			&:checked {
+
+				+ div + span {
+					background: var(--button-new-blue);
+					border-color: var(--button-new-blue);
+					transition: background 0.15s ease-in-out;
+
+					&:after {
+						content: "\f147";
+						font-family: dashicons;
+						position: absolute;
+						display: block;
+						right: 1px;
+						top: 0;
+						width: 17px;
+						height: 17px;
+						font-size: 20px;
+						line-height: 17px;
+						color: var(--color-white);
+					}
+				}
+
+				&:hover {
+
+					+ div + span {
+						background: var(--button-new-blue-hover);
+						transition: background 0.15s ease-in-out;
+					}
+				}
+			}
+		}
+	}
+}
+
+.list {
+	composes: list from "../../shared/fields.pcss";
+}
+
+.label {
+	composes: inputLabel from "../../shared/fields.pcss";
+	display: inline-block;
+	margin: 0 15px 0 0;
+	position: relative;
+	top: -10px;
+	width: auto;
+}
+
+.description {
+	composes: inputDescription from "../../shared/fields.pcss";
+}
+
+.toggle {
+	display: inline-block;
+	height: 34px;
+	position: relative;
+	width: 70px;
+}
+
+.toggleSlider {
+	background-color: var(--toggle-off-bg);
+	position: absolute;
+	cursor: pointer;
+	height: 12px;
+	width: 48px;
+	top: 9px;
+	border-radius: 6px;
+	transition: var(--transition-toggle);
+
+	.simple & {
+		display: none;
+	}
+}
+
+.toggleSlider:before {
+	background-color: var(--toggle-off-circle);
+	bottom: 2px;
+	content: "";
+	left: 0;
+	position: absolute;
+	right: auto;
+	transition: 0.4s;
+	height: 25px;
+	top: -8px;
+	width: 25px;
+	border: 1px solid var(--toggle-border-color);
+	border-radius: 100px;
+	box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.07);
+
+	.simple & {
+		display: none;
+	}
+}
+
+.toggleSlider[data-string]:after {
+	content: attr(data-string);
+	font-size: 10px;
+	left: auto;
+	position: absolute;
+	right: 7px;
+	text-transform: uppercase;
+
+	.simple & {
+		display: none;
+	}
+}
+
+input:focus + .toggleSlider {
+
+	&:before {
+		border-color: var(--button-new-blue);
+	}
+}
+
+input:checked + .toggleSlider {
+	background-color: var(--toggle-on-bg);
+
+	&:before {
+		background-color: var(--toggle-on-circle);
+		transform: translateX(22px);
+	}
+}

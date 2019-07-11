@@ -37,11 +37,14 @@ const getTypeCheckedData = (type = '', fieldData) => {
 		break;
 	case FIELD_TYPES.IMAGE:
 	case FIELD_TYPES.COLUMN_WIDTH:
+	case FIELD_TYPES.NUMERIC_INPUT:
+	case FIELD_TYPES.TOGGLE:
 		if (!_.isInteger(fieldData)) {
 			checkedData = _.toInteger(fieldData);
 		}
 		break;
 	case FIELD_TYPES.IMAGE_GALLERY:
+	case FIELD_TYPES.RANGE:
 	case FIELD_TYPES.REPEATER:
 		if (!_.isArray(fieldData)) {
 			checkedData = _.toArray(fieldData);

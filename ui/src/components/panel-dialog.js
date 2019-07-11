@@ -12,6 +12,8 @@ import * as events from '../util/events';
 
 const wpWrap = document.getElementById('wpwrap');
 
+Modal.setAppElement('#modular-content-app');
+
 /**
  * Class Panel Dialog
  *
@@ -30,12 +32,16 @@ class Dialog extends Component {
 		checkBoxMessage: '',
 		confirm: false,
 		confirmCallback: 'modern_tribe/dialog_confirmation',
+		contentStyles: {},
 		data: {},
 		heading: '',
 		html: '',
 		largeModal: false,
 		message: '',
 		useCheckbox: false,
+		saveConfirm: false,
+		shouldCloseOnEsc: true,
+		shouldCloseOnOverlayClick: true,
 		template: '',
 		type: 'success',
 	};
@@ -55,15 +61,28 @@ class Dialog extends Component {
 		return title ? title.value : '';
 	}
 
-	@autobind
-	closeDialog() {
+	deActivate() {
 		this.setState({ active: false });
 
 		if (wpWrap) {
 			wpWrap.classList.remove(styles.blur);
 		}
+	}
+
+	@autobind
+	exitLivePreview() {
+		this.deActivate();
 
 		if (this.state.callbackOnClose) {
+			this.state.callback();
+		}
+	}
+
+	@autobind
+	closeDialog() {
+		this.deActivate();
+
+		if (this.state.callbackOnClose && !this.state.saveConfirm) {
 			this.state.callback();
 		}
 	}
@@ -99,11 +118,15 @@ class Dialog extends Component {
 			checkBoxMessage: e.detail.checkBoxMessage ? e.detail.checkBoxMessage : '',
 			confirm: e.detail.confirm ? e.detail.confirm : false,
 			confirmCallback: e.detail.confirmCallback ? e.detail.confirmCallback : 'modern_tribe/dialog_confirmation',
+			contentStyles: e.detail.contentStyles ? e.detail.contentStyles : {},
 			data: e.detail.data ? e.detail.data : {},
 			heading: e.detail.heading ? e.detail.heading : '',
 			html: e.detail.html ? e.detail.html : '',
 			largeModal: e.detail.largeModal ? e.detail.largeModal : false,
 			message: e.detail.message ? e.detail.message : '',
+			saveConfirm: e.detail.saveConfirm ? e.detail.saveConfirm : false,
+			shouldCloseOnEsc: e.detail.shouldCloseOnEsc ? true : e.detail.shouldCloseOnEsc,
+			shouldCloseOnOverlayClick: e.detail.shouldCloseOnOverlayClick ? true : e.detail.shouldCloseOnOverlayClick,
 			template: e.detail.template ? e.detail.template : '',
 			type: e.detail.type ? e.detail.type : 'success',
 			useCheckbox: e.detail.useCheckbox ? e.detail.useCheckbox : false,
@@ -159,7 +182,29 @@ class Dialog extends Component {
 
 	renderButtons() {
 		let Buttons;
-		if (this.state.confirm) {
+		if (this.state.saveConfirm) {
+			Buttons = (
+				<div className={styles.buttons}>
+					<Button
+						handleClick={this.closeDialog}
+						text={UI_I18N['button.confirm_exit_preview']}
+						useLoader
+						primary={false}
+						full={false}
+						rounded
+						classes={styles.confirmButton}
+					/>
+					<Button
+						handleClick={this.exitLivePreview}
+						text={UI_I18N['button.cancel_exit_preview']}
+						full={false}
+						rounded
+						primary={false}
+						classes={styles.exitButton}
+					/>
+				</div>
+			);
+		} else if (this.state.confirm) {
 			Buttons = (
 				<div className={styles.buttons}>
 					<Button
@@ -215,17 +260,20 @@ class Dialog extends Component {
 			<Modal
 				isOpen={this.state.active}
 				onRequestClose={this.closeDialog}
+				shouldCloseOnOverlayClick={this.state.shouldCloseOnOverlayClick}
+				shouldCloseOnEsc={this.state.shouldCloseOnEsc}
 				className={wrapperClasses}
+				style={{ content: this.state.contentStyles }}
 				overlayClassName={styles.overlay}
 				contentLabel="Modal"
 			>
-				<Button
+				{!this.state.saveConfirm && <Button
 					handleClick={this.closeDialog}
 					bare
 					full={false}
 					icon="dashicons-no"
 					classes={styles.close}
-				/>
+				/>}
 				{this.renderModalContent()}
 			</Modal>
 		);

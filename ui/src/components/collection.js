@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import autobind from 'autobind-decorator';
@@ -6,7 +7,8 @@ import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
 import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
-import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
+import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG, PERMISSIONS } from '../globals/config';
+import { wpAutosave } from '../globals/wp';
 import { UI_I18N } from '../globals/i18n';
 
 import Panel from './panel';
@@ -29,20 +31,27 @@ import cloneDeep from '../util/data/clone-deep';
 
 import randomString from '../util/data/random-string';
 
+const $ = window.jQuery;
+
 class PanelCollection extends Component {
-	state = {
-		active: false,
-		injectionIndex: -1,
-		initialData: cloneDeep(PANELS),
-		keyPrefix: randomString(10),
-		liveEdit: this.isActiveOnInit(),
-		panelSetPickerActive: false,
-		panelSetPickerEditLink: '',
-		panelSetSaveError: false,
-		pickerActive: false,
-		refreshRate: this.getRefreshDelay(),
-		triggerLiveEdit: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			active: false,
+			injectionIndex: -1,
+			initialData: cloneDeep(PANELS),
+			keyPrefix: randomString(10),
+			liveEdit: this.isActiveOnInit(),
+			panelSetPickerActive: false,
+			panelSetPickerEditLink: '',
+			panelSetSaveError: false,
+			pickerActive: false,
+			refreshRate: this.getRefreshDelay(),
+			triggerLiveEdit: false,
+		};
+
+		this.storeExternalDomComponents();
+	}
 
 	componentWillMount() {
 		if (!this.shouldActivatePanelSets()) {
@@ -55,6 +64,7 @@ class PanelCollection extends Component {
 	}
 
 	componentDidMount() {
+		this.updatePreviewButton();
 		this.bindEvents();
 	}
 
@@ -73,6 +83,21 @@ class PanelCollection extends Component {
 		return savedRate ? parseInt(savedRate, 10) : 1000;
 	}
 
+	storeExternalDomComponents() {
+		this.dataInput = document.getElementById('modular-content-data');
+		this.previewButton = document.getElementById('post-preview');
+		this.postId = document.getElementById('post_ID').value;
+		this.revisionId = 0;
+
+		if (this.previewButton) {
+			this.previewField = document.querySelectorAll('input#wp-preview')[0];
+			this.postForm = document.querySelectorAll('form#post')[0];
+			this.previewButtonText = this.previewButton.innerHTML;
+			this.previewButtonTarget = this.previewButton.target;
+			this.previewEnabled = false;
+		}
+	}
+
 	/**
 	 * Activate either if app is initially loading and url key found, or allow prop control
 	 *
@@ -83,7 +108,19 @@ class PanelCollection extends Component {
 	}
 
 	/**
+	 * Modify preview id of button on panels enabled pages so we can take over handling
+	 */
+
+	updatePreviewButton() {
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.id = 'post-with-panels-preview';
+	}
+
+	/**
 	 * Setups the autosave and heartbeat state on mount.
+	 * Also intercept the preview button to save a revision before launching it
 	 */
 
 	bindEvents() {
@@ -91,8 +128,65 @@ class PanelCollection extends Component {
 		MODULAR_CONTENT.needs_save = false;
 		this.runDataHeartbeat();
 		heartbeat.init({
+			begin: this.handleAutosaveBegin,
 			success: this.handleAutosaveSuccess,
 		});
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.addEventListener('click', e => this.handlePreviewRequest(e));
+	}
+
+	/**
+	 * Load a new tab with the preview after autosave success
+	 * Emulates the wordpress internal approach
+	 *
+	 */
+
+	@autobind
+	loadPreview() {
+		this.previewEnabled = true;
+		const target = this.previewButtonTarget || 'wp-preview';
+		const ua = navigator.userAgent.toLowerCase();
+
+		if (wpAutosave) {
+			wpAutosave.server.tempBlockSave();
+		}
+
+		this.previewField.value = 'dopreview';
+		this.postForm.setAttribute('target', target);
+		this.postForm.submit();
+		this.postForm.setAttribute('target', '');
+
+		if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
+			$(this.postForm).attr('action', (index, value) => `${value}?t=${(new Date()).getTime()}`);
+		}
+
+		this.previewField.value = '';
+		this.previewEnabled = false;
+	}
+
+	/**
+	 * Trigger an autosave and then load the preview window
+	 *
+	 * @param e
+	 */
+
+	@autobind
+	handlePreviewRequest(e) {
+		if (this.previewButton.classList.contains('disabled')) {
+			return;
+		}
+		if (this.previewEnabled) {
+			return;
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		if (MODULAR_CONTENT.needs_save) {
+			heartbeat.triggerAutosave();
+		} else {
+			this.loadPreview();
+		}
 	}
 
 	/**
@@ -131,6 +225,10 @@ class PanelCollection extends Component {
 
 	unBindEvents() {
 		clearInterval(this.heartbeat);
+		if (!this.previewButton) {
+			return;
+		}
+		this.previewButton.removeEventListener('click', e => this.handlePreviewRequest(e));
 	}
 
 	/**
@@ -138,12 +236,27 @@ class PanelCollection extends Component {
 	 */
 
 	@autobind
-	handleAutosaveSuccess() {
+	handleAutosaveSuccess(revisionId) {
+		this.revisionId = revisionId;
+		if (this.previewButton) {
+			this.previewButton.classList.remove('disabled');
+		}
 		if (this.state.triggerLiveEdit) {
 			this.animateToLiveEdit({
 				liveEdit: true,
 				triggerLiveEdit: false,
 			});
+		}
+	}
+
+	/**
+	 * Anything that needs to run at autosave start
+	 */
+
+	@autobind
+	handleAutosaveBegin() {
+		if (this.previewButton) {
+			this.previewButton.classList.add('disabled');
 		}
 	}
 
@@ -161,13 +274,9 @@ class PanelCollection extends Component {
 					injectionIndex: -1,
 				});
 			}, 150);
-		} else if (MODULAR_CONTENT.needs_save) {
+		} else {
 			this.setState({ triggerLiveEdit: true });
 			heartbeat.triggerAutosave();
-		} else {
-			this.animateToLiveEdit({
-				liveEdit: true,
-			});
 		}
 	}
 
@@ -298,11 +407,17 @@ class PanelCollection extends Component {
 			const panels = cloneDeep(this.props.panels);
 			const newData = JSON.stringify({ panels });
 			if (MODULAR_CONTENT.autosave === newData) {
+				if (!MODULAR_CONTENT.needs_save && this.previewButton) {
+					this.previewButton.innerHTML = this.previewButtonText;
+				}
 				return;
 			}
 			MODULAR_CONTENT.needs_save = true;
 			MODULAR_CONTENT.autosave = newData;
 			dataInput.value = newData;
+			if (this.previewButton) {
+				this.previewButton.innerHTML = UI_I18N['button.save_revision'];
+			}
 		}, 1000);
 	}
 
@@ -497,17 +612,17 @@ class PanelCollection extends Component {
 			);
 		});
 
-		return (
+		return PERMISSIONS.sort_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Panels}
 			</Sortable>
-		);
+		) : <div>{Panels}</div>;
 	}
 
 	renderPicker() {
-		return !this.state.panelSetPickerActive ? (
+		return !this.state.panelSetPickerActive && PERMISSIONS.add_panels ? (
 			<Picker
 				activate={this.state.pickerActive}
 				handlePickerUpdate={this.togglePicker}
@@ -517,24 +632,12 @@ class PanelCollection extends Component {
 	}
 
 	renderPanelSetPicker() {
-		return this.state.panelSetPickerActive ? (
+		return this.state.panelSetPickerActive && PERMISSIONS.add_panel_sets ? (
 			<PanelSetsPicker
 				handleAddPanelSet={this.handleAddPanelSet}
 				handleStartNewPage={this.handleStartNewPage}
 			/>
 		) : null;
-	}
-
-	renderDataStorageInput() {
-		return (
-			<input
-				ref={r => this.dataInput = r}
-				type="hidden"
-				name="panels"
-				id="panels"
-				value={JSON.stringify({ panels: this.props.panels })}
-			/>
-		);
 	}
 
 	render() {
@@ -567,7 +670,6 @@ class PanelCollection extends Component {
 					{this.renderPanelSetPicker()}
 				</div>
 				{this.renderIframe()}
-				{this.renderDataStorageInput()}
 				<Dialog />
 			</div>
 		);

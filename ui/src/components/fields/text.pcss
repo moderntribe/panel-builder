@@ -6,20 +6,42 @@
 	transform: translate3d(0, 0, 0);
 }
 
+.compact {
+	display: flex;
+
+	> div {
+		flex: 1;
+	}
+}
+
 .inputContainer {
+
 	input {
+		background-color: var(--color-white);
+		border: 1px solid var(--border-input);
+		border-radius: 2px;
+		box-shadow: none;
+		color: var(--input-placeholder);
+		font-size: 13px;
+		font-weight: 300;
 		padding: var(--field-padding-vertical) var(--field-padding-horizontal);
 		width: 100%;
+
+		&:focus {
+			border-color: var(--button-new-blue);
+			box-shadow: none;
+		}
 	}
 }
 
 .label {
 	composes: inputLabel from "../../shared/fields.pcss";
+	margin-bottom: 8px;
+	margin-right: 10px;
+	transform: translate3d(0, 0, 0);
+	width: calc(50% - 10px);
 }
-
 
 .description {
 	composes: inputDescription from "../../shared/fields.pcss";
 }
-
-

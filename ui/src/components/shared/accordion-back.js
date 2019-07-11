@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import striptags from 'striptags';
 
@@ -20,7 +21,7 @@ class AccordionBack extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: this.props.title,
+			title: this.props.title.length ? this.props.title : UI_I18N['heading.no_title'],
 		};
 	}
 
@@ -54,7 +55,7 @@ class AccordionBack extends Component {
 				/>
 				<h3>
 					{striptags(this.state.title)}
-					<span className={styles.action} onClick={this.props.handleInfoClick}>{this.props.panelLabel}<i /></span>
+					<span className={styles.action}>{this.props.panelLabel}</span>
 					<Expander handleClick={this.props.handleExpanderClick} />
 				</h3>
 			</nav>
@@ -71,7 +72,7 @@ AccordionBack.propTypes = {
 };
 
 AccordionBack.defaultProps = {
-	title: UI_I18N['heading.no_title'],
+	title: '',
 	panelLabel: '',
 	handleClick: () => {},
 	handleInfoClick: () => {},

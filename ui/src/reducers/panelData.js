@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import update from 'react/lib/update';
+import update from 'immutability-helper';
 import {
 	ADD_PANEL,
 	ADD_PANEL_SET,
@@ -67,7 +67,14 @@ export function panelData(state = initialData, action) {
 
 	case UPDATE_PANEL_DATA:
 		const indexMap = action.data.indexMap.slice();
-		newState.panels = storeTools.traverse(indexMap, newState.panels, action.data.name, action.data.parent, action.data.value);
+		const parentMap = _.isArray(action.data.parentMap) ? action.data.parentMap.slice() : [];
+		newState.panels = storeTools.traverse(
+			indexMap,
+			parentMap,
+			newState.panels,
+			action.data.name,
+			action.data.value
+		);
 		return newState;
 
 	default:

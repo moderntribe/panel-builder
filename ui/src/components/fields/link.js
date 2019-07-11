@@ -1,9 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
-import classNames from 'classnames';
 
+import LabelTooltip from './partials/label-tooltip';
 import LinkGroup from '../shared/link-group';
 import styles from './link.pcss';
+import * as styleUtil from '../../util/dom/styles';
 
 class Link extends Component {
 	state = {
@@ -25,6 +27,7 @@ class Link extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -49,25 +52,24 @@ class Link extends Component {
 	}
 
 	render() {
-		const fieldClasses = classNames({
-			[styles.field]: true,
-			'panel-field': true,
-		});
-		const labelClasses = classNames({
-			[styles.label]: true,
-			'panel-field-label': true,
-		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
+		const { fieldClasses, labelClasses } = styleUtil.defaultFieldClasses(styles, this.props);
 
 		return (
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
-					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} strings={this.props.strings} />
-					<p className={descriptionClasses}>{this.props.description}</p>
+					<legend className={labelClasses}>
+						{this.props.label}
+						{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+					</legend>
+					<LinkGroup
+						handleTargetChange={this.handleSelectChange}
+						handleLabelChange={this.handleLabelChange}
+						handleURLChange={this.handleURLChange}
+						valueTarget={this.state.target}
+						valueUrl={this.state.url}
+						valueLabel={this.state.label}
+						strings={this.props.strings}
+					/>
 				</fieldset>
 			</div>
 		);
@@ -77,13 +79,15 @@ class Link extends Component {
 Link.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	description: PropTypes.string,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	strings: PropTypes.object,
-	default: React.PropTypes.object,
+	default: PropTypes.object,
 	data: PropTypes.object,
 	panelIndex: PropTypes.number,
+	layout: PropTypes.string,
 	updatePanelData: PropTypes.func,
 };
 
@@ -93,10 +97,12 @@ Link.defaultProps = {
 	depth: 0,
 	description: '',
 	indexMap: [],
+	parentMap: [],
 	strings: {},
 	default: {},
 	data: {},
 	panelIndex: 0,
+	layout: '',
 	updatePanelData: () => {},
 };
 

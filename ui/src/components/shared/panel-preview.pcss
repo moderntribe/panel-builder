@@ -11,6 +11,7 @@
 	background: var(--picker-bg);
 	border: 1px solid var(--picker-border);
 	cursor: pointer;
+
 	h4 {
 		margin: 0 0 10px;
 		color: var(--picker-label);
@@ -21,59 +22,77 @@
 		color: var(--picker-description);
 		font-size: 12px;
 	}
+
 	figure {
 		padding: 0;
 		margin: 0 0 -17px -17px;
 		width: calc(100% + 34px);
+
 		img {
 			width: 100%;
 			display: block;
 		}
 	}
+
 	@media (--viewport-medium) {
 		lost-column: 1/2;
 		margin-bottom: 10px;
 	}
+
 	@media (--viewport-large) {
 		lost-column: 1/3;
 	}
 
 	&.isComponent {
-		lost-column: 1/2;
+		lost-column: 1/3;
 		margin-bottom: 10px;
+		padding-top: 10px;
+
+		img {
+			width: 80%;
+			margin: 0 auto;
+		}
 
 		@media (--viewport-medium) {
-			lost-column: 1/4;
+			lost-column: 1/5;
 		}
+
 		@media (--viewport-large) {
-			lost-column: 1/6;
+			lost-column: 1/8;
 		}
 
 		.componentTitle {
 			text-align: center;
-			font-size: 13px;
+			font-size: 12px;
+			line-height: 14px;
+			position: relative;
+			bottom: -16px;
 		}
 	}
 }
 
-[data-live-edit="true"]{
+[data-live-edit="true"] {
+
 	.container {
 		display: block;
 		flex: none;
 		width: 100%;
-		float:none;
+		float: none;
+
 		&.isComponent {
-			lost-column: 1/2;
+			lost-column: 1/3;
 			margin-bottom: 10px;
 		}
 	}
-	[data-expanded="true"]{
+
+	[data-expanded="true"] {
+
 		.container {
 			lost-column: 1/2;
 			margin-bottom: 10px;
 
 			&.isComponent {
-				lost-column: 1/4;
+				lost-column: 1/6;
 			}
 		}
 	}

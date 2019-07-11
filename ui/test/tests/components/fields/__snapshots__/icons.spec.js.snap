@@ -1,0 +1,839 @@
+exports[`Icons field renders correctly 1`] = `
+<div
+  className="field panel-field">
+  <label
+    className="label panel-field-label">
+    Arrow Icon
+    <span
+      className="icon"
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={undefined} />
+  </label>
+  <div
+    className="panel-icon-container container">
+    0
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+    <label
+      className="plicons-label iconLabel"
+      style={Object {}}>
+      <input
+        checked={false}
+        data-depth={0}
+        data-field="icon-select"
+        data-option-type="single"
+        name="modular-content-"
+        onChange={[Function]}
+        type="radio"
+        value="undefined" />
+      <i
+        className="fa-2x undefined icon"
+        style={Object {}}
+        title="undefined" />
+    </label>
+  </div>
+</div>
+`;

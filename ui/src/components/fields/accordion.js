@@ -1,12 +1,17 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import striptags from 'striptags';
 import autobind from 'autobind-decorator';
 import TweenMax, { Power3 } from 'gsap';
 
 import FieldBuilder from '../shared/field-builder';
 
 import styles from './accordion.pcss';
+import * as domTools from '../../util/dom/tools';
+import * as panelConditionals from '../../util/dom/panel-conditionals';
+import * as events from '../../util/events';
 
 const tw = window.TweenMax ? window.TweenMax : TweenMax;
 const p3 = window.Power3 ? window.Power3 : Power3;
@@ -14,7 +19,22 @@ const p3 = window.Power3 ? window.Power3 : Power3;
 class Accordion extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			id: _.uniqueId('accordion-'),
+		};
 		this.active = false;
+		this.animating = false;
+	}
+
+	componentDidMount() {
+		panelConditionals.initConditionalFields(domTools.closest(this.tab, '[data-panel]'));
+		this.mounted = true;
+		document.addEventListener('modern_tribe/panel_builder/close_accordions', this.maybeCloseAccordion);
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
+		document.removeEventListener('modern_tribe/panel_builder/close_accordions', this.maybeCloseAccordion);
 	}
 
 	/**
@@ -39,7 +59,7 @@ class Accordion extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{this.props.label}</h3>
+				<h3>{striptags(this.props.label)}</h3>
 				<i className={arrowClasses} />
 			</div>
 		);
@@ -60,6 +80,8 @@ class Accordion extends Component {
 			[styles.description]: true,
 			'panel-builder__field-description': true,
 		});
+		const parentMap = this.props.parentMap.slice();
+		parentMap.push(this.props.name);
 
 		return (
 			<div ref={r => this.fields = r} className={fieldClasses}>
@@ -68,46 +90,37 @@ class Accordion extends Component {
 					<FieldBuilder
 						fields={this.props.fields}
 						data={this.props.data}
+						depth={this.props.depth}
 						parent={this.props.name}
+						parentMap={parentMap}
 						parentType={this.props.name}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						type={this.props.type}
-						updatePanelData={this.updateGroupFieldData}
+						updatePanelData={this.props.updatePanelData}
 					/>
 				</div>
 			</div>
 		);
 	}
 
-	/**
-	 * Updates group field data in redux store, needs parent key sent along
-	 * @param data
-	 */
-
-	@autobind
-	updateGroupFieldData(data) {
-		this.props.updatePanelData({
-			depth: this.props.depth,
-			index: data.index,
-			indexMap: this.props.indexMap,
-			name: data.name,
-			parent: this.props.name,
-			value: data.value,
-		});
-	}
-
 	maybeAnimateFields() {
+		this.animating = true;
 		if (!this.active) {
 			this.el.classList.remove(styles.active);
 			this.fields.classList.remove(styles.animated);
 			tw.to(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
+			_.delay(() => { this.animating = false; }, 600);
 			return;
 		}
 		this.el.classList.add(styles.active);
 		tw.set(this.fields, { height: 'auto' });
 		tw.from(this.fields, 0.6, { ease: p3.easeOut, height: 0 });
-		_.delay(() => this.fields.classList.add(styles.animated), 600);
+		_.delay(() => {
+			this.animating = false;
+			this.fields.classList.add(styles.animated);
+		}, 600);
+		events.trigger({ event: 'modern_tribe/panel_builder/close_accordions', native: false, data: { id: this.state.id } });
 	}
 
 	/**
@@ -116,8 +129,33 @@ class Accordion extends Component {
 
 	@autobind
 	handleHeaderClick() {
+		if (this.animating) {
+			return;
+		}
 		this.active = !this.active;
 		this.maybeAnimateFields();
+	}
+
+	/**
+	 * Listen to level 1 accordion open events. If the id does not match the one that triggered the open event,
+	 * close this instance
+	 *
+	 * @param e Contains the id of the one that triggered the open event
+	 */
+
+	@autobind
+	maybeCloseAccordion(e) {
+		if (!this.mounted) {
+			return;
+		}
+		if (this.state.id === e.detail.id) {
+			return;
+		}
+		if (!this.active) {
+			return;
+		}
+
+		this.handleHeaderClick();
 	}
 
 	render() {
@@ -134,7 +172,6 @@ class Accordion extends Component {
 			</div>
 		);
 	}
-
 }
 
 Accordion.propTypes = {
@@ -146,6 +183,7 @@ Accordion.propTypes = {
 	handleExpanderClick: PropTypes.func,
 	hidePanel: PropTypes.func,
 	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	label: PropTypes.string,
 	liveEdit: PropTypes.bool,
 	name: PropTypes.string,
@@ -167,6 +205,7 @@ Accordion.defaultProps = {
 	handleExpanderClick: () => {},
 	hidePanel: () => {},
 	indexMap: [],
+	parentMap: [],
 	label: '',
 	liveEdit: false,
 	name: '',

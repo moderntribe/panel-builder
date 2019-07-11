@@ -10,7 +10,7 @@ class PanelCollection_Test extends WPTestCase {
 
 	public function test_create_collection() {
 		$type = new PanelType( 'test_type' );
-		$type->add_field( new Fields\Title('test_title') );
+		$type->add_field( new Fields\Title([ 'name' => 'test_title' ]) );
 
 		$collection = new PanelCollection();
 
@@ -23,7 +23,7 @@ class PanelCollection_Test extends WPTestCase {
 
 	public function test_json_encode() {
 		$type = new PanelType( 'test_type' );
-		$type->add_field( new Fields\Title('test_title') );
+		$type->add_field( new Fields\Title([ 'name' => 'test_title' ]) );
 
 		$collection = new PanelCollection();
 
@@ -41,7 +41,7 @@ class PanelCollection_Test extends WPTestCase {
 
 	public function test_reconstitute() {
 		$type = new PanelType( 'test_type' );
-		$type->add_field( new Fields\Title('test_title') );
+		$type->add_field( new Fields\Title([ 'name' => 'test_title' ]) );
 
 		$registry = new TypeRegistry();
 		$registry->register($type);

@@ -83,4 +83,5 @@ export const destroy = (opts = {}) => {
 	options.editor.removeEventListener('click', () => {
 		window.wpActiveEditor = this.fid;
 	});
+	options.editor.remove();
 };

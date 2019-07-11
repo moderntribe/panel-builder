@@ -1,13 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
+import striptags from 'striptags';
 import deepAssign from 'deep-assign';
 import Sortable from 'react-sortablejs';
 import zenscroll from 'zenscroll';
 import _ from 'lodash';
 
 import Button from '../shared/button';
+import LabelTooltip from './partials/label-tooltip';
 import Panel from '../panel';
 import AccordionBack from '../shared/accordion-back';
 import PanelPicker from '../panel-picker';
@@ -24,6 +27,7 @@ import { trigger } from '../../util/events';
 import { UI_I18N } from '../../globals/i18n';
 
 import styles from './children.pcss';
+import { PERMISSIONS } from '../../globals/config';
 
 zenscroll.setup(200, 40);
 
@@ -117,14 +121,14 @@ class Children extends Component {
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.props.handleExpanderClick}
 				/>
-				<Button
+				{PERMISSIONS.delete_child_panels && <Button
 					icon="dashicons-trash"
 					text={deleteLabel}
 					bare
 					full={false}
 					classes={styles.deleteRow}
 					handleClick={this.handleDeleteRow}
-				/>
+				/>}
 			</div>
 		);
 	}
@@ -160,23 +164,23 @@ class Children extends Component {
 		this.props.liveEdit ?
 			<div
 				key={`${this.state.keyPrefix}-${index}`}
-				data-rowIndex={index}
+				data-row-index={index}
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
 				<h3>
-					{title}
+					{striptags(title)}
 					<span className={styles.typeHeading}>({blueprint.label})</span>
 				</h3>
 				<i className={arrowClasses} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
-					data-rowIndex={index}
+					data-row-index={index}
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
 					<h3>
-						{title}
+						{striptags(title)}
 						<span className={styles.typeHeading}>({blueprint.label})</span>
 					</h3>
 					<i className={arrowClasses} />
@@ -204,13 +208,13 @@ class Children extends Component {
 
 		const Headers = _.map(this.state.data, (data, i) => this.getHeader(data, i));
 
-		return (
+		return PERMISSIONS.sort_child_panels ? (
 			<Sortable
 				options={sortOptions}
 			>
 				{Headers}
 			</Sortable>
-		);
+		) : <div>{Headers}</div>;
 	}
 
 	/**
@@ -222,7 +226,7 @@ class Children extends Component {
 	@autobind
 	getAddRow() {
 		let AddRow = null;
-		if (this.state.data.length < this.childData.max) {
+		if (this.state.data.length < this.childData.max && PERMISSIONS.add_child_panels) {
 			const classes = classNames({
 				'children-add-row': true,
 				[styles.addRow]: true,
@@ -285,6 +289,7 @@ class Children extends Component {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
 			indexMap: this.props.indexMap,
+			childIndex: this.state.activeIndex,
 			name: 'panels',
 			rowIndex: e.newIndex,
 			value: data,
@@ -317,6 +322,7 @@ class Children extends Component {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
 			indexMap: this.props.indexMap,
+			childIndex: this.state.activeIndex,
 			name: 'panels',
 			rowIndex: this.state.activeIndex,
 			value: data,
@@ -368,6 +374,7 @@ class Children extends Component {
 				depth: this.props.depth,
 				index: this.props.parentIndex,
 				indexMap: this.props.indexMap.slice(),
+				childIndex: this.state.activeIndex,
 				name: 'panels',
 				rowIndex: newState.activeIndex,
 				value: newState.data,
@@ -393,7 +400,7 @@ class Children extends Component {
 
 	@autobind
 	handleHeaderClick(e) {
-		const activeIndex = parseInt(e.currentTarget.getAttribute('data-rowIndex'), 10);
+		const activeIndex = parseInt(e.currentTarget.getAttribute('data-row-index'), 10);
 		const newState = {
 			activeIndex,
 		};
@@ -412,6 +419,7 @@ class Children extends Component {
 				depth: this.props.depth,
 				index: this.props.parentIndex,
 				indexMap: this.props.indexMap,
+				childIndex: this.state.activeIndex,
 				name: 'panels',
 				value: this.state.data,
 			};
@@ -442,6 +450,7 @@ class Children extends Component {
 			depth: this.props.depth,
 			index: this.props.parentIndex,
 			indexMap: this.props.indexMap,
+			childIndex: this.state.activeIndex,
 			name: 'panels',
 			value: this.state.data,
 		};
@@ -460,19 +469,14 @@ class Children extends Component {
 	/**
 	 * Handles receiving data from child panel updates and updating redux store
 	 *
-	 * todo: group fields should be handled differently. when moving to index map consolidate with other method.
-	 *
 	 * @param data passed up from the panel
 	 */
 
 	@autobind
 	handleDataUpdate(data) {
 		const newData = this.state.data;
-		if (data.parent) {
-			if (!_.isObject(newData[this.state.activeIndex].data[data.parent])) {
-				newData[this.state.activeIndex].data[data.parent] = {};
-			}
-			newData[this.state.activeIndex].data[data.parent][data.name] = data.value;
+		if (data.parentMap && data.parentMap.length) {
+			_.set(newData[this.state.activeIndex].data, `${data.parentMap.join('.')}.${data.name}`, data.value);
 		} else {
 			newData[this.state.activeIndex].data[data.name] = data.value;
 		}
@@ -483,21 +487,16 @@ class Children extends Component {
 			childName: data.name,
 			childValue: data.value,
 			indexMap: this.props.indexMap,
-			parent: data.parent,
+			parentMap: data.parentMap ? data.parentMap : [],
 			name: 'panels',
+			rowIndex: this.state.activeIndex,
 			value: newData,
 		};
 		this.props.updateChildPanelData(payload);
 		trigger({
 			event: EVENTS.CHILD_PANEL_UPDATED,
 			native: false,
-			data: {
-				rowIndex: this.state.activeIndex,
-				depth: data.depth,
-				index: this.props.parentIndex,
-				name: 'panels',
-				value: newData,
-			},
+			data: payload,
 		});
 		trigger({ event: EVENTS.PANEL_UPDATED, native: false, data: payload });
 	}
@@ -505,6 +504,7 @@ class Children extends Component {
 	render() {
 		const fieldClasses = classNames({
 			[styles.field]: true,
+			[styles.hidden]: !this.props.visible,
 			'panel-field': true,
 			'children-field': true,
 		});
@@ -514,26 +514,22 @@ class Children extends Component {
 			'panel-field-legend': true,
 		});
 
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
-
 		return (
 			<div
 				ref={r => this.childPanels = r}
 				className={fieldClasses}
 				data-info-active="false"
 				data-show-nested="false"
-				data-settings="false"
 				data-child-picker-active={this.state.pickerActive}
 			>
-				<label className={legendClasses}>{this.childData.label.plural}</label>
+				<label className={legendClasses}>
+					{this.childData.label.plural}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</label>
 				{this.getHeaders()}
 				{this.state.active && this.props.liveEdit ? this.getActiveRow() : null}
 				{this.state.pickerActive ? this.getPicker() : null}
 				{this.getAddRow()}
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</div>
 		);
 	}
@@ -557,6 +553,7 @@ Children.propTypes = {
 	parentIndex: PropTypes.number,
 	updateChildPanelData: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func,
+	visible: PropTypes.bool,
 };
 
 Children.defaultProps = {
@@ -574,6 +571,7 @@ Children.defaultProps = {
 	parentIndex: 0,
 	updateChildPanelData: () => {},
 	updatePanelData: () => {},
+	visible: true,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Children);

@@ -25,32 +25,16 @@ use ModularContent\Panel;
 class Repeater extends Group {
 	protected $min = 0;
 	protected $max = 0;
+	protected $update_index = true;
 	protected $new_button_label = '';
 
 	/**
 	 * @param array $args
-	 *
-	 * Creating a repeater:
-	 *
-	 * $name = new Text( array(
-	 *   'label' => __('Name'),
-	 *   'name' => 'name',
-	 * ) );
-	 * $email = new Text( array(
-	 *   'label' => __('Email'),
-	 *   'name' => 'email',
-	 * ) );
-	 * $group = new Repeater( array(
-	 *   'label' => __('Contacts'),
-	 *   'name' => 'contacts',
-	 *   'max' => 5,
-	 * ) );
-	 * $group->add_field( $name );
-	 * $group->add_field( $email );
 	 */
 	public function __construct( $args = array() ) {
 		$this->defaults['min'] = $this->min;
 		$this->defaults['max'] = $this->max;
+		$this->defaults['update_index'] = $this->update_index;
 		$this->defaults[ 'strings' ] = [
 			'button.new' => __( 'Add Row', 'modular-content' ),
 			'button.delete' => __( 'Delete Row', 'modular-content' ),
@@ -172,9 +156,13 @@ class Repeater extends Group {
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
-		$blueprint['min'] = $this->min;
-		$blueprint['max'] = $this->max;
+		$blueprint                    = parent::get_blueprint();
+		$blueprint['update_index']    = $this->update_index;
+		$blueprint['min']             = $this->min;
+		$blueprint['max']             = $this->max;
+
+		unset( $blueprint['layout'] );
+
 		return $blueprint;
 	}
 

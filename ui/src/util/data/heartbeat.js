@@ -1,52 +1,51 @@
 import { MODULAR_CONTENT } from '../../globals/config';
-import { wpHeartbeat, wpAutosave } from '../../globals/wp';
+import { wpHeartbeat } from '../../globals/wp';
 import updateQueryVar from './update-query-var';
+import * as ajax from '../ajax';
 
-const title = document.getElementById('title');
 let previewUrl = MODULAR_CONTENT.preview_url;
-let titleText = title.value;
 let settings = {};
-let triggeredSave = false;
-let currentRevision = 0;
 let heartbeat = () => {};
 
-const handleAutosaveSuccess = (e, data = {}) => {
-	settings.success();
-	const revisionId = parseInt(data.revision_id, 10);
-	if (isNaN(revisionId) || currentRevision === revisionId) {
-		return;
-	}
-	currentRevision = revisionId;
-	previewUrl = updateQueryVar('revision_id', revisionId, previewUrl);
-};
-
-const autosaveDrafts = (e, postdata) => {
-	if (triggeredSave && postdata.post_title) {
-		postdata.post_title = titleText; // eslint-disable-line
-		triggeredSave = false;
-	}
-	postdata.post_content_filtered = MODULAR_CONTENT.autosave; // eslint-disable-line
-};
-
-const bindEvents = () => {
-	$(document).on(`before-autosave.${settings.namespace}`, (e, postdata) => autosaveDrafts(e, postdata));
-	$(document).on(`after-autosave.${settings.namespace}`, (e, data) => handleAutosaveSuccess(e, data));
-};
+/**
+ * Dynamically updated on every revision update, used by the iframe to load the preview
+ *
+ * @returns {string}
+ */
 
 export const iframePreviewUrl = () => previewUrl;
 
-export const triggerAutosave = () => {
-	if (!wpAutosave) {
-		return;
-	}
-	const timestamp = new Date().getTime();
+/**
+ * Triggers save for a new revision, updates revision id on preview url, and calls any callbacks
+ * Can be called manually, and also runs on the set rate the init function is passed when the app spins up.
+ *
+ * @param callback a one time callback you can use when triggering an autosave manually
+ */
+
+export const triggerAutosave = (callback = () => {}) => {
+	settings.begin();
 	MODULAR_CONTENT.needs_save = false;
-	titleText = title.value;
-	title.value = `${titleText}${timestamp}`;
-	triggeredSave = true;
-	wpAutosave.server.triggerSave();
-	title.value = titleText;
+	ajax.saveRevision(MODULAR_CONTENT.autosave)
+		.then((res) => {
+			if (!res.body.success) {
+				callback();
+				console.error('Error saving revision for panel data.');
+				return;
+			}
+			const revisionId = parseInt(res.body.data, 10);
+			previewUrl = updateQueryVar('revision_id', revisionId, previewUrl);
+
+			callback(revisionId);
+			settings.success(revisionId);
+
+			console.log('Saved panel data as revision and executed any callbacks.');
+		})
+		.catch(() => console.error('Error saving revision for panel data.'));
 };
+
+/**
+ * Runs an autosave if needed of panel data
+ */
 
 const runHeartbeat = () => {
 	heartbeat = setInterval(() => {
@@ -57,19 +56,24 @@ const runHeartbeat = () => {
 	}, settings.rate);
 };
 
+/**
+ * Initialize the autosave heartbeat
+ *
+ * @param opts
+ */
+
 export const init = (opts = {}) => {
 	settings = Object.assign({}, {
+		begin: () => {},
 		rate: wpHeartbeat ? wpHeartbeat.interval() * 1000 : 60000,
-		namespace: 'panel-autosave',
 		success: () => {},
 	}, opts);
 
-	bindEvents();
 	runHeartbeat();
 };
 
-export const destroy = () => {
-	clearInterval(heartbeat);
-	$(document).off(`before-autosave.${settings.namespace}`, (e, postdata) => this.autosaveDrafts(e, postdata));
-	$(document).off(`after-autosave.${settings.namespace}`, () => this.handleAutosaveSuccess());
-};
+/**
+ * Clean up the heartbeat if you need to
+ */
+
+export const destroy = () => clearInterval(heartbeat);

@@ -1,6 +1,7 @@
 <?php
 
 namespace ModularContent;
+use ModularContent\Preview\Autosaver;
 use ModularContent\Preview\Preview_Request_Handler;
 use ModularContent\Preview\Preview_Revision_Indicator;
 
@@ -102,7 +103,6 @@ class Plugin {
 		$this->setup_ajax_handler();
 		$this->init_panel_sets();
 		add_action( 'init', array( $this, 'init_panels' ), 15, 0 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ), 0, 0 );
 		add_filter( 'wp_before_admin_bar_render', array( $this, 'add_customize_menu_item' ), 11 );
 	}
 
@@ -112,6 +112,10 @@ class Plugin {
 		$preview->hook();
 		$revision_tracker = new Preview_Revision_Indicator();
 		$revision_tracker->hook();
+		$autosaver = new Autosaver();
+		$autosaver->hook();
+		$icon_handler = new Icon_Request_Handler();
+		$icon_handler->hook();
 	}
 
 	private function init_panel_sets() {
@@ -145,10 +149,6 @@ class Plugin {
 			}
 		}
 		return $output;
-	}
-
-	public function register_admin_scripts() {
-		wp_register_style( 'font-awesome', self::plugin_url('lib/Font-Awesome/css/font-awesome.css'), array(), '2.0' );
 	}
 
 	public function add_customize_menu_item() {

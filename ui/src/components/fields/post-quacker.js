@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 import ReactSelect from 'react-select-plus';
@@ -13,6 +14,7 @@ import BlankPostUi from '../shared/blank-post-ui';
 import PostPreviewContainer from '../shared/post-preview-container';
 import LinkGroup from '../shared/link-group';
 import RichtextEditor from '../shared/richtext-editor';
+import LabelTooltip from './partials/label-tooltip';
 
 import * as RichtextEvents from '../../util/dom/tinymce';
 import * as AdminCache from '../../util/data/admin-cache';
@@ -511,6 +513,7 @@ class PostQuacker extends Component {
 		this.props.updatePanelData({
 			depth: this.props.depth,
 			indexMap: this.props.indexMap,
+			parentMap: this.props.parentMap,
 			name: this.props.name,
 			value: this.getValue(),
 		});
@@ -548,23 +551,21 @@ class PostQuacker extends Component {
 			[styles.label]: true,
 			'panel-field-label': true,
 		});
-		const descriptionClasses = classNames({
-			[styles.description]: true,
-			'panel-field-description': true,
-		});
 		const fieldClasses = classNames({
 			[styles.field]: true,
 			'panel-field': true,
 		});
 		return (
 			<fieldset className={fieldClasses}>
-				<legend className={labelClasses}>{this.props.label}</legend>
+				<legend className={labelClasses}>
+					{this.props.label}
+					{this.props.description.length ? <LabelTooltip content={this.props.description} /> : null}
+				</legend>
 				{this.getTabButtons()}
 				<div className={styles.tabWrapper}>
 					{this.getSelectionTemplate()}
 					{this.getManualTemplate()}
 				</div>
-				<p className={descriptionClasses}>{this.props.description}</p>
 			</fieldset>
 		);
 	}
@@ -574,17 +575,18 @@ PostQuacker.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	description: PropTypes.string,
-	depth: React.PropTypes.number,
+	depth: PropTypes.number,
 	post_type: PropTypes.array,
 	strings: PropTypes.object,
-	indexMap: React.PropTypes.array,
+	indexMap: PropTypes.array,
+	parentMap: PropTypes.array,
 	default: PropTypes.object,
 	post_id: PropTypes.number,
 	editor_settings_reference: PropTypes.string,
-	data: React.PropTypes.object,
-	panelIndex: React.PropTypes.number,
-	updatePanelData: React.PropTypes.func,
-	size: React.PropTypes.string,
+	data: PropTypes.object,
+	panelIndex: PropTypes.number,
+	updatePanelData: PropTypes.func,
+	size: PropTypes.string,
 };
 
 PostQuacker.defaultProps = {
@@ -593,6 +595,7 @@ PostQuacker.defaultProps = {
 	description: '',
 	depth: 0,
 	indexMap: [],
+	parentMap: [],
 	post_type: [],
 	strings: {},
 	default: {},
