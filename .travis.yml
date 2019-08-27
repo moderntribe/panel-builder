@@ -83,6 +83,9 @@ before_script:
   - ln -s /tmp/tools/travis-apache-setup/apache-setup.sh /tmp/tools/apache-setup
   - ln -s /tmp/tools/travis-apache-setup/wp-install.sh /tmp/tools/wp-install
 
+  # install missing wp-cli/core-command
+  - composer global require wp-cli/core-command --no-interaction
+
   # download and install WordPress
   - wp-install --dir=/tmp/wordpress --dbname="$wpDbName" --dbuser="root" --dbpass="" --dbprefix=$wpDbPrefix --domain="$wpUrl" --title="Test" --admin_user=$wpAdminUsername --admin_password=$wpAdminPassword --admin_email=admin@wordpress.dev --theme=twentysixteen --empty
   - cd /tmp/wordpress
