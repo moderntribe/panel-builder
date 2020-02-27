@@ -269,7 +269,7 @@ class Loop {
 	}
 
 	public function is_preview() {
-		return false;
+		return filter_input( INPUT_GET, 'preview_panels', FILTER_VALIDATE_BOOLEAN );
 	}
 
 } 
