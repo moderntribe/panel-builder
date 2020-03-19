@@ -500,4 +500,4 @@ in chrome if you want to use them.
 
 ## Support
 
-Usage of SquareOne is not actively supported by Modern Tribe outside of client contracts. Pull requests and suggestions are welcome and will be addressed based on business need.
+Usage of Panel Builder is not actively supported by Modern Tribe outside of client contracts. Pull requests and suggestions are welcome and will be addressed based on business need.
