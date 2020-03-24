@@ -1,5 +1,18 @@
 # Panel Builder
 
+Panel Builder is a plugin by Modern Tribe used for "block" style content control within the WordPress Classic editor. 
+
+Panel Builder ...
+* has a large set of field types (Text, Image, Gallery, Query, P2P Relationship, and more ).
+* is battle tested at the enterprise level.
+* is similar to the new WordPress Block system with a few key differences: Templates are still HTML/PHP/CSS.
+* provides some advanced features like Live Preview and Live Editing out of box.
+* is an alternative for block based content building if Classic Editor is your jam.
+* has been in active development for 6+ years .
+* is documented.
+
+# A Panel
+
 A Panel is a completely self-contained piece of content defined by the theme.
 It has its own template and its own data. The theme defines what fields it
 will have in the admin, and the theme controls how those fields will display
@@ -483,3 +496,8 @@ things are working well.
 
 This system is also redux dev tools enabled. You will want to [install them](https://github.com/zalmoxisus/redux-devtools-extension)
 in chrome if you want to use them.
+
+
+## Support
+
+Usage of Panel Builder is not actively supported by Modern Tribe outside of client contracts. Pull requests and suggestions are welcome and will be addressed based on business need.
