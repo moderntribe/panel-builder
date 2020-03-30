@@ -4,6 +4,7 @@ namespace ModularContent\Fields;
 
 use ModularContent\Panel, ModularContent\AdminPreCache;
 use ModularContent\Util;
+use Tribe\Project\P2P\Relationships\Teams_Players_Relationship;
 
 /**
  * Class Post_List
@@ -535,11 +536,23 @@ class Post_List extends Field {
 		global $wpdb;
 		$post_ids_sql = implode( ',', array_map( 'intval', $post_ids ) );
 
+		$order_join = $connection_id === Teams_Players_Relationship::NAME
+			?
+				$wpdb->prepare( "LEFT JOIN {$wpdb->p2pmeta} ON {$wpdb->p2pmeta}.p2p_id = {$wpdb->p2p}.p2p_id AND {$wpdb->p2pmeta}.meta_key = %s ", '_order_to' )
+			:
+				null;
+
+		$order = $connection_id === Teams_Players_Relationship::NAME
+			?
+				"ORDER BY CAST( {$wpdb->p2pmeta}.meta_value AS SIGNED ) ASC"
+			:
+				null;
+
 		/**
 		 * Get all p2p connections for request post ids of connection type
 		 */
 		$sql = $wpdb->prepare(
-				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
+				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} {$order_join} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql)) {$order}",
 				$connection_id );
 
 		$connected = [];
