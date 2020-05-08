@@ -7,7 +7,7 @@ use ModularContent\Panel, ModularContent\AdminPreCache;
  * Class Posts
  *
  * @package ModularContent\Fields
- * 
+ *
  * This field type has been deprecated. Code should be updated
  * to use the Post_List field.
  *
@@ -28,7 +28,12 @@ class Posts extends Post_List {
 	protected $max = 12;
 	protected $min = 0;
 	protected $suggested = 0;
-	protected $default = '{ type: "manual", post_ids: [], filters: {}, max: 0 }';
+	protected $default = [
+		'type' => 'manual',
+		'post_ids' => [],
+		'filters' => [],
+		'max' => 0,
+	];
 	protected $show_max_control = false;
 
 	/**

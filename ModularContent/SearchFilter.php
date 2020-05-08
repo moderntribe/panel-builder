@@ -34,8 +34,8 @@ class SearchFilter {
 		if ( $query->get( 'panel_search_filter' ) ) {
 			global $wpdb;
 			remove_filter( 'posts_search', array( $this, 'add_post_content_filtered_to_search_sql' ), 1000, 2 );
-			
-			$pattern = "#OR \($wpdb->posts.post_content LIKE '(.*?)'\)#";
+
+			$pattern = "#OR \($wpdb->posts.post_content LIKE '{(.*?)}'\)#";
 			$sql = preg_replace_callback( $pattern, array( $this, 'replace_callback' ), $sql );
 		}
 		return $sql;

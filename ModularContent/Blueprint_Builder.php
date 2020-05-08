@@ -72,6 +72,11 @@ class Blueprint_Builder implements \JsonSerializable {
 	private function get_child_types( PanelType $parent, $depth ) {
 		$children = [ ];
 		$parent_id = $parent->get_id();
+
+		if ( $parent->get_max_children() < 1 ) {
+			return $children;
+		}
+
 		foreach ( $this->registered_panels as $type ) {
 			$max_depth = $type->get_max_depth();
 			$allowed = $type->allowed_contexts();

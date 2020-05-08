@@ -117,9 +117,7 @@ class Post_List extends Field {
 	}
 
 	public function get_vars( $data, $panel ) {
-		if ( empty( $data ) ) {
-			$data = $this->default;
-		}
+		$data = wp_parse_args( $data, $this->default );
 		$posts = [ ];
 		if ( $data[ 'type' ] === 'manual' ) {
 			foreach ( $data[ 'posts' ] as $post_data ) {
