@@ -346,7 +346,9 @@ class Post_List extends Field {
 	}
 
 	public static function taxonomy_options() {
-		return apply_filters( 'modular_content_posts_field_taxonomy_options', [ 'post_tag' ] );
+		$taxonomies = apply_filters( 'modular_content_posts_field_taxonomy_options', [ 'post_tag' ] );
+
+		return array_values( array_filter( $taxonomies, 'taxonomy_exists' ) );
 	}
 
 	public static function p2p_options() {
