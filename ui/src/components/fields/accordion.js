@@ -94,6 +94,7 @@ class Accordion extends Component {
 						parent={this.props.name}
 						parentMap={parentMap}
 						parentType={this.props.name}
+						panelType={this.props.panelType}
 						index={this.props.panelIndex}
 						indexMap={this.props.indexMap}
 						type={this.props.type}
@@ -190,6 +191,7 @@ Accordion.propTypes = {
 	nestedGroupActive: PropTypes.func,
 	panelIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
+	panelType: PropTypes.string,
 	parent: PropTypes.string,
 	parentIndex: PropTypes.number,
 	type: PropTypes.string,
@@ -212,6 +214,7 @@ Accordion.defaultProps = {
 	nestedGroupActive: () => {},
 	panelIndex: 0,
 	panelLabel: '',
+	panelType: '',
 	parent: '',
 	parentIndex: 0,
 	type: '',

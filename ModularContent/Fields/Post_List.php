@@ -103,9 +103,7 @@ class Post_List extends Field {
 	}
 
 	public function get_vars( $data, $panel ) {
-		if ( empty( $data ) ) {
-			$data = $this->default;
-		}
+		$data = wp_parse_args( $data, $this->default );
 		$posts = [ ];
 		if ( $data[ 'type' ] === 'manual' ) {
 			foreach ( $data[ 'posts' ] as $post_data ) {
@@ -335,7 +333,9 @@ class Post_List extends Field {
 	}
 
 	public static function taxonomy_options() {
-		return apply_filters( 'modular_content_posts_field_taxonomy_options', [ 'post_tag' ] );
+		$taxonomies = apply_filters( 'modular_content_posts_field_taxonomy_options', [ 'post_tag' ] );
+
+		return array_values( array_filter( $taxonomies, 'taxonomy_exists' ) );
 	}
 
 	public static function p2p_options() {
@@ -398,7 +398,7 @@ class Post_List extends Field {
 	public static function get_posts_for_filters( $filters, $max = 10, $context = 0 ) {
 		$query = self::get_query_for_filters( $filters, $max, $context );
 		$cache = self::get_cache( $query );
-		if ( false && !empty( $cache ) ) {
+		if ( ! empty( $cache ) ) {
 			return $cache;
 		}
 
@@ -605,7 +605,7 @@ class Post_List extends Field {
 		];
 
 		$blueprint[ 'taxonomies' ] = [ ];
-		
+
 		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
 			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
 			$options = [ ];

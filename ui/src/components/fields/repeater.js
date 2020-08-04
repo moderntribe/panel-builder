@@ -145,6 +145,7 @@ class Repeater extends Component {
 						parent={this.props.name}
 						parentMap={this.props.parentMap}
 						index={this.props.panelIndex}
+						panelType={this.props.panelType}
 						indexMap={this.props.indexMap}
 						updatePanelData={this.updateRepeaterFieldData}
 					/>
@@ -512,6 +513,7 @@ Repeater.propTypes = {
 	parent: PropTypes.string,
 	parentIndex: PropTypes.number,
 	panelLabel: PropTypes.string,
+	panelType: PropTypes.string,
 	panelIndex: PropTypes.number,
 	indexMap: PropTypes.array,
 	parentMap: PropTypes.array,
@@ -542,6 +544,7 @@ Repeater.defaultProps = {
 	indexMap: [],
 	parentMap: [],
 	panelLabel: '',
+	panelType: '',
 	fields: [],
 	strings: {},
 	label: '',

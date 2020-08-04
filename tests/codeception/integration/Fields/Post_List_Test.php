@@ -156,4 +156,20 @@ class Post_List_Test extends WPTestCase {
 		$this->assertNotEmpty( $images[ $attachment_id ][ $size ] );
 		$this->assertNotEmpty( $images[ $another_attachment_id ][ $size ] );
 	}
+
+	public function test_valid_taxonomies() {
+
+		register_taxonomy( 'valid', 'post' );
+
+		add_filter( 'modular_content_posts_field_taxonomy_options', function( $taxonomies ) {
+			return [
+				'post_tag',
+				'invalid',
+				'valid',
+				'category',
+			];
+		} );
+
+		$this->assertEquals( [ 'post_tag', 'valid', 'category' ], Post_List::taxonomy_options() );
+	}
 }

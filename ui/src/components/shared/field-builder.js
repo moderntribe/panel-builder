@@ -57,6 +57,7 @@ const FieldBuilder = (props) => {
 					parentMap={props.parentMap}
 					parent={props.parent}
 					panelLabel={props.label}
+					panelType={props.panelType}
 					liveEdit={props.liveEdit}
 					tabs={props.tabs}
 					activeTab={props.activeTab}
@@ -110,6 +111,7 @@ FieldBuilder.propTypes = {
 	parent: PropTypes.string,
 	fields: PropTypes.array,
 	panels: PropTypes.array,
+	panelType: PropTypes.string,
 	parentIndex: PropTypes.number,
 	liveEdit: PropTypes.bool,
 	hasChildren: PropTypes.bool,
@@ -120,6 +122,7 @@ FieldBuilder.propTypes = {
 	hidePanel: PropTypes.func,
 	nestedGroupActive: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
+	type: PropTypes.string,
 };
 
 FieldBuilder.defaultProps = {
@@ -133,6 +136,7 @@ FieldBuilder.defaultProps = {
 	label: '',
 	fields: [],
 	panels: [],
+	panelType: '',
 	parent: '',
 	parentIndex: 0,
 	liveEdit: false,
@@ -144,6 +148,7 @@ FieldBuilder.defaultProps = {
 	hidePanel: () => {},
 	nestedGroupActive: () => {},
 	handleExpanderClick: () => {},
+	type: '',
 };
 
 export default FieldBuilder;
