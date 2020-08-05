@@ -620,8 +620,15 @@ class Post_List extends Field {
 		$blueprint[ 'taxonomies' ] = [ ];
 
 		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
-			$terms = get_terms( $taxonomy_name, [ 'hide_empty' => false ] );
-			$options = [ ];
+			$terms = get_terms( [
+				'taxonomy'        => $taxonomy_name,
+				'hide_empty'      => false,
+				'orderby'         => 'name',
+				'suppress_filter' => true,
+			] );
+
+			$options = [];
+
 			foreach ( $terms as $term ) {
 				$term_name = self::build_hierarchical_term_name( $term );
 				$options[] = [
@@ -629,14 +636,13 @@ class Post_List extends Field {
 					'label' => html_entity_decode( $term_name, ENT_QUOTES | ENT_HTML401 ), // it will be re-encoded later
 				];
 			}
-			usort( $options, [ $this, 'sort_by_label' ] );
-			$blueprint[ 'taxonomies' ][ $taxonomy_name ] = $options;
+
+			$labels = array_column( $options, 'label' );
+			array_multisort( $labels, SORT_ASC, $options );
+
+			$blueprint['taxonomies'][ $taxonomy_name ] = $options;
 		}
 
 		return $blueprint;
-	}
-
-	private function sort_by_label( $a, $b ) {
-		return strcasecmp( $a[ 'label' ], $b[ 'label' ] );
 	}
 }
