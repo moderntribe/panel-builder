@@ -29,19 +29,20 @@ use ModularContent\Util;
  *   post_id
  */
 class Post_List extends Field {
+
 	const CACHE_TIMEOUT = 300; // how long to store queries in cache
 
 	protected $max              = 12;
 	protected $min              = 0;
 	protected $suggested        = 1;
-	protected $default          = [ 'type' => 'manual', 'posts' => [ ], 'filters' => [ ], 'max' => 0 ];
+	protected $default          = [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ];
 	protected $show_max_control = false;
-	protected $strings          = [ ];
-	protected $hidden_fields    = [ ];
-	protected $post_types       = [ ];
+	protected $strings          = [];
+	protected $hidden_fields    = [];
+	protected $post_types       = [];
 
 	/**
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * Usage example:
 	 *
@@ -56,12 +57,12 @@ class Post_List extends Field {
 	 *   previews and from manual input
 	 * ) );
 	 */
-	public function __construct( $args = [ ] ) {
-		$this->defaults[ 'max' ] = $this->max;
-		$this->defaults[ 'min' ] = $this->min;
-		$this->defaults[ 'suggested' ] = $this->suggested;
-		$this->defaults[ 'show_max_control' ] = $this->show_max_control;
-		$this->defaults[ 'strings' ] = [
+	public function __construct( $args = [] ) {
+		$this->defaults['max']              = $this->max;
+		$this->defaults['min']              = $this->min;
+		$this->defaults['suggested']        = $this->suggested;
+		$this->defaults['show_max_control'] = $this->show_max_control;
+		$this->defaults['strings']          = [
 			'tabs.manual'                                => __( 'Manual', 'modular-content' ),
 			'tabs.dynamic'                               => __( 'Dynamic', 'modular-content' ),
 			'button.select_post'                         => __( 'Select a post', 'modular-content' ),
@@ -95,10 +96,11 @@ class Post_List extends Field {
 			'label.content'                              => __( 'Content', 'modular-content' ),
 			'label.link'                                 => __( 'Link: http://example.com/', 'modular-content' ),
 			'label.thumbnail'                            => __( 'Thumbnail', 'modular-content' ),
-			'notice.min_posts'                           => _x( 'This field requires %{count} more item |||| This field requires %{count} more items', 'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
+			'notice.min_posts'                           => _x( 'This field requires %{count} more item |||| This field requires %{count} more items',
+				'Format should be polyglot.js compatible. See https://github.com/airbnb/polyglot.js#pluralization', 'modular-content' ),
 		];
-		$this->defaults[ 'hidden_fields' ] = [ ];
-		$this->defaults[ 'post_types' ]    = [ ];
+		$this->defaults['hidden_fields']    = [];
+		$this->defaults['post_types']       = [];
 		parent::__construct( $args );
 		if ( empty( $this->max ) ) {
 			$this->max = max( 12, $this->min );
@@ -116,16 +118,16 @@ class Post_List extends Field {
 	}
 
 	public function get_vars( $data, $panel ) {
-		$data = wp_parse_args( $data, $this->default );
-		$posts = [ ];
-		if ( $data[ 'type' ] === 'manual' ) {
-			foreach ( $data[ 'posts' ] as $post_data ) {
-				if ( $post_data[ 'method' ] === 'select' && !empty( $post_data[ 'id' ] ) ) {
-					$post = $this->post_id_to_array( $post_data[ 'id' ] );
+		$data  = wp_parse_args( $data, $this->default );
+		$posts = [];
+		if ( $data['type'] === 'manual' ) {
+			foreach ( $data['posts'] as $post_data ) {
+				if ( $post_data['method'] === 'select' && ! empty( $post_data['id'] ) ) {
+					$post = $this->post_id_to_array( $post_data['id'] );
 					if ( $post ) {
 						$posts[] = $post;
 					}
-				} elseif ( $post_data[ 'method' ] === 'manual' ) {
+				} elseif ( $post_data['method'] === 'manual' ) {
 					$post = $this->manual_post_to_array( $post_data );
 					if ( $post ) {
 						$posts[] = $post;
@@ -133,13 +135,13 @@ class Post_List extends Field {
 				}
 			}
 		} else {
-			if ( !empty( $data[ 'max' ] ) && $data[ 'max' ] >= $this->min && $data[ 'max' ] <= $this->max ) {
-				$max = (int)$data[ 'max' ];
+			if ( ! empty( $data['max'] ) && $data['max'] >= $this->min && $data['max'] <= $this->max ) {
+				$max = (int) $data['max'];
 			} else {
-				$max = (int)$this->max;
+				$max = (int) $this->max;
 			}
-			$post_ids = isset( $data[ 'filters' ] ) ? $this->filter_posts( $data[ 'filters' ], 'ids', $max ) : [ ];
-			$posts = array_map( [ $this, 'post_id_to_array' ], $post_ids );
+			$post_ids = isset( $data['filters'] ) ? $this->filter_posts( $data['filters'], 'ids', $max ) : [];
+			$posts    = array_map( [ $this, 'post_id_to_array' ], $post_ids );
 		}
 
 		$posts = apply_filters( 'panels_field_vars', $posts, $this, $panel );
@@ -181,39 +183,40 @@ class Post_List extends Field {
 		global $post;
 		$post = $_post;
 		setup_postdata( $post );
-		$data[ 'title' ] = get_the_title();
-		$data[ 'content' ] = get_the_content();
-		$data[ 'excerpt' ] = get_the_excerpt();
-		$data[ 'image' ] = get_post_thumbnail_id();
-		$data[ 'link' ] = [
+		$data['title']     = get_the_title();
+		$data['content']   = get_the_content();
+		$data['excerpt']   = get_the_excerpt();
+		$data['image']     = get_post_thumbnail_id();
+		$data['link']      = [
 			'url'    => get_permalink(),
 			'target' => '',
-			'label'  => $data[ 'title' ],
+			'label'  => $data['title'],
 		];
-		$data[ 'post_type' ] = $post->post_type;
-		$data[ 'post_id' ] = $post->ID;
+		$data['post_type'] = $post->post_type;
+		$data['post_id']   = $post->ID;
 		wp_reset_postdata();
 
 		return apply_filters( 'panel_post_id_to_array', $data, $post_id, $_post );
 	}
 
 	protected function manual_post_to_array( $post_data ) {
-		if ( empty( $post_data[ 'post_title' ] ) && empty( $post_data[ 'post_content' ] ) && empty( $post_data[ 'url' ] ) && empty( $post_data[ 'thumbnail_id' ] ) ) {
+		if ( empty( $post_data['post_title'] ) && empty( $post_data['post_content'] ) && empty( $post_data['url'] ) && empty( $post_data['thumbnail_id'] ) ) {
 			return false; // no data
 		}
 		$data = [
-			'title'     => $post_data[ 'post_title' ],
-			'content'   => $post_data[ 'post_content' ],
-			'excerpt'   => $post_data[ 'post_content' ],
-			'image'     => (int)$post_data[ 'thumbnail_id' ],
+			'title'     => $post_data['post_title'],
+			'content'   => $post_data['post_content'],
+			'excerpt'   => $post_data['post_content'],
+			'image'     => (int) $post_data['thumbnail_id'],
 			'link'      => [
-				'url'    => $post_data[ 'url' ],
+				'url'    => $post_data['url'],
 				'target' => '',
-				'label'  => !empty( $post_data[ 'post_title' ] ) ? $post_data[ 'post_title' ] : $post_data[ 'url' ],
+				'label'  => ! empty( $post_data['post_title'] ) ? $post_data['post_title'] : $post_data['url'],
 			],
 			'post_type' => '',
 			'post_id'   => 0,
 		];
+
 		return $data;
 
 	}
@@ -222,37 +225,37 @@ class Post_List extends Field {
 	/**
 	 * Add data relevant to this field to the precache
 	 *
-	 * @param mixed         $data
-	 * @param AdminPreCache $cache
+	 * @param  mixed          $data
+	 * @param  AdminPreCache  $cache
 	 *
 	 * @return void
 	 */
 	public function precache( $data, AdminPreCache $cache ) {
-		if ( !empty( $data[ 'type' ] ) && $data[ 'type' ] == 'manual' && !empty( $data[ 'posts' ] ) ) {
-			foreach ( $data[ 'posts' ] as $post_data ) {
-				if ( !empty( $post_data[ 'id' ] ) ) {
-					$cache->add_post( $post_data[ 'id' ] );
+		if ( ! empty( $data['type'] ) && $data['type'] == 'manual' && ! empty( $data['posts'] ) ) {
+			foreach ( $data['posts'] as $post_data ) {
+				if ( ! empty( $post_data['id'] ) ) {
+					$cache->add_post( $post_data['id'] );
 				}
-				if ( !empty( $post_data[ 'image' ] ) ) {
-					$cache->add_image( $post_data[ 'image' ], 'thumbnail' );
+				if ( ! empty( $post_data['image'] ) ) {
+					$cache->add_image( $post_data['image'], 'thumbnail' );
 				}
 			}
 		}
-		if ( !empty( $data[ 'filters' ] ) ) {
-			foreach ( $data[ 'filters' ] as $filter_id => $filter_args ) {
-				if ( isset( $filter_args[ 'selection' ] ) && !is_array( $filter_args[ 'selection' ] ) ) {
-					$filter_args[ 'selection' ] = explode( ',', $filter_args[ 'selection' ] );
+		if ( ! empty( $data['filters'] ) ) {
+			foreach ( $data['filters'] as $filter_id => $filter_args ) {
+				if ( isset( $filter_args['selection'] ) && ! is_array( $filter_args['selection'] ) ) {
+					$filter_args['selection'] = explode( ',', $filter_args['selection'] );
 				}
-				if ( !empty( $filter_args[ 'selection' ] ) ) {
+				if ( ! empty( $filter_args['selection'] ) ) {
 					if ( $filter_id == 'post_type' ) {
 						continue;
 					}
 					if ( in_array( $filter_id, self::taxonomy_options() ) ) {
-						foreach ( $filter_args[ 'selection' ] as $term_id ) {
+						foreach ( $filter_args['selection'] as $term_id ) {
 							$cache->add_term( $term_id, $filter_id );
 						}
 					} elseif ( in_array( $filter_id, array_keys( self::p2p_options() ) ) ) {
-						foreach ( $filter_args[ 'selection' ] as $post_id ) {
+						foreach ( $filter_args['selection'] as $post_id ) {
 							$cache->add_post( $post_id );
 						}
 					}
@@ -264,18 +267,19 @@ class Post_List extends Field {
 	/**
 	 * Massage submitted data for consistency
 	 *
-	 * @param array $data
+	 * @param  array  $data
+	 *
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
 		$data = wp_parse_args( $data, [ 'type' => 'manual', 'posts' => [], 'filters' => [], 'max' => 0 ] );
 
-		foreach ( $data[ 'posts' ] as &$post_data ) {
-			switch( $post_data[ 'method' ] ) {
+		foreach ( $data['posts'] as &$post_data ) {
+			switch ( $post_data['method'] ) {
 				case 'select':
-					if ( empty( $post_data[ 'id' ] ) ) {
+					if ( empty( $post_data['id'] ) ) {
 						$post_data = null;
-					} elseif ( ! get_post_status( $post_data[ 'id' ] ) ) {
+					} elseif ( ! get_post_status( $post_data['id'] ) ) {
 						$post_data = null;
 					}
 					break;
@@ -293,7 +297,7 @@ class Post_List extends Field {
 			}
 		}
 
-		$data[ 'posts' ] = array_values( array_filter( $data[ 'posts' ] ) ); // values to avoid non-sequential keys
+		$data['posts'] = array_values( array_filter( $data['posts'] ) ); // values to avoid non-sequential keys
 
 		return $data;
 	}
@@ -301,16 +305,16 @@ class Post_List extends Field {
 	/**
 	 * Query for posts matching the selected filters
 	 *
-	 * @param array  $filters
-	 * @param string $fields
-	 * @param int    $max
+	 * @param  array   $filters
+	 * @param  string  $fields
+	 * @param  int     $max
 	 *
 	 * @return array Matching post IDs
 	 */
 	protected function filter_posts( $filters, $fields = 'ids', $max = 0 ) {
 		$context = get_queried_object_id();
-		$max = $max ? $max : $this->max;
-		$ids = self::get_posts_for_filters( $filters, $max, $context );
+		$max     = $max ? $max : $this->max;
+		$ids     = self::get_posts_for_filters( $filters, $max, $context );
 		if ( $fields == 'ids' || empty( $ids ) ) {
 			return $ids;
 		}
@@ -328,9 +332,10 @@ class Post_List extends Field {
 
 	protected static function get_cache( $query ) {
 		$cache = get_transient( self::cache_key( $query ) );
-		if ( !is_array( $cache ) ) {
-			return [ ];
+		if ( ! is_array( $cache ) ) {
+			return [];
 		}
+
 		return $cache;
 	}
 
@@ -340,8 +345,9 @@ class Post_List extends Field {
 
 	protected static function cache_key( $query ) {
 		$prefix = 'panel_query_';
-		$key = $prefix . maybe_serialize( $query );
-		$hash = md5( $key );
+		$key    = $prefix . maybe_serialize( $query );
+		$hash   = md5( $key );
+
 		return $hash;
 	}
 
@@ -352,10 +358,11 @@ class Post_List extends Field {
 	}
 
 	public static function p2p_options() {
-		$options = [ ];
+		$options = [];
 		if ( class_exists( 'P2P_Connection_Type_Factory' ) ) {
 			$options = \P2P_Connection_Type_Factory::get_all_instances();
 		}
+
 		return apply_filters( 'modular_content_posts_field_p2p_options', $options );
 	}
 
@@ -363,9 +370,9 @@ class Post_List extends Field {
 		$post_types = [];
 		if ( empty( $this->post_types ) ) {
 			// default to all post types that have public archives
-			$post_types = get_post_types( [ 'has_archive' => true, 'public' => true ], 'objects', 'and' );
-			$post_types[ 'post' ] = get_post_type_object( 'post' ); // posts are special
-			unset( $post_types[ 'landing_page' ] ); // because, really, why would you?
+			$post_types         = get_post_types( [ 'has_archive' => true, 'public' => true ], 'objects', 'and' );
+			$post_types['post'] = get_post_type_object( 'post' ); // posts are special
+			unset( $post_types['landing_page'] ); // because, really, why would you?
 			$post_types = apply_filters( 'panels_query_post_type_options', $post_types, $this );
 		} else {
 			foreach ( $this->post_types as $key => $post_type ) {
@@ -376,35 +383,39 @@ class Post_List extends Field {
 				}
 			}
 		}
+
 		return array_filter( $post_types );
 	}
 
 	protected static function get_filter_groups() {
-		$filter_groups = [ ];
+		$filter_groups = [];
 		foreach ( self::taxonomy_options() as $taxonomy_name ) {
 			$filter_groups[ $taxonomy_name ] = 'taxonomy';
 		}
 		foreach ( array_keys( self::p2p_options() ) as $p2p_id ) {
 			$filter_groups[ $p2p_id ] = 'p2p';
 		}
-		$filter_groups[ 'date' ] = 'date';
+		$filter_groups['date'] = 'date';
+
 		return $filter_groups;
 	}
 
 	protected static function build_hierarchical_term_name( $term, $sep = ' > ' ) {
 		$name = $term->name;
-		while ( !empty( $term->parent ) ) {
+		while ( ! empty( $term->parent ) ) {
 			$term = get_term( $term->parent, $term->taxonomy );
 			$name = $term->name . $sep . $name;
 		}
+
 		return $name;
 	}
 
 	public static function get_post_data( $post_ids ) {
-		$posts = [ ];
+		$posts = [];
 		foreach ( $post_ids as $id ) {
 			$posts[ $id ] = AdminPreCache::get_post_array( $id );
 		}
+
 		return $posts;
 	}
 
@@ -429,89 +440,89 @@ class Post_List extends Field {
 			'tax_query'        => [
 				'relation' => 'AND',
 			],
-			'meta_query'        => [
+			'meta_query'       => [
 				'relation' => 'AND',
 			],
 			'fields'           => 'ids',
 			'suppress_filters' => false,
 		];
 		foreach ( $filters as $type => $filter ) {
-			if ( empty( $filter[ 'selection' ] ) ) {
+			if ( empty( $filter['selection'] ) ) {
 				continue;
 			}
-			if ( !is_array( $filter[ 'selection' ] ) ) {
-				$filter[ 'selection' ] = explode( ',', $filter[ 'selection' ] );
+			if ( ! is_array( $filter['selection'] ) ) {
+				$filter['selection'] = explode( ',', $filter['selection'] );
 			}
 			$filter_groups = self::get_filter_groups();
 			if ( $type == 'post_type' ) {
-				if ( !empty( $filter[ 'lock' ] ) || !is_post_type_archive() ) {
-					$query[ 'post_type' ] = $filter[ 'selection' ];
+				if ( ! empty( $filter['lock'] ) || ! is_post_type_archive() ) {
+					$query['post_type'] = $filter['selection'];
 				} else {
-					$post_type_object = get_queried_object();
-					$query[ 'post_type' ] = $post_type_object->name;
+					$post_type_object   = get_queried_object();
+					$query['post_type'] = $post_type_object->name;
 				}
 			} elseif ( isset( $filter_groups[ $type ] ) && $filter_groups[ $type ] == 'p2p' ) {
-				$ids = self::get_p2p_filtered_ids( $type, $filter[ 'selection' ] );
+				$ids = self::get_p2p_filtered_ids( $type, $filter['selection'] );
 				if ( empty( $ids ) ) {
-					$query[ 'post__in' ] = [ -1 ];
+					$query['post__in'] = [ - 1 ];
 					break; // stop filtering. nothing should match
 				}
-				if ( !isset( $query[ 'post__in' ] ) ) {
-					$query[ 'post__in' ] = [ ];
+				if ( ! isset( $query['post__in'] ) ) {
+					$query['post__in'] = [];
 				}
-				$query[ 'post__in' ] = array_merge( $query[ 'post__in' ], $ids );
+				$query['post__in'] = array_merge( $query['post__in'], $ids );
 			} elseif ( isset( $filter_groups[ $type ] ) && $filter_groups[ $type ] == 'date' ) {
 				$dq = [ 'inclusive' => true, 'relation' => 'AND' ];
-				if ( !empty( $filter[ 'selection' ][ 'start' ] ) ) {
-					$dq[ 'after' ] = $filter[ 'selection' ][ 'start' ];
+				if ( ! empty( $filter['selection']['start'] ) ) {
+					$dq['after'] = $filter['selection']['start'];
 				}
-				if ( !empty( $filter[ 'selection' ][ 'end' ] ) && $end = strtotime( $filter[ 'selection' ][ 'end' ] ) ) {
-					$dq[ 'before' ] = [ // end date must be an array for inclusiveness
-					                    'year'  => date( 'Y', $end ),
-					                    'month' => date( 'n', $end ),
-					                    'day'   => date( 'j', $end ),
+				if ( ! empty( $filter['selection']['end'] ) && $end = strtotime( $filter['selection']['end'] ) ) {
+					$dq['before'] = [ // end date must be an array for inclusiveness
+					                  'year'  => date( 'Y', $end ),
+					                  'month' => date( 'n', $end ),
+					                  'day'   => date( 'j', $end ),
 					];
 				}
-				if ( !( empty( $dq[ 'after' ] ) && empty( $dq[ 'before' ] ) ) ) {
-					$query[ 'date_query' ] = $dq;
+				if ( ! ( empty( $dq['after'] ) && empty( $dq['before'] ) ) ) {
+					$query['date_query'] = $dq;
 				}
 			} elseif ( taxonomy_exists( $type ) ) {
 				$locked = false;
-				if ( !empty( $filter[ 'lock' ] ) ) {
+				if ( ! empty( $filter['lock'] ) ) {
 					$locked = true;
 				} elseif ( $type == 'post_tag' ) {
-					if ( !is_tag() ) {
+					if ( ! is_tag() ) {
 						$locked = true;
 					}
 				} elseif ( $type == 'category' ) {
-					if ( !is_category() ) {
+					if ( ! is_category() ) {
 						$locked = true;
 					}
-				} elseif ( !is_tax( $type ) ) {
+				} elseif ( ! is_tax( $type ) ) {
 					$locked = true;
 				}
-				if ( !$locked ) {
+				if ( ! $locked ) {
 					$term = get_queried_object();
 				}
-				if ( $locked || !$term ) {
-					$query[ 'tax_query' ][] = [
+				if ( $locked || ! $term ) {
+					$query['tax_query'][] = [
 						'taxonomy' => $type,
 						'field'    => 'id',
-						'terms'    => array_map( 'intval', $filter[ 'selection' ] ),
+						'terms'    => array_map( 'intval', $filter['selection'] ),
 						'operator' => 'IN',
 					];
 				} else {
-					$query[ 'tax_query' ][] = [
+					$query['tax_query'][] = [
 						'taxonomy' => $type,
 						'field'    => 'id',
-						'terms'    => (int)$term->term_id,
+						'terms'    => (int) $term->term_id,
 						'operator' => 'IN',
 					];
 				}
 			} else { // assume it's a post meta key
-				$query[ 'meta_query' ][] = [
-					'key' => $type,
-					'value' => $filter[ 'selection' ],
+				$query['meta_query'][] = [
+					'key'      => $type,
+					'value'    => $filter['selection'],
 					'operator' => 'IN',
 				];
 			}
@@ -539,11 +550,11 @@ class Post_List extends Field {
 		 * Get all p2p connections for request post ids of connection type
 		 */
 		$sql = $wpdb->prepare(
-				"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
-				$connection_id );
+			"SELECT p2p_to, p2p_from FROM {$wpdb->p2p} WHERE p2p_type=%s AND (p2p_to IN ($post_ids_sql) OR p2p_from IN ($post_ids_sql))",
+			$connection_id );
 
 		$connected = [];
-		$results = $wpdb->get_results( $sql, ARRAY_A );
+		$results   = $wpdb->get_results( $sql, ARRAY_A );
 
 		if ( empty( $results ) ) {
 			return [];
@@ -559,26 +570,26 @@ class Post_List extends Field {
 	}
 
 	public function get_blueprint() {
-		$blueprint = parent::get_blueprint();
-		$blueprint[ 'min' ] = $this->min;
-		$blueprint[ 'max' ] = $this->max;
-		$blueprint[ 'suggested' ] = $this->suggested;
-		$blueprint[ 'show_max_control' ] = $this->show_max_control;
-		$blueprint[ 'hidden_fields' ] = $this->hidden_fields;
-		$blueprint[ 'post_type' ] = [ ];
+		$blueprint                     = parent::get_blueprint();
+		$blueprint['min']              = $this->min;
+		$blueprint['max']              = $this->max;
+		$blueprint['suggested']        = $this->suggested;
+		$blueprint['show_max_control'] = $this->show_max_control;
+		$blueprint['hidden_fields']    = $this->hidden_fields;
+		$blueprint['post_type']        = [];
 		foreach ( $this->post_type_options() as $pto ) {
-			if ( !is_object( $pto ) ) {
+			if ( ! is_object( $pto ) ) {
 				$pto = get_post_type_object( $pto );
 			}
-			$blueprint[ 'post_type' ][] = [
+			$blueprint['post_type'][] = [
 				'value' => $pto->name,
 				'label' => $pto->label,
 			];
 		}
-		$blueprint[ 'filters' ] = [ ];
-		$taxonomy_options = [ ];
+		$blueprint['filters'] = [];
+		$taxonomy_options     = [];
 		foreach ( $this->taxonomy_options() as $tax ) {
-			$taxonomy = get_taxonomy( $tax );
+			$taxonomy           = get_taxonomy( $tax );
 			$taxonomy_options[] = [
 				'value'       => $tax,
 				'label'       => $taxonomy->label,
@@ -586,63 +597,100 @@ class Post_List extends Field {
 				'post_type'   => Util::get_post_types_for_taxonomy( $tax ),
 			];
 		}
-		if ( !empty( $taxonomy_options ) ) {
-			$blueprint[ 'filters' ][] = [
+		if ( ! empty( $taxonomy_options ) ) {
+			$blueprint['filters'][] = [
 				'label'   => $this->get_string( 'label.taxonomy' ),
 				'options' => $taxonomy_options,
 			];
 		}
 
-		$p2p_options = [ ];
+		$p2p_options = [];
 		foreach ( $this->p2p_options() as $relationship_id => $relationship ) {
 			$post_types_for_p2p = \ModularContent\Util::get_post_types_for_p2p_relationship( $relationship );
-			$p2p_options[] = [
+			$p2p_options[]      = [
 				'value'       => $relationship_id,
 				'label'       => Util::get_p2p_relationship_label( $relationship ),
 				'filter_type' => 'p2p',
 				'post_type'   => $post_types_for_p2p,
 			];
 		}
-		if ( !empty( $p2p_options ) ) {
-			$blueprint[ 'filters' ][] = [
+		if ( ! empty( $p2p_options ) ) {
+			$blueprint['filters'][] = [
 				'label'   => $this->get_string( 'label.relationship' ),
 				'options' => $p2p_options,
 			];
 		}
 
-		$blueprint[ 'filters' ][] = [
+		$blueprint['filters'][] = [
 			'value'       => 'date',
 			'label'       => $this->get_string( 'label.date' ),
 			'filter_type' => 'date',
 			'post_type'   => Util::get_post_types_for_date(),
 		];
 
-		$blueprint[ 'taxonomies' ] = [ ];
-
-		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
-			$terms = get_terms( [
-				'taxonomy'        => $taxonomy_name,
-				'hide_empty'      => false,
-				'orderby'         => 'name',
-				'suppress_filter' => true,
-			] );
-
-			$options = [];
-
-			foreach ( $terms as $term ) {
-				$term_name = self::build_hierarchical_term_name( $term );
-				$options[] = [
-					'value' => $term->term_id,
-					'label' => html_entity_decode( $term_name, ENT_QUOTES | ENT_HTML401 ), // it will be re-encoded later
-				];
-			}
-
-			$labels = array_column( $options, 'label' );
-			array_multisort( $labels, SORT_ASC, $options );
-
-			$blueprint['taxonomies'][ $taxonomy_name ] = $options;
-		}
+		$blueprint['taxonomies'] = $this->get_taxonomy_terms();
 
 		return $blueprint;
+
 	}
+
+	/**
+	 * Get and cache all taxonomy terms.
+	 *
+	 * @return array
+	 */
+	private function get_taxonomy_terms() {
+		global $_wp_using_ext_object_cache;
+
+		$transient = 'panels_tax_terms';
+
+		// Store current object cache
+		$object_cache = $_wp_using_ext_object_cache;
+
+		// Force transients to use the database
+		$_wp_using_ext_object_cache = null;
+
+		$panels_terms = get_transient( $transient );
+
+		if ( empty( $panels_terms ) ) {
+			// Restore existing object cache for get_terms
+			$_wp_using_ext_object_cache = $object_cache;
+
+			foreach ( $this->taxonomy_options() as $taxonomy_name ) {
+				$terms = get_terms( [
+					'taxonomy'        => $taxonomy_name,
+					'hide_empty'      => false,
+					'orderby'         => 'name',
+					'suppress_filter' => true,
+				] );
+
+				$options = [];
+
+				foreach ( $terms as $term ) {
+					$term_name = self::build_hierarchical_term_name( $term );
+					$options[] = [
+						'value' => $term->term_id,
+						'label' => html_entity_decode( $term_name, ENT_QUOTES | ENT_HTML401 ), // it will be re-encoded later
+					];
+				}
+
+				$labels = array_column( $options, 'label' );
+				array_multisort( $labels, SORT_ASC, $options );
+
+				$panels_terms[ $taxonomy_name ] = $options;
+			}
+
+			// Force transients to use the database
+			$_wp_using_ext_object_cache = null;
+
+			set_transient( $transient, $panels_terms, DAY_IN_SECONDS );
+		}
+
+		// Restore existing object cache
+		$_wp_using_ext_object_cache = $object_cache;
+
+		return $panels_terms;
+
+	}
+
 }
