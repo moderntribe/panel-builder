@@ -2,7 +2,7 @@
 
 namespace ModularContent\Fields;
 
-use ModularContent\Panel, ModularContent\AdminPreCache;
+use ModularContent\AdminPreCache;
 use ModularContent\Util;
 
 /**
@@ -620,6 +620,11 @@ class Post_List extends Field {
 		$blueprint[ 'taxonomies' ] = [ ];
 
 		foreach ( $this->taxonomy_options() as $taxonomy_name ) {
+			$cached = get_transient( 'panelbpterms-' . $taxonomy_name );
+			if ( is_array( $cached ) ) {
+				$blueprint['taxonomies'][ $taxonomy_name ] = $cached;
+				continue;
+			}
 			$terms = get_terms( [
 				'taxonomy'        => $taxonomy_name,
 				'hide_empty'      => false,
@@ -640,6 +645,7 @@ class Post_List extends Field {
 			$labels = array_column( $options, 'label' );
 			array_multisort( $labels, SORT_ASC, $options );
 
+			set_transient( 'panelbpterms-' . $taxonomy_name, $options, 10 * MINUTE_IN_SECONDS );
 			$blueprint['taxonomies'][ $taxonomy_name ] = $options;
 		}
 
