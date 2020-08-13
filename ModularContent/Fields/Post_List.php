@@ -683,7 +683,7 @@ class Post_List extends Field {
 			// Force transients to use the database
 			$_wp_using_ext_object_cache = null;
 
-			set_transient( $transient, $panels_terms, apply_filters( 'tribe/panels/post_list/cache_length', DAY_IN_SECONDS ) );
+			set_transient( $transient, $panels_terms, apply_filters( 'tribe/panels/post_list/cache_expiration', DAY_IN_SECONDS ) );
 		}
 
 		// Restore existing object cache
