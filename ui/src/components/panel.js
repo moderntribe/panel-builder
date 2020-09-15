@@ -156,11 +156,23 @@ class PanelContainer extends Component {
 			'dashicons-arrow-right-alt2': true,
 		});
 
+		const expanded = this.state.active ? 'true' : 'false';
+
+		let buttonLabel;
+		if (this.props.data.title && this.props.data.title.length) {
+			buttonLabel = this.props.data.title;
+		} else {
+			buttonLabel = this.props.label;
+		}
+
+		buttonLabel = buttonLabel.replace(/"/g, '\\\\\"');
+		buttonLabel = `${this.state.active ? 'Collapse' : 'Expand'} panel: ${buttonLabel}`;
+
 		return (
 			<div className={headerClasses} onClick={this.handleClick}>
 				{this.renderTitle()}
 				<span className={styles.type}>{this.props.label}</span>
-				<i className={arrowClasses} />
+				<button aria-expanded={expanded} onClick={this.handleArrowClick} className={arrowClasses} aria-label={buttonLabel} />
 			</div>
 		);
 	}
@@ -281,6 +293,18 @@ class PanelContainer extends Component {
 				depth: this.props.depth,
 			},
 		});
+	}
+
+	/**
+	 * Handles clicking the arrow button to activate the header click.
+	 */
+
+	@autobind
+	handleArrowClick(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		e.currentTarget.parentElement.click();
+		return false;
 	}
 
 	handleHeights() {
