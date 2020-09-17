@@ -20,13 +20,15 @@ use ModularContent\Panel;
  */
 class Link extends Field {
 
-	protected $default = [ 'url' => '', 'target' => '', 'label' => '' ];
+	protected $default = [ 'url' => '', 'target' => '', 'label' => '', 'arialabel' => '' ];
 
 
 	public function __construct( $args ) {
 		$this->defaults[ 'strings' ] = [
+			'placeholder.arialabel' => __( 'ARIA Label', 'modular-content' ),
 			'placeholder.label' => __( 'Label', 'modular-content' ),
 			'placeholder.url'   => __( 'URL', 'modular-content' ),
+			'placeholder.target'   => __( 'Target', 'modular-content' ),
 		];
 		parent::__construct( $args );
 	}
@@ -38,6 +40,6 @@ class Link extends Field {
 	 * @return array
 	 */
 	public function prepare_data_for_save( $data ) {
-		return wp_parse_args( $data, [ 'url' => '', 'target' => '', 'label' => '' ] );
+		return wp_parse_args( $data, [ 'url' => '', 'target' => '', 'label' => '', 'arialabel' => '' ] );
 	}
 } 
