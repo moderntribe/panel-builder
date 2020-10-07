@@ -67,6 +67,11 @@ class Kses {
 	}
 
 	private function filter_string( $value ) {
+		// Allow unfiltered HTML for authorized users.
+		if ( function_exists('current_user_can') && current_user_can( 'unfiltered_html' ) ) {
+			return $value;
+		}
+
 		return wp_kses( $value, 'post' );
 	}
 
