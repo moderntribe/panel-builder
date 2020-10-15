@@ -34,13 +34,18 @@ class Accordion extends Component {
 			'dashicons-arrow-right-alt2': true,
 		});
 
+		const expanded = this.state.active ? 'true' : 'false';
+
+		const escapedLabel = this.props.label.replace(/"/g, '\\\\\"');
+		const buttonLabel = `${this.state.active ? 'Collapse' : 'Expand'} ${escapedLabel}`;
+
 		return (
 			<div
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
 				<h3>{this.props.label}</h3>
-				<i className={arrowClasses} />
+				<button aria-expanded={expanded} onClick={this.handleArrowClick} className={arrowClasses} aria-label={buttonLabel} />
 			</div>
 		);
 	}
@@ -119,6 +124,18 @@ class Accordion extends Component {
 	handleHeaderClick() {
 		this.active = !this.active;
 		this.maybeAnimateFields();
+	}
+
+	/**
+	 * Handles clicking the arrow button to activate the header click.
+	 */
+
+	@autobind
+	handleArrowClick(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		e.currentTarget.parentElement.click();
+		return false;
 	}
 
 	render() {
