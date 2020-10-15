@@ -21,6 +21,7 @@ import Group from '../fields/group';
 import Accordion from '../fields/accordion';
 import Repeater from '../fields/repeater';
 import ColumnWidth from '../fields/column-width';
+import Number from "../fields/number";
 
 export default {
 	[FIELD_TYPES.TEXT]: Text,
@@ -44,4 +45,5 @@ export default {
 	[FIELD_TYPES.ACCORDION]: Accordion,
 	[FIELD_TYPES.REPEATER]: Repeater,
 	[FIELD_TYPES.COLUMN_WIDTH]: ColumnWidth,
+	[FIELD_TYPES.NUMBER]: Number,
 };
