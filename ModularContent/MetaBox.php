@@ -457,8 +457,12 @@ class MetaBox {
 		if ( empty( $submission['panels'] ) ) {
 			return $post_data;
 		}
-		// the json string will come in slashed.
-		$panels = json_decode( wp_unslash( $submission['panels'] ), true );
+
+		// Run the panels submission through kses.
+		$kses_filtered = apply_filters( 'modular_content__content_filtered_save_pre', $submission['panels'] );
+
+		// The json string will come in slashed.
+		$panels = json_decode( wp_unslash( $kses_filtered ), true );
 
 		if ( ! is_array( $panels ) || ! isset( $panels['panels'] ) ) {
 			return $post_data;
