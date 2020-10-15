@@ -1,3 +1,8 @@
+## 3.3.1 (October 7, 2020)
+
+* Removed `Kses::filter_content_filtered` from the `content_filtered_save_pre` hook, as this was being overridden by the posted panels content.
+* Added a new filter `modular_content_content_filtered_save_pre` to filter the posted panels content prior to saving.
+
 ## 3.3.0 (September 27, 2017)
 
 * Added new color picker field. Store rgba or hex values directly in the db and pick from any of these uis, with best design support for block and sketch picker. https://casesandberg.github.io/react-color/

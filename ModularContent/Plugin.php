@@ -234,7 +234,7 @@ class Plugin {
 	protected function wrap_kses() {
 		if ( has_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' ) ) {
 			remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-			add_filter( 'content_filtered_save_pre', array( Kses::instance(), 'filter_content_filtered' ), 10, 1 );
+			add_filter( 'modular_content__content_filtered_save_pre', array( Kses::instance(), 'filter_content_filtered' ), 10, 1 );
 		}
 	}
 
