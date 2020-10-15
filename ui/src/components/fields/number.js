@@ -53,7 +53,7 @@ class Number extends Component {
 	}
 }
 
-Text.propTypes = {
+Number.propTypes = {
 	data: PropTypes.string,
 	panelIndex: PropTypes.number,
 	label: PropTypes.string,
@@ -66,7 +66,7 @@ Text.propTypes = {
 	updatePanelData: PropTypes.func,
 };
 
-Text.defaultProps = {
+Number.defaultProps = {
 	data: '',
 	panelIndex: 0,
 	label: '',
