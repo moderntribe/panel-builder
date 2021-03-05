@@ -39,7 +39,7 @@ class Set implements \JsonSerializable {
 	}
 
 	public function get_label() {
-		$label = $this->post_id ? get_the_title( $this->post_id ) : __( 'Make Your Own', 'tribe' )
+		$label = $this->post_id ? get_the_title( $this->post_id ) : __( 'Make Your Own', 'tribe' );
 		return apply_filters( 'panel_set_get_label', $label, $this->post_id );
 	}
 
