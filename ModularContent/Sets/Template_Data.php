@@ -15,30 +15,34 @@ class Template_Data {
 	 * @return array
 	 */
 	public function register_data( $data, $post ) {
-		$templates = $this->get_templates( $post );
+		$templates = $this->get_templates( $post ) ;
 		$data[ 'templates' ] = $templates;
 		return $data;
 	}
 
 	private function get_templates( $context_post ) {
-		$posts = get_posts( [
+		$posts = apply_filters( 'panel_set_get_templates', get_posts( [
 			'post_type'      => Set::POST_TYPE,
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 			'orderby'        => 'title',
 			'order'          => 'ASC',
 			'fields'         => 'ids',
-		] );
+		] ) );
+
 		if ( empty( $posts ) ) {
 			return [ ];
 		}
+
 		$templates = [ ];
+
 		foreach ( $posts as $post_id ) {
 			$set = new Set( $post_id );
 			if ( $set->supports_post_type( $context_post->post_type ) ) {
 				$templates[] = $set;
 			}
 		}
+
 		return $templates;
 	}
-} 
+}
