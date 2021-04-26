@@ -63,8 +63,7 @@ class Set implements \JsonSerializable {
 				$src = $image[ 0 ];
 			}
 		}
-
-		return apply_filters( 'panel_set_thumbnail_image', $src, $this->post_id );
+		return apply_filters( 'panel_set_thumbnail_image', $src, $this->post_id, $size );
 	}
 
 	public function get_preview_image_id() {
@@ -84,7 +83,7 @@ class Set implements \JsonSerializable {
 				$src = $image[ 0 ];
 			}
 		}
-		return apply_filters( 'panel_set_preview_image', $src, $this->post_id );
+		return apply_filters( 'panel_set_preview_image', $src, $this->post_id, $size );
 	}
 
 	/**
