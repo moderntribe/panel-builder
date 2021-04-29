@@ -1,3 +1,7 @@
+## 3.3.2 (April 29, 2020)
+
+* Add various filters to panel sets and panel collections.
+
 ## 3.3.1 (October 7, 2020)
 
 * Removed `Kses::filter_content_filtered` from the `content_filtered_save_pre` hook, as this was being overridden by the posted panels content.
