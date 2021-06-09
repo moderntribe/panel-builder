@@ -41,7 +41,7 @@ class PanelSetPreview extends Component {
 				onMouseOver={this.handleOnMouseover}
 				onMouseOut={this.handleOnMouseout}
 			>
-				<h4 dangerouslySetInnerHTML={this.props.label} />
+				<h4 dangerouslySetInnerHTML={{ __html: this.props.label }} />
 				<p>{this.props.description}</p>
 				<div className={styles.thumbnailFrame}>
 					<div className={styles.thumbnailTop}><i /><i /><i /><b /></div>
