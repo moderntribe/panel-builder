@@ -15,20 +15,22 @@ class Template_Data {
 	 * @return array
 	 */
 	public function register_data( $data, $post ) {
-		$templates = $this->get_templates( $post ) ;
+		$templates = $this->get_templates( $post );
 		$data[ 'templates' ] = $templates;
 		return $data;
 	}
 
 	private function get_templates( $context_post ) {
-		$posts = apply_filters( 'panel_set_get_templates', get_posts( [
+		$posts = get_posts( [
 			'post_type'      => Set::POST_TYPE,
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 			'orderby'        => 'title',
 			'order'          => 'ASC',
 			'fields'         => 'ids',
-		] ) );
+		] );
+
+		$posts = apply_filters( 'panel_set_get_templates', $posts );
 
 		if ( empty( $posts ) ) {
 			return [ ];

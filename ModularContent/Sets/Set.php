@@ -94,15 +94,20 @@ class Set implements \JsonSerializable {
 	public function get_template() {
 		if ( ! $this->post_id ) {
 			return [];
+
 		}
-		return apply_filters( 'panel_set_get_template', PanelCollection::find_by_post_id( $this->post_id )->build_tree(), $this->post_id );
+		$build_tree = PanelCollection::find_by_post_id( $this->post_id )->build_tree();
+
+		return apply_filters( 'panel_set_get_template', $build_tree, $this->post_id );
 	}
 
 	/**
 	 * @return array The post types this Set can be applied to
 	 */
 	public function get_post_types() {
-		return apply_filters( 'panel_set_get_post_types', get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, false ), $this->post_id );
+		$post_types = get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, false );
+
+		return apply_filters( 'panel_set_get_post_types', $post_types, $this->post_id );
 	}
 
 	/**
