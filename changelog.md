@@ -1,3 +1,7 @@
+## 3.3.3 (April 29, 2020)
+
+* Set panel set title as html so strings aren't escaped
+
 ## 3.3.2 (April 29, 2020)
 
 * Add various filters to panel sets and panel collections.
