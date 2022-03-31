@@ -157,6 +157,7 @@ class MetaBox {
 
 				// panel
 				'button.delete_panel'          => __( 'Delete Panel', 'modular-content' ),
+				'button.clone_panel'           => __( 'Clone Panel', 'modular-content' ),
 
 				// live edit
 				'heading.edit_panel_type'      => __( 'Active Panels', 'modular-content' ),

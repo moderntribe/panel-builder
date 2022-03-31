@@ -108,6 +108,17 @@ class PanelContainer extends Component {
 				/>
 			) : null;
 
+			const CloneButton = this.props.depth === 0 ? (
+				<Button
+					icon="dashicons-page"
+					text={UI_I18N['button.clone_panel']}
+					bare
+					full={false}
+					classes={styles.clonePanel}
+					handleClick={this.handleClonePanel}
+				/>
+			) : null;
+
 			const DeleteButton = this.props.depth === 0 ? (
 				<Button
 					icon="dashicons-trash"
@@ -127,6 +138,7 @@ class PanelContainer extends Component {
 						{this.renderSettingsToggle()}
 						{Fields}
 						{DeleteButton}
+						{CloneButton}
 					</div>
 				</div>
 			);
@@ -233,6 +245,11 @@ class PanelContainer extends Component {
 				confirmCallback: 'modern_tribe/delete_panel',
 			},
 		});
+	}
+
+	@autobind
+	handleClonePanel() {
+		console.log('clone panel');
 	}
 
 	@autobind
