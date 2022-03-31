@@ -396,6 +396,30 @@ class PanelCollection extends Component {
 		this.setState({ keyPrefix: randomString(10) });
 	}
 
+	/**
+	 * Adds a new cloned panel with copied data to the redux store. Emits event with data as well.
+	 *
+	 * @param panel
+	 */
+
+	@autobind
+	handleClonePanel(panel) {
+		const data = {
+			index: this.state.injectionIndex,
+			panels: [{
+				type: panel.type,
+				depth: 0,
+				data: panel.data,
+			}],
+		};
+
+		console.log(data);
+
+		this.props.addNewPanel(data);
+		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
+		console.log('NEW CLONED PANEL ADDED');
+	}
+
 	@autobind
 	handleIframeLoaded() {
 		this.collection.setAttribute('data-iframe-loading', 'false');
@@ -491,6 +515,7 @@ class PanelCollection extends Component {
 					panelsActivate={this.panelsActivate}
 					movePanel={this.props.movePanel}
 					deletePanel={this.handleDeletePanel}
+					clonePanel={this.handleClonePanel}
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.toggleLiveEditWidth}
 				/>

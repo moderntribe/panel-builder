@@ -110,7 +110,7 @@ class PanelContainer extends Component {
 
 			const CloneButton = this.props.depth === 0 ? (
 				<Button
-					icon="dashicons-page"
+					icon="dashicons-plus"
 					text={UI_I18N['button.clone_panel']}
 					bare
 					full={false}
@@ -249,7 +249,16 @@ class PanelContainer extends Component {
 
 	@autobind
 	handleClonePanel() {
-		console.log('clone panel');
+		if (this.props.depth > 0) {
+			return;
+		}
+
+		if (this.state.active) {
+			this.setState({ active: false });
+			this.props.panelsActivate(false);
+		}
+
+		this.props.clonePanel(this.props);
 	}
 
 	@autobind
@@ -446,6 +455,7 @@ PanelContainer.propTypes = {
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	deletePanel: PropTypes.func,
+	clonePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
@@ -472,6 +482,7 @@ PanelContainer.defaultProps = {
 	panelsActivate: () => {},
 	movePanel: () => {},
 	deletePanel: () => {},
+	clonePanel: () => {},
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},
 };
