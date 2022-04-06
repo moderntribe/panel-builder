@@ -5,7 +5,7 @@ import autobind from 'autobind-decorator';
 import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex, addClonedPanel } from '../actions/panels';
 import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
@@ -405,7 +405,6 @@ class PanelCollection extends Component {
 	@autobind
 	handleClonePanel(panel) {
 		const data = {
-			index: this.state.injectionIndex,
 			panels: [{
 				type: panel.type,
 				depth: 0,
@@ -415,7 +414,7 @@ class PanelCollection extends Component {
 
 		console.log(data);
 
-		this.props.addNewPanel(data);
+		this.props.addClonedPanel(data);
 		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
 		console.log('NEW CLONED PANEL ADDED');
 	}
@@ -605,6 +604,7 @@ const mapDispatchToProps = dispatch => ({
 	movePanel: data => dispatch(movePanel(data)),
 	updatePanelData: data => dispatch(updatePanelData(data)),
 	addNewPanel: data => dispatch(addNewPanel(data)),
+	addClonedPanel: data => dispatch(addClonedPanel(data)),
 	addNewPanelSet: data => dispatch(addNewPanelSet(data)),
 	deletePanelAtIndex: data => dispatch(deletePanelAtIndex(data)),
 });
@@ -614,6 +614,7 @@ PanelCollection.propTypes = {
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
 	addNewPanel: PropTypes.func.isRequired,
+	addClonedPanel: PropTypes.func.isRequired,
 	addNewPanelSet: PropTypes.func.isRequired,
 	deletePanelAtIndex: PropTypes.func.isRequired,
 };
@@ -623,6 +624,7 @@ PanelCollection.defaultProps = {
 	movePanel: () => {},
 	updatePanelData: () => {},
 	addNewPanel: () => {},
+	addClonedPanel: () => {},
 	addNewPanelSet: () => {},
 	deletePanelAtIndex: () => {},
 };

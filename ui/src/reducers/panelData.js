@@ -6,6 +6,7 @@ import {
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
 	DELETE_PANEL,
+	CLONE_PANEL,
 } from '../actions/panels';
 
 import { PANELS } from '../globals/config';
@@ -51,6 +52,17 @@ export function panelData(state = initialData, action) {
 		});
 
 		return newState;
+
+	case CLONE_PANEL:
+		const clonedPanel = {
+			...action.data.panels[0],
+			panels: [],
+		};
+		newState.panels.push(clonedPanel);
+
+		return update(newState, {
+			panels: { $set: newState.panels }
+		});
 
 	case MOVE_PANEL:
 		return update(newState, {
