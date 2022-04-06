@@ -412,11 +412,11 @@ class PanelCollection extends Component {
 			}],
 		};
 
-		console.log(data);
-
 		this.props.addClonedPanel(data);
+		this.setState({ keyPrefix: randomString(10) });
 		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
-		console.log('NEW CLONED PANEL ADDED');
+		// console.log('NEW CLONED PANEL ADDED');
+		// console.log(this.props.panels);
 	}
 
 	@autobind

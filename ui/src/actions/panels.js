@@ -3,7 +3,7 @@ export const UPDATE_PANEL_DATA = 'UPDATE_PANEL_DATA';
 export const ADD_PANEL = 'ADD_PANEL';
 export const ADD_PANEL_SET = 'ADD_PANEL_SET';
 export const DELETE_PANEL = 'DELETE_PANEL';
-export const CLONE_PANEL = 'DELETE_PANEL';
+export const CLONE_PANEL = 'CLONE_PANEL';
 
 function movePanelInData(data) {
 	return {
