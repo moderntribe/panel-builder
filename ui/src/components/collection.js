@@ -405,6 +405,7 @@ class PanelCollection extends Component {
 	@autobind
 	handleClonePanel(panel) {
 		const data = {
+			index: this.state.injectionIndex,
 			panels: [{
 				type: panel.type,
 				depth: 0,
@@ -415,8 +416,6 @@ class PanelCollection extends Component {
 		this.props.addClonedPanel(data);
 		this.setState({ keyPrefix: randomString(10) });
 		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
-		// console.log('NEW CLONED PANEL ADDED');
-		// console.log(this.props.panels);
 	}
 
 	@autobind
