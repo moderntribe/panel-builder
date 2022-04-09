@@ -10,6 +10,7 @@ import {
 } from '../actions/panels';
 
 import { PANELS } from '../globals/config';
+import { UI_I18N } from '../globals/i18n';
 import arrayMove from '../util/data/array-move';
 import * as storeTools from '../util/data/store';
 
@@ -54,10 +55,11 @@ export function panelData(state = initialData, action) {
 		return newState;
 
 	case CLONE_PANEL:
-		const clonedPanel = {
-			...action.data.panels[0],
-			panels: [],
-		};
+		const clonedPanel = _.cloneDeep(action.data.panels[0]);
+
+		clonedPanel.panels = [];
+		clonedPanel.data.title += ` (${UI_I18N['message.cloned_title']})`;
+
 		newState.panels.push(clonedPanel);
 
 		return update(newState, {
