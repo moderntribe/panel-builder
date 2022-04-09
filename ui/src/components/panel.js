@@ -137,8 +137,10 @@ class PanelContainer extends Component {
 						{this.renderPanelInfo()}
 						{this.renderSettingsToggle()}
 						{Fields}
-						{DeleteButton}
-						{CloneButton}
+						<div className={styles.panelActions}>
+							{DeleteButton}
+							{CloneButton}
+						</div>
 					</div>
 				</div>
 			);
