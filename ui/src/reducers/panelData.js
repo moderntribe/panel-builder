@@ -58,7 +58,7 @@ export function panelData(state = initialData, action) {
 		const clonedPanel = _.cloneDeep(action.data.panels[0]);
 
 		clonedPanel.panels = [];
-		clonedPanel.data.title += ` (${UI_I18N['message.cloned_title']})`;
+		clonedPanel.data.title += UI_I18N['message.cloned_title'];
 
 		newState.panels.push(clonedPanel);
 
