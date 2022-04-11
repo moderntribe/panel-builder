@@ -52,8 +52,8 @@ before_install:
   - mysql -e "create database IF NOT EXISTS $wpLoaderDbName;" -uroot
 
   # Install proper version of node for front end tasks.
-  - nvm install 6.9.4
-  - nvm use 6.9.4
+  - nvm install 8.9.3
+  - nvm use 8.9.3
 
   # Repo for Yarn
   - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
