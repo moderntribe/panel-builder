@@ -101,10 +101,21 @@ class PanelContainer extends Component {
 			const BackButton = this.props.depth === 0 ? (
 				<AccordionBack
 					title={this.props.data.title}
-					panelLabel={this.props.label}
+					panelLabel={this.props.data.label ? this.props.data.label : this.props.label}
 					handleClick={this.handleClick}
 					handleInfoClick={this.handleInfoClick}
 					handleExpanderClick={this.props.handleExpanderClick}
+				/>
+			) : null;
+
+			const CloneButton = this.props.depth === 0 ? (
+				<Button
+					icon="dashicons-plus"
+					text={UI_I18N['button.clone_panel']}
+					bare
+					full={false}
+					classes={styles.clonePanel}
+					handleClick={this.handleClonePanel}
 				/>
 			) : null;
 
@@ -126,7 +137,10 @@ class PanelContainer extends Component {
 						{this.renderPanelInfo()}
 						{this.renderSettingsToggle()}
 						{Fields}
-						{DeleteButton}
+						<div className={styles.panelActions}>
+							{DeleteButton}
+							{CloneButton}
+						</div>
 					</div>
 				</div>
 			);
@@ -159,7 +173,7 @@ class PanelContainer extends Component {
 		return (
 			<div className={headerClasses} onClick={this.handleClick}>
 				{this.renderTitle()}
-				<span className={styles.type}>{this.props.label}</span>
+				<span className={styles.type}>{this.props.data.label ? this.props.data.label : this.props.label}</span>
 				<i className={arrowClasses} />
 			</div>
 		);
@@ -233,6 +247,20 @@ class PanelContainer extends Component {
 				confirmCallback: 'modern_tribe/delete_panel',
 			},
 		});
+	}
+
+	@autobind
+	handleClonePanel() {
+		if (this.props.depth > 0) {
+			return;
+		}
+
+		if (this.state.active) {
+			this.setState({ active: false });
+			this.props.panelsActivate(false);
+		}
+
+		this.props.clonePanel(this.props);
 	}
 
 	@autobind
@@ -429,6 +457,7 @@ PanelContainer.propTypes = {
 	panelsActivate: PropTypes.func,
 	movePanel: PropTypes.func,
 	deletePanel: PropTypes.func,
+	clonePanel: PropTypes.func,
 	updatePanelData: PropTypes.func,
 	handleExpanderClick: PropTypes.func,
 };
@@ -455,6 +484,7 @@ PanelContainer.defaultProps = {
 	panelsActivate: () => {},
 	movePanel: () => {},
 	deletePanel: () => {},
+	clonePanel: () => {},
 	updatePanelData: () => {},
 	handleExpanderClick: () => {},
 };

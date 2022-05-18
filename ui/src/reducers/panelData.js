@@ -6,9 +6,11 @@ import {
 	MOVE_PANEL,
 	UPDATE_PANEL_DATA,
 	DELETE_PANEL,
+	CLONE_PANEL,
 } from '../actions/panels';
 
 import { PANELS } from '../globals/config';
+import { UI_I18N } from '../globals/i18n';
 import arrayMove from '../util/data/array-move';
 import * as storeTools from '../util/data/store';
 
@@ -51,6 +53,18 @@ export function panelData(state = initialData, action) {
 		});
 
 		return newState;
+
+	case CLONE_PANEL:
+		const clonedPanel = _.cloneDeep(action.data.panels[0]);
+
+		clonedPanel.panels = [];
+		clonedPanel.data.title += UI_I18N['message.cloned_title'];
+
+		newState.panels.push(clonedPanel);
+
+		return update(newState, {
+			panels: { $set: newState.panels }
+		});
 
 	case MOVE_PANEL:
 		return update(newState, {

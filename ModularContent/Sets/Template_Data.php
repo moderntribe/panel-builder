@@ -29,16 +29,22 @@ class Template_Data {
 			'order'          => 'ASC',
 			'fields'         => 'ids',
 		] );
+
+		$posts = apply_filters( 'panel_set_get_templates', $posts );
+
 		if ( empty( $posts ) ) {
 			return [ ];
 		}
+
 		$templates = [ ];
+
 		foreach ( $posts as $post_id ) {
 			$set = new Set( $post_id );
 			if ( $set->supports_post_type( $context_post->post_type ) ) {
 				$templates[] = $set;
 			}
 		}
+
 		return $templates;
 	}
-} 
+}

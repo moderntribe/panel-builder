@@ -1,3 +1,15 @@
+## 3.3.4 (April 9, 2022)
+
+* Implemented ability to clone panels
+
+## 3.3.3 (April 29, 2021)
+
+* Set panel set title as html so strings aren't escaped
+
+## 3.3.2 (April 29, 2021)
+
+* Add various filters to panel sets and panel collections.
+
 ## 3.3.1 (October 7, 2020)
 
 * Removed `Kses::filter_content_filtered` from the `content_filtered_save_pre` hook, as this was being overridden by the posted panels content.
@@ -29,12 +41,12 @@
 * Enable live previewing of changes
 * Redesign admin ui.
 
-## 2.0.0 
+## 2.0.0
 
 * Major update to panels architecture and ui
 * Breaking changes with 1.0 data structure
 
 
-## 1.0.0 
+## 1.0.0
 
 * Initial release

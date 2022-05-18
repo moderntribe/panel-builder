@@ -39,7 +39,8 @@ class Set implements \JsonSerializable {
 	}
 
 	public function get_label() {
-		return $this->post_id ? get_the_title( $this->post_id ) : __( 'Make Your Own', 'tribe' );
+		$label = $this->post_id ? get_the_title( $this->post_id ) : __( 'Make Your Own', 'tribe' );
+		return apply_filters( 'panel_set_get_label', $label, $this->post_id );
 	}
 
 	/**
@@ -62,9 +63,7 @@ class Set implements \JsonSerializable {
 				$src = $image[ 0 ];
 			}
 		}
-
-		$src = apply_filters( 'panel_set_thumbnail_image', $src, $this->post_id );
-		return $src;
+		return apply_filters( 'panel_set_thumbnail_image', $src, $this->post_id, $size );
 	}
 
 	public function get_preview_image_id() {
@@ -84,7 +83,7 @@ class Set implements \JsonSerializable {
 				$src = $image[ 0 ];
 			}
 		}
-		return apply_filters( 'panel_set_preview_image', $src, $this->post_id );
+		return apply_filters( 'panel_set_preview_image', $src, $this->post_id, $size );
 	}
 
 	/**
@@ -95,15 +94,20 @@ class Set implements \JsonSerializable {
 	public function get_template() {
 		if ( ! $this->post_id ) {
 			return [];
+
 		}
-		return PanelCollection::find_by_post_id( $this->post_id )->build_tree();
+		$build_tree = PanelCollection::find_by_post_id( $this->post_id )->build_tree();
+
+		return apply_filters( 'panel_set_get_template', $build_tree, $this->post_id );
 	}
 
 	/**
 	 * @return array The post types this Set can be applied to
 	 */
 	public function get_post_types() {
-		return get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, false );
+		$post_types = get_post_meta( $this->post_id, self::META_KEY_POST_TYPES, false );
+
+		return apply_filters( 'panel_set_get_post_types', $post_types, $this->post_id );
 	}
 
 	/**
@@ -158,4 +162,4 @@ class Set implements \JsonSerializable {
 		return apply_filters( 'panel_set_excerpt', $excerpt, $this->post_id );
 	}
 
-} 
+}
