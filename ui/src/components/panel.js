@@ -101,7 +101,7 @@ class PanelContainer extends Component {
 			const BackButton = this.props.depth === 0 ? (
 				<AccordionBack
 					title={this.props.data.title}
-					panelLabel={this.props.label}
+					panelLabel={this.props.data.label ? this.props.data.label : this.props.label}
 					handleClick={this.handleClick}
 					handleInfoClick={this.handleInfoClick}
 					handleExpanderClick={this.props.handleExpanderClick}
@@ -173,7 +173,7 @@ class PanelContainer extends Component {
 		return (
 			<div className={headerClasses} onClick={this.handleClick}>
 				{this.renderTitle()}
-				<span className={styles.type}>{this.props.label}</span>
+				<span className={styles.type}>{this.props.data.label ? this.props.data.label : this.props.label}</span>
 				<i className={arrowClasses} />
 			</div>
 		);
