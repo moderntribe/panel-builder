@@ -1,15 +1,17 @@
 # Panel Builder
-> [!WARNING]
-> ## Panel Builder Deprecated
->
-> **We will no longer be making updates to this codebase.** Any Panels code in existing projects is not in immediate danger of failure, but we have ended support for this underlying Panel Builder framework.
->
-> Since the block editor’s introduction with WordPress 5.0 more than five years ago, it has matured significantly. The block editor is still where almost all new WordPress feature development is focused, and the greater WordPress industry has fully embraced it. We’ve been building projects using it instead of Panels for several years now.
->
-> We’re confident the block editor is the right approach to modular content moving forward. As such, we won’t be dedicating resources to the maintenance of the base Panels plugin any longer. That isn’t to say that Panels or your project will immediately stop working. Just that we’re not looking ahead to make sure Panels supports the latest and greatest versions of PHP and WordPress.
->
->If you’re interested in learning more about migrating a project from Panels to the WordPress-native block editor, we’d love to chat with you. [Reach out to us via our website](https://tri.be/contact/) to get the conversation started.
 
+>[!WARNING]
+>## Panel Builder Deprecated
+>
+>**We will no longer be maintaining or making updates to this codebase.** Any panels code in existing projects is not in immediate danger of failure, but we have ended support for this Panel Builder plugin.
+>
+>Since the block editor’s introduction with WordPress 5.0 more than five years ago, it has matured significantly. The block editor is still where almost all new WordPress feature development is focused, and the greater WordPress industry has fully embraced it. We’ve been building projects using it instead of Panels for several years now.
+>
+>We’re confident the block editor is the right approach moving forward. As such, we won’t be dedicating resources to the maintenance of this plugin any longer. That isn’t to say that panels in any existing project will immediately stop working. Just that we’re not looking ahead to make sure Panels supports the newest versions of PHP and WordPress.
+>
+>If you’re interested in learning about migrating a project from Panels to the WordPress-native block editor, we’d love to chat with you. [Reach out to us via our website](https://tri.be/contact/) to get the conversation started.
+>
+>If you desire to continue using Panel Builder for an existing project, we recommend forking a copy of the plugin into your project codebase for long-term stability and maintenance.
 
 Panel Builder is a plugin by Modern Tribe used for "block" style content control within the WordPress Classic editor. 
 
