@@ -1,6 +1,6 @@
-
-> [!important]
-> # Panel Builder Deprecation
+# Panel Builder
+> [!WARNING]
+> ## Panel Builder Deprecated
 >
 > **We will no longer be making updates to this codebase.** Any Panels code in existing projects is not in immediate danger of failure, but we have ended support for this underlying Panel Builder framework.
 >
@@ -10,7 +10,6 @@
 >
 >If you’re interested in learning more about migrating a project from Panels to the WordPress-native block editor, we’d love to chat with you. [Reach out to us via our website](https://tri.be/contact/) to get the conversation started.
 
-# Panel Builder
 
 Panel Builder is a plugin by Modern Tribe used for "block" style content control within the WordPress Classic editor. 
 
