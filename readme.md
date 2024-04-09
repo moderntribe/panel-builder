@@ -1,7 +1,7 @@
 >[!WARNING]
 ># Panel Builder Deprecated
 >
->**We will no longer be maintaining or making updates to this codebase.** Any panels code in existing projects is not in immediate danger of failure, but we have ended support for this Panel Builder plugin.
+>**We are no longer maintaining or making updates to this codebase.** Any panels code in existing projects is not in immediate danger of failure, but we have ended support for this Panel Builder plugin.
 >
 >Since the block editor’s introduction with WordPress 5.0 more than five years ago, it has matured significantly. The block editor is still where almost all new WordPress feature development is focused, and the greater WordPress industry has fully embraced it. We’ve been building projects using it instead of Panels for several years now.
 >
