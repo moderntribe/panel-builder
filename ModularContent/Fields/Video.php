@@ -2,8 +2,7 @@
 
 
 namespace ModularContent\Fields;
-use ModularContent\OEmbedder;
-use ModularContent\Panel;
+use WP_oEmbed;
 
 /**
  * Class Video
@@ -32,7 +31,7 @@ class Video extends Text {
 	 * @return object
 	 */
 	public static function get_data( $url, $args = array() ) {
-		$oembed = new OEmbedder( $url, $args );
-		return $oembed->get_oembed_data();
+		$oembed = new WP_oEmbed();
+		return $oembed->get_html( $url, $args );
 	}
 }
