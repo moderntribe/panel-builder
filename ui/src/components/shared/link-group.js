@@ -41,10 +41,11 @@ const LinkGroup = (props) => {
 		<div>
 			<div className={urlClasses}>
 				<input
-					type="text"
+					type="url"
 					name="url"
 					value={props.valueUrl}
 					placeholder={props.strings['placeholder.url']}
+					aria-label={props.strings['placeholder.url']}
 					onChange={props.handleURLChange}
 				/>
 			</div>
@@ -54,13 +55,25 @@ const LinkGroup = (props) => {
 					name="label"
 					value={props.valueLabel}
 					placeholder={props.strings['placeholder.label']}
+					aria-label={props.strings['placeholder.label']}
 					onChange={props.handleLabelChange}
+				/>
+			</div>
+			<div className={labelClasses}>
+				<input
+					type="text"
+					name="arialabel"
+					value={props.valueARIALabel}
+					placeholder={props.strings['placeholder.arialabel']}
+					aria-label={props.strings['placeholder.arialabel']}
+					onChange={props.handleARIALabelChange}
 				/>
 			</div>
 			<div className={targetClasses}>
 				<ReactSelect
 					name="target"
 					value={props.valueTarget}
+					aria-label={props.strings['placeholder.target']}
 					searchable={false}
 					clearable={false}
 					options={TARGET_OPTIONS}
@@ -75,18 +88,22 @@ LinkGroup.propTypes = {
 	strings: PropTypes.object,
 	handleURLChange: PropTypes.func,
 	handleLabelChange: PropTypes.func,
+	handleARIALabelChange: PropTypes.func,
 	handleTargetChange: PropTypes.func,
 	valueUrl: PropTypes.string,
 	valueLabel: PropTypes.string,
+	valueARIALabel: PropTypes.string,
 	valueTarget: PropTypes.string,
 };
 
 LinkGroup.defaultProps = {
 	valueUrl: '',
 	valueLabel: '',
+	valueARIALabel: '',
 	valueTarget: '',
 	handleURLChange: () => { },
 	handleLabelChange: () => { },
+	handleARIALabelChange: () => { },
 	handleTargetChange: () => { },
 	strings: {},
 };

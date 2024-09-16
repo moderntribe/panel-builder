@@ -9,6 +9,7 @@ class Link extends Component {
 	state = {
 		url: this.props.data.url,
 		label: this.props.data.label,
+		arialabel: this.props.data.arialabel,
 		target: this.props.data.target,
 	};
 
@@ -17,6 +18,7 @@ class Link extends Component {
 			url: this.state.url,
 			target: this.state.target,
 			label: this.state.label,
+			arialabel: this.state.arialabel,
 		};
 	}
 
@@ -43,6 +45,12 @@ class Link extends Component {
 	}
 
 	@autobind
+	handleARIALabelChange(e) {
+		const arialabel = e.currentTarget.value;
+		this.setState({ arialabel }, this.initiateUpdatePanelData);
+	}
+
+	@autobind
 	handleSelectChange(data) {
 		const target = data.value.length ? data.value : '_self';
 		this.setState({ target }, this.initiateUpdatePanelData);
@@ -66,7 +74,17 @@ class Link extends Component {
 			<div className={fieldClasses}>
 				<fieldset className={styles.fieldset}>
 					<legend className={labelClasses}>{this.props.label}</legend>
-					<LinkGroup handleTargetChange={this.handleSelectChange} handleLabelChange={this.handleLabelChange} handleURLChange={this.handleURLChange} valueTarget={this.state.target} valueUrl={this.state.url} valueLabel={this.state.label} strings={this.props.strings} />
+					<LinkGroup
+						handleTargetChange={this.handleSelectChange}
+						handleLabelChange={this.handleLabelChange}
+						handleARIALabelChange={this.handleARIALabelChange}
+						handleURLChange={this.handleURLChange}
+						valueTarget={this.state.target}
+						valueUrl={this.state.url}
+						valueLabel={this.state.label}
+						valueARIALabel={this.state.arialabel}
+						strings={this.props.strings}
+					/>
 					<p className={descriptionClasses}>{this.props.description}</p>
 				</fieldset>
 			</div>
