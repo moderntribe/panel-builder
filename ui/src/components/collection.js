@@ -5,7 +5,7 @@ import autobind from 'autobind-decorator';
 import Sortable from 'react-sortablejs';
 import classNames from 'classnames';
 
-import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex } from '../actions/panels';
+import { updatePanelData, movePanel, addNewPanel, addNewPanelSet, deletePanelAtIndex, addClonedPanel } from '../actions/panels';
 import { MODULAR_CONTENT, BLUEPRINT_TYPES, TEMPLATES, PANELS, URL_CONFIG } from '../globals/config';
 import { UI_I18N } from '../globals/i18n';
 
@@ -396,6 +396,28 @@ class PanelCollection extends Component {
 		this.setState({ keyPrefix: randomString(10) });
 	}
 
+	/**
+	 * Adds a new cloned panel with copied data to the redux store. Emits event with data as well.
+	 *
+	 * @param panel
+	 */
+
+	@autobind
+	handleClonePanel(panel) {
+		const data = {
+			index: this.state.injectionIndex,
+			panels: [{
+				type: panel.type,
+				depth: 0,
+				data: panel.data,
+			}],
+		};
+
+		this.props.addClonedPanel(data);
+		this.setState({ keyPrefix: randomString(10) });
+		events.trigger({ event: 'modern_tribe/panels_added', native: false, data });
+	}
+
 	@autobind
 	handleIframeLoaded() {
 		this.collection.setAttribute('data-iframe-loading', 'false');
@@ -491,6 +513,7 @@ class PanelCollection extends Component {
 					panelsActivate={this.panelsActivate}
 					movePanel={this.props.movePanel}
 					deletePanel={this.handleDeletePanel}
+					clonePanel={this.handleClonePanel}
 					updatePanelData={this.handleDataUpdate}
 					handleExpanderClick={this.toggleLiveEditWidth}
 				/>
@@ -580,6 +603,7 @@ const mapDispatchToProps = dispatch => ({
 	movePanel: data => dispatch(movePanel(data)),
 	updatePanelData: data => dispatch(updatePanelData(data)),
 	addNewPanel: data => dispatch(addNewPanel(data)),
+	addClonedPanel: data => dispatch(addClonedPanel(data)),
 	addNewPanelSet: data => dispatch(addNewPanelSet(data)),
 	deletePanelAtIndex: data => dispatch(deletePanelAtIndex(data)),
 });
@@ -589,6 +613,7 @@ PanelCollection.propTypes = {
 	movePanel: PropTypes.func.isRequired,
 	updatePanelData: PropTypes.func.isRequired,
 	addNewPanel: PropTypes.func.isRequired,
+	addClonedPanel: PropTypes.func.isRequired,
 	addNewPanelSet: PropTypes.func.isRequired,
 	deletePanelAtIndex: PropTypes.func.isRequired,
 };
@@ -598,6 +623,7 @@ PanelCollection.defaultProps = {
 	movePanel: () => {},
 	updatePanelData: () => {},
 	addNewPanel: () => {},
+	addClonedPanel: () => {},
 	addNewPanelSet: () => {},
 	deletePanelAtIndex: () => {},
 };

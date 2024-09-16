@@ -122,7 +122,12 @@ class PanelCollection implements \JsonSerializable {
 			}
 			try {
 				$type = $registry->get($p['type']);
-				$panels[] = new Panel( $type, isset($p['data']) ? $p['data'] : array(), isset($p['depth']) ? $p['depth'] : 0 );
+				$data = isset( $p['data']) ? $p['data'] : array();
+				$panels[] = new Panel(
+					$type,
+					apply_filters( 'panel_collection_panel_data', $data, $type, $registry ),
+					isset($p['depth']) ? $p['depth'] : 0
+				);
 				if ( isset( $p['panels'] ) && is_array( $p['panels'] ) ) {
 					$panels = array_merge( $panels, self::flatten_panel_list( $p, $registry ) );
 				}
@@ -169,4 +174,4 @@ class PanelCollection implements \JsonSerializable {
 			return new self();
 		}
 	}
-} 
+}
