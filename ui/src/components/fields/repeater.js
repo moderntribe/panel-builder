@@ -164,6 +164,7 @@ class Repeater extends Component {
 	getHeader(data = {}, index) {
 		const rowIndexLabel = this.getRowIndexLabel(index);
 		const title = data.title && data.title.length ? data.title : rowIndexLabel;
+		const strippedTitle = striptags(title);
 		const headerClasses = classNames({
 			[styles.header]: true,
 			'panel-row-header': true,
@@ -176,6 +177,11 @@ class Repeater extends Component {
 			'dashicons-arrow-right-alt2': true,
 		});
 
+		const expanded = this.state.active ? 'true' : 'false';
+
+		const escapedLabel = strippedTitle.replace(/"/g, '\\\\\"');
+		const buttonLabel = `${this.state.active ? 'Collapse' : 'Expand'} ${escapedLabel}`;
+
 		return (
 		this.props.liveEdit ?
 			<div
@@ -184,16 +190,16 @@ class Repeater extends Component {
 				className={headerClasses}
 				onClick={this.handleHeaderClick}
 			>
-				<h3>{striptags(title)}</h3>
-				<i className={arrowClasses} />
+				<h3>{strippedTitle}</h3>
+				<button aria-expanded={expanded} onClick={this.handleArrowClick} className={arrowClasses} aria-label={buttonLabel} />
 			</div> : <div data-row-active={this.state.active && index === this.state.activeIndex} key={`${this.state.keyPrefix}-${index}`}>
 				<div
 					data-rowIndex={index}
 					className={headerClasses}
 					onClick={this.handleHeaderClick}
 				>
-					<h3>{striptags(title)}</h3>
-					<i className={arrowClasses} />
+					<h3>{strippedTitle}</h3>
+					<button aria-expanded={expanded} onClick={this.handleArrowClick} className={arrowClasses} aria-label={buttonLabel} />
 				</div>
 				{this.state.active && index === this.state.activeIndex ? this.getActiveRow() : null}
 			</div>
@@ -386,6 +392,18 @@ class Repeater extends Component {
 				data,
 			});
 		});
+	}
+
+	/**
+	 * Handles clicking the arrow button to activate the header click.
+	 */
+
+	@autobind
+	handleArrowClick(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		e.currentTarget.parentElement.click();
+		return false;
 	}
 
 	/**
